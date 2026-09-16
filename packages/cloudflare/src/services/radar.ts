@@ -318,23 +318,23 @@ export interface AiTimeseriesGroupsSummaryRequest {
   dimension: AiTimeseriesGroupsSummaryRequestDimension | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiTimeseriesGroupsSummaryRequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiTimeseriesGroupsSummaryRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiTimeseriesGroupsSummaryRequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiTimeseriesGroupsSummaryRequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiTimeseriesGroupsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiTimeseriesGroupsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiTimeseriesGroupsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiTimeseriesGroupsSummaryRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiTimeseriesGroupsSummaryRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiTimeseriesGroupsSummaryRequestLocationList;
@@ -437,7 +437,6 @@ export const AiTimeseriesGroupsSummaryResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type AiTimeseriesGroupsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -742,27 +741,27 @@ export const AiTimeseriesGroupsTimeseriesRequestVerticalList =
   ) as any as S.Schema<AiTimeseriesGroupsTimeseriesRequestVerticalList>;
 
 export interface AiTimeseriesGroupsTimeseriesRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiTimeseriesGroupsTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiTimeseriesGroupsTimeseriesRequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiTimeseriesGroupsTimeseriesRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiTimeseriesGroupsTimeseriesRequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiTimeseriesGroupsTimeseriesRequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiTimeseriesGroupsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiTimeseriesGroupsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiTimeseriesGroupsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiTimeseriesGroupsTimeseriesRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiTimeseriesGroupsTimeseriesRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiTimeseriesGroupsTimeseriesRequestLocationList;
@@ -875,7 +874,6 @@ export const AiTimeseriesGroupsTimeseriesResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AiTimeseriesGroupsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -1182,35 +1180,35 @@ export const AiTimeseriesGroupsTimeseriesGroupsRequestVerticalList =
 export interface AiTimeseriesGroupsTimeseriesGroupsRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: AiTimeseriesGroupsTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AiTimeseriesGroupsTimeseriesGroupsRequestAggInterval
     | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiTimeseriesGroupsTimeseriesGroupsRequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiTimeseriesGroupsTimeseriesGroupsRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiTimeseriesGroupsTimeseriesGroupsRequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiTimeseriesGroupsTimeseriesGroupsRequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiTimeseriesGroupsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiTimeseriesGroupsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiTimeseriesGroupsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiTimeseriesGroupsTimeseriesGroupsRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiTimeseriesGroupsTimeseriesGroupsRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiTimeseriesGroupsTimeseriesGroupsRequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: AiTimeseriesGroupsTimeseriesGroupsRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?:
     | AiTimeseriesGroupsTimeseriesGroupsRequestNormalization
     | (string & {});
@@ -1341,7 +1339,6 @@ export const AiTimeseriesGroupsTimeseriesGroupsResponseMetaConfidenceInfoAnnotat
   S.String;
 
 export type AiTimeseriesGroupsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -1592,11 +1589,11 @@ export const EmailRoutingSummaryArcRequestSpfList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<EmailRoutingSummaryArcRequestSpfList>;
 
 export interface ArcEmailRoutingSummaryRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryArcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryArcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryArcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummaryArcRequestDkimList;
@@ -1678,7 +1675,6 @@ export const EmailRoutingSummaryArcResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type EmailRoutingSummaryArcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -1945,15 +1941,15 @@ export const EmailRoutingTimeseriesGroupsArcRequestSpfList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsArcRequestSpfList>;
 
 export interface ArcEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsArcRequestAggInterval
     | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsArcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsArcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsArcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsArcRequestDkimList;
@@ -2057,7 +2053,6 @@ export const EmailRoutingTimeseriesGroupsArcResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type EmailRoutingTimeseriesGroupsArcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -2324,11 +2319,11 @@ export const EmailSecuritySummaryArcRequestTlsVersionList =
   ) as any as S.Schema<EmailSecuritySummaryArcRequestTlsVersionList>;
 
 export interface ArcEmailSecuritySummaryRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryArcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryArcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryArcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryArcRequestDkimList;
@@ -2405,7 +2400,6 @@ export const EmailSecuritySummaryArcResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type EmailSecuritySummaryArcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -2651,15 +2645,15 @@ export const EmailSecurityTimeseriesGroupsArcRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsArcRequestTlsVersionList>;
 
 export interface ArcEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsArcRequestAggInterval
     | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsArcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsArcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsArcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsArcRequestDkimList;
@@ -2758,7 +2752,6 @@ export const EmailSecurityTimeseriesGroupsArcResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type EmailSecurityTimeseriesGroupsArcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -3402,11 +3395,11 @@ export interface AsesDnsTopRequest {
   cacheHit?: DnsTopAsesRequestCacheHitList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTopAsesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTopAsesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTopAsesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTopAsesRequestDateStartList;
   /** Filters results based on DNSSEC (DNS Security Extensions) support. */
   dnssec?: DnsTopAsesRequestDnssecList;
@@ -3414,7 +3407,7 @@ export interface AsesDnsTopRequest {
   dnssecAware?: DnsTopAsesRequestDnssecAwareList;
   /** Filters results based on DNSSEC-validated answers by end-to-end security status. */
   dnssecE2e?: DnsTopAsesRequestDnssecE2eList;
-  /** Filters results by domain name. */
+  /** Filters results by domain name. When set, no other DNS filter may be used — only date filtering (`dateRange`, or `dateStart`/`dateEnd`) is allowed — and the date range cannot exceed 31 days. */
   domain?: DnsTopAsesRequestDomainList;
   /** Format in which results will be returned. */
   format?: DnsTopAsesRequestFormat | (string & {});
@@ -3501,7 +3494,6 @@ export const DnsTopAsesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type DnsTopAsesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -3709,11 +3701,11 @@ export interface AsesNetflowTopRequest {
   asn?: NetflowsTopAsesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsTopAsesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsTopAsesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsTopAsesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsTopAsesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsTopAsesRequestFormat | (string & {});
@@ -3775,7 +3767,6 @@ export const NetflowsTopAsesResponseMetaConfidenceInfoAnnotationsItemDataSource 
   S.String;
 
 export type NetflowsTopAsesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -3968,7 +3959,7 @@ export interface AsesQualitySpeedTopRequest {
   asn?: QualitySpeedTopAsesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualitySpeedTopAsesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualitySpeedTopAsesRequestDateEndList;
   /** Format in which results will be returned. */
   format?: QualitySpeedTopAsesRequestFormat | (string & {});
@@ -4041,7 +4032,6 @@ export const QualitySpeedTopAsesResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type QualitySpeedTopAsesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -4401,11 +4391,11 @@ export const AttacksLayer3TopAttacksRequestProtocolList = /*@__PURE__*/ S.Array(
 export interface AttacksAttackLayer3TopRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TopAttacksRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TopAttacksRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TopAttacksRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TopAttacksRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer3TopAttacksRequestFormat | (string & {});
@@ -4507,7 +4497,6 @@ export const AttacksLayer3TopAttacksResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type AttacksLayer3TopAttacksResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -4748,11 +4737,11 @@ export interface AttacksAttackLayer7TopRequest {
   asn?: AttacksLayer7TopAttacksRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopAttacksRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopAttacksRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopAttacksRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopAttacksRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopAttacksRequestFormat | (string & {});
@@ -4845,7 +4834,6 @@ export const AttacksLayer7TopAttacksResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type AttacksLayer7TopAttacksResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -5018,6 +5006,105 @@ export const AttacksAttackLayer7TopResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttacksAttackLayer7TopResponse",
 }) as any as S.Schema<AttacksAttackLayer7TopResponse>;
 
+export type BgpRoutesUpstreamsTimeseriesRequestFormat = "JSON" | "CSV";
+export const BgpRoutesUpstreamsTimeseriesRequestFormat = S.String;
+
+export type BgpRoutesUpstreamsTimeseriesRequestIpVersion = "IPv4" | "IPv6";
+export const BgpRoutesUpstreamsTimeseriesRequestIpVersion = S.String;
+
+export interface BgpRoutesUpstreamsTimeseriesRequest {
+  /** Single Autonomous System Number (ASN) as integer. */
+  asn: number;
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
+  dateEnd?: string;
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
+  dateStart?: string;
+  /** Format in which results will be returned. */
+  format?: BgpRoutesUpstreamsTimeseriesRequestFormat | (string & {});
+  /** Address family of the observed paths. Defaults to IPv4. */
+  ipVersion?: BgpRoutesUpstreamsTimeseriesRequestIpVersion | (string & {});
+  /** Number of upstream ASNs to return as separate series, ranked by the first bucket. Remaining upstreams are grouped into an "OTHER" series. Defaults to 5. */
+  limit?: number;
+}
+export const BgpRoutesUpstreamsTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    asn: S.Number.pipe(T.Label()),
+    dateEnd: S.optional(S.String.pipe(T.Query())),
+    dateStart: S.optional(S.String.pipe(T.Query())),
+    format: S.optional(
+      BgpRoutesUpstreamsTimeseriesRequestFormat.pipe(T.Query()),
+    ),
+    ipVersion: S.optional(
+      BgpRoutesUpstreamsTimeseriesRequestIpVersion.pipe(T.Query()),
+    ),
+    limit: S.optional(S.Number.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/radar/bgp/routes/upstreams/{asn}/timeseries",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "BgpRoutesUpstreamsTimeseriesRequest",
+}) as any as S.Schema<BgpRoutesUpstreamsTimeseriesRequest>;
+
+export interface BgpRoutesUpstreamsTimeseriesResponseMeta {
+  /** Timestamp of the underlying RIB data. */
+  dataTime: string;
+  effectiveCollector: string;
+  /** Timestamp when the query was executed. */
+  queryTime: string;
+  stale: boolean;
+}
+export const BgpRoutesUpstreamsTimeseriesResponseMeta = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      dataTime: S.String,
+      effectiveCollector: S.String,
+      queryTime: S.String,
+      stale: S.Boolean,
+    }),
+).annotate({
+  identifier: "BgpRoutesUpstreamsTimeseriesResponseMeta",
+}) as any as S.Schema<BgpRoutesUpstreamsTimeseriesResponseMeta>;
+
+export type BgpRoutesUpstreamsTimeseriesResponseSerie0TimestampsList =
+  Array<string>;
+export const BgpRoutesUpstreamsTimeseriesResponseSerie0TimestampsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<BgpRoutesUpstreamsTimeseriesResponseSerie0TimestampsList>;
+
+export interface BgpRoutesUpstreamsTimeseriesResponseSerie0 {
+  timestamps: BgpRoutesUpstreamsTimeseriesResponseSerie0TimestampsList;
+}
+export const BgpRoutesUpstreamsTimeseriesResponseSerie0 =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      timestamps: BgpRoutesUpstreamsTimeseriesResponseSerie0TimestampsList,
+    }),
+  ).annotate({
+    identifier: "BgpRoutesUpstreamsTimeseriesResponseSerie0",
+  }) as any as S.Schema<BgpRoutesUpstreamsTimeseriesResponseSerie0>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface BgpRoutesUpstreamsTimeseriesResponse {
+  meta: BgpRoutesUpstreamsTimeseriesResponseMeta;
+  serie_0: BgpRoutesUpstreamsTimeseriesResponseSerie0;
+}
+export const BgpRoutesUpstreamsTimeseriesResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      meta: BgpRoutesUpstreamsTimeseriesResponseMeta,
+      serie_0: BgpRoutesUpstreamsTimeseriesResponseSerie0,
+    }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "BgpRoutesUpstreamsTimeseriesResponse",
+}) as any as S.Schema<BgpRoutesUpstreamsTimeseriesResponse>;
+
 export type AttacksLayer3SummaryBitrateRequestContinentList = Array<string>;
 export const AttacksLayer3SummaryBitrateRequestContinentList =
   /*@__PURE__*/ S.Array(
@@ -5088,11 +5175,11 @@ export const AttacksLayer3SummaryBitrateRequestProtocolList =
 export interface BitrateAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryBitrateRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryBitrateRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryBitrateRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryBitrateRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryBitrateRequestDirection | (string & {});
@@ -5182,7 +5269,6 @@ export const AttacksLayer3SummaryBitrateResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type AttacksLayer3SummaryBitrateResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -5446,17 +5532,17 @@ export const AttacksLayer3TimeseriesGroupsBitrateRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsBitrateRequestProtocolList>;
 
 export interface BitrateAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsBitrateRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsBitrateRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsBitrateRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsBitrateRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsBitrateRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -5578,7 +5664,6 @@ export const AttacksLayer3TimeseriesGroupsBitrateResponseMetaConfidenceInfoAnnot
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsBitrateResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -5953,11 +6038,11 @@ export interface BotClassHttpSummaryRequest {
   browserFamily?: HttpSummaryBotClassRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryBotClassRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryBotClassRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryBotClassRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryBotClassRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryBotClassRequestDeviceTypeList;
@@ -6061,7 +6146,6 @@ export const HttpSummaryBotClassResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type HttpSummaryBotClassResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -6376,7 +6460,7 @@ export const HttpTimeseriesGroupsBotClassRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsBotClassRequestTlsVersionList>;
 
 export interface BotClassHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesGroupsBotClassRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsBotClassRequestAsnList;
@@ -6384,11 +6468,11 @@ export interface BotClassHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsBotClassRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsBotClassRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsBotClassRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsBotClassRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsBotClassRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsBotClassRequestDeviceTypeList;
@@ -6511,7 +6595,6 @@ export const HttpTimeseriesGroupsBotClassResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type HttpTimeseriesGroupsBotClassResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -6742,11 +6825,11 @@ export const LeakedCredentialsSummaryBotClassRequestNameList =
 export interface BotClassLeakedCredentialSummaryRequest {
   /** Filters results by compromised credential status (clean vs. compromised). */
   compromised?: LeakedCredentialsSummaryBotClassRequestCompromisedList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsSummaryBotClassRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsSummaryBotClassRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsSummaryBotClassRequestDateStartList;
   /** Format in which results will be returned. */
   format?: LeakedCredentialsSummaryBotClassRequestFormat | (string & {});
@@ -6817,7 +6900,6 @@ export const LeakedCredentialsSummaryBotClassResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type LeakedCredentialsSummaryBotClassResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -7030,17 +7112,17 @@ export const LeakedCredentialsTimeseriesGroupsBotClassRequestNameList =
   ) as any as S.Schema<LeakedCredentialsTimeseriesGroupsBotClassRequestNameList>;
 
 export interface BotClassLeakedCredentialTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | LeakedCredentialsTimeseriesGroupsBotClassRequestAggInterval
     | (string & {});
   /** Filters results by compromised credential status (clean vs. compromised). */
   compromised?: LeakedCredentialsTimeseriesGroupsBotClassRequestCompromisedList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsTimeseriesGroupsBotClassRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsTimeseriesGroupsBotClassRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsTimeseriesGroupsBotClassRequestDateStartList;
   /** Format in which results will be returned. */
   format?:
@@ -7137,7 +7219,6 @@ export const LeakedCredentialsTimeseriesGroupsBotClassResponseMetaConfidenceInfo
   S.String;
 
 export type LeakedCredentialsTimeseriesGroupsBotClassResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -7499,11 +7580,11 @@ export interface BotsVerifiedBotTopRequest {
   asn?: VerifiedBotsTopBotsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: VerifiedBotsTopBotsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: VerifiedBotsTopBotsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: VerifiedBotsTopBotsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: VerifiedBotsTopBotsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: VerifiedBotsTopBotsRequestFormat | (string & {});
@@ -7576,7 +7657,6 @@ export const VerifiedBotsTopBotsResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type VerifiedBotsTopBotsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -7906,7 +7986,7 @@ export const HttpTimeseriesGroupsBrowserFamilyRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsBrowserFamilyRequestTlsVersionList>;
 
 export interface BrowserFamilyHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsBrowserFamilyRequestAggInterval
     | (string & {});
@@ -7916,11 +7996,11 @@ export interface BrowserFamilyHttpTimeseriesGroupRequest {
   botClass?: HttpTimeseriesGroupsBrowserFamilyRequestBotClassList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsBrowserFamilyRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsBrowserFamilyRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsBrowserFamilyRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsBrowserFamilyRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsBrowserFamilyRequestDeviceTypeList;
@@ -7934,7 +8014,7 @@ export interface BrowserFamilyHttpTimeseriesGroupRequest {
   httpVersion?: HttpTimeseriesGroupsBrowserFamilyRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: HttpTimeseriesGroupsBrowserFamilyRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: HttpTimeseriesGroupsBrowserFamilyRequestLocationList;
@@ -8054,7 +8134,6 @@ export const HttpTimeseriesGroupsBrowserFamilyResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type HttpTimeseriesGroupsBrowserFamilyResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -8368,11 +8447,11 @@ export interface BrowserFamilyHttpTopRequest {
   botClass?: HttpTopBrowserFamilyRequestBotClassList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTopBrowserFamilyRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTopBrowserFamilyRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTopBrowserFamilyRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTopBrowserFamilyRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTopBrowserFamilyRequestDeviceTypeList;
@@ -8479,7 +8558,6 @@ export const HttpTopBrowserFamilyResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type HttpTopBrowserFamilyResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -8803,7 +8881,7 @@ export const HttpTimeseriesGroupsBrowserRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsBrowserRequestTlsVersionList>;
 
 export interface BrowserHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesGroupsBrowserRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsBrowserRequestAsnList;
@@ -8813,11 +8891,11 @@ export interface BrowserHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsBrowserRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsBrowserRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsBrowserRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsBrowserRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsBrowserRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsBrowserRequestDeviceTypeList;
@@ -8831,7 +8909,7 @@ export interface BrowserHttpTimeseriesGroupRequest {
   httpVersion?: HttpTimeseriesGroupsBrowserRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: HttpTimeseriesGroupsBrowserRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: HttpTimeseriesGroupsBrowserRequestLocationList;
@@ -8946,7 +9024,6 @@ export const HttpTimeseriesGroupsBrowserResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type HttpTimeseriesGroupsBrowserResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -9264,11 +9341,11 @@ export interface BrowserHttpTopRequest {
   browserFamily?: HttpTopBrowserRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTopBrowserRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTopBrowserRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTopBrowserRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTopBrowserRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTopBrowserRequestDeviceTypeList;
@@ -9356,7 +9433,6 @@ export const HttpTopBrowserResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpTopBrowserResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -9700,11 +9776,11 @@ export interface CacheHitDnsSummaryRequest {
   asn?: DnsSummaryCacheHitRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryCacheHitRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryCacheHitRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryCacheHitRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryCacheHitRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryCacheHitRequestFormat | (string & {});
@@ -9720,7 +9796,7 @@ export interface CacheHitDnsSummaryRequest {
   queryType?: DnsSummaryCacheHitRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryCacheHitRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryCacheHitRequestTldList;
 }
 export const CacheHitDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -9787,7 +9863,6 @@ export const DnsSummaryCacheHitResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type DnsSummaryCacheHitResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -10152,17 +10227,17 @@ export const DnsTimeseriesGroupsCacheHitRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsCacheHitRequestTldList>;
 
 export interface CacheHitDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsCacheHitRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsCacheHitRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsCacheHitRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsCacheHitRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsCacheHitRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsCacheHitRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsCacheHitRequestFormat | (string & {});
@@ -10178,7 +10253,7 @@ export interface CacheHitDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsCacheHitRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsCacheHitRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsCacheHitRequestTldList;
 }
 export const CacheHitDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -10272,7 +10347,6 @@ export const DnsTimeseriesGroupsCacheHitResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type DnsTimeseriesGroupsCacheHitResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -10586,11 +10660,11 @@ export interface CategoriesVerifiedBotTopRequest {
   asn?: VerifiedBotsTopCategoriesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: VerifiedBotsTopCategoriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: VerifiedBotsTopCategoriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: VerifiedBotsTopCategoriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: VerifiedBotsTopCategoriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: VerifiedBotsTopCategoriesRequestFormat | (string & {});
@@ -10665,7 +10739,6 @@ export const VerifiedBotsTopCategoriesResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type VerifiedBotsTopCategoriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -10840,9 +10913,9 @@ export const BgpRpkiAspaChangesRequestFormat = S.String;
 export interface ChangesBgpRpkiAspaRequest {
   /** Filter changes involving this ASN (as customer or provider). */
   asn?: number;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: BgpRpkiAspaChangesRequestFormat | (string & {});
@@ -11046,11 +11119,11 @@ export const LeakedCredentialsSummaryCompromisedRequestNameList =
 export interface CompromisedLeakedCredentialSummaryRequest {
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass?: LeakedCredentialsSummaryCompromisedRequestBotClassList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsSummaryCompromisedRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsSummaryCompromisedRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsSummaryCompromisedRequestDateStartList;
   /** Format in which results will be returned. */
   format?: LeakedCredentialsSummaryCompromisedRequestFormat | (string & {});
@@ -11121,7 +11194,6 @@ export const LeakedCredentialsSummaryCompromisedResponseMetaConfidenceInfoAnnota
   S.String;
 
 export type LeakedCredentialsSummaryCompromisedResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -11347,17 +11419,17 @@ export const LeakedCredentialsTimeseriesGroupsCompromisedRequestNameList =
   ) as any as S.Schema<LeakedCredentialsTimeseriesGroupsCompromisedRequestNameList>;
 
 export interface CompromisedLeakedCredentialTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | LeakedCredentialsTimeseriesGroupsCompromisedRequestAggInterval
     | (string & {});
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass?: LeakedCredentialsTimeseriesGroupsCompromisedRequestBotClassList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsTimeseriesGroupsCompromisedRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsTimeseriesGroupsCompromisedRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsTimeseriesGroupsCompromisedRequestDateStartList;
   /** Format in which results will be returned. */
   format?:
@@ -11456,7 +11528,6 @@ export const LeakedCredentialsTimeseriesGroupsCompromisedResponseMetaConfidenceI
   S.String;
 
 export type LeakedCredentialsTimeseriesGroupsCompromisedResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -11804,11 +11875,11 @@ export interface DeviceTypeHttpSummaryRequest {
   browserFamily?: HttpSummaryDeviceTypeRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryDeviceTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryDeviceTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryDeviceTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryDeviceTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: HttpSummaryDeviceTypeRequestFormat | (string & {});
@@ -11912,7 +11983,6 @@ export const HttpSummaryDeviceTypeResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type HttpSummaryDeviceTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -12236,7 +12306,7 @@ export const HttpTimeseriesGroupsDeviceTypeRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsDeviceTypeRequestTlsVersionList>;
 
 export interface DeviceTypeHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsDeviceTypeRequestAggInterval
     | (string & {});
@@ -12248,11 +12318,11 @@ export interface DeviceTypeHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsDeviceTypeRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsDeviceTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsDeviceTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsDeviceTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsDeviceTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: HttpTimeseriesGroupsDeviceTypeRequestFormat | (string & {});
@@ -12378,7 +12448,6 @@ export const HttpTimeseriesGroupsDeviceTypeResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type HttpTimeseriesGroupsDeviceTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -12691,7 +12760,6 @@ export const RobotsTxtTopUserAgentsDirectiveResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type RobotsTxtTopUserAgentsDirectiveResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -12948,11 +13016,11 @@ export const EmailRoutingSummaryDkimRequestSpfList = /*@__PURE__*/ S.Array(
 export interface DkimEmailRoutingSummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummaryDkimRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryDkimRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryDkimRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryDkimRequestDateStartList;
   /** Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status. */
   dmarc?: EmailRoutingSummaryDkimRequestDmarcList;
@@ -13032,7 +13100,6 @@ export const EmailRoutingSummaryDkimResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type EmailRoutingSummaryDkimResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -13287,17 +13354,17 @@ export const EmailRoutingTimeseriesGroupsDkimRequestSpfList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsDkimRequestSpfList>;
 
 export interface DkimEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsDkimRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsDkimRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsDkimRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsDkimRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsDkimRequestDateStartList;
   /** Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status. */
   dmarc?: EmailRoutingTimeseriesGroupsDkimRequestDmarcList;
@@ -13399,7 +13466,6 @@ export const EmailRoutingTimeseriesGroupsDkimResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type EmailRoutingTimeseriesGroupsDkimResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -13669,11 +13735,11 @@ export const EmailSecuritySummaryDkimRequestTlsVersionList =
 export interface DkimEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryDkimRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryDkimRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryDkimRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryDkimRequestDateStartList;
   /** Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status. */
   dmarc?: EmailSecuritySummaryDkimRequestDmarcList;
@@ -13748,7 +13814,6 @@ export const EmailSecuritySummaryDkimResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type EmailSecuritySummaryDkimResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -13995,17 +14060,17 @@ export const EmailSecurityTimeseriesGroupsDkimRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsDkimRequestTlsVersionList>;
 
 export interface DkimEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsDkimRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsDkimRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsDkimRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsDkimRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsDkimRequestDateStartList;
   /** Filters results by DMARC (Domain-based Message Authentication, Reporting and Conformance) validation status. */
   dmarc?: EmailSecurityTimeseriesGroupsDkimRequestDmarcList;
@@ -14103,7 +14168,6 @@ export const EmailSecurityTimeseriesGroupsDkimResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type EmailSecurityTimeseriesGroupsDkimResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -14382,11 +14446,11 @@ export const EmailRoutingSummaryDmarcRequestSpfList = /*@__PURE__*/ S.Array(
 export interface DmarcEmailRoutingSummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummaryDmarcRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryDmarcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryDmarcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryDmarcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummaryDmarcRequestDkimList;
@@ -14466,7 +14530,6 @@ export const EmailRoutingSummaryDmarcResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type EmailRoutingSummaryDmarcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -14722,17 +14785,17 @@ export const EmailRoutingTimeseriesGroupsDmarcRequestSpfList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsDmarcRequestSpfList>;
 
 export interface DmarcEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsDmarcRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsDmarcRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsDmarcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsDmarcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsDmarcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsDmarcRequestDkimList;
@@ -14835,7 +14898,6 @@ export const EmailRoutingTimeseriesGroupsDmarcResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type EmailRoutingTimeseriesGroupsDmarcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -15106,11 +15168,11 @@ export const EmailSecuritySummaryDmarcRequestTlsVersionList =
 export interface DmarcEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryDmarcRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryDmarcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryDmarcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryDmarcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryDmarcRequestDkimList;
@@ -15185,7 +15247,6 @@ export const EmailSecuritySummaryDmarcResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type EmailSecuritySummaryDmarcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -15433,17 +15494,17 @@ export const EmailSecurityTimeseriesGroupsDmarcRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsDmarcRequestTlsVersionList>;
 
 export interface DmarcEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsDmarcRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsDmarcRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsDmarcRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsDmarcRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsDmarcRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsDmarcRequestDkimList;
@@ -15541,7 +15602,6 @@ export const EmailSecurityTimeseriesGroupsDmarcResponseMetaConfidenceInfoAnnotat
   S.String;
 
 export type EmailSecurityTimeseriesGroupsDmarcResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -15912,11 +15972,11 @@ export const As112SummaryDnssecRequestResponseCodeList = /*@__PURE__*/ S.Array(
 export interface DnssecAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryDnssecRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryDnssecRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryDnssecRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryDnssecRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryDnssecRequestFormat | (string & {});
@@ -15992,7 +16052,6 @@ export const As112SummaryDnssecResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type As112SummaryDnssecResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -16341,15 +16400,15 @@ export const As112TimeseriesGroupsDnssecRequestResponseCodeList =
   ) as any as S.Schema<As112TimeseriesGroupsDnssecRequestResponseCodeList>;
 
 export interface DnssecAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: As112TimeseriesGroupsDnssecRequestAggInterval | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsDnssecRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsDnssecRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsDnssecRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsDnssecRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsDnssecRequestFormat | (string & {});
@@ -16450,7 +16509,6 @@ export const As112TimeseriesGroupsDnssecResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type As112TimeseriesGroupsDnssecResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -16675,11 +16733,11 @@ export interface DnssecAs112TopRequest {
   dnssec: As112TopDnssecRequestDnssec | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TopDnssecRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TopDnssecRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TopDnssecRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TopDnssecRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TopDnssecRequestFormat | (string & {});
@@ -16744,7 +16802,6 @@ export const As112TopDnssecResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type As112TopDnssecResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -17104,11 +17161,11 @@ export interface DnssecAwareDnsSummaryRequest {
   asn?: DnsSummaryDnssecAwareRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryDnssecAwareRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryDnssecAwareRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryDnssecAwareRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryDnssecAwareRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryDnssecAwareRequestFormat | (string & {});
@@ -17124,7 +17181,7 @@ export interface DnssecAwareDnsSummaryRequest {
   queryType?: DnsSummaryDnssecAwareRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryDnssecAwareRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryDnssecAwareRequestTldList;
 }
 export const DnssecAwareDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -17201,7 +17258,6 @@ export const DnsSummaryDnssecAwareResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type DnsSummaryDnssecAwareResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -17561,7 +17617,7 @@ export const DnsTimeseriesGroupsDnssecAwareRequestTldList =
   ) as any as S.Schema<DnsTimeseriesGroupsDnssecAwareRequestTldList>;
 
 export interface DnssecAwareDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | DnsTimeseriesGroupsDnssecAwareRequestAggInterval
     | (string & {});
@@ -17569,11 +17625,11 @@ export interface DnssecAwareDnsTimeseriesGroupRequest {
   asn?: DnsTimeseriesGroupsDnssecAwareRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsDnssecAwareRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsDnssecAwareRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsDnssecAwareRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsDnssecAwareRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsDnssecAwareRequestFormat | (string & {});
@@ -17589,7 +17645,7 @@ export interface DnssecAwareDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsDnssecAwareRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsDnssecAwareRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsDnssecAwareRequestTldList;
 }
 export const DnssecAwareDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
@@ -17688,7 +17744,6 @@ export const DnsTimeseriesGroupsDnssecAwareResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type DnsTimeseriesGroupsDnssecAwareResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -18063,11 +18118,11 @@ export interface DnssecDnsSummaryRequest {
   asn?: DnsSummaryDnssecRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryDnssecRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryDnssecRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryDnssecRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryDnssecRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryDnssecRequestFormat | (string & {});
@@ -18083,7 +18138,7 @@ export interface DnssecDnsSummaryRequest {
   queryType?: DnsSummaryDnssecRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryDnssecRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryDnssecRequestTldList;
 }
 export const DnssecDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -18142,7 +18197,6 @@ export const DnsSummaryDnssecResponseMetaConfidenceInfoAnnotationsItemDataSource
   S.String;
 
 export type DnsSummaryDnssecResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -18511,17 +18565,17 @@ export const DnsTimeseriesGroupsDnssecRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsDnssecRequestTldList>;
 
 export interface DnssecDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsDnssecRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsDnssecRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsDnssecRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsDnssecRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsDnssecRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsDnssecRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsDnssecRequestFormat | (string & {});
@@ -18537,7 +18591,7 @@ export interface DnssecDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsDnssecRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsDnssecRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsDnssecRequestTldList;
 }
 export const DnssecDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -18627,7 +18681,6 @@ export const DnsTimeseriesGroupsDnssecResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type DnsTimeseriesGroupsDnssecResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -19022,11 +19075,11 @@ export interface DnssecE2EDnsSummaryRequest {
   asn?: DnsSummaryDnssecE2eRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryDnssecE2eRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryDnssecE2eRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryDnssecE2eRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryDnssecE2eRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryDnssecE2eRequestFormat | (string & {});
@@ -19042,7 +19095,7 @@ export interface DnssecE2EDnsSummaryRequest {
   queryType?: DnsSummaryDnssecE2eRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryDnssecE2eRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryDnssecE2eRequestTldList;
 }
 export const DnssecE2EDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19117,7 +19170,6 @@ export const DnsSummaryDnssecE2eResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type DnsSummaryDnssecE2eResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -19473,17 +19525,17 @@ export const DnsTimeseriesGroupsDnssecE2eRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsDnssecE2eRequestTldList>;
 
 export interface DnssecE2EDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsDnssecE2eRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsDnssecE2eRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsDnssecE2eRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsDnssecE2eRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsDnssecE2eRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsDnssecE2eRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsDnssecE2eRequestFormat | (string & {});
@@ -19499,7 +19551,7 @@ export interface DnssecE2EDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsDnssecE2eRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsDnssecE2eRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsDnssecE2eRequestTldList;
 }
 export const DnssecE2EDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -19593,7 +19645,6 @@ export const DnsTimeseriesGroupsDnssecE2eResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type DnsTimeseriesGroupsDnssecE2eResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -19866,7 +19917,6 @@ export const RobotsTxtTopDomainCategoriesResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type RobotsTxtTopDomainCategoriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -20151,11 +20201,11 @@ export const AttacksLayer3SummaryDurationRequestProtocolList =
 export interface DurationAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryDurationRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryDurationRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryDurationRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryDurationRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryDurationRequestDirection | (string & {});
@@ -20245,7 +20295,6 @@ export const AttacksLayer3SummaryDurationResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer3SummaryDurationResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -20513,17 +20562,17 @@ export const AttacksLayer3TimeseriesGroupsDurationRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsDurationRequestProtocolList>;
 
 export interface DurationAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsDurationRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsDurationRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsDurationRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsDurationRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsDurationRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -20649,7 +20698,6 @@ export const AttacksLayer3TimeseriesGroupsDurationResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsDurationResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -21066,11 +21114,11 @@ export const As112SummaryEdnsRequestResponseCodeList = /*@__PURE__*/ S.Array(
 export interface EdnsAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryEdnsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryEdnsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryEdnsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryEdnsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryEdnsRequestFormat | (string & {});
@@ -21138,7 +21186,6 @@ export const As112SummaryEdnsResponseMetaConfidenceInfoAnnotationsItemDataSource
   S.String;
 
 export type As112SummaryEdnsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -21476,15 +21523,15 @@ export const As112TimeseriesGroupsEdnsRequestResponseCodeList =
   ) as any as S.Schema<As112TimeseriesGroupsEdnsRequestResponseCodeList>;
 
 export interface EdnsAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: As112TimeseriesGroupsEdnsRequestAggInterval | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsEdnsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsEdnsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsEdnsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsEdnsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsEdnsRequestFormat | (string & {});
@@ -21581,7 +21628,6 @@ export const As112TimeseriesGroupsEdnsResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type As112TimeseriesGroupsEdnsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -21806,11 +21852,11 @@ export interface EdnsAs112TopRequest {
   edns: As112TopEdnsRequestEdns | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TopEdnsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TopEdnsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TopEdnsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TopEdnsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TopEdnsRequestFormat | (string & {});
@@ -21875,7 +21921,6 @@ export const As112TopEdnsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type As112TopEdnsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -22107,11 +22152,11 @@ export const EmailRoutingSummaryEncryptedRequestSpfList = /*@__PURE__*/ S.Array(
 export interface EncryptedEmailRoutingSummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummaryEncryptedRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryEncryptedRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryEncryptedRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryEncryptedRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummaryEncryptedRequestDkimList;
@@ -22197,7 +22242,6 @@ export const EmailRoutingSummaryEncryptedResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type EmailRoutingSummaryEncryptedResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -22470,17 +22514,17 @@ export const EmailRoutingTimeseriesGroupsEncryptedRequestSpfList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsEncryptedRequestSpfList>;
 
 export interface EncryptedEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsEncryptedRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsEncryptedRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsEncryptedRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsEncryptedRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsEncryptedRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsEncryptedRequestDkimList;
@@ -22589,7 +22633,6 @@ export const EmailRoutingTimeseriesGroupsEncryptedResponseMetaConfidenceInfoAnno
   S.String;
 
 export type EmailRoutingTimeseriesGroupsEncryptedResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -22779,40 +22822,237 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse =
     identifier: "EncryptedEmailRoutingTimeseriesGroupResponse",
   }) as any as S.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
+export type AnnotationsOutagesGetRequestDataSource =
+  | "ALL"
+  | "AI_BOTS"
+  | "AI_GATEWAY"
+  | "BGP"
+  | "BOTS"
+  | "CONNECTION_ANOMALY"
+  | "CT"
+  | "DNS"
+  | "DNS_MAGNITUDE"
+  | "DNS_AS112"
+  | "DOS"
+  | "EMAIL_ROUTING"
+  | "EMAIL_SECURITY"
+  | "FW"
+  | "FW_PG"
+  | "HTTP"
+  | "HTTP_CONTROL"
+  | "HTTP_CRAWLER_REFERER"
+  | "HTTP_ORIGINS"
+  | "IQI"
+  | "LEAKED_CREDENTIALS"
+  | "NET"
+  | "ROBOTS_TXT"
+  | "SPEED"
+  | "WORKERS_AI";
+export const AnnotationsOutagesGetRequestDataSource = S.String;
+
 export type AnnotationsOutagesGetRequestFormat = "JSON" | "CSV";
 export const AnnotationsOutagesGetRequestFormat = S.String;
+
+export type AnnotationsOutagesGetRequestOutageCause =
+  | "BLOCKING"
+  | "CABLE_CUT"
+  | "CYBERATTACK"
+  | "DNS"
+  | "FIRE"
+  | "GOVERNMENT_DIRECTED"
+  | "MAINTENANCE"
+  | "MECHANICAL"
+  | "MILITARY_ACTION"
+  | "MISCONFIGURATION"
+  | "NATURAL_DISASTER"
+  | "NETWORK_PROBLEM"
+  | "POWER_OUTAGE"
+  | "SOFTWARE"
+  | "TECHNICAL_PROBLEM"
+  | "UNKNOWN"
+  | "WEATHER";
+export const AnnotationsOutagesGetRequestOutageCause = S.String;
+
+export type AnnotationsOutagesGetRequestOutageType =
+  | "NATIONWIDE"
+  | "REGIONAL"
+  | "NETWORK"
+  | "PLATFORM";
+export const AnnotationsOutagesGetRequestOutageType = S.String;
+
+export type AnnotationsOutagesGetRequestTags =
+  | "ADM1"
+  | "ADM2"
+  | "API_TRAFFIC"
+  | "ARC"
+  | "AS"
+  | "ASN"
+  | "ATTACKS"
+  | "AUTHOR"
+  | "BANDWIDTH"
+  | "BITRATE"
+  | "BOT"
+  | "BOT_CATEGORY"
+  | "BOT_CLASS"
+  | "BOT_KIND"
+  | "BOT_OPERATOR"
+  | "BROWSER"
+  | "BROWSER_FAMILY"
+  | "BYTES"
+  | "CA"
+  | "CACHE_HIT"
+  | "CA_OWNER"
+  | "CHECK_RESULT"
+  | "CLIENT_TYPE"
+  | "COMPROMISED"
+  | "CONTENT_TYPE"
+  | "CRAWL_PURPOSE"
+  | "CRAWL_REFER_RATIO"
+  | "DEVICE_TYPE"
+  | "DKIM"
+  | "DMARC"
+  | "DNS"
+  | "DNSSEC"
+  | "DNSSEC_AWARE"
+  | "DNSSEC_E2E"
+  | "DOMAIN_CATEGORY"
+  | "DURATION"
+  | "EDNS"
+  | "ENCRYPTED"
+  | "ENTRY_TYPE"
+  | "EXPIRATION_STATUS"
+  | "HAS_IPS"
+  | "HAS_MATCHING_ANSWER"
+  | "HAS_WILDCARDS"
+  | "HTTP_METHOD"
+  | "HTTP_PROTOCOL"
+  | "HTTP_VERSION"
+  | "INDUSTRY"
+  | "IP_VERSION"
+  | "JITTER"
+  | "KEY_AGREEMENT"
+  | "LATENCY"
+  | "LOCATION"
+  | "LOCATION_LATENCY"
+  | "LOG"
+  | "LOG_API"
+  | "LOG_OPERATOR"
+  | "MALICIOUS"
+  | "MANAGED_RULES"
+  | "MITIGATION_PRODUCT"
+  | "MODEL"
+  | "NAMESERVER_LATENCY"
+  | "ORIGIN"
+  | "ORIGIN_AS"
+  | "ORIGIN_LOCATION"
+  | "ORIGIN_TARGET_LOCATION_PAIR"
+  | "OS"
+  | "PERCENTILE"
+  | "POST_QUANTUM"
+  | "PREFIX"
+  | "PRODUCT"
+  | "PROTOCOL"
+  | "PROVIDER"
+  | "PUBLIC_KEY_ALGORITHM"
+  | "QUERY_TYPE"
+  | "REFERER"
+  | "REGION"
+  | "RESPONSE_CODE"
+  | "RESPONSE_STATUS"
+  | "RESPONSE_STATUS_CATEGORY"
+  | "RESPONSE_TTL"
+  | "SIGNATURE_ALGORITHM"
+  | "SPAM"
+  | "SPF"
+  | "SPOOF"
+  | "SUCCESS_RATE"
+  | "TARGET_LOCATION"
+  | "TASK"
+  | "THREAT_CATEGORY"
+  | "TLD"
+  | "TLD_DNS_MAGNITUDE"
+  | "TLS_VERSION"
+  | "UPDATE_TYPE"
+  | "USER_AGENT"
+  | "VALIDATION_LEVEL"
+  | "VECTOR"
+  | "VERTICAL";
+export const AnnotationsOutagesGetRequestTags = S.String;
+
+export type AnnotationsOutagesGetRequestTagsList = Array<
+  AnnotationsOutagesGetRequestTags | (string & {})
+>;
+export const AnnotationsOutagesGetRequestTagsList = /*@__PURE__*/ S.Array(
+  AnnotationsOutagesGetRequestTags,
+) as any as S.Schema<AnnotationsOutagesGetRequestTagsList>;
 
 export interface GetAnnotationOutageRequest {
   /** Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer. */
   asn?: number;
-  /** End of the date range (inclusive). */
+  /** Filters results by bot. */
+  bot?: string;
+  /** Filters results by certificate authority. */
+  ca?: string;
+  /** Filters results by data source. */
+  dataSource?: AnnotationsOutagesGetRequestDataSource | (string & {});
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: AnnotationsOutagesGetRequestFormat | (string & {});
+  /** Filters results by geolocation. Refer to [GeoNames](https://download.geonames.org/export/dump/readme.txt). */
+  geoId?: string;
   /** Limits the number of objects returned in the response. */
   limit?: number;
   /** Filters results by location. Specify an alpha-2 location code. */
   location?: string;
+  /** Filters results by certificate log. */
+  log?: string;
   /** Skips the specified number of objects before fetching the results. */
   offset?: number;
   /** Filters results by origin. */
   origin?: string;
+  /** Filters results by outage cause. */
+  outageCause?: AnnotationsOutagesGetRequestOutageCause | (string & {});
+  /** Filters results by outage type. */
+  outageType?: AnnotationsOutagesGetRequestOutageType | (string & {});
+  /** Filters results by a free-text match on the annotation description, id, or linked entities (location, ASN, origin). */
+  query?: string;
+  /** Filters results by annotation tag. Matches annotations carrying at least one of the given tags. */
+  tags?: AnnotationsOutagesGetRequestTagsList;
+  /** Filters results by top-level domain. */
+  tld?: string;
 }
 export const GetAnnotationOutageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asn: S.optional(S.Number.pipe(T.Query())),
+    bot: S.optional(S.String.pipe(T.Query())),
+    ca: S.optional(S.String.pipe(T.Query())),
+    dataSource: S.optional(
+      AnnotationsOutagesGetRequestDataSource.pipe(T.Query()),
+    ),
     dateEnd: S.optional(S.String.pipe(T.Query())),
     dateRange: S.optional(S.String.pipe(T.Query())),
     dateStart: S.optional(S.String.pipe(T.Query())),
     format: S.optional(AnnotationsOutagesGetRequestFormat.pipe(T.Query())),
+    geoId: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     location: S.optional(S.String.pipe(T.Query())),
+    log: S.optional(S.String.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     origin: S.optional(S.String.pipe(T.Query())),
+    outageCause: S.optional(
+      AnnotationsOutagesGetRequestOutageCause.pipe(T.Query()),
+    ),
+    outageType: S.optional(
+      AnnotationsOutagesGetRequestOutageType.pipe(T.Query()),
+    ),
+    query: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(AnnotationsOutagesGetRequestTagsList.pipe(T.Query())),
+    tld: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(
       T.Http({ method: "GET", uri: "/radar/annotations/outages", code: 200 }),
@@ -22829,11 +23069,11 @@ export const AnnotationsOutagesGetResponseAnnotationsItemAsnsList =
     S.Number,
   ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemAsnsList>;
 
-export interface AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations {
+export interface AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation {
   code: string;
   name: string;
 }
-export const AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations =
+export const AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       code: S.String,
@@ -22841,24 +23081,21 @@ export const AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation
     }),
   ).annotate({
     identifier:
-      "AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations",
-  }) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations>;
+      "AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation",
+  }) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation>;
 
 export interface AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem {
   asn: string;
+  location: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
   name: string;
-  locations?: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations | null;
 }
 export const AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       asn: S.String,
+      location:
+        AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation,
       name: S.String,
-      locations: S.optional(
-        S.NullOr(
-          AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations,
-        ),
-      ),
     }),
   ).annotate({
     identifier: "AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem",
@@ -22871,6 +23108,36 @@ export const AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsList =
     AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem,
   ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsList>;
 
+export interface AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem {
+  entityName: string;
+  entityType: string;
+  entityValue: string;
+}
+export const AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      entityName: S.String,
+      entityType: S.String,
+      entityValue: S.String,
+    }),
+  ).annotate({
+    identifier: "AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem",
+  }) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem>;
+
+export type AnnotationsOutagesGetResponseAnnotationsItemEntitiesList =
+  Array<AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem>;
+export const AnnotationsOutagesGetResponseAnnotationsItemEntitiesList =
+  /*@__PURE__*/ S.Array(
+    AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem,
+  ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemEntitiesList>;
+
+export type AnnotationsOutagesGetResponseAnnotationsItemGeoIdsList =
+  Array<string>;
+export const AnnotationsOutagesGetResponseAnnotationsItemGeoIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemGeoIdsList>;
+
 export type AnnotationsOutagesGetResponseAnnotationsItemLocationsList =
   Array<string>;
 export const AnnotationsOutagesGetResponseAnnotationsItemLocationsList =
@@ -22879,15 +23146,15 @@ export const AnnotationsOutagesGetResponseAnnotationsItemLocationsList =
   ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemLocationsList>;
 
 export type AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsItem =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 export const AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsItem =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 
 export type AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsList =
-  Array<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations>;
+  Array<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation>;
 export const AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsList =
   /*@__PURE__*/ S.Array(
-    AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations,
+    AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation,
   ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsList>;
 
 export type AnnotationsOutagesGetResponseAnnotationsItemOriginsList =
@@ -22933,22 +23200,32 @@ export const AnnotationsOutagesGetResponseAnnotationsItemOutage =
     identifier: "AnnotationsOutagesGetResponseAnnotationsItemOutage",
   }) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemOutage>;
 
+export type AnnotationsOutagesGetResponseAnnotationsItemTagsList =
+  Array<string>;
+export const AnnotationsOutagesGetResponseAnnotationsItemTagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<AnnotationsOutagesGetResponseAnnotationsItemTagsList>;
+
 export interface AnnotationsOutagesGetResponseAnnotationsItem {
   id: string;
   asns: AnnotationsOutagesGetResponseAnnotationsItemAsnsList;
   asnsDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsList;
   dataSource: string;
+  description: string;
+  endDate: string;
+  entities: AnnotationsOutagesGetResponseAnnotationsItemEntitiesList;
   eventType: string;
+  geoIds: AnnotationsOutagesGetResponseAnnotationsItemGeoIdsList;
+  linkedUrl: string;
   locations: AnnotationsOutagesGetResponseAnnotationsItemLocationsList;
   locationsDetails: AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsList;
   origins: AnnotationsOutagesGetResponseAnnotationsItemOriginsList;
   originsDetails: AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsList;
   outage: AnnotationsOutagesGetResponseAnnotationsItemOutage;
+  scope: string;
   startDate: string;
-  description?: string | null;
-  endDate?: string | null;
-  linkedUrl?: string | null;
-  scope?: string | null;
+  tags: AnnotationsOutagesGetResponseAnnotationsItemTagsList;
 }
 export const AnnotationsOutagesGetResponseAnnotationsItem =
   /*@__PURE__*/ S.suspend(() =>
@@ -22957,7 +23234,12 @@ export const AnnotationsOutagesGetResponseAnnotationsItem =
       asns: AnnotationsOutagesGetResponseAnnotationsItemAsnsList,
       asnsDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsList,
       dataSource: S.String,
+      description: S.String,
+      endDate: S.String,
+      entities: AnnotationsOutagesGetResponseAnnotationsItemEntitiesList,
       eventType: S.String,
+      geoIds: AnnotationsOutagesGetResponseAnnotationsItemGeoIdsList,
+      linkedUrl: S.String,
       locations: AnnotationsOutagesGetResponseAnnotationsItemLocationsList,
       locationsDetails:
         AnnotationsOutagesGetResponseAnnotationsItemLocationsDetailsList,
@@ -22965,11 +23247,9 @@ export const AnnotationsOutagesGetResponseAnnotationsItem =
       originsDetails:
         AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsList,
       outage: AnnotationsOutagesGetResponseAnnotationsItemOutage,
+      scope: S.String,
       startDate: S.String,
-      description: S.optional(S.NullOr(S.String)),
-      endDate: S.optional(S.NullOr(S.String)),
-      linkedUrl: S.optional(S.NullOr(S.String)),
-      scope: S.optional(S.NullOr(S.String)),
+      tags: AnnotationsOutagesGetResponseAnnotationsItemTagsList,
     }),
   ).annotate({
     identifier: "AnnotationsOutagesGetResponseAnnotationsItem",
@@ -23040,11 +23320,11 @@ export const BgpTopAsesGetRequestUpdateTypeList = /*@__PURE__*/ S.Array(
 export interface GetBgpTopAsRequest {
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BgpTopAsesGetRequestAsnList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BgpTopAsesGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BgpTopAsesGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BgpTopAsesGetRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BgpTopAsesGetRequestFormat | (string & {});
@@ -23367,9 +23647,9 @@ export interface CtAuthoritiesGetResponseCertificateAuthority {
   sha256Fingerprint: string;
   /** The subjectKeyIdentifier value extracted from the certificate PEM. */
   subjectKeyIdentifier: string;
-  /** The start date of the certificate’s validity period (ISO format). */
+  /** The start date of the certificate's validity period (ISO format). */
   validFrom: string;
-  /** The end date of the certificate’s validity period (ISO format). */
+  /** The end date of the certificate's validity period (ISO format). */
   validTo: string;
 }
 export const CtAuthoritiesGetResponseCertificateAuthority =
@@ -23711,11 +23991,11 @@ export const EmailSecurityTopTldsGetRequestTlsVersionList =
 export interface GetEmailSecurityTopTldRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTopTldsGetRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTopTldsGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTopTldsGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTopTldsGetRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTopTldsGetRequestDkimList;
@@ -23801,7 +24081,6 @@ export const EmailSecurityTopTldsGetResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type EmailSecurityTopTldsGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -24084,11 +24363,11 @@ export interface GetEmailSecurityTopTldMaliciousRequest {
   malicious: EmailSecurityTopTldsMaliciousGetRequestMalicious | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTopTldsMaliciousGetRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTopTldsMaliciousGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTopTldsMaliciousGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTopTldsMaliciousGetRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTopTldsMaliciousGetRequestDkimList;
@@ -24192,7 +24471,6 @@ export const EmailSecurityTopTldsMaliciousGetResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type EmailSecurityTopTldsMaliciousGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -24450,11 +24728,11 @@ export interface GetEmailSecurityTopTldSpamRequest {
   spam: EmailSecurityTopTldsSpamGetRequestSpam | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTopTldsSpamGetRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTopTldsSpamGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTopTldsSpamGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTopTldsSpamGetRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTopTldsSpamGetRequestDkimList;
@@ -24549,7 +24827,6 @@ export const EmailSecurityTopTldsSpamGetResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type EmailSecurityTopTldsSpamGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -24806,11 +25083,11 @@ export interface GetEmailSecurityTopTldSpoofRequest {
   spoof: EmailSecurityTopTldsSpoofGetRequestSpoof | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTopTldsSpoofGetRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTopTldsSpoofGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTopTldsSpoofGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTopTldsSpoofGetRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTopTldsSpoofGetRequestDkimList;
@@ -24905,7 +25182,6 @@ export const EmailSecurityTopTldsSpoofGetResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type EmailSecurityTopTldsSpoofGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -25605,11 +25881,11 @@ export interface GetHttpAsRequest {
   browserFamily?: HttpAsesGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesGetRequestDeviceTypeList;
@@ -25695,7 +25971,6 @@ export const HttpAsesGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpAsesGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -25993,11 +26268,11 @@ export interface GetHttpAsBotClassRequest {
   browserFamily?: HttpAsesBotClassGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesBotClassGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesBotClassGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesBotClassGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesBotClassGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesBotClassGetRequestDeviceTypeList;
@@ -26105,7 +26380,6 @@ export const HttpAsesBotClassGetResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type HttpAsesBotClassGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -26417,11 +26691,11 @@ export interface GetHttpAsBrowserFamilyRequest {
   botClass?: HttpAsesBrowserFamilyGetRequestBotClassList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesBrowserFamilyGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesBrowserFamilyGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesBrowserFamilyGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesBrowserFamilyGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesBrowserFamilyGetRequestDeviceTypeList;
@@ -26533,7 +26807,6 @@ export const HttpAsesBrowserFamilyGetResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type HttpAsesBrowserFamilyGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -26846,11 +27119,11 @@ export interface GetHttpAsDeviceTypeRequest {
   browserFamily?: HttpAsesDeviceTypeGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesDeviceTypeGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesDeviceTypeGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesDeviceTypeGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesDeviceTypeGetRequestDateStartList;
   /** Format in which results will be returned. */
   format?: HttpAsesDeviceTypeGetRequestFormat | (string & {});
@@ -26960,7 +27233,6 @@ export const HttpAsesDeviceTypeGetResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type HttpAsesDeviceTypeGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -27268,11 +27540,11 @@ export interface GetHttpAsHttpMethodRequest {
   browserFamily?: HttpAsesHttpMethodGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesHttpMethodGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesHttpMethodGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesHttpMethodGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesHttpMethodGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesHttpMethodGetRequestDeviceTypeList;
@@ -27382,7 +27654,6 @@ export const HttpAsesHttpMethodGetResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type HttpAsesHttpMethodGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -27696,11 +27967,11 @@ export interface GetHttpAsHttpProtocolRequest {
   browserFamily?: HttpAsesHttpProtocolGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesHttpProtocolGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesHttpProtocolGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesHttpProtocolGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesHttpProtocolGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesHttpProtocolGetRequestDeviceTypeList;
@@ -27810,7 +28081,6 @@ export const HttpAsesHttpProtocolGetResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type HttpAsesHttpProtocolGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -28121,11 +28391,11 @@ export interface GetHttpAsIpVersionRequest {
   browserFamily?: HttpAsesIpVersionGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesIpVersionGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesIpVersionGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesIpVersionGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesIpVersionGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesIpVersionGetRequestDeviceTypeList;
@@ -28231,7 +28501,6 @@ export const HttpAsesIpVersionGetResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type HttpAsesIpVersionGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -28528,11 +28797,11 @@ export interface GetHttpAsOsRequest {
   browserFamily?: HttpAsesOsGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesOsGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesOsGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesOsGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesOsGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesOsGetRequestDeviceTypeList;
@@ -28620,7 +28889,6 @@ export const HttpAsesOsGetResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpAsesOsGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -28925,11 +29193,11 @@ export interface GetHttpAsTlsVersionRequest {
   browserFamily?: HttpAsesTlsVersionGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpAsesTlsVersionGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpAsesTlsVersionGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpAsesTlsVersionGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpAsesTlsVersionGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpAsesTlsVersionGetRequestDeviceTypeList;
@@ -29039,7 +29307,6 @@ export const HttpAsesTlsVersionGetResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type HttpAsesTlsVersionGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -29344,11 +29611,11 @@ export interface GetHttpLocationRequest {
   browserFamily?: HttpLocationsGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsGetRequestDeviceTypeList;
@@ -29442,7 +29709,6 @@ export const HttpLocationsGetResponseMetaConfidenceInfoAnnotationsItemDataSource
   S.String;
 
 export type HttpLocationsGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -29753,11 +30019,11 @@ export interface GetHttpLocationBotClassRequest {
   browserFamily?: HttpLocationsBotClassGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsBotClassGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsBotClassGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsBotClassGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsBotClassGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsBotClassGetRequestDeviceTypeList;
@@ -29869,7 +30135,6 @@ export const HttpLocationsBotClassGetResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type HttpLocationsBotClassGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -30193,11 +30458,11 @@ export interface GetHttpLocationBrowserFamilyRequest {
   botClass?: HttpLocationsBrowserFamilyGetRequestBotClassList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsBrowserFamilyGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsBrowserFamilyGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsBrowserFamilyGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsBrowserFamilyGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsBrowserFamilyGetRequestDeviceTypeList;
@@ -30317,7 +30582,6 @@ export const HttpLocationsBrowserFamilyGetResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type HttpLocationsBrowserFamilyGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -30640,11 +30904,11 @@ export interface GetHttpLocationDeviceTypeRequest {
   browserFamily?: HttpLocationsDeviceTypeGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsDeviceTypeGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsDeviceTypeGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsDeviceTypeGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsDeviceTypeGetRequestDateStartList;
   /** Format in which results will be returned. */
   format?: HttpLocationsDeviceTypeGetRequestFormat | (string & {});
@@ -30756,7 +31020,6 @@ export const HttpLocationsDeviceTypeGetResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type HttpLocationsDeviceTypeGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -31077,11 +31340,11 @@ export interface GetHttpLocationHttpMethodRequest {
   browserFamily?: HttpLocationsHttpMethodGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsHttpMethodGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsHttpMethodGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsHttpMethodGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsHttpMethodGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsHttpMethodGetRequestDeviceTypeList;
@@ -31193,7 +31456,6 @@ export const HttpLocationsHttpMethodGetResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type HttpLocationsHttpMethodGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -31516,11 +31778,11 @@ export interface GetHttpLocationHttpProtocolRequest {
   browserFamily?: HttpLocationsHttpProtocolGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsHttpProtocolGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsHttpProtocolGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsHttpProtocolGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsHttpProtocolGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsHttpProtocolGetRequestDeviceTypeList;
@@ -31636,7 +31898,6 @@ export const HttpLocationsHttpProtocolGetResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type HttpLocationsHttpProtocolGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -31958,11 +32219,11 @@ export interface GetHttpLocationIpVersionRequest {
   browserFamily?: HttpLocationsIpVersionGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsIpVersionGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsIpVersionGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsIpVersionGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsIpVersionGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsIpVersionGetRequestDeviceTypeList;
@@ -32074,7 +32335,6 @@ export const HttpLocationsIpVersionGetResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type HttpLocationsIpVersionGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -32384,11 +32644,11 @@ export interface GetHttpLocationOsRequest {
   browserFamily?: HttpLocationsOsGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsOsGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsOsGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsOsGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsOsGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsOsGetRequestDeviceTypeList;
@@ -32492,7 +32752,6 @@ export const HttpLocationsOsGetResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type HttpLocationsOsGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -32808,11 +33067,11 @@ export interface GetHttpLocationTlsVersionRequest {
   browserFamily?: HttpLocationsTlsVersionGetRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpLocationsTlsVersionGetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpLocationsTlsVersionGetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpLocationsTlsVersionGetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpLocationsTlsVersionGetRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpLocationsTlsVersionGetRequestDeviceTypeList;
@@ -32924,7 +33183,6 @@ export const HttpLocationsTlsVersionGetResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type HttpLocationsTlsVersionGetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -33357,6 +33615,34 @@ export const GetTldResponse = /*@__PURE__*/ S.suspend(() =>
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({ identifier: "GetTldResponse" }) as any as S.Schema<GetTldResponse>;
 
+export type TrafficAnomaliesGetRequestDataSource =
+  | "ALL"
+  | "AI_BOTS"
+  | "AI_GATEWAY"
+  | "BGP"
+  | "BOTS"
+  | "CONNECTION_ANOMALY"
+  | "CT"
+  | "DNS"
+  | "DNS_MAGNITUDE"
+  | "DNS_AS112"
+  | "DOS"
+  | "EMAIL_ROUTING"
+  | "EMAIL_SECURITY"
+  | "FW"
+  | "FW_PG"
+  | "HTTP"
+  | "HTTP_CONTROL"
+  | "HTTP_CRAWLER_REFERER"
+  | "HTTP_ORIGINS"
+  | "IQI"
+  | "LEAKED_CREDENTIALS"
+  | "NET"
+  | "ROBOTS_TXT"
+  | "SPEED"
+  | "WORKERS_AI";
+export const TrafficAnomaliesGetRequestDataSource = S.String;
+
 export type TrafficAnomaliesGetRequestFormat = "JSON" | "CSV";
 export const TrafficAnomaliesGetRequestFormat = S.String;
 
@@ -33376,11 +33662,13 @@ export const TrafficAnomaliesGetRequestTypeList = /*@__PURE__*/ S.Array(
 export interface GetTrafficAnomalyRequest {
   /** Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer. */
   asn?: number;
-  /** End of the date range (inclusive). */
+  /** Filters results by data source. */
+  dataSource?: TrafficAnomaliesGetRequestDataSource | (string & {});
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: TrafficAnomaliesGetRequestFormat | (string & {});
@@ -33399,6 +33687,9 @@ export interface GetTrafficAnomalyRequest {
 export const GetTrafficAnomalyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asn: S.optional(S.Number.pipe(T.Query())),
+    dataSource: S.optional(
+      TrafficAnomaliesGetRequestDataSource.pipe(T.Query()),
+    ),
     dateEnd: S.optional(S.String.pipe(T.Query())),
     dateRange: S.optional(S.String.pipe(T.Query())),
     dateStart: S.optional(S.String.pipe(T.Query())),
@@ -33416,10 +33707,10 @@ export const GetTrafficAnomalyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetTrafficAnomalyRequest",
 }) as any as S.Schema<GetTrafficAnomalyRequest>;
 
-export type TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetailsLocations =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
-export const TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetailsLocations =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+export type TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetailsLocation =
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
+export const TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetailsLocation =
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 
 export type TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetails =
   AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem;
@@ -33427,9 +33718,9 @@ export const TrafficAnomaliesGetResponseTrafficAnomaliesItemAsnDetails =
   AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem;
 
 export type TrafficAnomaliesGetResponseTrafficAnomaliesItemLocationDetails =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 export const TrafficAnomaliesGetResponseTrafficAnomaliesItemLocationDetails =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 
 export type TrafficAnomaliesGetResponseTrafficAnomaliesItemOriginDetails =
   AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem;
@@ -33444,42 +33735,31 @@ export const TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSources
   ) as any as S.Schema<TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSourcesList>;
 
 export interface TrafficAnomaliesGetResponseTrafficAnomaliesItem {
+  asnDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem;
+  endDate: string;
+  locationDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
+  originDetails: AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem;
   startDate: string;
   status: string;
   type: string;
   uuid: string;
-  asnDetails?: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem | null;
-  endDate?: string | null;
-  locationDetails?: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations | null;
-  originDetails?: AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem | null;
-  visibleInDataSources?: TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSourcesList | null;
+  visibleInDataSources: TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSourcesList;
 }
 export const TrafficAnomaliesGetResponseTrafficAnomaliesItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
+      asnDetails: AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem,
+      endDate: S.String,
+      locationDetails:
+        AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation,
+      originDetails:
+        AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem,
       startDate: S.String,
       status: S.String,
       type: S.String,
       uuid: S.String,
-      asnDetails: S.optional(
-        S.NullOr(AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem),
-      ),
-      endDate: S.optional(S.NullOr(S.String)),
-      locationDetails: S.optional(
-        S.NullOr(
-          AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations,
-        ),
-      ),
-      originDetails: S.optional(
-        S.NullOr(
-          AnnotationsOutagesGetResponseAnnotationsItemOriginsDetailsItem,
-        ),
-      ),
-      visibleInDataSources: S.optional(
-        S.NullOr(
-          TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSourcesList,
-        ),
-      ),
+      visibleInDataSources:
+        TrafficAnomaliesGetResponseTrafficAnomaliesItemVisibleInDataSourcesList,
     }),
   ).annotate({
     identifier: "TrafficAnomaliesGetResponseTrafficAnomaliesItem",
@@ -33513,11 +33793,11 @@ export type TrafficAnomaliesLocationsGetRequestStatus =
 export const TrafficAnomaliesLocationsGetRequestStatus = S.String;
 
 export interface GetTrafficAnomalyLocationRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: TrafficAnomaliesLocationsGetRequestFormat | (string & {});
@@ -33615,7 +33895,7 @@ export interface HistogramQualitySpeedRequest {
   bucketSize?: number;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualitySpeedHistogramRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualitySpeedHistogramRequestDateEndList;
   /** Format in which results will be returned. */
   format?: QualitySpeedHistogramRequestFormat | (string & {});
@@ -33726,7 +34006,6 @@ export const QualitySpeedHistogramResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type QualitySpeedHistogramResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -33976,11 +34255,11 @@ export interface HttpMethodAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryHttpMethodRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryHttpMethodRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryHttpMethodRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryHttpMethodRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryHttpMethodRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryHttpMethodRequestFormat | (string & {});
@@ -33988,7 +34267,7 @@ export interface HttpMethodAttackLayer7SummaryRequest {
   httpVersion?: AttacksLayer7SummaryHttpMethodRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryHttpMethodRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryHttpMethodRequestLocationList;
@@ -34079,7 +34358,6 @@ export const AttacksLayer7SummaryHttpMethodResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type AttacksLayer7SummaryHttpMethodResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -34356,7 +34634,7 @@ export const AttacksLayer7TimeseriesGroupsHttpMethodRequestNormalization =
   S.String;
 
 export interface HttpMethodAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsHttpMethodRequestAggInterval
     | (string & {});
@@ -34364,11 +34642,11 @@ export interface HttpMethodAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsHttpMethodRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsHttpMethodRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsHttpMethodRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsHttpMethodRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsHttpMethodRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesGroupsHttpMethodRequestFormat | (string & {});
@@ -34376,7 +34654,7 @@ export interface HttpMethodAttackLayer7TimeseriesGroupRequest {
   httpVersion?: AttacksLayer7TimeseriesGroupsHttpMethodRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsHttpMethodRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsHttpMethodRequestLocationList;
@@ -34504,7 +34782,6 @@ export const AttacksLayer7TimeseriesGroupsHttpMethodResponseMetaConfidenceInfoAn
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsHttpMethodResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -34836,11 +35113,11 @@ export interface HttpProtocolHttpSummaryRequest {
   browserFamily?: HttpSummaryHttpProtocolRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryHttpProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryHttpProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryHttpProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryHttpProtocolRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryHttpProtocolRequestDeviceTypeList;
@@ -34944,7 +35221,6 @@ export const HttpSummaryHttpProtocolResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type HttpSummaryHttpProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -35270,7 +35546,7 @@ export const HttpTimeseriesGroupsHttpProtocolRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsHttpProtocolRequestTlsVersionList>;
 
 export interface HttpProtocolHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsHttpProtocolRequestAggInterval
     | (string & {});
@@ -35282,11 +35558,11 @@ export interface HttpProtocolHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsHttpProtocolRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsHttpProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsHttpProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsHttpProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsHttpProtocolRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsHttpProtocolRequestDeviceTypeList;
@@ -35414,7 +35690,6 @@ export const HttpTimeseriesGroupsHttpProtocolResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type HttpTimeseriesGroupsHttpProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -35741,11 +36016,11 @@ export interface HttpVersionAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryHttpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryHttpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryHttpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryHttpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryHttpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryHttpVersionRequestFormat | (string & {});
@@ -35841,7 +36116,6 @@ export const AttacksLayer7SummaryHttpVersionResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer7SummaryHttpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -36171,7 +36445,7 @@ export const AttacksLayer7TimeseriesGroupsHttpVersionRequestNormalization =
   S.String;
 
 export interface HttpVersionAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsHttpVersionRequestAggInterval
     | (string & {});
@@ -36179,11 +36453,11 @@ export interface HttpVersionAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsHttpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsHttpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsHttpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsHttpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsHttpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?:
@@ -36318,7 +36592,6 @@ export const AttacksLayer7TimeseriesGroupsHttpVersionResponseMetaConfidenceInfoA
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsHttpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -36679,11 +36952,11 @@ export interface HttpVersionHttpSummaryRequest {
   browserFamily?: HttpSummaryHttpVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryHttpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryHttpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryHttpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryHttpVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryHttpVersionRequestDeviceTypeList;
@@ -36787,7 +37060,6 @@ export const HttpSummaryHttpVersionResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type HttpSummaryHttpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -37112,7 +37384,7 @@ export const HttpTimeseriesGroupsHttpVersionRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsHttpVersionRequestTlsVersionList>;
 
 export interface HttpVersionHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsHttpVersionRequestAggInterval
     | (string & {});
@@ -37124,11 +37396,11 @@ export interface HttpVersionHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsHttpVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsHttpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsHttpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsHttpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsHttpVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsHttpVersionRequestDeviceTypeList;
@@ -37254,7 +37526,6 @@ export const HttpTimeseriesGroupsHttpVersionResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type HttpTimeseriesGroupsHttpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -37530,11 +37801,11 @@ export const AttacksLayer3SummaryIndustryRequestProtocolList =
 export interface IndustryAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryIndustryRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryIndustryRequestDirection | (string & {});
@@ -37542,7 +37813,7 @@ export interface IndustryAttackLayer3SummaryRequest {
   format?: AttacksLayer3SummaryIndustryRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3SummaryIndustryRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3SummaryIndustryRequestLocationList;
@@ -37627,7 +37898,6 @@ export const AttacksLayer3SummaryIndustryResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer3SummaryIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -37876,17 +38146,17 @@ export const AttacksLayer3TimeseriesGroupsIndustryRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsIndustryRequestProtocolList>;
 
 export interface IndustryAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsIndustryRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsIndustryRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -37896,7 +38166,7 @@ export interface IndustryAttackLayer3TimeseriesGroupRequest {
   format?: AttacksLayer3TimeseriesGroupsIndustryRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3TimeseriesGroupsIndustryRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3TimeseriesGroupsIndustryRequestLocationList;
@@ -38015,7 +38285,6 @@ export const AttacksLayer3TimeseriesGroupsIndustryResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -38257,11 +38526,11 @@ export const AttacksLayer3TopIndustryRequestProtocolList =
 export interface IndustryAttackLayer3TopRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TopIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TopIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TopIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TopIndustryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer3TopIndustryRequestFormat | (string & {});
@@ -38345,7 +38614,6 @@ export const AttacksLayer3TopIndustryResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type AttacksLayer3TopIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -38653,11 +38921,11 @@ export interface IndustryAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryIndustryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryIndustryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryIndustryRequestFormat | (string & {});
@@ -38667,7 +38935,7 @@ export interface IndustryAttackLayer7SummaryRequest {
   httpVersion?: AttacksLayer7SummaryIndustryRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryIndustryRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryIndustryRequestLocationList;
@@ -38756,7 +39024,6 @@ export const AttacksLayer7SummaryIndustryResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer7SummaryIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -39083,7 +39350,7 @@ export const AttacksLayer7TimeseriesGroupsIndustryRequestNormalization =
   S.String;
 
 export interface IndustryAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsIndustryRequestAggInterval
     | (string & {});
@@ -39091,11 +39358,11 @@ export interface IndustryAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsIndustryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsIndustryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesGroupsIndustryRequestFormat | (string & {});
@@ -39105,7 +39372,7 @@ export interface IndustryAttackLayer7TimeseriesGroupRequest {
   httpVersion?: AttacksLayer7TimeseriesGroupsIndustryRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsIndustryRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsIndustryRequestLocationList;
@@ -39234,7 +39501,6 @@ export const AttacksLayer7TimeseriesGroupsIndustryResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -39557,11 +39823,11 @@ export interface IndustryAttackLayer7TopRequest {
   asn?: AttacksLayer7TopIndustryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopIndustryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopIndustryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopIndustryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopIndustryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopIndustryRequestFormat | (string & {});
@@ -39656,7 +39922,6 @@ export const AttacksLayer7TopIndustryResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type AttacksLayer7TopIndustryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -40093,11 +40358,11 @@ export const As112SummaryIpVersionRequestResponseCodeList =
 export interface IpVersionAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryIpVersionRequestFormat | (string & {});
@@ -40183,7 +40448,6 @@ export const As112SummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type As112SummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -40536,17 +40800,17 @@ export const As112TimeseriesGroupsIpVersionRequestResponseCodeList =
   ) as any as S.Schema<As112TimeseriesGroupsIpVersionRequestResponseCodeList>;
 
 export interface IpVersionAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | As112TimeseriesGroupsIpVersionRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsIpVersionRequestFormat | (string & {});
@@ -40648,7 +40912,6 @@ export const As112TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type As112TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -40873,11 +41136,11 @@ export interface IpVersionAs112TopRequest {
   ipVersion: As112TopIpVersionRequestIpVersion | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TopIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TopIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TopIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TopIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TopIpVersionRequestFormat | (string & {});
@@ -40948,7 +41211,6 @@ export const As112TopIpVersionResponseMetaConfidenceInfoAnnotationsItemDataSourc
   S.String;
 
 export type As112TopIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -41160,11 +41422,11 @@ export const AttacksLayer3SummaryIpVersionRequestProtocolList =
 export interface IpVersionAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryIpVersionRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryIpVersionRequestDirection | (string & {});
@@ -41249,7 +41511,6 @@ export const AttacksLayer3SummaryIpVersionResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type AttacksLayer3SummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -41485,17 +41746,17 @@ export const AttacksLayer3TimeseriesGroupsIpVersionRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsIpVersionRequestProtocolList>;
 
 export interface IpVersionAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsIpVersionRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsIpVersionRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -41618,7 +41879,6 @@ export const AttacksLayer3TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnn
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -41957,11 +42217,11 @@ export interface IpVersionAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryIpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryIpVersionRequestFormat | (string & {});
@@ -42054,7 +42314,6 @@ export const AttacksLayer7SummaryIpVersionResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type AttacksLayer7SummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -42380,7 +42639,7 @@ export const AttacksLayer7TimeseriesGroupsIpVersionRequestNormalization =
   S.String;
 
 export interface IpVersionAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsIpVersionRequestAggInterval
     | (string & {});
@@ -42388,11 +42647,11 @@ export interface IpVersionAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsIpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesGroupsIpVersionRequestFormat | (string & {});
@@ -42525,7 +42784,6 @@ export const AttacksLayer7TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnn
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -42919,11 +43177,11 @@ export interface IpVersionDnsSummaryRequest {
   asn?: DnsSummaryIpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryIpVersionRequestFormat | (string & {});
@@ -42939,7 +43197,7 @@ export interface IpVersionDnsSummaryRequest {
   queryType?: DnsSummaryIpVersionRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryIpVersionRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryIpVersionRequestTldList;
 }
 export const IpVersionDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -43014,7 +43272,6 @@ export const DnsSummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type DnsSummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -43370,17 +43627,17 @@ export const DnsTimeseriesGroupsIpVersionRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsIpVersionRequestTldList>;
 
 export interface IpVersionDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsIpVersionRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsIpVersionRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsIpVersionRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsIpVersionRequestFormat | (string & {});
@@ -43396,7 +43653,7 @@ export interface IpVersionDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsIpVersionRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsIpVersionRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsIpVersionRequestTldList;
 }
 export const IpVersionDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -43490,7 +43747,6 @@ export const DnsTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type DnsTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -43756,11 +44012,11 @@ export const EmailRoutingSummaryIpVersionRequestSpfList = /*@__PURE__*/ S.Array(
 export interface IpVersionEmailRoutingSummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummaryIpVersionRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryIpVersionRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummaryIpVersionRequestDkimList;
@@ -43846,7 +44102,6 @@ export const EmailRoutingSummaryIpVersionResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type EmailRoutingSummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -44108,17 +44363,17 @@ export const EmailRoutingTimeseriesGroupsIpVersionRequestSpfList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsIpVersionRequestSpfList>;
 
 export interface IpVersionEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsIpVersionRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsIpVersionRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsIpVersionRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsIpVersionRequestDkimList;
@@ -44227,7 +44482,6 @@ export const EmailRoutingTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnno
   S.String;
 
 export type EmailRoutingTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -44563,11 +44817,11 @@ export interface IpVersionHttpSummaryRequest {
   browserFamily?: HttpSummaryIpVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryIpVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryIpVersionRequestDeviceTypeList;
@@ -44669,7 +44923,6 @@ export const HttpSummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type HttpSummaryIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -44978,7 +45231,7 @@ export const HttpTimeseriesGroupsIpVersionRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsIpVersionRequestTlsVersionList>;
 
 export interface IpVersionHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesGroupsIpVersionRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsIpVersionRequestAsnList;
@@ -44988,11 +45241,11 @@ export interface IpVersionHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsIpVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsIpVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsIpVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsIpVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsIpVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsIpVersionRequestDeviceTypeList;
@@ -45115,7 +45368,6 @@ export const HttpTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type HttpTimeseriesGroupsIpVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -45346,43 +45598,203 @@ export const AnnotationsListRequestEventType = S.String;
 export type AnnotationsListRequestFormat = "JSON" | "CSV";
 export const AnnotationsListRequestFormat = S.String;
 
+export type AnnotationsListRequestOutageCause =
+  | "BLOCKING"
+  | "CABLE_CUT"
+  | "CYBERATTACK"
+  | "DNS"
+  | "FIRE"
+  | "GOVERNMENT_DIRECTED"
+  | "MAINTENANCE"
+  | "MECHANICAL"
+  | "MILITARY_ACTION"
+  | "MISCONFIGURATION"
+  | "NATURAL_DISASTER"
+  | "NETWORK_PROBLEM"
+  | "POWER_OUTAGE"
+  | "SOFTWARE"
+  | "TECHNICAL_PROBLEM"
+  | "UNKNOWN"
+  | "WEATHER";
+export const AnnotationsListRequestOutageCause = S.String;
+
+export type AnnotationsListRequestOutageType =
+  | "NATIONWIDE"
+  | "REGIONAL"
+  | "NETWORK"
+  | "PLATFORM";
+export const AnnotationsListRequestOutageType = S.String;
+
+export type AnnotationsListRequestTags =
+  | "ADM1"
+  | "ADM2"
+  | "API_TRAFFIC"
+  | "ARC"
+  | "AS"
+  | "ASN"
+  | "ATTACKS"
+  | "AUTHOR"
+  | "BANDWIDTH"
+  | "BITRATE"
+  | "BOT"
+  | "BOT_CATEGORY"
+  | "BOT_CLASS"
+  | "BOT_KIND"
+  | "BOT_OPERATOR"
+  | "BROWSER"
+  | "BROWSER_FAMILY"
+  | "BYTES"
+  | "CA"
+  | "CACHE_HIT"
+  | "CA_OWNER"
+  | "CHECK_RESULT"
+  | "CLIENT_TYPE"
+  | "COMPROMISED"
+  | "CONTENT_TYPE"
+  | "CRAWL_PURPOSE"
+  | "CRAWL_REFER_RATIO"
+  | "DEVICE_TYPE"
+  | "DKIM"
+  | "DMARC"
+  | "DNS"
+  | "DNSSEC"
+  | "DNSSEC_AWARE"
+  | "DNSSEC_E2E"
+  | "DOMAIN_CATEGORY"
+  | "DURATION"
+  | "EDNS"
+  | "ENCRYPTED"
+  | "ENTRY_TYPE"
+  | "EXPIRATION_STATUS"
+  | "HAS_IPS"
+  | "HAS_MATCHING_ANSWER"
+  | "HAS_WILDCARDS"
+  | "HTTP_METHOD"
+  | "HTTP_PROTOCOL"
+  | "HTTP_VERSION"
+  | "INDUSTRY"
+  | "IP_VERSION"
+  | "JITTER"
+  | "KEY_AGREEMENT"
+  | "LATENCY"
+  | "LOCATION"
+  | "LOCATION_LATENCY"
+  | "LOG"
+  | "LOG_API"
+  | "LOG_OPERATOR"
+  | "MALICIOUS"
+  | "MANAGED_RULES"
+  | "MITIGATION_PRODUCT"
+  | "MODEL"
+  | "NAMESERVER_LATENCY"
+  | "ORIGIN"
+  | "ORIGIN_AS"
+  | "ORIGIN_LOCATION"
+  | "ORIGIN_TARGET_LOCATION_PAIR"
+  | "OS"
+  | "PERCENTILE"
+  | "POST_QUANTUM"
+  | "PREFIX"
+  | "PRODUCT"
+  | "PROTOCOL"
+  | "PROVIDER"
+  | "PUBLIC_KEY_ALGORITHM"
+  | "QUERY_TYPE"
+  | "REFERER"
+  | "REGION"
+  | "RESPONSE_CODE"
+  | "RESPONSE_STATUS"
+  | "RESPONSE_STATUS_CATEGORY"
+  | "RESPONSE_TTL"
+  | "SIGNATURE_ALGORITHM"
+  | "SPAM"
+  | "SPF"
+  | "SPOOF"
+  | "SUCCESS_RATE"
+  | "TARGET_LOCATION"
+  | "TASK"
+  | "THREAT_CATEGORY"
+  | "TLD"
+  | "TLD_DNS_MAGNITUDE"
+  | "TLS_VERSION"
+  | "UPDATE_TYPE"
+  | "USER_AGENT"
+  | "VALIDATION_LEVEL"
+  | "VECTOR"
+  | "VERTICAL";
+export const AnnotationsListRequestTags = S.String;
+
+export type AnnotationsListRequestTagsList = Array<
+  AnnotationsListRequestTags | (string & {})
+>;
+export const AnnotationsListRequestTagsList = /*@__PURE__*/ S.Array(
+  AnnotationsListRequestTags,
+) as any as S.Schema<AnnotationsListRequestTagsList>;
+
 export interface ListAnnotationsRequest {
   /** Filters results by Autonomous System. Specify a single Autonomous System Number (ASN) as integer. */
   asn?: number;
+  /** Filters results by bot. */
+  bot?: string;
+  /** Filters results by certificate authority. */
+  ca?: string;
   /** Filters results by data source. */
   dataSource?: AnnotationsListRequestDataSource | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
-  /** Filters results by event type. */
+  /** Filters results by event type. EVENT is a legacy alias for GENERAL. */
   eventType?: AnnotationsListRequestEventType | (string & {});
   /** Format in which results will be returned. */
   format?: AnnotationsListRequestFormat | (string & {});
+  /** Filters results by geolocation. Refer to [GeoNames](https://download.geonames.org/export/dump/readme.txt). */
+  geoId?: string;
   /** Limits the number of objects returned in the response. */
   limit?: number;
   /** Filters results by location. Specify an alpha-2 location code. */
   location?: string;
+  /** Filters results by certificate log. */
+  log?: string;
   /** Skips the specified number of objects before fetching the results. */
   offset?: number;
   /** Filters results by origin. */
   origin?: string;
+  /** Filters results by outage cause. */
+  outageCause?: AnnotationsListRequestOutageCause | (string & {});
+  /** Filters results by outage type. */
+  outageType?: AnnotationsListRequestOutageType | (string & {});
+  /** Filters results by a free-text match on the annotation description, id, or linked entities (location, ASN, origin). */
+  query?: string;
+  /** Filters results by annotation tag. Matches annotations carrying at least one of the given tags. */
+  tags?: AnnotationsListRequestTagsList;
+  /** Filters results by top-level domain. */
+  tld?: string;
 }
 export const ListAnnotationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     asn: S.optional(S.Number.pipe(T.Query())),
+    bot: S.optional(S.String.pipe(T.Query())),
+    ca: S.optional(S.String.pipe(T.Query())),
     dataSource: S.optional(AnnotationsListRequestDataSource.pipe(T.Query())),
     dateEnd: S.optional(S.String.pipe(T.Query())),
     dateRange: S.optional(S.String.pipe(T.Query())),
     dateStart: S.optional(S.String.pipe(T.Query())),
     eventType: S.optional(AnnotationsListRequestEventType.pipe(T.Query())),
     format: S.optional(AnnotationsListRequestFormat.pipe(T.Query())),
+    geoId: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
     location: S.optional(S.String.pipe(T.Query())),
+    log: S.optional(S.String.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     origin: S.optional(S.String.pipe(T.Query())),
+    outageCause: S.optional(AnnotationsListRequestOutageCause.pipe(T.Query())),
+    outageType: S.optional(AnnotationsListRequestOutageType.pipe(T.Query())),
+    query: S.optional(S.String.pipe(T.Query())),
+    tags: S.optional(AnnotationsListRequestTagsList.pipe(T.Query())),
+    tld: S.optional(S.String.pipe(T.Query())),
   })
     .pipe(T.Http({ method: "GET", uri: "/radar/annotations", code: 200 }))
     .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -45396,10 +45808,10 @@ export const AnnotationsListResponseAnnotationsItemAsnsList =
     S.Number,
   ) as any as S.Schema<AnnotationsListResponseAnnotationsItemAsnsList>;
 
-export type AnnotationsListResponseAnnotationsItemAsnsDetailsItemLocations =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
-export const AnnotationsListResponseAnnotationsItemAsnsDetailsItemLocations =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+export type AnnotationsListResponseAnnotationsItemAsnsDetailsItemLocation =
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
+export const AnnotationsListResponseAnnotationsItemAsnsDetailsItemLocation =
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 
 export type AnnotationsListResponseAnnotationsItemAsnsDetailsItem =
   AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem;
@@ -45413,6 +45825,24 @@ export const AnnotationsListResponseAnnotationsItemAsnsDetailsList =
     AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItem,
   ) as any as S.Schema<AnnotationsListResponseAnnotationsItemAsnsDetailsList>;
 
+export type AnnotationsListResponseAnnotationsItemEntitiesItem =
+  AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem;
+export const AnnotationsListResponseAnnotationsItemEntitiesItem =
+  AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem;
+
+export type AnnotationsListResponseAnnotationsItemEntitiesList =
+  Array<AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem>;
+export const AnnotationsListResponseAnnotationsItemEntitiesList =
+  /*@__PURE__*/ S.Array(
+    AnnotationsOutagesGetResponseAnnotationsItemEntitiesItem,
+  ) as any as S.Schema<AnnotationsListResponseAnnotationsItemEntitiesList>;
+
+export type AnnotationsListResponseAnnotationsItemGeoIdsList = Array<string>;
+export const AnnotationsListResponseAnnotationsItemGeoIdsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<AnnotationsListResponseAnnotationsItemGeoIdsList>;
+
 export type AnnotationsListResponseAnnotationsItemLocationsList = Array<string>;
 export const AnnotationsListResponseAnnotationsItemLocationsList =
   /*@__PURE__*/ S.Array(
@@ -45420,15 +45850,15 @@ export const AnnotationsListResponseAnnotationsItemLocationsList =
   ) as any as S.Schema<AnnotationsListResponseAnnotationsItemLocationsList>;
 
 export type AnnotationsListResponseAnnotationsItemLocationsDetailsItem =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 export const AnnotationsListResponseAnnotationsItemLocationsDetailsItem =
-  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations;
+  AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation;
 
 export type AnnotationsListResponseAnnotationsItemLocationsDetailsList =
-  Array<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations>;
+  Array<AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation>;
 export const AnnotationsListResponseAnnotationsItemLocationsDetailsList =
   /*@__PURE__*/ S.Array(
-    AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocations,
+    AnnotationsOutagesGetResponseAnnotationsItemAsnsDetailsItemLocation,
   ) as any as S.Schema<AnnotationsListResponseAnnotationsItemLocationsDetailsList>;
 
 export type AnnotationsListResponseAnnotationsItemOriginsList = Array<string>;
@@ -45454,22 +45884,31 @@ export type AnnotationsListResponseAnnotationsItemOutage =
 export const AnnotationsListResponseAnnotationsItemOutage =
   AnnotationsOutagesGetResponseAnnotationsItemOutage;
 
+export type AnnotationsListResponseAnnotationsItemTagsList = Array<string>;
+export const AnnotationsListResponseAnnotationsItemTagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<AnnotationsListResponseAnnotationsItemTagsList>;
+
 export interface AnnotationsListResponseAnnotationsItem {
   id: string;
   asns: AnnotationsListResponseAnnotationsItemAsnsList;
   asnsDetails: AnnotationsListResponseAnnotationsItemAsnsDetailsList;
   dataSource: string;
+  description: string;
+  endDate: string;
+  entities: AnnotationsListResponseAnnotationsItemEntitiesList;
   eventType: string;
+  geoIds: AnnotationsListResponseAnnotationsItemGeoIdsList;
+  linkedUrl: string;
   locations: AnnotationsListResponseAnnotationsItemLocationsList;
   locationsDetails: AnnotationsListResponseAnnotationsItemLocationsDetailsList;
   origins: AnnotationsListResponseAnnotationsItemOriginsList;
   originsDetails: AnnotationsListResponseAnnotationsItemOriginsDetailsList;
   outage: AnnotationsOutagesGetResponseAnnotationsItemOutage;
+  scope: string;
   startDate: string;
-  description?: string | null;
-  endDate?: string | null;
-  linkedUrl?: string | null;
-  scope?: string | null;
+  tags: AnnotationsListResponseAnnotationsItemTagsList;
 }
 export const AnnotationsListResponseAnnotationsItem = /*@__PURE__*/ S.suspend(
   () =>
@@ -45478,18 +45917,21 @@ export const AnnotationsListResponseAnnotationsItem = /*@__PURE__*/ S.suspend(
       asns: AnnotationsListResponseAnnotationsItemAsnsList,
       asnsDetails: AnnotationsListResponseAnnotationsItemAsnsDetailsList,
       dataSource: S.String,
+      description: S.String,
+      endDate: S.String,
+      entities: AnnotationsListResponseAnnotationsItemEntitiesList,
       eventType: S.String,
+      geoIds: AnnotationsListResponseAnnotationsItemGeoIdsList,
+      linkedUrl: S.String,
       locations: AnnotationsListResponseAnnotationsItemLocationsList,
       locationsDetails:
         AnnotationsListResponseAnnotationsItemLocationsDetailsList,
       origins: AnnotationsListResponseAnnotationsItemOriginsList,
       originsDetails: AnnotationsListResponseAnnotationsItemOriginsDetailsList,
       outage: AnnotationsOutagesGetResponseAnnotationsItemOutage,
+      scope: S.String,
       startDate: S.String,
-      description: S.optional(S.NullOr(S.String)),
-      endDate: S.optional(S.NullOr(S.String)),
-      linkedUrl: S.optional(S.NullOr(S.String)),
-      scope: S.optional(S.NullOr(S.String)),
+      tags: AnnotationsListResponseAnnotationsItemTagsList,
     }),
 ).annotate({
   identifier: "AnnotationsListResponseAnnotationsItem",
@@ -45523,11 +45965,11 @@ export type BgpHijacksEventsListRequestSortOrder = "ASC" | "DESC";
 export const BgpHijacksEventsListRequestSortOrder = S.String;
 
 export interface ListBgpHijackEventsRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** The unique identifier of a event. */
   eventId?: number;
@@ -45742,11 +46184,11 @@ export type BgpLeaksEventsListRequestSortOrder = "ASC" | "DESC";
 export const BgpLeaksEventsListRequestSortOrder = S.String;
 
 export interface ListBgpLeakEventsRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** The unique identifier of a event. */
   eventId?: number;
@@ -45868,6 +46310,117 @@ export const ListBgpLeakEventsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListBgpLeakEventsResponse",
 }) as any as S.Schema<ListBgpLeakEventsResponse>;
+
+export type ListBgpRoutesPathsRequestFormat = "JSON" | "CSV";
+export const ListBgpRoutesPathsRequestFormat = S.String;
+
+export type ListBgpRoutesPathsRequestIpVersion = "IPv4" | "IPv6";
+export const ListBgpRoutesPathsRequestIpVersion = S.String;
+
+export interface ListBgpRoutesPathsRequest {
+  /** Single Autonomous System Number (ASN) as integer. */
+  asn: number;
+  /** Scope to a single RouteViews collector (e.g. "route-views3"). Omit to merge across all active collectors (identical path segments are deduplicated, observation counts summed, and every contributing collector listed). */
+  collector?: string;
+  /** Format in which results will be returned. */
+  format?: ListBgpRoutesPathsRequestFormat | (string & {});
+  /** Address family of the observed paths. Defaults to IPv4. */
+  ipVersion?: ListBgpRoutesPathsRequestIpVersion | (string & {});
+}
+export const ListBgpRoutesPathsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    asn: S.Number.pipe(T.Label()),
+    collector: S.optional(S.String.pipe(T.Query())),
+    format: S.optional(ListBgpRoutesPathsRequestFormat.pipe(T.Query())),
+    ipVersion: S.optional(ListBgpRoutesPathsRequestIpVersion.pipe(T.Query())),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/radar/bgp/routes/paths/{asn}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListBgpRoutesPathsRequest",
+}) as any as S.Schema<ListBgpRoutesPathsRequest>;
+
+export type ListBgpRoutesPathsResponseAsnInfoValue =
+  BgpRpkiAspaChangesResponseAsnInfo13335;
+export const ListBgpRoutesPathsResponseAsnInfoValue =
+  BgpRpkiAspaChangesResponseAsnInfo13335;
+
+export type ListBgpRoutesPathsResponseAsnInfoMap = {
+  [key: string]: BgpRpkiAspaChangesResponseAsnInfo13335 | undefined;
+};
+export const ListBgpRoutesPathsResponseAsnInfoMap = /*@__PURE__*/ S.Record(
+  S.String,
+  BgpRpkiAspaChangesResponseAsnInfo13335,
+) as any as S.Schema<ListBgpRoutesPathsResponseAsnInfoMap>;
+
+export type ListBgpRoutesPathsResponseCollectorsList = Array<string>;
+export const ListBgpRoutesPathsResponseCollectorsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<ListBgpRoutesPathsResponseCollectorsList>;
+
+export type ListBgpRoutesPathsResponseMeta =
+  BgpRoutesUpstreamsTimeseriesResponseMeta;
+export const ListBgpRoutesPathsResponseMeta =
+  BgpRoutesUpstreamsTimeseriesResponseMeta;
+
+export type ListBgpRoutesPathsResponsePathsItemCollectorsList = Array<string>;
+export const ListBgpRoutesPathsResponsePathsItemCollectorsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<ListBgpRoutesPathsResponsePathsItemCollectorsList>;
+
+export type ListBgpRoutesPathsResponsePathsItemSegmentList = Array<number>;
+export const ListBgpRoutesPathsResponsePathsItemSegmentList =
+  /*@__PURE__*/ S.Array(
+    S.Number,
+  ) as any as S.Schema<ListBgpRoutesPathsResponsePathsItemSegmentList>;
+
+export interface ListBgpRoutesPathsResponsePathsItem {
+  collectors: ListBgpRoutesPathsResponsePathsItemCollectorsList;
+  pathsCount: number;
+  peersCount: number;
+  segment: ListBgpRoutesPathsResponsePathsItemSegmentList;
+}
+export const ListBgpRoutesPathsResponsePathsItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    collectors: ListBgpRoutesPathsResponsePathsItemCollectorsList,
+    pathsCount: S.Number,
+    peersCount: S.Number,
+    segment: ListBgpRoutesPathsResponsePathsItemSegmentList,
+  }),
+).annotate({
+  identifier: "ListBgpRoutesPathsResponsePathsItem",
+}) as any as S.Schema<ListBgpRoutesPathsResponsePathsItem>;
+
+export type ListBgpRoutesPathsResponsePathsList =
+  Array<ListBgpRoutesPathsResponsePathsItem>;
+export const ListBgpRoutesPathsResponsePathsList = /*@__PURE__*/ S.Array(
+  ListBgpRoutesPathsResponsePathsItem,
+) as any as S.Schema<ListBgpRoutesPathsResponsePathsList>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ListBgpRoutesPathsResponse {
+  asnInfo: ListBgpRoutesPathsResponseAsnInfoMap;
+  collectors: ListBgpRoutesPathsResponseCollectorsList;
+  meta: BgpRoutesUpstreamsTimeseriesResponseMeta;
+  paths: ListBgpRoutesPathsResponsePathsList;
+}
+export const ListBgpRoutesPathsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    asnInfo: ListBgpRoutesPathsResponseAsnInfoMap,
+    collectors: ListBgpRoutesPathsResponseCollectorsList,
+    meta: BgpRoutesUpstreamsTimeseriesResponseMeta,
+    paths: ListBgpRoutesPathsResponsePathsList,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ListBgpRoutesPathsResponse",
+}) as any as S.Schema<ListBgpRoutesPathsResponse>;
 
 export type BotsListRequestBotCategory =
   | "SEARCH_ENGINE_CRAWLER"
@@ -46710,11 +47263,11 @@ export type AnnotationsOutagesLocationsRequestFormat = "JSON" | "CSV";
 export const AnnotationsOutagesLocationsRequestFormat = S.String;
 
 export interface LocationsAnnotationOutageRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Filters results by date range. */
+  /** Filters results by a relative date range ending at the current time. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`), e.g. `7d`. Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `3dcontrol` covers days -10 to -7, `7dcontrol` covers days -14 to -7, `28dcontrol` covers days -56 to -28, and `10dcontrol` covers days -24 to -14). Mutually exclusive with `dateStart`/`dateEnd`. */
   dateRange?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: AnnotationsOutagesLocationsRequestFormat | (string & {});
@@ -46803,11 +47356,11 @@ export const As112TopLocationsRequestNameList = /*@__PURE__*/ S.Array(
 export interface LocationsAs112TopRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TopLocationsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TopLocationsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TopLocationsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TopLocationsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TopLocationsRequestFormat | (string & {});
@@ -46873,7 +47426,6 @@ export const As112TopLocationsResponseMetaConfidenceInfoAnnotationsItemDataSourc
   S.String;
 
 export type As112TopLocationsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -47288,11 +47840,11 @@ export interface LocationsDnsTopRequest {
   cacheHit?: DnsTopLocationsRequestCacheHitList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTopLocationsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTopLocationsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTopLocationsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTopLocationsRequestDateStartList;
   /** Filters results based on DNSSEC (DNS Security Extensions) support. */
   dnssec?: DnsTopLocationsRequestDnssecList;
@@ -47300,7 +47852,7 @@ export interface LocationsDnsTopRequest {
   dnssecAware?: DnsTopLocationsRequestDnssecAwareList;
   /** Filters results based on DNSSEC-validated answers by end-to-end security status. */
   dnssecE2e?: DnsTopLocationsRequestDnssecE2eList;
-  /** Filters results by domain name. */
+  /** Filters results by domain name. When set, no other DNS filter may be used — only date filtering (`dateRange`, or `dateStart`/`dateEnd`) is allowed — and the date range cannot exceed 31 days. */
   domain?: DnsTopLocationsRequestDomainList;
   /** Format in which results will be returned. */
   format?: DnsTopLocationsRequestFormat | (string & {});
@@ -47324,7 +47876,7 @@ export interface LocationsDnsTopRequest {
   responseCode?: DnsTopLocationsRequestResponseCodeList;
   /** Filters results by DNS response TTL. */
   responseTtl?: DnsTopLocationsRequestResponseTtlList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTopLocationsRequestTldList;
 }
 export const LocationsDnsTopRequest = /*@__PURE__*/ S.suspend(() =>
@@ -47396,7 +47948,6 @@ export const DnsTopLocationsResponseMetaConfidenceInfoAnnotationsItemDataSource 
   S.String;
 
 export type DnsTopLocationsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -47596,11 +48147,11 @@ export interface LocationsNetflowTopRequest {
   asn?: NetflowsTopLocationsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsTopLocationsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsTopLocationsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsTopLocationsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsTopLocationsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsTopLocationsRequestFormat | (string & {});
@@ -47676,7 +48227,6 @@ export const NetflowsTopLocationsResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type NetflowsTopLocationsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -47876,7 +48426,7 @@ export interface LocationsQualitySpeedTopRequest {
   asn?: QualitySpeedTopLocationsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualitySpeedTopLocationsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualitySpeedTopLocationsRequestDateEndList;
   /** Format in which results will be returned. */
   format?: QualitySpeedTopLocationsRequestFormat | (string & {});
@@ -47951,7 +48501,6 @@ export const QualitySpeedTopLocationsResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type QualitySpeedTopLocationsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -48227,11 +48776,11 @@ export const EmailSecuritySummaryMaliciousRequestTlsVersionList =
 export interface MaliciousEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryMaliciousRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryMaliciousRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryMaliciousRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryMaliciousRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryMaliciousRequestDkimList;
@@ -48322,7 +48871,6 @@ export const EmailSecuritySummaryMaliciousResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type EmailSecuritySummaryMaliciousResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -48600,17 +49148,17 @@ export const EmailSecurityTimeseriesGroupsMaliciousRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsMaliciousRequestTlsVersionList>;
 
 export interface MaliciousEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsMaliciousRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsMaliciousRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsMaliciousRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsMaliciousRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsMaliciousRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsMaliciousRequestDkimList;
@@ -48723,7 +49271,6 @@ export const EmailSecurityTimeseriesGroupsMaliciousResponseMetaConfidenceInfoAnn
   S.String;
 
 export type EmailSecurityTimeseriesGroupsMaliciousResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -49070,11 +49617,11 @@ export interface ManagedRulesAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryManagedRulesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryManagedRulesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryManagedRulesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryManagedRulesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryManagedRulesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryManagedRulesRequestFormat | (string & {});
@@ -49084,7 +49631,7 @@ export interface ManagedRulesAttackLayer7SummaryRequest {
   httpVersion?: AttacksLayer7SummaryManagedRulesRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryManagedRulesRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryManagedRulesRequestLocationList;
@@ -49178,7 +49725,6 @@ export const AttacksLayer7SummaryManagedRulesResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type AttacksLayer7SummaryManagedRulesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -49518,7 +50064,7 @@ export const AttacksLayer7TimeseriesGroupsManagedRulesRequestNormalization =
   S.String;
 
 export interface ManagedRulesAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsManagedRulesRequestAggInterval
     | (string & {});
@@ -49526,11 +50072,11 @@ export interface ManagedRulesAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsManagedRulesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsManagedRulesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsManagedRulesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsManagedRulesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsManagedRulesRequestDateStartList;
   /** Format in which results will be returned. */
   format?:
@@ -49542,7 +50088,7 @@ export interface ManagedRulesAttackLayer7TimeseriesGroupRequest {
   httpVersion?: AttacksLayer7TimeseriesGroupsManagedRulesRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsManagedRulesRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsManagedRulesRequestLocationList;
@@ -49677,7 +50223,6 @@ export const AttacksLayer7TimeseriesGroupsManagedRulesResponseMetaConfidenceInfo
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsManagedRulesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -50056,11 +50601,11 @@ export interface MatchingAnswerDnsSummaryRequest {
   asn?: DnsSummaryMatchingAnswerRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryMatchingAnswerRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryMatchingAnswerRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryMatchingAnswerRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryMatchingAnswerRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryMatchingAnswerRequestFormat | (string & {});
@@ -50076,7 +50621,7 @@ export interface MatchingAnswerDnsSummaryRequest {
   queryType?: DnsSummaryMatchingAnswerRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryMatchingAnswerRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryMatchingAnswerRequestTldList;
 }
 export const MatchingAnswerDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -50155,7 +50700,6 @@ export const DnsSummaryMatchingAnswerResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type DnsSummaryMatchingAnswerResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -50521,7 +51065,7 @@ export const DnsTimeseriesGroupsMatchingAnswerRequestTldList =
   ) as any as S.Schema<DnsTimeseriesGroupsMatchingAnswerRequestTldList>;
 
 export interface MatchingAnswerDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | DnsTimeseriesGroupsMatchingAnswerRequestAggInterval
     | (string & {});
@@ -50529,11 +51073,11 @@ export interface MatchingAnswerDnsTimeseriesGroupRequest {
   asn?: DnsTimeseriesGroupsMatchingAnswerRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsMatchingAnswerRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsMatchingAnswerRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsMatchingAnswerRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsMatchingAnswerRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsMatchingAnswerRequestFormat | (string & {});
@@ -50549,7 +51093,7 @@ export interface MatchingAnswerDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsMatchingAnswerRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsMatchingAnswerRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsMatchingAnswerRequestTldList;
 }
 export const MatchingAnswerDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
@@ -50651,7 +51195,6 @@ export const DnsTimeseriesGroupsMatchingAnswerResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type DnsTimeseriesGroupsMatchingAnswerResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -50979,11 +51522,11 @@ export interface MitigationProductAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryMitigationProductRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryMitigationProductRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryMitigationProductRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryMitigationProductRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryMitigationProductRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryMitigationProductRequestFormat | (string & {});
@@ -50993,7 +51536,7 @@ export interface MitigationProductAttackLayer7SummaryRequest {
   httpVersion?: AttacksLayer7SummaryMitigationProductRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryMitigationProductRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryMitigationProductRequestLocationList;
@@ -51094,7 +51637,6 @@ export const AttacksLayer7SummaryMitigationProductResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer7SummaryMitigationProductResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -51419,7 +51961,7 @@ export const AttacksLayer7TimeseriesGroupsMitigationProductRequestNormalization 
   S.String;
 
 export interface MitigationProductAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsMitigationProductRequestAggInterval
     | (string & {});
@@ -51427,11 +51969,11 @@ export interface MitigationProductAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsMitigationProductRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsMitigationProductRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsMitigationProductRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsMitigationProductRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsMitigationProductRequestDateStartList;
   /** Format in which results will be returned. */
   format?:
@@ -51443,7 +51985,7 @@ export interface MitigationProductAttackLayer7TimeseriesGroupRequest {
   httpVersion?: AttacksLayer7TimeseriesGroupsMitigationProductRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsMitigationProductRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsMitigationProductRequestLocationList;
@@ -51575,7 +52117,6 @@ export const AttacksLayer7TimeseriesGroupsMitigationProductResponseMetaConfidenc
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsMitigationProductResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -51875,15 +52416,15 @@ export const AiInferenceSummaryModelRequestNameList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiInferenceSummaryModelRequestNameList>;
 
 export interface ModelAiInferenceSummaryRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceSummaryModelRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceSummaryModelRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceSummaryModelRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceSummaryModelRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: AiInferenceSummaryModelRequestNameList;
@@ -51945,7 +52486,6 @@ export const AiInferenceSummaryModelResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type AiInferenceSummaryModelResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -52143,19 +52683,19 @@ export const AiInferenceTimeseriesGroupsSummaryModelRequestNameList =
   ) as any as S.Schema<AiInferenceTimeseriesGroupsSummaryModelRequestNameList>;
 
 export interface ModelAiInferenceTimeseriesGroupSummaryRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AiInferenceTimeseriesGroupsSummaryModelRequestAggInterval
     | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceTimeseriesGroupsSummaryModelRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceTimeseriesGroupsSummaryModelRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceTimeseriesGroupsSummaryModelRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceTimeseriesGroupsSummaryModelRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: AiInferenceTimeseriesGroupsSummaryModelRequestNameList;
@@ -52242,7 +52782,6 @@ export const AiInferenceTimeseriesGroupsSummaryModelResponseMetaConfidenceInfoAn
   S.String;
 
 export type AiInferenceTimeseriesGroupsSummaryModelResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -52488,11 +53027,11 @@ export const AttacksLayer3TopLocationsOriginRequestProtocolList =
 export interface OriginAttackLayer3TopLocationRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TopLocationsOriginRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TopLocationsOriginRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TopLocationsOriginRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TopLocationsOriginRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer3TopLocationsOriginRequestFormat | (string & {});
@@ -52581,7 +53120,6 @@ export const AttacksLayer3TopLocationsOriginResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer3TopLocationsOriginResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -52897,11 +53435,11 @@ export const AttacksLayer7TopAsesOriginRequestNameList = /*@__PURE__*/ S.Array(
 export interface OriginAttackLayer7TopAsRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopAsesOriginRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopAsesOriginRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopAsesOriginRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopAsesOriginRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopAsesOriginRequestFormat | (string & {});
@@ -52995,7 +53533,6 @@ export const AttacksLayer7TopAsesOriginResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type AttacksLayer7TopAsesOriginResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -53311,11 +53848,11 @@ export interface OriginAttackLayer7TopLocationRequest {
   asn?: AttacksLayer7TopLocationsOriginRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopLocationsOriginRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopLocationsOriginRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopLocationsOriginRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopLocationsOriginRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopLocationsOriginRequestFormat | (string & {});
@@ -53414,7 +53951,6 @@ export const AttacksLayer7TopLocationsOriginResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer7TopLocationsOriginResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -53635,25 +54171,25 @@ export const OriginsSummaryRequestRegionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OriginsSummaryRequestRegionList>;
 
 export interface OriginsSummaryRequest {
-  /** Specifies the origin attribute by which to group the results. */
+  /** Specifies the origin attribute by which to group the results. `ORIGIN` groups across all providers and does not accept an `origin` or `region`. `REGION` requires an `origin`. `SUCCESS_RATE` and `PERCENTILE` require both an `origin` and a `region` and constrain the `metric` (`SUCCESS_RATE` supports only `REQUESTS`; `PERCENTILE` supports any metric except `REQUESTS`). `limitPerGroup` is only supported on the `REGION` dimension. */
   dimension: OriginsSummaryRequestDimension | (string & {});
-  /** Specifies the metric to retrieve. */
+  /** Specifies the metric to retrieve. Allowed metrics depend on the selected dimension (see the `dimension` path parameter). */
   metric: OriginsSummaryRequestMetric | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: OriginsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: OriginsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: OriginsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: OriginsSummaryRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: OriginsSummaryRequestNameList;
-  /** Filters results by origin. Required for all dimensions except ORIGIN. */
+  /** Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers. */
   origin?: OriginsSummaryRequestOriginList;
-  /** Filters results by origin region. */
+  /** Filters results by origin region. Requires `origin` to be set and is validated against it. */
   region?: OriginsSummaryRequestRegionList;
 }
 export const OriginsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -53711,7 +54247,6 @@ export const OriginsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type OriginsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -53917,23 +54452,23 @@ export const OriginsTimeseriesRequestRegionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OriginsTimeseriesRequestRegionList>;
 
 export interface OriginsTimeseriesRequest {
-  /** Specifies the metric to retrieve. */
+  /** Specifies the metric to retrieve. Without a `region`, only `REQUESTS` or `CONNECTION_FAILURES` are available; specify a `region` to use the latency metrics. */
   metric: OriginsTimeseriesRequestMetric | (string & {});
   /** Filters results by origin. */
   origin: OriginsTimeseriesRequestOriginList;
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: OriginsTimeseriesRequestAggInterval | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: OriginsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: OriginsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: OriginsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: OriginsTimeseriesRequestFormat | (string & {});
   /** Array of names used to label the series in the response. */
   name?: OriginsTimeseriesRequestNameList;
-  /** Filters results by origin region. */
+  /** Filters results by origin region. Requires `origin` to be set and is validated against it. */
   region?: OriginsTimeseriesRequestRegionList;
 }
 export const OriginsTimeseriesRequest = /*@__PURE__*/ S.suspend(() =>
@@ -54000,7 +54535,6 @@ export const OriginsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSourc
   S.String;
 
 export type OriginsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -54217,29 +54751,29 @@ export const OriginsTimeseriesGroupsRequestRegionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<OriginsTimeseriesGroupsRequestRegionList>;
 
 export interface OriginsTimeseriesGroupsRequest {
-  /** Specifies the origin attribute by which to group the results. */
+  /** Specifies the origin attribute by which to group the results. `ORIGIN` groups across all providers and does not accept an `origin` or `region`. `REGION` requires an `origin`. `SUCCESS_RATE` and `PERCENTILE` require both an `origin` and a `region` and constrain the `metric` (`SUCCESS_RATE` supports only `REQUESTS`; `PERCENTILE` supports any metric except `REQUESTS`). `limitPerGroup` is only supported on the `REGION` dimension. */
   dimension: OriginsTimeseriesGroupsRequestDimension | (string & {});
-  /** Specifies the metric to retrieve. */
+  /** Specifies the metric to retrieve. Allowed metrics depend on the selected dimension (see the `dimension` path parameter). */
   metric: OriginsTimeseriesGroupsRequestMetric | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: OriginsTimeseriesGroupsRequestAggInterval | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: OriginsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: OriginsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: OriginsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: OriginsTimeseriesGroupsRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: OriginsTimeseriesGroupsRequestNameList;
   /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
   normalization?: OriginsTimeseriesGroupsRequestNormalization | (string & {});
-  /** Filters results by origin. Required for all dimensions except ORIGIN. */
+  /** Filters results by origin. Required for every dimension except `ORIGIN`; must not be set on the `ORIGIN` dimension, which groups across all providers. */
   origin?: OriginsTimeseriesGroupsRequestOriginList;
-  /** Filters results by origin region. */
+  /** Filters results by origin region. Requires `origin` to be set and is validated against it. */
   region?: OriginsTimeseriesGroupsRequestRegionList;
 }
 export const OriginsTimeseriesGroupsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -54321,7 +54855,6 @@ export const OriginsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type OriginsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -54620,11 +55153,11 @@ export interface OsHttpSummaryRequest {
   browserFamily?: HttpSummaryOsRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryOsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryOsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryOsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryOsRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryOsRequestDeviceTypeList;
@@ -54706,7 +55239,6 @@ export const HttpSummaryOsResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpSummaryOsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -55007,7 +55539,7 @@ export const HttpTimeseriesGroupsOsRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsOsRequestTlsVersionList>;
 
 export interface OsHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesGroupsOsRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsOsRequestAsnList;
@@ -55017,11 +55549,11 @@ export interface OsHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsOsRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsOsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsOsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsOsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsOsRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsOsRequestDeviceTypeList;
@@ -55138,7 +55670,6 @@ export const HttpTimeseriesGroupsOsResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type HttpTimeseriesGroupsOsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -55541,11 +56072,11 @@ export interface PostQuantumHttpSummaryRequest {
   browserFamily?: HttpSummaryPostQuantumRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryPostQuantumRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryPostQuantumRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryPostQuantumRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryPostQuantumRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryPostQuantumRequestDeviceTypeList;
@@ -55654,7 +56185,6 @@ export const HttpSummaryPostQuantumResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type HttpSummaryPostQuantumResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -55979,7 +56509,7 @@ export const HttpTimeseriesGroupsPostQuantumRequestTlsVersionList =
   ) as any as S.Schema<HttpTimeseriesGroupsPostQuantumRequestTlsVersionList>;
 
 export interface PostQuantumHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsPostQuantumRequestAggInterval
     | (string & {});
@@ -55991,11 +56521,11 @@ export interface PostQuantumHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsPostQuantumRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsPostQuantumRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsPostQuantumRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsPostQuantumRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsPostQuantumRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsPostQuantumRequestDeviceTypeList;
@@ -56126,7 +56656,6 @@ export const HttpTimeseriesGroupsPostQuantumResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type HttpTimeseriesGroupsPostQuantumResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -56363,11 +56892,11 @@ export const BgpTopPrefixesRequestUpdateTypeList = /*@__PURE__*/ S.Array(
 export interface PrefixesBgpTopRequest {
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BgpTopPrefixesRequestAsnList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BgpTopPrefixesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BgpTopPrefixesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BgpTopPrefixesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BgpTopPrefixesRequestFormat | (string & {});
@@ -56680,11 +57209,11 @@ export const As112SummaryProtocolRequestResponseCodeList =
 export interface ProtocolAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryProtocolRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryProtocolRequestFormat | (string & {});
@@ -56763,7 +57292,6 @@ export const As112SummaryProtocolResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type As112SummaryProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -57106,15 +57634,15 @@ export const As112TimeseriesGroupsProtocolRequestResponseCodeList =
   ) as any as S.Schema<As112TimeseriesGroupsProtocolRequestResponseCodeList>;
 
 export interface ProtocolAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: As112TimeseriesGroupsProtocolRequestAggInterval | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsProtocolRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsProtocolRequestFormat | (string & {});
@@ -57210,7 +57738,6 @@ export const As112TimeseriesGroupsProtocolResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type As112TimeseriesGroupsProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -57469,11 +57996,11 @@ export const AttacksLayer3SummaryProtocolRequestNameList =
 export interface ProtocolAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryProtocolRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryProtocolRequestDirection | (string & {});
@@ -57558,7 +58085,6 @@ export const AttacksLayer3SummaryProtocolResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer3SummaryProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -57805,17 +58331,17 @@ export const AttacksLayer3TimeseriesGroupsProtocolRequestNormalization =
   S.String;
 
 export interface ProtocolAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsProtocolRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsProtocolRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -57934,7 +58460,6 @@ export const AttacksLayer3TimeseriesGroupsProtocolResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -58334,11 +58859,11 @@ export interface ProtocolDnsSummaryRequest {
   asn?: DnsSummaryProtocolRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryProtocolRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryProtocolRequestFormat | (string & {});
@@ -58352,7 +58877,7 @@ export interface ProtocolDnsSummaryRequest {
   queryType?: DnsSummaryProtocolRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryProtocolRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryProtocolRequestTldList;
 }
 export const ProtocolDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -58418,7 +58943,6 @@ export const DnsSummaryProtocolResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type DnsSummaryProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -58758,17 +59282,17 @@ export const DnsTimeseriesGroupsProtocolRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsProtocolRequestTldList>;
 
 export interface ProtocolDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsProtocolRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsProtocolRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsProtocolRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsProtocolRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsProtocolRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsProtocolRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsProtocolRequestFormat | (string & {});
@@ -58782,7 +59306,7 @@ export interface ProtocolDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsProtocolRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsProtocolRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsProtocolRequestTldList;
 }
 export const ProtocolDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -58873,7 +59397,6 @@ export const DnsTimeseriesGroupsProtocolResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type DnsTimeseriesGroupsProtocolResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -59148,15 +59671,15 @@ export const As112SummaryQueryTypeRequestResponseCodeList =
 export interface QueryTypeAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryQueryTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryQueryTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryQueryTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryQueryTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryQueryTypeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112SummaryQueryTypeRequestLocationList;
@@ -59236,7 +59759,6 @@ export const As112SummaryQueryTypeResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type As112SummaryQueryTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -59482,21 +60004,21 @@ export const As112TimeseriesGroupsQueryTypeRequestResponseCodeList =
   ) as any as S.Schema<As112TimeseriesGroupsQueryTypeRequestResponseCodeList>;
 
 export interface QueryTypeAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | As112TimeseriesGroupsQueryTypeRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsQueryTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsQueryTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsQueryTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsQueryTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsQueryTypeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112TimeseriesGroupsQueryTypeRequestLocationList;
@@ -59592,7 +60114,6 @@ export const As112TimeseriesGroupsQueryTypeResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type As112TimeseriesGroupsQueryTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -59859,15 +60380,15 @@ export interface QueryTypeDnsSummaryRequest {
   asn?: DnsSummaryQueryTypeRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryQueryTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryQueryTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryQueryTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryQueryTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryQueryTypeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsSummaryQueryTypeRequestLocationList;
@@ -59879,7 +60400,7 @@ export interface QueryTypeDnsSummaryRequest {
   protocol?: DnsSummaryQueryTypeRequestProtocolList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryQueryTypeRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryQueryTypeRequestTldList;
 }
 export const QueryTypeDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -59952,7 +60473,6 @@ export const DnsSummaryQueryTypeResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type DnsSummaryQueryTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -60212,21 +60732,21 @@ export const DnsTimeseriesGroupsQueryTypeRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsQueryTypeRequestTldList>;
 
 export interface QueryTypeDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsQueryTypeRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsQueryTypeRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsQueryTypeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsQueryTypeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsQueryTypeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsQueryTypeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsQueryTypeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsTimeseriesGroupsQueryTypeRequestLocationList;
@@ -60238,7 +60758,7 @@ export interface QueryTypeDnsTimeseriesGroupRequest {
   protocol?: DnsTimeseriesGroupsQueryTypeRequestProtocolList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsQueryTypeRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsQueryTypeRequestTldList;
 }
 export const QueryTypeDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(() =>
@@ -60330,7 +60850,6 @@ export const DnsTimeseriesGroupsQueryTypeResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type DnsTimeseriesGroupsQueryTypeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -60946,15 +61465,15 @@ export interface ResponseCodeDnsSummaryRequest {
   asn?: DnsSummaryResponseCodeRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryResponseCodeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryResponseCodeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryResponseCodeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryResponseCodeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryResponseCodeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsSummaryResponseCodeRequestLocationList;
@@ -60966,7 +61485,7 @@ export interface ResponseCodeDnsSummaryRequest {
   protocol?: DnsSummaryResponseCodeRequestProtocolList;
   /** Filters results by DNS query type. */
   queryType?: DnsSummaryResponseCodeRequestQueryTypeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryResponseCodeRequestTldList;
 }
 export const ResponseCodeDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -61041,7 +61560,6 @@ export const DnsSummaryResponseCodeResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type DnsSummaryResponseCodeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -61375,7 +61893,7 @@ export const DnsTimeseriesGroupsResponseCodeRequestTldList =
   ) as any as S.Schema<DnsTimeseriesGroupsResponseCodeRequestTldList>;
 
 export interface ResponseCodeDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | DnsTimeseriesGroupsResponseCodeRequestAggInterval
     | (string & {});
@@ -61383,15 +61901,15 @@ export interface ResponseCodeDnsTimeseriesGroupRequest {
   asn?: DnsTimeseriesGroupsResponseCodeRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsResponseCodeRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsResponseCodeRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsResponseCodeRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsResponseCodeRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsResponseCodeRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsTimeseriesGroupsResponseCodeRequestLocationList;
@@ -61403,7 +61921,7 @@ export interface ResponseCodeDnsTimeseriesGroupRequest {
   protocol?: DnsTimeseriesGroupsResponseCodeRequestProtocolList;
   /** Filters results by DNS query type. */
   queryType?: DnsTimeseriesGroupsResponseCodeRequestQueryTypeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsResponseCodeRequestTldList;
 }
 export const ResponseCodeDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
@@ -61500,7 +62018,6 @@ export const DnsTimeseriesGroupsResponseCodeResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type DnsTimeseriesGroupsResponseCodeResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -61827,15 +62344,15 @@ export const As112SummaryResponseCodesRequestQueryTypeList =
 export interface ResponseCodesAs112SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryResponseCodesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryResponseCodesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryResponseCodesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryResponseCodesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryResponseCodesRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112SummaryResponseCodesRequestLocationList;
@@ -61915,7 +62432,6 @@ export const As112SummaryResponseCodesResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type As112SummaryResponseCodesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -62238,21 +62754,21 @@ export const As112TimeseriesGroupsResponseCodesRequestQueryTypeList =
   ) as any as S.Schema<As112TimeseriesGroupsResponseCodesRequestQueryTypeList>;
 
 export interface ResponseCodesAs112TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | As112TimeseriesGroupsResponseCodesRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsResponseCodesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsResponseCodesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsResponseCodesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsResponseCodesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsResponseCodesRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112TimeseriesGroupsResponseCodesRequestLocationList;
@@ -62349,7 +62865,6 @@ export const As112TimeseriesGroupsResponseCodesResponseMetaConfidenceInfoAnnotat
   S.String;
 
 export type As112TimeseriesGroupsResponseCodesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -62719,11 +63234,11 @@ export interface ResponseTTLDnsSummaryRequest {
   asn?: DnsSummaryResponseTtlRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryResponseTtlRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryResponseTtlRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryResponseTtlRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryResponseTtlRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsSummaryResponseTtlRequestFormat | (string & {});
@@ -62739,7 +63254,7 @@ export interface ResponseTTLDnsSummaryRequest {
   queryType?: DnsSummaryResponseTtlRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsSummaryResponseTtlRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryResponseTtlRequestTldList;
 }
 export const ResponseTTLDnsSummaryRequest = /*@__PURE__*/ S.suspend(() =>
@@ -62816,7 +63331,6 @@ export const DnsSummaryResponseTtlResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type DnsSummaryResponseTtlResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -63202,7 +63716,7 @@ export const DnsTimeseriesGroupsResponseTtlRequestTldList =
   ) as any as S.Schema<DnsTimeseriesGroupsResponseTtlRequestTldList>;
 
 export interface ResponseTTLDnsTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | DnsTimeseriesGroupsResponseTtlRequestAggInterval
     | (string & {});
@@ -63210,11 +63724,11 @@ export interface ResponseTTLDnsTimeseriesGroupRequest {
   asn?: DnsTimeseriesGroupsResponseTtlRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsResponseTtlRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsResponseTtlRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsResponseTtlRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsResponseTtlRequestDateStartList;
   /** Format in which results will be returned. */
   format?: DnsTimeseriesGroupsResponseTtlRequestFormat | (string & {});
@@ -63230,7 +63744,7 @@ export interface ResponseTTLDnsTimeseriesGroupRequest {
   queryType?: DnsTimeseriesGroupsResponseTtlRequestQueryTypeList;
   /** Filters results by DNS response code. */
   responseCode?: DnsTimeseriesGroupsResponseTtlRequestResponseCodeList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsResponseTtlRequestTldList;
 }
 export const ResponseTTLDnsTimeseriesGroupRequest = /*@__PURE__*/ S.suspend(
@@ -63329,7 +63843,6 @@ export const DnsTimeseriesGroupsResponseTtlResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type DnsTimeseriesGroupsResponseTtlResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -63853,11 +64366,11 @@ export const EmailSecuritySummarySpamRequestTlsVersionList =
 export interface SpamEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummarySpamRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummarySpamRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummarySpamRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummarySpamRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummarySpamRequestDkimList;
@@ -63935,7 +64448,6 @@ export const EmailSecuritySummarySpamResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type EmailSecuritySummarySpamResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -64207,17 +64719,17 @@ export const EmailSecurityTimeseriesGroupsSpamRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsSpamRequestTlsVersionList>;
 
 export interface SpamEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsSpamRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsSpamRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsSpamRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsSpamRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsSpamRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsSpamRequestDkimList;
@@ -64320,7 +64832,6 @@ export const EmailSecurityTimeseriesGroupsSpamResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type EmailSecurityTimeseriesGroupsSpamResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -64584,11 +65095,11 @@ export const EmailRoutingSummarySpfRequestNameList = /*@__PURE__*/ S.Array(
 export interface SpfEmailRoutingSummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummarySpfRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummarySpfRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummarySpfRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummarySpfRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummarySpfRequestDkimList;
@@ -64668,7 +65179,6 @@ export const EmailRoutingSummarySpfResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type EmailRoutingSummarySpfResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -64921,17 +65431,17 @@ export const EmailRoutingTimeseriesGroupsSpfRequestNameList =
   ) as any as S.Schema<EmailRoutingTimeseriesGroupsSpfRequestNameList>;
 
 export interface SpfEmailRoutingTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsSpfRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsSpfRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsSpfRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsSpfRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsSpfRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsSpfRequestDkimList;
@@ -65033,7 +65543,6 @@ export const EmailRoutingTimeseriesGroupsSpfResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type EmailRoutingTimeseriesGroupsSpfResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -65302,11 +65811,11 @@ export const EmailSecuritySummarySpfRequestTlsVersionList =
 export interface SpfEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummarySpfRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummarySpfRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummarySpfRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummarySpfRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummarySpfRequestDkimList;
@@ -65381,7 +65890,6 @@ export const EmailSecuritySummarySpfResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type EmailSecuritySummarySpfResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -65627,17 +66135,17 @@ export const EmailSecurityTimeseriesGroupsSpfRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsSpfRequestTlsVersionList>;
 
 export interface SpfEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsSpfRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsSpfRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsSpfRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsSpfRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsSpfRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsSpfRequestDkimList;
@@ -65734,7 +66242,6 @@ export const EmailSecurityTimeseriesGroupsSpfResponseMetaConfidenceInfoAnnotatio
   S.String;
 
 export type EmailSecurityTimeseriesGroupsSpfResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -66015,11 +66522,11 @@ export const EmailSecuritySummarySpoofRequestTlsVersionList =
 export interface SpoofEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummarySpoofRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummarySpoofRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummarySpoofRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummarySpoofRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummarySpoofRequestDkimList;
@@ -66099,7 +66606,6 @@ export const EmailSecuritySummarySpoofResponseMetaConfidenceInfoAnnotationsItemD
   S.String;
 
 export type EmailSecuritySummarySpoofResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -66372,17 +66878,17 @@ export const EmailSecurityTimeseriesGroupsSpoofRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsSpoofRequestTlsVersionList>;
 
 export interface SpoofEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsSpoofRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsSpoofRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsSpoofRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsSpoofRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsSpoofRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsSpoofRequestDkimList;
@@ -66485,7 +66991,6 @@ export const EmailSecurityTimeseriesGroupsSpoofResponseMetaConfidenceInfoAnnotat
   S.String;
 
 export type EmailSecurityTimeseriesGroupsSpoofResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -66933,11 +67438,11 @@ export const AiMarkdownForAgentsSummaryRequestNameList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiMarkdownForAgentsSummaryRequestNameList>;
 
 export interface SummaryAiMarkdownForAgentRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiMarkdownForAgentsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiMarkdownForAgentsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiMarkdownForAgentsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiMarkdownForAgentsSummaryRequestFormat | (string & {});
@@ -67000,7 +67505,6 @@ export const AiMarkdownForAgentsSummaryResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type AiMarkdownForAgentsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -67281,23 +67785,23 @@ export interface SummaryAiTimeseriesGroupRequest {
   dimension: AiBotsSummaryV2RequestDimension | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiBotsSummaryV2RequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiBotsSummaryV2RequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiBotsSummaryV2RequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiBotsSummaryV2RequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiBotsSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiBotsSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiBotsSummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiBotsSummaryV2RequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiBotsSummaryV2RequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiBotsSummaryV2RequestLocationList;
@@ -67382,7 +67886,6 @@ export const AiBotsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource 
   S.String;
 
 export type AiBotsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -67652,15 +68155,15 @@ export interface SummaryBotRequest {
   botVerificationStatus?: BotsSummaryRequestBotVerificationStatusList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: BotsSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BotsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BotsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BotsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BotsSummaryRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: BotsSummaryRequestLocationList;
@@ -67729,7 +68232,6 @@ export const BotsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type BotsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -67971,17 +68473,17 @@ export interface SummaryBotWebCrawlerRequest {
   botOperator?: BotsWebCrawlersSummaryRequestBotOperatorList;
   /** Filters results by agent type. */
   clientType?: BotsWebCrawlersSummaryRequestClientTypeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BotsWebCrawlersSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BotsWebCrawlersSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BotsWebCrawlersSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BotsWebCrawlersSummaryRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: BotsWebCrawlersSummaryRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: BotsWebCrawlersSummaryRequestNameList;
@@ -68068,7 +68570,6 @@ export const BotsWebCrawlersSummaryResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type BotsWebCrawlersSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -68383,14 +68884,9 @@ export const CtSummaryRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtSummaryRequestTldList>;
 
-export type CtSummaryRequestUniqueEntries = "true" | "false";
-export const CtSummaryRequestUniqueEntries = S.String;
-
-export type CtSummaryRequestUniqueEntriesList = Array<
-  CtSummaryRequestUniqueEntries | (string & {})
->;
+export type CtSummaryRequestUniqueEntriesList = Array<boolean>;
 export const CtSummaryRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtSummaryRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtSummaryRequestUniqueEntriesList>;
 
 export type CtSummaryRequestValidationLevel =
@@ -68413,15 +68909,15 @@ export interface SummaryCtRequest {
   ca?: CtSummaryRequestCaList;
   /** Filters results by certificate authority owner. */
   caOwner?: CtSummaryRequestCaOwnerList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: CtSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: CtSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: CtSummaryRequestDateStartList;
   /** Filters results by certificate duration. */
   duration?: CtSummaryRequestDurationList;
-  /** Filters results by entry type (certificate vs. pre-certificate). */
+  /** Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension. */
   entryType?: CtSummaryRequestEntryTypeList;
   /** Filters results by expiration status (expired vs. valid). */
   expirationStatus?: CtSummaryRequestExpirationStatusList;
@@ -68431,13 +68927,13 @@ export interface SummaryCtRequest {
   hasIps?: CtSummaryRequestHasIpsList;
   /** Filters results based on whether the certificates contain wildcard domains. */
   hasWildcards?: CtSummaryRequestHasWildcardsList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
-  /** Filters results by certificate log. */
+  /** Filters results by certificate log. Incompatible with the `tld` filter/dimension. */
   log?: CtSummaryRequestLogList;
-  /** Filters results by certificate log API (RFC6962 vs. static). */
+  /** Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension. */
   logApi?: CtSummaryRequestLogApiList;
-  /** Filters results by certificate log operator. */
+  /** Filters results by certificate log operator. Incompatible with the `tld` filter/dimension. */
   logOperator?: CtSummaryRequestLogOperatorList;
   /** Array of names used to label the series in the response. */
   name?: CtSummaryRequestNameList;
@@ -68447,7 +68943,7 @@ export interface SummaryCtRequest {
   publicKeyAlgorithm?: CtSummaryRequestPublicKeyAlgorithmList;
   /** Filters results by signature algorithm. */
   signatureAlgorithm?: CtSummaryRequestSignatureAlgorithmList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `log`, `logApi`, `logOperator`, and `entryType` filters/dimensions. */
   tld?: CtSummaryRequestTldList;
   /** Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only. */
   uniqueEntries?: CtSummaryRequestUniqueEntriesList;
@@ -68484,7 +68980,7 @@ export const SummaryCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtSummaryRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtSummaryRequestUniqueEntriesList.pipe(T.Query()),
+      CtSummaryRequestUniqueEntriesList.pipe(T.Query(), T.StringEncoded()),
     ),
     validationLevel: S.optional(
       CtSummaryRequestValidationLevelList.pipe(T.Query()),
@@ -68532,7 +69028,6 @@ export const CtSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type CtSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -68860,11 +69355,11 @@ export interface SummaryNetflowRequest {
   asn?: NetflowsSummaryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsSummaryRequestFormat | (string & {});
@@ -68923,7 +69418,6 @@ export const NetflowsSummaryResponseMetaConfidenceInfoAnnotationsItemDataSource 
   S.String;
 
 export type NetflowsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -69112,11 +69606,11 @@ export const PostQuantumOriginSummaryRequestNameList = /*@__PURE__*/ S.Array(
 export interface SummaryPostQuantumOriginRequest {
   /** Specifies the origin post-quantum data dimension by which to group the results. */
   dimension: PostQuantumOriginSummaryRequestDimension | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: PostQuantumOriginSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: PostQuantumOriginSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: PostQuantumOriginSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: PostQuantumOriginSummaryRequestFormat | (string & {});
@@ -69180,7 +69674,6 @@ export const PostQuantumOriginSummaryResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type PostQuantumOriginSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -69385,11 +69878,11 @@ export interface SummaryQualityIqiRequest {
   asn?: QualityIqiSummaryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualityIqiSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualityIqiSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: QualityIqiSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: QualityIqiSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: QualityIqiSummaryRequestFormat | (string & {});
@@ -69454,7 +69947,6 @@ export const QualityIqiSummaryResponseMetaConfidenceInfoAnnotationsItemDataSourc
   S.String;
 
 export type QualityIqiSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -69645,7 +70137,7 @@ export interface SummaryQualitySpeedRequest {
   asn?: QualitySpeedSummaryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualitySpeedSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualitySpeedSummaryRequestDateEndList;
   /** Format in which results will be returned. */
   format?: QualitySpeedSummaryRequestFormat | (string & {});
@@ -69705,7 +70197,6 @@ export const QualitySpeedSummaryResponseMetaConfidenceInfoAnnotationsItemDataSou
   S.String;
 
 export type QualitySpeedSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -69919,11 +70410,11 @@ export interface SummaryTcpResetsTimeoutRequest {
   asn?: TcpResetsTimeoutsSummaryRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: TcpResetsTimeoutsSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: TcpResetsTimeoutsSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: TcpResetsTimeoutsSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: TcpResetsTimeoutsSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: TcpResetsTimeoutsSummaryRequestFormat | (string & {});
@@ -69995,7 +70486,6 @@ export const TcpResetsTimeoutsSummaryResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type TcpResetsTimeoutsSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -70216,15 +70706,15 @@ export interface SummaryV2AiInferenceRequest {
   asn?: AiInferenceSummaryV2RequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiInferenceSummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceSummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceSummaryV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiInferenceSummaryV2RequestLocationList;
@@ -70294,7 +70784,6 @@ export const AiInferenceSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type AiInferenceSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -70631,15 +71120,15 @@ export interface SummaryV2As112Request {
   dimension: As112SummaryV2RequestDimension | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112SummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112SummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112SummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112SummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112SummaryV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112SummaryV2RequestLocationList;
@@ -70711,7 +71200,6 @@ export const As112SummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type As112SummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -70937,11 +71425,11 @@ export interface SummaryV2AttackLayer3Request {
   dimension: AttacksLayer3SummaryV2RequestDimension | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryV2RequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryV2RequestDirection | (string & {});
@@ -70949,7 +71437,7 @@ export interface SummaryV2AttackLayer3Request {
   format?: AttacksLayer3SummaryV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3SummaryV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3SummaryV2RequestLocationList;
@@ -71031,7 +71519,6 @@ export const AttacksLayer3SummaryV2ResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type AttacksLayer3SummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -71340,11 +71827,11 @@ export interface SummaryV2AttackLayer7Request {
   asn?: AttacksLayer7SummaryV2RequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryV2RequestFormat | (string & {});
@@ -71354,7 +71841,7 @@ export interface SummaryV2AttackLayer7Request {
   httpVersion?: AttacksLayer7SummaryV2RequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryV2RequestLocationList;
@@ -71440,7 +71927,6 @@ export const AttacksLayer7SummaryV2ResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type AttacksLayer7SummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -71864,7 +72350,7 @@ export const DnsSummaryV2RequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsSummaryV2RequestTldList>;
 
 export interface SummaryV2DnsRequest {
-  /** Specifies the attribute by which to group the results. */
+  /** Specifies the attribute by which to group the results. Grouping by `TLD_DNS_MAGNITUDE` does not support sub-daily aggregation intervals; `15m` and `1h` are raised to `1d`. */
   dimension: DnsSummaryV2RequestDimension | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsSummaryV2RequestAsnList;
@@ -71872,11 +72358,11 @@ export interface SummaryV2DnsRequest {
   cacheHit?: DnsSummaryV2RequestCacheHitList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsSummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsSummaryV2RequestDateStartList;
   /** Filters results based on DNSSEC (DNS Security Extensions) support. */
   dnssec?: DnsSummaryV2RequestDnssecList;
@@ -71888,7 +72374,7 @@ export interface SummaryV2DnsRequest {
   format?: DnsSummaryV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: DnsSummaryV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsSummaryV2RequestLocationList;
@@ -71906,7 +72392,7 @@ export interface SummaryV2DnsRequest {
   responseCode?: DnsSummaryV2RequestResponseCodeList;
   /** Filters results by DNS response TTL. */
   responseTtl?: DnsSummaryV2RequestResponseTtlList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsSummaryV2RequestTldList;
 }
 export const SummaryV2DnsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -71980,7 +72466,6 @@ export const DnsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type DnsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -72227,11 +72712,11 @@ export interface SummaryV2EmailRoutingRequest {
   dimension: EmailRoutingSummaryV2RequestDimension | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingSummaryV2RequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingSummaryV2RequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingSummaryV2RequestDkimList;
@@ -72243,7 +72728,7 @@ export interface SummaryV2EmailRoutingRequest {
   format?: EmailRoutingSummaryV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: EmailRoutingSummaryV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: EmailRoutingSummaryV2RequestNameList;
@@ -72318,7 +72803,6 @@ export const EmailRoutingSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type EmailRoutingSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -72567,11 +73051,11 @@ export interface SummaryV2EmailSecurityRequest {
   dimension: EmailSecuritySummaryV2RequestDimension | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryV2RequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryV2RequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryV2RequestDkimList;
@@ -72579,7 +73063,7 @@ export interface SummaryV2EmailSecurityRequest {
   dmarc?: EmailSecuritySummaryV2RequestDmarcList;
   /** Format in which results will be returned. */
   format?: EmailSecuritySummaryV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: EmailSecuritySummaryV2RequestNameList;
@@ -72653,7 +73137,6 @@ export const EmailSecuritySummaryV2ResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type EmailSecuritySummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -72990,21 +73473,21 @@ export const HttpSummaryV2RequestTlsVersionList = /*@__PURE__*/ S.Array(
 export interface SummaryV2HttpRequest {
   /** Specifies the HTTP attribute by which to group the results. */
   dimension: HttpSummaryV2RequestDimension | (string & {});
-  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. */
+  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpSummaryV2RequestApiTrafficList;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpSummaryV2RequestAsnList;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass?: HttpSummaryV2RequestBotClassList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: HttpSummaryV2RequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryV2RequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryV2RequestDeviceTypeList;
@@ -73018,7 +73501,7 @@ export interface SummaryV2HttpRequest {
   httpVersion?: HttpSummaryV2RequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: HttpSummaryV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: HttpSummaryV2RequestLocationList;
@@ -73100,7 +73583,6 @@ export const HttpSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -73336,15 +73818,15 @@ export interface SummaryV2LeakedCredentialRequest {
   compromised?: LeakedCredentialsSummaryV2RequestCompromisedList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: LeakedCredentialsSummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsSummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: LeakedCredentialsSummaryV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: LeakedCredentialsSummaryV2RequestLocationList;
@@ -73422,7 +73904,6 @@ export const LeakedCredentialsSummaryV2ResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type LeakedCredentialsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -73646,17 +74127,17 @@ export interface SummaryV2NetflowRequest {
   asn?: NetflowsSummaryV2RequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsSummaryV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsSummaryV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsSummaryV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsSummaryV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsSummaryV2RequestFormat | (string & {});
   /** Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York). */
   geoId?: NetflowsSummaryV2RequestGeoIdList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: NetflowsSummaryV2RequestLocationList;
@@ -73728,7 +74209,6 @@ export const NetflowsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemDataSourc
   S.String;
 
 export type NetflowsSummaryV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -74009,11 +74489,11 @@ export const AttacksLayer3TopLocationsTargetRequestProtocolList =
 export interface TargetAttackLayer3TopLocationRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TopLocationsTargetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TopLocationsTargetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TopLocationsTargetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TopLocationsTargetRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer3TopLocationsTargetRequestFormat | (string & {});
@@ -74102,7 +74582,6 @@ export const AttacksLayer3TopLocationsTargetResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer3TopLocationsTargetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -74331,11 +74810,11 @@ export const AttacksLayer7TopLocationsTargetRequestNameList =
 export interface TargetAttackLayer7TopLocationRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopLocationsTargetRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopLocationsTargetRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopLocationsTargetRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopLocationsTargetRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopLocationsTargetRequestFormat | (string & {});
@@ -74416,7 +74895,6 @@ export const AttacksLayer7TopLocationsTargetResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer7TopLocationsTargetResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -74602,15 +75080,15 @@ export const AiInferenceSummaryTaskRequestNameList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiInferenceSummaryTaskRequestNameList>;
 
 export interface TaskAiInferenceSummaryRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceSummaryTaskRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceSummaryTaskRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceSummaryTaskRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceSummaryTaskRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: AiInferenceSummaryTaskRequestNameList;
@@ -74672,7 +75150,6 @@ export const AiInferenceSummaryTaskResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type AiInferenceSummaryTaskResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -74869,19 +75346,19 @@ export const AiInferenceTimeseriesGroupsSummaryTaskRequestNameList =
   ) as any as S.Schema<AiInferenceTimeseriesGroupsSummaryTaskRequestNameList>;
 
 export interface TaskAiInferenceTimeseriesGroupSummaryRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AiInferenceTimeseriesGroupsSummaryTaskRequestAggInterval
     | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceTimeseriesGroupsSummaryTaskRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceTimeseriesGroupsSummaryTaskRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceTimeseriesGroupsSummaryTaskRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceTimeseriesGroupsSummaryTaskRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: AiInferenceTimeseriesGroupsSummaryTaskRequestNameList;
@@ -74968,7 +75445,6 @@ export const AiInferenceTimeseriesGroupsSummaryTaskResponseMetaConfidenceInfoAnn
   S.String;
 
 export type AiInferenceTimeseriesGroupsSummaryTaskResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -75250,11 +75726,11 @@ export const EmailSecuritySummaryThreatCategoryRequestTlsVersionList =
 export interface ThreatCategoryEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryThreatCategoryRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryThreatCategoryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryThreatCategoryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryThreatCategoryRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryThreatCategoryRequestDkimList;
@@ -75345,7 +75821,6 @@ export const EmailSecuritySummaryThreatCategoryResponseMetaConfidenceInfoAnnotat
   S.String;
 
 export type EmailSecuritySummaryThreatCategoryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -75635,17 +76110,17 @@ export const EmailSecurityTimeseriesGroupsThreatCategoryRequestTlsVersionList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsThreatCategoryRequestTlsVersionList>;
 
 export interface ThreatCategoryEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsThreatCategoryRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsThreatCategoryRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsThreatCategoryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsThreatCategoryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsThreatCategoryRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsThreatCategoryRequestDkimList;
@@ -75772,7 +76247,6 @@ export const EmailSecurityTimeseriesGroupsThreatCategoryResponseMetaConfidenceIn
   S.String;
 
 export type EmailSecurityTimeseriesGroupsThreatCategoryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -76096,27 +76570,27 @@ export const AiBotsTimeseriesRequestVerticalList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiBotsTimeseriesRequestVerticalList>;
 
 export interface TimeseriesAiBotRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiBotsTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiBotsTimeseriesRequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiBotsTimeseriesRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiBotsTimeseriesRequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiBotsTimeseriesRequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiBotsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiBotsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiBotsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiBotsTimeseriesRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiBotsTimeseriesRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiBotsTimeseriesRequestLocationList;
@@ -76205,7 +76679,6 @@ export const AiBotsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource
   S.String;
 
 export type AiBotsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -76384,13 +76857,13 @@ export const AiMarkdownForAgentsTimeseriesRequestNameList =
   ) as any as S.Schema<AiMarkdownForAgentsTimeseriesRequestNameList>;
 
 export interface TimeseriesAiMarkdownForAgentRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiMarkdownForAgentsTimeseriesRequestAggInterval | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiMarkdownForAgentsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiMarkdownForAgentsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiMarkdownForAgentsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiMarkdownForAgentsTimeseriesRequestFormat | (string & {});
@@ -76468,7 +76941,6 @@ export const AiMarkdownForAgentsTimeseriesResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type AiMarkdownForAgentsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -76792,15 +77264,15 @@ export const As112TimeseriesRequestResponseCodeList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<As112TimeseriesRequestResponseCodeList>;
 
 export interface TimeseriesAs112Request {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: As112TimeseriesRequestAggInterval | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesRequestFormat | (string & {});
@@ -76875,7 +77347,6 @@ export const As112TimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource 
   S.String;
 
 export type As112TimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -77104,17 +77575,17 @@ export const AttacksLayer3TimeseriesRequestProtocolList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AttacksLayer3TimeseriesRequestProtocolList>;
 
 export interface TimeseriesAttackLayer3Request {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AttacksLayer3TimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer3TimeseriesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3TimeseriesRequestDirection | (string & {});
@@ -77128,7 +77599,7 @@ export interface TimeseriesAttackLayer3Request {
   metric?: AttacksLayer3TimeseriesRequestMetric | (string & {});
   /** Array of names used to label the series in the response. */
   name?: AttacksLayer3TimeseriesRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: AttacksLayer3TimeseriesRequestNormalization | (string & {});
   /** Filters the results by layer 3/4 protocol. */
   protocol?: AttacksLayer3TimeseriesRequestProtocolList;
@@ -77220,7 +77691,6 @@ export const AttacksLayer3TimeseriesResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type AttacksLayer3TimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -77522,17 +77992,17 @@ export type AttacksLayer7TimeseriesRequestNormalization =
 export const AttacksLayer7TimeseriesRequestNormalization = S.String;
 
 export interface TimeseriesAttackLayer7Request {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AttacksLayer7TimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AttacksLayer7TimeseriesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesRequestFormat | (string & {});
@@ -77548,7 +78018,7 @@ export interface TimeseriesAttackLayer7Request {
   mitigationProduct?: AttacksLayer7TimeseriesRequestMitigationProductList;
   /** Array of names used to label the series in the response. */
   name?: AttacksLayer7TimeseriesRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: AttacksLayer7TimeseriesRequestNormalization | (string & {});
 }
 export const TimeseriesAttackLayer7Request = /*@__PURE__*/ S.suspend(() =>
@@ -77640,7 +78110,6 @@ export const AttacksLayer7TimeseriesResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type AttacksLayer7TimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -77863,15 +78332,15 @@ export const BgpTimeseriesRequestUpdateTypeList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BgpTimeseriesRequestUpdateTypeList>;
 
 export interface TimeseriesBgpRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: BgpTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BgpTimeseriesRequestAsnList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BgpTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BgpTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BgpTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BgpTimeseriesRequestFormat | (string & {});
@@ -77933,7 +78402,6 @@ export const BgpTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type BgpTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -78117,11 +78585,11 @@ export const BgpIpsTimeseriesRequestNameList = /*@__PURE__*/ S.Array(
 export interface TimeseriesBgpIpRequest {
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BgpIpsTimeseriesRequestAsnList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BgpIpsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BgpIpsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BgpIpsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BgpIpsTimeseriesRequestFormat | (string & {});
@@ -78192,7 +78660,6 @@ export const BgpIpsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource
   S.String;
 
 export type BgpIpsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -78485,9 +78952,9 @@ export const BgpRpkiAspaTimeseriesRequestRirList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BgpRpkiAspaTimeseriesRequestRirList>;
 
 export interface TimeseriesBgpRpkiAspaRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: BgpRpkiAspaTimeseriesRequestFormat | (string & {});
@@ -78593,9 +79060,9 @@ export const BgpRpkiRoasTimeseriesRequestNameList = /*@__PURE__*/ S.Array(
 export interface TimeseriesBgpRpkiRoaRequest {
   /** Filters results by Autonomous System Number. Specify one or more ASNs. Multiple values generate one series per ASN. */
   asn?: BgpRpkiRoasTimeseriesRequestAsnList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. */
   dateEnd?: string;
-  /** Start of the date range (inclusive). */
+  /** Start of the date range (inclusive). Alternative to `dateRange`; provide together with `dateEnd`. */
   dateStart?: string;
   /** Format in which results will be returned. */
   format?: BgpRpkiRoasTimeseriesRequestFormat | (string & {});
@@ -78771,7 +79238,7 @@ export const BotsTimeseriesRequestNameList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BotsTimeseriesRequestNameList>;
 
 export interface TimeseriesBotRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: BotsTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BotsTimeseriesRequestAsnList;
@@ -78787,11 +79254,11 @@ export interface TimeseriesBotRequest {
   botVerificationStatus?: BotsTimeseriesRequestBotVerificationStatusList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: BotsTimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BotsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BotsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BotsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BotsTimeseriesRequestFormat | (string & {});
@@ -78867,7 +79334,6 @@ export const BotsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type BotsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -79154,14 +79620,9 @@ export const CtTimeseriesRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtTimeseriesRequestTldList>;
 
-export type CtTimeseriesRequestUniqueEntries = "true" | "false";
-export const CtTimeseriesRequestUniqueEntries = S.String;
-
-export type CtTimeseriesRequestUniqueEntriesList = Array<
-  CtTimeseriesRequestUniqueEntries | (string & {})
->;
+export type CtTimeseriesRequestUniqueEntriesList = Array<boolean>;
 export const CtTimeseriesRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtTimeseriesRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtTimeseriesRequestUniqueEntriesList>;
 
 export type CtTimeseriesRequestValidationLevel =
@@ -79178,21 +79639,21 @@ export const CtTimeseriesRequestValidationLevelList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CtTimeseriesRequestValidationLevelList>;
 
 export interface TimeseriesCtRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: CtTimeseriesRequestAggInterval | (string & {});
   /** Filters results by certificate authority. */
   ca?: CtTimeseriesRequestCaList;
   /** Filters results by certificate authority owner. */
   caOwner?: CtTimeseriesRequestCaOwnerList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: CtTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: CtTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: CtTimeseriesRequestDateStartList;
   /** Filters results by certificate duration. */
   duration?: CtTimeseriesRequestDurationList;
-  /** Filters results by entry type (certificate vs. pre-certificate). */
+  /** Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension. */
   entryType?: CtTimeseriesRequestEntryTypeList;
   /** Filters results by expiration status (expired vs. valid). */
   expirationStatus?: CtTimeseriesRequestExpirationStatusList;
@@ -79202,11 +79663,11 @@ export interface TimeseriesCtRequest {
   hasIps?: CtTimeseriesRequestHasIpsList;
   /** Filters results based on whether the certificates contain wildcard domains. */
   hasWildcards?: CtTimeseriesRequestHasWildcardsList;
-  /** Filters results by certificate log. */
+  /** Filters results by certificate log. Incompatible with the `tld` filter/dimension. */
   log?: CtTimeseriesRequestLogList;
-  /** Filters results by certificate log API (RFC6962 vs. static). */
+  /** Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension. */
   logApi?: CtTimeseriesRequestLogApiList;
-  /** Filters results by certificate log operator. */
+  /** Filters results by certificate log operator. Incompatible with the `tld` filter/dimension. */
   logOperator?: CtTimeseriesRequestLogOperatorList;
   /** Array of names used to label the series in the response. */
   name?: CtTimeseriesRequestNameList;
@@ -79214,7 +79675,7 @@ export interface TimeseriesCtRequest {
   publicKeyAlgorithm?: CtTimeseriesRequestPublicKeyAlgorithmList;
   /** Filters results by signature algorithm. */
   signatureAlgorithm?: CtTimeseriesRequestSignatureAlgorithmList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `log`, `logApi`, `logOperator`, and `entryType` filters/dimensions. */
   tld?: CtTimeseriesRequestTldList;
   /** Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only. */
   uniqueEntries?: CtTimeseriesRequestUniqueEntriesList;
@@ -79251,7 +79712,7 @@ export const TimeseriesCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtTimeseriesRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtTimeseriesRequestUniqueEntriesList.pipe(T.Query()),
+      CtTimeseriesRequestUniqueEntriesList.pipe(T.Query(), T.StringEncoded()),
     ),
     validationLevel: S.optional(
       CtTimeseriesRequestValidationLevelList.pipe(T.Query()),
@@ -79301,7 +79762,6 @@ export const CtTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type CtTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -79697,7 +80157,7 @@ export const DnsTimeseriesRequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesRequestTldList>;
 
 export interface TimeseriesDnsRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesRequestAsnList;
@@ -79705,11 +80165,11 @@ export interface TimeseriesDnsRequest {
   cacheHit?: DnsTimeseriesRequestCacheHitList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesRequestDateStartList;
   /** Filters results based on DNSSEC (DNS Security Extensions) support. */
   dnssec?: DnsTimeseriesRequestDnssecList;
@@ -79737,7 +80197,7 @@ export interface TimeseriesDnsRequest {
   responseCode?: DnsTimeseriesRequestResponseCodeList;
   /** Filters results by DNS response TTL. */
   responseTtl?: DnsTimeseriesRequestResponseTtlList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesRequestTldList;
 }
 export const TimeseriesDnsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -79816,7 +80276,6 @@ export const DnsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type DnsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -80094,33 +80553,33 @@ export const AiBotsTimeseriesGroupsRequestVerticalList = /*@__PURE__*/ S.Array(
 export interface TimeseriesGroupsAiBotRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: AiBotsTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiBotsTimeseriesGroupsRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiBotsTimeseriesGroupsRequestAsnList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: AiBotsTimeseriesGroupsRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiBotsTimeseriesGroupsRequestContinentList;
   /** Filters results by bot crawl purpose. */
   crawlPurpose?: AiBotsTimeseriesGroupsRequestCrawlPurposeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiBotsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiBotsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiBotsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiBotsTimeseriesGroupsRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: AiBotsTimeseriesGroupsRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiBotsTimeseriesGroupsRequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: AiBotsTimeseriesGroupsRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: AiBotsTimeseriesGroupsRequestNormalization | (string & {});
   /** Filters results by HTTP response status code (e.g. 200, 403, 404). Only [IANA-registered codes](https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml) are accepted. */
   responseStatus?: AiBotsTimeseriesGroupsRequestResponseStatusList;
@@ -80231,7 +80690,6 @@ export const AiBotsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type AiBotsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -80507,7 +80965,7 @@ export const BotsTimeseriesGroupsRequestNameList = /*@__PURE__*/ S.Array(
 export interface TimeseriesGroupsBotRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: BotsTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: BotsTimeseriesGroupsRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: BotsTimeseriesGroupsRequestAsnList;
@@ -80523,15 +80981,15 @@ export interface TimeseriesGroupsBotRequest {
   botVerificationStatus?: BotsTimeseriesGroupsRequestBotVerificationStatusList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: BotsTimeseriesGroupsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BotsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BotsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BotsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BotsTimeseriesGroupsRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: BotsTimeseriesGroupsRequestLocationList;
@@ -80623,7 +81081,6 @@ export const BotsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemDataSo
   S.String;
 
 export type BotsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -80901,7 +81358,7 @@ export const BotsWebCrawlersTimeseriesGroupsRequestVerticalList =
 export interface TimeseriesGroupsBotWebCrawlerRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: BotsWebCrawlersTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | BotsWebCrawlersTimeseriesGroupsRequestAggInterval
     | (string & {});
@@ -80909,21 +81366,21 @@ export interface TimeseriesGroupsBotWebCrawlerRequest {
   botOperator?: BotsWebCrawlersTimeseriesGroupsRequestBotOperatorList;
   /** Filters results by agent type. */
   clientType?: BotsWebCrawlersTimeseriesGroupsRequestClientTypeList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: BotsWebCrawlersTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: BotsWebCrawlersTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: BotsWebCrawlersTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: BotsWebCrawlersTimeseriesGroupsRequestFormat | (string & {});
   /** Filters results by industry. */
   industry?: BotsWebCrawlersTimeseriesGroupsRequestIndustryList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: BotsWebCrawlersTimeseriesGroupsRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?:
     | BotsWebCrawlersTimeseriesGroupsRequestNormalization
     | (string & {});
@@ -81035,7 +81492,6 @@ export const BotsWebCrawlersTimeseriesGroupsResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type BotsWebCrawlersTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -81380,14 +81836,9 @@ export const CtTimeseriesGroupsRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtTimeseriesGroupsRequestTldList>;
 
-export type CtTimeseriesGroupsRequestUniqueEntries = "true" | "false";
-export const CtTimeseriesGroupsRequestUniqueEntries = S.String;
-
-export type CtTimeseriesGroupsRequestUniqueEntriesList = Array<
-  CtTimeseriesGroupsRequestUniqueEntries | (string & {})
->;
+export type CtTimeseriesGroupsRequestUniqueEntriesList = Array<boolean>;
 export const CtTimeseriesGroupsRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtTimeseriesGroupsRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtTimeseriesGroupsRequestUniqueEntriesList>;
 
 export type CtTimeseriesGroupsRequestValidationLevel =
@@ -81407,21 +81858,21 @@ export const CtTimeseriesGroupsRequestValidationLevelList =
 export interface TimeseriesGroupsCtRequest {
   /** Specifies the certificate attribute by which to group the results. */
   dimension: CtTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: CtTimeseriesGroupsRequestAggInterval | (string & {});
   /** Filters results by certificate authority. */
   ca?: CtTimeseriesGroupsRequestCaList;
   /** Filters results by certificate authority owner. */
   caOwner?: CtTimeseriesGroupsRequestCaOwnerList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: CtTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: CtTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: CtTimeseriesGroupsRequestDateStartList;
   /** Filters results by certificate duration. */
   duration?: CtTimeseriesGroupsRequestDurationList;
-  /** Filters results by entry type (certificate vs. pre-certificate). */
+  /** Filters results by entry type (certificate vs. pre-certificate). Incompatible with the `tld` filter/dimension. */
   entryType?: CtTimeseriesGroupsRequestEntryTypeList;
   /** Filters results by expiration status (expired vs. valid). */
   expirationStatus?: CtTimeseriesGroupsRequestExpirationStatusList;
@@ -81431,13 +81882,13 @@ export interface TimeseriesGroupsCtRequest {
   hasIps?: CtTimeseriesGroupsRequestHasIpsList;
   /** Filters results based on whether the certificates contain wildcard domains. */
   hasWildcards?: CtTimeseriesGroupsRequestHasWildcardsList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
-  /** Filters results by certificate log. */
+  /** Filters results by certificate log. Incompatible with the `tld` filter/dimension. */
   log?: CtTimeseriesGroupsRequestLogList;
-  /** Filters results by certificate log API (RFC6962 vs. static). */
+  /** Filters results by certificate log API (RFC6962 vs. static). Incompatible with the `tld` filter/dimension. */
   logApi?: CtTimeseriesGroupsRequestLogApiList;
-  /** Filters results by certificate log operator. */
+  /** Filters results by certificate log operator. Incompatible with the `tld` filter/dimension. */
   logOperator?: CtTimeseriesGroupsRequestLogOperatorList;
   /** Array of names used to label the series in the response. */
   name?: CtTimeseriesGroupsRequestNameList;
@@ -81447,7 +81898,7 @@ export interface TimeseriesGroupsCtRequest {
   publicKeyAlgorithm?: CtTimeseriesGroupsRequestPublicKeyAlgorithmList;
   /** Filters results by signature algorithm. */
   signatureAlgorithm?: CtTimeseriesGroupsRequestSignatureAlgorithmList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `log`, `logApi`, `logOperator`, and `entryType` filters/dimensions. */
   tld?: CtTimeseriesGroupsRequestTldList;
   /** Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only. */
   uniqueEntries?: CtTimeseriesGroupsRequestUniqueEntriesList;
@@ -81499,7 +81950,10 @@ export const TimeseriesGroupsCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtTimeseriesGroupsRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtTimeseriesGroupsRequestUniqueEntriesList.pipe(T.Query()),
+      CtTimeseriesGroupsRequestUniqueEntriesList.pipe(
+        T.Query(),
+        T.StringEncoded(),
+      ),
     ),
     validationLevel: S.optional(
       CtTimeseriesGroupsRequestValidationLevelList.pipe(T.Query()),
@@ -81555,7 +82009,6 @@ export const CtTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type CtTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -82091,29 +82544,29 @@ export const NetflowsTimeseriesGroupsRequestProductList = /*@__PURE__*/ S.Array(
 export interface TimeseriesGroupsNetflowRequest {
   /** Specifies the NetFlows attribute by which to group the results. */
   dimension: NetflowsTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: NetflowsTimeseriesGroupsRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTimeseriesGroupsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsTimeseriesGroupsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsTimeseriesGroupsRequestFormat | (string & {});
   /** Filters results by Geolocation. Specify a comma-separated list of GeoNames IDs. Prefix with `-` to exclude geoIds from results. For example, `-2267056,360689` excludes results from the 2267056 (Lisbon), but includes results from 5128638 (New York). */
   geoId?: NetflowsTimeseriesGroupsRequestGeoIdList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: NetflowsTimeseriesGroupsRequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: NetflowsTimeseriesGroupsRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: NetflowsTimeseriesGroupsRequestNormalization | (string & {});
   /** Filters the results by network traffic product types. */
   product?: NetflowsTimeseriesGroupsRequestProductList;
@@ -82201,7 +82654,6 @@ export const NetflowsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type NetflowsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -82406,11 +82858,11 @@ export const PostQuantumOriginTimeseriesGroupsRequestNameList =
 export interface TimeseriesGroupsPostQuantumOriginRequest {
   /** Specifies the origin post-quantum data dimension by which to group the results. */
   dimension: PostQuantumOriginTimeseriesGroupsRequestDimension | (string & {});
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: PostQuantumOriginTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: PostQuantumOriginTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: PostQuantumOriginTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: PostQuantumOriginTimeseriesGroupsRequestFormat | (string & {});
@@ -82490,7 +82942,6 @@ export const PostQuantumOriginTimeseriesGroupsResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type PostQuantumOriginTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -82722,17 +83173,17 @@ export const QualityIqiTimeseriesGroupsRequestNameList = /*@__PURE__*/ S.Array(
 export interface TimeseriesGroupsQualityIqiRequest {
   /** Defines which metric to return (bandwidth, latency, or DNS response time). */
   metric: QualityIqiTimeseriesGroupsRequestMetric | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: QualityIqiTimeseriesGroupsRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: QualityIqiTimeseriesGroupsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: QualityIqiTimeseriesGroupsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: QualityIqiTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: QualityIqiTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: QualityIqiTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: QualityIqiTimeseriesGroupsRequestFormat | (string & {});
@@ -82819,7 +83270,6 @@ export const QualityIqiTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type QualityIqiTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -83037,11 +83487,11 @@ export type RankingTimeseriesGroupsRequestRankingType =
 export const RankingTimeseriesGroupsRequestRankingType = S.String;
 
 export interface TimeseriesGroupsRankingRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: RankingTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: RankingTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: RankingTimeseriesGroupsRequestDateStartList;
   /** Filters results by domain category. */
   domainCategory?: RankingTimeseriesGroupsRequestDomainCategoryList;
@@ -83135,7 +83585,6 @@ export const RankingTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type RankingTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -83344,11 +83793,11 @@ export const RankingInternetServicesTimeseriesGroupsRequestServiceCategoryList =
   ) as any as S.Schema<RankingInternetServicesTimeseriesGroupsRequestServiceCategoryList>;
 
 export interface TimeseriesGroupsRankingInternetServiceRequest {
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: RankingInternetServicesTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: RankingInternetServicesTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: RankingInternetServicesTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: RankingInternetServicesTimeseriesGroupsRequestFormat | (string & {});
@@ -83441,7 +83890,6 @@ export const RankingInternetServicesTimeseriesGroupsResponseMetaConfidenceInfoAn
   S.String;
 
 export type RankingInternetServicesTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -83676,7 +84124,7 @@ export const TcpResetsTimeoutsTimeseriesGroupsRequestNameList =
   ) as any as S.Schema<TcpResetsTimeoutsTimeseriesGroupsRequestNameList>;
 
 export interface TimeseriesGroupsTcpResetsTimeoutRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | TcpResetsTimeoutsTimeseriesGroupsRequestAggInterval
     | (string & {});
@@ -83684,11 +84132,11 @@ export interface TimeseriesGroupsTcpResetsTimeoutRequest {
   asn?: TcpResetsTimeoutsTimeseriesGroupsRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: TcpResetsTimeoutsTimeseriesGroupsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: TcpResetsTimeoutsTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: TcpResetsTimeoutsTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: TcpResetsTimeoutsTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: TcpResetsTimeoutsTimeseriesGroupsRequestFormat | (string & {});
@@ -83779,7 +84227,6 @@ export const TcpResetsTimeoutsTimeseriesGroupsResponseMetaConfidenceInfoAnnotati
   S.String;
 
 export type TcpResetsTimeoutsTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -84071,21 +84518,21 @@ export const AiInferenceTimeseriesGroupsV2RequestNormalization = S.String;
 export interface TimeseriesGroupsV2AiInferenceRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: AiInferenceTimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiInferenceTimeseriesGroupsV2RequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiInferenceTimeseriesGroupsV2RequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiInferenceTimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiInferenceTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiInferenceTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiInferenceTimeseriesGroupsV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiInferenceTimeseriesGroupsV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiInferenceTimeseriesGroupsV2RequestLocationList;
@@ -84182,7 +84629,6 @@ export const AiInferenceTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsI
   S.String;
 
 export type AiInferenceTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -84551,19 +84997,19 @@ export const As112TimeseriesGroupsV2RequestResponseCodeList =
 export interface TimeseriesGroupsV2As112Request {
   /** Specifies the attribute by which to group the results. */
   dimension: As112TimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: As112TimeseriesGroupsV2RequestAggInterval | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: As112TimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: As112TimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: As112TimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: As112TimeseriesGroupsV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: As112TimeseriesGroupsV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: As112TimeseriesGroupsV2RequestLocationList;
@@ -84660,7 +85106,6 @@ export const As112TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemDat
   S.String;
 
 export type As112TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -84923,17 +85368,17 @@ export const AttacksLayer3TimeseriesGroupsV2RequestProtocolList =
 export interface TimeseriesGroupsV2AttackLayer3Request {
   /** Specifies the attribute by which to group the results. */
   dimension: AttacksLayer3TimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsV2RequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsV2RequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3TimeseriesGroupsV2RequestDirection | (string & {});
@@ -84941,7 +85386,7 @@ export interface TimeseriesGroupsV2AttackLayer3Request {
   format?: AttacksLayer3TimeseriesGroupsV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3TimeseriesGroupsV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3TimeseriesGroupsV2RequestLocationList;
@@ -85048,7 +85493,6 @@ export const AttacksLayer3TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -85390,7 +85834,7 @@ export const AttacksLayer7TimeseriesGroupsV2RequestNormalization = S.String;
 export interface TimeseriesGroupsV2AttackLayer7Request {
   /** Specifies the attribute by which to group the results. */
   dimension: AttacksLayer7TimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsV2RequestAggInterval
     | (string & {});
@@ -85398,11 +85842,11 @@ export interface TimeseriesGroupsV2AttackLayer7Request {
   asn?: AttacksLayer7TimeseriesGroupsV2RequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesGroupsV2RequestFormat | (string & {});
@@ -85412,7 +85856,7 @@ export interface TimeseriesGroupsV2AttackLayer7Request {
   httpVersion?: AttacksLayer7TimeseriesGroupsV2RequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsV2RequestLocationList;
@@ -85527,7 +85971,6 @@ export const AttacksLayer7TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -85991,9 +86434,9 @@ export const DnsTimeseriesGroupsV2RequestTldList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsTimeseriesGroupsV2RequestTldList>;
 
 export interface TimeseriesGroupsV2DnsRequest {
-  /** Specifies the attribute by which to group the results. */
+  /** Specifies the attribute by which to group the results. Grouping by `TLD_DNS_MAGNITUDE` does not support sub-daily aggregation intervals; `15m` and `1h` are raised to `1d`. */
   dimension: DnsTimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: DnsTimeseriesGroupsV2RequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: DnsTimeseriesGroupsV2RequestAsnList;
@@ -86001,11 +86444,11 @@ export interface TimeseriesGroupsV2DnsRequest {
   cacheHit?: DnsTimeseriesGroupsV2RequestCacheHitList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: DnsTimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: DnsTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: DnsTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: DnsTimeseriesGroupsV2RequestDateStartList;
   /** Filters results based on DNSSEC (DNS Security Extensions) support. */
   dnssec?: DnsTimeseriesGroupsV2RequestDnssecList;
@@ -86017,7 +86460,7 @@ export interface TimeseriesGroupsV2DnsRequest {
   format?: DnsTimeseriesGroupsV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: DnsTimeseriesGroupsV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: DnsTimeseriesGroupsV2RequestLocationList;
@@ -86027,7 +86470,7 @@ export interface TimeseriesGroupsV2DnsRequest {
   name?: DnsTimeseriesGroupsV2RequestNameList;
   /** Specifies whether the response includes empty DNS responses (NODATA). */
   nodata?: DnsTimeseriesGroupsV2RequestNodataList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `RANK` is only meaningful with the `TLD_DNS_MAGNITUDE` dimension, where it ranks TLDs by DNS query magnitude at each timestamp; for other dimensions it has no effect. */
   normalization?: DnsTimeseriesGroupsV2RequestNormalization | (string & {});
   /** Filters results by DNS transport protocol. */
   protocol?: DnsTimeseriesGroupsV2RequestProtocolList;
@@ -86037,7 +86480,7 @@ export interface TimeseriesGroupsV2DnsRequest {
   responseCode?: DnsTimeseriesGroupsV2RequestResponseCodeList;
   /** Filters results by DNS response TTL. */
   responseTtl?: DnsTimeseriesGroupsV2RequestResponseTtlList;
-  /** Filters results by top-level domain. */
+  /** Filters results by top-level domain. Incompatible with the `ipVersion`, `protocol`, `dnssecE2e`, `dnssecAware`, `responseTtl`, and `cacheHit` filters/dimensions; this restriction does not apply to country-code TLDs (2-letter, e.g. `uk`). */
   tld?: DnsTimeseriesGroupsV2RequestTldList;
 }
 export const TimeseriesGroupsV2DnsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -86149,7 +86592,6 @@ export const DnsTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type DnsTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -86435,17 +86877,17 @@ export const EmailRoutingTimeseriesGroupsV2RequestSpfList =
 export interface TimeseriesGroupsV2EmailRoutingRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: EmailRoutingTimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailRoutingTimeseriesGroupsV2RequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailRoutingTimeseriesGroupsV2RequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailRoutingTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailRoutingTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailRoutingTimeseriesGroupsV2RequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailRoutingTimeseriesGroupsV2RequestDkimList;
@@ -86457,7 +86899,7 @@ export interface TimeseriesGroupsV2EmailRoutingRequest {
   format?: EmailRoutingTimeseriesGroupsV2RequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: EmailRoutingTimeseriesGroupsV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: EmailRoutingTimeseriesGroupsV2RequestNameList;
@@ -86556,7 +86998,6 @@ export const EmailRoutingTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type EmailRoutingTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -86847,17 +87288,17 @@ export const EmailSecurityTimeseriesGroupsV2RequestTlsVersionList =
 export interface TimeseriesGroupsV2EmailSecurityRequest {
   /** Specifies the attribute by which to group the results. */
   dimension: EmailSecurityTimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsV2RequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsV2RequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsV2RequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsV2RequestDkimList;
@@ -86865,7 +87306,7 @@ export interface TimeseriesGroupsV2EmailSecurityRequest {
   dmarc?: EmailSecurityTimeseriesGroupsV2RequestDmarcList;
   /** Format in which results will be returned. */
   format?: EmailSecurityTimeseriesGroupsV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Array of names used to label the series in the response. */
   name?: EmailSecurityTimeseriesGroupsV2RequestNameList;
@@ -86965,7 +87406,6 @@ export const EmailSecurityTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type EmailSecurityTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -87345,23 +87785,23 @@ export const HttpTimeseriesGroupsV2RequestTlsVersionList =
 export interface TimeseriesGroupsV2HttpRequest {
   /** Specifies the HTTP attribute by which to group the results. */
   dimension: HttpTimeseriesGroupsV2RequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesGroupsV2RequestAggInterval | (string & {});
-  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. */
+  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpTimeseriesGroupsV2RequestApiTrafficList;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesGroupsV2RequestAsnList;
   /** Filters results by bot class. Refer to [Bot classes](https://developers.cloudflare.com/radar/concepts/bot-classes/). */
   botClass?: HttpTimeseriesGroupsV2RequestBotClassList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: HttpTimeseriesGroupsV2RequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsV2RequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsV2RequestDeviceTypeList;
@@ -87375,7 +87815,7 @@ export interface TimeseriesGroupsV2HttpRequest {
   httpVersion?: HttpTimeseriesGroupsV2RequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: HttpTimeseriesGroupsV2RequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: HttpTimeseriesGroupsV2RequestLocationList;
@@ -87493,7 +87933,6 @@ export const HttpTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type HttpTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -87775,7 +88214,7 @@ export interface TimeseriesGroupsV2LeakedCredentialRequest {
   dimension:
     | LeakedCredentialsTimeseriesGroupsV2RequestDimension
     | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | LeakedCredentialsTimeseriesGroupsV2RequestAggInterval
     | (string & {});
@@ -87789,21 +88228,21 @@ export interface TimeseriesGroupsV2LeakedCredentialRequest {
   compromised?: LeakedCredentialsTimeseriesGroupsV2RequestCompromisedList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: LeakedCredentialsTimeseriesGroupsV2RequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: LeakedCredentialsTimeseriesGroupsV2RequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: LeakedCredentialsTimeseriesGroupsV2RequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: LeakedCredentialsTimeseriesGroupsV2RequestDateStartList;
   /** Format in which results will be returned. */
   format?: LeakedCredentialsTimeseriesGroupsV2RequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: LeakedCredentialsTimeseriesGroupsV2RequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: LeakedCredentialsTimeseriesGroupsV2RequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?:
     | LeakedCredentialsTimeseriesGroupsV2RequestNormalization
     | (string & {});
@@ -87910,7 +88349,6 @@ export const LeakedCredentialsTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnota
   S.String;
 
 export type LeakedCredentialsTimeseriesGroupsV2ResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -88269,9 +88707,9 @@ export const HttpTimeseriesRequestTlsVersionList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<HttpTimeseriesRequestTlsVersionList>;
 
 export interface TimeseriesHttpRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: HttpTimeseriesRequestAggInterval | (string & {});
-  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. */
+  /** Filters results by API traffic classification. API traffic is identified by JSON or XML response content types on dynamic (non-cacheable) HTTP requests. Incompatible with the `browserFamily`, `deviceType`, `httpProtocol`, `httpVersion`, `ipVersion`, `os`, and `tlsVersion` filters/dimensions. When set, results can only be further filtered by location, continent, or Autonomous System. */
   apiTraffic?: HttpTimeseriesRequestApiTrafficList;
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: HttpTimeseriesRequestAsnList;
@@ -88279,15 +88717,15 @@ export interface TimeseriesHttpRequest {
   botClass?: HttpTimeseriesRequestBotClassList;
   /** Filters results by browser family. */
   browserFamily?: HttpTimeseriesRequestBrowserFamilyList;
-  /** Filters results by content type category. */
+  /** Filters results by content type category. When set, results can only be further filtered by location, continent, or Autonomous System. */
   contentType?: HttpTimeseriesRequestContentTypeList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesRequestDeviceTypeList;
@@ -88305,7 +88743,7 @@ export interface TimeseriesHttpRequest {
   location?: HttpTimeseriesRequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: HttpTimeseriesRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: HttpTimeseriesRequestNormalization | (string & {});
   /** Filters results by operating system. */
   os?: HttpTimeseriesRequestOsList;
@@ -88390,7 +88828,6 @@ export const HttpTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type HttpTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -88596,17 +89033,17 @@ export const NetflowsTimeseriesRequestProductList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<NetflowsTimeseriesRequestProductList>;
 
 export interface TimeseriesNetflowRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: NetflowsTimeseriesRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: NetflowsTimeseriesRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: NetflowsTimeseriesRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: NetflowsTimeseriesRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: NetflowsTimeseriesRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: NetflowsTimeseriesRequestDateStartList;
   /** Format in which results will be returned. */
   format?: NetflowsTimeseriesRequestFormat | (string & {});
@@ -88616,7 +89053,7 @@ export interface TimeseriesNetflowRequest {
   location?: NetflowsTimeseriesRequestLocationList;
   /** Array of names used to label the series in the response. */
   name?: NetflowsTimeseriesRequestNameList;
-  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). */
+  /** Normalization method applied to the results. Refer to [Normalization methods](https://developers.cloudflare.com/radar/concepts/normalization/). `PERCENTAGE_CHANGE` requires exactly one comparison series (e.g. a `control` date range). */
   normalization?: NetflowsTimeseriesRequestNormalization | (string & {});
   /** Filters the results by network traffic product types. */
   product?: NetflowsTimeseriesRequestProductList;
@@ -88692,7 +89129,6 @@ export const NetflowsTimeseriesResponseMetaConfidenceInfoAnnotationsItemDataSour
   S.String;
 
 export type NetflowsTimeseriesResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -88912,15 +89348,15 @@ export interface TldsPerformanceSummaryRequest {
   dimension: TldsPerformanceSummaryRequestDimension | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: TldsPerformanceSummaryRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: TldsPerformanceSummaryRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: TldsPerformanceSummaryRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: TldsPerformanceSummaryRequestDateStartList;
   /** Format in which results will be returned. */
   format?: TldsPerformanceSummaryRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: TldsPerformanceSummaryRequestLocationList;
@@ -88997,7 +89433,6 @@ export const TldsPerformanceSummaryResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type TldsPerformanceSummaryResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -89213,21 +89648,21 @@ export const TldsPerformanceTimeseriesGroupsRequestTldList =
 export interface TldsPerformanceTimeseriesGroupsRequest {
   /** Dimension for the TLD nameserver latency timeseries. */
   dimension: TldsPerformanceTimeseriesGroupsRequestDimension | (string & {});
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | TldsPerformanceTimeseriesGroupsRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: TldsPerformanceTimeseriesGroupsRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: TldsPerformanceTimeseriesGroupsRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: TldsPerformanceTimeseriesGroupsRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: TldsPerformanceTimeseriesGroupsRequestDateStartList;
   /** Format in which results will be returned. */
   format?: TldsPerformanceTimeseriesGroupsRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: TldsPerformanceTimeseriesGroupsRequestLocationList;
@@ -89324,7 +89759,6 @@ export const TldsPerformanceTimeseriesGroupsResponseMetaConfidenceInfoAnnotation
   S.String;
 
 export type TldsPerformanceTimeseriesGroupsResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -89576,11 +90010,11 @@ export const EmailSecuritySummaryTlsVersionRequestSpfList =
 export interface TlsVersionEmailSecuritySummaryRequest {
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecuritySummaryTlsVersionRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecuritySummaryTlsVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecuritySummaryTlsVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecuritySummaryTlsVersionRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecuritySummaryTlsVersionRequestDkimList;
@@ -89666,7 +90100,6 @@ export const EmailSecuritySummaryTlsVersionResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type EmailSecuritySummaryTlsVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -89935,17 +90368,17 @@ export const EmailSecurityTimeseriesGroupsTlsVersionRequestSpfList =
   ) as any as S.Schema<EmailSecurityTimeseriesGroupsTlsVersionRequestSpfList>;
 
 export interface TlsVersionEmailSecurityTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | EmailSecurityTimeseriesGroupsTlsVersionRequestAggInterval
     | (string & {});
   /** Filters results by ARC (Authenticated Received Chain) validation. */
   arc?: EmailSecurityTimeseriesGroupsTlsVersionRequestArcList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: EmailSecurityTimeseriesGroupsTlsVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: EmailSecurityTimeseriesGroupsTlsVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: EmailSecurityTimeseriesGroupsTlsVersionRequestDateStartList;
   /** Filters results by DKIM (DomainKeys Identified Mail) validation status. */
   dkim?: EmailSecurityTimeseriesGroupsTlsVersionRequestDkimList;
@@ -90051,7 +90484,6 @@ export const EmailSecurityTimeseriesGroupsTlsVersionResponseMetaConfidenceInfoAn
   S.String;
 
 export type EmailSecurityTimeseriesGroupsTlsVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -90411,11 +90843,11 @@ export interface TlsVersionHttpSummaryRequest {
   browserFamily?: HttpSummaryTlsVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpSummaryTlsVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpSummaryTlsVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpSummaryTlsVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpSummaryTlsVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpSummaryTlsVersionRequestDeviceTypeList;
@@ -90519,7 +90951,6 @@ export const HttpSummaryTlsVersionResponseMetaConfidenceInfoAnnotationsItemDataS
   S.String;
 
 export type HttpSummaryTlsVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -90847,7 +91278,7 @@ export const HttpTimeseriesGroupsTlsVersionRequestOsList =
   ) as any as S.Schema<HttpTimeseriesGroupsTlsVersionRequestOsList>;
 
 export interface TlsVersionHttpTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | HttpTimeseriesGroupsTlsVersionRequestAggInterval
     | (string & {});
@@ -90859,11 +91290,11 @@ export interface TlsVersionHttpTimeseriesGroupRequest {
   browserFamily?: HttpTimeseriesGroupsTlsVersionRequestBrowserFamilyList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: HttpTimeseriesGroupsTlsVersionRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: HttpTimeseriesGroupsTlsVersionRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: HttpTimeseriesGroupsTlsVersionRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: HttpTimeseriesGroupsTlsVersionRequestDateStartList;
   /** Filters results by device type. */
   deviceType?: HttpTimeseriesGroupsTlsVersionRequestDeviceTypeList;
@@ -90989,7 +91420,6 @@ export const HttpTimeseriesGroupsTlsVersionResponseMetaConfidenceInfoAnnotations
   S.String;
 
 export type HttpTimeseriesGroupsTlsVersionResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -91308,7 +91738,6 @@ export const RankingTopResponseMetaConfidenceInfoAnnotationsItemDataSource =
   S.String;
 
 export type RankingTopResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -91564,7 +91993,6 @@ export const RankingInternetServicesTopResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type RankingInternetServicesTopResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -91731,12 +92159,19 @@ export const TopRankingInternetServiceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "TopRankingInternetServiceResponse",
 }) as any as S.Schema<TopRankingInternetServiceResponse>;
 
+export type AiToMarkdownCreateRequestFilesList = Array<string>;
+export const AiToMarkdownCreateRequestFilesList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<AiToMarkdownCreateRequestFilesList>;
+
 export interface TransformToMarkdownRequest {
   accountId: string;
+  files: AiToMarkdownCreateRequestFilesList;
 }
 export const TransformToMarkdownRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    files: AiToMarkdownCreateRequestFilesList,
   })
     .pipe(
       T.Http({
@@ -91827,15 +92262,15 @@ export interface UserAgentAiBotSummaryRequest {
   asn?: AiBotsSummaryUserAgentRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiBotsSummaryUserAgentRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiBotsSummaryUserAgentRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiBotsSummaryUserAgentRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiBotsSummaryUserAgentRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiBotsSummaryUserAgentRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiBotsSummaryUserAgentRequestLocationList;
@@ -91906,7 +92341,6 @@ export const AiBotsSummaryUserAgentResponseMetaConfidenceInfoAnnotationsItemData
   S.String;
 
 export type AiBotsSummaryUserAgentResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -92112,21 +92546,21 @@ export const AiTimeseriesGroupsUserAgentRequestNameList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AiTimeseriesGroupsUserAgentRequestNameList>;
 
 export interface UserAgentAiTimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?: AiTimeseriesGroupsUserAgentRequestAggInterval | (string & {});
   /** Filters results by Autonomous System. Specify one or more Autonomous System Numbers (ASNs) as a comma-separated list. Prefix with `-` to exclude ASNs from results. For example, `-174, 3356` excludes results from AS174, but includes results from AS3356. */
   asn?: AiTimeseriesGroupsUserAgentRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AiTimeseriesGroupsUserAgentRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AiTimeseriesGroupsUserAgentRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AiTimeseriesGroupsUserAgentRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AiTimeseriesGroupsUserAgentRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AiTimeseriesGroupsUserAgentRequestFormat | (string & {});
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AiTimeseriesGroupsUserAgentRequestLocationList;
@@ -92212,7 +92646,6 @@ export const AiTimeseriesGroupsUserAgentResponseMetaConfidenceInfoAnnotationsIte
   S.String;
 
 export type AiTimeseriesGroupsUserAgentResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -92452,11 +92885,11 @@ export const AttacksLayer3SummaryVectorRequestProtocolList =
 export interface VectorAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryVectorRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryVectorRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryVectorRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryVectorRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryVectorRequestDirection | (string & {});
@@ -92464,7 +92897,7 @@ export interface VectorAttackLayer3SummaryRequest {
   format?: AttacksLayer3SummaryVectorRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3SummaryVectorRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3SummaryVectorRequestLocationList;
@@ -92545,7 +92978,6 @@ export const AttacksLayer3SummaryVectorResponseMetaConfidenceInfoAnnotationsItem
   S.String;
 
 export type AttacksLayer3SummaryVectorResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -92792,17 +93224,17 @@ export const AttacksLayer3TimeseriesGroupsVectorRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsVectorRequestProtocolList>;
 
 export interface VectorAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsVectorRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsVectorRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsVectorRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsVectorRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsVectorRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -92812,7 +93244,7 @@ export interface VectorAttackLayer3TimeseriesGroupRequest {
   format?: AttacksLayer3TimeseriesGroupsVectorRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3TimeseriesGroupsVectorRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3TimeseriesGroupsVectorRequestLocationList;
@@ -92917,7 +93349,6 @@ export const AttacksLayer3TimeseriesGroupsVectorResponseMetaConfidenceInfoAnnota
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsVectorResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -93163,11 +93594,11 @@ export const AttacksLayer3SummaryVerticalRequestProtocolList =
 export interface VerticalAttackLayer3SummaryRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3SummaryVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3SummaryVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3SummaryVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3SummaryVerticalRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?: AttacksLayer3SummaryVerticalRequestDirection | (string & {});
@@ -93175,7 +93606,7 @@ export interface VerticalAttackLayer3SummaryRequest {
   format?: AttacksLayer3SummaryVerticalRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3SummaryVerticalRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3SummaryVerticalRequestLocationList;
@@ -93260,7 +93691,6 @@ export const AttacksLayer3SummaryVerticalResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer3SummaryVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -93509,17 +93939,17 @@ export const AttacksLayer3TimeseriesGroupsVerticalRequestProtocolList =
   ) as any as S.Schema<AttacksLayer3TimeseriesGroupsVerticalRequestProtocolList>;
 
 export interface VerticalAttackLayer3TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer3TimeseriesGroupsVerticalRequestAggInterval
     | (string & {});
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TimeseriesGroupsVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TimeseriesGroupsVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TimeseriesGroupsVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TimeseriesGroupsVerticalRequestDateStartList;
   /** Specifies whether the `location` filter applies to the source or target location. */
   direction?:
@@ -93529,7 +93959,7 @@ export interface VerticalAttackLayer3TimeseriesGroupRequest {
   format?: AttacksLayer3TimeseriesGroupsVerticalRequestFormat | (string & {});
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer3TimeseriesGroupsVerticalRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer3TimeseriesGroupsVerticalRequestLocationList;
@@ -93648,7 +94078,6 @@ export const AttacksLayer3TimeseriesGroupsVerticalResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer3TimeseriesGroupsVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -93890,11 +94319,11 @@ export const AttacksLayer3TopVerticalRequestProtocolList =
 export interface VerticalAttackLayer3TopRequest {
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer3TopVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer3TopVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer3TopVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer3TopVerticalRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer3TopVerticalRequestFormat | (string & {});
@@ -93978,7 +94407,6 @@ export const AttacksLayer3TopVerticalResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type AttacksLayer3TopVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -94286,11 +94714,11 @@ export interface VerticalAttackLayer7SummaryRequest {
   asn?: AttacksLayer7SummaryVerticalRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7SummaryVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7SummaryVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7SummaryVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7SummaryVerticalRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7SummaryVerticalRequestFormat | (string & {});
@@ -94300,7 +94728,7 @@ export interface VerticalAttackLayer7SummaryRequest {
   httpVersion?: AttacksLayer7SummaryVerticalRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7SummaryVerticalRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7SummaryVerticalRequestLocationList;
@@ -94389,7 +94817,6 @@ export const AttacksLayer7SummaryVerticalResponseMetaConfidenceInfoAnnotationsIt
   S.String;
 
 export type AttacksLayer7SummaryVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -94716,7 +95143,7 @@ export const AttacksLayer7TimeseriesGroupsVerticalRequestNormalization =
   S.String;
 
 export interface VerticalAttackLayer7TimeseriesGroupRequest {
-  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). */
+  /** Aggregation interval of the results (e.g., in 15 minutes or 1 hour intervals). Refer to [Aggregation intervals](https://developers.cloudflare.com/radar/concepts/aggregation-intervals/). When omitted, the interval is auto-selected from the requested date range; finer intervals are only available for shorter ranges. If the requested interval is too granular for the date range, the request is rejected. */
   aggInterval?:
     | AttacksLayer7TimeseriesGroupsVerticalRequestAggInterval
     | (string & {});
@@ -94724,11 +95151,11 @@ export interface VerticalAttackLayer7TimeseriesGroupRequest {
   asn?: AttacksLayer7TimeseriesGroupsVerticalRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TimeseriesGroupsVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TimeseriesGroupsVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TimeseriesGroupsVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TimeseriesGroupsVerticalRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TimeseriesGroupsVerticalRequestFormat | (string & {});
@@ -94738,7 +95165,7 @@ export interface VerticalAttackLayer7TimeseriesGroupRequest {
   httpVersion?: AttacksLayer7TimeseriesGroupsVerticalRequestHttpVersionList;
   /** Filters results by IP version (Ipv4 vs. IPv6). */
   ipVersion?: AttacksLayer7TimeseriesGroupsVerticalRequestIpVersionList;
-  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. */
+  /** Limits the number of objects per group to the top items within the specified time range. When item count exceeds the limit, extra items appear grouped under an "other" category. Only supported on high-cardinality dimensions; otherwise the request is rejected. Minimum value is 2. */
   limitPerGroup?: number;
   /** Filters results by location. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude locations from results. For example, `-US,PT` excludes results from the US, but includes results from PT. */
   location?: AttacksLayer7TimeseriesGroupsVerticalRequestLocationList;
@@ -94867,7 +95294,6 @@ export const AttacksLayer7TimeseriesGroupsVerticalResponseMetaConfidenceInfoAnno
   S.String;
 
 export type AttacksLayer7TimeseriesGroupsVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -95190,11 +95616,11 @@ export interface VerticalAttackLayer7TopRequest {
   asn?: AttacksLayer7TopVerticalRequestAsnList;
   /** Filters results by continent. Specify a comma-separated list of alpha-2 codes. Prefix with `-` to exclude continents from results. For example, `-EU,NA` excludes results from EU, but includes results from NA. */
   continent?: AttacksLayer7TopVerticalRequestContinentList;
-  /** End of the date range (inclusive). */
+  /** End of the date range (inclusive). Alternative to `dateRange`; provide together with `dateStart`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateEnd?: AttacksLayer7TopVerticalRequestDateEndList;
-  /** Filters results by date range. For example, use `7d` and `7dcontrol` to compare this week with the previous week. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
+  /** Filters results by relative date range ending at the current time, with each value producing a separate series. Use `<n>d` for days (up to `364d`) or `<n>w` for weeks (up to `52w`). Append `control` to request the equivalent previous period for comparison: the comparison window is shifted back by the current window's length rounded up to a whole number of weeks, so it keeps the same weekday alignment and does not overlap the current window (e.g. `7dcontrol` covers days -14 to -7, `10dcontrol` covers days -24 to -14). For example, pass `7d` and `7dcontrol` to compare this week with the previous week. All series must resolve to the same duration as the main series; relative ranges (including `control`) satisfy this automatically. Use this parameter or set specific start and end dates (`dateStart` and `dateEnd` parameters). */
   dateRange?: AttacksLayer7TopVerticalRequestDateRangeList;
-  /** Start of the date range. */
+  /** Start of the date range. Alternative to `dateRange`; provide together with `dateEnd`. When requesting comparison series, every series must resolve to the same duration as the main series. Each `dateStart`/`dateEnd` is floored to the nearest 15 minutes before evaluation, so windows whose durations match only before alignment may be rejected. */
   dateStart?: AttacksLayer7TopVerticalRequestDateStartList;
   /** Format in which results will be returned. */
   format?: AttacksLayer7TopVerticalRequestFormat | (string & {});
@@ -95289,7 +95715,6 @@ export const AttacksLayer7TopVerticalResponseMetaConfidenceInfoAnnotationsItemDa
   S.String;
 
 export type AttacksLayer7TopVerticalResponseMetaConfidenceInfoAnnotationsItemEventType =
-  | "EVENT"
   | "GENERAL"
   | "OUTAGE"
   | "PARTIAL_PROJECTION"
@@ -95668,6 +96093,21 @@ export const attacksAttackLayer7Top: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AttacksAttackLayer7TopRequest,
   output: AttacksAttackLayer7TopResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type BgpRoutesUpstreamsTimeseriesError = CloudflareOpError;
+/** Retrieves the share of an AS's observed paths carried by each direct upstream over time, derived from RouteViews RIB snapshots across all collectors (the combined product). Each upstream ASN is returned as its own series of shares (0–1); the least-significant upstreams beyond the requested limit are grouped into an "OTHER" series. Series share a common set of timestamps. */
+export const bgpRoutesUpstreamsTimeseries: API.OperationMethod<
+  BgpRoutesUpstreamsTimeseriesRequest,
+  BgpRoutesUpstreamsTimeseriesResponse,
+  BgpRoutesUpstreamsTimeseriesError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: BgpRoutesUpstreamsTimeseriesRequest,
+  output: BgpRoutesUpstreamsTimeseriesResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -97423,6 +97863,21 @@ export const listBgpLeakEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListBgpLeakEventsRequest,
   output: ListBgpLeakEventsResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ListBgpRoutesPathsError = CloudflareOpError;
+/** Retrieves the paths an AS uses to reach the tier-1 clique, derived from RouteViews RIB snapshots. Each entry is an ordered AS-path segment (from the queried AS toward a tier-1) with the number of observed paths and peers, and the collectors that observed it. By default segments are merged across all active collectors; pass "collector" to scope to one. The response also includes an "asnInfo" map (keyed by ASN) with the name and country for every ASN in the returned segments plus the queried ASN (best-effort; null when unavailable). */
+export const listBgpRoutesPaths: API.OperationMethod<
+  ListBgpRoutesPathsRequest,
+  ListBgpRoutesPathsResponse,
+  ListBgpRoutesPathsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ListBgpRoutesPathsRequest,
+  output: ListBgpRoutesPathsResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

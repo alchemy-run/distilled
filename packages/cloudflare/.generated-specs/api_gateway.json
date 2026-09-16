@@ -102,7 +102,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`",
+            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string.",
             "smithy.api#required": {}
           }
         },
@@ -185,7 +185,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`",
+            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string.",
             "smithy.api#required": {}
           }
         },
@@ -268,7 +268,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id`",
+            "smithy.api#documentation": "Claim location expressed as `$(token_config_id):$(json_path)`, where `token_config_id` is the ID of the token configuration used in validating the JWT, and `json_path` is a RFC 9535 JSONPath (https://goessner.net/articles/JsonPath/, https://www.rfc-editor.org/rfc/rfc9535.html). The JSONPath expression may be in dot or bracket notation, may only specify literal keys or array indexes, and must return a singleton value, which will be interpreted as a string.",
             "smithy.api#required": {}
           }
         },
@@ -825,7 +825,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsListResultItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         },
@@ -991,7 +991,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserBulkCreateResultItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -1059,7 +1059,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserBulkDeleteResultItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -1590,12 +1590,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "is_learned": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if schema is Cloudflare-provided."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -1634,12 +1628,6 @@
           "target": "com.cloudflare.api_gateway#OperationsBulkCreateResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema",
           "traits": {
             "smithy.api#documentation": "Schema active on endpoint."
-          }
-        },
-        "learned_available": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if a Cloudflare-provided learned schema is available for this endpoint."
           }
         },
         "mitigation_action": {
@@ -2100,12 +2088,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "is_learned": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if schema is Cloudflare-provided."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2144,12 +2126,6 @@
           "target": "com.cloudflare.api_gateway#OperationsCreateResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema",
           "traits": {
             "smithy.api#documentation": "Schema active on endpoint."
-          }
-        },
-        "learned_available": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if a Cloudflare-provided learned schema is available for this endpoint."
           }
         },
         "mitigation_action": {
@@ -2306,6 +2282,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "schema_info"
+          }
+        },
+        "CONFIDENCE_INTERVALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidence_intervals"
           }
         }
       }
@@ -2631,12 +2613,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "is_learned": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if schema is Cloudflare-provided."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -2675,12 +2651,6 @@
           "target": "com.cloudflare.api_gateway#OperationsGetResponseFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema",
           "traits": {
             "smithy.api#documentation": "Schema active on endpoint."
-          }
-        },
-        "learned_available": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if a Cloudflare-provided learned schema is available for this endpoint."
           }
         },
         "mitigation_action": {
@@ -2854,6 +2824,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "schema_info"
+          }
+        },
+        "CONFIDENCE_INTERVALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidence_intervals"
           }
         }
       }
@@ -3220,12 +3196,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "is_learned": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if schema is Cloudflare-provided."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -3264,12 +3234,6 @@
           "target": "com.cloudflare.api_gateway#OperationsListResultItemFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema",
           "traits": {
             "smithy.api#documentation": "Schema active on endpoint."
-          }
-        },
-        "learned_available": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if a Cloudflare-provided learned schema is available for this endpoint."
           }
         },
         "mitigation_action": {
@@ -3533,7 +3497,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsBulkCreateResultItemLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -3708,7 +3672,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsBulkDeleteResultItemLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -3947,7 +3911,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsBulkUpdateResultItemLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -4134,7 +4098,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsCreateResponseLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -4261,7 +4225,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsDeleteResponseLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -4400,7 +4364,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#OperationsLabelsUpdateResponseLabelsItemSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -4558,6 +4522,12 @@
           "traits": {
             "smithy.api#enumValue": "schema_info"
           }
+        },
+        "CONFIDENCE_INTERVALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidence_intervals"
+          }
         }
       }
     },
@@ -4571,6 +4541,23 @@
       "type": "list",
       "member": {
         "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.api_gateway#SchemasListRequestIncludeSchemaKind": {
+      "type": "enum",
+      "members": {
+        "LEARNED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "learned"
+          }
+        }
+      }
+    },
+    "com.cloudflare.api_gateway#SchemasListRequestIncludeSchemaKindList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.api_gateway#SchemasListRequestIncludeSchemaKind"
       }
     },
     "com.cloudflare.api_gateway#SchemasListResponseSchemasList": {
@@ -4659,6 +4646,34 @@
         }
       }
     },
+    "com.cloudflare.api_gateway#UserSchemasCreateRequestKind": {
+      "type": "enum",
+      "members": {
+        "OPENAPI_V3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "openapi_v3"
+          }
+        }
+      }
+    },
+    "com.cloudflare.api_gateway#UserSchemasCreateRequestValidationEnabled": {
+      "type": "enum",
+      "members": {
+        "TRUE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "true"
+          }
+        },
+        "FALSE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "false"
+          }
+        }
+      }
+    },
     "com.cloudflare.api_gateway#UserSchemasCreateResponseSchemaKind": {
       "type": "enum",
       "members": {
@@ -4733,7 +4748,7 @@
         "locations": {
           "target": "com.cloudflare.api_gateway#UserSchemasCreateResponseUploadDetailsWarningsItemLocationsList",
           "traits": {
-            "smithy.api#documentation": "JSONPath location(s) in the schema where these events were encountered.  See <https://goessner.net/articles/JsonPath/> for JSONPath specification."
+            "smithy.api#documentation": "JSONPath location(s) in the schema where these events were encountered. See https://goessner.net/articles/JsonPath/ for JSONPath specification."
           }
         },
         "message": {
@@ -4907,6 +4922,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "schema_info"
+          }
+        },
+        "CONFIDENCE_INTERVALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "confidence_intervals"
           }
         }
       }
@@ -5261,12 +5282,6 @@
         "created_at": {
           "target": "smithy.api#String"
         },
-        "is_learned": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if schema is Cloudflare-provided."
-          }
-        },
         "name": {
           "target": "smithy.api#String",
           "traits": {
@@ -5305,12 +5320,6 @@
           "target": "com.cloudflare.api_gateway#UserSchemasOperationsListResultItemAPIShieldOperationFeaturesAPIShieldOperationFeatureSchemaInfoSchemaInfoActiveSchema",
           "traits": {
             "smithy.api#documentation": "Schema active on endpoint."
-          }
-        },
-        "learned_available": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "True if a Cloudflare-provided learned schema is available for this endpoint."
           }
         },
         "mitigation_action": {
@@ -5818,7 +5827,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user",
           "code": 200
         },
-        "smithy.api#documentation": "Create user labels",
+        "smithy.api#documentation": "Creates one or more user-defined labels for classifying web and API operations.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -5885,7 +5894,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Bulk attach label(s) on operation(s) in endpoint management",
+        "smithy.api#documentation": "Attaches labels to multiple web or API operations in one request.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -5950,7 +5959,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Add one or more operations to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date.",
+        "smithy.api#documentation": "Creates one or more web or API operations. Hosts, methods, and paths are normalized; an existing matching operation is returned instead of duplicated.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -6009,7 +6018,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user",
           "code": 200
         },
-        "smithy.api#documentation": "Delete user labels",
+        "smithy.api#documentation": "Deletes one or more user-defined labels and removes their associations with web and API operations.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6062,7 +6071,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Bulk remove label(s) on operation(s) in endpoint management",
+        "smithy.api#documentation": "Removes labels from multiple web or API operations in one request.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6115,7 +6124,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Bulk removes multiple API operations from API Shield endpoint management in a single request. Efficient for cleaning up unused endpoints.",
+        "smithy.api#documentation": "Deletes multiple web or API operations from endpoint management in one request.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6154,7 +6163,7 @@
           "uri": "/zones/{zone_id}/api_gateway/discovery/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Update the `state` on one or more discovered operations"
+        "smithy.api#documentation": "Updates the state of one or more discovered web and API operations."
       },
       "errors": [
         {
@@ -6217,7 +6226,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Bulk replace label(s) on operation(s) in endpoint management",
+        "smithy.api#documentation": "Replaces the complete label sets on multiple web or API operations in one request.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -6291,7 +6300,7 @@
           "uri": "/zones/{zone_id}/api_gateway/expression-template/fallthrough",
           "code": 200
         },
-        "smithy.api#documentation": "Creates an expression template fallthrough rule for API Shield. Used for configuring default behavior when no other expression templates match."
+        "smithy.api#documentation": "Generates a WAF expression template that matches fallthrough traffic for the supplied API hosts. This operation is deprecated and should not be used for new integrations."
       },
       "errors": [
         {
@@ -6359,7 +6368,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/item",
           "code": 200
         },
-        "smithy.api#documentation": "Add one operation to a zone. Endpoints can contain path variables. Host, method, endpoint will be normalized to a canoncial form when creating an operation and must be unique on the zone. Inserting an operation that matches an existing one will return the record of the already existing operation and update its last_updated date."
+        "smithy.api#documentation": "Creates one web or API operation. The host, method, and path are normalized; an existing matching operation is returned instead of duplicated."
       },
       "errors": [
         {
@@ -6473,7 +6482,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Attach label(s) on an operation in endpoint management"
+        "smithy.api#documentation": "Attaches one or more labels to a web or API operation."
       }
     },
     "com.cloudflare.api_gateway#CreateOperationLabelRequest": {
@@ -6573,7 +6582,7 @@
           "code": 200,
           "contentType": "multipart"
         },
-        "smithy.api#documentation": "Uploads a new OpenAPI schema for API Shield schema validation. The schema defines expected request/response formats for API endpoints."
+        "smithy.api#documentation": "Uploads an OpenAPI schema that defines expected request formats for API endpoints. Deprecated; use `/zones/{zone_id}/schema_validation/schemas` instead."
       },
       "errors": [
         {
@@ -6615,10 +6624,9 @@
             "smithy.api#documentation": "Name of the schema."
           }
         },
-        "validationEnabled": {
-          "target": "smithy.api#Boolean",
+        "validation_enabled": {
+          "target": "com.cloudflare.api_gateway#UserSchemasCreateRequestValidationEnabled",
           "traits": {
-            "smithy.api#jsonName": "validation_enabled",
             "smithy.api#documentation": "Flag whether schema is enabled for validation."
           }
         }
@@ -6659,7 +6667,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete user label",
+        "smithy.api#documentation": "Deletes a user-defined label and removes its associations with web and API operations.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6734,7 +6742,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserDeleteResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -6758,7 +6766,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Removes a single API operation from API Shield endpoint management. The operation will no longer be tracked or protected by API Shield rules.",
+        "smithy.api#documentation": "Deletes a web or API operation from endpoint management so its feature configuration is no longer tracked.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6811,7 +6819,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Remove label(s) on an operation in endpoint management",
+        "smithy.api#documentation": "Removes one or more labels from a web or API operation.",
         "smithy.api#idempotent": {}
       }
     },
@@ -6899,7 +6907,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas/{schema_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Permanently removes an uploaded OpenAPI schema from API Shield schema validation. Operations using this schema will lose their validation rules.",
+        "smithy.api#documentation": "Permanently removes an uploaded OpenAPI schema from API Shield schema validation. Operations using this schema will lose their validation rules. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6951,7 +6959,7 @@
           "uri": "/zones/{zone_id}/api_gateway/configuration",
           "code": 200
         },
-        "smithy.api#documentation": "Gets the current API Shield configuration settings for a zone, including validation behavior and enforcement mode.",
+        "smithy.api#documentation": "Returns the authentication identifier characteristics configured for the zone. Header, cookie, or JWT claim values identify distinct API sessions.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7018,7 +7026,7 @@
           "uri": "/zones/{zone_id}/api_gateway/discovery",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the most up to date view of discovered operations, rendered as OpenAPI schemas",
+        "smithy.api#documentation": "Returns the latest API operations discovered from zone traffic, rendered as OpenAPI schemas.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7081,7 +7089,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/managed/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve managed label",
+        "smithy.api#documentation": "Returns a managed label and the web and API operations associated with it.",
         "smithy.api#readonly": {}
       }
     },
@@ -7155,7 +7163,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsManagedGetResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         },
@@ -7185,7 +7193,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve user label",
+        "smithy.api#documentation": "Returns a user-defined label and the web and API operations associated with it.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7267,7 +7275,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserGetResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         },
@@ -7297,7 +7305,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Gets detailed information about a specific API operation in API Shield, including its schema validation settings and traffic statistics.",
+        "smithy.api#documentation": "Returns a web or API operation, including its schema validation settings and requested feature data.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7416,7 +7424,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves operation-level schema validation settings on the zone",
+        "smithy.api#documentation": "Retrieves operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}` instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7487,7 +7495,7 @@
           "uri": "/zones/{zone_id}/api_gateway/settings/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves zone level schema validation settings currently set on the zone",
+        "smithy.api#documentation": "Retrieves zone level schema validation settings currently set on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7534,7 +7542,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas/{schema_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Gets detailed information about a specific uploaded OpenAPI schema, including its contents and validation configuration.",
+        "smithy.api#documentation": "Gets detailed information about a specific uploaded OpenAPI schema, including its contents and validation configuration. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -7641,7 +7649,7 @@
           "uri": "/zones/{zone_id}/api_gateway/discovery/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the most up to date view of discovered operations",
+        "smithy.api#documentation": "Returns the latest web and API operations discovered from zone traffic.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -7767,7 +7775,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve all labels",
+        "smithy.api#documentation": "Returns all managed and user-defined labels available for web and API operations in the zone.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -7883,7 +7891,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all API operations tracked by API Shield for a zone with pagination. Returns operation details including method, path, and feature configurations.",
+        "smithy.api#documentation": "Lists web and API operations tracked for the zone, including each operation's method, path, and feature configuration.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8000,7 +8008,7 @@
           "uri": "/zones/{zone_id}/api_gateway/schemas",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves API operations and their features exported as OpenAPI schemas.",
+        "smithy.api#documentation": "Returns tracked web and API operations and their feature configuration rendered as OpenAPI schemas.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -8032,6 +8040,13 @@
           "traits": {
             "smithy.api#documentation": "Receive schema only for the given host(s).",
             "smithy.api#httpQuery": "host"
+          }
+        },
+        "include_schema_kind": {
+          "target": "com.cloudflare.api_gateway#SchemasListRequestIncludeSchemaKindList",
+          "traits": {
+            "smithy.api#documentation": "Schema kinds to include in exported OpenAPI schemas.",
+            "smithy.api#httpQuery": "include_schema_kind"
           }
         }
       },
@@ -8068,7 +8083,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas/hosts",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage.",
+        "smithy.api#documentation": "Lists all unique hosts found in uploaded OpenAPI schemas for the zone. Useful for understanding which domains have schema coverage. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/hosts` instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8138,7 +8153,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas/{schema_id}/operations",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieves all operations from the schema. Operations that already exist in API Shield Endpoint Management will be returned as full operations.",
+        "smithy.api#documentation": "Retrieves all operations from the schema. Operations that already exist in API Shield Endpoint Management will be returned as full operations. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}/operations` instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8250,7 +8265,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all OpenAPI schemas uploaded to API Shield for the zone, including their validation status and associated operations.",
+        "smithy.api#documentation": "Lists all OpenAPI schemas uploaded to API Shield for the zone, including their validation status and associated operations. Deprecated; use `/zones/{zone_id}/schema_validation/schemas` instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -8342,7 +8357,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Update certain fields on a label"
+        "smithy.api#documentation": "Updates only the supplied fields on a user-defined label."
       },
       "errors": [
         {
@@ -8425,7 +8440,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserEditResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -8449,7 +8464,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Updates multiple operation-level schema validation settings on the zone"
+        "smithy.api#documentation": "Updates multiple operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations` instead."
       },
       "errors": [
         {
@@ -8508,7 +8523,7 @@
           "uri": "/zones/{zone_id}/api_gateway/settings/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Updates zone level schema validation settings on the zone"
+        "smithy.api#documentation": "Updates zone level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead."
       },
       "errors": [
         {
@@ -8530,7 +8545,7 @@
         "validation_default_mitigation_action": {
           "target": "com.cloudflare.api_gateway#SettingsSchemaValidationEditRequestValidationDefaultMitigationAction",
           "traits": {
-            "smithy.api#documentation": "The default mitigation action used when there is no mitigation action defined on the operation"
+            "smithy.api#documentation": "The default mitigation action used when there is no mitigation action defined on the operation Mitigation actions are as follows:"
           }
         },
         "validation_override_mitigation_action": {
@@ -8566,7 +8581,7 @@
           "uri": "/zones/{zone_id}/api_gateway/user_schemas/{schema_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Activates schema validation for an uploaded OpenAPI schema. Requests to matching endpoints will be validated against the schema definitions."
+        "smithy.api#documentation": "Activates schema validation for an uploaded OpenAPI schema. Requests to matching endpoints will be validated against the schema definitions. Deprecated; use `/zones/{zone_id}/schema_validation/schemas/{schema_id}` instead."
       },
       "errors": [
         {
@@ -8671,7 +8686,7 @@
           "uri": "/zones/{zone_id}/api_gateway/configuration",
           "code": 200
         },
-        "smithy.api#documentation": "Updates API Shield configuration settings for a zone. Can modify validation strictness, enforcement mode, and other global settings.",
+        "smithy.api#documentation": "Replaces the zone's authentication identifier characteristics used to identify distinct API sessions.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8744,7 +8759,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/managed/{name}/resources/operation",
           "code": 200
         },
-        "smithy.api#documentation": "Replace all operations(s) attached to a managed label",
+        "smithy.api#documentation": "Replaces the complete set of web and API operations attached to the managed label.",
         "smithy.api#idempotent": {}
       }
     },
@@ -8818,7 +8833,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsManagedResourcesOperationUpdateResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         },
@@ -8848,7 +8863,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user/{name}",
           "code": 200
         },
-        "smithy.api#documentation": "Update all fields on a label",
+        "smithy.api#documentation": "Replaces all editable fields on a user-defined label.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -8932,7 +8947,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserUpdateResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         }
@@ -8956,7 +8971,7 @@
           "uri": "/zones/{zone_id}/api_gateway/labels/user/{name}/resources/operation",
           "code": 200
         },
-        "smithy.api#documentation": "Replace all operations(s) attached to a user label",
+        "smithy.api#documentation": "Replaces the complete set of web and API operations attached to the user-defined label.",
         "smithy.api#idempotent": {}
       }
     },
@@ -9030,7 +9045,7 @@
         "source": {
           "target": "com.cloudflare.api_gateway#LabelsUserResourcesOperationUpdateResponseSource",
           "traits": {
-            "smithy.api#documentation": "* `user` - label is owned by the user",
+            "smithy.api#documentation": "- `user` - label is owned by the user - `managed` - label is owned by cloudflare",
             "smithy.api#required": {}
           }
         },
@@ -9060,7 +9075,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Updates operation-level schema validation settings on the zone",
+        "smithy.api#documentation": "Updates operation-level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings/operations/{operation_id}` instead.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -9137,7 +9152,7 @@
           "uri": "/zones/{zone_id}/api_gateway/settings/schema_validation",
           "code": 200
         },
-        "smithy.api#documentation": "Updates zone level schema validation settings on the zone",
+        "smithy.api#documentation": "Updates zone level schema validation settings on the zone. Deprecated; use `/zones/{zone_id}/schema_validation/settings` instead.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -9197,7 +9212,7 @@
           "uri": "/zones/{zone_id}/api_gateway/operations/{operation_id}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "Replace label(s) on an operation in endpoint management",
+        "smithy.api#documentation": "Replaces the complete label set on a web or API operation.",
         "smithy.api#idempotent": {}
       }
     },

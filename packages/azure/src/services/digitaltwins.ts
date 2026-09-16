@@ -572,12 +572,6 @@ export const DeletePrivateEndpointConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeletePrivateEndpointConnectionResponse",
 }) as any as S.Schema<DeletePrivateEndpointConnectionResponse>;
 
-export type DeleteTimeSeriesDatabaseConnectionRequestCleanupConnectionArtifacts =
-  | "true"
-  | "false";
-export const DeleteTimeSeriesDatabaseConnectionRequestCleanupConnectionArtifacts =
-  S.String;
-
 export interface DeleteTimeSeriesDatabaseConnectionRequest {
   /** The subscription identifier. */
   subscriptionId: string;
@@ -588,9 +582,7 @@ export interface DeleteTimeSeriesDatabaseConnectionRequest {
   /** Name of time series database connection. */
   timeSeriesDatabaseConnectionName: string;
   /** Specifies whether or not to attempt to clean up artifacts that were created in order to establish a connection to the time series database. This is a best-effort attempt that will fail if appropriate permissions are not in place. Setting this to 'true' does not delete any recorded data. */
-  cleanupConnectionArtifacts?:
-    | DeleteTimeSeriesDatabaseConnectionRequestCleanupConnectionArtifacts
-    | (string & {});
+  cleanupConnectionArtifacts?: boolean;
 }
 export const DeleteTimeSeriesDatabaseConnectionRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -600,9 +592,7 @@ export const DeleteTimeSeriesDatabaseConnectionRequest =
       resourceName: S.String.pipe(T.Label()),
       timeSeriesDatabaseConnectionName: S.String.pipe(T.Label()),
       cleanupConnectionArtifacts: S.optional(
-        DeleteTimeSeriesDatabaseConnectionRequestCleanupConnectionArtifacts.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({

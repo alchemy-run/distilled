@@ -349,7 +349,7 @@
           "uri": "/accounts/{account_id}/mtls_certificates",
           "code": 200
         },
-        "smithy.api#documentation": "Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](/api/resources/client_certificates/methods/create/)."
+        "smithy.api#documentation": "Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/create/)."
       },
       "errors": [
         {
@@ -668,7 +668,7 @@
           "uri": "/accounts/{account_id}/mtls_certificates/{mtls_certificate_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches a single mTLS certificate uploaded to your account. To get a certificate issued by the Cloudflare managed CA, use the [Client Certificate Details endpoint](/api/resources/client_certificates/methods/get/).",
+        "smithy.api#documentation": "Fetches a single mTLS certificate uploaded to your account. To get a certificate issued by the Cloudflare managed CA, use the [Client Certificate Details endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/get/).",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -784,7 +784,7 @@
           "uri": "/accounts/{account_id}/mtls_certificates",
           "code": 200
         },
-        "smithy.api#documentation": "Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](/api/resources/client_certificates/methods/list/).",
+        "smithy.api#documentation": "Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/list/).",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",

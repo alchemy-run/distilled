@@ -89,13 +89,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#CreateRequestActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -234,7 +234,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -317,13 +317,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#CreateResponseActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -493,7 +493,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -576,13 +576,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#DeleteResponseActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -752,7 +752,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -835,13 +835,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#EditRequestActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -980,7 +980,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -1063,13 +1063,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#EditResponseActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -1239,7 +1239,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -1322,13 +1322,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#GetResponseActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -1498,7 +1498,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -1581,13 +1581,13 @@
         "response": {
           "target": "com.cloudflare.rate_limits#ListResultItemActionResponse",
           "traits": {
-            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional."
+            "smithy.api#documentation": "A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone challenge pages and you should not provide the \"response\" object."
           }
         },
         "timeout": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period."
+            "smithy.api#documentation": "The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If \"mode\" is \"challenge\", \"managed_challenge\", or \"js_challenge\", Cloudflare will use the zone's Challenge Passage time and you should not provide this value."
           }
         }
       }
@@ -1757,7 +1757,7 @@
         "origin_traffic": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional."
+            "smithy.api#documentation": "When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set \"origin_traffic\" to \"false\" to avoid legacy behaviour interacting with the \"response_headers\" property."
           }
         }
       }
@@ -1875,7 +1875,7 @@
           "uri": "/zones/{zone_id}/rate_limits",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new rate limit for a zone. Refer to the object definition for a list of required attributes."
+        "smithy.api#documentation": "**Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead."
       }
     },
     "com.cloudflare.rate_limits#CreateRateLimitRequest": {
@@ -1993,7 +1993,7 @@
           "uri": "/zones/{zone_id}/rate_limits/{rate_limit_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Deletes an existing rate limit.",
+        "smithy.api#documentation": "**Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead.",
         "smithy.api#idempotent": {}
       }
     },
@@ -2092,7 +2092,7 @@
           "uri": "/zones/{zone_id}/rate_limits/{rate_limit_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Updates an existing rate limit.",
+        "smithy.api#documentation": "**Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead.",
         "smithy.api#idempotent": {}
       }
     },
@@ -2219,7 +2219,7 @@
           "uri": "/zones/{zone_id}/rate_limits/{rate_limit_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the details of a rate limit.",
+        "smithy.api#documentation": "**Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead.",
         "smithy.api#readonly": {}
       }
     },
@@ -2318,7 +2318,7 @@
           "uri": "/zones/{zone_id}/rate_limits",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the rate limits for a zone.",
+        "smithy.api#documentation": "**Deprecated**: This endpoint returns 410 Gone. Please use the Rulesets API instead.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",

@@ -2131,9 +2131,6 @@ export const FileStatusResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "FileStatusResponse",
 }) as any as S.Schema<FileStatusResponse>;
 
-export type FindFilesRequestDirs = "true" | "false";
-export const FindFilesRequestDirs = S.String;
-
 export type FindFilesRequestType = "file" | "directory";
 export const FindFilesRequestType = S.String;
 
@@ -2141,7 +2138,7 @@ export interface FindFilesRequest {
   directory?: string;
   workspace?: string;
   query: string;
-  dirs?: FindFilesRequestDirs | (string & {});
+  dirs?: boolean;
   type?: FindFilesRequestType | (string & {});
   limit?: number;
 }
@@ -2150,7 +2147,7 @@ export const FindFilesRequest = /*@__PURE__*/ S.suspend(() =>
     directory: S.optional(S.String.pipe(T.Query())),
     workspace: S.optional(S.String.pipe(T.Query())),
     query: S.String.pipe(T.Query()),
-    dirs: S.optional(FindFilesRequestDirs.pipe(T.Query())),
+    dirs: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     type: S.optional(FindFilesRequestType.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/find/file", code: 200 })),

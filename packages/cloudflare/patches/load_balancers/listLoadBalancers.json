@@ -1,14 +1,14 @@
 {
-  "description": "Align load_balancers#List with distilled cloudflare/load-balancers listLoadBalancers",
+  "description": "Align load_balancers#List with distilled cloudflare/load-balancers listLoadBalancers: the docs now offer this endpoint under both /zones and /accounts; keep the zone-scope operation the SDK already ships and drop the account twin (its per-scope copies fold back into the shared shapes).",
   "patches": [
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#List",
+      "from": "/shapes/com.cloudflare.load_balancers#ListForZone",
       "path": "/shapes/com.cloudflare.load_balancers#ListLoadBalancers"
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#ListRequest",
+      "from": "/shapes/com.cloudflare.load_balancers#ListForZoneRequest",
       "path": "/shapes/com.cloudflare.load_balancers#ListLoadBalancersRequest"
     },
     {
@@ -18,7 +18,7 @@
     },
     {
       "op": "move",
-      "from": "/shapes/com.cloudflare.load_balancers#ListResponse",
+      "from": "/shapes/com.cloudflare.load_balancers#ListForZoneResponse",
       "path": "/shapes/com.cloudflare.load_balancers#ListLoadBalancersResponse"
     },
     {
@@ -33,6 +33,18 @@
         "mode": "single",
         "items": "result"
       }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#ListForAccount"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#ListForAccountRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.load_balancers#ListForAccountResponse"
     }
   ]
 }

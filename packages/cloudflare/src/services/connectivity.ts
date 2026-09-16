@@ -1126,7 +1126,7 @@ export type CreateDirectoryServiceError =
   | Forbidden
   | InvalidVpcServiceConfiguration
   | CloudflareOpError;
-/** Create Workers VPC connectivity service */
+/** Creates a new Workers VPC connectivity service in the account. */
 export const createDirectoryService: API.OperationMethod<
   CreateDirectoryServiceRequest,
   CreateDirectoryServiceResponse,
@@ -1151,7 +1151,7 @@ export type DeleteDirectoryServiceError =
   | VpcServiceNotFound
   | Forbidden
   | CloudflareOpError;
-/** Delete Workers VPC connectivity service */
+/** Removes a single Workers VPC connectivity service by its ID. Any Worker bindings referencing this service will stop working. */
 export const deleteDirectoryService: API.OperationMethod<
   DeleteDirectoryServiceRequest,
   DeleteDirectoryServiceResponse,
@@ -1174,7 +1174,7 @@ export type GetDirectoryServiceError =
   | VpcServiceNotFound
   | Forbidden
   | CloudflareOpError;
-/** Get Workers VPC connectivity service */
+/** Fetches a single Workers VPC connectivity service by its ID. */
 export const getDirectoryService: API.OperationMethod<
   GetDirectoryServiceRequest,
   GetDirectoryServiceResponse,
@@ -1194,7 +1194,7 @@ export const getDirectoryService: API.OperationMethod<
 }));
 
 export type ListDirectoryServicesError = Forbidden | CloudflareOpError;
-/** List Workers VPC connectivity services */
+/** Lists the Workers VPC connectivity services in the account. */
 export const listDirectoryServices: API.PaginatedOperationMethod<
   ListDirectoryServicesRequest,
   ListDirectoryServicesResponse,
@@ -1226,7 +1226,7 @@ export type UpdateDirectoryServiceError =
   | Forbidden
   | InvalidVpcServiceConfiguration
   | CloudflareOpError;
-/** Update Workers VPC connectivity service */
+/** Updates an existing Workers VPC connectivity service by its ID. */
 export const updateDirectoryService: API.OperationMethod<
   UpdateDirectoryServiceRequest,
   UpdateDirectoryServiceResponse,

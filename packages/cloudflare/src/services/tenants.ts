@@ -186,11 +186,14 @@ export type EntitlementsGetResponseCustomEntitlementsItemAllocation =
   | EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation;
 export const EntitlementsGetResponseCustomEntitlementsItemAllocation =
   /*@__PURE__*/ S.Unknown.pipe(
-    T.UnionCases([
-      ["type", "value"],
-      ["type", "value"],
-      ["type", "value"],
-    ]),
+    T.UnionCases(
+      [
+        ["type", "value"],
+        ["type", "value"],
+        ["type", "value"],
+      ],
+      { key: "type", values: ["max_count", "bool", ""] },
+    ),
   );
 
 export interface EntitlementsGetResponseCustomEntitlementsItemFeature {
@@ -473,12 +476,22 @@ export const AccountsListResultItemSettings = /*@__PURE__*/ S.suspend(() =>
 export type AccountsListResultItemType = "standard" | "enterprise";
 export const AccountsListResultItemType = S.String;
 
+export type AccountsListResultItemTagsMap = {
+  [key: string]: string | undefined;
+};
+export const AccountsListResultItemTagsMap = /*@__PURE__*/ S.Record(
+  S.String,
+  S.String,
+) as any as S.Schema<AccountsListResultItemTagsMap>;
+
 export interface AccountsListResultItem {
   id: string;
   createdOn: string;
   name: string;
   settings: AccountsListResultItemSettings;
   type: AccountsListResultItemType;
+  /** Account tags, present only when `include_tags=true` is requested. */
+  tags?: AccountsListResultItemTagsMap | null;
 }
 export const AccountsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -487,6 +500,7 @@ export const AccountsListResultItem = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     settings: AccountsListResultItemSettings,
     type: AccountsListResultItemType,
+    tags: S.optional(S.NullOr(AccountsListResultItemTagsMap)),
   }),
 ).annotate({
   identifier: "AccountsListResultItem",

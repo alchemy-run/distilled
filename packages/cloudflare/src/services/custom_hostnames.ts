@@ -260,6 +260,10 @@ export interface CreateCustomHostnameRequest {
   hostname: string;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: CreateRequestCustomMetadataMap;
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
+  customOriginServer?: string;
+  /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
+  customOriginSni?: string;
   /** SSL properties used when creating the custom hostname. */
   ssl?: CreateRequestSsl;
 }
@@ -270,6 +274,10 @@ export const CreateCustomHostnameRequest = /*@__PURE__*/ S.suspend(() =>
     customMetadata: S.optional(
       CreateRequestCustomMetadataMap.pipe(T.Body("custom_metadata")),
     ),
+    customOriginServer: S.optional(
+      S.String.pipe(T.Body("custom_origin_server")),
+    ),
+    customOriginSni: S.optional(S.String.pipe(T.Body("custom_origin_sni"))),
     ssl: S.optional(CreateRequestSsl),
   })
     .pipe(
@@ -661,7 +669,7 @@ export interface CreateCustomHostnameResponse {
   createdAt?: string | null;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: CreateResponseCustomMetadataMap | null;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string | null;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string | null;
@@ -1222,7 +1230,7 @@ export interface GetCustomHostnameResponse {
   createdAt?: string | null;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: GetResponseCustomMetadataMap | null;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string | null;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string | null;
@@ -1330,6 +1338,48 @@ export const GetFallbackOriginResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetFallbackOriginResponse",
 }) as any as S.Schema<GetFallbackOriginResponse>;
+
+export interface GetQuotaRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+export const GetQuotaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/custom_hostnames/quota",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetQuotaRequest",
+}) as any as S.Schema<GetQuotaRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetQuotaResponse {
+  /** The allocated custom hostname quota. */
+  allocated: number;
+  /** Whether the current usage has exceeded the allocated quota. */
+  exceeded: boolean;
+  /** The maximum number of custom hostnames allowed before create requests are rejected. */
+  hardCap: number;
+  /** The number of custom hostnames currently in use. */
+  used: number;
+}
+export const GetQuotaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    allocated: S.Number,
+    exceeded: S.Boolean,
+    hardCap: S.Number.pipe(T.Body("hard_cap")),
+    used: S.Number,
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetQuotaResponse",
+}) as any as S.Schema<GetQuotaResponse>;
 
 export type ListRequestCertificateAuthority =
   | "google"
@@ -1822,7 +1872,7 @@ export interface ListResultItem {
   createdAt?: string | null;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: ListResultItemCustomMetadataMap | null;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string | null;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string | null;
@@ -2025,7 +2075,7 @@ export interface PatchCustomHostnameRequest {
   customHostnameId: string;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: EditRequestCustomMetadataMap;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string;
@@ -2415,7 +2465,7 @@ export interface PatchCustomHostnameResponse {
   createdAt?: string | null;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: EditResponseCustomMetadataMap | null;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string | null;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string | null;
@@ -2929,7 +2979,7 @@ export interface PutCertificatePackCertificateResponse {
   createdAt?: string | null;
   /** Unique key/value metadata for this hostname. These are per-hostname (customer) settings. */
   customMetadata?: CertificatePackCertificatesUpdateResponseCustomMetadataMap | null;
-  /** a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record. */
+  /** a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record. */
   customOriginServer?: string | null;
   /** A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server. */
   customOriginSni?: string | null;
@@ -3170,6 +3220,21 @@ export const getFallbackOrigin: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetQuotaError = CloudflareOpError;
+/** Returns custom hostname quota usage for a zone. The allocated quota is a soft limit; creating custom hostnames after usage exceeds this limit can still succeed until the hard cap is reached. Use the exceeded and hard_cap fields to track when usage is above the soft limit and when new custom hostname creation will be rejected. */
+export const getQuota: API.OperationMethod<
+  GetQuotaRequest,
+  GetQuotaResponse,
+  GetQuotaError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetQuotaRequest,
+  output: GetQuotaResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

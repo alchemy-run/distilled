@@ -56,7 +56,7 @@ export type CreateRequestActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const CreateRequestActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface CreateRequestActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: CreateRequestActionsItemAlwaysUseHTTPSId | (string & {});
 }
 export const CreateRequestActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -97,7 +97,7 @@ export const CreateRequestActionsItemBrowserCacheTTLId = S.String;
 export interface CreateRequestActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: CreateRequestActionsItemBrowserCacheTTLId | (string & {});
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number;
 }
 export const CreateRequestActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -117,7 +117,7 @@ export type CreateRequestActionsItemBrowserCheckValue = "on" | "off";
 export const CreateRequestActionsItemBrowserCheckValue = S.String;
 
 export interface CreateRequestActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: CreateRequestActionsItemBrowserCheckId | (string & {});
   /** The status of Browser Integrity Check. */
   value?: CreateRequestActionsItemBrowserCheckValue | (string & {});
@@ -137,9 +137,9 @@ export type CreateRequestActionsItemBypassCacheOnCookieId =
 export const CreateRequestActionsItemBypassCacheOnCookieId = S.String;
 
 export interface CreateRequestActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: CreateRequestActionsItemBypassCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string;
 }
 export const CreateRequestActionsItemBypassCacheOnCookie =
@@ -183,7 +183,7 @@ export type CreateRequestActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const CreateRequestActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface CreateRequestActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: CreateRequestActionsItemCacheDeceptionArmorId | (string & {});
   /** The status of Cache Deception Armor. */
   value?: CreateRequestActionsItemCacheDeceptionArmorValue | (string & {});
@@ -216,7 +216,7 @@ export const CreateRequestActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<CreateRequestActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface CreateRequestActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: CreateRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList;
   /** A list of cookies to include. */
   include?: CreateRequestActionsItemCacheKeyFieldsValueCookieIncludeList;
@@ -259,7 +259,7 @@ export const CreateRequestActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<CreateRequestActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface CreateRequestActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: CreateRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList;
   /** A list of headers to ignore. */
   exclude?: CreateRequestActionsItemCacheKeyFieldsValueHeaderExcludeList;
@@ -286,7 +286,7 @@ export const CreateRequestActionsItemCacheKeyFieldsValueHeader =
   }) as any as S.Schema<CreateRequestActionsItemCacheKeyFieldsValueHeader>;
 
 export interface CreateRequestActionsItemCacheKeyFieldsValueHost {
-  /** Whether to include the Host header in the HTTP request sent */
+  /** Whether to include the Host header in the HTTP request sent to the origin. */
   resolved?: boolean;
 }
 export const CreateRequestActionsItemCacheKeyFieldsValueHost =
@@ -357,11 +357,11 @@ export const CreateRequestActionsItemCacheKeyFieldsValueQueryString =
   }) as any as S.Schema<CreateRequestActionsItemCacheKeyFieldsValueQueryString>;
 
 export interface CreateRequestActionsItemCacheKeyFieldsValueUser {
-  /** Classifies a request as `mobile`, `desktop`, or `tablet` */
+  /** Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent. */
   deviceType?: boolean;
   /** Includes the client's country, derived from the IP address. */
   geo?: boolean;
-  /** Includes the first language code contained in the */
+  /** Includes the first language code contained in the `Accept-Language` header sent by the client. */
   lang?: boolean;
 }
 export const CreateRequestActionsItemCacheKeyFieldsValueUser =
@@ -378,13 +378,13 @@ export const CreateRequestActionsItemCacheKeyFieldsValueUser =
 export interface CreateRequestActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: CreateRequestActionsItemCacheKeyFieldsValueCookie;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: CreateRequestActionsItemCacheKeyFieldsValueHeader;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateRequestActionsItemCacheKeyFieldsValueHost;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: CreateRequestActionsItemCacheKeyFieldsValueQueryString;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateRequestActionsItemCacheKeyFieldsValueUser;
 }
 export const CreateRequestActionsItemCacheKeyFieldsValue =
@@ -405,7 +405,7 @@ export const CreateRequestActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<CreateRequestActionsItemCacheKeyFieldsValue>;
 
 export interface CreateRequestActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: CreateRequestActionsItemCacheKeyFieldsId | (string & {});
   value?: CreateRequestActionsItemCacheKeyFieldsValue;
 }
@@ -433,7 +433,7 @@ export const CreateRequestActionsItemCacheLevelValue = S.String;
 export interface CreateRequestActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: CreateRequestActionsItemCacheLevelId | (string & {});
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: CreateRequestActionsItemCacheLevelValue | (string & {});
 }
 export const CreateRequestActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -449,9 +449,9 @@ export type CreateRequestActionsItemCacheOnCookieId = "cache_on_cookie";
 export const CreateRequestActionsItemCacheOnCookieId = S.String;
 
 export interface CreateRequestActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: CreateRequestActionsItemCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string;
 }
 export const CreateRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -480,9 +480,9 @@ export const CreateRequestActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface CreateRequestActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: CreateRequestActionsItemCacheTTLByStatusId | (string & {});
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: CreateRequestActionsItemCacheTTLByStatusValue;
 }
 export const CreateRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(
@@ -499,7 +499,7 @@ export type CreateRequestActionsItemDisableAppsId = "disable_apps";
 export const CreateRequestActionsItemDisableAppsId = S.String;
 
 export interface CreateRequestActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: CreateRequestActionsItemDisableAppsId | (string & {});
 }
 export const CreateRequestActionsItemDisableApps = /*@__PURE__*/ S.suspend(() =>
@@ -515,7 +515,7 @@ export type CreateRequestActionsItemDisablePerformanceId =
 export const CreateRequestActionsItemDisablePerformanceId = S.String;
 
 export interface CreateRequestActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: CreateRequestActionsItemDisablePerformanceId | (string & {});
 }
 export const CreateRequestActionsItemDisablePerformance =
@@ -531,7 +531,7 @@ export type CreateRequestActionsItemDisableSecurityId = "disable_security";
 export const CreateRequestActionsItemDisableSecurityId = S.String;
 
 export interface CreateRequestActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: CreateRequestActionsItemDisableSecurityId | (string & {});
 }
 export const CreateRequestActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -563,7 +563,7 @@ export type CreateRequestActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const CreateRequestActionsItemEdgeCacheTTLId = S.String;
 
 export interface CreateRequestActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: CreateRequestActionsItemEdgeCacheTTLId | (string & {});
   value?: number;
 }
@@ -607,7 +607,7 @@ export type CreateRequestActionsItemExplicitCacheControlValue = "on" | "off";
 export const CreateRequestActionsItemExplicitCacheControlValue = S.String;
 
 export interface CreateRequestActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: CreateRequestActionsItemExplicitCacheControlId | (string & {});
   /** The status of Origin Cache Control. */
   value?: CreateRequestActionsItemExplicitCacheControlValue | (string & {});
@@ -629,11 +629,11 @@ export type CreateRequestActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const CreateRequestActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface CreateRequestActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?:
     | CreateRequestActionsItemForwardingURLValueStatusCode
     | (number & {});
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string;
 }
 export const CreateRequestActionsItemForwardingURLValue =
@@ -651,7 +651,7 @@ export const CreateRequestActionsItemForwardingURLValue =
   }) as any as S.Schema<CreateRequestActionsItemForwardingURLValue>;
 
 export interface CreateRequestActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: CreateRequestActionsItemForwardingURLId | (string & {});
   value?: CreateRequestActionsItemForwardingURLValue;
 }
@@ -714,7 +714,7 @@ export type CreateRequestActionsItemMirageValue = "on" | "off";
 export const CreateRequestActionsItemMirageValue = S.String;
 
 export interface CreateRequestActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: CreateRequestActionsItemMirageId | (string & {});
   /** The status of Mirage. */
   value?: CreateRequestActionsItemMirageValue | (string & {});
@@ -736,7 +736,7 @@ export type CreateRequestActionsItemOpportunisticEncryptionValue = "on" | "off";
 export const CreateRequestActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface CreateRequestActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: CreateRequestActionsItemOpportunisticEncryptionId | (string & {});
   /** The status of Opportunistic Encryption. */
   value?: CreateRequestActionsItemOpportunisticEncryptionValue | (string & {});
@@ -821,7 +821,7 @@ export type CreateRequestActionsItemRespectStrongEtagValue = "on" | "off";
 export const CreateRequestActionsItemRespectStrongEtagValue = S.String;
 
 export interface CreateRequestActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: CreateRequestActionsItemRespectStrongEtagId | (string & {});
   /** The status of Respect Strong ETags */
   value?: CreateRequestActionsItemRespectStrongEtagValue | (string & {});
@@ -843,7 +843,7 @@ export type CreateRequestActionsItemResponseBufferingValue = "on" | "off";
 export const CreateRequestActionsItemResponseBufferingValue = S.String;
 
 export interface CreateRequestActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: CreateRequestActionsItemResponseBufferingId | (string & {});
   /** The status of Response Buffering */
   value?: CreateRequestActionsItemResponseBufferingValue | (string & {});
@@ -986,7 +986,7 @@ export type CreateRequestActionsItemWAFValue = "on" | "off";
 export const CreateRequestActionsItemWAFValue = S.String;
 
 export interface CreateRequestActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: CreateRequestActionsItemWAFId | (string & {});
   /** The status of WAF managed rules (previous version). */
   value?: CreateRequestActionsItemWAFValue | (string & {});
@@ -1036,42 +1036,83 @@ export type CreateRequestActionsItem =
   | CreateRequestActionsItemTrueClientIPHeader
   | CreateRequestActionsItemWAF;
 export const CreateRequestActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type CreateRequestActionsList = Array<CreateRequestActionsItem>;
@@ -1131,11 +1172,11 @@ export const CreateRequestStatus = S.String;
 export interface CreatePageRuleRequest {
   /** Identifier. */
   zoneId: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: CreateRequestActionsList;
   /** The rule targets to evaluate on each request. */
   targets: CreateRequestTargetsList;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority?: number;
   /** The status of the Page Rule. */
   status?: CreateRequestStatus | (string & {});
@@ -1160,7 +1201,7 @@ export type CreateResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const CreateResponseActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface CreateResponseActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: CreateResponseActionsItemAlwaysUseHTTPSId | null;
 }
 export const CreateResponseActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -1205,7 +1246,7 @@ export const CreateResponseActionsItemBrowserCacheTTLId = S.String;
 export interface CreateResponseActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: CreateResponseActionsItemBrowserCacheTTLId | null;
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number | null;
 }
 export const CreateResponseActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -1225,7 +1266,7 @@ export type CreateResponseActionsItemBrowserCheckValue = "on" | "off";
 export const CreateResponseActionsItemBrowserCheckValue = S.String;
 
 export interface CreateResponseActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: CreateResponseActionsItemBrowserCheckId | null;
   /** The status of Browser Integrity Check. */
   value?: CreateResponseActionsItemBrowserCheckValue | null;
@@ -1245,9 +1286,9 @@ export type CreateResponseActionsItemBypassCacheOnCookieId =
 export const CreateResponseActionsItemBypassCacheOnCookieId = S.String;
 
 export interface CreateResponseActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: CreateResponseActionsItemBypassCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string | null;
 }
 export const CreateResponseActionsItemBypassCacheOnCookie =
@@ -1293,7 +1334,7 @@ export type CreateResponseActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const CreateResponseActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface CreateResponseActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: CreateResponseActionsItemCacheDeceptionArmorId | null;
   /** The status of Cache Deception Armor. */
   value?: CreateResponseActionsItemCacheDeceptionArmorValue | null;
@@ -1328,7 +1369,7 @@ export const CreateResponseActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<CreateResponseActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface CreateResponseActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: CreateResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList | null;
   /** A list of cookies to include. */
   include?: CreateResponseActionsItemCacheKeyFieldsValueCookieIncludeList | null;
@@ -1371,7 +1412,7 @@ export const CreateResponseActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<CreateResponseActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface CreateResponseActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: CreateResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList | null;
   /** A list of headers to ignore. */
   exclude?: CreateResponseActionsItemCacheKeyFieldsValueHeaderExcludeList | null;
@@ -1398,7 +1439,7 @@ export const CreateResponseActionsItemCacheKeyFieldsValueHeader =
   }) as any as S.Schema<CreateResponseActionsItemCacheKeyFieldsValueHeader>;
 
 export interface CreateResponseActionsItemCacheKeyFieldsValueHost {
-  /** Whether to include the Host header in the HTTP request sent */
+  /** Whether to include the Host header in the HTTP request sent to the origin. */
   resolved?: boolean | null;
 }
 export const CreateResponseActionsItemCacheKeyFieldsValueHost =
@@ -1471,11 +1512,11 @@ export const CreateResponseActionsItemCacheKeyFieldsValueQueryString =
   }) as any as S.Schema<CreateResponseActionsItemCacheKeyFieldsValueQueryString>;
 
 export interface CreateResponseActionsItemCacheKeyFieldsValueUser {
-  /** Classifies a request as `mobile`, `desktop`, or `tablet` */
+  /** Classifies a request as `mobile`, `desktop`, or `tablet` based on the User Agent. */
   deviceType?: boolean | null;
   /** Includes the client's country, derived from the IP address. */
   geo?: boolean | null;
-  /** Includes the first language code contained in the */
+  /** Includes the first language code contained in the `Accept-Language` header sent by the client. */
   lang?: boolean | null;
 }
 export const CreateResponseActionsItemCacheKeyFieldsValueUser =
@@ -1492,13 +1533,13 @@ export const CreateResponseActionsItemCacheKeyFieldsValueUser =
 export interface CreateResponseActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: CreateResponseActionsItemCacheKeyFieldsValueCookie | null;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: CreateResponseActionsItemCacheKeyFieldsValueHeader | null;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateResponseActionsItemCacheKeyFieldsValueHost | null;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: CreateResponseActionsItemCacheKeyFieldsValueQueryString | null;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateResponseActionsItemCacheKeyFieldsValueUser | null;
 }
 export const CreateResponseActionsItemCacheKeyFieldsValue =
@@ -1527,7 +1568,7 @@ export const CreateResponseActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<CreateResponseActionsItemCacheKeyFieldsValue>;
 
 export interface CreateResponseActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: CreateResponseActionsItemCacheKeyFieldsId | null;
   value?: CreateResponseActionsItemCacheKeyFieldsValue | null;
 }
@@ -1555,7 +1596,7 @@ export const CreateResponseActionsItemCacheLevelValue = S.String;
 export interface CreateResponseActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: CreateResponseActionsItemCacheLevelId | null;
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: CreateResponseActionsItemCacheLevelValue | null;
 }
 export const CreateResponseActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -1571,9 +1612,9 @@ export type CreateResponseActionsItemCacheOnCookieId = "cache_on_cookie";
 export const CreateResponseActionsItemCacheOnCookieId = S.String;
 
 export interface CreateResponseActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: CreateResponseActionsItemCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string | null;
 }
 export const CreateResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -1601,9 +1642,9 @@ export const CreateResponseActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface CreateResponseActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: CreateResponseActionsItemCacheTTLByStatusId | null;
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: CreateResponseActionsItemCacheTTLByStatusValue | null;
 }
 export const CreateResponseActionsItemCacheTTLByStatus =
@@ -1622,7 +1663,7 @@ export type CreateResponseActionsItemDisableAppsId = "disable_apps";
 export const CreateResponseActionsItemDisableAppsId = S.String;
 
 export interface CreateResponseActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: CreateResponseActionsItemDisableAppsId | null;
 }
 export const CreateResponseActionsItemDisableApps = /*@__PURE__*/ S.suspend(
@@ -1639,7 +1680,7 @@ export type CreateResponseActionsItemDisablePerformanceId =
 export const CreateResponseActionsItemDisablePerformanceId = S.String;
 
 export interface CreateResponseActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: CreateResponseActionsItemDisablePerformanceId | null;
 }
 export const CreateResponseActionsItemDisablePerformance =
@@ -1655,7 +1696,7 @@ export type CreateResponseActionsItemDisableSecurityId = "disable_security";
 export const CreateResponseActionsItemDisableSecurityId = S.String;
 
 export interface CreateResponseActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: CreateResponseActionsItemDisableSecurityId | null;
 }
 export const CreateResponseActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -1687,7 +1728,7 @@ export type CreateResponseActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const CreateResponseActionsItemEdgeCacheTTLId = S.String;
 
 export interface CreateResponseActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: CreateResponseActionsItemEdgeCacheTTLId | null;
   value?: number | null;
 }
@@ -1733,7 +1774,7 @@ export type CreateResponseActionsItemExplicitCacheControlValue = "on" | "off";
 export const CreateResponseActionsItemExplicitCacheControlValue = S.String;
 
 export interface CreateResponseActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: CreateResponseActionsItemExplicitCacheControlId | null;
   /** The status of Origin Cache Control. */
   value?: CreateResponseActionsItemExplicitCacheControlValue | null;
@@ -1757,9 +1798,9 @@ export type CreateResponseActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const CreateResponseActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface CreateResponseActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?: CreateResponseActionsItemForwardingURLValueStatusCode | null;
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string | null;
 }
 export const CreateResponseActionsItemForwardingURLValue =
@@ -1777,7 +1818,7 @@ export const CreateResponseActionsItemForwardingURLValue =
   }) as any as S.Schema<CreateResponseActionsItemForwardingURLValue>;
 
 export interface CreateResponseActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: CreateResponseActionsItemForwardingURLId | null;
   value?: CreateResponseActionsItemForwardingURLValue | null;
 }
@@ -1840,7 +1881,7 @@ export type CreateResponseActionsItemMirageValue = "on" | "off";
 export const CreateResponseActionsItemMirageValue = S.String;
 
 export interface CreateResponseActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: CreateResponseActionsItemMirageId | null;
   /** The status of Mirage. */
   value?: CreateResponseActionsItemMirageValue | null;
@@ -1864,7 +1905,7 @@ export type CreateResponseActionsItemOpportunisticEncryptionValue =
 export const CreateResponseActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface CreateResponseActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: CreateResponseActionsItemOpportunisticEncryptionId | null;
   /** The status of Opportunistic Encryption. */
   value?: CreateResponseActionsItemOpportunisticEncryptionValue | null;
@@ -1960,7 +2001,7 @@ export type CreateResponseActionsItemRespectStrongEtagValue = "on" | "off";
 export const CreateResponseActionsItemRespectStrongEtagValue = S.String;
 
 export interface CreateResponseActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: CreateResponseActionsItemRespectStrongEtagId | null;
   /** The status of Respect Strong ETags */
   value?: CreateResponseActionsItemRespectStrongEtagValue | null;
@@ -1984,7 +2025,7 @@ export type CreateResponseActionsItemResponseBufferingValue = "on" | "off";
 export const CreateResponseActionsItemResponseBufferingValue = S.String;
 
 export interface CreateResponseActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: CreateResponseActionsItemResponseBufferingId | null;
   /** The status of Response Buffering */
   value?: CreateResponseActionsItemResponseBufferingValue | null;
@@ -2137,7 +2178,7 @@ export type CreateResponseActionsItemWAFValue = "on" | "off";
 export const CreateResponseActionsItemWAFValue = S.String;
 
 export interface CreateResponseActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: CreateResponseActionsItemWAFId | null;
   /** The status of WAF managed rules (previous version). */
   value?: CreateResponseActionsItemWAFValue | null;
@@ -2187,42 +2228,83 @@ export type CreateResponseActionsItem =
   | CreateResponseActionsItemTrueClientIPHeader
   | CreateResponseActionsItemWAF;
 export const CreateResponseActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type CreateResponseActionsList = Array<CreateResponseActionsItem>;
@@ -2283,13 +2365,13 @@ export const CreateResponseTargetsList = /*@__PURE__*/ S.Array(
 export interface CreatePageRuleResponse {
   /** Identifier. */
   id: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: CreateResponseActionsList;
   /** The timestamp of when the Page Rule was created. */
   createdOn: string;
   /** The timestamp of when the Page Rule was last modified. */
   modifiedOn: string;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority: number;
   /** The status of the Page Rule. */
   status: CreateResponseStatus;
@@ -2373,7 +2455,7 @@ export type GetResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const GetResponseActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface GetResponseActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: GetResponseActionsItemAlwaysUseHTTPSId | null;
 }
 export const GetResponseActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -2416,7 +2498,7 @@ export const GetResponseActionsItemBrowserCacheTTLId = S.String;
 export interface GetResponseActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: GetResponseActionsItemBrowserCacheTTLId | null;
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number | null;
 }
 export const GetResponseActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -2436,7 +2518,7 @@ export type GetResponseActionsItemBrowserCheckValue = "on" | "off";
 export const GetResponseActionsItemBrowserCheckValue = S.String;
 
 export interface GetResponseActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: GetResponseActionsItemBrowserCheckId | null;
   /** The status of Browser Integrity Check. */
   value?: GetResponseActionsItemBrowserCheckValue | null;
@@ -2455,9 +2537,9 @@ export type GetResponseActionsItemBypassCacheOnCookieId =
 export const GetResponseActionsItemBypassCacheOnCookieId = S.String;
 
 export interface GetResponseActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: GetResponseActionsItemBypassCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string | null;
 }
 export const GetResponseActionsItemBypassCacheOnCookie =
@@ -2500,7 +2582,7 @@ export type GetResponseActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const GetResponseActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface GetResponseActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: GetResponseActionsItemCacheDeceptionArmorId | null;
   /** The status of Cache Deception Armor. */
   value?: GetResponseActionsItemCacheDeceptionArmorValue | null;
@@ -2535,7 +2617,7 @@ export const GetResponseActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<GetResponseActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface GetResponseActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: GetResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList | null;
   /** A list of cookies to include. */
   include?: GetResponseActionsItemCacheKeyFieldsValueCookieIncludeList | null;
@@ -2578,7 +2660,7 @@ export const GetResponseActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<GetResponseActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface GetResponseActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: GetResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList | null;
   /** A list of headers to ignore. */
   exclude?: GetResponseActionsItemCacheKeyFieldsValueHeaderExcludeList | null;
@@ -2673,13 +2755,13 @@ export const GetResponseActionsItemCacheKeyFieldsValueUser =
 export interface GetResponseActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: GetResponseActionsItemCacheKeyFieldsValueCookie | null;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: GetResponseActionsItemCacheKeyFieldsValueHeader | null;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateResponseActionsItemCacheKeyFieldsValueHost | null;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: GetResponseActionsItemCacheKeyFieldsValueQueryString | null;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateResponseActionsItemCacheKeyFieldsValueUser | null;
 }
 export const GetResponseActionsItemCacheKeyFieldsValue =
@@ -2708,7 +2790,7 @@ export const GetResponseActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<GetResponseActionsItemCacheKeyFieldsValue>;
 
 export interface GetResponseActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: GetResponseActionsItemCacheKeyFieldsId | null;
   value?: GetResponseActionsItemCacheKeyFieldsValue | null;
 }
@@ -2736,7 +2818,7 @@ export const GetResponseActionsItemCacheLevelValue = S.String;
 export interface GetResponseActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: GetResponseActionsItemCacheLevelId | null;
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: GetResponseActionsItemCacheLevelValue | null;
 }
 export const GetResponseActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -2752,9 +2834,9 @@ export type GetResponseActionsItemCacheOnCookieId = "cache_on_cookie";
 export const GetResponseActionsItemCacheOnCookieId = S.String;
 
 export interface GetResponseActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: GetResponseActionsItemCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string | null;
 }
 export const GetResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() =>
@@ -2781,9 +2863,9 @@ export const GetResponseActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface GetResponseActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: GetResponseActionsItemCacheTTLByStatusId | null;
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: GetResponseActionsItemCacheTTLByStatusValue | null;
 }
 export const GetResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(
@@ -2800,7 +2882,7 @@ export type GetResponseActionsItemDisableAppsId = "disable_apps";
 export const GetResponseActionsItemDisableAppsId = S.String;
 
 export interface GetResponseActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: GetResponseActionsItemDisableAppsId | null;
 }
 export const GetResponseActionsItemDisableApps = /*@__PURE__*/ S.suspend(() =>
@@ -2815,7 +2897,7 @@ export type GetResponseActionsItemDisablePerformanceId = "disable_performance";
 export const GetResponseActionsItemDisablePerformanceId = S.String;
 
 export interface GetResponseActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: GetResponseActionsItemDisablePerformanceId | null;
 }
 export const GetResponseActionsItemDisablePerformance = /*@__PURE__*/ S.suspend(
@@ -2831,7 +2913,7 @@ export type GetResponseActionsItemDisableSecurityId = "disable_security";
 export const GetResponseActionsItemDisableSecurityId = S.String;
 
 export interface GetResponseActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: GetResponseActionsItemDisableSecurityId | null;
 }
 export const GetResponseActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -2862,7 +2944,7 @@ export type GetResponseActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const GetResponseActionsItemEdgeCacheTTLId = S.String;
 
 export interface GetResponseActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: GetResponseActionsItemEdgeCacheTTLId | null;
   value?: number | null;
 }
@@ -2905,7 +2987,7 @@ export type GetResponseActionsItemExplicitCacheControlValue = "on" | "off";
 export const GetResponseActionsItemExplicitCacheControlValue = S.String;
 
 export interface GetResponseActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: GetResponseActionsItemExplicitCacheControlId | null;
   /** The status of Origin Cache Control. */
   value?: GetResponseActionsItemExplicitCacheControlValue | null;
@@ -2929,9 +3011,9 @@ export type GetResponseActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const GetResponseActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface GetResponseActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?: GetResponseActionsItemForwardingURLValueStatusCode | null;
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string | null;
 }
 export const GetResponseActionsItemForwardingURLValue = /*@__PURE__*/ S.suspend(
@@ -2949,7 +3031,7 @@ export const GetResponseActionsItemForwardingURLValue = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<GetResponseActionsItemForwardingURLValue>;
 
 export interface GetResponseActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: GetResponseActionsItemForwardingURLId | null;
   value?: GetResponseActionsItemForwardingURLValue | null;
 }
@@ -3009,7 +3091,7 @@ export type GetResponseActionsItemMirageValue = "on" | "off";
 export const GetResponseActionsItemMirageValue = S.String;
 
 export interface GetResponseActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: GetResponseActionsItemMirageId | null;
   /** The status of Mirage. */
   value?: GetResponseActionsItemMirageValue | null;
@@ -3031,7 +3113,7 @@ export type GetResponseActionsItemOpportunisticEncryptionValue = "on" | "off";
 export const GetResponseActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface GetResponseActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: GetResponseActionsItemOpportunisticEncryptionId | null;
   /** The status of Opportunistic Encryption. */
   value?: GetResponseActionsItemOpportunisticEncryptionValue | null;
@@ -3120,7 +3202,7 @@ export type GetResponseActionsItemRespectStrongEtagValue = "on" | "off";
 export const GetResponseActionsItemRespectStrongEtagValue = S.String;
 
 export interface GetResponseActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: GetResponseActionsItemRespectStrongEtagId | null;
   /** The status of Respect Strong ETags */
   value?: GetResponseActionsItemRespectStrongEtagValue | null;
@@ -3142,7 +3224,7 @@ export type GetResponseActionsItemResponseBufferingValue = "on" | "off";
 export const GetResponseActionsItemResponseBufferingValue = S.String;
 
 export interface GetResponseActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: GetResponseActionsItemResponseBufferingId | null;
   /** The status of Response Buffering */
   value?: GetResponseActionsItemResponseBufferingValue | null;
@@ -3287,7 +3369,7 @@ export type GetResponseActionsItemWAFValue = "on" | "off";
 export const GetResponseActionsItemWAFValue = S.String;
 
 export interface GetResponseActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: GetResponseActionsItemWAFId | null;
   /** The status of WAF managed rules (previous version). */
   value?: GetResponseActionsItemWAFValue | null;
@@ -3337,42 +3419,83 @@ export type GetResponseActionsItem =
   | GetResponseActionsItemTrueClientIPHeader
   | GetResponseActionsItemWAF;
 export const GetResponseActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type GetResponseActionsList = Array<GetResponseActionsItem>;
@@ -3433,13 +3556,13 @@ export const GetResponseTargetsList = /*@__PURE__*/ S.Array(
 export interface GetPageRuleResponse {
   /** Identifier. */
   id: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: GetResponseActionsList;
   /** The timestamp of when the Page Rule was created. */
   createdOn: string;
   /** The timestamp of when the Page Rule was last modified. */
   modifiedOn: string;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority: number;
   /** The status of the Page Rule. */
   status: GetResponseStatus;
@@ -3504,7 +3627,7 @@ export type ListResultItemActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const ListResultItemActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface ListResultItemActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: ListResultItemActionsItemAlwaysUseHTTPSId | null;
 }
 export const ListResultItemActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -3549,7 +3672,7 @@ export const ListResultItemActionsItemBrowserCacheTTLId = S.String;
 export interface ListResultItemActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: ListResultItemActionsItemBrowserCacheTTLId | null;
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number | null;
 }
 export const ListResultItemActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -3569,7 +3692,7 @@ export type ListResultItemActionsItemBrowserCheckValue = "on" | "off";
 export const ListResultItemActionsItemBrowserCheckValue = S.String;
 
 export interface ListResultItemActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: ListResultItemActionsItemBrowserCheckId | null;
   /** The status of Browser Integrity Check. */
   value?: ListResultItemActionsItemBrowserCheckValue | null;
@@ -3589,9 +3712,9 @@ export type ListResultItemActionsItemBypassCacheOnCookieId =
 export const ListResultItemActionsItemBypassCacheOnCookieId = S.String;
 
 export interface ListResultItemActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: ListResultItemActionsItemBypassCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string | null;
 }
 export const ListResultItemActionsItemBypassCacheOnCookie =
@@ -3637,7 +3760,7 @@ export type ListResultItemActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const ListResultItemActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface ListResultItemActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: ListResultItemActionsItemCacheDeceptionArmorId | null;
   /** The status of Cache Deception Armor. */
   value?: ListResultItemActionsItemCacheDeceptionArmorValue | null;
@@ -3672,7 +3795,7 @@ export const ListResultItemActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<ListResultItemActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface ListResultItemActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: ListResultItemActionsItemCacheKeyFieldsValueCookieCheckPresenceList | null;
   /** A list of cookies to include. */
   include?: ListResultItemActionsItemCacheKeyFieldsValueCookieIncludeList | null;
@@ -3715,7 +3838,7 @@ export const ListResultItemActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<ListResultItemActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface ListResultItemActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: ListResultItemActionsItemCacheKeyFieldsValueHeaderCheckPresenceList | null;
   /** A list of headers to ignore. */
   exclude?: ListResultItemActionsItemCacheKeyFieldsValueHeaderExcludeList | null;
@@ -3814,13 +3937,13 @@ export const ListResultItemActionsItemCacheKeyFieldsValueUser =
 export interface ListResultItemActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: ListResultItemActionsItemCacheKeyFieldsValueCookie | null;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: ListResultItemActionsItemCacheKeyFieldsValueHeader | null;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateResponseActionsItemCacheKeyFieldsValueHost | null;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: ListResultItemActionsItemCacheKeyFieldsValueQueryString | null;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateResponseActionsItemCacheKeyFieldsValueUser | null;
 }
 export const ListResultItemActionsItemCacheKeyFieldsValue =
@@ -3849,7 +3972,7 @@ export const ListResultItemActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<ListResultItemActionsItemCacheKeyFieldsValue>;
 
 export interface ListResultItemActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: ListResultItemActionsItemCacheKeyFieldsId | null;
   value?: ListResultItemActionsItemCacheKeyFieldsValue | null;
 }
@@ -3877,7 +4000,7 @@ export const ListResultItemActionsItemCacheLevelValue = S.String;
 export interface ListResultItemActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: ListResultItemActionsItemCacheLevelId | null;
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: ListResultItemActionsItemCacheLevelValue | null;
 }
 export const ListResultItemActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -3893,9 +4016,9 @@ export type ListResultItemActionsItemCacheOnCookieId = "cache_on_cookie";
 export const ListResultItemActionsItemCacheOnCookieId = S.String;
 
 export interface ListResultItemActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: ListResultItemActionsItemCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string | null;
 }
 export const ListResultItemActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -3923,9 +4046,9 @@ export const ListResultItemActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface ListResultItemActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: ListResultItemActionsItemCacheTTLByStatusId | null;
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: ListResultItemActionsItemCacheTTLByStatusValue | null;
 }
 export const ListResultItemActionsItemCacheTTLByStatus =
@@ -3944,7 +4067,7 @@ export type ListResultItemActionsItemDisableAppsId = "disable_apps";
 export const ListResultItemActionsItemDisableAppsId = S.String;
 
 export interface ListResultItemActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: ListResultItemActionsItemDisableAppsId | null;
 }
 export const ListResultItemActionsItemDisableApps = /*@__PURE__*/ S.suspend(
@@ -3961,7 +4084,7 @@ export type ListResultItemActionsItemDisablePerformanceId =
 export const ListResultItemActionsItemDisablePerformanceId = S.String;
 
 export interface ListResultItemActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: ListResultItemActionsItemDisablePerformanceId | null;
 }
 export const ListResultItemActionsItemDisablePerformance =
@@ -3977,7 +4100,7 @@ export type ListResultItemActionsItemDisableSecurityId = "disable_security";
 export const ListResultItemActionsItemDisableSecurityId = S.String;
 
 export interface ListResultItemActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: ListResultItemActionsItemDisableSecurityId | null;
 }
 export const ListResultItemActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -4009,7 +4132,7 @@ export type ListResultItemActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const ListResultItemActionsItemEdgeCacheTTLId = S.String;
 
 export interface ListResultItemActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: ListResultItemActionsItemEdgeCacheTTLId | null;
   value?: number | null;
 }
@@ -4055,7 +4178,7 @@ export type ListResultItemActionsItemExplicitCacheControlValue = "on" | "off";
 export const ListResultItemActionsItemExplicitCacheControlValue = S.String;
 
 export interface ListResultItemActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: ListResultItemActionsItemExplicitCacheControlId | null;
   /** The status of Origin Cache Control. */
   value?: ListResultItemActionsItemExplicitCacheControlValue | null;
@@ -4079,9 +4202,9 @@ export type ListResultItemActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const ListResultItemActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface ListResultItemActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?: ListResultItemActionsItemForwardingURLValueStatusCode | null;
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string | null;
 }
 export const ListResultItemActionsItemForwardingURLValue =
@@ -4099,7 +4222,7 @@ export const ListResultItemActionsItemForwardingURLValue =
   }) as any as S.Schema<ListResultItemActionsItemForwardingURLValue>;
 
 export interface ListResultItemActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: ListResultItemActionsItemForwardingURLId | null;
   value?: ListResultItemActionsItemForwardingURLValue | null;
 }
@@ -4162,7 +4285,7 @@ export type ListResultItemActionsItemMirageValue = "on" | "off";
 export const ListResultItemActionsItemMirageValue = S.String;
 
 export interface ListResultItemActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: ListResultItemActionsItemMirageId | null;
   /** The status of Mirage. */
   value?: ListResultItemActionsItemMirageValue | null;
@@ -4186,7 +4309,7 @@ export type ListResultItemActionsItemOpportunisticEncryptionValue =
 export const ListResultItemActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface ListResultItemActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: ListResultItemActionsItemOpportunisticEncryptionId | null;
   /** The status of Opportunistic Encryption. */
   value?: ListResultItemActionsItemOpportunisticEncryptionValue | null;
@@ -4282,7 +4405,7 @@ export type ListResultItemActionsItemRespectStrongEtagValue = "on" | "off";
 export const ListResultItemActionsItemRespectStrongEtagValue = S.String;
 
 export interface ListResultItemActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: ListResultItemActionsItemRespectStrongEtagId | null;
   /** The status of Respect Strong ETags */
   value?: ListResultItemActionsItemRespectStrongEtagValue | null;
@@ -4306,7 +4429,7 @@ export type ListResultItemActionsItemResponseBufferingValue = "on" | "off";
 export const ListResultItemActionsItemResponseBufferingValue = S.String;
 
 export interface ListResultItemActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: ListResultItemActionsItemResponseBufferingId | null;
   /** The status of Response Buffering */
   value?: ListResultItemActionsItemResponseBufferingValue | null;
@@ -4459,7 +4582,7 @@ export type ListResultItemActionsItemWAFValue = "on" | "off";
 export const ListResultItemActionsItemWAFValue = S.String;
 
 export interface ListResultItemActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: ListResultItemActionsItemWAFId | null;
   /** The status of WAF managed rules (previous version). */
   value?: ListResultItemActionsItemWAFValue | null;
@@ -4509,42 +4632,83 @@ export type ListResultItemActionsItem =
   | ListResultItemActionsItemTrueClientIPHeader
   | ListResultItemActionsItemWAF;
 export const ListResultItemActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type ListResultItemActionsList = Array<ListResultItemActionsItem>;
@@ -4604,13 +4768,13 @@ export const ListResultItemTargetsList = /*@__PURE__*/ S.Array(
 export interface ListResultItem {
   /** Identifier. */
   id: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: ListResultItemActionsList;
   /** The timestamp of when the Page Rule was created. */
   createdOn: string;
   /** The timestamp of when the Page Rule was last modified. */
   modifiedOn: string;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority: number;
   /** The status of the Page Rule. */
   status: ListResultItemStatus;
@@ -4645,7 +4809,7 @@ export type EditRequestActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const EditRequestActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface EditRequestActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: EditRequestActionsItemAlwaysUseHTTPSId | (string & {});
 }
 export const EditRequestActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -4686,7 +4850,7 @@ export const EditRequestActionsItemBrowserCacheTTLId = S.String;
 export interface EditRequestActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: EditRequestActionsItemBrowserCacheTTLId | (string & {});
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number;
 }
 export const EditRequestActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -4706,7 +4870,7 @@ export type EditRequestActionsItemBrowserCheckValue = "on" | "off";
 export const EditRequestActionsItemBrowserCheckValue = S.String;
 
 export interface EditRequestActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: EditRequestActionsItemBrowserCheckId | (string & {});
   /** The status of Browser Integrity Check. */
   value?: EditRequestActionsItemBrowserCheckValue | (string & {});
@@ -4725,9 +4889,9 @@ export type EditRequestActionsItemBypassCacheOnCookieId =
 export const EditRequestActionsItemBypassCacheOnCookieId = S.String;
 
 export interface EditRequestActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: EditRequestActionsItemBypassCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string;
 }
 export const EditRequestActionsItemBypassCacheOnCookie =
@@ -4770,7 +4934,7 @@ export type EditRequestActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const EditRequestActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface EditRequestActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: EditRequestActionsItemCacheDeceptionArmorId | (string & {});
   /** The status of Cache Deception Armor. */
   value?: EditRequestActionsItemCacheDeceptionArmorValue | (string & {});
@@ -4803,7 +4967,7 @@ export const EditRequestActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<EditRequestActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface EditRequestActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: EditRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList;
   /** A list of cookies to include. */
   include?: EditRequestActionsItemCacheKeyFieldsValueCookieIncludeList;
@@ -4846,7 +5010,7 @@ export const EditRequestActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<EditRequestActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface EditRequestActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: EditRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList;
   /** A list of headers to ignore. */
   exclude?: EditRequestActionsItemCacheKeyFieldsValueHeaderExcludeList;
@@ -4943,13 +5107,13 @@ export const EditRequestActionsItemCacheKeyFieldsValueUser =
 export interface EditRequestActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: EditRequestActionsItemCacheKeyFieldsValueCookie;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: EditRequestActionsItemCacheKeyFieldsValueHeader;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateRequestActionsItemCacheKeyFieldsValueHost;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: EditRequestActionsItemCacheKeyFieldsValueQueryString;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateRequestActionsItemCacheKeyFieldsValueUser;
 }
 export const EditRequestActionsItemCacheKeyFieldsValue =
@@ -4970,7 +5134,7 @@ export const EditRequestActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<EditRequestActionsItemCacheKeyFieldsValue>;
 
 export interface EditRequestActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: EditRequestActionsItemCacheKeyFieldsId | (string & {});
   value?: EditRequestActionsItemCacheKeyFieldsValue;
 }
@@ -4998,7 +5162,7 @@ export const EditRequestActionsItemCacheLevelValue = S.String;
 export interface EditRequestActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: EditRequestActionsItemCacheLevelId | (string & {});
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: EditRequestActionsItemCacheLevelValue | (string & {});
 }
 export const EditRequestActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -5014,9 +5178,9 @@ export type EditRequestActionsItemCacheOnCookieId = "cache_on_cookie";
 export const EditRequestActionsItemCacheOnCookieId = S.String;
 
 export interface EditRequestActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: EditRequestActionsItemCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string;
 }
 export const EditRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(() =>
@@ -5044,9 +5208,9 @@ export const EditRequestActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface EditRequestActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: EditRequestActionsItemCacheTTLByStatusId | (string & {});
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: EditRequestActionsItemCacheTTLByStatusValue;
 }
 export const EditRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(
@@ -5063,7 +5227,7 @@ export type EditRequestActionsItemDisableAppsId = "disable_apps";
 export const EditRequestActionsItemDisableAppsId = S.String;
 
 export interface EditRequestActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: EditRequestActionsItemDisableAppsId | (string & {});
 }
 export const EditRequestActionsItemDisableApps = /*@__PURE__*/ S.suspend(() =>
@@ -5078,7 +5242,7 @@ export type EditRequestActionsItemDisablePerformanceId = "disable_performance";
 export const EditRequestActionsItemDisablePerformanceId = S.String;
 
 export interface EditRequestActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: EditRequestActionsItemDisablePerformanceId | (string & {});
 }
 export const EditRequestActionsItemDisablePerformance = /*@__PURE__*/ S.suspend(
@@ -5094,7 +5258,7 @@ export type EditRequestActionsItemDisableSecurityId = "disable_security";
 export const EditRequestActionsItemDisableSecurityId = S.String;
 
 export interface EditRequestActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: EditRequestActionsItemDisableSecurityId | (string & {});
 }
 export const EditRequestActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -5125,7 +5289,7 @@ export type EditRequestActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const EditRequestActionsItemEdgeCacheTTLId = S.String;
 
 export interface EditRequestActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: EditRequestActionsItemEdgeCacheTTLId | (string & {});
   value?: number;
 }
@@ -5168,7 +5332,7 @@ export type EditRequestActionsItemExplicitCacheControlValue = "on" | "off";
 export const EditRequestActionsItemExplicitCacheControlValue = S.String;
 
 export interface EditRequestActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: EditRequestActionsItemExplicitCacheControlId | (string & {});
   /** The status of Origin Cache Control. */
   value?: EditRequestActionsItemExplicitCacheControlValue | (string & {});
@@ -5190,11 +5354,11 @@ export type EditRequestActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const EditRequestActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface EditRequestActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?:
     | EditRequestActionsItemForwardingURLValueStatusCode
     | (number & {});
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string;
 }
 export const EditRequestActionsItemForwardingURLValue = /*@__PURE__*/ S.suspend(
@@ -5212,7 +5376,7 @@ export const EditRequestActionsItemForwardingURLValue = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<EditRequestActionsItemForwardingURLValue>;
 
 export interface EditRequestActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: EditRequestActionsItemForwardingURLId | (string & {});
   value?: EditRequestActionsItemForwardingURLValue;
 }
@@ -5272,7 +5436,7 @@ export type EditRequestActionsItemMirageValue = "on" | "off";
 export const EditRequestActionsItemMirageValue = S.String;
 
 export interface EditRequestActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: EditRequestActionsItemMirageId | (string & {});
   /** The status of Mirage. */
   value?: EditRequestActionsItemMirageValue | (string & {});
@@ -5294,7 +5458,7 @@ export type EditRequestActionsItemOpportunisticEncryptionValue = "on" | "off";
 export const EditRequestActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface EditRequestActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: EditRequestActionsItemOpportunisticEncryptionId | (string & {});
   /** The status of Opportunistic Encryption. */
   value?: EditRequestActionsItemOpportunisticEncryptionValue | (string & {});
@@ -5379,7 +5543,7 @@ export type EditRequestActionsItemRespectStrongEtagValue = "on" | "off";
 export const EditRequestActionsItemRespectStrongEtagValue = S.String;
 
 export interface EditRequestActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: EditRequestActionsItemRespectStrongEtagId | (string & {});
   /** The status of Respect Strong ETags */
   value?: EditRequestActionsItemRespectStrongEtagValue | (string & {});
@@ -5401,7 +5565,7 @@ export type EditRequestActionsItemResponseBufferingValue = "on" | "off";
 export const EditRequestActionsItemResponseBufferingValue = S.String;
 
 export interface EditRequestActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: EditRequestActionsItemResponseBufferingId | (string & {});
   /** The status of Response Buffering */
   value?: EditRequestActionsItemResponseBufferingValue | (string & {});
@@ -5542,7 +5706,7 @@ export type EditRequestActionsItemWAFValue = "on" | "off";
 export const EditRequestActionsItemWAFValue = S.String;
 
 export interface EditRequestActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: EditRequestActionsItemWAFId | (string & {});
   /** The status of WAF managed rules (previous version). */
   value?: EditRequestActionsItemWAFValue | (string & {});
@@ -5592,42 +5756,83 @@ export type EditRequestActionsItem =
   | EditRequestActionsItemTrueClientIPHeader
   | EditRequestActionsItemWAF;
 export const EditRequestActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type EditRequestActionsList = Array<EditRequestActionsItem>;
@@ -5689,9 +5894,9 @@ export interface PatchPageRuleRequest {
   zoneId: string;
   /** Identifier. */
   pageruleId: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions?: EditRequestActionsList;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority?: number;
   /** The status of the Page Rule. */
   status?: EditRequestStatus | (string & {});
@@ -5723,7 +5928,7 @@ export type EditResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const EditResponseActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface EditResponseActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: EditResponseActionsItemAlwaysUseHTTPSId | null;
 }
 export const EditResponseActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -5766,7 +5971,7 @@ export const EditResponseActionsItemBrowserCacheTTLId = S.String;
 export interface EditResponseActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: EditResponseActionsItemBrowserCacheTTLId | null;
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number | null;
 }
 export const EditResponseActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -5786,7 +5991,7 @@ export type EditResponseActionsItemBrowserCheckValue = "on" | "off";
 export const EditResponseActionsItemBrowserCheckValue = S.String;
 
 export interface EditResponseActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: EditResponseActionsItemBrowserCheckId | null;
   /** The status of Browser Integrity Check. */
   value?: EditResponseActionsItemBrowserCheckValue | null;
@@ -5805,9 +6010,9 @@ export type EditResponseActionsItemBypassCacheOnCookieId =
 export const EditResponseActionsItemBypassCacheOnCookieId = S.String;
 
 export interface EditResponseActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: EditResponseActionsItemBypassCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string | null;
 }
 export const EditResponseActionsItemBypassCacheOnCookie =
@@ -5852,7 +6057,7 @@ export type EditResponseActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const EditResponseActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface EditResponseActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: EditResponseActionsItemCacheDeceptionArmorId | null;
   /** The status of Cache Deception Armor. */
   value?: EditResponseActionsItemCacheDeceptionArmorValue | null;
@@ -5887,7 +6092,7 @@ export const EditResponseActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<EditResponseActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface EditResponseActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: EditResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList | null;
   /** A list of cookies to include. */
   include?: EditResponseActionsItemCacheKeyFieldsValueCookieIncludeList | null;
@@ -5930,7 +6135,7 @@ export const EditResponseActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<EditResponseActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface EditResponseActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: EditResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList | null;
   /** A list of headers to ignore. */
   exclude?: EditResponseActionsItemCacheKeyFieldsValueHeaderExcludeList | null;
@@ -6025,13 +6230,13 @@ export const EditResponseActionsItemCacheKeyFieldsValueUser =
 export interface EditResponseActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: EditResponseActionsItemCacheKeyFieldsValueCookie | null;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: EditResponseActionsItemCacheKeyFieldsValueHeader | null;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateResponseActionsItemCacheKeyFieldsValueHost | null;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: EditResponseActionsItemCacheKeyFieldsValueQueryString | null;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateResponseActionsItemCacheKeyFieldsValueUser | null;
 }
 export const EditResponseActionsItemCacheKeyFieldsValue =
@@ -6060,7 +6265,7 @@ export const EditResponseActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<EditResponseActionsItemCacheKeyFieldsValue>;
 
 export interface EditResponseActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: EditResponseActionsItemCacheKeyFieldsId | null;
   value?: EditResponseActionsItemCacheKeyFieldsValue | null;
 }
@@ -6088,7 +6293,7 @@ export const EditResponseActionsItemCacheLevelValue = S.String;
 export interface EditResponseActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: EditResponseActionsItemCacheLevelId | null;
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: EditResponseActionsItemCacheLevelValue | null;
 }
 export const EditResponseActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -6104,9 +6309,9 @@ export type EditResponseActionsItemCacheOnCookieId = "cache_on_cookie";
 export const EditResponseActionsItemCacheOnCookieId = S.String;
 
 export interface EditResponseActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: EditResponseActionsItemCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string | null;
 }
 export const EditResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -6134,9 +6339,9 @@ export const EditResponseActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface EditResponseActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: EditResponseActionsItemCacheTTLByStatusId | null;
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: EditResponseActionsItemCacheTTLByStatusValue | null;
 }
 export const EditResponseActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(
@@ -6153,7 +6358,7 @@ export type EditResponseActionsItemDisableAppsId = "disable_apps";
 export const EditResponseActionsItemDisableAppsId = S.String;
 
 export interface EditResponseActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: EditResponseActionsItemDisableAppsId | null;
 }
 export const EditResponseActionsItemDisableApps = /*@__PURE__*/ S.suspend(() =>
@@ -6168,7 +6373,7 @@ export type EditResponseActionsItemDisablePerformanceId = "disable_performance";
 export const EditResponseActionsItemDisablePerformanceId = S.String;
 
 export interface EditResponseActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: EditResponseActionsItemDisablePerformanceId | null;
 }
 export const EditResponseActionsItemDisablePerformance =
@@ -6184,7 +6389,7 @@ export type EditResponseActionsItemDisableSecurityId = "disable_security";
 export const EditResponseActionsItemDisableSecurityId = S.String;
 
 export interface EditResponseActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: EditResponseActionsItemDisableSecurityId | null;
 }
 export const EditResponseActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -6215,7 +6420,7 @@ export type EditResponseActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const EditResponseActionsItemEdgeCacheTTLId = S.String;
 
 export interface EditResponseActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: EditResponseActionsItemEdgeCacheTTLId | null;
   value?: number | null;
 }
@@ -6258,7 +6463,7 @@ export type EditResponseActionsItemExplicitCacheControlValue = "on" | "off";
 export const EditResponseActionsItemExplicitCacheControlValue = S.String;
 
 export interface EditResponseActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: EditResponseActionsItemExplicitCacheControlId | null;
   /** The status of Origin Cache Control. */
   value?: EditResponseActionsItemExplicitCacheControlValue | null;
@@ -6282,9 +6487,9 @@ export type EditResponseActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const EditResponseActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface EditResponseActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?: EditResponseActionsItemForwardingURLValueStatusCode | null;
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string | null;
 }
 export const EditResponseActionsItemForwardingURLValue =
@@ -6302,7 +6507,7 @@ export const EditResponseActionsItemForwardingURLValue =
   }) as any as S.Schema<EditResponseActionsItemForwardingURLValue>;
 
 export interface EditResponseActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: EditResponseActionsItemForwardingURLId | null;
   value?: EditResponseActionsItemForwardingURLValue | null;
 }
@@ -6365,7 +6570,7 @@ export type EditResponseActionsItemMirageValue = "on" | "off";
 export const EditResponseActionsItemMirageValue = S.String;
 
 export interface EditResponseActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: EditResponseActionsItemMirageId | null;
   /** The status of Mirage. */
   value?: EditResponseActionsItemMirageValue | null;
@@ -6387,7 +6592,7 @@ export type EditResponseActionsItemOpportunisticEncryptionValue = "on" | "off";
 export const EditResponseActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface EditResponseActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: EditResponseActionsItemOpportunisticEncryptionId | null;
   /** The status of Opportunistic Encryption. */
   value?: EditResponseActionsItemOpportunisticEncryptionValue | null;
@@ -6480,7 +6685,7 @@ export type EditResponseActionsItemRespectStrongEtagValue = "on" | "off";
 export const EditResponseActionsItemRespectStrongEtagValue = S.String;
 
 export interface EditResponseActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: EditResponseActionsItemRespectStrongEtagId | null;
   /** The status of Respect Strong ETags */
   value?: EditResponseActionsItemRespectStrongEtagValue | null;
@@ -6504,7 +6709,7 @@ export type EditResponseActionsItemResponseBufferingValue = "on" | "off";
 export const EditResponseActionsItemResponseBufferingValue = S.String;
 
 export interface EditResponseActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: EditResponseActionsItemResponseBufferingId | null;
   /** The status of Response Buffering */
   value?: EditResponseActionsItemResponseBufferingValue | null;
@@ -6654,7 +6859,7 @@ export type EditResponseActionsItemWAFValue = "on" | "off";
 export const EditResponseActionsItemWAFValue = S.String;
 
 export interface EditResponseActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: EditResponseActionsItemWAFId | null;
   /** The status of WAF managed rules (previous version). */
   value?: EditResponseActionsItemWAFValue | null;
@@ -6704,42 +6909,83 @@ export type EditResponseActionsItem =
   | EditResponseActionsItemTrueClientIPHeader
   | EditResponseActionsItemWAF;
 export const EditResponseActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type EditResponseActionsList = Array<EditResponseActionsItem>;
@@ -6800,13 +7046,13 @@ export const EditResponseTargetsList = /*@__PURE__*/ S.Array(
 export interface PatchPageRuleResponse {
   /** Identifier. */
   id: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: EditResponseActionsList;
   /** The timestamp of when the Page Rule was created. */
   createdOn: string;
   /** The timestamp of when the Page Rule was last modified. */
   modifiedOn: string;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority: number;
   /** The status of the Page Rule. */
   status: EditResponseStatus;
@@ -6831,7 +7077,7 @@ export type UpdateRequestActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const UpdateRequestActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface UpdateRequestActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: UpdateRequestActionsItemAlwaysUseHTTPSId | (string & {});
 }
 export const UpdateRequestActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -6872,7 +7118,7 @@ export const UpdateRequestActionsItemBrowserCacheTTLId = S.String;
 export interface UpdateRequestActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: UpdateRequestActionsItemBrowserCacheTTLId | (string & {});
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number;
 }
 export const UpdateRequestActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -6892,7 +7138,7 @@ export type UpdateRequestActionsItemBrowserCheckValue = "on" | "off";
 export const UpdateRequestActionsItemBrowserCheckValue = S.String;
 
 export interface UpdateRequestActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: UpdateRequestActionsItemBrowserCheckId | (string & {});
   /** The status of Browser Integrity Check. */
   value?: UpdateRequestActionsItemBrowserCheckValue | (string & {});
@@ -6912,9 +7158,9 @@ export type UpdateRequestActionsItemBypassCacheOnCookieId =
 export const UpdateRequestActionsItemBypassCacheOnCookieId = S.String;
 
 export interface UpdateRequestActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: UpdateRequestActionsItemBypassCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string;
 }
 export const UpdateRequestActionsItemBypassCacheOnCookie =
@@ -6958,7 +7204,7 @@ export type UpdateRequestActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const UpdateRequestActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface UpdateRequestActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: UpdateRequestActionsItemCacheDeceptionArmorId | (string & {});
   /** The status of Cache Deception Armor. */
   value?: UpdateRequestActionsItemCacheDeceptionArmorValue | (string & {});
@@ -6991,7 +7237,7 @@ export const UpdateRequestActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<UpdateRequestActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface UpdateRequestActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: UpdateRequestActionsItemCacheKeyFieldsValueCookieCheckPresenceList;
   /** A list of cookies to include. */
   include?: UpdateRequestActionsItemCacheKeyFieldsValueCookieIncludeList;
@@ -7034,7 +7280,7 @@ export const UpdateRequestActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<UpdateRequestActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface UpdateRequestActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: UpdateRequestActionsItemCacheKeyFieldsValueHeaderCheckPresenceList;
   /** A list of headers to ignore. */
   exclude?: UpdateRequestActionsItemCacheKeyFieldsValueHeaderExcludeList;
@@ -7131,13 +7377,13 @@ export const UpdateRequestActionsItemCacheKeyFieldsValueUser =
 export interface UpdateRequestActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: UpdateRequestActionsItemCacheKeyFieldsValueCookie;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: UpdateRequestActionsItemCacheKeyFieldsValueHeader;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateRequestActionsItemCacheKeyFieldsValueHost;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: UpdateRequestActionsItemCacheKeyFieldsValueQueryString;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateRequestActionsItemCacheKeyFieldsValueUser;
 }
 export const UpdateRequestActionsItemCacheKeyFieldsValue =
@@ -7158,7 +7404,7 @@ export const UpdateRequestActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<UpdateRequestActionsItemCacheKeyFieldsValue>;
 
 export interface UpdateRequestActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: UpdateRequestActionsItemCacheKeyFieldsId | (string & {});
   value?: UpdateRequestActionsItemCacheKeyFieldsValue;
 }
@@ -7186,7 +7432,7 @@ export const UpdateRequestActionsItemCacheLevelValue = S.String;
 export interface UpdateRequestActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: UpdateRequestActionsItemCacheLevelId | (string & {});
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: UpdateRequestActionsItemCacheLevelValue | (string & {});
 }
 export const UpdateRequestActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -7202,9 +7448,9 @@ export type UpdateRequestActionsItemCacheOnCookieId = "cache_on_cookie";
 export const UpdateRequestActionsItemCacheOnCookieId = S.String;
 
 export interface UpdateRequestActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: UpdateRequestActionsItemCacheOnCookieId | (string & {});
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string;
 }
 export const UpdateRequestActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -7233,9 +7479,9 @@ export const UpdateRequestActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface UpdateRequestActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: UpdateRequestActionsItemCacheTTLByStatusId | (string & {});
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: UpdateRequestActionsItemCacheTTLByStatusValue;
 }
 export const UpdateRequestActionsItemCacheTTLByStatus = /*@__PURE__*/ S.suspend(
@@ -7252,7 +7498,7 @@ export type UpdateRequestActionsItemDisableAppsId = "disable_apps";
 export const UpdateRequestActionsItemDisableAppsId = S.String;
 
 export interface UpdateRequestActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: UpdateRequestActionsItemDisableAppsId | (string & {});
 }
 export const UpdateRequestActionsItemDisableApps = /*@__PURE__*/ S.suspend(() =>
@@ -7268,7 +7514,7 @@ export type UpdateRequestActionsItemDisablePerformanceId =
 export const UpdateRequestActionsItemDisablePerformanceId = S.String;
 
 export interface UpdateRequestActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: UpdateRequestActionsItemDisablePerformanceId | (string & {});
 }
 export const UpdateRequestActionsItemDisablePerformance =
@@ -7284,7 +7530,7 @@ export type UpdateRequestActionsItemDisableSecurityId = "disable_security";
 export const UpdateRequestActionsItemDisableSecurityId = S.String;
 
 export interface UpdateRequestActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: UpdateRequestActionsItemDisableSecurityId | (string & {});
 }
 export const UpdateRequestActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -7316,7 +7562,7 @@ export type UpdateRequestActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const UpdateRequestActionsItemEdgeCacheTTLId = S.String;
 
 export interface UpdateRequestActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: UpdateRequestActionsItemEdgeCacheTTLId | (string & {});
   value?: number;
 }
@@ -7360,7 +7606,7 @@ export type UpdateRequestActionsItemExplicitCacheControlValue = "on" | "off";
 export const UpdateRequestActionsItemExplicitCacheControlValue = S.String;
 
 export interface UpdateRequestActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: UpdateRequestActionsItemExplicitCacheControlId | (string & {});
   /** The status of Origin Cache Control. */
   value?: UpdateRequestActionsItemExplicitCacheControlValue | (string & {});
@@ -7382,11 +7628,11 @@ export type UpdateRequestActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const UpdateRequestActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface UpdateRequestActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?:
     | UpdateRequestActionsItemForwardingURLValueStatusCode
     | (number & {});
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string;
 }
 export const UpdateRequestActionsItemForwardingURLValue =
@@ -7404,7 +7650,7 @@ export const UpdateRequestActionsItemForwardingURLValue =
   }) as any as S.Schema<UpdateRequestActionsItemForwardingURLValue>;
 
 export interface UpdateRequestActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: UpdateRequestActionsItemForwardingURLId | (string & {});
   value?: UpdateRequestActionsItemForwardingURLValue;
 }
@@ -7467,7 +7713,7 @@ export type UpdateRequestActionsItemMirageValue = "on" | "off";
 export const UpdateRequestActionsItemMirageValue = S.String;
 
 export interface UpdateRequestActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: UpdateRequestActionsItemMirageId | (string & {});
   /** The status of Mirage. */
   value?: UpdateRequestActionsItemMirageValue | (string & {});
@@ -7489,7 +7735,7 @@ export type UpdateRequestActionsItemOpportunisticEncryptionValue = "on" | "off";
 export const UpdateRequestActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface UpdateRequestActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: UpdateRequestActionsItemOpportunisticEncryptionId | (string & {});
   /** The status of Opportunistic Encryption. */
   value?: UpdateRequestActionsItemOpportunisticEncryptionValue | (string & {});
@@ -7574,7 +7820,7 @@ export type UpdateRequestActionsItemRespectStrongEtagValue = "on" | "off";
 export const UpdateRequestActionsItemRespectStrongEtagValue = S.String;
 
 export interface UpdateRequestActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: UpdateRequestActionsItemRespectStrongEtagId | (string & {});
   /** The status of Respect Strong ETags */
   value?: UpdateRequestActionsItemRespectStrongEtagValue | (string & {});
@@ -7596,7 +7842,7 @@ export type UpdateRequestActionsItemResponseBufferingValue = "on" | "off";
 export const UpdateRequestActionsItemResponseBufferingValue = S.String;
 
 export interface UpdateRequestActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: UpdateRequestActionsItemResponseBufferingId | (string & {});
   /** The status of Response Buffering */
   value?: UpdateRequestActionsItemResponseBufferingValue | (string & {});
@@ -7739,7 +7985,7 @@ export type UpdateRequestActionsItemWAFValue = "on" | "off";
 export const UpdateRequestActionsItemWAFValue = S.String;
 
 export interface UpdateRequestActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: UpdateRequestActionsItemWAFId | (string & {});
   /** The status of WAF managed rules (previous version). */
   value?: UpdateRequestActionsItemWAFValue | (string & {});
@@ -7789,42 +8035,83 @@ export type UpdateRequestActionsItem =
   | UpdateRequestActionsItemTrueClientIPHeader
   | UpdateRequestActionsItemWAF;
 export const UpdateRequestActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type UpdateRequestActionsList = Array<UpdateRequestActionsItem>;
@@ -7886,11 +8173,11 @@ export interface UpdatePageRuleRequest {
   zoneId: string;
   /** Identifier. */
   pageruleId: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: UpdateRequestActionsList;
   /** The rule targets to evaluate on each request. */
   targets: UpdateRequestTargetsList;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority?: number;
   /** The status of the Page Rule. */
   status?: UpdateRequestStatus | (string & {});
@@ -7920,7 +8207,7 @@ export type UpdateResponseActionsItemAlwaysUseHTTPSId = "always_use_https";
 export const UpdateResponseActionsItemAlwaysUseHTTPSId = S.String;
 
 export interface UpdateResponseActionsItemAlwaysUseHTTPS {
-  /** If enabled, any `http://`` URL is converted to`https://` through a */
+  /** If enabled, any `http://`` URL is converted to` https://` through a 301 redirect. */
   id?: UpdateResponseActionsItemAlwaysUseHTTPSId | null;
 }
 export const UpdateResponseActionsItemAlwaysUseHTTPS = /*@__PURE__*/ S.suspend(
@@ -7965,7 +8252,7 @@ export const UpdateResponseActionsItemBrowserCacheTTLId = S.String;
 export interface UpdateResponseActionsItemBrowserCacheTTL {
   /** Control how long resources cached by client browsers remain valid. */
   id?: UpdateResponseActionsItemBrowserCacheTTLId | null;
-  /** The number of seconds to cache resources for. */
+  /** The number of seconds to cache resources for. Setting this to 0 enables "Respect Existing Headers". */
   value?: number | null;
 }
 export const UpdateResponseActionsItemBrowserCacheTTL = /*@__PURE__*/ S.suspend(
@@ -7985,7 +8272,7 @@ export type UpdateResponseActionsItemBrowserCheckValue = "on" | "off";
 export const UpdateResponseActionsItemBrowserCheckValue = S.String;
 
 export interface UpdateResponseActionsItemBrowserCheck {
-  /** Inspect the visitor's browser for headers commonly associated with */
+  /** Inspect the visitor's browser for headers commonly associated with spammers and certain bots. */
   id?: UpdateResponseActionsItemBrowserCheckId | null;
   /** The status of Browser Integrity Check. */
   value?: UpdateResponseActionsItemBrowserCheckValue | null;
@@ -8005,9 +8292,9 @@ export type UpdateResponseActionsItemBypassCacheOnCookieId =
 export const UpdateResponseActionsItemBypassCacheOnCookieId = S.String;
 
 export interface UpdateResponseActionsItemBypassCacheOnCookie {
-  /** Bypass cache and fetch resources from the origin server if a regular */
+  /** Bypass cache and fetch resources from the origin server if a regular expression matches against a cookie name present in the request. */
   id?: UpdateResponseActionsItemBypassCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. Refer to [Bypass Cache on Cookie setting](https://developers.cloudflare.com/rules/page-rules/reference/additional-reference/#bypass-cache-on-cookie-setting) to learn about limited regular expression support. */
   value?: string | null;
 }
 export const UpdateResponseActionsItemBypassCacheOnCookie =
@@ -8053,7 +8340,7 @@ export type UpdateResponseActionsItemCacheDeceptionArmorValue = "on" | "off";
 export const UpdateResponseActionsItemCacheDeceptionArmorValue = S.String;
 
 export interface UpdateResponseActionsItemCacheDeceptionArmor {
-  /** Protect from web cache deception attacks while still allowing static */
+  /** Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`. */
   id?: UpdateResponseActionsItemCacheDeceptionArmorId | null;
   /** The status of Cache Deception Armor. */
   value?: UpdateResponseActionsItemCacheDeceptionArmorValue | null;
@@ -8088,7 +8375,7 @@ export const UpdateResponseActionsItemCacheKeyFieldsValueCookieIncludeList =
   ) as any as S.Schema<UpdateResponseActionsItemCacheKeyFieldsValueCookieIncludeList>;
 
 export interface UpdateResponseActionsItemCacheKeyFieldsValueCookie {
-  /** A list of cookies to check for the presence of, without */
+  /** A list of cookies to check for the presence of, without including their actual values. */
   checkPresence?: UpdateResponseActionsItemCacheKeyFieldsValueCookieCheckPresenceList | null;
   /** A list of cookies to include. */
   include?: UpdateResponseActionsItemCacheKeyFieldsValueCookieIncludeList | null;
@@ -8131,7 +8418,7 @@ export const UpdateResponseActionsItemCacheKeyFieldsValueHeaderIncludeList =
   ) as any as S.Schema<UpdateResponseActionsItemCacheKeyFieldsValueHeaderIncludeList>;
 
 export interface UpdateResponseActionsItemCacheKeyFieldsValueHeader {
-  /** A list of headers to check for the presence of, without */
+  /** A list of headers to check for the presence of, without including their actual values. */
   checkPresence?: UpdateResponseActionsItemCacheKeyFieldsValueHeaderCheckPresenceList | null;
   /** A list of headers to ignore. */
   exclude?: UpdateResponseActionsItemCacheKeyFieldsValueHeaderExcludeList | null;
@@ -8230,13 +8517,13 @@ export const UpdateResponseActionsItemCacheKeyFieldsValueUser =
 export interface UpdateResponseActionsItemCacheKeyFieldsValue {
   /** Controls which cookies appear in the Cache Key. */
   cookie?: UpdateResponseActionsItemCacheKeyFieldsValueCookie | null;
-  /** Controls which headers go into the Cache Key. Exactly one of */
+  /** Controls which headers go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   header?: UpdateResponseActionsItemCacheKeyFieldsValueHeader | null;
   /** Determines which host header to include in the Cache Key. */
   host?: CreateResponseActionsItemCacheKeyFieldsValueHost | null;
-  /** Controls which URL query string parameters go into the Cache */
+  /** Controls which URL query string parameters go into the Cache Key. Exactly one of `include` or `exclude` is expected. */
   queryString?: UpdateResponseActionsItemCacheKeyFieldsValueQueryString | null;
-  /** Feature fields to add features about the end-user (client) into */
+  /** Feature fields to add features about the end-user (client) into the Cache Key. */
   user?: CreateResponseActionsItemCacheKeyFieldsValueUser | null;
 }
 export const UpdateResponseActionsItemCacheKeyFieldsValue =
@@ -8265,7 +8552,7 @@ export const UpdateResponseActionsItemCacheKeyFieldsValue =
   }) as any as S.Schema<UpdateResponseActionsItemCacheKeyFieldsValue>;
 
 export interface UpdateResponseActionsItemCacheKeyFields {
-  /** Control specifically what variables to include when deciding which */
+  /** Control specifically what variables to include when deciding which resources to cache. This allows customers to determine what to cache based on something other than just the URL. */
   id?: UpdateResponseActionsItemCacheKeyFieldsId | null;
   value?: UpdateResponseActionsItemCacheKeyFieldsValue | null;
 }
@@ -8293,7 +8580,7 @@ export const UpdateResponseActionsItemCacheLevelValue = S.String;
 export interface UpdateResponseActionsItemCacheLevel {
   /** Apply custom caching based on the option selected. */
   id?: UpdateResponseActionsItemCacheLevelId | null;
-  /** * `bypass`: Cloudflare does not cache. */
+  /** - `bypass`: Cloudflare does not cache. - `basic`: Delivers resources from cache when there is no query string. - `simplified`: Delivers the same resource to everyone independent of the query string. - `aggressive`: Caches all static content that has a query string. - `cache_everything`: Treats all content as static and caches all file types beyond the [Cloudflare default cached content](https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions). */
   value?: UpdateResponseActionsItemCacheLevelValue | null;
 }
 export const UpdateResponseActionsItemCacheLevel = /*@__PURE__*/ S.suspend(() =>
@@ -8309,9 +8596,9 @@ export type UpdateResponseActionsItemCacheOnCookieId = "cache_on_cookie";
 export const UpdateResponseActionsItemCacheOnCookieId = S.String;
 
 export interface UpdateResponseActionsItemCacheOnCookie {
-  /** Apply the Cache Everything option (Cache Level setting) based on a */
+  /** Apply the Cache Everything option (Cache Level setting) based on a regular expression match against a cookie name. */
   id?: UpdateResponseActionsItemCacheOnCookieId | null;
-  /** The regular expression to use for matching cookie names in the */
+  /** The regular expression to use for matching cookie names in the request. */
   value?: string | null;
 }
 export const UpdateResponseActionsItemCacheOnCookie = /*@__PURE__*/ S.suspend(
@@ -8339,9 +8626,9 @@ export const UpdateResponseActionsItemCacheTTLByStatusValue =
   /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], []]));
 
 export interface UpdateResponseActionsItemCacheTTLByStatus {
-  /** Enterprise customers can set cache time-to-live (TTL) based on the */
+  /** Enterprise customers can set cache time-to-live (TTL) based on the response status from the origin web server. Cache TTL refers to the duration of a resource in the Cloudflare network before being marked as stale or discarded from cache. Status codes are returned by a resource's origin. Setting cache TTL based on response status overrides the default cache behavior (standard caching) for static files and overrides cache instructions sent by the origin web server. To cache non-static assets, set a Cache Level of Cache Everything using a Page Rule. Setting no-store Cache-Control or a low TTL (using `max-age`/`s-maxage`) increases requests to origin web servers and decreases performance. */
   id?: UpdateResponseActionsItemCacheTTLByStatusId | null;
-  /** A JSON object containing status codes and their corresponding TTLs. */
+  /** A JSON object containing status codes and their corresponding TTLs. Each key-value pair in the cache TTL by status cache rule has the following syntax */
   value?: UpdateResponseActionsItemCacheTTLByStatusValue | null;
 }
 export const UpdateResponseActionsItemCacheTTLByStatus =
@@ -8360,7 +8647,7 @@ export type UpdateResponseActionsItemDisableAppsId = "disable_apps";
 export const UpdateResponseActionsItemDisableAppsId = S.String;
 
 export interface UpdateResponseActionsItemDisableApps {
-  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) */
+  /** Turn off all active [Cloudflare Apps](https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-apps/) (deprecated). */
   id?: UpdateResponseActionsItemDisableAppsId | null;
 }
 export const UpdateResponseActionsItemDisableApps = /*@__PURE__*/ S.suspend(
@@ -8377,7 +8664,7 @@ export type UpdateResponseActionsItemDisablePerformanceId =
 export const UpdateResponseActionsItemDisablePerformanceId = S.String;
 
 export interface UpdateResponseActionsItemDisablePerformance {
-  /** Turn off */
+  /** Turn off [Rocket Loader](https://developers.cloudflare.com/speed/optimization/content/rocket-loader/), and [Polish](https://developers.cloudflare.com/images/polish/). */
   id?: UpdateResponseActionsItemDisablePerformanceId | null;
 }
 export const UpdateResponseActionsItemDisablePerformance =
@@ -8393,7 +8680,7 @@ export type UpdateResponseActionsItemDisableSecurityId = "disable_security";
 export const UpdateResponseActionsItemDisableSecurityId = S.String;
 
 export interface UpdateResponseActionsItemDisableSecurity {
-  /** Turn off */
+  /** Turn off [Email Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/), [Rate Limiting (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-rate-limiting/), [Scrape Shield](https://developers.cloudflare.com/waf/tools/scrape-shield/), [URL (Zone) Lockdown](https://developers.cloudflare.com/waf/tools/zone-lockdown/), and [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
   id?: UpdateResponseActionsItemDisableSecurityId | null;
 }
 export const UpdateResponseActionsItemDisableSecurity = /*@__PURE__*/ S.suspend(
@@ -8425,7 +8712,7 @@ export type UpdateResponseActionsItemEdgeCacheTTLId = "edge_cache_ttl";
 export const UpdateResponseActionsItemEdgeCacheTTLId = S.String;
 
 export interface UpdateResponseActionsItemEdgeCacheTTL {
-  /** Specify how long to cache a resource in the Cloudflare global */
+  /** Specify how long to cache a resource in the Cloudflare global network. *Edge Cache TTL* is not visible in response headers. */
   id?: UpdateResponseActionsItemEdgeCacheTTLId | null;
   value?: number | null;
 }
@@ -8471,7 +8758,7 @@ export type UpdateResponseActionsItemExplicitCacheControlValue = "on" | "off";
 export const UpdateResponseActionsItemExplicitCacheControlValue = S.String;
 
 export interface UpdateResponseActionsItemExplicitCacheControl {
-  /** Origin Cache Control is enabled by default for Free, Pro, and */
+  /** Origin Cache Control is enabled by default for Free, Pro, and Business domains and disabled by default for Enterprise domains. */
   id?: UpdateResponseActionsItemExplicitCacheControlId | null;
   /** The status of Origin Cache Control. */
   value?: UpdateResponseActionsItemExplicitCacheControlValue | null;
@@ -8495,9 +8782,9 @@ export type UpdateResponseActionsItemForwardingURLValueStatusCode = 301 | 302;
 export const UpdateResponseActionsItemForwardingURLValueStatusCode = S.Number;
 
 export interface UpdateResponseActionsItemForwardingURLValue {
-  /** The status code to use for the URL redirect. 301 is a permanent */
+  /** The status code to use for the URL redirect. 301 is a permanent redirect. 302 is a temporary redirect. */
   statusCode?: UpdateResponseActionsItemForwardingURLValueStatusCode | null;
-  /** The URL to redirect the request to. */
+  /** The URL to redirect the request to. Notes: ${num} refers to the position of '*' in the constraint value. */
   url?: string | null;
 }
 export const UpdateResponseActionsItemForwardingURLValue =
@@ -8515,7 +8802,7 @@ export const UpdateResponseActionsItemForwardingURLValue =
   }) as any as S.Schema<UpdateResponseActionsItemForwardingURLValue>;
 
 export interface UpdateResponseActionsItemForwardingURL {
-  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer */
+  /** Redirects one URL to another using an `HTTP 301/302` redirect. Refer to [Wildcard matching and referencing](https://developers.cloudflare.com/rules/page-rules/reference/wildcard-matching/). */
   id?: UpdateResponseActionsItemForwardingURLId | null;
   value?: UpdateResponseActionsItemForwardingURLValue | null;
 }
@@ -8578,7 +8865,7 @@ export type UpdateResponseActionsItemMirageValue = "on" | "off";
 export const UpdateResponseActionsItemMirageValue = S.String;
 
 export interface UpdateResponseActionsItemMirage {
-  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. */
+  /** Cloudflare Mirage reduces bandwidth used by images in mobile browsers. It can accelerate loading of image-heavy websites on very slow mobile connections and HTTP/1. */
   id?: UpdateResponseActionsItemMirageId | null;
   /** The status of Mirage. */
   value?: UpdateResponseActionsItemMirageValue | null;
@@ -8602,7 +8889,7 @@ export type UpdateResponseActionsItemOpportunisticEncryptionValue =
 export const UpdateResponseActionsItemOpportunisticEncryptionValue = S.String;
 
 export interface UpdateResponseActionsItemOpportunisticEncryption {
-  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. */
+  /** Opportunistic Encryption allows browsers to access HTTP URIs over an encrypted TLS channel. It's not a substitute for HTTPS, but provides additional security for otherwise vulnerable requests. */
   id?: UpdateResponseActionsItemOpportunisticEncryptionId | null;
   /** The status of Opportunistic Encryption. */
   value?: UpdateResponseActionsItemOpportunisticEncryptionValue | null;
@@ -8698,7 +8985,7 @@ export type UpdateResponseActionsItemRespectStrongEtagValue = "on" | "off";
 export const UpdateResponseActionsItemRespectStrongEtagValue = S.String;
 
 export interface UpdateResponseActionsItemRespectStrongEtag {
-  /** Turn on or off byte-for-byte equivalency checks between the */
+  /** Turn on or off byte-for-byte equivalency checks between the Cloudflare cache and the origin server. */
   id?: UpdateResponseActionsItemRespectStrongEtagId | null;
   /** The status of Respect Strong ETags */
   value?: UpdateResponseActionsItemRespectStrongEtagValue | null;
@@ -8722,7 +9009,7 @@ export type UpdateResponseActionsItemResponseBufferingValue = "on" | "off";
 export const UpdateResponseActionsItemResponseBufferingValue = S.String;
 
 export interface UpdateResponseActionsItemResponseBuffering {
-  /** Turn on or off whether Cloudflare should wait for an entire file */
+  /** Turn on or off whether Cloudflare should wait for an entire file from the origin server before forwarding it to the site visitor. By default, Cloudflare sends packets to the client as they arrive from the origin server. */
   id?: UpdateResponseActionsItemResponseBufferingId | null;
   /** The status of Response Buffering */
   value?: UpdateResponseActionsItemResponseBufferingValue | null;
@@ -8875,7 +9162,7 @@ export type UpdateResponseActionsItemWAFValue = "on" | "off";
 export const UpdateResponseActionsItemWAFValue = S.String;
 
 export interface UpdateResponseActionsItemWAF {
-  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). */
+  /** Turn on or off [WAF managed rules (previous version, deprecated)](https://developers.cloudflare.com/waf/reference/legacy/old-waf-managed-rules/). You cannot enable or disable individual WAF managed rules via Page Rules. */
   id?: UpdateResponseActionsItemWAFId | null;
   /** The status of WAF managed rules (previous version). */
   value?: UpdateResponseActionsItemWAFValue | null;
@@ -8925,42 +9212,83 @@ export type UpdateResponseActionsItem =
   | UpdateResponseActionsItemTrueClientIPHeader
   | UpdateResponseActionsItemWAF;
 export const UpdateResponseActionsItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-    ["id", "value"],
-  ]),
+  T.UnionCases(
+    [
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+      ["id", "value"],
+    ],
+    {
+      key: "id",
+      values: [
+        "always_use_https",
+        "automatic_https_rewrites",
+        "browser_cache_ttl",
+        "browser_check",
+        "bypass_cache_on_cookie",
+        "cache_by_device_type",
+        "cache_deception_armor",
+        "cache_key_fields",
+        "cache_level",
+        "cache_on_cookie",
+        "cache_ttl_by_status",
+        "disable_apps",
+        "disable_performance",
+        "disable_security",
+        "disable_zaraz",
+        "edge_cache_ttl",
+        "email_obfuscation",
+        "explicit_cache_control",
+        "forwarding_url",
+        "host_header_override",
+        "ip_geolocation",
+        "mirage",
+        "opportunistic_encryption",
+        "origin_error_page_pass_thru",
+        "polish",
+        "resolve_override",
+        "respect_strong_etag",
+        "response_buffering",
+        "rocket_loader",
+        "security_level",
+        "sort_query_string_for_cache",
+        "ssl",
+        "true_client_ip_header",
+        "waf",
+      ],
+    },
+  ),
 );
 
 export type UpdateResponseActionsList = Array<UpdateResponseActionsItem>;
@@ -9021,13 +9349,13 @@ export const UpdateResponseTargetsList = /*@__PURE__*/ S.Array(
 export interface UpdatePageRuleResponse {
   /** Identifier. */
   id: string;
-  /** The set of actions to perform if the targets of this rule match the */
+  /** The set of actions to perform if the targets of this rule match the request. Actions can redirect to another URL or override settings, but not both. */
   actions: UpdateResponseActionsList;
   /** The timestamp of when the Page Rule was created. */
   createdOn: string;
   /** The timestamp of when the Page Rule was last modified. */
   modifiedOn: string;
-  /** The priority of the rule, used to define which Page Rule is processed */
+  /** The priority of the rule, used to define which Page Rule is processed over another. A higher number indicates a higher priority. For example, if you have a catch-all Page Rule (rule A: `/images/*`) but want a more specific Page Rule to take precedence (rule B: `/images/special/*`), specify a higher priority for rule B so it overrides rule A. */
   priority: number;
   /** The status of the Page Rule. */
   status: UpdateResponseStatus;

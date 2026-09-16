@@ -158,7 +158,7 @@ export const GetResponseUsernameExpressionsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetFraudResponse {
-  /** Configuration for classifying login authentication outcomes based on the origin response. */
+  /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
   authenticationSettings?: GetResponseAuthenticationSettings | null;
   /** Whether Fraud User Profiles is enabled for the zone. */
   userProfiles?: GetResponseUserProfiles | null;
@@ -281,7 +281,7 @@ export const UpdateRequestUsernameExpressionsList = /*@__PURE__*/ S.Array(
 export interface PutFraudRequest {
   /** Identifier. */
   zoneId: string;
-  /** Configuration for classifying login authentication outcomes based on the origin response. */
+  /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
   authenticationSettings?: UpdateRequestAuthenticationSettings;
   /** Whether Fraud User Profiles is enabled for the zone. */
   userProfiles?: UpdateRequestUserProfiles | (string & {});
@@ -411,7 +411,7 @@ export const UpdateResponseUsernameExpressionsList = /*@__PURE__*/ S.Array(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutFraudResponse {
-  /** Configuration for classifying login authentication outcomes based on the origin response. */
+  /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
   authenticationSettings?: UpdateResponseAuthenticationSettings | null;
   /** Whether Fraud User Profiles is enabled for the zone. */
   userProfiles?: UpdateResponseUserProfiles | null;

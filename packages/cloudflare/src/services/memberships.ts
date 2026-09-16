@@ -105,7 +105,7 @@ export const GetResponseAccountManagedBy = /*@__PURE__*/ S.suspend(() =>
 export interface GetResponseAccountSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
   abuseContactEmail?: string | null;
-  /** Indicates whether membership in this account requires that */
+  /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
   enforceTwofactor?: boolean | null;
 }
 export const GetResponseAccountSettings = /*@__PURE__*/ S.suspend(() =>
@@ -161,6 +161,43 @@ export const GetResponsePermissionsAnalytics = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetResponsePermissionsAnalytics",
 }) as any as S.Schema<GetResponsePermissionsAnalytics>;
+
+export type GetResponsePermissionsBilling = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsBilling = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsCachePurge = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsCachePurge = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsDns = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsDns = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsDnsRecords = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsDnsRecords = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsLb = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsLb = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsLogs = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsLogs = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsSsl = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsSsl = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsWaf = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsWaf = GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+
+export type GetResponsePermissionsZones = GetResponsePermissionsAnalytics;
+export const GetResponsePermissionsZones = GetResponsePermissionsAnalytics;
 
 export interface GetResponsePermissions {
   analytics?: GetResponsePermissionsAnalytics | null;
@@ -246,48 +283,41 @@ export const GetResponsePoliciesItemPermissionGroupsList =
     GetResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<GetResponsePoliciesItemPermissionGroupsList>;
 
-export interface GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem {
+export interface GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem {
   /** This is a combination of pre-defined resource name and identifier (like Zone ID etc.) */
   key: string;
 }
-export const GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
+export const GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
     }),
   ).annotate({
-    identifier: "GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem",
-  }) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
+    identifier: "GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem",
+  }) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
 
-export type GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type GetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const GetResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface GetResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface GetResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: GetResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const GetResponsePoliciesItemResourceGroupsItemScopeItem =
+export const GetResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
-      objects: GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+      objects: GetResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "GetResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type GetResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<GetResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const GetResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    GetResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "GetResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<GetResponsePoliciesItemResourceGroupsItemScope>;
 
 export type GetResponsePoliciesItemResourceGroupsItemMeta =
   GetResponsePoliciesItemPermissionGroupsItemMeta;
@@ -297,8 +327,8 @@ export const GetResponsePoliciesItemResourceGroupsItemMeta =
 export interface GetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: GetResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: GetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -308,7 +338,7 @@ export const GetResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: GetResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: GetResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(GetResponsePoliciesItemPermissionGroupsItemMeta),
       ),
@@ -492,6 +522,47 @@ export type ListResultItemPermissionsAnalytics =
 export const ListResultItemPermissionsAnalytics =
   GetResponsePermissionsAnalytics;
 
+export type ListResultItemPermissionsBilling = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsBilling = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsCachePurge =
+  GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsCachePurge =
+  GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsDns = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsDns = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsDnsRecords =
+  GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsDnsRecords =
+  GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsLb = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsLb = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsLogs = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsLogs = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsSsl = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsSsl = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsWaf = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsWaf = GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+
+export type ListResultItemPermissionsZones = GetResponsePermissionsAnalytics;
+export const ListResultItemPermissionsZones = GetResponsePermissionsAnalytics;
+
 export type ListResultItemPermissions = GetResponsePermissions;
 export const ListResultItemPermissions = GetResponsePermissions;
 
@@ -613,6 +684,47 @@ export type UpdateResponsePermissionsAnalytics =
 export const UpdateResponsePermissionsAnalytics =
   GetResponsePermissionsAnalytics;
 
+export type UpdateResponsePermissionsBilling = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsBilling = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsCachePurge =
+  GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsCachePurge =
+  GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsDns = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsDns = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsDnsRecords =
+  GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsDnsRecords =
+  GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsLb = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsLb = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsLogs = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsLogs = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsOrganization =
+  GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsSsl = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsSsl = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsWaf = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsWaf = GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsZoneSettings =
+  GetResponsePermissionsAnalytics;
+
+export type UpdateResponsePermissionsZones = GetResponsePermissionsAnalytics;
+export const UpdateResponsePermissionsZones = GetResponsePermissionsAnalytics;
+
 export type UpdateResponsePermissions = GetResponsePermissions;
 export const UpdateResponsePermissions = GetResponsePermissions;
 
@@ -636,40 +748,33 @@ export const UpdateResponsePoliciesItemPermissionGroupsList =
     GetResponsePoliciesItemPermissionGroupsItem,
   ) as any as S.Schema<UpdateResponsePoliciesItemPermissionGroupsList>;
 
-export type UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
-export const UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem =
-  GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem;
+export type UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
+export const UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsItem =
+  GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem;
 
-export type UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
-  Array<GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem>;
-export const UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList =
+export type UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
+  Array<GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem>;
+export const UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList =
   /*@__PURE__*/ S.Array(
-    GetResponsePoliciesItemResourceGroupsItemScopeItemObjectsItem,
-  ) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList>;
+    GetResponsePoliciesItemResourceGroupsItemScopeObjectsItem,
+  ) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList>;
 
-export interface UpdateResponsePoliciesItemResourceGroupsItemScopeItem {
+export interface UpdateResponsePoliciesItemResourceGroupsItemScope {
   /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
   key: string;
   /** A list of scope objects for additional context. */
-  objects: UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList;
+  objects: UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
-export const UpdateResponsePoliciesItemResourceGroupsItemScopeItem =
+export const UpdateResponsePoliciesItemResourceGroupsItemScope =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       key: S.String,
-      objects: UpdateResponsePoliciesItemResourceGroupsItemScopeItemObjectsList,
+      objects: UpdateResponsePoliciesItemResourceGroupsItemScopeObjectsList,
     }),
   ).annotate({
-    identifier: "UpdateResponsePoliciesItemResourceGroupsItemScopeItem",
-  }) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-
-export type UpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  Array<UpdateResponsePoliciesItemResourceGroupsItemScopeItem>;
-export const UpdateResponsePoliciesItemResourceGroupsItemScopeList =
-  /*@__PURE__*/ S.Array(
-    UpdateResponsePoliciesItemResourceGroupsItemScopeItem,
-  ) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScopeList>;
+    identifier: "UpdateResponsePoliciesItemResourceGroupsItemScope",
+  }) as any as S.Schema<UpdateResponsePoliciesItemResourceGroupsItemScope>;
 
 export type UpdateResponsePoliciesItemResourceGroupsItemMeta =
   GetResponsePoliciesItemPermissionGroupsItemMeta;
@@ -679,8 +784,8 @@ export const UpdateResponsePoliciesItemResourceGroupsItemMeta =
 export interface UpdateResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
   id: string;
-  /** The scope associated to the resource group */
-  scope: UpdateResponsePoliciesItemResourceGroupsItemScopeList;
+  /** A scope is a combination of scope objects which provides additional context. */
+  scope: UpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
   meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null;
   /** Name of the resource group. */
@@ -690,7 +795,7 @@ export const UpdateResponsePoliciesItemResourceGroupsItem =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       id: S.String,
-      scope: UpdateResponsePoliciesItemResourceGroupsItemScopeList,
+      scope: UpdateResponsePoliciesItemResourceGroupsItemScope,
       meta: S.optional(
         S.NullOr(GetResponsePoliciesItemPermissionGroupsItemMeta),
       ),

@@ -109,7 +109,7 @@ export interface CreateListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -209,7 +209,7 @@ export const ListsItemsCreateRequestBodyItemListsListItemRedirectComment =
 
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname {
   urlHostname: string;
-  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked. */
+  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
   excludeExactHostname?: boolean;
 }
 export const ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname =
@@ -226,7 +226,7 @@ export const ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname
   }) as any as S.Schema<ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname>;
 
 export interface ListsItemsCreateRequestBodyItemListsListItemHostnameComment {
-  /** Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
+  /** Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
   hostname: ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname;
   /** Defines an informative summary of the list item. */
   comment?: string;
@@ -446,7 +446,7 @@ export interface GetListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -639,7 +639,7 @@ export const ListsItemsGetResultListsListItemIPFull = /*@__PURE__*/ S.suspend(
 
 export interface ListsItemsGetResultListsListItemHostnameFullHostname {
   urlHostname: string;
-  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked. */
+  /** Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains. */
   excludeExactHostname?: boolean | null;
 }
 export const ListsItemsGetResultListsListItemHostnameFullHostname =
@@ -659,7 +659,7 @@ export interface ListsItemsGetResultListsListItemHostnameFull {
   id: string;
   /** The RFC 3339 timestamp of when the list was created. */
   createdOn: string;
-  /** Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
+  /** Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-). */
   hostname: ListsItemsGetResultListsListItemHostnameFullHostname;
   /** The RFC 3339 timestamp of when the list was last modified. */
   modifiedOn: string;
@@ -802,7 +802,7 @@ export interface ListListItemsRequest {
   accountId: string;
   /** The unique ID of the list. */
   listId: string;
-  /** The pagination cursor. An opaque string token indicating the position from which to continue when requesting the next/previous set of records. Cursor values are provided under `result_info.cursors` in the response. You should make no assumptions about a cursor's content or length. */
+  /** The pagination cursor. An opaque string token that indicates where to continue when requesting the next/previous set of records. The response provides cursor values under `result_info.cursors`. You should make no assumptions about a cursor's content or length. */
   cursor?: string;
   /** Amount of results to include in each paginated response. A non-negative 32 bit integer. */
   perPage?: number;
@@ -988,7 +988,7 @@ export interface ListsListResultItem {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;
@@ -1071,7 +1071,7 @@ export interface UpdateListResponse {
   name: string;
   /** The number of items in the list. */
   numItems: number;
-  /** The number of [filters](/api/resources/filters/) referencing the list. */
+  /** The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
   description?: string | null;

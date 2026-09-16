@@ -310,7 +310,7 @@
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "custom_cert_bundle": {
@@ -1399,7 +1399,7 @@
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "custom_cert_bundle": {
@@ -4127,7 +4127,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {
@@ -5089,10 +5089,84 @@
         }
       }
     },
+    "com.cloudflare.custom_hostnames#GetQuotaRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.custom_hostnames#GetQuotaResponse": {
+      "type": "structure",
+      "members": {
+        "allocated": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The allocated custom hostname quota.",
+            "smithy.api#required": {}
+          }
+        },
+        "exceeded": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the current usage has exceeded the allocated quota.",
+            "smithy.api#required": {}
+          }
+        },
+        "hard_cap": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of custom hostnames allowed before create requests are rejected.",
+            "smithy.api#required": {}
+          }
+        },
+        "used": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The number of custom hostnames currently in use.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.custom_hostnames#GetQuota": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.custom_hostnames#GetQuotaRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.custom_hostnames#GetQuotaResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/custom_hostnames/quota",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns custom hostname quota usage for a zone. The allocated quota is a soft limit; creating custom hostnames after usage exceeds this limit can still succeed until the hard cap is reached. Use the exceeded and hard_cap fields to track when usage is above the soft limit and when new custom hostname creation will be rejected.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.custom_hostnames#CustomHostnames": {
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.custom_hostnames#GetQuota"
+        },
         {
           "target": "com.cloudflare.custom_hostnames#CreateCustomHostname"
         },
@@ -5243,7 +5317,7 @@
           "uri": "/zones/{zone_id}/custom_hostnames",
           "code": 200
         },
-        "smithy.api#documentation": "Add a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods—http, txt, email—should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation).  Enable bundling of certificates using the custom_cert_bundle field. The bundling process requires the following condition One certificate in the bundle must use an RSA, and the other must use an ECDSA."
+        "smithy.api#documentation": "Add a new custom hostname and request that an SSL certificate be issued for it. One of three validation methods—http, txt, email—should be used, with 'http' recommended if the CNAME is already in place (or will be soon). Specifying 'email' will send an email to the WHOIS contacts on file for the base domain plus hostmaster, postmaster, webmaster, admin, administrator. If http is used and the domain is not already pointing to the Managed CNAME host, the PATCH method must be used once it is (to complete validation). Enable bundling of certificates using the custom_cert_bundle field. The bundling process requires the following condition One certificate in the bundle must use an RSA, and the other must use an ECDSA."
       },
       "errors": [
         {
@@ -5273,6 +5347,18 @@
           "target": "com.cloudflare.custom_hostnames#CreateRequestCustomMetadataMap",
           "traits": {
             "smithy.api#documentation": "Unique key/value metadata for this hostname. These are per-hostname (customer) settings."
+          }
+        },
+        "custom_origin_server": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
+          }
+        },
+        "custom_origin_sni": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A hostname that will be sent to your custom origin server as SNI for TLS handshake. This can be a valid subdomain of the zone or custom origin server name or the string ':request_host_header:' which will cause the host header in the request to be used as SNI. Not configurable with default/fallback origin server."
           }
         },
         "ssl": {
@@ -5318,7 +5404,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {
@@ -5664,7 +5750,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {
@@ -5990,7 +6076,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {
@@ -6042,7 +6128,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {
@@ -6188,7 +6274,7 @@
         "custom_origin_server": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "a valid hostname that’s been added to your DNS zone as an A, AAAA, or CNAME record."
+            "smithy.api#documentation": "a valid hostname that's been added to your DNS zone as an A, AAAA, or CNAME record."
           }
         },
         "custom_origin_sni": {

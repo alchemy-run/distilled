@@ -27,25 +27,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -62,25 +66,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       }
@@ -239,31 +247,36 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "secret": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Bearer token"
+            "smithy.api#documentation": "Bearer token",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -322,31 +335,36 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "key": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Bearer token"
+            "smithy.api#documentation": "Bearer token",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of a TURN key, not shown to end users."
+            "smithy.api#documentation": "A short description of a TURN key, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -411,25 +429,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -494,25 +516,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -577,25 +603,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -660,25 +690,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -855,25 +889,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },
@@ -944,25 +982,29 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was created."
+            "smithy.api#documentation": "The date and time the item was created.",
+            "smithy.api#required": {}
           }
         },
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The date and time the item was last modified."
+            "smithy.api#documentation": "The date and time the item was last modified.",
+            "smithy.api#required": {}
           }
         },
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A short description of Calls app, not shown to end users."
+            "smithy.api#documentation": "A short description of Calls app, not shown to end users.",
+            "smithy.api#required": {}
           }
         },
         "uid": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item."
+            "smithy.api#documentation": "A Cloudflare-generated unique identifier for a item.",
+            "smithy.api#required": {}
           }
         }
       },

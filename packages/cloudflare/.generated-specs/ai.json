@@ -214,7 +214,7 @@
         "url": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Image URI with data (e.g. data:image/jpeg;base64,/9j/...).",
+            "smithy.api#documentation": "Image URI with data (e.g. data:image/jpeg;base64,/9j/…).",
             "smithy.api#required": {}
           }
         }
@@ -1043,6 +1043,23 @@
         "target": "com.cloudflare.ai#ToMarkdownSupportedResultItem"
       }
     },
+    "com.cloudflare.ai#ToMarkdownTransformRequestFileFilesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.ai#ToMarkdownTransformRequestFile": {
+      "type": "structure",
+      "members": {
+        "files": {
+          "target": "com.cloudflare.ai#ToMarkdownTransformRequestFileFilesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
     "com.cloudflare.ai#ToMarkdownTransformResultItem": {
       "type": "structure",
       "members": {
@@ -1354,6 +1371,20 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "file": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "File to upload.",
+            "smithy.api#required": {}
+          }
+        },
+        "file_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the file (adapter_config.json or adapter_model.safetensors).",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -1520,21 +1551,21 @@
         "limit": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Pagination Limit",
+            "smithy.api#documentation": "Pagination Limit.",
             "smithy.api#httpQuery": "limit"
           }
         },
         "offset": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Pagination Offset",
+            "smithy.api#documentation": "Pagination Offset.",
             "smithy.api#httpQuery": "offset"
           }
         },
         "orderBy": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Order By Column Name",
+            "smithy.api#documentation": "Order By Column Name.",
             "smithy.api#httpQuery": "orderBy"
           }
         }
@@ -1676,7 +1707,7 @@
         "author": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter by Author",
+            "smithy.api#documentation": "Filter by Author.",
             "smithy.api#httpQuery": "author"
           }
         },
@@ -1690,14 +1721,14 @@
         "hide_experimental": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Filter to hide experimental models",
+            "smithy.api#documentation": "Filter to hide experimental models.",
             "smithy.api#httpQuery": "hide_experimental"
           }
         },
         "include_deprecated": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "If true, include models whose planned_deprecation_date is in the past — but only within a three-month grace window after that date. Models whose planned_deprecation_date is more than three months in the past remain hidden regardless of this flag. Future planned-deprecation dates are always included regardless of this flag. Defaults to false, preserving the existing behavior of hiding all past-dated deprecations.",
+            "smithy.api#documentation": "If true, include models for up to three months after their deprecation date. Defaults to false.",
             "smithy.api#httpQuery": "include_deprecated"
           }
         },
@@ -1716,21 +1747,21 @@
         "search": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Search",
+            "smithy.api#documentation": "Search.",
             "smithy.api#httpQuery": "search"
           }
         },
         "source": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Filter by Source Id",
+            "smithy.api#documentation": "Filter by Source Id.",
             "smithy.api#httpQuery": "source"
           }
         },
         "task": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter by Task Name",
+            "smithy.api#documentation": "Filter by Task Name.",
             "smithy.api#httpQuery": "task"
           }
         }
@@ -2126,6 +2157,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "file": {
+          "target": "com.cloudflare.ai#ToMarkdownTransformRequestFile",
+          "traits": {
             "smithy.api#required": {}
           }
         }

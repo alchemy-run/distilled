@@ -234,7 +234,7 @@ export interface CreateRuleRequest {
   accountId: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesCreateRequestPrefixesList;
   /** MNM rule type. */
@@ -320,7 +320,7 @@ export interface CreateRuleResponse {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesCreateResponsePrefixesList;
   /** MNM rule type. */
@@ -507,7 +507,7 @@ export interface DeleteRuleResponse {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesDeleteResponsePrefixesList;
   /** MNM rule type. */
@@ -721,7 +721,7 @@ export interface GetRuleResponse {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesGetResponsePrefixesList;
   /** MNM rule type. */
@@ -821,7 +821,7 @@ export interface RulesListResultItem {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesListResultItemPrefixesList;
   /** MNM rule type. */
@@ -1010,7 +1010,7 @@ export interface PatchRuleRequest {
   ruleId: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesEditRequestPrefixesList;
   /** MNM rule type. */
@@ -1097,7 +1097,7 @@ export interface PatchRuleResponse {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesEditResponsePrefixesList;
   /** MNM rule type. */
@@ -1299,7 +1299,7 @@ export interface UpdateRuleRequest {
   accountId: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesUpdateRequestPrefixesList;
   /** MNM rule type. */
@@ -1385,7 +1385,7 @@ export interface UpdateRuleResponse {
   id: string;
   /** Toggle on if you would like Cloudflare to automatically advertise the IP Prefixes within the rule via Magic Transit when the rule is triggered. Only available for users of Magic Transit. */
   automaticAdvertisement: boolean;
-  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can’t have a space in the rule name. Max 256 characters. */
+  /** The name of the rule. Must be unique. Supports characters A-Z, a-z, 0-9, underscore (_), dash (-), period (.), and tilde (~). You can't have a space in the rule name. Max 256 characters. */
   name: string;
   prefixes: RulesUpdateResponsePrefixesList;
   /** MNM rule type. */

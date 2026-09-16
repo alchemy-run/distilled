@@ -492,17 +492,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.smart_shield#ClearCacheReserveClearResponseId": {
-      "type": "enum",
-      "members": {
-        "CACHE_RESERVE_CLEAR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cache_reserve_clear"
-          }
-        }
-      }
-    },
     "com.cloudflare.smart_shield#ClearCacheReserveClearResponseState": {
       "type": "enum",
       "members": {
@@ -524,7 +513,7 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.smart_shield#ClearCacheReserveClearResponseId",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "ID of the zone setting.",
             "smithy.api#required": {}
@@ -595,17 +584,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.smart_shield#CacheReserveClearStatusResponseId": {
-      "type": "enum",
-      "members": {
-        "CACHE_RESERVE_CLEAR": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "cache_reserve_clear"
-          }
-        }
-      }
-    },
     "com.cloudflare.smart_shield#CacheReserveClearStatusResponseState": {
       "type": "enum",
       "members": {
@@ -627,7 +605,7 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.smart_shield#CacheReserveClearStatusResponseId",
+          "target": "smithy.api#Document",
           "traits": {
             "smithy.api#documentation": "ID of the zone setting.",
             "smithy.api#required": {}
@@ -2962,6 +2940,14 @@
         "target": "com.cloudflare.smart_shield#UpdateHealthCheckRequestErrorsItem"
       }
     },
+    "com.cloudflare.smart_shield#UpdateHealthCheckRequestMessagesItemSource": {
+      "type": "structure",
+      "members": {
+        "pointer": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
     "com.cloudflare.smart_shield#UpdateHealthCheckRequestMessagesItem": {
       "type": "structure",
       "members": {
@@ -2981,7 +2967,7 @@
           "target": "smithy.api#String"
         },
         "source": {
-          "target": "smithy.api#Document"
+          "target": "com.cloudflare.smart_shield#UpdateHealthCheckRequestMessagesItemSource"
         }
       }
     },

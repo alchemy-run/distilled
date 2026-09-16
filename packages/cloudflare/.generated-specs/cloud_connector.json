@@ -55,6 +55,12 @@
           "traits": {
             "smithy.api#enumValue": "azure_storage"
           }
+        },
+        "OCI_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oci_storage"
+          }
         }
       }
     },
@@ -130,6 +136,12 @@
           "traits": {
             "smithy.api#enumValue": "azure_storage"
           }
+        },
+        "OCI_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oci_storage"
+          }
         }
       }
     },
@@ -204,6 +216,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "azure_storage"
+          }
+        },
+        "OCI_STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "oci_storage"
           }
         }
       }

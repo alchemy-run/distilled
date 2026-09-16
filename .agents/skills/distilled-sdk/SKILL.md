@@ -50,7 +50,7 @@ this table is the whole decision.
 | Whole directories inside a huge git repo | `spec-repos/aws`, `spec-repos/azure` | blobless (`--filter=blob:none`) + `--no-checkout` clone, narrow sparse patterns from the tree, only then fetch blobs |
 | An index that enumerates many documents | `spec-repos/gcp` | crawl the discovery directory, write `_manifest.json` + one doc per entry |
 | A GraphQL endpoint | `spec-repos/railway`, `spec-repos/expo-eas` | introspection query → `schema.json` |
-| Only human docs (markdown/HTML) | nothing yet — read the cloudflare note below first | download + parse |
+| Only human docs (markdown/HTML) | `spec-repos/cloudflare` | crawl the docs sidebar, download each page's markdown twin, render the page HTML when that twin is truncated |
 
 A YAML spec does not have to be converted in the mirror: `spec-repos/coinbase`
 mirrors `openapi.yaml` verbatim and `packages/coinbase/scripts/convert.ts`
@@ -59,13 +59,13 @@ in the mirror only when the upstream is an endpoint rather than a file.
 
 **When the user says "like GitHub"** they mean a few files out of a big repo —
 raw download, no clone. **"Like cloudflare"** means the description has to be
-scraped out of documentation pages. `packages/cloudflare` is the cautionary
-example, not the model: its upstream moved to Astro and now serves HTML at
-every `index.md` URL, so `spec-mirror-cloudflare` is `blocked` in the manifest
-and the package runs off a stale snapshot. If you are about to scrape docs,
-first check whether the provider publishes a real machine-readable description
-somewhere — that is nearly always the better spec, and it is what unblocks
-cloudflare too (`cloudflare/api-schemas`).
+scraped out of documentation pages. Copy `spec-repos/cloudflare`: crawl the
+sidebar for every page URL, download each page's `index.md` twin, and fall
+back to rendering the page's HTML when the twin comes back truncated — that
+host cuts the markdown off mid-page on its largest schemas. If you are about
+to scrape docs, first check whether the provider publishes a real
+machine-readable description somewhere — that is nearly always the better
+spec.
 
 Rules every `fetch-specs.ts` follows:
 
@@ -259,8 +259,8 @@ does not have, and `resolveSpecPath` says so rather than failing later.
 `patches/{sdkId}.json` config (`applyAwsSpecPatches`), copies
 `partitions.json`, and writes `.generated-specs/<sdkId>.json`. generate
 compiles those and reads the patch file only for `errorCategories`. `cloudflare`
-takes its spec root as a `--specs` flag and its mirror is `blocked` — see the
-stack README — so it is the one package still reading a stale in-repo snapshot.
+takes its spec root as a `--specs` flag whose default is the mirror path, and
+resolves it through `resolveSpecPath` like everything else.
 
 `fly-io` is the one package that reads more than its mirror: `specs/sprites`,
 `specs/mpg` and `specs/addons` are small hand-maintained documents committed

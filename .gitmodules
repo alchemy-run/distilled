@@ -383,3 +383,13 @@
 	url = https://github.com/distilled-mirror/spec-mirror-forgejo.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/s2/specs/spec-mirror-s2"]
+	path = packages/s2/specs/spec-mirror-s2
+	url = https://github.com/distilled-mirror/spec-mirror-s2.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/cloudflare/specs/spec-mirror-cloudflare"]
+	path = packages/cloudflare/specs/spec-mirror-cloudflare
+	url = https://github.com/distilled-mirror/spec-mirror-cloudflare.git
+	ignore = dirty
+	shallow = true

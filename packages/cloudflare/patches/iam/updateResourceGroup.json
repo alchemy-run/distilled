@@ -1,5 +1,5 @@
 {
-  "description": "Align iam#ResourceGroupsUpdate with distilled cloudflare/iam updateResourceGroup; live resource groups return one scope object, not an array",
+  "description": "Align iam#ResourceGroupsUpdate with distilled cloudflare/iam updateResourceGroup",
   "patches": [
     {
       "op": "move",
@@ -34,11 +34,6 @@
           "target": "com.cloudflare.iam#ResourceGroupNotFound"
         }
       ]
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.cloudflare.iam#UpdateResourceGroupResponse/members/scope/target",
-      "value": "com.cloudflare.iam#ResourceGroupsCreateRequestScope"
     }
   ]
 }

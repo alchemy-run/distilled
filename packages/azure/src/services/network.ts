@@ -96901,13 +96901,6 @@ export const PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse =
       "PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse",
   }) as any as S.Schema<PublicIPAddressesDisassociateCloudServiceReservedPublicIpResponse>;
 
-/** When true, reverts from Static to Dynamic allocation (undo reservation). */
-export type PublicIPAddressesReserveCloudServicePublicIpAddressRequestIsRollback =
-  | "true"
-  | "false";
-export const PublicIPAddressesReserveCloudServicePublicIpAddressRequestIsRollback =
-  S.String;
-
 export interface PublicIPAddressesReserveCloudServicePublicIpAddressRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -96916,9 +96909,7 @@ export interface PublicIPAddressesReserveCloudServicePublicIpAddressRequest {
   /** The name of the public IP address. */
   publicIpAddressName: string;
   /** When true, reverts from Static to Dynamic allocation (undo reservation). */
-  isRollback:
-    | PublicIPAddressesReserveCloudServicePublicIpAddressRequestIsRollback
-    | (string & {});
+  isRollback: boolean;
 }
 export const PublicIPAddressesReserveCloudServicePublicIpAddressRequest =
   /*@__PURE__*/ S.suspend(() =>
@@ -96926,8 +96917,7 @@ export const PublicIPAddressesReserveCloudServicePublicIpAddressRequest =
       subscriptionId: S.String.pipe(T.Label()),
       resourceGroupName: S.String.pipe(T.Label()),
       publicIpAddressName: S.String.pipe(T.Label()),
-      isRollback:
-        PublicIPAddressesReserveCloudServicePublicIpAddressRequestIsRollback,
+      isRollback: S.Boolean.pipe(T.StringEncoded()),
     }).pipe(
       T.Http({
         method: "POST",

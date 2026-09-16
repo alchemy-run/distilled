@@ -235,7 +235,7 @@
           "uri": "/tenants/{tenant_tag}/custom_ns",
           "code": 200
         },
-        "smithy.api#documentation": "Add Tenant Custom Nameserver"
+        "smithy.api#documentation": "Adds a custom nameserver for a tenant."
       }
     },
     "com.cloudflare.tenant_custom_nameservers#CreateTenantCustomNameserverRequest": {
@@ -324,7 +324,7 @@
           "uri": "/tenants/{tenant_tag}/custom_ns/{custom_ns_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete Tenant Custom Nameserver",
+        "smithy.api#documentation": "Deletes a tenant's custom nameserver.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -385,7 +385,7 @@
           "uri": "/tenants/{tenant_tag}/custom_ns",
           "code": 200
         },
-        "smithy.api#documentation": "List a tenant's custom nameservers.",
+        "smithy.api#documentation": "Lists a tenant's custom nameservers.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",

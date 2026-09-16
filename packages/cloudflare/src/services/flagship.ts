@@ -87,7 +87,7 @@ export interface CreateAppResponse {
   createdAt: string;
   name: string;
   updatedAt: string;
-  /** Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes. */
+  /** Email of the actor who last modified the app, or `unknown` when unavailable. */
   updatedBy: string;
 }
 export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
@@ -117,20 +117,44 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator =
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsCreateRequestRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsCreateRequestRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsCreateRequestRulesItemConditionsItemCase0",
@@ -151,13 +175,36 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Op
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -165,7 +212,8 @@ export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0 
       attribute: S.String,
       operator:
         AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -187,13 +235,36 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -201,7 +272,8 @@ export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -223,13 +295,36 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -237,7 +332,8 @@ export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -259,13 +355,36 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -273,7 +392,8 @@ export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -295,13 +415,36 @@ export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -309,7 +452,8 @@ export const AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -627,9 +771,9 @@ export const AppsFlagsCreateRequestRulesItemRollout = /*@__PURE__*/ S.suspend(
 export interface AppsFlagsCreateRequestRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsCreateRequestRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateRequestRulesItemRollout;
 }
@@ -668,7 +812,7 @@ export interface CreateAppFlagRequest {
   accountId: string;
   /** App identifier. */
   appId: string;
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -676,10 +820,10 @@ export interface CreateAppFlagRequest {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsCreateRequestRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
+  /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
   type?: AppsFlagsCreateRequestType | (string & {});
 }
 export const CreateAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
@@ -721,18 +865,42 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator =
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsCreateResponseRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsCreateResponseRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsCreateResponseRulesItemConditionsItemCase0",
@@ -753,11 +921,34 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0O
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -765,7 +956,8 @@ export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0
       attribute: S.String,
       operator:
         AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -787,11 +979,34 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -799,7 +1014,8 @@ export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -821,11 +1037,34 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -833,7 +1072,8 @@ export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -855,11 +1095,34 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -867,7 +1130,8 @@ export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -889,11 +1153,34 @@ export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -901,7 +1188,8 @@ export const AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsCreateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1207,9 +1495,9 @@ export const AppsFlagsCreateResponseRulesItemRollout = /*@__PURE__*/ S.suspend(
 export interface AppsFlagsCreateResponseRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsCreateResponseRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -1239,7 +1527,7 @@ export const AppsFlagsCreateResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAppFlagResponse {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -1247,11 +1535,11 @@ export interface CreateAppFlagResponse {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsCreateResponseRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsCreateResponseType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsCreateResponseType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -1261,9 +1549,9 @@ export const CreateAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     key: S.String,
     rules: AppsFlagsCreateResponseRulesList,
+    type: AppsFlagsCreateResponseType,
     variations: UntypedVariationsMap,
     description: S.optional(S.NullOr(S.String)),
-    type: S.optional(S.NullOr(AppsFlagsCreateResponseType)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1371,7 +1659,7 @@ export interface GetAppResponse {
   createdAt: string;
   name: string;
   updatedAt: string;
-  /** Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes. */
+  /** Email of the actor who last modified the app, or `unknown` when unavailable. */
   updatedBy: string;
 }
 export const GetAppResponse = /*@__PURE__*/ S.suspend(() =>
@@ -1502,18 +1790,42 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase0Operator =
 export const AppsFlagsGetResponseRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsGetResponseRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsGetResponseRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsGetResponseRulesItemConditionsItemCase0",
@@ -1534,11 +1846,34 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Oper
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1546,7 +1881,8 @@ export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0 =
       attribute: S.String,
       operator:
         AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1568,11 +1904,34 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1580,7 +1939,8 @@ export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Cla
       attribute: S.String,
       operator:
         AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1602,11 +1962,34 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1614,7 +1997,8 @@ export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Cla
       attribute: S.String,
       operator:
         AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1636,11 +2020,34 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1648,7 +2055,8 @@ export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Cla
       attribute: S.String,
       operator:
         AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1670,11 +2078,34 @@ export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Clau
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -1682,7 +2113,8 @@ export const AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1Cla
       attribute: S.String,
       operator:
         AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsGetResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -1977,9 +2409,9 @@ export const AppsFlagsGetResponseRulesItemRollout =
 export interface AppsFlagsGetResponseRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsGetResponseRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -2005,7 +2437,7 @@ export const AppsFlagsGetResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAppFlagResponse {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -2013,11 +2445,11 @@ export interface GetAppFlagResponse {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsGetResponseRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsGetResponseType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsGetResponseType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -2027,9 +2459,9 @@ export const GetAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     key: S.String,
     rules: AppsFlagsGetResponseRulesList,
+    type: AppsFlagsGetResponseType,
     variations: UntypedVariationsMap,
     description: S.optional(S.NullOr(S.String)),
-    type: S.optional(S.NullOr(AppsFlagsGetResponseType)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -2084,11 +2516,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2096,7 +2551,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2118,11 +2574,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2130,7 +2609,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2152,11 +2632,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2164,7 +2667,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2186,11 +2690,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2198,7 +2725,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2220,11 +2748,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2232,7 +2783,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2254,11 +2806,34 @@ export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2266,7 +2841,8 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2563,9 +3139,9 @@ export const AppsFlagsChangelogListResultItemCase0AfterRulesItemRollout =
 export interface AppsFlagsChangelogListResultItemCase0AfterRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsChangelogListResultItemCase0AfterRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -2597,7 +3173,7 @@ export type AppsFlagsChangelogListResultItemCase0AfterType =
 export const AppsFlagsChangelogListResultItemCase0AfterType = S.String;
 
 export interface AppsFlagsChangelogListResultItemCase0After {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -2605,11 +3181,11 @@ export interface AppsFlagsChangelogListResultItemCase0After {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsChangelogListResultItemCase0AfterRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsChangelogListResultItemCase0AfterType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsChangelogListResultItemCase0AfterType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -2620,11 +3196,9 @@ export const AppsFlagsChangelogListResultItemCase0After =
       enabled: S.Boolean,
       key: S.String,
       rules: AppsFlagsChangelogListResultItemCase0AfterRulesList,
+      type: AppsFlagsChangelogListResultItemCase0AfterType,
       variations: UntypedVariationsMap,
       description: S.optional(S.NullOr(S.String)),
-      type: S.optional(
-        S.NullOr(AppsFlagsChangelogListResultItemCase0AfterType),
-      ),
       updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
       updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
     }),
@@ -2666,11 +3240,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2678,7 +3275,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2700,11 +3298,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2712,7 +3333,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2734,11 +3356,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2746,7 +3391,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2768,11 +3414,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2780,7 +3449,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2802,11 +3472,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2814,7 +3507,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -2836,11 +3530,34 @@ export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -2848,7 +3565,8 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3145,9 +3863,9 @@ export const AppsFlagsChangelogListResultItemCase1AfterRulesItemRollout =
 export interface AppsFlagsChangelogListResultItemCase1AfterRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsChangelogListResultItemCase1AfterRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -3179,7 +3897,7 @@ export type AppsFlagsChangelogListResultItemCase1AfterType =
 export const AppsFlagsChangelogListResultItemCase1AfterType = S.String;
 
 export interface AppsFlagsChangelogListResultItemCase1After {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -3187,11 +3905,11 @@ export interface AppsFlagsChangelogListResultItemCase1After {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsChangelogListResultItemCase1AfterRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsChangelogListResultItemCase1AfterType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsChangelogListResultItemCase1AfterType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -3202,11 +3920,9 @@ export const AppsFlagsChangelogListResultItemCase1After =
       enabled: S.Boolean,
       key: S.String,
       rules: AppsFlagsChangelogListResultItemCase1AfterRulesList,
+      type: AppsFlagsChangelogListResultItemCase1AfterType,
       variations: UntypedVariationsMap,
       description: S.optional(S.NullOr(S.String)),
-      type: S.optional(
-        S.NullOr(AppsFlagsChangelogListResultItemCase1AfterType),
-      ),
       updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
       updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
     }),
@@ -3248,11 +3964,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3260,7 +3999,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3282,11 +4022,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3294,7 +4057,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3316,11 +4080,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3328,7 +4115,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3350,11 +4138,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3362,7 +4173,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3384,11 +4196,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3396,7 +4231,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3418,11 +4254,34 @@ export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCas
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -3430,7 +4289,8 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCa
       attribute: S.String,
       operator:
         AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -3727,9 +4587,9 @@ export const AppsFlagsChangelogListResultItemCase2AfterRulesItemRollout =
 export interface AppsFlagsChangelogListResultItemCase2AfterRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsChangelogListResultItemCase2AfterRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -3761,7 +4621,7 @@ export type AppsFlagsChangelogListResultItemCase2AfterType =
 export const AppsFlagsChangelogListResultItemCase2AfterType = S.String;
 
 export interface AppsFlagsChangelogListResultItemCase2After {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -3769,11 +4629,11 @@ export interface AppsFlagsChangelogListResultItemCase2After {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsChangelogListResultItemCase2AfterRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsChangelogListResultItemCase2AfterType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsChangelogListResultItemCase2AfterType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -3784,11 +4644,9 @@ export const AppsFlagsChangelogListResultItemCase2After =
       enabled: S.Boolean,
       key: S.String,
       rules: AppsFlagsChangelogListResultItemCase2AfterRulesList,
+      type: AppsFlagsChangelogListResultItemCase2AfterType,
       variations: UntypedVariationsMap,
       description: S.optional(S.NullOr(S.String)),
-      type: S.optional(
-        S.NullOr(AppsFlagsChangelogListResultItemCase2AfterType),
-      ),
       updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
       updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
     }),
@@ -3899,11 +4757,14 @@ export type AppsFlagsChangelogListResultItem =
   | AppsFlagsChangelogListResultItemCase1
   | AppsFlagsChangelogListResultItemCase2;
 export const AppsFlagsChangelogListResultItem = /*@__PURE__*/ S.Unknown.pipe(
-  T.UnionCases([
-    ["after", "event", "flagKey"],
-    ["after", "event", "flagKey"],
-    ["after", "diff", "event", "flagKey"],
-  ]),
+  T.UnionCases(
+    [
+      ["after", "event", "flagKey"],
+      ["after", "event", "flagKey"],
+      ["after", "diff", "event", "flagKey"],
+    ],
+    { key: "event", values: ["create", "delete", "update"] },
+  ),
 );
 
 export type AppsFlagsChangelogListResultList =
@@ -3971,18 +4832,42 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase0Operator =
 export const AppsFlagsListResultItemRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsListResultItemRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsListResultItemRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsListResultItemRulesItemConditionsItemCase0",
@@ -4003,11 +4888,34 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0O
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4015,7 +4923,8 @@ export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0
       attribute: S.String,
       operator:
         AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4037,11 +4946,34 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4049,7 +4981,8 @@ export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4071,11 +5004,34 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4083,7 +5039,8 @@ export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4105,11 +5062,34 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4117,7 +5097,8 @@ export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4139,11 +5120,34 @@ export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4151,7 +5155,8 @@ export const AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsListResultItemRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4446,9 +5451,9 @@ export const AppsFlagsListResultItemRulesItemRollout =
 export interface AppsFlagsListResultItemRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsListResultItemRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -4477,7 +5482,7 @@ export type AppsFlagsListResultItemType =
 export const AppsFlagsListResultItemType = S.String;
 
 export interface AppsFlagsListResultItem {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -4485,11 +5490,11 @@ export interface AppsFlagsListResultItem {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsListResultItemRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsListResultItemType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsListResultItemType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -4499,9 +5504,9 @@ export const AppsFlagsListResultItem = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     key: S.String,
     rules: AppsFlagsListResultItemRulesList,
+    type: AppsFlagsListResultItemType,
     variations: UntypedVariationsMap,
     description: S.optional(S.NullOr(S.String)),
-    type: S.optional(S.NullOr(AppsFlagsListResultItemType)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }),
@@ -4554,7 +5559,7 @@ export interface AppsListResultItem {
   createdAt: string;
   name: string;
   updatedAt: string;
-  /** Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes. */
+  /** Email of the actor who last modified the app, or `unknown` when unavailable. */
   updatedBy: string;
 }
 export const AppsListResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -4620,7 +5625,7 @@ export interface UpdateAppResponse {
   createdAt: string;
   name: string;
   updatedAt: string;
-  /** Email of the actor who last modified the app, or `edge-gateway` for gateway-authenticated changes. */
+  /** Email of the actor who last modified the app, or `unknown` when unavailable. */
   updatedBy: string;
 }
 export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
@@ -4650,20 +5655,44 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator =
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsUpdateRequestRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsUpdateRequestRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsUpdateRequestRulesItemConditionsItemCase0",
@@ -4684,13 +5713,36 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Op
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4698,7 +5750,8 @@ export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0 
       attribute: S.String,
       operator:
         AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4720,13 +5773,36 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4734,7 +5810,8 @@ export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4756,13 +5833,36 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4770,7 +5870,8 @@ export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4792,13 +5893,36 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4806,7 +5930,8 @@ export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -4828,13 +5953,36 @@ export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1Cl
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator:
     | AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator
     | (string & {});
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -4842,7 +5990,8 @@ export const AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1C
       attribute: S.String,
       operator:
         AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateRequestRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5149,9 +6298,9 @@ export const AppsFlagsUpdateRequestRulesItemRollout =
 export interface AppsFlagsUpdateRequestRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsUpdateRequestRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateRequestRulesItemRollout;
 }
@@ -5186,7 +6335,7 @@ export interface UpdateAppFlagRequest {
   appId: string;
   /** Flag key (slug). */
   flagKey: string;
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -5194,10 +6343,10 @@ export interface UpdateAppFlagRequest {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsUpdateRequestRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
+  /** Deprecated compatibility field. Omit it; the API ignores this value and infers the type from the flag's variations. */
   type?: AppsFlagsUpdateRequestType | (string & {});
 }
 export const UpdateAppFlagRequest = /*@__PURE__*/ S.suspend(() =>
@@ -5240,18 +6389,42 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator =
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map = {
+  [key: string]: unknown | undefined;
+};
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       attribute: S.String,
       operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase0Operator,
-      value: S.Unknown,
+      value: AppsFlagsUpdateResponseRulesItemConditionsItemCase0Value,
     }),
   ).annotate({
     identifier: "AppsFlagsUpdateResponseRulesItemConditionsItemCase0",
@@ -5272,11 +6445,34 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0O
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -5284,7 +6480,8 @@ export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0
       attribute: S.String,
       operator:
         AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5306,11 +6503,34 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -5318,7 +6538,8 @@ export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5340,11 +6561,34 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -5352,7 +6596,8 @@ export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5374,11 +6619,34 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -5386,7 +6654,8 @@ export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5408,11 +6677,34 @@ export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1C
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator =
   S.String;
 
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  { [key: string]: unknown | undefined };
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  Array<unknown>;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List =
+  /*@__PURE__*/ S.Array(
+    S.Unknown,
+  ) as any as S.Schema<AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List>;
+
+export type AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  | string
+  | number
+  | boolean
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase3Map
+  | AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0ValueCase4List;
+export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value =
+  /*@__PURE__*/ S.Unknown.pipe(T.UnionCases([[], [], [], [], []]));
+
 export interface AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 {
   attribute: string;
   operator: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator;
-  /** Value to compare against the context attribute. Must be an array for `in` and `not_in`; numeric and ISO-8601 datetime strings are accepted by the ordering operators. */
-  value: unknown;
+  value: AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value;
 }
 export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0 =
   /*@__PURE__*/ S.suspend(() =>
@@ -5420,7 +6712,8 @@ export const AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1
       attribute: S.String,
       operator:
         AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Operator,
-      value: S.Unknown,
+      value:
+        AppsFlagsUpdateResponseRulesItemConditionsItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase1ClausesItemCase0Value,
     }),
   ).annotate({
     identifier:
@@ -5715,9 +7008,9 @@ export const AppsFlagsUpdateResponseRulesItemRollout =
 export interface AppsFlagsUpdateResponseRulesItem {
   /** Conditions the context must satisfy for this rule to match. An empty array matches all contexts. */
   conditions: AppsFlagsUpdateResponseRulesItemConditionsList;
-  /** Evaluation order; lower numbers are evaluated first. Must be unique across the flag's rules. */
+  /** Evaluation order: the API evaluates rules with lower numbers first. Must be unique across the flag's rules. */
   priority: number;
-  /** Variation served when this rule matches. Must be a key in `variations`. */
+  /** Variation the API serves when this rule matches. Must be a key in `variations`. */
   serveVariation: string;
   rollout?: AppsFlagsCreateResponseRulesItemRollout | null;
 }
@@ -5747,7 +7040,7 @@ export const AppsFlagsUpdateResponseType = S.String;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateAppFlagResponse {
-  /** Variation served when no rule matches or the flag is disabled. Must be a key in `variations`. */
+  /** Variation the API serves when the flag is off, or when it's on but no rule matches the context. Must be a key in `variations`. */
   defaultVariation: string;
   /** When false, the flag bypasses all rules and always serves `default_variation`. */
   enabled: boolean;
@@ -5755,11 +7048,11 @@ export interface UpdateAppFlagResponse {
   key: string;
   /** Targeting rules evaluated in ascending `priority`; the first matching rule wins. An empty array means the flag always serves `default_variation`. */
   rules: AppsFlagsUpdateResponseRulesList;
-  /** Map of variation name to value. All values must be the same type (boolean, string, number, or JSON object/array). Each serialized value must be 10KB or smaller. */
+  /** Server-inferred value type shared by all of the flag's variations. */
+  type: AppsFlagsUpdateResponseType;
+  /** Map of variation name to value. All values share the same type (boolean, string, number, or JSON object/array), and each serialized value stays within 10KB. */
   variations: UntypedVariationsMap;
   description?: string | null;
-  /** Value type of the flag's variations. Inferred from the variation values on write, so it may be omitted in requests. */
-  type?: AppsFlagsUpdateResponseType | null;
   updatedAt?: string | null;
   updatedBy?: string | null;
 }
@@ -5769,9 +7062,9 @@ export const UpdateAppFlagResponse = /*@__PURE__*/ S.suspend(() =>
     enabled: S.Boolean,
     key: S.String,
     rules: AppsFlagsUpdateResponseRulesList,
+    type: AppsFlagsUpdateResponseType,
     variations: UntypedVariationsMap,
     description: S.optional(S.NullOr(S.String)),
-    type: S.optional(S.NullOr(AppsFlagsUpdateResponseType)),
     updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
     updatedBy: S.optional(S.NullOr(S.String).pipe(T.Body("updated_by"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -5798,7 +7091,7 @@ export type CreateAppFlagError =
   | FlagshipFlagAlreadyExists
   | FlagshipAppNotFound
   | CloudflareOpError;
-/** Creates a flag. Returns 409 if the key already exists. `type` is inferred from variation values and may be omitted. */
+/** Creates a flag. Returns 409 if the key already exists. `type` is always inferred from variation values; legacy request-side values are ignored. */
 export const createAppFlag: API.OperationMethod<
   CreateAppFlagRequest,
   CreateAppFlagResponse,
@@ -5836,7 +7129,7 @@ export type DeleteAppFlagError =
   | FlagshipFlagNotFound
   | FlagshipAppNotFound
   | CloudflareOpError;
-/** Permanently deletes a flag. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone. */
+/** Deletes a flag permanently. Subsequent evaluations fall back to the caller-supplied default. Cannot be undone. */
 export const deleteAppFlag: API.OperationMethod<
   DeleteAppFlagRequest,
   DeleteAppFlagResponse,
@@ -5871,7 +7164,7 @@ export const getApp: API.OperationMethod<
 }));
 
 export type GetAppEvaluateError = CloudflareOpError;
-/** Evaluates a flag against the provided context. Pass context attributes as query parameters; boolean and numeric strings are coerced automatically. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint. */
+/** Evaluates a flag against the provided context. Pass context attributes as query parameters; values are forwarded as strings. For low-latency in-Worker evaluation, prefer the Flagship binding over this endpoint. */
 export const getAppEvaluate: API.OperationMethod<
   GetAppEvaluateRequest,
   GetAppEvaluateResponse,

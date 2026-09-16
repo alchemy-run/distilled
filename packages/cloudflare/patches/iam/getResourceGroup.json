@@ -1,5 +1,5 @@
 {
-  "description": "Align iam#ResourceGroupsGet with distilled cloudflare/iam getResourceGroup; live resource groups return one scope object, not an array",
+  "description": "Align iam#ResourceGroupsGet with distilled cloudflare/iam getResourceGroup",
   "patches": [
     {
       "op": "move",
@@ -37,11 +37,6 @@
           "target": "com.cloudflare.iam#Forbidden"
         }
       ]
-    },
-    {
-      "op": "replace",
-      "path": "/shapes/com.cloudflare.iam#GetResourceGroupResponse/members/scope/target",
-      "value": "com.cloudflare.iam#ResourceGroupsCreateRequestScope"
     }
   ]
 }

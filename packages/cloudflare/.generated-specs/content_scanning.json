@@ -120,7 +120,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Update the Content Scanning status.",
+        "smithy.api#documentation": "Update the Content Scanning status by setting the status value to `enabled` or `disabled`. This is equivalent to calling the dedicated enable and disable endpoints.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -138,7 +138,7 @@
         "payload": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the ruleset expression to use in matching content objects.",
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request.",
             "smithy.api#required": {}
           }
         }
@@ -156,13 +156,13 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "defines the unique ID for this custom scan expression."
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression."
           }
         },
         "payload": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the ruleset expression to use in matching content objects."
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request."
           }
         }
       }
@@ -179,13 +179,13 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "defines the unique ID for this custom scan expression."
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression."
           }
         },
         "payload": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the ruleset expression to use in matching content objects."
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request."
           }
         }
       }
@@ -202,13 +202,13 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "defines the unique ID for this custom scan expression."
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression."
           }
         },
         "payload": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Defines the ruleset expression to use in matching content objects."
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request."
           }
         }
       }
@@ -217,6 +217,92 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.content_scanning#PayloadsListResultItem"
+      }
+    },
+    "com.cloudflare.content_scanning#UpdatePayloadRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines an identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "expression_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.content_scanning#UpdatePayloadResultItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression."
+          }
+        },
+        "payload": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Defines the custom content extraction expression used to reach content objects in the request."
+          }
+        }
+      }
+    },
+    "com.cloudflare.content_scanning#UpdatePayloadResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.content_scanning#UpdatePayloadResultItem"
+      }
+    },
+    "com.cloudflare.content_scanning#UpdatePayloadResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.content_scanning#UpdatePayloadResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.content_scanning#UpdatePayload": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.content_scanning#UpdatePayloadRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.content_scanning#UpdatePayloadResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/zones/{zone_id}/content-upload-scan/payloads/{expression_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Update the Content Scanning custom expression with the given identifier and return the updated list of expressions."
       }
     },
     "com.cloudflare.content_scanning#GetSettingsRequest": {
@@ -270,7 +356,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the current status of Content Scanning.",
+        "smithy.api#documentation": "Get the current Content Scanning status for the zone, together with the date the status was last modified.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -285,6 +371,9 @@
       "operations": [
         {
           "target": "com.cloudflare.content_scanning#Update"
+        },
+        {
+          "target": "com.cloudflare.content_scanning#UpdatePayload"
         },
         {
           "target": "com.cloudflare.content_scanning#GetSettings"
@@ -394,7 +483,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Update the Content Scanning status.",
+        "smithy.api#documentation": "Update the Content Scanning status by setting the status value to `enabled` or `disabled`. This is equivalent to calling the dedicated enable and disable endpoints.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -464,7 +553,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/payloads",
           "code": 200
         },
-        "smithy.api#documentation": "Add custom scan expressions for Content Scanning.",
+        "smithy.api#documentation": "Create one or more Content Scanning custom expressions, appending them to the existing list of the zone, and return the updated list. Each expression reaches content objects the scanner cannot find automatically, for example `lookup_json_string(http.request.body.raw, \"file\")`.",
         "smithy.api#paginated": {
           "mode": "single",
           "items": "result"
@@ -534,7 +623,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/payloads/{expression_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Delete a Content Scan Custom Expression.",
+        "smithy.api#documentation": "Delete the Content Scanning custom expression with the given identifier and return the expressions that remain. Content objects reached only by the deleted expression are no longer scanned.",
         "smithy.api#idempotent": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -564,7 +653,7 @@
         "expression_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "defines the unique ID for this custom scan expression.",
+            "smithy.api#documentation": "Defines the unique ID for this Content Scanning custom expression.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -603,7 +692,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/disable",
           "code": 200
         },
-        "smithy.api#documentation": "Disable Content Scanning."
+        "smithy.api#documentation": "Disable Content Scanning for a zone. The `cf.waf.content_scan.*` fields are no longer populated, so rules that reference them stop matching."
       }
     },
     "com.cloudflare.content_scanning#DisableContentScanningRequest": {
@@ -651,7 +740,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/enable",
           "code": 200
         },
-        "smithy.api#documentation": "Enable Content Scanning."
+        "smithy.api#documentation": "Enable Content Scanning for a zone, so that Cloudflare inspects content objects uploaded to the zone and checks them for malware. Scan results populate the `cf.waf.content_scan.*` fields, which you can reference in custom rules and rate limiting rules."
       }
     },
     "com.cloudflare.content_scanning#EnableContentScanningRequest": {
@@ -699,7 +788,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Retrieve the current status of Content Scanning.",
+        "smithy.api#documentation": "Get the current Content Scanning status for the zone, together with the date the status was last modified.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -759,7 +848,7 @@
           "uri": "/zones/{zone_id}/content-upload-scan/payloads",
           "code": 200
         },
-        "smithy.api#documentation": "Get a list of existing custom scan expressions for Content Scanning.",
+        "smithy.api#documentation": "List the Content Scanning custom expressions configured for the zone, each with its own identifier. A custom expression tells the scanner how to reach content objects in a request it cannot parse on its own, such as files Base64-encoded inside a JSON body.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",

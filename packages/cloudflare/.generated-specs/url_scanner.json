@@ -4039,6 +4039,127 @@
         }
       }
     },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemFinding": {
+      "type": "structure",
+      "members": {
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemRequest": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bodyPreview": {
+          "target": "smithy.api#String"
+        },
+        "bodySize": {
+          "target": "smithy.api#Double"
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        },
+        "redirectedTo": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finding": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemFinding"
+        },
+        "request": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemRequest"
+        },
+        "response": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItemResponse"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceItem"
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "smithy.api#Document"
+        },
+        "durationMs": {
+          "target": "smithy.api#Double"
+        },
+        "evidence": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAidEvidenceList"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeadersEvidenceItemFinding": {
       "type": "structure",
       "members": {
@@ -4405,6 +4526,12 @@
     "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverability": {
       "type": "structure",
       "members": {
+        "dnsAid": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityDnsAid",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "linkHeaders": {
           "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoverabilityLinkHeaders",
           "traits": {
@@ -4782,6 +4909,248 @@
         },
         "evidence": {
           "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalogEvidenceList"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemFinding": {
+      "type": "structure",
+      "members": {
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemRequest": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bodyPreview": {
+          "target": "smithy.api#String"
+        },
+        "bodySize": {
+          "target": "smithy.api#Double"
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        },
+        "redirectedTo": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finding": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemFinding"
+        },
+        "request": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemRequest"
+        },
+        "response": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItemResponse"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceItem"
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "smithy.api#Document"
+        },
+        "durationMs": {
+          "target": "smithy.api#Double"
+        },
+        "evidence": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArdEvidenceList"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemFinding": {
+      "type": "structure",
+      "members": {
+        "outcome": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "summary": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemRequest": {
+      "type": "structure",
+      "members": {
+        "method": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemResponse": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "bodyPreview": {
+          "target": "smithy.api#String"
+        },
+        "bodySize": {
+          "target": "smithy.api#Double"
+        },
+        "headers": {
+          "target": "smithy.api#Document"
+        },
+        "redirectedTo": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItem": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "label": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "finding": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemFinding"
+        },
+        "request": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemRequest"
+        },
+        "response": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItemResponse"
+        }
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceItem"
+      }
+    },
+    "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd": {
+      "type": "structure",
+      "members": {
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "details": {
+          "target": "smithy.api#Document"
+        },
+        "durationMs": {
+          "target": "smithy.api#Double"
+        },
+        "evidence": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMdEvidenceList"
         },
         "message": {
           "target": "smithy.api#String"
@@ -5289,6 +5658,18 @@
         },
         "apiCatalog": {
           "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryApiCatalog",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "ard": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryArd",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "authMd": {
+          "target": "com.cloudflare.url_scanner#ScansGetResponseMetaProcessorsAgentReadinessChecksDiscoveryAuthMd",
           "traits": {
             "smithy.api#required": {}
           }
@@ -7722,7 +8103,7 @@
           "uri": "/accounts/{account_id}/urlscanner/v2/search",
           "code": 200
         },
-        "smithy.api#documentation": "Use a subset of ElasticSearch Query syntax to filter scans. Some example queries:<br/> <br/>- 'path:\"/bundles/jquery.js\"': Searches for scans who requested resources with the given path.<br/>- 'page.asn:AS24940 AND hash:xxx': Websites hosted in AS24940 where a resource with the given hash was downloaded.<br/>- 'page.domain:microsoft* AND verdicts.malicious:true AND NOT page.domain:microsoft.com': malicious scans whose hostname starts with \"microsoft\".<br/>- 'apikey:me AND date:[2025-01 TO 2025-02]': my scans from 2025 January to 2025 February.",
+        "smithy.api#documentation": "Use a subset of ElasticSearch Query syntax to filter scans. Some example queries: - 'path:\"/bundles/jquery.js\"': Searches for scans who requested resources with the given path. - 'page.asn:AS24940 AND hash:xxx': Websites hosted in AS24940 where a resource with the given hash was downloaded. - 'page.domain:microsoft* AND verdicts.malicious:true AND NOT page.domain:microsoft.com': malicious scans whose hostname starts with \"microsoft\". - 'apikey:me AND date:[2025-01 TO 2025-02]': my scans from 2025 January to 2025 February.",
         "smithy.api#readonly": {}
       }
     },

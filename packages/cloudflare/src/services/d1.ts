@@ -133,7 +133,7 @@ export class UnknownError
     [{ code: 0 }],
   ) {}
 
-export type DatabaseCreateRequestJurisdiction = "eu" | "fedramp";
+export type DatabaseCreateRequestJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseCreateRequestJurisdiction = S.String;
 
 export type DatabaseCreateRequestPrimaryLocationHint =
@@ -201,7 +201,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDatabaseRequest",
 }) as any as S.Schema<CreateDatabaseRequest>;
 
-export type DatabaseCreateResponseJurisdiction = "eu" | "fedramp";
+export type DatabaseCreateResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseCreateResponseJurisdiction = S.String;
 
 export type DatabaseCreateResponseReadReplicationMode = "auto" | "disabled";
@@ -466,7 +466,7 @@ export interface GetDatabaseRequest {
   accountId: string;
   /** D1 database identifier (UUID). */
   databaseId: string;
-  /** Comma-separated list of fields to include in the response. When omitted, */
+  /** Comma-separated list of fields to include in the response. When omitted, all fields are returned. */
   fields?: DatabaseGetRequestFieldsList;
 }
 export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
@@ -487,7 +487,7 @@ export const GetDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDatabaseRequest",
 }) as any as S.Schema<GetDatabaseRequest>;
 
-export type DatabaseGetResponseJurisdiction = "eu" | "fedramp";
+export type DatabaseGetResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseGetResponseJurisdiction = S.String;
 
 export type DatabaseGetResponseReadReplicationMode = "auto" | "disabled";
@@ -744,7 +744,7 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDatabasesRequest",
 }) as any as S.Schema<ListDatabasesRequest>;
 
-export type DatabaseListResultItemJurisdiction = "eu" | "fedramp";
+export type DatabaseListResultItemJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseListResultItemJurisdiction = S.String;
 
 export interface DatabaseListResultItem {
@@ -833,7 +833,7 @@ export const PatchDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PatchDatabaseRequest",
 }) as any as S.Schema<PatchDatabaseRequest>;
 
-export type DatabaseEditResponseJurisdiction = "eu" | "fedramp";
+export type DatabaseEditResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseEditResponseJurisdiction = S.String;
 
 export type DatabaseEditResponseReadReplicationMode = "auto" | "disabled";
@@ -1322,7 +1322,7 @@ export const UpdateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateDatabaseRequest",
 }) as any as S.Schema<UpdateDatabaseRequest>;
 
-export type DatabaseUpdateResponseJurisdiction = "eu" | "fedramp";
+export type DatabaseUpdateResponseJurisdiction = "eu" | "fedramp" | "us";
 export const DatabaseUpdateResponseJurisdiction = S.String;
 
 export type DatabaseUpdateResponseReadReplicationMode = "auto" | "disabled";

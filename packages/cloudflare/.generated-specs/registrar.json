@@ -59,14 +59,14 @@
         "registration_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains",
+            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years.",
             "smithy.api#required": {}
           }
         },
         "renewal_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Per-year renewal cost for this domain. Applied to each year beyond",
+            "smithy.api#documentation": "Per-year renewal cost for this domain. Applied to each year beyond the first year of a multi-year registration, and to each annual auto-renewal thereafter. May differ from `registration_cost`, especially for premium domains where initial registration often costs more than renewals.",
             "smithy.api#required": {}
           }
         }
@@ -137,26 +137,26 @@
         "registrable": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Indicates whether this domain can be registered programmatically through this API based on a real-time registry check.",
+            "smithy.api#documentation": "Indicates programmatic registration eligibility according to a real-time registry check.",
             "smithy.api#required": {}
           }
         },
         "pricing": {
           "target": "com.cloudflare.registrar#CheckResponseDomainsItemPricing",
           "traits": {
-            "smithy.api#documentation": "Annual pricing information for a registrable domain. This object is only"
+            "smithy.api#documentation": "Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision."
           }
         },
         "reason": {
           "target": "com.cloudflare.registrar#CheckResponseDomainsItemReason",
           "traits": {
-            "smithy.api#documentation": "Present only when `registrable` is `false`. Explains why the domain cannot be registered via this API."
+            "smithy.api#documentation": "Appears only when `registrable` is `false` and explains the result."
           }
         },
         "tier": {
           "target": "com.cloudflare.registrar#CheckResponseDomainsItemTier",
           "traits": {
-            "smithy.api#documentation": "The pricing tier for this domain. Always present when `registrable` is `true`; defaults to `standard` for most domains. May be absent when `registrable` is `false`."
+            "smithy.api#documentation": "The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it."
           }
         }
       }
@@ -186,14 +186,14 @@
         "registration_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains",
+            "smithy.api#documentation": "The first-year cost to register this domain. For premium domains (`tier: premium`), the registry sets this price, which may significantly exceed standard pricing. For multi-year registrations, this cost applies to the first year only; `renewal_cost` applies to subsequent years.",
             "smithy.api#required": {}
           }
         },
         "renewal_cost": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Per-year renewal cost for this domain. Applied to each year beyond",
+            "smithy.api#documentation": "Per-year renewal cost for this domain. Applied to each year beyond the first year of a multi-year registration, and to each annual auto-renewal thereafter. May differ from `registration_cost`, especially for premium domains where initial registration often costs more than renewals.",
             "smithy.api#required": {}
           }
         }
@@ -264,26 +264,26 @@
         "registrable": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Indicates whether this domain appears available based on search data. Search results are non-authoritative and may be stale. - `true`: The domain appears available. Use POST /domain-check to confirm before registration.",
+            "smithy.api#documentation": "Indicates domain availability according to potentially stale, non-authoritative search data.",
             "smithy.api#required": {}
           }
         },
         "pricing": {
           "target": "com.cloudflare.registrar#SearchResponseDomainsItemPricing",
           "traits": {
-            "smithy.api#documentation": "Annual pricing information for a registrable domain. This object is only"
+            "smithy.api#documentation": "Provides annual pricing information for a registrable domain. This object appears only when `registrable` is `true`. The API returns all per-year prices as strings to preserve decimal precision."
           }
         },
         "reason": {
           "target": "com.cloudflare.registrar#SearchResponseDomainsItemReason",
           "traits": {
-            "smithy.api#documentation": "Present only when `registrable` is `false` on search results. Explains why the domain does not appear registrable through this API. These values are advisory; use POST /domain-check for authoritative status."
+            "smithy.api#documentation": "Appears only when `registrable` is `false` and explains the advisory search result. Use POST /domain-check for authoritative status."
           }
         },
         "tier": {
           "target": "com.cloudflare.registrar#SearchResponseDomainsItemTier",
           "traits": {
-            "smithy.api#documentation": "The pricing tier for this domain. Always present when `registrable` is `true`;"
+            "smithy.api#documentation": "The pricing tier for this domain. A `registrable` value of `true` always includes this field, which defaults to `standard` for most domains. A `registrable` value of `false` may omit it."
           }
         }
       }
@@ -321,14 +321,14 @@
         "first_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "User's first name",
+            "smithy.api#documentation": "User's first name.",
             "smithy.api#required": {}
           }
         },
         "last_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "User's last name",
+            "smithy.api#documentation": "User's last name.",
             "smithy.api#required": {}
           }
         },
@@ -342,7 +342,7 @@
         "phone": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "User's telephone number",
+            "smithy.api#documentation": "User's telephone number.",
             "smithy.api#required": {}
           }
         },
@@ -543,13 +543,13 @@
         "accept_foa": {
           "target": "com.cloudflare.registrar#DomainsListResultItemTransferInAcceptFoa",
           "traits": {
-            "smithy.api#documentation": "Form of authorization has been accepted by the registrant."
+            "smithy.api#documentation": "Status of the registrant authorization step."
           }
         },
         "approve_transfer": {
           "target": "com.cloudflare.registrar#DomainsListResultItemTransferInApproveTransfer",
           "traits": {
-            "smithy.api#documentation": "Shows transfer status with the registry."
+            "smithy.api#documentation": "Status of the registry transfer-approval step."
           }
         },
         "can_cancel_transfer": {
@@ -561,19 +561,19 @@
         "disable_privacy": {
           "target": "com.cloudflare.registrar#DomainsListResultItemTransferInDisablePrivacy",
           "traits": {
-            "smithy.api#documentation": "Privacy guards are disabled at the foreign registrar."
+            "smithy.api#documentation": "Status of the privacy-guard disabling step at the foreign registrar."
           }
         },
         "enter_auth_code": {
           "target": "com.cloudflare.registrar#DomainsListResultItemTransferInEnterAuthCode",
           "traits": {
-            "smithy.api#documentation": "Auth code has been entered and verified."
+            "smithy.api#documentation": "Status of the auth-code entry and verification step."
           }
         },
         "unlock_domain": {
           "target": "com.cloudflare.registrar#DomainsListResultItemTransferInUnlockDomain",
           "traits": {
-            "smithy.api#documentation": "Domain is unlocked at the foreign registrar."
+            "smithy.api#documentation": "Status of the domain-unlock step at the foreign registrar."
           }
         }
       }
@@ -596,7 +596,7 @@
         "can_register": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Indicates if the domain can be registered as a new domain."
+            "smithy.api#documentation": "Indicates eligibility to register the domain as a new domain."
           }
         },
         "created_at": {
@@ -632,13 +632,13 @@
         "registry_statuses": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A comma-separated list of registry status codes. A full list of status codes can be found at [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en)."
+            "smithy.api#documentation": "A comma-separated list of registry status codes. Refer to [EPP Status Codes](https://www.icann.org/resources/pages/epp-status-codes-2014-06-16-en) for the full list."
           }
         },
         "supported_tld": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether a particular TLD is currently supported by Cloudflare Registrar. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs."
+            "smithy.api#documentation": "Indicates whether Cloudflare Registrar currently supports a particular TLD. Refer to [TLD Policies](https://www.cloudflare.com/tld-policies/) for a list of supported TLDs."
           }
         },
         "transfer_in": {
@@ -680,6 +680,257 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.registrar#DomainsListResultItem"
+      }
+    },
+    "com.cloudflare.registrar#GetExtensionRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "extension": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.registrar#GetExtensionResponseMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full name of the extension. For example, \"co.uk\", or \"uk\".",
+            "smithy.api#required": {}
+          }
+        },
+        "tld": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The TLD of the extension. For example, for \"co.uk\", it is \"uk\". For \"uk\", it is \"uk\".",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#GetExtensionResponse": {
+      "type": "structure",
+      "members": {
+        "metadata": {
+          "target": "com.cloudflare.registrar#GetExtensionResponseMetadata",
+          "traits": {
+            "smithy.api#documentation": "Extension metadata.",
+            "smithy.api#required": {}
+          }
+        },
+        "registration_schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema describing the expected input structure for registration operations on this extension.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.registrar#GetExtension": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.registrar#GetExtensionRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.registrar#GetExtensionResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/registrar/extensions/{extension}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration operations on a specific extension (TLD). Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
+        "smithy.api#readonly": {}
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsRequestSortBy": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        },
+        "UPDATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "updated_at"
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page.",
+            "smithy.api#httpQuery": "cursor"
+          }
+        },
+        "direction": {
+          "target": "com.cloudflare.registrar#ListExtensionsRequestDirection",
+          "traits": {
+            "smithy.api#documentation": "Sort direction for results. Defaults to ascending order.",
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Filter extensions by exact name match. For example, `name=com` returns only the `com` extension.",
+            "smithy.api#httpQuery": "name"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Number of items to return per page.",
+            "smithy.api#httpQuery": "per_page"
+          }
+        },
+        "sort_by": {
+          "target": "com.cloudflare.registrar#ListExtensionsRequestSortBy",
+          "traits": {
+            "smithy.api#documentation": "Column to sort results by. Defaults to `name` when omitted.",
+            "smithy.api#httpQuery": "sort_by"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsResultItemMetadata": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full name of the extension. For example, \"co.uk\", or \"uk\".",
+            "smithy.api#required": {}
+          }
+        },
+        "tld": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The TLD of the extension. For example, for \"co.uk\", it is \"uk\". For \"uk\", it is \"uk\".",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsResultItem": {
+      "type": "structure",
+      "members": {
+        "metadata": {
+          "target": "com.cloudflare.registrar#ListExtensionsResultItemMetadata",
+          "traits": {
+            "smithy.api#documentation": "Extension metadata.",
+            "smithy.api#required": {}
+          }
+        },
+        "registration_schema": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "JSON Schema describing the expected input structure for registration operations on this extension.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.registrar#ListExtensionsResultItem"
+      }
+    },
+    "com.cloudflare.registrar#ListExtensionsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.registrar#ListExtensionsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.registrar#ListExtensions": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.registrar#ListExtensionsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.registrar#ListExtensionsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/registrar/extensions",
+          "code": 200
+        },
+        "smithy.api#documentation": "Returns metadata and JSON Schema documents describing the expected input structure for registration operations on each supported extension (TLD). This endpoint uses cursor-based pagination. Results are ordered by extension name by default. To fetch the next page, pass the `cursor` value from the `result_info` object in the response as the `cursor` query parameter in your next request. An empty `cursor` string indicates there are no more pages. Supports HTTP conditional GET via `ETag`. Include the `ETag` value from a previous response in an `If-None-Match` header to receive a `304 Not Modified` when the data has not changed.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.registrar#RegistrationStatusGetResponseLinks": {
@@ -769,6 +1020,218 @@
         }
       }
     },
+    "com.cloudflare.registrar#CreateRegistrationRequestAcknowledgementsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactExtensionsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministratorPostalInfoAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City or locality name.",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter country code per ISO 3166-1 alpha-2 (e.g., `US`, `GB`, `CA`, `DE`).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region. Use the standard abbreviation where applicable (e.g., `TX` for Texas, `ON` for Ontario).",
+            "smithy.api#required": {}
+          }
+        },
+        "street": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address including building/suite number.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministratorPostalInfo": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministratorPostalInfoAddress",
+          "traits": {
+            "smithy.api#documentation": "Physical mailing address for the registrant contact.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization or company name. Optional for individual registrants."
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministrator": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.",
+            "smithy.api#required": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number in E.164 format: `+{country_code}.{number}` without spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567` (UK), `+81.312345678` (Japan).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_info": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministratorPostalInfo",
+          "traits": {
+            "smithy.api#documentation": "Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.",
+            "smithy.api#required": {}
+          }
+        },
+        "fax": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number."
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsBillingPostalInfoAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City or locality name.",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter country code per ISO 3166-1 alpha-2 (e.g., `US`, `GB`, `CA`, `DE`).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region. Use the standard abbreviation where applicable (e.g., `TX` for Texas, `ON` for Ontario).",
+            "smithy.api#required": {}
+          }
+        },
+        "street": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address including building/suite number.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsBillingPostalInfo": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsBillingPostalInfoAddress",
+          "traits": {
+            "smithy.api#documentation": "Physical mailing address for the registrant contact.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization or company name. Optional for individual registrants."
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsBilling": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.",
+            "smithy.api#required": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number in E.164 format: `+{country_code}.{number}` without spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567` (UK), `+81.312345678` (Japan).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_info": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsBillingPostalInfo",
+          "traits": {
+            "smithy.api#documentation": "Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.",
+            "smithy.api#required": {}
+          }
+        },
+        "fax": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number."
+          }
+        }
+      }
+    },
     "com.cloudflare.registrar#CreateRegistrationRequestContactsRegistrantPostalInfoAddress": {
       "type": "structure",
       "members": {
@@ -822,7 +1285,7 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Full legal name of the registrant (individual or authorized representative).",
+            "smithy.api#documentation": "Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields.",
             "smithy.api#required": {}
           }
         },
@@ -840,28 +1303,125 @@
         "email": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Email address for the registrant. Used for domain-related",
+            "smithy.api#documentation": "Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.",
             "smithy.api#required": {}
           }
         },
         "phone": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Phone number in E.164 format: `+{country_code}.{number}` with no",
+            "smithy.api#documentation": "Phone number in E.164 format: `+{country_code}.{number}` without spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567` (UK), `+81.312345678` (Japan).",
             "smithy.api#required": {}
           }
         },
         "postal_info": {
           "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsRegistrantPostalInfo",
           "traits": {
-            "smithy.api#documentation": "Postal/mailing information for the registrant contact.",
+            "smithy.api#documentation": "Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.",
             "smithy.api#required": {}
           }
         },
         "fax": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fax number in E.164 format (e.g., `+1.5555555555`). Optional."
+            "smithy.api#documentation": "Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number."
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnicalPostalInfoAddress": {
+      "type": "structure",
+      "members": {
+        "city": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "City or locality name.",
+            "smithy.api#required": {}
+          }
+        },
+        "country_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Two-letter country code per ISO 3166-1 alpha-2 (e.g., `US`, `GB`, `CA`, `DE`).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_code": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Postal or ZIP code.",
+            "smithy.api#required": {}
+          }
+        },
+        "state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State, province, or region. Use the standard abbreviation where applicable (e.g., `TX` for Texas, `ON` for Ontario).",
+            "smithy.api#required": {}
+          }
+        },
+        "street": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Street address including building/suite number.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnicalPostalInfo": {
+      "type": "structure",
+      "members": {
+        "address": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnicalPostalInfoAddress",
+          "traits": {
+            "smithy.api#documentation": "Physical mailing address for the registrant contact.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Full legal name of the contact, including all required name components for an individual or authorized representative. Some registries require a complete personal name that includes a family or last name where applicable. Provide the complete name in this single field, for example `Ada Lovelace`; do not send separate first-name or last-name fields.",
+            "smithy.api#required": {}
+          }
+        },
+        "organization": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Organization or company name. Optional for individual registrants."
+          }
+        }
+      }
+    },
+    "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnical": {
+      "type": "structure",
+      "members": {
+        "email": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Email address for the registrant. Used for domain-related communications from the registry, including ownership verification and renewal notices.",
+            "smithy.api#required": {}
+          }
+        },
+        "phone": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Phone number in E.164 format: `+{country_code}.{number}` without spaces or dashes. Examples: `+1.5555555555` (US), `+44.2071234567` (UK), `+81.312345678` (Japan).",
+            "smithy.api#required": {}
+          }
+        },
+        "postal_info": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnicalPostalInfo",
+          "traits": {
+            "smithy.api#documentation": "Postal/mailing information for the contact. The `name` field is the complete contact name in one string. Some registries require a complete personal name, including a family or last name where applicable, but this API does not accept separate first-name and last-name fields for registration contacts.",
+            "smithy.api#required": {}
+          }
+        },
+        "fax": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Fax number in E.164 format (e.g., `+1.5555555555`). Optional. Most registrations do not require a fax number."
           }
         }
       }
@@ -869,10 +1429,28 @@
     "com.cloudflare.registrar#CreateRegistrationRequestContacts": {
       "type": "structure",
       "members": {
+        "administrator": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsAdministrator",
+          "traits": {
+            "smithy.api#documentation": "Optional administrator contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`."
+          }
+        },
+        "billing": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsBilling",
+          "traits": {
+            "smithy.api#documentation": "Optional billing contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`."
+          }
+        },
         "registrant": {
           "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsRegistrant",
           "traits": {
-            "smithy.api#documentation": "Registrant contact data for the domain registration. This information"
+            "smithy.api#documentation": "Optional registrant contact. If omitted, the account's default address book entry is used instead."
+          }
+        },
+        "technical": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactsTechnical",
+          "traits": {
+            "smithy.api#documentation": "Optional technical contact. Accepted only when the extension schema includes this role. When the registry requires an omitted contact, Cloudflare may derive it from `contacts.registrant`."
           }
         }
       }
@@ -880,6 +1458,12 @@
     "com.cloudflare.registrar#CreateRegistrationRequestPrivacyMode": {
       "type": "enum",
       "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
         "REDACTION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -894,7 +1478,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -908,32 +1492,44 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#required": {}
+          }
+        },
+        "acknowledgements": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestAcknowledgementsMap",
+          "traits": {
+            "smithy.api#documentation": "Provides user acknowledgements for a specific extension or premium registration flow. The extension registration schema from the extension discovery endpoint identifies the required keys."
           }
         },
         "auto_renew": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enable or disable automatic renewal. Defaults to `false` if omitted."
+            "smithy.api#documentation": "Enable or disable automatic renewal. Defaults to `false` if omitted. Setting this field to `true` is an explicit opt-in authorizing Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing."
+          }
+        },
+        "contact_extensions": {
+          "target": "com.cloudflare.registrar#CreateRegistrationRequestContactExtensionsMap",
+          "traits": {
+            "smithy.api#documentation": "Provides registry-specific contact extension values for the registrant. `GET /accounts/{account_id}/registrar/extensions/{extension}` identifies the required keys and allowed values for each extension in the `registration_schema.properties.contact_extensions` object."
           }
         },
         "contacts": {
           "target": "com.cloudflare.registrar#CreateRegistrationRequestContacts",
           "traits": {
-            "smithy.api#documentation": "Contact data for the registration request."
+            "smithy.api#documentation": "Provides contact data for the registration request."
           }
         },
         "privacy_mode": {
           "target": "com.cloudflare.registrar#CreateRegistrationRequestPrivacyMode",
           "traits": {
-            "smithy.api#documentation": "WHOIS privacy mode for the registration. Defaults to `redaction`."
+            "smithy.api#documentation": "Sets the WHOIS privacy mode for the registration. Defaults to `redaction`."
           }
         },
         "years": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Number of years to register (1–10). If omitted, defaults to the"
+            "smithy.api#documentation": "Sets the registration term from 1 to 10 years. When omitted, this field defaults to the registry's minimum registration period for the extension. Most extensions require 1 year, while some require longer minimum terms (e.g., `.ai` requires 2 years)."
           }
         }
       },
@@ -1034,7 +1630,7 @@
         "completed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the workflow has reached a terminal state. `true` when",
+            "smithy.api#documentation": "Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`.",
             "smithy.api#required": {}
           }
         },
@@ -1053,7 +1649,7 @@
         "state": {
           "target": "com.cloudflare.registrar#CreateRegistrationResponseState",
           "traits": {
-            "smithy.api#documentation": "Workflow lifecycle state.",
+            "smithy.api#documentation": "Describes the workflow lifecycle state.",
             "smithy.api#required": {}
           }
         },
@@ -1066,13 +1662,13 @@
         "context": {
           "target": "com.cloudflare.registrar#CreateRegistrationResponseContextMap",
           "traits": {
-            "smithy.api#documentation": "Workflow-specific data for this workflow."
+            "smithy.api#documentation": "Provides workflow-specific data."
           }
         },
         "error": {
           "target": "com.cloudflare.registrar#CreateRegistrationResponseError",
           "traits": {
-            "smithy.api#documentation": "Error details when a workflow reaches the `failed` state. The specific"
+            "smithy.api#documentation": "Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context."
           }
         }
       },
@@ -1115,7 +1711,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1123,7 +1719,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1137,7 +1733,7 @@
         "auto_renew": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enable or disable automatic renewal."
+            "smithy.api#documentation": "Enable or disable automatic renewal. Setting this field to `true` authorizes Cloudflare to charge the account's default payment method up to 30 days before domain expiry to renew the domain automatically. Renewal pricing may change over time based on registry pricing."
           }
         }
       },
@@ -1238,7 +1834,7 @@
         "completed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the workflow has reached a terminal state. `true` when",
+            "smithy.api#documentation": "Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`.",
             "smithy.api#required": {}
           }
         },
@@ -1257,7 +1853,7 @@
         "state": {
           "target": "com.cloudflare.registrar#EditRegistrationResponseState",
           "traits": {
-            "smithy.api#documentation": "Workflow lifecycle state.",
+            "smithy.api#documentation": "Describes the workflow lifecycle state.",
             "smithy.api#required": {}
           }
         },
@@ -1270,13 +1866,13 @@
         "context": {
           "target": "com.cloudflare.registrar#EditRegistrationResponseContextMap",
           "traits": {
-            "smithy.api#documentation": "Workflow-specific data for this workflow."
+            "smithy.api#documentation": "Provides workflow-specific data."
           }
         },
         "error": {
           "target": "com.cloudflare.registrar#EditRegistrationResponseError",
           "traits": {
-            "smithy.api#documentation": "Error details when a workflow reaches the `failed` state. The specific"
+            "smithy.api#documentation": "Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context."
           }
         }
       },
@@ -1308,7 +1904,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1316,7 +1912,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1329,6 +1925,12 @@
     "com.cloudflare.registrar#GetRegistrationResponsePrivacyMode": {
       "type": "enum",
       "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
         "REDACTION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1384,7 +1986,7 @@
         "auto_renew": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the domain will be automatically renewed before expiration.",
+            "smithy.api#documentation": "Whether automatic renewal occurs before expiration.",
             "smithy.api#required": {}
           }
         },
@@ -1398,14 +2000,14 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#required": {}
           }
         },
         "expires_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the domain registration expires. Present when the registration is ready; may be null only while `status` is `registration_pending`.",
+            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null.",
             "smithy.api#required": {}
           }
         },
@@ -1500,7 +2102,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1508,7 +2110,7 @@
         "cursor": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Opaque token from a previous response's `result_info.cursor`.",
+            "smithy.api#documentation": "Opaque token from a previous response's `result_info.cursor`. Pass this value to fetch the next page of results. Omit (or pass an empty string) for the first page.",
             "smithy.api#httpQuery": "cursor"
           }
         },
@@ -1529,7 +2131,7 @@
         "sort_by": {
           "target": "com.cloudflare.registrar#ListRegistrationsRequestSortBy",
           "traits": {
-            "smithy.api#documentation": "Column to sort results by. Defaults to registration date",
+            "smithy.api#documentation": "Column to sort results by. Defaults to registration date (`registry_created_at`) when omitted.",
             "smithy.api#httpQuery": "sort_by"
           }
         }
@@ -1541,6 +2143,12 @@
     "com.cloudflare.registrar#ListRegistrationsResultItemPrivacyMode": {
       "type": "enum",
       "members": {
+        "OFF": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "off"
+          }
+        },
         "REDACTION": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -1596,7 +2204,7 @@
         "auto_renew": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the domain will be automatically renewed before expiration.",
+            "smithy.api#documentation": "Whether automatic renewal occurs before expiration.",
             "smithy.api#required": {}
           }
         },
@@ -1610,14 +2218,14 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#required": {}
           }
         },
         "expires_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "When the domain registration expires. Present when the registration is ready; may be null only while `status` is `registration_pending`.",
+            "smithy.api#documentation": "When the domain registration expires. Ready registrations include this value; only `registration_pending` may return null.",
             "smithy.api#required": {}
           }
         },
@@ -1775,6 +2383,12 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.registrar#GetExtension"
+        },
+        {
+          "target": "com.cloudflare.registrar#ListExtensions"
+        },
+        {
           "target": "com.cloudflare.registrar#CreateRegistration"
         },
         {
@@ -1898,7 +2512,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1921,7 +2535,7 @@
         "domains": {
           "target": "com.cloudflare.registrar#CheckResponseDomainsList",
           "traits": {
-            "smithy.api#documentation": "Array of domain availability results. Domains on unsupported",
+            "smithy.api#documentation": "Array of domain availability results. Results for unsupported extensions contain `registrable: false` and a `reason` field. The response may omit malformed domain names.",
             "smithy.api#required": {}
           }
         }
@@ -1960,7 +2574,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -1968,7 +2582,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2007,7 +2621,7 @@
           "uri": "/accounts/{account_id}/registrar/registrations/{domain_name}/registration-status",
           "code": 200
         },
-        "smithy.api#documentation": "Returns the current status of a domain registration workflow. Use this endpoint to poll for completion when the POST response returned `202 Accepted`. The URL is provided in the `links.self` field of the workflow status response. Poll this endpoint until the workflow reaches a terminal state or a state that requires user attention. **Terminal states:** `succeeded` and `failed` are terminal and always have `completed: true`. **Non-terminal states:** - `action_required` has `completed: false` and will not resolve on its own. The workflow is paused pending user intervention. - `blocked` has `completed: false` and indicates the workflow is waiting on a third party such as the extension registry or losing registrar. Continue polling while informing the user of the delay. Use increasing backoff between polls. When `state: blocked`, use a longer polling interval and do not poll indefinitely. A naive polling loop that only checks `completed` can run indefinitely when `state: action_required`. Break explicitly on `action_required`: ```js let status; do { await new Promise(r => setTimeout(r, 2000)); status = await cloudflare.request({ method: 'GET', path: reg.result.links.self, }); } while ( !status.result.completed && status.result.state !== 'action_required' ); if (status.result.state === 'action_required') { // Surface context.action and context.confirmation_sent_to to the user. // Do not re-submit the registration request. } ```",
+        "smithy.api#documentation": "Returns the current status of a domain registration workflow. Use this endpoint to poll for completion when the POST response returned `202 Accepted`. The URL is provided in the `links.self` field of the workflow status response. Poll this endpoint until the workflow reaches a terminal state or a state that requires user attention. **Terminal states:** `succeeded` and `failed` are terminal and always have `completed: true`. **Non-terminal states:** - `action_required` has `completed: false` and will not resolve on its own. The workflow is paused pending user intervention. - `blocked` has `completed: false` and indicates the workflow is waiting on a third party such as the extension registry or losing registrar. Continue polling while informing the user of the delay. Use increasing backoff between polls. When `state: blocked`, use a longer polling interval and do not poll indefinitely. A naive polling loop that only checks `completed` can run indefinitely when `state: action_required`. Break explicitly on `action_required`:",
         "smithy.api#readonly": {}
       }
     },
@@ -2017,7 +2631,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2025,7 +2639,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2041,7 +2655,7 @@
         "completed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the workflow has reached a terminal state. `true` when",
+            "smithy.api#documentation": "Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`.",
             "smithy.api#required": {}
           }
         },
@@ -2060,7 +2674,7 @@
         "state": {
           "target": "com.cloudflare.registrar#RegistrationStatusGetResponseState",
           "traits": {
-            "smithy.api#documentation": "Workflow lifecycle state.",
+            "smithy.api#documentation": "Describes the workflow lifecycle state.",
             "smithy.api#required": {}
           }
         },
@@ -2073,13 +2687,13 @@
         "context": {
           "target": "com.cloudflare.registrar#RegistrationStatusGetResponseContextMap",
           "traits": {
-            "smithy.api#documentation": "Workflow-specific data for this workflow."
+            "smithy.api#documentation": "Provides workflow-specific data."
           }
         },
         "error": {
           "target": "com.cloudflare.registrar#RegistrationStatusGetResponseError",
           "traits": {
-            "smithy.api#documentation": "Error details when a workflow reaches the `failed` state. The specific"
+            "smithy.api#documentation": "Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context."
           }
         }
       },
@@ -2112,7 +2726,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2120,7 +2734,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2136,7 +2750,7 @@
         "completed": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether the workflow has reached a terminal state. `true` when",
+            "smithy.api#documentation": "Indicates whether the workflow reached a terminal state. A `succeeded` or `failed` state returns `true`; `pending`, `in_progress`, `action_required`, and `blocked` return `false`.",
             "smithy.api#required": {}
           }
         },
@@ -2155,7 +2769,7 @@
         "state": {
           "target": "com.cloudflare.registrar#UpdateStatusGetResponseState",
           "traits": {
-            "smithy.api#documentation": "Workflow lifecycle state.",
+            "smithy.api#documentation": "Describes the workflow lifecycle state.",
             "smithy.api#required": {}
           }
         },
@@ -2168,13 +2782,13 @@
         "context": {
           "target": "com.cloudflare.registrar#UpdateStatusGetResponseContextMap",
           "traits": {
-            "smithy.api#documentation": "Workflow-specific data for this workflow."
+            "smithy.api#documentation": "Provides workflow-specific data."
           }
         },
         "error": {
           "target": "com.cloudflare.registrar#UpdateStatusGetResponseError",
           "traits": {
-            "smithy.api#documentation": "Error details when a workflow reaches the `failed` state. The specific"
+            "smithy.api#documentation": "Provides error details when a workflow reaches the `failed` state. The workflow type (registration, update, etc.) and underlying registry response determine the specific codes and messages. Workflow error codes differ from immediate HTTP error `errors[].code` values in non-2xx responses. Surface `error.message` to the user for context."
           }
         }
       },
@@ -2197,7 +2811,7 @@
           "uri": "/accounts/{account_id}/registrar/domains",
           "code": 200
         },
-        "smithy.api#documentation": "List domains handled by Registrar.",
+        "smithy.api#documentation": "Lists domains handled by Registrar.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "single",
@@ -2216,7 +2830,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2255,7 +2869,7 @@
           "uri": "/accounts/{account_id}/registrar/domains/{domain_name}",
           "code": 200
         },
-        "smithy.api#documentation": "Update individual domain.",
+        "smithy.api#documentation": "Updates an individual domain.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -2276,7 +2890,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2284,7 +2898,7 @@
         "domain_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Fully qualified domain name (FQDN) including the extension",
+            "smithy.api#documentation": "Provides a fully qualified domain name (FQDN), including the extension (e.g., `example.com`, `mybrand.app`). The domain name uniquely identifies a registration. Cloudflare permits only one registration per domain, making the domain name a natural idempotency key for registration requests.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2351,7 +2965,7 @@
         "account_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier",
+            "smithy.api#documentation": "Identifier.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -2367,7 +2981,7 @@
         "extensions": {
           "target": "com.cloudflare.registrar#SearchRequestExtensionsList",
           "traits": {
-            "smithy.api#documentation": "Limits results to specific domain extensions from the supported set. If not specified,",
+            "smithy.api#documentation": "Limits results to specific domain extensions from the supported set. If not specified, returns results across all supported extensions. Extensions not in the supported set are silently ignored.",
             "smithy.api#httpQuery": "extensions"
           }
         },
@@ -2389,7 +3003,7 @@
         "domains": {
           "target": "com.cloudflare.registrar#SearchResponseDomainsList",
           "traits": {
-            "smithy.api#documentation": "Array of domain suggestions sorted by relevance. May be empty if no domains match the search criteria.",
+            "smithy.api#documentation": "Lists domain suggestions in relevance order. An empty array indicates that the search criteria matched zero domains.",
             "smithy.api#required": {}
           }
         }

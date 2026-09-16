@@ -27265,12 +27265,6 @@ export const ListWorkspaceLoggerByWorkspaceResponse = /*@__PURE__*/ S.suspend(
   identifier: "ListWorkspaceLoggerByWorkspaceResponse",
 }) as any as S.Schema<ListWorkspaceLoggerByWorkspaceResponse>;
 
-export type ListWorkspaceNamedValueByServiceRequestIsKeyVaultRefreshFailed =
-  | "true"
-  | "false";
-export const ListWorkspaceNamedValueByServiceRequestIsKeyVaultRefreshFailed =
-  S.String;
-
 export interface ListWorkspaceNamedValueByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27287,9 +27281,7 @@ export interface ListWorkspaceNamedValueByServiceRequest {
   /** Number of records to skip. */
   _skip?: number;
   /** Query parameter to fetch named value entities based on refresh status. */
-  isKeyVaultRefreshFailed?:
-    | ListWorkspaceNamedValueByServiceRequestIsKeyVaultRefreshFailed
-    | (string & {});
+  isKeyVaultRefreshFailed?: boolean;
 }
 export const ListWorkspaceNamedValueByServiceRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -27302,9 +27294,7 @@ export const ListWorkspaceNamedValueByServiceRequest = /*@__PURE__*/ S.suspend(
       _top: S.optional(S.Number.pipe(T.Query("$top"))),
       _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
       isKeyVaultRefreshFailed: S.optional(
-        ListWorkspaceNamedValueByServiceRequestIsKeyVaultRefreshFailed.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({

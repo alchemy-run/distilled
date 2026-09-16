@@ -1,0 +1,654 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.basins#ListBasinsRequest": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "prefix",
+            "smithy.api#documentation": "Filter to basins whose names begin with this prefix."
+          }
+        },
+        "start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_after",
+            "smithy.api#documentation": "Filter to basins whose names lexicographically start after this string."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results, up to a maximum of 1000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#ListBasinsResponse": {
+      "type": "structure",
+      "members": {
+        "basins": {
+          "target": "com.s2.basins#ListBasinsResponseBasinsList",
+          "traits": {
+            "smithy.api#documentation": "Matching basins.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates that there are more basins that match the criteria.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#BasinInfo": {
+      "type": "structure",
+      "members": {
+        "created_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation time in RFC 3339 format.",
+            "smithy.api#required": {}
+          }
+        },
+        "deleted_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deletion time in RFC 3339 format, if the basin is being deleted.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Basin name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#ListBasinsResponseBasinsList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.basins#BasinInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching basins."
+      }
+    },
+    "com.s2.basins#ListBasins": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#ListBasinsRequest"
+      },
+      "output": {
+        "target": "com.s2.basins#ListBasinsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/basins",
+          "code": 200
+        },
+        "smithy.api#documentation": "List basins.",
+        "smithy.api#paginated": {
+          "inputToken": "start_after",
+          "outputToken": "name",
+          "items": "basins",
+          "pageSize": "limit",
+          "hasNextPage": "has_more"
+        }
+      }
+    },
+    "com.s2.basins#BasinConfig": {
+      "type": "structure",
+      "members": {
+        "create_stream_on_append": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create stream on append if it doesn't exist, using the default stream configuration."
+          }
+        },
+        "create_stream_on_read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create stream on read if it doesn't exist, using the default stream configuration."
+          }
+        },
+        "default_stream_config": {
+          "target": "com.s2.basins#StreamConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream_cipher": {
+          "target": "com.s2.basins#EncryptionAlgorithm",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#StreamConfig": {
+      "type": "structure",
+      "members": {
+        "delete_on_empty": {
+          "target": "com.s2.basins#DeleteOnEmptyConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retention_policy": {
+          "target": "com.s2.basins#RetentionPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage_class": {
+          "target": "com.s2.basins#StorageClass",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamping": {
+          "target": "com.s2.basins#TimestampingConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#DeleteOnEmptyConfig": {
+      "type": "structure",
+      "members": {
+        "min_age_secs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 (default) to disable delete-on-empty (don't delete automatically)."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#RetentionPolicy": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.s2.basins#RetentionPolicyCase0"
+        },
+        "Case1": {
+          "target": "com.s2.basins#RetentionPolicyCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#RetentionPolicyCase0": {
+      "type": "structure",
+      "members": {
+        "age": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Age in seconds for automatic trimming of records older than this threshold.\nThis must be set to a value greater than 0 seconds."
+      }
+    },
+    "com.s2.basins#RetentionPolicyCase1": {
+      "type": "structure",
+      "members": {
+        "infinite": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Retain records unless explicitly trimmed.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Retain records unless explicitly trimmed."
+      }
+    },
+    "com.s2.basins#StorageClass": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        },
+        "EXPRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "express"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#TimestampingConfig": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.s2.basins#TimestampingMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncapped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow client-specified timestamps to exceed the arrival time.\nIf this is `false` or not set, client timestamps will be capped at the arrival time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#TimestampingMode": {
+      "type": "enum",
+      "members": {
+        "CLIENT_PREFER": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client-prefer"
+          }
+        },
+        "CLIENT_REQUIRE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "client-require"
+          }
+        },
+        "ARRIVAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "arrival"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#EncryptionAlgorithm": {
+      "type": "enum",
+      "members": {
+        "AEGIS_256": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aegis-256"
+          }
+        },
+        "AES_256_GCM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "aes-256-gcm"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#CreateBasinRequest": {
+      "type": "structure",
+      "members": {
+        "s2RequestToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "s2-request-token",
+            "smithy.api#documentation": "Client-specified request token for idempotent retries."
+          }
+        },
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Basin name which must be globally unique.\nIt can be between 8 and 48 bytes in length, and comprise lowercase letters, numbers and hyphens.\nIt cannot begin or end with a hyphen.",
+            "smithy.api#required": {}
+          }
+        },
+        "config": {
+          "target": "com.s2.basins#BasinConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#CreateBasin": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#CreateBasinRequest"
+      },
+      "output": {
+        "target": "com.s2.basins#BasinInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/basins",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a basin."
+      }
+    },
+    "com.s2.basins#GetBasinConfigRequest": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#GetBasinConfig": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#GetBasinConfigRequest"
+      },
+      "output": {
+        "target": "com.s2.basins#BasinConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/basins/{basin}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get basin configuration."
+      }
+    },
+    "com.s2.basins#EnsureBasinRequest": {
+      "type": "structure",
+      "members": {
+        "config": {
+          "target": "com.s2.basins#BasinConfig",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#EnsureBasinRequest2": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        },
+        "body": {
+          "target": "com.s2.basins#EnsureBasinRequest",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#EnsureBasin": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#EnsureBasinRequest2"
+      },
+      "output": {
+        "target": "com.s2.basins#BasinInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/basins/{basin}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Ensure a basin."
+      }
+    },
+    "com.s2.basins#StreamReconfiguration": {
+      "type": "structure",
+      "members": {
+        "delete_on_empty": {
+          "target": "com.s2.basins#DeleteOnEmptyReconfiguration",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "retention_policy": {
+          "target": "com.s2.basins#RetentionPolicy",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "storage_class": {
+          "target": "com.s2.basins#StorageClass",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "timestamping": {
+          "target": "com.s2.basins#TimestampingReconfiguration",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#DeleteOnEmptyReconfiguration": {
+      "type": "structure",
+      "members": {
+        "min_age_secs": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum age in seconds before an empty stream can be deleted.\nSet to 0 to disable delete-on-empty (don't delete automatically).",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#TimestampingReconfiguration": {
+      "type": "structure",
+      "members": {
+        "mode": {
+          "target": "com.s2.basins#TimestampingMode",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "uncapped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow client-specified timestamps to exceed the arrival time.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.basins#ReconfigureBasinRequest": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        },
+        "create_stream_on_append": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create a stream on append.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "create_stream_on_read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Create a stream on read.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "default_stream_config": {
+          "target": "com.s2.basins#StreamReconfiguration",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream_cipher": {
+          "target": "com.s2.basins#EncryptionAlgorithm",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#ReconfigureBasin": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#ReconfigureBasinRequest"
+      },
+      "output": {
+        "target": "com.s2.basins#BasinConfig"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/basins/{basin}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Reconfigure a basin."
+      }
+    },
+    "com.s2.basins#DeleteBasinRequest": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.basins#DeleteBasin": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.basins#DeleteBasinRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/basins/{basin}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a basin."
+      }
+    },
+    "com.s2.basins#Basins": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.basins#ListBasins"
+        },
+        {
+          "target": "com.s2.basins#CreateBasin"
+        },
+        {
+          "target": "com.s2.basins#GetBasinConfig"
+        },
+        {
+          "target": "com.s2.basins#EnsureBasin"
+        },
+        {
+          "target": "com.s2.basins#ReconfigureBasin"
+        },
+        {
+          "target": "com.s2.basins#DeleteBasin"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}

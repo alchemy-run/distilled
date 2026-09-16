@@ -1,0 +1,536 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.access_tokens#ListAccessTokensRequest": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "prefix",
+            "smithy.api#documentation": "Filter to access tokens whose IDs begin with this prefix.\nIt must not contain NUL bytes."
+          }
+        },
+        "start_after": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "start_after",
+            "smithy.api#documentation": "Filter to access tokens whose IDs lexicographically start after this string.\nIt must not contain NUL bytes."
+          }
+        },
+        "limit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "limit",
+            "smithy.api#documentation": "Number of results, up to a maximum of 1000."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.access_tokens#ListAccessTokensResponse": {
+      "type": "structure",
+      "members": {
+        "access_tokens": {
+          "target": "com.s2.access_tokens#ListAccessTokensResponseAccessTokensList",
+          "traits": {
+            "smithy.api#documentation": "Matching access tokens.",
+            "smithy.api#required": {}
+          }
+        },
+        "has_more": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates that there are more access tokens that match the criteria.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#AccessTokenInfo": {
+      "type": "structure",
+      "members": {
+        "auto_prefix_streams": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Namespace streams based on the configured stream-level scope.",
+            "smithy.api#required": {}
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration time in RFC 3339 format.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token ID.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.s2.access_tokens#AccessTokenScope",
+          "traits": {
+            "smithy.api#documentation": "Access token scope.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#AccessTokenScope": {
+      "type": "structure",
+      "members": {
+        "access_tokens": {
+          "target": "com.s2.access_tokens#ResourceSet",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "basins": {
+          "target": "com.s2.access_tokens#ResourceSet",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "op_groups": {
+          "target": "com.s2.access_tokens#PermittedOperationGroups",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "ops": {
+          "target": "com.s2.access_tokens#AccessTokenScopeOpsList",
+          "traits": {
+            "smithy.api#documentation": "Operations allowed for the token.\nA union of allowed operations and groups is used as an effective set of allowed operations.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "streams": {
+          "target": "com.s2.access_tokens#ResourceSet",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#ResourceSet": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.s2.access_tokens#ResourceSetCase0"
+        },
+        "Case1": {
+          "target": "com.s2.access_tokens#ResourceSetCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#ResourceSetCase0": {
+      "type": "structure",
+      "members": {
+        "exact": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match only the resource with this exact name.\nUse an empty string to match no resources.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Match only the resource with this exact name.\nUse an empty string to match no resources."
+      }
+    },
+    "com.s2.access_tokens#ResourceSetCase1": {
+      "type": "structure",
+      "members": {
+        "prefix": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Match all resources that start with this prefix.\nUse an empty string to match all resource.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Match all resources that start with this prefix.\nUse an empty string to match all resource."
+      }
+    },
+    "com.s2.access_tokens#PermittedOperationGroups": {
+      "type": "structure",
+      "members": {
+        "account": {
+          "target": "com.s2.access_tokens#ReadWritePermissions",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "basin": {
+          "target": "com.s2.access_tokens#ReadWritePermissions",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "stream": {
+          "target": "com.s2.access_tokens#ReadWritePermissions",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#ReadWritePermissions": {
+      "type": "structure",
+      "members": {
+        "read": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Read permission."
+          }
+        },
+        "write": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Write permission."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#Operation": {
+      "type": "enum",
+      "members": {
+        "LIST_BASINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list-basins"
+          }
+        },
+        "CREATE_BASIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create-basin"
+          }
+        },
+        "DELETE_BASIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete-basin"
+          }
+        },
+        "RECONFIGURE_BASIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconfigure-basin"
+          }
+        },
+        "GET_BASIN_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get-basin-config"
+          }
+        },
+        "ISSUE_ACCESS_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "issue-access-token"
+          }
+        },
+        "REVOKE_ACCESS_TOKEN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "revoke-access-token"
+          }
+        },
+        "LIST_ACCESS_TOKENS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list-access-tokens"
+          }
+        },
+        "LIST_STREAMS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list-streams"
+          }
+        },
+        "CREATE_STREAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "create-stream"
+          }
+        },
+        "DELETE_STREAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "delete-stream"
+          }
+        },
+        "GET_STREAM_CONFIG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get-stream-config"
+          }
+        },
+        "RECONFIGURE_STREAM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "reconfigure-stream"
+          }
+        },
+        "CHECK_TAIL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "check-tail"
+          }
+        },
+        "APPEND": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "append"
+          }
+        },
+        "READ": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read"
+          }
+        },
+        "TRIM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "trim"
+          }
+        },
+        "FENCE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fence"
+          }
+        },
+        "ACCOUNT_METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account-metrics"
+          }
+        },
+        "BASIN_METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin-metrics"
+          }
+        },
+        "STREAM_METRICS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "stream-metrics"
+          }
+        },
+        "LIST_LOCATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "list-locations"
+          }
+        },
+        "GET_DEFAULT_LOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "get-default-location"
+          }
+        },
+        "SET_DEFAULT_LOCATION": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "set-default-location"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#AccessTokenScopeOpsList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.access_tokens#Operation"
+      },
+      "traits": {
+        "smithy.api#documentation": "Operations allowed for the token.\nA union of allowed operations and groups is used as an effective set of allowed operations."
+      }
+    },
+    "com.s2.access_tokens#ListAccessTokensResponseAccessTokensList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.access_tokens#AccessTokenInfo"
+      },
+      "traits": {
+        "smithy.api#documentation": "Matching access tokens."
+      }
+    },
+    "com.s2.access_tokens#ListAccessTokens": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.access_tokens#ListAccessTokensRequest"
+      },
+      "output": {
+        "target": "com.s2.access_tokens#ListAccessTokensResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/access-tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "List access tokens.",
+        "smithy.api#paginated": {
+          "inputToken": "start_after",
+          "outputToken": "id",
+          "items": "access_tokens",
+          "pageSize": "limit",
+          "hasNextPage": "has_more"
+        }
+      }
+    },
+    "com.s2.access_tokens#IssueAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "auto_prefix_streams": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Namespace streams based on the configured stream-level scope, which must be a prefix.\nStream name arguments will be automatically prefixed, and the prefix will be stripped when listing streams."
+          }
+        },
+        "expires_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Expiration time in RFC 3339 format.\nIf not set, the expiration will be set to that of the requestor's token.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access token ID.\nIt must be unique to the account and between 1 and 96 bytes in length, and must not\ncontain NUL bytes.",
+            "smithy.api#required": {}
+          }
+        },
+        "scope": {
+          "target": "com.s2.access_tokens#AccessTokenScope",
+          "traits": {
+            "smithy.api#documentation": "Access token scope.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.access_tokens#IssueAccessTokenResponse": {
+      "type": "structure",
+      "members": {
+        "access_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Created access token.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.access_tokens#IssueAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.access_tokens#IssueAccessTokenRequest"
+      },
+      "output": {
+        "target": "com.s2.access_tokens#IssueAccessTokenResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/access-tokens",
+          "code": 200
+        },
+        "smithy.api#documentation": "Issue a new access token."
+      }
+    },
+    "com.s2.access_tokens#RevokeAccessTokenRequest": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Access token ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.access_tokens#RevokeAccessToken": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.access_tokens#RevokeAccessTokenRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/access-tokens/{id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Revoke an access token."
+      }
+    },
+    "com.s2.access_tokens#AccessTokens": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.access_tokens#ListAccessTokens"
+        },
+        {
+          "target": "com.s2.access_tokens#IssueAccessToken"
+        },
+        {
+          "target": "com.s2.access_tokens#RevokeAccessToken"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}

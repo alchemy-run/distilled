@@ -1,0 +1,221 @@
+{
+  "description": "Cloudflare's html-to-markdown docs pipeline renders the ruleset-returning endpoints' `result` as `Ruleset or unknown` \u2014 the schema's empty-object fallback branch, which the previous renderer dropped. `unknown` absorbs a union, so each response degrades to a document and the Ruleset tree the docs still spell out in full is left orphaned. Re-point every such response at that Ruleset arm, which is what these endpoints return on the wire.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#CreateForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#CreateForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRulesetForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateForZoneResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#UpdateForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#UpdateForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateRulesetForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#UpdateForZoneResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#PhasesUpdateForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesUpdateForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#PhasesUpdateForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PutPhasForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PhasesUpdateForZoneResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesCreateForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesCreateForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesCreateForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#CreateRuleForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesCreateForZoneResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesDeleteForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesDeleteForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesDeleteForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#DeleteRuleForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesDeleteForZoneResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForAccountResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesEditForAccountResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForAccountResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForAccountResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesEditForAccountResultRuleset"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForZoneResponse/members/result"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.rulesets#RulesEditForZoneResultRuleset/members",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForZoneResponse/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.rulesets#PatchRuleForZoneResponse/traits/smithy.api#documentation",
+      "value": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.rulesets#RulesEditForZoneResultRuleset"
+    }
+  ]
+}

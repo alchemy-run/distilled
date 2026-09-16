@@ -46,7 +46,7 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use created_at"
+            "smithy.api#documentation": "Use `created_at` instead."
           }
         },
         "created_at": {
@@ -70,7 +70,7 @@
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use modified_at"
+            "smithy.api#documentation": "Use `modified_at` instead."
           }
         },
         "modified_at": {
@@ -105,6 +105,12 @@
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseApprovedSourcesItem"
       }
     },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsBimiRecordsItem": {
       "type": "structure",
       "members": {
@@ -126,6 +132,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsBimiRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -144,6 +156,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsBimiRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDkimRecordsItem": {
@@ -167,6 +185,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDkimRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -185,6 +209,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDkimRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDmarcRecordsItem": {
@@ -208,6 +238,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDmarcRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -226,6 +262,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameSpfRecordsItem": {
@@ -249,6 +291,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameSpfRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -267,6 +315,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameSpfRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDkimRecordsItem": {
@@ -290,6 +344,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDkimRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -308,6 +368,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDkimRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDmarcRecordsItem": {
@@ -331,6 +397,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDmarcRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -349,6 +421,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsResolvedDmarcRecordsItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The TXT record value. The API joins all character-strings into a single string."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the API queried."
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsResolvedDmarcRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsResolvedDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsSpfRecordsItem": {
@@ -370,6 +471,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "DNS record name"
+          }
+        },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsSpfRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
           }
         },
         "ttl": {
@@ -404,19 +511,19 @@
         "cname_dkim_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDkimRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records for DKIM"
+            "smithy.api#documentation": "CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "cname_dmarc_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameDmarcRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records at _dmarc (problematic)"
+            "smithy.api#documentation": "CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "cname_spf_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsCnameSpfRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records for SPF"
+            "smithy.api#documentation": "CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "dkim_records": {
@@ -429,6 +536,12 @@
           "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsDmarcRecordsList",
           "traits": {
             "smithy.api#documentation": "DMARC TXT records"
+          }
+        },
+        "resolved_dmarc_records": {
+          "target": "com.cloudflare.email_auth#DmarcReportsEditResponseRecordsResolvedDmarcRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Use the `resolved` field on the corresponding entry in cname_dmarc_records instead."
           }
         },
         "spf_records": {
@@ -465,6 +578,12 @@
           "traits": {
             "smithy.api#enumValue": "cname-on-dmarc-record"
           }
+        },
+        "UNAUTHORIZED_REPORTING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unauthorized-reporting-domain"
+          }
         }
       }
     },
@@ -480,7 +599,7 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use created_at"
+            "smithy.api#documentation": "Use `created_at` instead."
           }
         },
         "created_at": {
@@ -504,7 +623,7 @@
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use modified_at"
+            "smithy.api#documentation": "Use `modified_at` instead."
           }
         },
         "modified_at": {
@@ -539,6 +658,12 @@
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseApprovedSourcesItem"
       }
     },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsBimiRecordsItem": {
       "type": "structure",
       "members": {
@@ -560,6 +685,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsBimiRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -578,6 +709,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsBimiRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDkimRecordsItem": {
@@ -601,6 +738,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDkimRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -619,6 +762,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDkimRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDmarcRecordsItem": {
@@ -642,6 +791,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDmarcRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -660,6 +815,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameSpfRecordsItem": {
@@ -683,6 +844,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameSpfRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -701,6 +868,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameSpfRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDkimRecordsItem": {
@@ -724,6 +897,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDkimRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -742,6 +921,12 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDkimRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDmarcRecordsItem": {
@@ -765,6 +950,12 @@
             "smithy.api#documentation": "DNS record name"
           }
         },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDmarcRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
+          }
+        },
         "ttl": {
           "target": "smithy.api#Double",
           "traits": {
@@ -783,6 +974,35 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem": {
+      "type": "structure",
+      "members": {
+        "content": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The TXT record value. The API joins all character-strings into a single string."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name the API queried."
+          }
+        }
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsResolvedDmarcRecordsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsResolvedDmarcRecordsItem"
+      }
+    },
+    "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
       }
     },
     "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsSpfRecordsItem": {
@@ -804,6 +1024,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "DNS record name"
+          }
+        },
+        "resolved": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsSpfRecordsItemResolvedList",
+          "traits": {
+            "smithy.api#documentation": "For a CNAME record, the TXT content(s) found by following the CNAME chain to its target. An empty array means the chain was resolved but nothing usable was found there; omitted/null means resolution was not attempted for this record (always the case for non-CNAME entries). A CNAME chain that terminates in more than one TXT value at the target yields multiple entries. Populated on entries in cname_dmarc_records, cname_spf_records, and cname_dkim_records."
           }
         },
         "ttl": {
@@ -838,19 +1064,19 @@
         "cname_dkim_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDkimRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records for DKIM"
+            "smithy.api#documentation": "CNAME records for DKIM selectors. Each selector is resolved independently; when a selector's CNAME resolves to a DKIM TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "cname_dmarc_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameDmarcRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records at _dmarc (problematic)"
+            "smithy.api#documentation": "CNAME records at _dmarc. When such a CNAME resolves to a DMARC TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "cname_spf_records": {
           "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsCnameSpfRecordsList",
           "traits": {
-            "smithy.api#documentation": "CNAME records for SPF"
+            "smithy.api#documentation": "CNAME records at the zone apex. When such a CNAME resolves to an SPF TXT record, the API returns that record's content in the `resolved` field of the corresponding entry."
           }
         },
         "dkim_records": {
@@ -863,6 +1089,12 @@
           "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsDmarcRecordsList",
           "traits": {
             "smithy.api#documentation": "DMARC TXT records"
+          }
+        },
+        "resolved_dmarc_records": {
+          "target": "com.cloudflare.email_auth#DmarcReportsGetResponseRecordsResolvedDmarcRecordsList",
+          "traits": {
+            "smithy.api#documentation": "Use the `resolved` field on the corresponding entry in cname_dmarc_records instead."
           }
         },
         "spf_records": {
@@ -898,6 +1130,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "cname-on-dmarc-record"
+          }
+        },
+        "UNAUTHORIZED_REPORTING_DOMAIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "unauthorized-reporting-domain"
           }
         }
       }
@@ -1012,7 +1250,7 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use created_at"
+            "smithy.api#documentation": "Use `created_at` instead."
           }
         },
         "created_at": {
@@ -1030,7 +1268,7 @@
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use modified_at"
+            "smithy.api#documentation": "Use `modified_at` instead."
           }
         },
         "modified_at": {
@@ -1060,13 +1298,13 @@
         "status": {
           "target": "com.cloudflare.email_auth#DmarcReportsGetResponseStatus",
           "traits": {
-            "smithy.api#documentation": "DMARC configuration status"
+            "smithy.api#documentation": "DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves _dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at _dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all."
           }
         },
         "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Use `zone_id` instead"
+            "smithy.api#documentation": "Use `zone_id` instead."
           }
         },
         "zone_id": {
@@ -1157,7 +1395,7 @@
         "errors": {
           "target": "com.cloudflare.email_auth#SpfInspectGetResponseErrorsList",
           "traits": {
-            "smithy.api#documentation": "All errors encountered during inspection, collected from the entire tree."
+            "smithy.api#documentation": "All errors encountered during inspection, collected from the entire tree. This includes errors from nested includes at any depth, providing a quick overview of all issues without needing to traverse the nested structure. Each error includes a `domain` field to identify where it occurred. Empty array if no errors (omitted from JSON when empty)."
           }
         }
       },
@@ -1223,7 +1461,7 @@
         "created": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use created_at"
+            "smithy.api#documentation": "Use `created_at` instead."
           }
         },
         "created_at": {
@@ -1241,7 +1479,7 @@
         "modified": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Deprecated, use modified_at"
+            "smithy.api#documentation": "Use `modified_at` instead."
           }
         },
         "modified_at": {
@@ -1271,13 +1509,13 @@
         "status": {
           "target": "com.cloudflare.email_auth#DmarcReportsEditResponseStatus",
           "traits": {
-            "smithy.api#documentation": "DMARC configuration status"
+            "smithy.api#documentation": "DMARC configuration status. The API omits this field when DMARC is correctly configured. If the zone lacks a DMARC TXT record of its own, the API resolves _dmarc.{zone} recursively and evaluates whatever that lookup returns. A CNAME at _dmarc.{zone} that points to a valid DMARC record is therefore healthy; the cname-on-dmarc-record value means the CNAME resolves to no DMARC record at all."
           }
         },
         "tag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Use `zone_id` instead"
+            "smithy.api#documentation": "Use `zone_id` instead."
           }
         },
         "zone_id": {

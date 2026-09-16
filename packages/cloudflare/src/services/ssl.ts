@@ -1065,6 +1065,54 @@ export const GetCertificatePackQuotaResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCertificatePackQuotaResponse",
 }) as any as S.Schema<GetCertificatePackQuotaResponse>;
 
+export interface GetRecommendationRequest {
+  zoneId: string;
+}
+export const GetRecommendationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    zoneId: S.String.pipe(T.Label("zone_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/zones/{zone_id}/ssl/recommendation",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetRecommendationRequest",
+}) as any as S.Schema<GetRecommendationRequest>;
+
+export type GetRecommendationResponseValue = "auto" | "custom";
+export const GetRecommendationResponseValue = S.String;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface GetRecommendationResponse {
+  id: string;
+  /** Whether this setting can be updated or not. */
+  editable: boolean;
+  /** Last time this setting was modified. */
+  modifiedOn: string;
+  /** Current setting of the automatic SSL/TLS. */
+  value: GetRecommendationResponseValue;
+  /** Next time this zone will be scanned by the Automatic SSL/TLS. */
+  nextScheduledScan?: string | null;
+}
+export const GetRecommendationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    editable: S.Boolean,
+    modifiedOn: S.String.pipe(T.Body("modified_on")),
+    value: GetRecommendationResponseValue,
+    nextScheduledScan: S.optional(
+      S.NullOr(S.String).pipe(T.Body("next_scheduled_scan")),
+    ),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetRecommendationResponse",
+}) as any as S.Schema<GetRecommendationResponse>;
+
 export interface GetUniversalSettingRequest {
   /** Identifier. */
   zoneId: string;
@@ -2320,6 +2368,21 @@ export const getCertificatePackQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCertificatePackQuotaRequest,
   output: GetCertificatePackQuotaResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetRecommendationError = CloudflareOpError;
+/** Retrieve the SSL/TLS Recommender's recommendation for a zone. */
+export const getRecommendation: API.OperationMethod<
+  GetRecommendationRequest,
+  GetRecommendationResponse,
+  GetRecommendationError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetRecommendationRequest,
+  output: GetRecommendationResponse,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,

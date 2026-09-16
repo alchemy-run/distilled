@@ -339,7 +339,7 @@ export type CreateDetectionError =
   | LeakedCredentialChecksDisabled
   | Forbidden
   | CloudflareOpError;
-/** Create user-defined detection pattern for Leaked Credential Checks. */
+/** Create a detection location for credentials that the default scan locations do not cover, using Rules language expressions such as `lookup_json_string(http.request.body.raw, "user")`. Only the username expression is required, and Leaked Credential Checks must be enabled on the zone. */
 export const createDetection: API.OperationMethod<
   CreateDetectionRequest,
   CreateDetectionResponse,
@@ -360,7 +360,7 @@ export const createDetection: API.OperationMethod<
 }));
 
 export type CreateLeakedCredentialCheckError = Forbidden | CloudflareOpError;
-/** Updates the current status of Leaked Credential Checks. */
+/** Update the Leaked Credential Checks status for the zone, enabling or disabling the detection. While enabled, the detection populates the `cf.waf.credential_check.*` fields, which you can reference in custom rules and rate limiting rules to challenge or block requests carrying compromised credentials. */
 export const createLeakedCredentialCheck: API.OperationMethod<
   CreateLeakedCredentialCheckRequest,
   CreateLeakedCredentialCheckResponse,
@@ -379,7 +379,7 @@ export type DeleteDetectionError =
   | LeakedCredentialChecksDisabled
   | Forbidden
   | CloudflareOpError;
-/** Remove user-defined detection pattern for Leaked Credential Checks. */
+/** Delete a user-defined detection location, identified by its detection ID. Incoming requests are then scanned using only the default scan locations and the detection locations that remain. */
 export const deleteDetection: API.OperationMethod<
   DeleteDetectionRequest,
   DeleteDetectionResponse,
@@ -404,7 +404,7 @@ export type GetDetectionError =
   | LeakedCredentialChecksDisabled
   | Forbidden
   | CloudflareOpError;
-/** Get user-defined detection pattern for Leaked Credential Checks. */
+/** Get the username and password expressions of a single user-defined detection location, identified by its detection ID. */
 export const getDetection: API.OperationMethod<
   GetDetectionRequest,
   GetDetectionResponse,
@@ -425,7 +425,7 @@ export const getDetection: API.OperationMethod<
 }));
 
 export type GetLeakedCredentialCheckError = Forbidden | CloudflareOpError;
-/** Retrieves the current status of Leaked Credential Checks. */
+/** Get the current Leaked Credential Checks status for the zone. While enabled, Cloudflare scans incoming requests for usernames and passwords that were exposed in known data breaches. */
 export const getLeakedCredentialCheck: API.OperationMethod<
   GetLeakedCredentialCheckRequest,
   GetLeakedCredentialCheckResponse,
@@ -443,7 +443,7 @@ export type ListDetectionsError =
   | LeakedCredentialChecksDisabled
   | Forbidden
   | CloudflareOpError;
-/** List user-defined detection patterns for Leaked Credential Checks. */
+/** List the user-defined detection locations configured for Leaked Credential Checks, each with its own identifier. A custom detection location tells the WAF where to find the username and password in requests to your application. */
 export const listDetections: API.PaginatedOperationMethod<
   ListDetectionsRequest,
   ListDetectionsResponse,
@@ -472,7 +472,7 @@ export type UpdateDetectionError =
   | LeakedCredentialChecksDisabled
   | Forbidden
   | CloudflareOpError;
-/** Update user-defined detection pattern for Leaked Credential Checks. */
+/** Update the username and password expressions of an existing detection location, identified by its detection ID. Both expressions are overwritten, so omitting the password expression clears it. */
 export const updateDetection: API.OperationMethod<
   UpdateDetectionRequest,
   UpdateDetectionResponse,

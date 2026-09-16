@@ -511,6 +511,8 @@ export interface CreateConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -524,6 +526,7 @@ export const CreateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "CreateConfigResponse",
@@ -734,6 +737,8 @@ export interface GetConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -747,6 +752,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetConfigResponse",
@@ -755,10 +761,16 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListConfigsRequest {
   /** Define configurations using a unique string identifier. */
   accountId: string;
+  /** Page number of paginated results. */
+  page?: number;
+  /** Maximum number of results per page. */
+  perPage?: number;
 }
 export const ListConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    page: S.optional(S.Number.pipe(T.Query())),
+    perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
     .pipe(
       T.Http({
@@ -925,6 +937,8 @@ export interface ConfigsListResultItem {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const ConfigsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -938,6 +952,7 @@ export const ConfigsListResultItem = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }),
 ).annotate({
   identifier: "ConfigsListResultItem",
@@ -1270,6 +1285,8 @@ export interface PatchConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const PatchConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1283,6 +1300,7 @@ export const PatchConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PatchConfigResponse",
@@ -1631,6 +1649,8 @@ export interface UpdateConfigResponse {
   mtls?: ConfigsCreateResponseMtls | null;
   /** The (soft) maximum number of connections the Hyperdrive is allowed to make to the origin database. */
   originConnectionLimit?: number | null;
+  /** Defines the last time the Hyperdrive connection pool was explicitly restarted via the restart endpoint. Omitted if the pool has never been explicitly restarted. */
+  restartedOn?: string | null;
 }
 export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1644,6 +1664,7 @@ export const UpdateConfigResponse = /*@__PURE__*/ S.suspend(() =>
     originConnectionLimit: S.optional(
       S.NullOr(S.Number).pipe(T.Body("origin_connection_limit")),
     ),
+    restartedOn: S.optional(S.NullOr(S.String).pipe(T.Body("restarted_on"))),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "UpdateConfigResponse",
@@ -1760,7 +1781,7 @@ export type PatchConfigError =
   | InvalidObjectIdentifier
   | MethodNotAllowed
   | CloudflareOpError;
-/** Patches and returns the specified Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. */
+/** Updates and returns the specified fields of the Hyperdrive configuration. Custom caching settings are not kept if caching is disabled. */
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
   PatchConfigResponse,
@@ -1787,7 +1808,7 @@ export type UpdateConfigError =
   | InvalidObjectIdentifier
   | MethodNotAllowed
   | CloudflareOpError;
-/** Updates and returns the specified Hyperdrive configuration. */
+/** Replaces and returns the specified Hyperdrive configuration. The request must include the name and complete origin connection details. Omitted caching settings are reset to their defaults, while omitted mTLS settings and origin connection limits are preserved. Use the update operation to modify only selected fields. */
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
   UpdateConfigResponse,

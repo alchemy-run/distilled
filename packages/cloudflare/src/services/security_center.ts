@@ -139,6 +139,16 @@ export const InsightsClassGetRequestSeverityNeqList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InsightsClassGetRequestSeverityNeqList>;
 
+export type InsightsClassGetRequestSource = "cloudflare" | "riskrecon";
+export const InsightsClassGetRequestSource = S.String;
+
+export type InsightsClassGetRequestSourceList = Array<
+  InsightsClassGetRequestSource | (string & {})
+>;
+export const InsightsClassGetRequestSourceList = /*@__PURE__*/ S.Array(
+  InsightsClassGetRequestSource,
+) as any as S.Schema<InsightsClassGetRequestSourceList>;
+
 export type InsightsClassGetRequestSubjectList = Array<string>;
 export const InsightsClassGetRequestSubjectList = /*@__PURE__*/ S.Array(
   S.String,
@@ -161,6 +171,7 @@ export interface GetInsightClassForAccountRequest {
   productNeq?: InsightsClassGetRequestProductNeqList;
   severity?: InsightsClassGetRequestSeverityList;
   severityNeq?: InsightsClassGetRequestSeverityNeqList;
+  source?: InsightsClassGetRequestSourceList;
   subject?: InsightsClassGetRequestSubjectList;
   subjectNeq?: InsightsClassGetRequestSubjectNeqList;
 }
@@ -188,6 +199,7 @@ export const GetInsightClassForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsClassGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsClassGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsClassGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsClassGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -245,6 +257,7 @@ export interface GetInsightClassForZoneRequest {
   productNeq?: InsightsClassGetRequestProductNeqList;
   severity?: InsightsClassGetRequestSeverityList;
   severityNeq?: InsightsClassGetRequestSeverityNeqList;
+  source?: InsightsClassGetRequestSourceList;
   subject?: InsightsClassGetRequestSubjectList;
   subjectNeq?: InsightsClassGetRequestSubjectNeqList;
 }
@@ -272,6 +285,7 @@ export const GetInsightClassForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsClassGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsClassGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsClassGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsClassGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -370,6 +384,16 @@ export const InsightsSeverityGetRequestSeverityNeqList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InsightsSeverityGetRequestSeverityNeqList>;
 
+export type InsightsSeverityGetRequestSource = "cloudflare" | "riskrecon";
+export const InsightsSeverityGetRequestSource = S.String;
+
+export type InsightsSeverityGetRequestSourceList = Array<
+  InsightsSeverityGetRequestSource | (string & {})
+>;
+export const InsightsSeverityGetRequestSourceList = /*@__PURE__*/ S.Array(
+  InsightsSeverityGetRequestSource,
+) as any as S.Schema<InsightsSeverityGetRequestSourceList>;
+
 export type InsightsSeverityGetRequestSubjectList = Array<string>;
 export const InsightsSeverityGetRequestSubjectList = /*@__PURE__*/ S.Array(
   S.String,
@@ -392,6 +416,7 @@ export interface GetInsightSeverityForAccountRequest {
   productNeq?: InsightsSeverityGetRequestProductNeqList;
   severity?: InsightsSeverityGetRequestSeverityList;
   severityNeq?: InsightsSeverityGetRequestSeverityNeqList;
+  source?: InsightsSeverityGetRequestSourceList;
   subject?: InsightsSeverityGetRequestSubjectList;
   subjectNeq?: InsightsSeverityGetRequestSubjectNeqList;
 }
@@ -425,6 +450,7 @@ export const GetInsightSeverityForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsSeverityGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsSeverityGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsSeverityGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsSeverityGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -472,6 +498,7 @@ export interface GetInsightSeverityForZoneRequest {
   productNeq?: InsightsSeverityGetRequestProductNeqList;
   severity?: InsightsSeverityGetRequestSeverityList;
   severityNeq?: InsightsSeverityGetRequestSeverityNeqList;
+  source?: InsightsSeverityGetRequestSourceList;
   subject?: InsightsSeverityGetRequestSubjectList;
   subjectNeq?: InsightsSeverityGetRequestSubjectNeqList;
 }
@@ -505,6 +532,7 @@ export const GetInsightSeverityForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsSeverityGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsSeverityGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsSeverityGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsSeverityGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -562,6 +590,16 @@ export const InsightsTypeGetRequestSeverityNeqList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InsightsTypeGetRequestSeverityNeqList>;
 
+export type InsightsTypeGetRequestSource = "cloudflare" | "riskrecon";
+export const InsightsTypeGetRequestSource = S.String;
+
+export type InsightsTypeGetRequestSourceList = Array<
+  InsightsTypeGetRequestSource | (string & {})
+>;
+export const InsightsTypeGetRequestSourceList = /*@__PURE__*/ S.Array(
+  InsightsTypeGetRequestSource,
+) as any as S.Schema<InsightsTypeGetRequestSourceList>;
+
 export type InsightsTypeGetRequestSubjectList = Array<string>;
 export const InsightsTypeGetRequestSubjectList = /*@__PURE__*/ S.Array(
   S.String,
@@ -584,6 +622,7 @@ export interface GetInsightTypeForAccountRequest {
   productNeq?: InsightsTypeGetRequestProductNeqList;
   severity?: InsightsTypeGetRequestSeverityList;
   severityNeq?: InsightsTypeGetRequestSeverityNeqList;
+  source?: InsightsTypeGetRequestSourceList;
   subject?: InsightsTypeGetRequestSubjectList;
   subjectNeq?: InsightsTypeGetRequestSubjectNeqList;
 }
@@ -611,6 +650,7 @@ export const GetInsightTypeForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsTypeGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsTypeGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsTypeGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsTypeGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -658,6 +698,7 @@ export interface GetInsightTypeForZoneRequest {
   productNeq?: InsightsTypeGetRequestProductNeqList;
   severity?: InsightsTypeGetRequestSeverityList;
   severityNeq?: InsightsTypeGetRequestSeverityNeqList;
+  source?: InsightsTypeGetRequestSourceList;
   subject?: InsightsTypeGetRequestSubjectList;
   subjectNeq?: InsightsTypeGetRequestSubjectNeqList;
 }
@@ -685,6 +726,7 @@ export const GetInsightTypeForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsTypeGetRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsTypeGetRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsTypeGetRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsTypeGetRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -1091,6 +1133,16 @@ export const InsightsListRequestSeverityNeqList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<InsightsListRequestSeverityNeqList>;
 
+export type InsightsListRequestSource = "cloudflare" | "riskrecon";
+export const InsightsListRequestSource = S.String;
+
+export type InsightsListRequestSourceList = Array<
+  InsightsListRequestSource | (string & {})
+>;
+export const InsightsListRequestSourceList = /*@__PURE__*/ S.Array(
+  InsightsListRequestSource,
+) as any as S.Schema<InsightsListRequestSourceList>;
+
 export type InsightsListRequestSubjectList = Array<string>;
 export const InsightsListRequestSubjectList = /*@__PURE__*/ S.Array(
   S.String,
@@ -1117,6 +1169,7 @@ export interface ListInsightsForAccountRequest {
   productNeq?: InsightsListRequestProductNeqList;
   severity?: InsightsListRequestSeverityList;
   severityNeq?: InsightsListRequestSeverityNeqList;
+  source?: InsightsListRequestSourceList;
   subject?: InsightsListRequestSubjectList;
   subjectNeq?: InsightsListRequestSubjectNeqList;
 }
@@ -1146,6 +1199,7 @@ export const ListInsightsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsListRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsListRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsListRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsListRequestSubjectNeqList.pipe(T.Query("subject~neq")),
@@ -1297,6 +1351,7 @@ export interface ListInsightsForZoneRequest {
   productNeq?: InsightsListRequestProductNeqList;
   severity?: InsightsListRequestSeverityList;
   severityNeq?: InsightsListRequestSeverityNeqList;
+  source?: InsightsListRequestSourceList;
   subject?: InsightsListRequestSubjectList;
   subjectNeq?: InsightsListRequestSubjectNeqList;
 }
@@ -1326,6 +1381,7 @@ export const ListInsightsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
     severityNeq: S.optional(
       InsightsListRequestSeverityNeqList.pipe(T.Query("severity~neq")),
     ),
+    source: S.optional(InsightsListRequestSourceList.pipe(T.Query())),
     subject: S.optional(InsightsListRequestSubjectList.pipe(T.Query())),
     subjectNeq: S.optional(
       InsightsListRequestSubjectNeqList.pipe(T.Query("subject~neq")),

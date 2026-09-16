@@ -895,6 +895,129 @@
         "target": "com.cloudflare.user#OrganizationsListResultItem"
       }
     },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportRequest": {
+      "type": "structure",
+      "members": {
+        "cdn_traffic": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Include CDN traffic in the bandwidth aggregation.",
+            "smithy.api#httpQuery": "cdn_traffic"
+          }
+        },
+        "since": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Start of time interval to query, defaults to `until` - 6 hours. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
+            "smithy.api#httpQuery": "since"
+          }
+        },
+        "until": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "End of time interval to query, defaults to current time. Timestamp must be in RFC3339 format and uses UTC unless otherwise specified.",
+            "smithy.api#httpQuery": "until"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth": {
+      "type": "structure",
+      "members": {
+        "all": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum of ingress and egress bytes transferred.",
+            "smithy.api#required": {}
+          }
+        },
+        "egress": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum of egress bytes transferred.",
+            "smithy.api#required": {}
+          }
+        },
+        "ingress": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Sum of ingress bytes transferred.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItemTotals": {
+      "type": "structure",
+      "members": {
+        "bandwidth": {
+          "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItemTotalsBandwidth",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItem": {
+      "type": "structure",
+      "members": {
+        "totals": {
+          "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItemTotals",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultItem"
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.user#GetSpectrumAnalyticsZonesReport": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReportResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/user/spectrum_analytics/zones/report",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves a list of total bandwidth by zone over a given time period.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.user#SubscriptionsGetResultItemFrequency": {
       "type": "enum",
       "members": {
@@ -1295,10 +1418,22 @@
         }
       }
     },
-    "com.cloudflare.user#TenantsListResultItemMetaFlags": {
+    "com.cloudflare.user#TenantsListResultItemMetaHierarchyTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.user#TenantsListResultItemMetaTenantFlags": {
       "type": "structure",
       "members": {
         "account_creation": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "account_creation_applies_tenant_defaults": {
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#required": {}
@@ -1322,6 +1457,18 @@
             "smithy.api#required": {}
           }
         },
+        "enterprise_capability": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "member_management": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
         "sub_org_creation": {
           "target": "smithy.api#String",
           "traits": {
@@ -1330,29 +1477,23 @@
         }
       }
     },
-    "com.cloudflare.user#TenantsListResultItemMetaHierarchyTagsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      }
-    },
     "com.cloudflare.user#TenantsListResultItemMeta": {
       "type": "structure",
       "members": {
-        "flags": {
-          "target": "com.cloudflare.user#TenantsListResultItemMetaFlags",
-          "traits": {
-            "smithy.api#documentation": "Enable features for Organizations."
-          }
-        },
         "hierarchy_tags": {
           "target": "com.cloudflare.user#TenantsListResultItemMetaHierarchyTagsList",
           "traits": {
-            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to"
+            "smithy.api#documentation": "Ordered chain of organization tags from the root organization down to (and including) this organization itself. Root organizations return a single-element array containing their own tag; sub-organizations return `[rootTag, ...intermediateTags, parentTag, selfTag]`. Useful for constructing authorization scopes that need to cover every ancestor in the hierarchy."
           }
         },
         "managed_by": {
           "target": "smithy.api#String"
+        },
+        "tenant_flags": {
+          "target": "com.cloudflare.user#TenantsListResultItemMetaTenantFlags",
+          "traits": {
+            "smithy.api#documentation": "Enable features for Organizations."
+          }
         }
       }
     },
@@ -2920,6 +3061,9 @@
       "version": "4.0",
       "operations": [
         {
+          "target": "com.cloudflare.user#GetSpectrumAnalyticsZonesReport"
+        },
+        {
           "target": "com.cloudflare.user#CreateToken"
         },
         {
@@ -3539,9 +3683,6 @@
         },
         "telephone": {
           "target": "smithy.api#String"
-        },
-        "use_legacy": {
-          "target": "smithy.api#Boolean"
         },
         "validation_code": {
           "target": "smithy.api#String"
@@ -4387,14 +4528,14 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter by the name of the permission group.",
+            "smithy.api#documentation": "Filter by the name of the permission group. The value must be URL-encoded.",
             "smithy.api#httpQuery": "name"
           }
         },
         "scope": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Filter by the scope of the permission group.",
+            "smithy.api#documentation": "Filter by the scope of the permission group. The value must be URL-encoded.",
             "smithy.api#httpQuery": "scope"
           }
         }
@@ -4432,7 +4573,7 @@
           "uri": "/user/tokens",
           "code": 200
         },
-        "smithy.api#documentation": "List all access tokens you created.",
+        "smithy.api#documentation": "List all access tokens you created. Results include active, disabled, and recently-expired tokens when include_expired is set to true.",
         "smithy.api#readonly": {},
         "smithy.api#paginated": {
           "mode": "page",
@@ -4451,6 +4592,13 @@
           "traits": {
             "smithy.api#documentation": "Direction to order results.",
             "smithy.api#httpQuery": "direction"
+          }
+        },
+        "include_expired": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, includes recently-expired tokens in the response.",
+            "smithy.api#httpQuery": "include_expired"
           }
         },
         "page": {

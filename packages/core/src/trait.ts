@@ -147,6 +147,20 @@ export const httpBodySymbol = Symbol.for("@distilled.cloud/core/http-body");
  */
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
+export const stringEncodedSymbol = Symbol.for(
+  "@distilled.cloud/core/http/string-encoded",
+);
+/**
+ * Marks a member the API only accepts as the STRING spelling of its value —
+ * `true` travels as `"true"`, `3` as `"3"` — while the TS surface keeps the
+ * natural type (e.g. Cloudflare's multipart `validation_enabled`, which the
+ * docs model as the enum `"true" | "false"`). The protocol stringifies body
+ * members on encode, element-wise for lists; `null` is left alone. Query and
+ * header bindings already serialize their values as strings, so the trait is
+ * documentation there.
+ */
+export const StringEncoded = () => makeAnnotation(stringEncodedSymbol, true);
+
 export const formDataFileSymbol = Symbol.for(
   "@distilled.cloud/core/form-data-file",
 );
@@ -184,15 +198,37 @@ export const KeyDictionary = (dict: KeyDictionaryEntries) =>
   makeAnnotation(keyDictionarySymbol, dict);
 
 export const unionCasesSymbol = Symbol.for("@distilled.cloud/core/union-cases");
+
+/**
+ * The literal member every case of a union fixes to its own value — what the
+ * docs call the resource `type` or the action `id`. `values[i]` is the value
+ * case `i` carries.
+ */
+export interface UnionDiscriminator {
+  readonly key: string;
+  readonly values: ReadonlyArray<string>;
+}
+
 /**
  * Marks an opaque schema standing in for a discriminated union of object
  * cases, carrying each case's TS-facing key set. For APIs that return every
  * case's keys with `null` for the inactive ones, the protocol uses these key
  * sets to pick the active case and drop the others, so consumers' `"key" in
  * value` discrimination works.
+ *
+ * Key sets alone cannot tell apart cases that share them — the 41 resource
+ * kinds of `resource_tagging`, the 34 page-rule actions — so when the union
+ * has a discriminator the protocol reads the case off it and only falls back
+ * to key-set scoring for a value whose tag is missing or unknown.
  */
-export const UnionCases = (cases: ReadonlyArray<ReadonlyArray<string>>) =>
-  makeAnnotation(unionCasesSymbol, cases);
+export const UnionCases = (
+  cases: ReadonlyArray<ReadonlyArray<string>>,
+  discriminator?: UnionDiscriminator,
+) =>
+  makeAnnotation(
+    unionCasesSymbol,
+    discriminator ? { cases, discriminator } : { cases },
+  );
 //#endregion
 
 //#region Error matcher traits

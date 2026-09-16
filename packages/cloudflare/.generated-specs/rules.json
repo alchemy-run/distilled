@@ -199,7 +199,7 @@
         "num_referencing_filters": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of [filters](/api/resources/filters/) referencing the list.",
+            "smithy.api#documentation": "The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list.",
             "smithy.api#required": {}
           }
         },
@@ -486,7 +486,7 @@
         "exclude_exact_hostname": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked."
+            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains."
           }
         }
       }
@@ -497,7 +497,7 @@
         "hostname": {
           "target": "com.cloudflare.rules#ListsItemsCreateRequestBodyItemListsListItemHostnameCommentHostname",
           "traits": {
-            "smithy.api#documentation": "Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
+            "smithy.api#documentation": "Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
             "smithy.api#required": {}
           }
         },
@@ -619,7 +619,7 @@
         "exclude_exact_hostname": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked."
+            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains."
           }
         }
       }
@@ -644,7 +644,7 @@
         "hostname": {
           "target": "com.cloudflare.rules#ListsItemsGetResultListsListItemHostnameFullHostname",
           "traits": {
-            "smithy.api#documentation": "Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
+            "smithy.api#documentation": "Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
             "smithy.api#required": {}
           }
         },
@@ -870,7 +870,7 @@
         "exclude_exact_hostname": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked."
+            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains."
           }
         }
       }
@@ -895,7 +895,7 @@
         "hostname": {
           "target": "com.cloudflare.rules#ListsItemsListResultItemListsListItemHostnameFullHostname",
           "traits": {
-            "smithy.api#documentation": "Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
+            "smithy.api#documentation": "Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
             "smithy.api#required": {}
           }
         },
@@ -1185,7 +1185,7 @@
         "exclude_exact_hostname": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), only subdomains are blocked. When false, both the root domain and subdomains are blocked."
+            "smithy.api#documentation": "Only applies to wildcard hostnames (e.g., *.example.com). When true (default), the rule blocks only subdomains. When false, the rule blocks both the root domain and subdomains."
           }
         }
       }
@@ -1196,7 +1196,7 @@
         "hostname": {
           "target": "com.cloudflare.rules#ListsItemsUpdateRequestBodyItemListsListItemHostnameCommentHostname",
           "traits": {
-            "smithy.api#documentation": "Valid characters for hostnames are ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
+            "smithy.api#documentation": "Hostnames support ASCII(7) letters from a to z, the digits from 0 to 9, wildcards (*), and the hyphen (-).",
             "smithy.api#required": {}
           }
         },
@@ -1459,7 +1459,7 @@
         "num_referencing_filters": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of [filters](/api/resources/filters/) referencing the list.",
+            "smithy.api#documentation": "The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list.",
             "smithy.api#required": {}
           }
         },
@@ -1764,7 +1764,7 @@
         "num_referencing_filters": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of [filters](/api/resources/filters/) referencing the list.",
+            "smithy.api#documentation": "The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list.",
             "smithy.api#required": {}
           }
         },
@@ -1964,7 +1964,7 @@
         "cursor": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The pagination cursor. An opaque string token indicating the position from which to continue when requesting the next/previous set of records. Cursor values are provided under `result_info.cursors` in the response. You should make no assumptions about a cursor's content or length.",
+            "smithy.api#documentation": "The pagination cursor. An opaque string token that indicates where to continue when requesting the next/previous set of records. The response provides cursor values under `result_info.cursors`. You should make no assumptions about a cursor's content or length.",
             "smithy.api#httpQuery": "cursor"
           }
         },
@@ -2164,7 +2164,7 @@
         "num_referencing_filters": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "The number of [filters](/api/resources/filters/) referencing the list.",
+            "smithy.api#documentation": "The number of [filters](https://developers.cloudflare.com/api/resources/filters/) referencing the list.",
             "smithy.api#required": {}
           }
         },

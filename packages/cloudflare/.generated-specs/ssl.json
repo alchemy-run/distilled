@@ -2587,13 +2587,13 @@
         "certificate_authority": {
           "target": "com.cloudflare.ssl#CertificatePacksListResultItemCertificateAuthority",
           "traits": {
-            "smithy.api#documentation": "Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
+            "smithy.api#documentation": "Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
           }
         },
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "dcv_delegation_records": {
@@ -2655,6 +2655,98 @@
             "smithy.api#documentation": "Quantity Used."
           }
         }
+      }
+    },
+    "com.cloudflare.ssl#GetRecommendationRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.ssl#GetRecommendationResponseValue": {
+      "type": "enum",
+      "members": {
+        "AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "auto"
+          }
+        },
+        "CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "custom"
+          }
+        }
+      }
+    },
+    "com.cloudflare.ssl#GetRecommendationResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "editable": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether this setting can be updated or not.",
+            "smithy.api#required": {}
+          }
+        },
+        "modified_on": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time this setting was modified.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "com.cloudflare.ssl#GetRecommendationResponseValue",
+          "traits": {
+            "smithy.api#documentation": "Current setting of the automatic SSL/TLS.",
+            "smithy.api#required": {}
+          }
+        },
+        "next_scheduled_scan": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Next time this zone will be scanned by the Automatic SSL/TLS."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.ssl#GetRecommendation": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.ssl#GetRecommendationRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.ssl#GetRecommendationResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/ssl/recommendation",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieve the SSL/TLS Recommender's recommendation for a zone.",
+        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.ssl#VerificationEditRequestValidationMethod": {
@@ -2971,6 +3063,9 @@
           "target": "com.cloudflare.ssl#PatchAutomaticUpgrader"
         },
         {
+          "target": "com.cloudflare.ssl#GetRecommendation"
+        },
+        {
           "target": "com.cloudflare.ssl#CreateAnalyze"
         },
         {
@@ -3175,7 +3270,7 @@
         "certificate_authority": {
           "target": "com.cloudflare.ssl#CertificatePacksCreateRequestCertificateAuthority",
           "traits": {
-            "smithy.api#documentation": "Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
+            "smithy.api#documentation": "Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities).",
             "smithy.api#required": {}
           }
         },
@@ -3210,7 +3305,7 @@
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         }
       },
@@ -3259,13 +3354,13 @@
         "certificate_authority": {
           "target": "com.cloudflare.ssl#CertificatePacksCreateResponseCertificateAuthority",
           "traits": {
-            "smithy.api#documentation": "Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
+            "smithy.api#documentation": "Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
           }
         },
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "dcv_delegation_records": {
@@ -3528,13 +3623,13 @@
         "certificate_authority": {
           "target": "com.cloudflare.ssl#CertificatePacksGetResponseCertificateAuthority",
           "traits": {
-            "smithy.api#documentation": "Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
+            "smithy.api#documentation": "Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
           }
         },
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "dcv_delegation_records": {
@@ -3906,7 +4001,7 @@
           "uri": "/zones/{zone_id}/ssl/certificate_packs/{certificate_pack_id}",
           "code": 200
         },
-        "smithy.api#documentation": "For a given zone, restart validation or add cloudflare branding for an advanced certificate pack.  The former is only a validation operation for a Certificate Pack in a validation_timed_out status."
+        "smithy.api#documentation": "For a given zone, restart validation or add cloudflare branding for an advanced certificate pack. The former is only a validation operation for a Certificate Pack in a validation_timed_out status."
       },
       "errors": [
         {
@@ -3939,7 +4034,7 @@
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         }
       },
@@ -3988,13 +4083,13 @@
         "certificate_authority": {
           "target": "com.cloudflare.ssl#CertificatePacksEditResponseCertificateAuthority",
           "traits": {
-            "smithy.api#documentation": "Certificate Authority selected for the order.  For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
+            "smithy.api#documentation": "Certificate Authority selected for the order. For information on any certificate authority specific details or restrictions [see this page for more details](https://developers.cloudflare.com/ssl/reference/certificate-authorities)."
           }
         },
         "cloudflare_branding": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order.  This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
+            "smithy.api#documentation": "Whether or not to add Cloudflare Branding for the order. This will add a subdomain of sni.cloudflaressl.com as the Common Name if set to true."
           }
         },
         "dcv_delegation_records": {

@@ -3492,18 +3492,15 @@ export const GetBuildResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetBuildResponse",
 }) as any as S.Schema<GetBuildResponse>;
 
-export type GetBuildLogsRequestFollow = "true" | "false";
-export const GetBuildLogsRequestFollow = S.String;
-
 export interface GetBuildLogsRequest {
   buildId: string;
-  follow?: GetBuildLogsRequestFollow | (string & {});
+  follow?: boolean;
   cursor?: string;
 }
 export const GetBuildLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     buildId: S.String.pipe(T.Label()),
-    follow: S.optional(GetBuildLogsRequestFollow.pipe(T.Query())),
+    follow: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({ method: "GET", uri: "/v1/builds/{buildId}/logs", code: 200 }),
@@ -4550,20 +4547,17 @@ export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDeploymentResponse",
 }) as any as S.Schema<GetDeploymentResponse>;
 
-export type GetDeploymentLogsRequestFromStart = "true" | "false";
-export const GetDeploymentLogsRequestFromStart = S.String;
-
 export interface GetDeploymentLogsRequest {
   deploymentId: string;
   tail?: number;
-  from_start?: GetDeploymentLogsRequestFromStart | (string & {});
+  from_start?: boolean;
   cursor?: string;
 }
 export const GetDeploymentLogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String.pipe(T.Label()),
     tail: S.optional(S.Number.pipe(T.Query())),
-    from_start: S.optional(GetDeploymentLogsRequestFromStart.pipe(T.Query())),
+    from_start: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     cursor: S.optional(S.String.pipe(T.Query())),
   }).pipe(
     T.Http({

@@ -729,7 +729,7 @@
         "target": "com.cloudflare.spectrum#AnalyticsEventsSummariesGetResponseTimeIntervalsItemList"
       }
     },
-    "com.cloudflare.spectrum#AppsCreateRequestDnsSpectrumConfigAppConfigType": {
+    "com.cloudflare.spectrum#AppsCreateRequestDnsType": {
       "type": "enum",
       "members": {
         "CNAME": {
@@ -746,7 +746,7 @@
         }
       }
     },
-    "com.cloudflare.spectrum#AppsCreateRequestDnsSpectrumConfigAppConfig": {
+    "com.cloudflare.spectrum#AppsCreateRequestDns": {
       "type": "structure",
       "members": {
         "name": {
@@ -756,7 +756,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.spectrum#AppsCreateRequestDnsSpectrumConfigAppConfigType",
+          "target": "com.cloudflare.spectrum#AppsCreateRequestDnsType",
           "traits": {
             "smithy.api#documentation": "The type of DNS record associated with the application."
           }
@@ -1337,7 +1337,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -1349,7 +1349,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -1367,7 +1367,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigAppConfigOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {
@@ -1386,6 +1386,40 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks."
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigPaygoAppConfigDnsType": {
+      "type": "enum",
+      "members": {
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADDRESS"
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigPaygoAppConfigDns": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the DNS record associated with the application."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigPaygoAppConfigDnsType",
+          "traits": {
+            "smithy.api#documentation": "The type of DNS record associated with the application."
           }
         }
       }
@@ -1414,7 +1448,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigAppConfigDns",
+          "target": "com.cloudflare.spectrum#AppsCreateResultSpectrumConfigPaygoAppConfigDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -1781,7 +1815,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -1793,7 +1827,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -1811,7 +1845,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigAppConfigOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {
@@ -1830,6 +1864,40 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks."
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsGetResultSpectrumConfigPaygoAppConfigDnsType": {
+      "type": "enum",
+      "members": {
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADDRESS"
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsGetResultSpectrumConfigPaygoAppConfigDns": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the DNS record associated with the application."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigPaygoAppConfigDnsType",
+          "traits": {
+            "smithy.api#documentation": "The type of DNS record associated with the application."
           }
         }
       }
@@ -1858,7 +1926,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigAppConfigDns",
+          "target": "com.cloudflare.spectrum#AppsGetResultSpectrumConfigPaygoAppConfigDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -2277,7 +2345,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -2289,7 +2357,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -2307,7 +2375,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsListResultCase0ItemOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {
@@ -2336,6 +2404,40 @@
         "target": "com.cloudflare.spectrum#AppsListResultCase0Item"
       }
     },
+    "com.cloudflare.spectrum#AppsListResultCase1ItemDnsType": {
+      "type": "enum",
+      "members": {
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADDRESS"
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsListResultCase1ItemDns": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the DNS record associated with the application."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.spectrum#AppsListResultCase1ItemDnsType",
+          "traits": {
+            "smithy.api#documentation": "The type of DNS record associated with the application."
+          }
+        }
+      }
+    },
     "com.cloudflare.spectrum#AppsListResultCase1ItemOriginDirectList": {
       "type": "list",
       "member": {
@@ -2360,7 +2462,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsListResultCase0ItemDns",
+          "target": "com.cloudflare.spectrum#AppsListResultCase1ItemDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -2405,7 +2507,7 @@
         }
       }
     },
-    "com.cloudflare.spectrum#AppsUpdateRequestDnsSpectrumConfigAppConfigType": {
+    "com.cloudflare.spectrum#AppsUpdateRequestDnsType": {
       "type": "enum",
       "members": {
         "CNAME": {
@@ -2422,7 +2524,7 @@
         }
       }
     },
-    "com.cloudflare.spectrum#AppsUpdateRequestDnsSpectrumConfigAppConfig": {
+    "com.cloudflare.spectrum#AppsUpdateRequestDns": {
       "type": "structure",
       "members": {
         "name": {
@@ -2432,7 +2534,7 @@
           }
         },
         "type": {
-          "target": "com.cloudflare.spectrum#AppsUpdateRequestDnsSpectrumConfigAppConfigType",
+          "target": "com.cloudflare.spectrum#AppsUpdateRequestDnsType",
           "traits": {
             "smithy.api#documentation": "The type of DNS record associated with the application."
           }
@@ -3013,7 +3115,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -3025,7 +3127,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -3043,7 +3145,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigAppConfigOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {
@@ -3062,6 +3164,40 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "Optional UUID of a virtual network for routing origin traffic through tunnel virtual networks."
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType": {
+      "type": "enum",
+      "members": {
+        "CNAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CNAME"
+          }
+        },
+        "ADDRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ADDRESS"
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigPaygoAppConfigDns": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of the DNS record associated with the application."
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigPaygoAppConfigDnsType",
+          "traits": {
+            "smithy.api#documentation": "The type of DNS record associated with the application."
           }
         }
       }
@@ -3090,7 +3226,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigAppConfigDns",
+          "target": "com.cloudflare.spectrum#AppsUpdateResultSpectrumConfigPaygoAppConfigDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -3129,10 +3265,107 @@
         }
       }
     },
+    "com.cloudflare.spectrum#ListProtocolsRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Zone identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.spectrum#ListProtocolsResultItemPortsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Double"
+      }
+    },
+    "com.cloudflare.spectrum#ListProtocolsResultItem": {
+      "type": "structure",
+      "members": {
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The full name of the application protocol.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The short name of the application protocol.",
+            "smithy.api#required": {}
+          }
+        },
+        "ports": {
+          "target": "com.cloudflare.spectrum#ListProtocolsResultItemPortsList",
+          "traits": {
+            "smithy.api#documentation": "The available listening ports for the given protocol.",
+            "smithy.api#required": {}
+          }
+        },
+        "transport": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The transport layer protocol used by the application protocol",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.spectrum#ListProtocolsResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.spectrum#ListProtocolsResultItem"
+      }
+    },
+    "com.cloudflare.spectrum#ListProtocolsResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "com.cloudflare.spectrum#ListProtocolsResultList",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.spectrum#ListProtocols": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.spectrum#ListProtocolsRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.spectrum#ListProtocolsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/spectrum/protocols",
+          "code": 200
+        },
+        "smithy.api#documentation": "Retrieves a list of Spectrum application protocols available for a zone.",
+        "smithy.api#readonly": {}
+      }
+    },
     "com.cloudflare.spectrum#Spectrum": {
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.spectrum#ListProtocols"
+        },
         {
           "target": "com.cloudflare.spectrum#CreateApp"
         },
@@ -3258,7 +3491,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsCreateRequestDnsSpectrumConfigAppConfig",
+          "target": "com.cloudflare.spectrum#AppsCreateRequestDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -3280,7 +3513,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -3292,7 +3525,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -3310,7 +3543,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsCreateRequestOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {
@@ -3969,7 +4202,7 @@
           }
         },
         "dns": {
-          "target": "com.cloudflare.spectrum#AppsUpdateRequestDnsSpectrumConfigAppConfig",
+          "target": "com.cloudflare.spectrum#AppsUpdateRequestDns",
           "traits": {
             "smithy.api#documentation": "The name and type of DNS record for the Spectrum application.",
             "smithy.api#required": {}
@@ -3991,7 +4224,7 @@
         "argo_smart_routing": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables Argo Smart Routing for this application."
+            "smithy.api#documentation": "Enables Argo Smart Routing for this application. Notes: Only available for TCP or UDP applications with traffic_type set to \"direct\"."
           }
         },
         "edge_ips": {
@@ -4003,7 +4236,7 @@
         "ip_firewall": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Enables IP Access Rules for this application."
+            "smithy.api#documentation": "Enables IP Access Rules for this application. Notes: Only available for TCP applications."
           }
         },
         "origin_direct": {
@@ -4021,7 +4254,7 @@
         "origin_port": {
           "target": "com.cloudflare.spectrum#AppsUpdateRequestOriginPort",
           "traits": {
-            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`."
+            "smithy.api#documentation": "The destination port at the origin. Only specified in conjunction with origin_dns. May use an integer to specify a single origin port, for example `1000`, or a string to specify a range of origin ports, for example `\"1000-2000\"`. Notes: If specifying a port range, the number of ports in the range must match the number of ports specified in the \"protocol\" field."
           }
         },
         "proxy_protocol": {

@@ -106248,10 +106248,6 @@ export const CostTagKeySourcesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CostTagKeySourcesResponse",
 }) as any as S.Schema<CostTagKeySourcesResponse>;
 
-/** Granularity for tag metadata results. `true` returns one row per day, `false` (or omitted) returns the monthly roll-up. */
-export type CostTagMetadataDailyFilter = "true" | "false";
-export const CostTagMetadataDailyFilter = S.String;
-
 export interface ListCostTagMetadataRequest {
   /** The month to scope the query to, in `YYYY-MM` format. */
   filter_month_: string;
@@ -106262,7 +106258,7 @@ export interface ListCostTagMetadataRequest {
   /** Restrict results to a single tag key. */
   filter_tag_key_?: string;
   /** When `true`, return one row per day with the day in the `date` attribute. Defaults to the monthly roll-up when omitted. */
-  filter_daily_?: CostTagMetadataDailyFilter | (string & {});
+  filter_daily_?: boolean;
 }
 export const ListCostTagMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -106271,7 +106267,7 @@ export const ListCostTagMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     filter_metric_: S.optional(S.String.pipe(T.Query("filter[metric]"))),
     filter_tag_key_: S.optional(S.String.pipe(T.Query("filter[tag_key]"))),
     filter_daily_: S.optional(
-      CostTagMetadataDailyFilter.pipe(T.Query("filter[daily]")),
+      S.Boolean.pipe(T.Query("filter[daily]"), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({ method: "GET", uri: "/api/v2/cost/tag_metadata", code: 200 }),

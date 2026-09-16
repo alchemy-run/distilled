@@ -11425,16 +11425,13 @@ export const ListAgencyHostingWebsiteProcessesV1Response =
     identifier: "ListAgencyHostingWebsiteProcessesV1Response",
   }) as any as S.Schema<ListAgencyHostingWebsiteProcessesV1Response>;
 
-export type ListEcommerceDiscountsV1RequestIsDisabled = "true" | "false";
-export const ListEcommerceDiscountsV1RequestIsDisabled = S.String;
-
 export interface ListEcommerceDiscountsV1Request {
   /** The ID of the store to list discounts for. */
   store_id: string;
   /** Free-text search over discount code and name. */
   q?: string;
   /** Filter by disabled state. */
-  is_disabled?: ListEcommerceDiscountsV1RequestIsDisabled | (string & {});
+  is_disabled?: boolean;
   /** Page number */
   page?: number;
 }
@@ -11442,9 +11439,7 @@ export const ListEcommerceDiscountsV1Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     store_id: S.String.pipe(T.Label()),
     q: S.optional(S.String.pipe(T.Query())),
-    is_disabled: S.optional(
-      ListEcommerceDiscountsV1RequestIsDisabled.pipe(T.Query()),
-    ),
+    is_disabled: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     page: S.optional(S.Number.pipe(T.Query())),
   }).pipe(
     T.Http({

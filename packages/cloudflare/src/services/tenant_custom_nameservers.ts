@@ -233,7 +233,7 @@ export const GetTenantCustomNameserverResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetTenantCustomNameserverResponse>;
 
 export type CreateTenantCustomNameserverError = CloudflareOpError;
-/** Add Tenant Custom Nameserver */
+/** Adds a custom nameserver for a tenant. */
 export const createTenantCustomNameserver: API.OperationMethod<
   CreateTenantCustomNameserverRequest,
   CreateTenantCustomNameserverResponse,
@@ -248,7 +248,7 @@ export const createTenantCustomNameserver: API.OperationMethod<
 }));
 
 export type DeleteTenantCustomNameserverError = CloudflareOpError;
-/** Delete Tenant Custom Nameserver */
+/** Deletes a tenant's custom nameserver. */
 export const deleteTenantCustomNameserver: API.PaginatedOperationMethod<
   DeleteTenantCustomNameserverRequest,
   DeleteTenantCustomNameserverResponse,
@@ -268,7 +268,7 @@ export const deleteTenantCustomNameserver: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetTenantCustomNameserverError = CloudflareOpError;
-/** List a tenant's custom nameservers. */
+/** Lists a tenant's custom nameservers. */
 export const getTenantCustomNameserver: API.PaginatedOperationMethod<
   GetTenantCustomNameserverRequest,
   GetTenantCustomNameserverResponse,

@@ -465,6 +465,20 @@
             "smithy.api#required": {}
           }
         },
+        "direction": {
+          "target": "com.cloudflare.custom_csrs#ListRequestDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction to sort by.",
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "order": {
+          "target": "com.cloudflare.custom_csrs#ListRequestOrder",
+          "traits": {
+            "smithy.api#documentation": "The field to sort the returned custom CSRs by.",
+            "smithy.api#httpQuery": "order"
+          }
+        },
         "page": {
           "target": "smithy.api#Double",
           "traits": {
@@ -520,6 +534,20 @@
             "smithy.api#required": {}
           }
         },
+        "direction": {
+          "target": "com.cloudflare.custom_csrs#ListRequestDirection",
+          "traits": {
+            "smithy.api#documentation": "The direction to sort by.",
+            "smithy.api#httpQuery": "direction"
+          }
+        },
+        "order": {
+          "target": "com.cloudflare.custom_csrs#ListRequestOrder",
+          "traits": {
+            "smithy.api#documentation": "The field to sort the returned custom CSRs by.",
+            "smithy.api#httpQuery": "order"
+          }
+        },
         "page": {
           "target": "smithy.api#Double",
           "traits": {
@@ -573,6 +601,46 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "p256v1"
+          }
+        }
+      }
+    },
+    "com.cloudflare.custom_csrs#ListRequestOrder": {
+      "type": "enum",
+      "members": {
+        "NAME": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "name"
+          }
+        },
+        "ACCOUNT_TAG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account_tag"
+          }
+        },
+        "CREATED_AT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "created_at"
+          }
+        }
+      }
+    },
+    "com.cloudflare.custom_csrs#ListRequestDirection": {
+      "type": "enum",
+      "members": {
+        "ASC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "asc"
+          }
+        },
+        "DESC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "desc"
           }
         }
       }

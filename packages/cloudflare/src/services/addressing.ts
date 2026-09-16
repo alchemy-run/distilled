@@ -405,10 +405,13 @@ export const CreateAddressMapResponse = /*@__PURE__*/ S.suspend(() =>
 export interface CreateLoaDocumentRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
+  /** LOA document to upload. */
+  loaDocument: string;
 }
 export const CreateLoaDocumentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    loaDocument: S.String.pipe(T.Body("loa_document")),
   })
     .pipe(
       T.Http({
@@ -500,9 +503,9 @@ export interface CreatePrefixResponse {
   id?: string | null;
   /** Identifier of a Cloudflare account. */
   accountId?: string | null;
-  /** Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertised?: boolean | null;
-  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null;
   /** Approval state of the prefix (P = pending, V = active). */
   approved?: string | null;
@@ -520,9 +523,9 @@ export interface CreatePrefixResponse {
   /** Identifier for the uploaded LOA document. */
   loaDocumentId?: string | null;
   modifiedAt?: string | null;
-  /** Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandEnabled?: boolean | null;
-  /** Whether advertisement status of the prefix is locked, meaning it cannot be changed. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandLocked?: boolean | null;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null;
@@ -755,7 +758,7 @@ export interface CreatePrefixServiceBindingRequest {
   prefixId: string;
   /** IP Prefix in Classless Inter-Domain Routing format. */
   cidr: string;
-  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the */
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
   serviceId: string;
 }
 export const CreatePrefixServiceBindingRequest = /*@__PURE__*/ S.suspend(() =>
@@ -779,7 +782,8 @@ export const CreatePrefixServiceBindingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export type PrefixesServiceBindingsCreateResponseProvisioningState =
   | "provisioning"
-  | "active";
+  | "active"
+  | "magic_transit_route_missing";
 export const PrefixesServiceBindingsCreateResponseProvisioningState = S.String;
 
 export interface PrefixesServiceBindingsCreateResponseProvisioning {
@@ -805,7 +809,7 @@ export interface CreatePrefixServiceBindingResponse {
   cidr?: string | null;
   /** Status of a Service Binding's deployment to the Cloudflare network */
   provisioning?: PrefixesServiceBindingsCreateResponseProvisioning | null;
-  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the */
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
   serviceId?: string | null;
   /** Name of a service running on the Cloudflare network */
   serviceName?: string | null;
@@ -1073,6 +1077,39 @@ export const DeletePrefixDelegationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePrefixDelegationResponse",
 }) as any as S.Schema<DeletePrefixDelegationResponse>;
 
+export interface DeletePrefixesBgpPrefixRequest {
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Identifier of an IP Prefix. */
+  prefixId: string;
+  /** Identifier of BGP Prefix. */
+  bgpPrefixId: string;
+}
+export const DeletePrefixesBgpPrefixRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    prefixId: S.String.pipe(T.Label("prefix_id")),
+    bgpPrefixId: S.String.pipe(T.Label("bgp_prefix_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePrefixesBgpPrefixRequest",
+}) as any as S.Schema<DeletePrefixesBgpPrefixRequest>;
+
+export interface DeletePrefixesBgpPrefixResponse {}
+export const DeletePrefixesBgpPrefixResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePrefixesBgpPrefixResponse",
+}) as any as S.Schema<DeletePrefixesBgpPrefixResponse>;
+
 export interface DeletePrefixServiceBindingRequest {
   /** Identifier of a Cloudflare account. */
   accountId: string;
@@ -1296,9 +1333,9 @@ export interface GetPrefixResponse {
   id?: string | null;
   /** Identifier of a Cloudflare account. */
   accountId?: string | null;
-  /** Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertised?: boolean | null;
-  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null;
   /** Approval state of the prefix (P = pending, V = active). */
   approved?: string | null;
@@ -1316,9 +1353,9 @@ export interface GetPrefixResponse {
   /** Identifier for the uploaded LOA document. */
   loaDocumentId?: string | null;
   modifiedAt?: string | null;
-  /** Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandEnabled?: boolean | null;
-  /** Whether advertisement status of the prefix is locked, meaning it cannot be changed. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandLocked?: boolean | null;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null;
@@ -1395,7 +1432,7 @@ export const GetPrefixAdvertisementStatusRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetPrefixAdvertisementStatusResponse {
-  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If */
+  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
   advertised?: boolean | null;
   /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
   advertisedModifiedAt?: string | null;
@@ -1521,7 +1558,8 @@ export const GetPrefixServiceBindingRequest = /*@__PURE__*/ S.suspend(() =>
 
 export type PrefixesServiceBindingsGetResponseProvisioningState =
   | "provisioning"
-  | "active";
+  | "active"
+  | "magic_transit_route_missing";
 export const PrefixesServiceBindingsGetResponseProvisioningState = S.String;
 
 export interface PrefixesServiceBindingsGetResponseProvisioning {
@@ -1547,7 +1585,7 @@ export interface GetPrefixServiceBindingResponse {
   cidr?: string | null;
   /** Status of a Service Binding's deployment to the Cloudflare network */
   provisioning?: PrefixesServiceBindingsGetResponseProvisioning | null;
-  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the */
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
   serviceId?: string | null;
   /** Name of a service running on the Cloudflare network */
   serviceName?: string | null;
@@ -1880,9 +1918,9 @@ export interface PrefixesListResultItem {
   id?: string | null;
   /** Identifier of a Cloudflare account. */
   accountId?: string | null;
-  /** Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertised?: boolean | null;
-  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null;
   /** Approval state of the prefix (P = pending, V = active). */
   approved?: string | null;
@@ -1900,9 +1938,9 @@ export interface PrefixesListResultItem {
   /** Identifier for the uploaded LOA document. */
   loaDocumentId?: string | null;
   modifiedAt?: string | null;
-  /** Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandEnabled?: boolean | null;
-  /** Whether advertisement status of the prefix is locked, meaning it cannot be changed. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandLocked?: boolean | null;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null;
@@ -1999,7 +2037,8 @@ export const ListPrefixServiceBindingsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export type PrefixesServiceBindingsListResultItemProvisioningState =
   | "provisioning"
-  | "active";
+  | "active"
+  | "magic_transit_route_missing";
 export const PrefixesServiceBindingsListResultItemProvisioningState = S.String;
 
 export interface PrefixesServiceBindingsListResultItemProvisioning {
@@ -2024,7 +2063,7 @@ export interface PrefixesServiceBindingsListResultItem {
   cidr?: string | null;
   /** Status of a Service Binding's deployment to the Cloudflare network */
   provisioning?: PrefixesServiceBindingsListResultItemProvisioning | null;
-  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the */
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
   serviceId?: string | null;
   /** Name of a service running on the Cloudflare network */
   serviceName?: string | null;
@@ -2205,7 +2244,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListServicesRequest>;
 
 export interface ServicesListResultItem {
-  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the */
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint. */
   id?: string | null;
   /** Name of a service running on the Cloudflare network */
   name?: string | null;
@@ -2337,9 +2376,9 @@ export interface PatchPrefixResponse {
   id?: string | null;
   /** Identifier of a Cloudflare account. */
   accountId?: string | null;
-  /** Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertised?: boolean | null;
-  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   advertisedModifiedAt?: string | null;
   /** Approval state of the prefix (P = pending, V = active). */
   approved?: string | null;
@@ -2357,9 +2396,9 @@ export interface PatchPrefixResponse {
   /** Identifier for the uploaded LOA document. */
   loaDocumentId?: string | null;
   modifiedAt?: string | null;
-  /** Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandEnabled?: boolean | null;
-  /** Whether advertisement status of the prefix is locked, meaning it cannot be changed. */
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
   onDemandLocked?: boolean | null;
   /** State of one kind of validation for an IP prefix. */
   ownershipValidationState?: string | null;
@@ -2416,7 +2455,7 @@ export interface PatchPrefixAdvertisementStatusRequest {
   accountId: string;
   /** Identifier of an IP Prefix. */
   prefixId: string;
-  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If */
+  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
   advertised: boolean;
 }
 export const PatchPrefixAdvertisementStatusRequest = /*@__PURE__*/ S.suspend(
@@ -2440,7 +2479,7 @@ export const PatchPrefixAdvertisementStatusRequest = /*@__PURE__*/ S.suspend(
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchPrefixAdvertisementStatusResponse {
-  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If */
+  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
   advertised?: boolean | null;
   /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
   advertisedModifiedAt?: string | null;
@@ -2708,6 +2747,109 @@ export const PutAddressMapZoneResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutAddressMapZoneResponse",
 }) as any as S.Schema<PutAddressMapZoneResponse>;
+
+export interface ValidatePrefixRequest {
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Identifier of an IP Prefix. */
+  prefixId: string;
+}
+export const ValidatePrefixRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    prefixId: S.String.pipe(T.Label("prefix_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/addressing/prefixes/{prefix_id}/validate",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ValidatePrefixRequest",
+}) as any as S.Schema<ValidatePrefixRequest>;
+
+/** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
+export interface ValidatePrefixResponse {
+  /** Identifier of an IP Prefix. */
+  id?: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId?: string | null;
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
+  advertised?: boolean | null;
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
+  advertisedModifiedAt?: string | null;
+  /** Approval state of the prefix (P = pending, V = active). */
+  approved?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
+  delegateLoaCreation?: boolean | null;
+  /** Description of the prefix. */
+  description?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  irrValidationState?: string | null;
+  /** Identifier for the uploaded LOA document. */
+  loaDocumentId?: string | null;
+  modifiedAt?: string | null;
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
+  onDemandEnabled?: boolean | null;
+  /** Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix. */
+  onDemandLocked?: boolean | null;
+  /** State of one kind of validation for an IP prefix. */
+  ownershipValidationState?: string | null;
+  /** Token provided to demonstrate ownership of the prefix. */
+  ownershipValidationToken?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  rpkiValidationState?: string | null;
+}
+export const ValidatePrefixResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.optional(S.NullOr(S.String)),
+    accountId: S.optional(S.NullOr(S.String).pipe(T.Body("account_id"))),
+    advertised: S.optional(S.NullOr(S.Boolean)),
+    advertisedModifiedAt: S.optional(
+      S.NullOr(S.String).pipe(T.Body("advertised_modified_at")),
+    ),
+    approved: S.optional(S.NullOr(S.String)),
+    asn: S.optional(S.NullOr(S.Number)),
+    cidr: S.optional(S.NullOr(S.String)),
+    createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+    delegateLoaCreation: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("delegate_loa_creation")),
+    ),
+    description: S.optional(S.NullOr(S.String)),
+    irrValidationState: S.optional(
+      S.NullOr(S.String).pipe(T.Body("irr_validation_state")),
+    ),
+    loaDocumentId: S.optional(
+      S.NullOr(S.String).pipe(T.Body("loa_document_id")),
+    ),
+    modifiedAt: S.optional(S.NullOr(S.String).pipe(T.Body("modified_at"))),
+    onDemandEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("on_demand_enabled")),
+    ),
+    onDemandLocked: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("on_demand_locked")),
+    ),
+    ownershipValidationState: S.optional(
+      S.NullOr(S.String).pipe(T.Body("ownership_validation_state")),
+    ),
+    ownershipValidationToken: S.optional(
+      S.NullOr(S.String).pipe(T.Body("ownership_validation_token")),
+    ),
+    rpkiValidationState: S.optional(
+      S.NullOr(S.String).pipe(T.Body("rpki_validation_state")),
+    ),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "ValidatePrefixResponse",
+}) as any as S.Schema<ValidatePrefixResponse>;
 
 export type CreateAddressMapError =
   | FeatureNotEnabled
@@ -3028,6 +3170,21 @@ export const deletePrefixDelegation: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePrefixesBgpPrefixError = CloudflareOpError;
+/** Delete a BGP Prefix associated with the specified IP Prefix. A BGP Prefix must be withdrawn before it can be deleted. */
+export const deletePrefixesBgpPrefix: API.OperationMethod<
+  DeletePrefixesBgpPrefixRequest,
+  DeletePrefixesBgpPrefixResponse,
+  DeletePrefixesBgpPrefixError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePrefixesBgpPrefixRequest,
+  output: DeletePrefixesBgpPrefixResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -3633,6 +3790,21 @@ export const putAddressMapZone: API.OperationMethod<
     CloudflareRateLimited,
     CloudflareError,
   ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type ValidatePrefixError = CloudflareOpError;
+/** Triggers a new prefix validation. The checks are run asynchronously and include IRR, RPKI, and prefix ownership. */
+export const validatePrefix: API.OperationMethod<
+  ValidatePrefixRequest,
+  ValidatePrefixResponse,
+  ValidatePrefixError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: ValidatePrefixRequest,
+  output: ValidatePrefixResponse,
+  errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

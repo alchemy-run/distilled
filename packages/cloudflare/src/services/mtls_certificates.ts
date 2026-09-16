@@ -430,7 +430,7 @@ export const ListMtlsCertificatesResponse = /*@__PURE__*/ S.suspend(() =>
 export type CreateMtlsCertificateError =
   | CertificateAlreadyExists
   | CloudflareOpError;
-/** Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](/api/resources/client_certificates/methods/create/). */
+/** Upload a certificate that you want to use with mTLS-enabled Cloudflare services, such as Bring Your Own CA (BYO-CA) for mTLS. To create certificates issued by the Cloudflare managed CA, use the [Create Client Certificate endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/create/). */
 export const createMtlsCertificate: API.OperationMethod<
   CreateMtlsCertificateRequest,
   CreateMtlsCertificateResponse,
@@ -488,7 +488,7 @@ export const getAssociation: API.PaginatedOperationMethod<
 ) as any;
 
 export type GetMtlsCertificateError = CertificateNotFound | CloudflareOpError;
-/** Fetches a single mTLS certificate uploaded to your account. To get a certificate issued by the Cloudflare managed CA, use the [Client Certificate Details endpoint](/api/resources/client_certificates/methods/get/). */
+/** Fetches a single mTLS certificate uploaded to your account. To get a certificate issued by the Cloudflare managed CA, use the [Client Certificate Details endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/get/). */
 export const getMtlsCertificate: API.OperationMethod<
   GetMtlsCertificateRequest,
   GetMtlsCertificateResponse,
@@ -503,7 +503,7 @@ export const getMtlsCertificate: API.OperationMethod<
 }));
 
 export type ListMtlsCertificatesError = CloudflareOpError;
-/** Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](/api/resources/client_certificates/methods/list/). */
+/** Lists all mTLS certificates uploaded to your account, such as Bring Your Own CA (BYO-CA) for mTLS. To list certificates issued by the Cloudflare managed CA, use the [List Client Certificates endpoint](https://developers.cloudflare.com/api/resources/client_certificates/methods/list/). */
 export const listMtlsCertificates: API.PaginatedOperationMethod<
   ListMtlsCertificatesRequest,
   ListMtlsCertificatesResponse,

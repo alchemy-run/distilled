@@ -14083,9 +14083,6 @@ export const CustomObjectInstancesPaginatedList = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomObjectInstancesPaginatedList",
 }) as any as S.Schema<CustomObjectInstancesPaginatedList>;
 
-export type ListDataConnectorExecutionResultsRequestSuccess = "true" | "false";
-export const ListDataConnectorExecutionResultsRequestSuccess = S.String;
-
 export type ListDataConnectorExecutionResultsRequestErrorType =
   | "request_configuration_error"
   | "faraday_error"
@@ -14100,11 +14097,6 @@ export type ListDataConnectorExecutionResultsRequestErrorType =
   | "client_side_action_error";
 export const ListDataConnectorExecutionResultsRequestErrorType = S.String;
 
-export type ListDataConnectorExecutionResultsRequestIncludeBodies =
-  | "true"
-  | "false";
-export const ListDataConnectorExecutionResultsRequestIncludeBodies = S.String;
-
 export interface ListDataConnectorExecutionResultsRequest {
   /** The unique identifier for the data connector. */
   data_connector_id: string;
@@ -14113,7 +14105,7 @@ export interface ListDataConnectorExecutionResultsRequest {
   /** Cursor for pagination. Use the value from `pages.next.starting_after` in a previous response. */
   starting_after?: string;
   /** Filter by success status. Use `true`, `false`, or omit for all. */
-  success?: ListDataConnectorExecutionResultsRequestSuccess | (string & {});
+  success?: boolean;
   /** Filter by error type. */
   error_type?:
     | ListDataConnectorExecutionResultsRequestErrorType
@@ -14123,9 +14115,7 @@ export interface ListDataConnectorExecutionResultsRequest {
   /** Unix timestamp for end of time range (default now). */
   end_ts?: number;
   /** Include request/response bodies in the response (default false). */
-  include_bodies?:
-    | ListDataConnectorExecutionResultsRequestIncludeBodies
-    | (string & {});
+  include_bodies?: boolean;
 }
 export const ListDataConnectorExecutionResultsRequest = /*@__PURE__*/ S.suspend(
   () =>
@@ -14133,17 +14123,13 @@ export const ListDataConnectorExecutionResultsRequest = /*@__PURE__*/ S.suspend(
       data_connector_id: S.String.pipe(T.Label()),
       per_page: S.optional(S.Number.pipe(T.Query())),
       starting_after: S.optional(S.String.pipe(T.Query())),
-      success: S.optional(
-        ListDataConnectorExecutionResultsRequestSuccess.pipe(T.Query()),
-      ),
+      success: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       error_type: S.optional(
         ListDataConnectorExecutionResultsRequestErrorType.pipe(T.Query()),
       ),
       start_ts: S.optional(S.Number.pipe(T.Query())),
       end_ts: S.optional(S.Number.pipe(T.Query())),
-      include_bodies: S.optional(
-        ListDataConnectorExecutionResultsRequestIncludeBodies.pipe(T.Query()),
-      ),
+      include_bodies: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "GET",

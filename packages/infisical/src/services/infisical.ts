@@ -93237,40 +93237,21 @@ export const DeleteAuth0AppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAuth0AppConnectionResponse",
 }) as any as S.Schema<DeleteAuth0AppConnectionResponse>;
 
-export type DeleteAuth0ClientSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteAuth0ClientSecretRotationRequestDeleteSecrets = S.String;
-
-export type DeleteAuth0ClientSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteAuth0ClientSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteAuth0ClientSecretRotationRequest {
   /** The ID of the Auth0 Client Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteAuth0ClientSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteAuth0ClientSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteAuth0ClientSecretRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteAuth0ClientSecretRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteAuth0ClientSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -94078,40 +94059,21 @@ export const DeleteAwsElasticLoadBalancerPkiSyncResponse =
     identifier: "DeleteAwsElasticLoadBalancerPkiSyncResponse",
   }) as any as S.Schema<DeleteAwsElasticLoadBalancerPkiSyncResponse>;
 
-export type DeleteAWSIAMUserSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteAWSIAMUserSecretRotationRequestDeleteSecrets = S.String;
-
-export type DeleteAWSIAMUserSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteAWSIAMUserSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteAWSIAMUserSecretRotationRequest {
   /** The ID of the AWS IAM User Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteAWSIAMUserSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteAWSIAMUserSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteAWSIAMUserSecretRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteAWSIAMUserSecretRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteAWSIAMUserSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -94299,26 +94261,17 @@ export const DeleteAWSIAMUserSecretRotationResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteAWSIAMUserSecretRotationResponse",
 }) as any as S.Schema<DeleteAWSIAMUserSecretRotationResponse>;
 
-export type DeleteAwsParameterStoreSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteAwsParameterStoreSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteAwsParameterStoreSecretSyncRequest {
   /** The ID of the AWS Parameter Store Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAwsParameterStoreSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAwsParameterStoreSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteAwsParameterStoreSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -94792,26 +94745,17 @@ export const DeleteAwsSecretsManagerPkiSyncResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteAwsSecretsManagerPkiSyncResponse",
 }) as any as S.Schema<DeleteAwsSecretsManagerPkiSyncResponse>;
 
-export type DeleteAwsSecretsManagerSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteAwsSecretsManagerSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteAwsSecretsManagerSecretSyncRequest {
   /** The ID of the AWS Secrets Manager Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAwsSecretsManagerSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAwsSecretsManagerSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteAwsSecretsManagerSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -95525,29 +95469,17 @@ export const DeleteAzureAppConfigurationAppConnectionResponse =
     identifier: "DeleteAzureAppConfigurationAppConnectionResponse",
   }) as any as S.Schema<DeleteAzureAppConfigurationAppConnectionResponse>;
 
-export type DeleteAzureAppConfigurationSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteAzureAppConfigurationSecretSyncRequestRemoveSecrets =
-  S.String;
-
 export interface DeleteAzureAppConfigurationSecretSyncRequest {
   /** The ID of the Azure App Configuration Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAzureAppConfigurationSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAzureAppConfigurationSecretSyncRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteAzureAppConfigurationSecretSyncRequestRemoveSecrets.pipe(
-          T.Query(),
-        ),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -95752,40 +95684,21 @@ export const DeleteAzureAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAzureAuthResponse",
 }) as any as S.Schema<DeleteAzureAuthResponse>;
 
-export type DeleteAzureClientSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteAzureClientSecretRotationRequestDeleteSecrets = S.String;
-
-export type DeleteAzureClientSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteAzureClientSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteAzureClientSecretRotationRequest {
   /** The ID of the Azure Client Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteAzureClientSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteAzureClientSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteAzureClientSecretRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteAzureClientSecretRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteAzureClientSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -96690,23 +96603,16 @@ export const DeleteAzureDevopsAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteAzureDevopsAppConnectionResponse",
 }) as any as S.Schema<DeleteAzureDevopsAppConnectionResponse>;
 
-export type DeleteAzureDevopsSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteAzureDevopsSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteAzureDevopsSecretSyncRequest {
   /** The ID of the Azure DevOps Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAzureDevopsSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAzureDevopsSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteAzureDevopsSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -97149,26 +97055,17 @@ export const DeleteAzureEntraIdAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteAzureEntraIdAppConnectionResponse",
 }) as any as S.Schema<DeleteAzureEntraIdAppConnectionResponse>;
 
-export type DeleteAzureEntraIdScimSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteAzureEntraIdScimSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteAzureEntraIdScimSecretSyncRequest {
   /** The ID of the Azure Entra ID SCIM Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAzureEntraIdScimSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAzureEntraIdScimSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteAzureEntraIdScimSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -97806,26 +97703,17 @@ export const DeleteAzureKeyVaultPkiSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAzureKeyVaultPkiSyncResponse",
 }) as any as S.Schema<DeleteAzureKeyVaultPkiSyncResponse>;
 
-export type DeleteAzureKeyVaultSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteAzureKeyVaultSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteAzureKeyVaultSecretSyncRequest {
   /** The ID of the Azure Key Vault Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteAzureKeyVaultSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteAzureKeyVaultSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteAzureKeyVaultSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -98249,21 +98137,16 @@ export const DeleteBitbucketDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBitbucketDataSourceResponse",
 }) as any as S.Schema<DeleteBitbucketDataSourceResponse>;
 
-export type DeleteBitbucketSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteBitbucketSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteBitbucketSecretSyncRequest {
   /** The ID of the Bitbucket Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteBitbucketSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteBitbucketSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteBitbucketSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -98562,21 +98445,16 @@ export const DeleteCamundaAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCamundaAppConnectionResponse",
 }) as any as S.Schema<DeleteCamundaAppConnectionResponse>;
 
-export type DeleteCamundaSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteCamundaSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteCamundaSecretSyncRequest {
   /** The ID of the Camunda Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteCamundaSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteCamundaSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteCamundaSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -99868,21 +99746,16 @@ export const DeleteChecklyAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteChecklyAppConnectionResponse",
 }) as any as S.Schema<DeleteChecklyAppConnectionResponse>;
 
-export type DeleteChecklySecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteChecklySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteChecklySecretSyncRequest {
   /** The ID of the Checkly Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteChecklySecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteChecklySecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteChecklySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -100262,21 +100135,16 @@ export const DeleteChefPkiSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteChefPkiSyncResponse",
 }) as any as S.Schema<DeleteChefPkiSyncResponse>;
 
-export type DeleteChefSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteChefSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteChefSecretSyncRequest {
   /** The ID of the Chef Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteChefSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteChefSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteChefSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -100574,21 +100442,16 @@ export const DeleteCircleciAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCircleciAppConnectionResponse",
 }) as any as S.Schema<DeleteCircleciAppConnectionResponse>;
 
-export type DeleteCircleciSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteCircleciSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteCircleciSecretSyncRequest {
   /** The ID of the CircleCI Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteCircleciSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteCircleciSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteCircleciSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -100881,21 +100744,16 @@ export const DeleteCloud66AppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCloud66AppConnectionResponse",
 }) as any as S.Schema<DeleteCloud66AppConnectionResponse>;
 
-export type DeleteCloud66SecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteCloud66SecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteCloud66SecretSyncRequest {
   /** The ID of the Cloud 66 Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteCloud66SecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteCloud66SecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteCloud66SecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -101055,40 +100913,21 @@ export const DeleteCloud66SecretSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteCloud66SecretSyncResponse",
 }) as any as S.Schema<DeleteCloud66SecretSyncResponse>;
 
-export type DeleteCloudflareAPITokenRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteCloudflareAPITokenRotationRequestDeleteSecrets = S.String;
-
-export type DeleteCloudflareAPITokenRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteCloudflareAPITokenRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteCloudflareAPITokenRotationRequest {
   /** The ID of the Cloudflare API Token Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteCloudflareAPITokenRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteCloudflareAPITokenRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteCloudflareAPITokenRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteCloudflareAPITokenRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteCloudflareAPITokenRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -101557,26 +101396,17 @@ export const DeleteCloudflareCustomCertificatePkiSyncResponse =
     identifier: "DeleteCloudflareCustomCertificatePkiSyncResponse",
   }) as any as S.Schema<DeleteCloudflareCustomCertificatePkiSyncResponse>;
 
-export type DeleteCloudflarePagesSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteCloudflarePagesSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteCloudflarePagesSecretSyncRequest {
   /** The ID of the Cloudflare Pages Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteCloudflarePagesSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteCloudflarePagesSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteCloudflarePagesSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -101740,40 +101570,21 @@ export const DeleteCloudflarePagesSecretSyncResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteCloudflarePagesSecretSyncResponse",
 }) as any as S.Schema<DeleteCloudflarePagesSecretSyncResponse>;
 
-export type DeleteCloudflareR2AccessKeyRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteCloudflareR2AccessKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteCloudflareR2AccessKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteCloudflareR2AccessKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteCloudflareR2AccessKeyRotationRequest {
   /** The ID of the Cloudflare R2 Access Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteCloudflareR2AccessKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteCloudflareR2AccessKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteCloudflareR2AccessKeyRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteCloudflareR2AccessKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteCloudflareR2AccessKeyRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -101996,26 +101807,17 @@ export const DeleteCloudflareR2AccessKeyRotationResponse =
     identifier: "DeleteCloudflareR2AccessKeyRotationResponse",
   }) as any as S.Schema<DeleteCloudflareR2AccessKeyRotationResponse>;
 
-export type DeleteCloudflareWorkersSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteCloudflareWorkersSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteCloudflareWorkersSecretSyncRequest {
   /** The ID of the Cloudflare Workers Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteCloudflareWorkersSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteCloudflareWorkersSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteCloudflareWorkersSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -102185,40 +101987,21 @@ export const DeleteCloudflareWorkersSecretSyncResponse =
     identifier: "DeleteCloudflareWorkersSecretSyncResponse",
   }) as any as S.Schema<DeleteCloudflareWorkersSecretSyncResponse>;
 
-export type DeleteConvexAccessKeyRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteConvexAccessKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteConvexAccessKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteConvexAccessKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteConvexAccessKeyRotationRequest {
   /** The ID of the Convex Access Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteConvexAccessKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteConvexAccessKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteConvexAccessKeyRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteConvexAccessKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteConvexAccessKeyRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -102635,23 +102418,16 @@ export const DeleteDatabricksAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteDatabricksAppConnectionResponse",
 }) as any as S.Schema<DeleteDatabricksAppConnectionResponse>;
 
-export type DeleteDatabricksSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteDatabricksSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteDatabricksSecretSyncRequest {
   /** The ID of the Databricks Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteDatabricksSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteDatabricksSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteDatabricksSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -102812,43 +102588,21 @@ export const DeleteDatabricksSecretSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatabricksSecretSyncResponse",
 }) as any as S.Schema<DeleteDatabricksSecretSyncResponse>;
 
-export type DeleteDatabricksServicePrincipalSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteDatabricksServicePrincipalSecretRotationRequestDeleteSecrets =
-  S.String;
-
-export type DeleteDatabricksServicePrincipalSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteDatabricksServicePrincipalSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteDatabricksServicePrincipalSecretRotationRequest {
   /** The ID of the Databricks Service Principal Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteDatabricksServicePrincipalSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteDatabricksServicePrincipalSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteDatabricksServicePrincipalSecretRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteDatabricksServicePrincipalSecretRotationRequestDeleteSecrets.pipe(
-          T.Query(),
-        ),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteDatabricksServicePrincipalSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -102991,37 +102745,20 @@ export const DeleteDatabricksServicePrincipalSecretRotationResponse =
     identifier: "DeleteDatabricksServicePrincipalSecretRotationResponse",
   }) as any as S.Schema<DeleteDatabricksServicePrincipalSecretRotationResponse>;
 
-export type DeleteDatadogAPIKeyRotationRequestDeleteSecrets = "true" | "false";
-export const DeleteDatadogAPIKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteDatadogAPIKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteDatadogAPIKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteDatadogAPIKeyRotationRequest {
   /** The ID of the Datadog API Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteDatadogAPIKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteDatadogAPIKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteDatadogAPIKeyRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rotationId: S.String.pipe(T.Label()),
-    deleteSecrets: S.optional(
-      DeleteDatadogAPIKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-    ),
+    deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     revokeGeneratedCredentials: S.optional(
-      DeleteDatadogAPIKeyRotationRequestRevokeGeneratedCredentials.pipe(
-        T.Query(),
-      ),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({
@@ -103413,40 +103150,21 @@ export const DeleteDatadogAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatadogAppConnectionResponse",
 }) as any as S.Schema<DeleteDatadogAppConnectionResponse>;
 
-export type DeleteDatadogApplicationKeyRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteDatadogApplicationKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteDatadogApplicationKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteDatadogApplicationKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteDatadogApplicationKeyRotationRequest {
   /** The ID of the Datadog Application Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteDatadogApplicationKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteDatadogApplicationKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteDatadogApplicationKeyRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteDatadogApplicationKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteDatadogApplicationKeyRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -103722,40 +103440,21 @@ export const DeleteDbtAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDbtAppConnectionResponse",
 }) as any as S.Schema<DeleteDbtAppConnectionResponse>;
 
-export type DeleteDBTServiceTokenRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteDBTServiceTokenRotationRequestDeleteSecrets = S.String;
-
-export type DeleteDBTServiceTokenRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteDBTServiceTokenRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteDBTServiceTokenRotationRequest {
   /** The ID of the DBT Service Token Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteDBTServiceTokenRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteDBTServiceTokenRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteDBTServiceTokenRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteDBTServiceTokenRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteDBTServiceTokenRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -104091,21 +103790,16 @@ export const DeleteDevinAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDevinAppConnectionResponse",
 }) as any as S.Schema<DeleteDevinAppConnectionResponse>;
 
-export type DeleteDevinSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteDevinSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteDevinSecretSyncRequest {
   /** The ID of the Devin Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteDevinSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteDevinSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteDevinSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -104645,29 +104339,17 @@ export const DeleteDigitalOceanAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteDigitalOceanAppConnectionResponse",
 }) as any as S.Schema<DeleteDigitalOceanAppConnectionResponse>;
 
-export type DeleteDigitalOceanAppPlatformSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteDigitalOceanAppPlatformSecretSyncRequestRemoveSecrets =
-  S.String;
-
 export interface DeleteDigitalOceanAppPlatformSecretSyncRequest {
   /** The ID of the Digital Ocean App Platform Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteDigitalOceanAppPlatformSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteDigitalOceanAppPlatformSecretSyncRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteDigitalOceanAppPlatformSecretSyncRequestRemoveSecrets.pipe(
-          T.Query(),
-        ),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -105256,22 +104938,19 @@ export const DeleteDynamicSecretLeaseResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDynamicSecretLeaseResponse",
 }) as any as S.Schema<DeleteDynamicSecretLeaseResponse>;
 
-export type DeleteEnvironmentRequestHardDelete = "true" | "false";
-export const DeleteEnvironmentRequestHardDelete = S.String;
-
 export interface DeleteEnvironmentRequest {
   /** The ID of the project to delete the environment from. */
   projectId: string;
   /** The ID of the environment to delete. */
   id: string;
   /** When true, permanently removes the environment. When false or omitted, the environment is soft-deleted (preserved and scheduled for permanent deletion after a grace period) and hidden from subsequent reads. */
-  hardDelete?: DeleteEnvironmentRequestHardDelete | (string & {});
+  hardDelete?: boolean;
 }
 export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectId: S.String.pipe(T.Label()),
     id: S.String.pipe(T.Label()),
-    hardDelete: S.optional(DeleteEnvironmentRequestHardDelete.pipe(T.Query())),
+    hardDelete: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -105448,26 +105127,17 @@ export const DeleteExternalInfisicalAppConnectionResponse =
     identifier: "DeleteExternalInfisicalAppConnectionResponse",
   }) as any as S.Schema<DeleteExternalInfisicalAppConnectionResponse>;
 
-export type DeleteExternalInfisicalSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteExternalInfisicalSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteExternalInfisicalSecretSyncRequest {
   /** The ID of the Infisical Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteExternalInfisicalSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteExternalInfisicalSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteExternalInfisicalSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -106016,40 +105686,21 @@ export const DeleteFireworksAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteFireworksAppConnectionResponse",
 }) as any as S.Schema<DeleteFireworksAppConnectionResponse>;
 
-export type DeleteFireworksSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteFireworksSecretRotationRequestDeleteSecrets = S.String;
-
-export type DeleteFireworksSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteFireworksSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteFireworksSecretRotationRequest {
   /** The ID of the Fireworks Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteFireworksSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteFireworksSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteFireworksSecretRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteFireworksSecretRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteFireworksSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -106318,21 +105969,16 @@ export const DeleteFlyioAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFlyioAppConnectionResponse",
 }) as any as S.Schema<DeleteFlyioAppConnectionResponse>;
 
-export type DeleteFlyioSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteFlyioSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteFlyioSecretSyncRequest {
   /** The ID of the Fly.io Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteFlyioSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteFlyioSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteFlyioSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -106878,26 +106524,17 @@ export const DeleteGcpCertificateManagerPkiSyncResponse =
     identifier: "DeleteGcpCertificateManagerPkiSyncResponse",
   }) as any as S.Schema<DeleteGcpCertificateManagerPkiSyncResponse>;
 
-export type DeleteGcpSecretManagerSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteGcpSecretManagerSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteGcpSecretManagerSecretSyncRequest {
   /** The ID of the GCP Secret Manager Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteGcpSecretManagerSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteGcpSecretManagerSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteGcpSecretManagerSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -107988,21 +107625,16 @@ export const DeleteGitHubRadarAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteGitHubRadarAppConnectionResponse",
 }) as any as S.Schema<DeleteGitHubRadarAppConnectionResponse>;
 
-export type DeleteGitHubSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteGitHubSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteGitHubSecretSyncRequest {
   /** The ID of the GitHub Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteGitHubSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteGitHubSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteGitHubSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -108699,21 +108331,16 @@ export const DeleteGitLabDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteGitLabDataSourceResponse",
 }) as any as S.Schema<DeleteGitLabDataSourceResponse>;
 
-export type DeleteGitLabSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteGitLabSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteGitLabSecretSyncRequest {
   /** The ID of the GitLab Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteGitLabSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteGitLabSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteGitLabSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -109453,26 +109080,17 @@ export const DeleteHashicorpVaultAppConnectionResponse =
     identifier: "DeleteHashicorpVaultAppConnectionResponse",
   }) as any as S.Schema<DeleteHashicorpVaultAppConnectionResponse>;
 
-export type DeleteHashicorpVaultSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteHashicorpVaultSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteHashicorpVaultSecretSyncRequest {
   /** The ID of the Hashicorp Vault Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteHashicorpVaultSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteHashicorpVaultSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteHashicorpVaultSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -109774,23 +109392,16 @@ export const DeleteHasuraCloudAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteHasuraCloudAppConnectionResponse",
 }) as any as S.Schema<DeleteHasuraCloudAppConnectionResponse>;
 
-export type DeleteHasuraCloudSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteHasuraCloudSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteHasuraCloudSecretSyncRequest {
   /** The ID of the Hasura Cloud Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteHasuraCloudSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteHasuraCloudSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteHasuraCloudSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -110198,21 +109809,16 @@ export const DeleteHerokuAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHerokuAppConnectionResponse",
 }) as any as S.Schema<DeleteHerokuAppConnectionResponse>;
 
-export type DeleteHerokuSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteHerokuSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteHerokuSecretSyncRequest {
   /** The ID of the Heroku Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteHerokuSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteHerokuSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteHerokuSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -110372,40 +109978,21 @@ export const DeleteHerokuSecretSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHerokuSecretSyncResponse",
 }) as any as S.Schema<DeleteHerokuSecretSyncResponse>;
 
-export type DeleteHPiLOLocalAccountRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteHPiLOLocalAccountRotationRequestDeleteSecrets = S.String;
-
-export type DeleteHPiLOLocalAccountRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteHPiLOLocalAccountRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteHPiLOLocalAccountRotationRequest {
   /** The ID of the HP iLO Local Account Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteHPiLOLocalAccountRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteHPiLOLocalAccountRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteHPiLOLocalAccountRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteHPiLOLocalAccountRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteHPiLOLocalAccountRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -110744,21 +110331,16 @@ export const DeleteHumanitecAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteHumanitecAppConnectionResponse",
 }) as any as S.Schema<DeleteHumanitecAppConnectionResponse>;
 
-export type DeleteHumanitecSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteHumanitecSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteHumanitecSecretSyncRequest {
   /** The ID of the Humanitec Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteHumanitecSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteHumanitecSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteHumanitecSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -111179,23 +110761,16 @@ export const DeleteIdentityTemplateUsageResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIdentityTemplateUsageResponse",
 }) as any as S.Schema<DeleteIdentityTemplateUsageResponse>;
 
-export type DeleteIntegrationRequestShouldDeleteIntegrationSecrets =
-  | "true"
-  | "false";
-export const DeleteIntegrationRequestShouldDeleteIntegrationSecrets = S.String;
-
 export interface DeleteIntegrationRequest {
   /** The ID of the integration object. */
   integrationId: string;
-  shouldDeleteIntegrationSecrets?:
-    | DeleteIntegrationRequestShouldDeleteIntegrationSecrets
-    | (string & {});
+  shouldDeleteIntegrationSecrets?: boolean;
 }
 export const DeleteIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     integrationId: S.String.pipe(T.Label()),
     shouldDeleteIntegrationSecrets: S.optional(
-      DeleteIntegrationRequestShouldDeleteIntegrationSecrets.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({
@@ -112056,23 +111631,16 @@ export const DeleteLaravelForgeAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteLaravelForgeAppConnectionResponse",
 }) as any as S.Schema<DeleteLaravelForgeAppConnectionResponse>;
 
-export type DeleteLaravelForgeSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteLaravelForgeSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteLaravelForgeSecretSyncRequest {
   /** The ID of the Laravel Forge Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteLaravelForgeSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteLaravelForgeSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteLaravelForgeSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -112434,37 +112002,20 @@ export const DeleteLdapAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLdapAuthResponse",
 }) as any as S.Schema<DeleteLdapAuthResponse>;
 
-export type DeleteLDAPPasswordRotationRequestDeleteSecrets = "true" | "false";
-export const DeleteLDAPPasswordRotationRequestDeleteSecrets = S.String;
-
-export type DeleteLDAPPasswordRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteLDAPPasswordRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteLDAPPasswordRotationRequest {
   /** The ID of the LDAP Password Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteLDAPPasswordRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteLDAPPasswordRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteLDAPPasswordRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rotationId: S.String.pipe(T.Label()),
-    deleteSecrets: S.optional(
-      DeleteLDAPPasswordRotationRequestDeleteSecrets.pipe(T.Query()),
-    ),
+    deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     revokeGeneratedCredentials: S.optional(
-      DeleteLDAPPasswordRotationRequestRevokeGeneratedCredentials.pipe(
-        T.Query(),
-      ),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({
@@ -112761,37 +112312,20 @@ export const DeleteLinuxServerPkiSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteLinuxServerPkiSyncResponse",
 }) as any as S.Schema<DeleteLinuxServerPkiSyncResponse>;
 
-export type DeleteLiteLLMAPIKeyRotationRequestDeleteSecrets = "true" | "false";
-export const DeleteLiteLLMAPIKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteLiteLLMAPIKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteLiteLLMAPIKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteLiteLLMAPIKeyRotationRequest {
   /** The ID of the LiteLLM API Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteLiteLLMAPIKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteLiteLLMAPIKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteLiteLLMAPIKeyRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rotationId: S.String.pipe(T.Label()),
-    deleteSecrets: S.optional(
-      DeleteLiteLLMAPIKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-    ),
+    deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     revokeGeneratedCredentials: S.optional(
-      DeleteLiteLLMAPIKeyRotationRequestRevokeGeneratedCredentials.pipe(
-        T.Query(),
-      ),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({
@@ -113435,43 +112969,21 @@ export const DeleteMicrosoftIntuneAppConnectionResponse =
     identifier: "DeleteMicrosoftIntuneAppConnectionResponse",
   }) as any as S.Schema<DeleteMicrosoftIntuneAppConnectionResponse>;
 
-export type DeleteMicrosoftSQLServerCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteMicrosoftSQLServerCredentialsRotationRequestDeleteSecrets =
-  S.String;
-
-export type DeleteMicrosoftSQLServerCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteMicrosoftSQLServerCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteMicrosoftSQLServerCredentialsRotationRequest {
   /** The ID of the Microsoft SQL Server Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteMicrosoftSQLServerCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteMicrosoftSQLServerCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteMicrosoftSQLServerCredentialsRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteMicrosoftSQLServerCredentialsRotationRequestDeleteSecrets.pipe(
-          T.Query(),
-        ),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteMicrosoftSQLServerCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -113762,40 +113274,21 @@ export const DeleteMongoDbAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMongoDbAppConnectionResponse",
 }) as any as S.Schema<DeleteMongoDbAppConnectionResponse>;
 
-export type DeleteMongoDBCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteMongoDBCredentialsRotationRequestDeleteSecrets = S.String;
-
-export type DeleteMongoDBCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteMongoDBCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteMongoDBCredentialsRotationRequest {
   /** The ID of the MongoDB Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteMongoDBCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteMongoDBCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteMongoDBCredentialsRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteMongoDBCredentialsRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteMongoDBCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -114211,40 +113704,21 @@ export const DeleteMySqlAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMySqlAppConnectionResponse",
 }) as any as S.Schema<DeleteMySqlAppConnectionResponse>;
 
-export type DeleteMySQLCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteMySQLCredentialsRotationRequestDeleteSecrets = S.String;
-
-export type DeleteMySQLCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteMySQLCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteMySQLCredentialsRotationRequest {
   /** The ID of the MySQL Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteMySQLCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteMySQLCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteMySQLCredentialsRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteMySQLCredentialsRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteMySQLCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -114530,21 +114004,16 @@ export const DeleteNetlifyAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNetlifyAppConnectionResponse",
 }) as any as S.Schema<DeleteNetlifyAppConnectionResponse>;
 
-export type DeleteNetlifySecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteNetlifySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteNetlifySecretSyncRequest {
   /** The ID of the Netlify Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteNetlifySecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteNetlifySecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteNetlifySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -115094,23 +114563,16 @@ export const DeleteNorthflankAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteNorthflankAppConnectionResponse",
 }) as any as S.Schema<DeleteNorthflankAppConnectionResponse>;
 
-export type DeleteNorthflankSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteNorthflankSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteNorthflankSecretSyncRequest {
   /** The ID of the Northflank Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteNorthflankSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteNorthflankSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteNorthflankSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -115796,21 +115258,16 @@ export const DeleteOciAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOciAuthResponse",
 }) as any as S.Schema<DeleteOciAuthResponse>;
 
-export type DeleteOciVaultSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteOciVaultSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteOciVaultSecretSyncRequest {
   /** The ID of the OCI Vault Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteOciVaultSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteOciVaultSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteOciVaultSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -116114,26 +115571,17 @@ export const DeleteOctopusDeployAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteOctopusDeployAppConnectionResponse",
 }) as any as S.Schema<DeleteOctopusDeployAppConnectionResponse>;
 
-export type DeleteOctopusDeploySecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteOctopusDeploySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteOctopusDeploySecretSyncRequest {
   /** The ID of the Octopus Deploy Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteOctopusDeploySecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteOctopusDeploySecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteOctopusDeploySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -116611,40 +116059,21 @@ export const DeleteOktaAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOktaAppConnectionResponse",
 }) as any as S.Schema<DeleteOktaAppConnectionResponse>;
 
-export type DeleteOktaClientSecretRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteOktaClientSecretRotationRequestDeleteSecrets = S.String;
-
-export type DeleteOktaClientSecretRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteOktaClientSecretRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteOktaClientSecretRotationRequest {
   /** The ID of the Okta Client Secret Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteOktaClientSecretRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteOktaClientSecretRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteOktaClientSecretRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteOktaClientSecretRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteOktaClientSecretRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -116914,21 +116343,16 @@ export const DeleteOnaAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOnaAppConnectionResponse",
 }) as any as S.Schema<DeleteOnaAppConnectionResponse>;
 
-export type DeleteOnaSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteOnaSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteOnaSecretSyncRequest {
   /** The ID of the Ona Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteOnaSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteOnaSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteOnaSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -117229,23 +116653,16 @@ export const DeleteOnePasswordAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteOnePasswordAppConnectionResponse",
 }) as any as S.Schema<DeleteOnePasswordAppConnectionResponse>;
 
-export type DeleteOnePasswordSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteOnePasswordSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteOnePasswordSecretSyncRequest {
   /** The ID of the 1Password Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteOnePasswordSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteOnePasswordSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteOnePasswordSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -117541,40 +116958,21 @@ export const DeleteOpenaiAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOpenaiAppConnectionResponse",
 }) as any as S.Schema<DeleteOpenaiAppConnectionResponse>;
 
-export type DeleteOpenAIServiceAccountRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteOpenAIServiceAccountRotationRequestDeleteSecrets = S.String;
-
-export type DeleteOpenAIServiceAccountRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteOpenAIServiceAccountRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteOpenAIServiceAccountRotationRequest {
   /** The ID of the OpenAI Service Account Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteOpenAIServiceAccountRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteOpenAIServiceAccountRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteOpenAIServiceAccountRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteOpenAIServiceAccountRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteOpenAIServiceAccountRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -117713,40 +117111,21 @@ export const DeleteOpenAIServiceAccountRotationResponse =
     identifier: "DeleteOpenAIServiceAccountRotationResponse",
   }) as any as S.Schema<DeleteOpenAIServiceAccountRotationResponse>;
 
-export type DeleteOpenRouterAPIKeyRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteOpenRouterAPIKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteOpenRouterAPIKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteOpenRouterAPIKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteOpenRouterAPIKeyRotationRequest {
   /** The ID of the OpenRouter API Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteOpenRouterAPIKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteOpenRouterAPIKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteOpenRouterAPIKeyRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteOpenRouterAPIKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteOpenRouterAPIKeyRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -118191,40 +117570,21 @@ export const DeleteOracleDbAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOracleDbAppConnectionResponse",
 }) as any as S.Schema<DeleteOracleDbAppConnectionResponse>;
 
-export type DeleteOracleDBCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteOracleDBCredentialsRotationRequestDeleteSecrets = S.String;
-
-export type DeleteOracleDBCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteOracleDBCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteOracleDBCredentialsRotationRequest {
   /** The ID of the OracleDB Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteOracleDBCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteOracleDBCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteOracleDBCredentialsRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteOracleDBCredentialsRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteOracleDBCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -118746,21 +118106,16 @@ export const DeleteOvhAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteOvhAppConnectionResponse",
 }) as any as S.Schema<DeleteOvhAppConnectionResponse>;
 
-export type DeleteOvhSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteOvhSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteOvhSecretSyncRequest {
   /** The ID of the OVH Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteOvhSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteOvhSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteOvhSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -122113,40 +121468,21 @@ export const DeletePostgresAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePostgresAppConnectionResponse",
 }) as any as S.Schema<DeletePostgresAppConnectionResponse>;
 
-export type DeletePostgreSQLCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeletePostgreSQLCredentialsRotationRequestDeleteSecrets = S.String;
-
-export type DeletePostgreSQLCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeletePostgreSQLCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeletePostgreSQLCredentialsRotationRequest {
   /** The ID of the PostgreSQL Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeletePostgreSQLCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeletePostgreSQLCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeletePostgreSQLCredentialsRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeletePostgreSQLCredentialsRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeletePostgreSQLCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -123245,21 +122581,16 @@ export const DeleteQoveryAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQoveryAppConnectionResponse",
 }) as any as S.Schema<DeleteQoveryAppConnectionResponse>;
 
-export type DeleteQoverySecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteQoverySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteQoverySecretSyncRequest {
   /** The ID of the Qovery Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteQoverySecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteQoverySecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteQoverySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -123590,21 +122921,16 @@ export const DeleteRailwayAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRailwayAppConnectionResponse",
 }) as any as S.Schema<DeleteRailwayAppConnectionResponse>;
 
-export type DeleteRailwaySecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteRailwaySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteRailwaySecretSyncRequest {
   /** The ID of the Railway Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteRailwaySecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteRailwaySecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteRailwaySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -123902,40 +123228,21 @@ export const DeleteRedisAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRedisAppConnectionResponse",
 }) as any as S.Schema<DeleteRedisAppConnectionResponse>;
 
-export type DeleteRedisCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteRedisCredentialsRotationRequestDeleteSecrets = S.String;
-
-export type DeleteRedisCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteRedisCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteRedisCredentialsRotationRequest {
   /** The ID of the Redis Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteRedisCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteRedisCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteRedisCredentialsRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteRedisCredentialsRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteRedisCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -124217,21 +123524,16 @@ export const DeleteRenderAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRenderAppConnectionResponse",
 }) as any as S.Schema<DeleteRenderAppConnectionResponse>;
 
-export type DeleteRenderSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteRenderSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteRenderSecretSyncRequest {
   /** The ID of the Render Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteRenderSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteRenderSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteRenderSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -124601,21 +123903,16 @@ export const DeleteRundeckAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRundeckAppConnectionResponse",
 }) as any as S.Schema<DeleteRundeckAppConnectionResponse>;
 
-export type DeleteRundeckSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteRundeckSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteRundeckSecretSyncRequest {
   /** The ID of the Rundeck Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteRundeckSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteRundeckSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteRundeckSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -124916,43 +124213,21 @@ export const DeleteSalesforceAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSalesforceAppConnectionResponse",
 }) as any as S.Schema<DeleteSalesforceAppConnectionResponse>;
 
-export type DeleteSalesforceOAuthCredentialsRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteSalesforceOAuthCredentialsRotationRequestDeleteSecrets =
-  S.String;
-
-export type DeleteSalesforceOAuthCredentialsRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteSalesforceOAuthCredentialsRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteSalesforceOAuthCredentialsRotationRequest {
   /** The ID of the Salesforce OAuth Credentials Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteSalesforceOAuthCredentialsRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteSalesforceOAuthCredentialsRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteSalesforceOAuthCredentialsRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteSalesforceOAuthCredentialsRotationRequestDeleteSecrets.pipe(
-          T.Query(),
-        ),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteSalesforceOAuthCredentialsRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -126184,21 +125459,16 @@ export const DeleteSnowflakeAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSnowflakeAppConnectionResponse",
 }) as any as S.Schema<DeleteSnowflakeAppConnectionResponse>;
 
-export type DeleteSnowflakeSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteSnowflakeSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteSnowflakeSecretSyncRequest {
   /** The ID of the Snowflake Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteSnowflakeSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteSnowflakeSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteSnowflakeSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -126359,40 +125629,21 @@ export const DeleteSnowflakeSecretSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSnowflakeSecretSyncResponse",
 }) as any as S.Schema<DeleteSnowflakeSecretSyncResponse>;
 
-export type DeleteSnowflakeUserKeyPairRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteSnowflakeUserKeyPairRotationRequestDeleteSecrets = S.String;
-
-export type DeleteSnowflakeUserKeyPairRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteSnowflakeUserKeyPairRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteSnowflakeUserKeyPairRotationRequest {
   /** The ID of the Snowflake User Key Pair Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteSnowflakeUserKeyPairRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteSnowflakeUserKeyPairRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteSnowflakeUserKeyPairRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteSnowflakeUserKeyPairRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteSnowflakeUserKeyPairRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -126702,21 +125953,16 @@ export const DeleteSpaceliftAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteSpaceliftAppConnectionResponse",
 }) as any as S.Schema<DeleteSpaceliftAppConnectionResponse>;
 
-export type DeleteSpaceliftSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteSpaceliftSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteSpaceliftSecretSyncRequest {
   /** The ID of the Spacelift Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteSpaceliftSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteSpaceliftSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteSpaceliftSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -127335,37 +126581,20 @@ export const DeleteSubOrganizationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSubOrganizationResponse",
 }) as any as S.Schema<DeleteSubOrganizationResponse>;
 
-export type DeleteSupabaseAPIKeyRotationRequestDeleteSecrets = "true" | "false";
-export const DeleteSupabaseAPIKeyRotationRequestDeleteSecrets = S.String;
-
-export type DeleteSupabaseAPIKeyRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteSupabaseAPIKeyRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteSupabaseAPIKeyRotationRequest {
   /** The ID of the Supabase API Key Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteSupabaseAPIKeyRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteSupabaseAPIKeyRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteSupabaseAPIKeyRotationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     rotationId: S.String.pipe(T.Label()),
-    deleteSecrets: S.optional(
-      DeleteSupabaseAPIKeyRotationRequestDeleteSecrets.pipe(T.Query()),
-    ),
+    deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     revokeGeneratedCredentials: S.optional(
-      DeleteSupabaseAPIKeyRotationRequestRevokeGeneratedCredentials.pipe(
-        T.Query(),
-      ),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
   }).pipe(
     T.Http({
@@ -127660,21 +126889,16 @@ export const DeleteSupabaseAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSupabaseAppConnectionResponse",
 }) as any as S.Schema<DeleteSupabaseAppConnectionResponse>;
 
-export type DeleteSupabaseSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteSupabaseSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteSupabaseSecretSyncRequest {
   /** The ID of the Supabase Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteSupabaseSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteSupabaseSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteSupabaseSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -127971,21 +127195,16 @@ export const DeleteTeamcityAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTeamcityAppConnectionResponse",
 }) as any as S.Schema<DeleteTeamcityAppConnectionResponse>;
 
-export type DeleteTeamcitySecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteTeamcitySecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteTeamcitySecretSyncRequest {
   /** The ID of the TeamCity Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteTeamcitySecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteTeamcitySecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteTeamcitySecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -128285,26 +127504,17 @@ export const DeleteTerraformCloudAppConnectionResponse =
     identifier: "DeleteTerraformCloudAppConnectionResponse",
   }) as any as S.Schema<DeleteTerraformCloudAppConnectionResponse>;
 
-export type DeleteTerraformCloudSecretSyncRequestRemoveSecrets =
-  | "true"
-  | "false";
-export const DeleteTerraformCloudSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteTerraformCloudSecretSyncRequest {
   /** The ID of the Terraform Cloud Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteTerraformCloudSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteTerraformCloudSecretSyncRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       syncId: S.String.pipe(T.Label()),
-      removeSecrets: S.optional(
-        DeleteTerraformCloudSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-      ),
+      removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     }).pipe(
       T.Http({
         method: "DELETE",
@@ -128790,21 +128000,16 @@ export const DeleteTravisCIAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTravisCIAppConnectionResponse",
 }) as any as S.Schema<DeleteTravisCIAppConnectionResponse>;
 
-export type DeleteTravisCISecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteTravisCISecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteTravisCISecretSyncRequest {
   /** The ID of the Travis CI Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteTravisCISecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteTravisCISecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteTravisCISecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -129106,23 +128311,16 @@ export const DeleteTriggerDevAppConnectionResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteTriggerDevAppConnectionResponse",
 }) as any as S.Schema<DeleteTriggerDevAppConnectionResponse>;
 
-export type DeleteTriggerDevSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteTriggerDevSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteTriggerDevSecretSyncRequest {
   /** The ID of the Trigger.dev Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?:
-    | DeleteTriggerDevSecretSyncRequestRemoveSecrets
-    | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteTriggerDevSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteTriggerDevSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -129320,40 +128518,21 @@ export const DeleteUniversalAuthResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteUniversalAuthResponse",
 }) as any as S.Schema<DeleteUniversalAuthResponse>;
 
-export type DeleteUnixLinuxLocalAccountRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteUnixLinuxLocalAccountRotationRequestDeleteSecrets = S.String;
-
-export type DeleteUnixLinuxLocalAccountRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteUnixLinuxLocalAccountRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteUnixLinuxLocalAccountRotationRequest {
   /** The ID of the Unix/Linux Local Account Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteUnixLinuxLocalAccountRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteUnixLinuxLocalAccountRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteUnixLinuxLocalAccountRotationRequest =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteUnixLinuxLocalAccountRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteUnixLinuxLocalAccountRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -130013,21 +129192,16 @@ export const DeleteVercelAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVercelAppConnectionResponse",
 }) as any as S.Schema<DeleteVercelAppConnectionResponse>;
 
-export type DeleteVercelSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteVercelSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteVercelSecretSyncRequest {
   /** The ID of the Vercel Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteVercelSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteVercelSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteVercelSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -130442,21 +129616,16 @@ export const DeleteWindmillAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWindmillAppConnectionResponse",
 }) as any as S.Schema<DeleteWindmillAppConnectionResponse>;
 
-export type DeleteWindmillSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteWindmillSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteWindmillSecretSyncRequest {
   /** The ID of the Windmill Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteWindmillSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteWindmillSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteWindmillSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -130617,40 +129786,21 @@ export const DeleteWindmillSecretSyncResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWindmillSecretSyncResponse",
 }) as any as S.Schema<DeleteWindmillSecretSyncResponse>;
 
-export type DeleteWindowsLocalAccountRotationRequestDeleteSecrets =
-  | "true"
-  | "false";
-export const DeleteWindowsLocalAccountRotationRequestDeleteSecrets = S.String;
-
-export type DeleteWindowsLocalAccountRotationRequestRevokeGeneratedCredentials =
-  | "true"
-  | "false";
-export const DeleteWindowsLocalAccountRotationRequestRevokeGeneratedCredentials =
-  S.String;
-
 export interface DeleteWindowsLocalAccountRotationRequest {
   /** The ID of the Windows Local Account Rotation to be deleted. */
   rotationId: string;
   /** Whether the mapped secrets belonging to this rotation should be deleted. */
-  deleteSecrets?:
-    | DeleteWindowsLocalAccountRotationRequestDeleteSecrets
-    | (string & {});
+  deleteSecrets?: boolean;
   /** Whether the generated credentials associated with this rotation should be revoked. */
-  revokeGeneratedCredentials?:
-    | DeleteWindowsLocalAccountRotationRequestRevokeGeneratedCredentials
-    | (string & {});
+  revokeGeneratedCredentials?: boolean;
 }
 export const DeleteWindowsLocalAccountRotationRequest = /*@__PURE__*/ S.suspend(
   () =>
     S.Struct({
       rotationId: S.String.pipe(T.Label()),
-      deleteSecrets: S.optional(
-        DeleteWindowsLocalAccountRotationRequestDeleteSecrets.pipe(T.Query()),
-      ),
+      deleteSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
       revokeGeneratedCredentials: S.optional(
-        DeleteWindowsLocalAccountRotationRequestRevokeGeneratedCredentials.pipe(
-          T.Query(),
-        ),
+        S.Boolean.pipe(T.Query(), T.StringEncoded()),
       ),
     }).pipe(
       T.Http({
@@ -131652,21 +130802,16 @@ export const DeleteZabbixAppConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteZabbixAppConnectionResponse",
 }) as any as S.Schema<DeleteZabbixAppConnectionResponse>;
 
-export type DeleteZabbixSecretSyncRequestRemoveSecrets = "true" | "false";
-export const DeleteZabbixSecretSyncRequestRemoveSecrets = S.String;
-
 export interface DeleteZabbixSecretSyncRequest {
   /** The ID of the Zabbix Sync to be deleted. */
   syncId: string;
   /** Whether previously synced secrets should be removed prior to deletion. */
-  removeSecrets?: DeleteZabbixSecretSyncRequestRemoveSecrets | (string & {});
+  removeSecrets?: boolean;
 }
 export const DeleteZabbixSecretSyncRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     syncId: S.String.pipe(T.Label()),
-    removeSecrets: S.optional(
-      DeleteZabbixSecretSyncRequestRemoveSecrets.pipe(T.Query()),
-    ),
+    removeSecrets: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -193026,15 +192171,6 @@ export const GetSecretByIdV4Response = /*@__PURE__*/ S.suspend(() =>
 export type GetSecretByNameV4RequestType = "shared" | "personal";
 export const GetSecretByNameV4RequestType = S.String;
 
-export type GetSecretByNameV4RequestViewSecretValue = "true" | "false";
-export const GetSecretByNameV4RequestViewSecretValue = S.String;
-
-export type GetSecretByNameV4RequestExpandSecretReferences = "true" | "false";
-export const GetSecretByNameV4RequestExpandSecretReferences = S.String;
-
-export type GetSecretByNameV4RequestIncludeImports = "true" | "false";
-export const GetSecretByNameV4RequestIncludeImports = S.String;
-
 export interface GetSecretByNameV4Request {
   /** The name of the secret to get. */
   secretName: string;
@@ -193049,13 +192185,11 @@ export interface GetSecretByNameV4Request {
   /** The type of the secret to get. */
   type?: GetSecretByNameV4RequestType | (string & {});
   /** Whether or not to retrieve the secret value. */
-  viewSecretValue?: GetSecretByNameV4RequestViewSecretValue | (string & {});
+  viewSecretValue?: boolean;
   /** Whether or not to expand secret references. */
-  expandSecretReferences?:
-    | GetSecretByNameV4RequestExpandSecretReferences
-    | (string & {});
+  expandSecretReferences?: boolean;
   /** Weather to include imported secrets or not. */
-  includeImports?: GetSecretByNameV4RequestIncludeImports | (string & {});
+  includeImports?: boolean;
 }
 export const GetSecretByNameV4Request = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -193065,15 +192199,11 @@ export const GetSecretByNameV4Request = /*@__PURE__*/ S.suspend(() =>
     secretPath: S.optional(S.String.pipe(T.Query())),
     version: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(GetSecretByNameV4RequestType.pipe(T.Query())),
-    viewSecretValue: S.optional(
-      GetSecretByNameV4RequestViewSecretValue.pipe(T.Query()),
-    ),
+    viewSecretValue: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     expandSecretReferences: S.optional(
-      GetSecretByNameV4RequestExpandSecretReferences.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
-    includeImports: S.optional(
-      GetSecretByNameV4RequestIncludeImports.pipe(T.Query()),
-    ),
+    includeImports: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({ method: "GET", uri: "/api/v4/secrets/{secretName}", code: 200 }),
   ),
@@ -193335,15 +192465,6 @@ export const GetSecretImportBySecretImportIdResponse = /*@__PURE__*/ S.suspend(
 export type GetSecretRawRequestType = "shared" | "personal";
 export const GetSecretRawRequestType = S.String;
 
-export type GetSecretRawRequestViewSecretValue = "true" | "false";
-export const GetSecretRawRequestViewSecretValue = S.String;
-
-export type GetSecretRawRequestExpandSecretReferences = "true" | "false";
-export const GetSecretRawRequestExpandSecretReferences = S.String;
-
-export type GetSecretRawRequestIncludeImports = "true" | "false";
-export const GetSecretRawRequestIncludeImports = S.String;
-
 export interface GetSecretRawRequest {
   /** The name of the secret to get. */
   secretName: string;
@@ -193360,13 +192481,11 @@ export interface GetSecretRawRequest {
   /** The type of the secret to get. */
   type?: GetSecretRawRequestType | (string & {});
   /** Whether or not to retrieve the secret value. */
-  viewSecretValue?: GetSecretRawRequestViewSecretValue | (string & {});
+  viewSecretValue?: boolean;
   /** Whether or not to expand secret references. */
-  expandSecretReferences?:
-    | GetSecretRawRequestExpandSecretReferences
-    | (string & {});
+  expandSecretReferences?: boolean;
   /** Weather to include imported secrets or not. */
-  include_imports?: GetSecretRawRequestIncludeImports | (string & {});
+  include_imports?: boolean;
 }
 export const GetSecretRawRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -193377,15 +192496,11 @@ export const GetSecretRawRequest = /*@__PURE__*/ S.suspend(() =>
     secretPath: S.optional(S.String.pipe(T.Query())),
     version: S.optional(S.Number.pipe(T.Query())),
     type: S.optional(GetSecretRawRequestType.pipe(T.Query())),
-    viewSecretValue: S.optional(
-      GetSecretRawRequestViewSecretValue.pipe(T.Query()),
-    ),
+    viewSecretValue: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     expandSecretReferences: S.optional(
-      GetSecretRawRequestExpandSecretReferences.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
-    include_imports: S.optional(
-      GetSecretRawRequestIncludeImports.pipe(T.Query()),
-    ),
+    include_imports: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "GET",
@@ -271402,9 +270517,6 @@ export const ListProjectRolesResponse2 = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListProjectRolesResponse2",
 }) as any as S.Schema<ListProjectRolesResponse2>;
 
-export type ListProjectsRequestIncludeRoles = "true" | "false";
-export const ListProjectsRequestIncludeRoles = S.String;
-
 export type ListProjectsRequestType =
   | "secret-manager"
   | "cert-manager"
@@ -271414,12 +270526,12 @@ export type ListProjectsRequestType =
 export const ListProjectsRequestType = S.String;
 
 export interface ListProjectsRequest {
-  includeRoles?: ListProjectsRequestIncludeRoles | (string & {});
+  includeRoles?: boolean;
   type?: ListProjectsRequestType | (string & {});
 }
 export const ListProjectsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includeRoles: S.optional(ListProjectsRequestIncludeRoles.pipe(T.Query())),
+    includeRoles: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     type: S.optional(ListProjectsRequestType.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v1/projects", code: 200 })),
 ).annotate({
@@ -274691,18 +273803,6 @@ export const ListSecretImportSecretRawResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSecretImportSecretRawResponse",
 }) as any as S.Schema<ListSecretImportSecretRawResponse>;
 
-export type ListSecretRawRequestViewSecretValue = "true" | "false";
-export const ListSecretRawRequestViewSecretValue = S.String;
-
-export type ListSecretRawRequestExpandSecretReferences = "true" | "false";
-export const ListSecretRawRequestExpandSecretReferences = S.String;
-
-export type ListSecretRawRequestRecursive = "true" | "false";
-export const ListSecretRawRequestRecursive = S.String;
-
-export type ListSecretRawRequestIncludeImports = "true" | "false";
-export const ListSecretRawRequestIncludeImports = S.String;
-
 export interface ListSecretRawRequest {
   /** Unencrypted secret metadata key-value pairs used to filter secrets. Only metadata with unencrypted values is supported. When querying for multiple metadata pairs, the query is treated as an AND operation. Secret metadata format is key=value1,value=value2|key=value3,value=value4. */
   metadataFilter?: string;
@@ -274715,15 +273815,13 @@ export interface ListSecretRawRequest {
   /** The secret path to list secrets from. */
   secretPath?: string;
   /** Whether or not to retrieve the secret value. */
-  viewSecretValue?: ListSecretRawRequestViewSecretValue | (string & {});
+  viewSecretValue?: boolean;
   /** Whether or not to expand secret references. */
-  expandSecretReferences?:
-    | ListSecretRawRequestExpandSecretReferences
-    | (string & {});
+  expandSecretReferences?: boolean;
   /** Whether or not to fetch all secrets from the specified base path, and all of its subdirectories. Note, the max depth is 20 deep. */
-  recursive?: ListSecretRawRequestRecursive | (string & {});
+  recursive?: boolean;
   /** Weather to include imported secrets or not. */
-  include_imports?: ListSecretRawRequestIncludeImports | (string & {});
+  include_imports?: boolean;
   /** The comma separated tag slugs to filter secrets. */
   tagSlugs?: string;
 }
@@ -274734,16 +273832,12 @@ export const ListSecretRawRequest = /*@__PURE__*/ S.suspend(() =>
     workspaceSlug: S.optional(S.String.pipe(T.Query())),
     environment: S.optional(S.String.pipe(T.Query())),
     secretPath: S.optional(S.String.pipe(T.Query())),
-    viewSecretValue: S.optional(
-      ListSecretRawRequestViewSecretValue.pipe(T.Query()),
-    ),
+    viewSecretValue: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     expandSecretReferences: S.optional(
-      ListSecretRawRequestExpandSecretReferences.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
-    recursive: S.optional(ListSecretRawRequestRecursive.pipe(T.Query())),
-    include_imports: S.optional(
-      ListSecretRawRequestIncludeImports.pipe(T.Query()),
-    ),
+    recursive: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+    include_imports: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     tagSlugs: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v3/secrets/raw", code: 200 })),
 ).annotate({
@@ -281206,21 +280300,6 @@ export const ListSecretScanningFindingsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSecretScanningFindingsResponse",
 }) as any as S.Schema<ListSecretScanningFindingsResponse>;
 
-export type ListSecretsV4RequestViewSecretValue = "true" | "false";
-export const ListSecretsV4RequestViewSecretValue = S.String;
-
-export type ListSecretsV4RequestExpandSecretReferences = "true" | "false";
-export const ListSecretsV4RequestExpandSecretReferences = S.String;
-
-export type ListSecretsV4RequestRecursive = "true" | "false";
-export const ListSecretsV4RequestRecursive = S.String;
-
-export type ListSecretsV4RequestIncludePersonalOverrides = "true" | "false";
-export const ListSecretsV4RequestIncludePersonalOverrides = S.String;
-
-export type ListSecretsV4RequestIncludeImports = "true" | "false";
-export const ListSecretsV4RequestIncludeImports = S.String;
-
 export interface ListSecretsV4Request {
   /** Unencrypted secret metadata key-value pairs used to filter secrets. Only metadata with unencrypted values is supported. When querying for multiple metadata pairs, the query is treated as an AND operation. Secret metadata format is key=value1,value=value2|key=value3,value=value4. */
   metadataFilter?: string;
@@ -281231,19 +280310,15 @@ export interface ListSecretsV4Request {
   /** The secret path to list secrets from. */
   secretPath?: string;
   /** Whether or not to retrieve the secret value. */
-  viewSecretValue?: ListSecretsV4RequestViewSecretValue | (string & {});
+  viewSecretValue?: boolean;
   /** Whether or not to expand secret references. */
-  expandSecretReferences?:
-    | ListSecretsV4RequestExpandSecretReferences
-    | (string & {});
+  expandSecretReferences?: boolean;
   /** Whether or not to fetch all secrets from the specified base path, and all of its subdirectories. Note, the max depth is 20 deep. */
-  recursive?: ListSecretsV4RequestRecursive | (string & {});
+  recursive?: boolean;
   /** Whether or not to include personal secrets in the response. When enabled, personal secrets will be included in the response. Shared secrets will still be included, but personal secrets will take priority, and the corresponding shared secrets will be replaced with the personal secrets. */
-  includePersonalOverrides?:
-    | ListSecretsV4RequestIncludePersonalOverrides
-    | (string & {});
+  includePersonalOverrides?: boolean;
   /** Weather to include imported secrets or not. */
-  includeImports?: ListSecretsV4RequestIncludeImports | (string & {});
+  includeImports?: boolean;
   /** The comma separated tag slugs to filter secrets. */
   tagSlugs?: string;
 }
@@ -281253,19 +280328,15 @@ export const ListSecretsV4Request = /*@__PURE__*/ S.suspend(() =>
     projectId: S.optional(S.String.pipe(T.Query())),
     environment: S.optional(S.String.pipe(T.Query())),
     secretPath: S.optional(S.String.pipe(T.Query())),
-    viewSecretValue: S.optional(
-      ListSecretsV4RequestViewSecretValue.pipe(T.Query()),
-    ),
+    viewSecretValue: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     expandSecretReferences: S.optional(
-      ListSecretsV4RequestExpandSecretReferences.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
-    recursive: S.optional(ListSecretsV4RequestRecursive.pipe(T.Query())),
+    recursive: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     includePersonalOverrides: S.optional(
-      ListSecretsV4RequestIncludePersonalOverrides.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
-    includeImports: S.optional(
-      ListSecretsV4RequestIncludeImports.pipe(T.Query()),
-    ),
+    includeImports: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     tagSlugs: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/api/v4/secrets", code: 200 })),
 ).annotate({
@@ -293514,9 +292585,6 @@ export const ListSubOrganizationsRequestOrderBy = S.String;
 export type ListSubOrganizationsRequestOrderDirection = "asc" | "desc";
 export const ListSubOrganizationsRequestOrderDirection = S.String;
 
-export type ListSubOrganizationsRequestIsAccessible = "true" | "false";
-export const ListSubOrganizationsRequestIsAccessible = S.String;
-
 export interface ListSubOrganizationsRequest {
   /** The number of sub organizations to return. */
   limit?: number;
@@ -293529,7 +292597,7 @@ export interface ListSubOrganizationsRequest {
   /** The direction to order sub organizations. Either 'asc' or 'desc'. */
   orderDirection?: ListSubOrganizationsRequestOrderDirection | (string & {});
   /** Filter to only return sub organizations that the actor has access to. */
-  isAccessible?: ListSubOrganizationsRequestIsAccessible | (string & {});
+  isAccessible?: boolean;
 }
 export const ListSubOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -293540,9 +292608,7 @@ export const ListSubOrganizationsRequest = /*@__PURE__*/ S.suspend(() =>
     orderDirection: S.optional(
       ListSubOrganizationsRequestOrderDirection.pipe(T.Query()),
     ),
-    isAccessible: S.optional(
-      ListSubOrganizationsRequestIsAccessible.pipe(T.Query()),
-    ),
+    isAccessible: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({ method: "GET", uri: "/api/v1/sub-organizations", code: 200 }),
   ),

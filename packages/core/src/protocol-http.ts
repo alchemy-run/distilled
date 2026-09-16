@@ -22,10 +22,12 @@ import {
   keyDictionarySymbol,
   labelSymbol,
   querySymbol,
+  stringEncodedSymbol,
   unionCasesSymbol,
   type ErrorMatcher,
   type HttpTrait,
   type KeyDictionaryEntries,
+  type UnionDiscriminator,
 } from "./trait.ts";
 
 //#region AST helpers (survive S.optional / Suspend / transforms)
@@ -167,13 +169,19 @@ export const mapKeys = (
 
   // Discriminated union whose cases the API returns merged (every case's
   // keys present, `null` for the inactive ones). Map wire names, then keep
-  // only the active case's keys. A case does NOT need every key present —
-  // arms carry optional members the wire may omit — so the active case is
-  // the one that best EXPLAINS the value: most present, non-null keys
-  // covered, minus present keys the case cannot explain (ties break by
-  // coverage, then declaration order).
+  // only the active case's keys. The case is read off the union's
+  // discriminator when it has one — cases that share a key set (every
+  // resource kind of `resource_tagging`, every page-rule action) are
+  // indistinguishable by keys alone. Without one, a case does NOT need every
+  // key present — arms carry optional members the wire may omit — so the
+  // active case is the one that best EXPLAINS the value: most present,
+  // non-null keys covered, minus present keys the case cannot explain (ties
+  // break by coverage, then declaration order).
   const unionCases = getAnn(ast, unionCasesSymbol) as
-    | ReadonlyArray<ReadonlyArray<string>>
+    | {
+        readonly cases: ReadonlyArray<ReadonlyArray<string>>;
+        readonly discriminator?: UnionDiscriminator;
+      }
     | undefined;
   if (unionCases && direction === "decode" && !Array.isArray(value)) {
     const obj = (
@@ -182,25 +190,32 @@ export const mapKeys = (
     const present = Object.keys(obj).filter(
       (k) => obj[k] !== undefined && obj[k] !== null,
     );
+    const disc = unionCases.discriminator;
+    const tag = disc ? obj[disc.key] : undefined;
+    const tagged = typeof tag === "string" ? disc!.values.indexOf(tag) : -1;
     let best:
       | { keys: ReadonlyArray<string>; score: number; matched: number }
       | undefined;
-    for (const keys of unionCases) {
-      const set = new Set(keys);
-      let matched = 0;
-      let excess = 0;
-      for (const k of present) {
-        if (set.has(k)) matched++;
-        else excess++;
-      }
-      const score = matched - excess;
-      if (
-        matched > 0 &&
-        (!best ||
-          score > best.score ||
-          (score === best.score && matched > best.matched))
-      ) {
-        best = { keys, score, matched };
+    if (tagged >= 0) {
+      best = { keys: unionCases.cases[tagged]!, score: 0, matched: 0 };
+    } else {
+      for (const keys of unionCases.cases) {
+        const set = new Set(keys);
+        let matched = 0;
+        let excess = 0;
+        for (const k of present) {
+          if (set.has(k)) matched++;
+          else excess++;
+        }
+        const score = matched - excess;
+        if (
+          matched > 0 &&
+          (!best ||
+            score > best.score ||
+            (score === best.score && matched > best.matched))
+        ) {
+          best = { keys, score, matched };
+        }
       }
     }
     if (best) {
@@ -319,6 +334,18 @@ const BODYLESS = new Set(["GET", "HEAD"]);
  * filter matching nothing — the call "succeeds" with zero results and the
  * bug is invisible to the caller.
  */
+/**
+ * Value form for a `StringEncoded()` member: the string spelling of the
+ * value, element-wise for lists. `null` stays `null` — an API that models a
+ * flag as `"true" | "false"` still means "unset" by null, not `"null"`.
+ */
+const stringEncode = (value: unknown): unknown =>
+  value === null
+    ? null
+    : Array.isArray(value)
+      ? value.map(stringEncode)
+      : String(value);
+
 const appendQuery = (
   query: URLSearchParams,
   name: string,
@@ -482,12 +509,13 @@ export const buildRequest = ({
     } else if (hasPropAnn(prop, httpBodySymbol)) {
       rawBody = mapKeys(prop.type, value, "encode", rootDict);
     } else {
-      body[nameOf(prop, bodySymbol)] = mapKeys(
-        prop.type,
-        value,
-        "encode",
-        rootDict,
-      );
+      // T.StringEncoded(): the API takes this member's value only as its
+      // string spelling (`true` → `"true"`), while the TS surface keeps the
+      // natural type. Explicit here so a JSON body carries the string too,
+      // rather than relying on the multipart encoder's own `String()`.
+      body[nameOf(prop, bodySymbol)] = hasPropAnn(prop, stringEncodedSymbol)
+        ? stringEncode(value)
+        : mapKeys(prop.type, value, "encode", rootDict);
     }
   }
 

@@ -496,17 +496,13 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDomainResponse",
 }) as any as S.Schema<GetDomainResponse>;
 
-/** When true, the response will only include the nameservers assigned directly to the specified domain. When false and there are no nameservers assigned directly to the specified domain, the response will include the nameservers of the domain's parent zone. */
-export type GetDomainConfigRequestStrict = "true" | "false";
-export const GetDomainConfigRequestStrict = S.String;
-
 export interface GetDomainConfigRequest {
   /** The name of the domain. */
   domain: string;
   /** The project id or name that will be associated with the domain. Use this when the domain is not yet associated with a project. */
   projectIdOrName?: string;
   /** When true, the response will only include the nameservers assigned directly to the specified domain. When false and there are no nameservers assigned directly to the specified domain, the response will include the nameservers of the domain's parent zone. */
-  strict?: GetDomainConfigRequestStrict | (string & {});
+  strict?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -516,7 +512,7 @@ export const GetDomainConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String.pipe(T.Label()),
     projectIdOrName: S.optional(S.String.pipe(T.Query())),
-    strict: S.optional(GetDomainConfigRequestStrict.pipe(T.Query())),
+    strict: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(

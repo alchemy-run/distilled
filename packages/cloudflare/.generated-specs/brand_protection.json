@@ -443,7 +443,7 @@
         "target": "com.cloudflare.brand_protection#V2MatchesGetResponseMatchesItem"
       }
     },
-    "com.cloudflare.brand_protection#V2QueriesGetResponseParametersStringMatchesItem": {
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParametersStringMatchesItem": {
       "type": "structure",
       "members": {
         "pattern": {
@@ -454,17 +454,17 @@
         }
       }
     },
-    "com.cloudflare.brand_protection#V2QueriesGetResponseParametersStringMatchesList": {
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParametersStringMatchesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.brand_protection#V2QueriesGetResponseParametersStringMatchesItem"
+        "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParametersStringMatchesItem"
       }
     },
-    "com.cloudflare.brand_protection#V2QueriesGetResponseParameters": {
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParameters": {
       "type": "structure",
       "members": {
         "string_matches": {
-          "target": "com.cloudflare.brand_protection#V2QueriesGetResponseParametersStringMatchesList",
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParametersStringMatchesList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -474,6 +474,139 @@
         },
         "min_time": {
           "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase0Item": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase0ItemParameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "query_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "query_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase0List": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase0Item"
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase1ParametersStringMatchesItem": {
+      "type": "structure",
+      "members": {
+        "pattern": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase1ParametersStringMatchesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase1ParametersStringMatchesItem"
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase1Parameters": {
+      "type": "structure",
+      "members": {
+        "string_matches": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase1ParametersStringMatchesList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "max_time": {
+          "target": "smithy.api#String"
+        },
+        "min_time": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResultCase1": {
+      "type": "structure",
+      "members": {
+        "created": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "parameters": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase1Parameters",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "query_id": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "query_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "scan": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "updated": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.brand_protection#V2QueriesGetResult": {
+      "type": "union",
+      "members": {
+        "V2QueriesGetResultCase0List": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase0List"
+        },
+        "V2QueriesGetResultCase1": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResultCase1"
         }
       }
     },
@@ -618,6 +751,9 @@
           "traits": {
             "smithy.api#httpQuery": "threshold"
           }
+        },
+        "image": {
+          "target": "smithy.api#Document"
         }
       },
       "traits": {
@@ -743,7 +879,7 @@
         "image_data": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,...') or just the base64 string.",
+            "smithy.api#documentation": "Base64 encoded image data. Can include data URI prefix (e.g., 'data:image/png;base64,…') or just the base64 string.",
             "smithy.api#required": {}
           }
         },
@@ -1036,6 +1172,12 @@
             "smithy.api#httpQuery": "id"
           }
         },
+        "include_dismissed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_dismissed"
+          }
+        },
         "include_domain_id": {
           "target": "smithy.api#Boolean",
           "traits": {
@@ -1172,6 +1314,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#httpQuery": "id"
+          }
+        },
+        "include_dismissed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "include_dismissed"
           }
         },
         "include_domain_id": {
@@ -1543,6 +1691,20 @@
           "traits": {
             "smithy.api#httpQuery": "id"
           }
+        },
+        "page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional page number for paginated list requests. Defaults to 1 when only per_page is supplied. Omit page and per_page to preserve the legacy full-list response.",
+            "smithy.api#httpQuery": "page"
+          }
+        },
+        "per_page": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Optional number of queries per page for paginated list requests. Defaults to 100 when only page is supplied. Maximum 100. Omit page and per_page to preserve the legacy full-list response.",
+            "smithy.api#httpQuery": "per_page"
+          }
         }
       },
       "traits": {
@@ -1552,46 +1714,16 @@
     "com.cloudflare.brand_protection#GetV2QueryResponse": {
       "type": "structure",
       "members": {
-        "created": {
-          "target": "smithy.api#String",
+        "result": {
+          "target": "com.cloudflare.brand_protection#V2QueriesGetResult",
           "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "parameters": {
-          "target": "com.cloudflare.brand_protection#V2QueriesGetResponseParameters",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "query_id": {
-          "target": "smithy.api#Double",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "query_tag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "scan": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "updated": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
           }
         }
       },
       "traits": {
-        "smithy.api#output": {},
-        "smithy.api#documentation": "Raw response payload (operation does not use the standard v4 result envelope)."
+        "smithy.api#output": {}
       }
     },
     "com.cloudflare.brand_protection#SubmitBrandProtection": {

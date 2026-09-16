@@ -61,10 +61,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -142,10 +154,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -223,10 +247,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -263,10 +299,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -286,10 +334,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -367,10 +427,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -390,10 +462,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -499,10 +583,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -522,10 +618,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -644,10 +752,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -667,10 +787,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -810,10 +942,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -953,10 +1097,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1046,10 +1202,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1069,10 +1237,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1228,10 +1408,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1442,10 +1634,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1535,10 +1739,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1558,10 +1774,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1581,10 +1809,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1604,10 +1844,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1716,10 +1968,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1854,10 +2118,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -1954,10 +2230,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -2258,10 +2546,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -2562,10 +2862,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -2715,10 +3027,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -2994,10 +3318,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3017,10 +3353,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3040,10 +3388,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3127,7 +3487,7 @@
         "etag": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The entity tag for the object. In JSON list/get responses this is the raw"
+            "smithy.api#documentation": "The entity tag for the object. In JSON list/get responses this is the raw hex digest (without surrounding quotes). The HTTP `ETag` response header on Get Object follows RFC 7232 and IS wrapped in surrounding double-quotes."
           }
         },
         "http_metadata": {
@@ -3189,10 +3549,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3246,10 +3618,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3269,10 +3653,22 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
           }
         }
       }
@@ -3294,7 +3690,7 @@
         "accessKeyId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ID of the Cloudflare API token used when writing objects to this"
+            "smithy.api#documentation": "ID of the Cloudflare API token used when writing objects to this bucket."
           }
         },
         "account": {
@@ -3331,6 +3727,12 @@
           "traits": {
             "smithy.api#enumValue": "s3"
           }
+        },
+        "AZURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azure"
+          }
         }
       }
     },
@@ -3347,6 +3749,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "S3-compatible URL (Generic S3-compatible providers only)."
+          }
+        },
+        "container": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Azure Blob Storage container (Azure only)."
           }
         },
         "provider": {
@@ -3375,15 +3783,27 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
           }
+        },
+        "FEDRAMP_HIGH": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp-high"
+          }
         }
       }
     },
-    "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider": {
+    "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationProvider": {
       "type": "enum",
       "members": {
         "R2": {
@@ -3394,54 +3814,23 @@
         }
       }
     },
-    "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyAws": {
-      "type": "structure",
-      "members": {
-        "accessKeyId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ID of a Cloudflare API token."
-          }
-        },
-        "provider": {
-          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider"
-        },
-        "secretAccessKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Value of a Cloudflare API token."
-          }
-        }
-      }
-    },
-    "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyGcs": {
-      "type": "structure",
-      "members": {
-        "accessKeyId": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "ID of a Cloudflare API token."
-          }
-        },
-        "provider": {
-          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyAwsProvider"
-        },
-        "secretAccessKey": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Value of a Cloudflare API token."
-          }
-        }
-      }
-    },
     "com.cloudflare.r2#BucketsSippyUpdateRequestDestination": {
-      "type": "union",
+      "type": "structure",
       "members": {
-        "R2EnableSippyAws": {
-          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyAws"
+        "accessKeyId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of a Cloudflare API token. This is the value labelled \"Access Key ID\" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens)."
+          }
         },
-        "R2EnableSippyGcs": {
-          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationR2EnableSippyGcs"
+        "provider": {
+          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestDestinationProvider"
+        },
+        "secretAccessKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Value of a Cloudflare API token. This is the value labelled \"Secret Access Key\" when creating an API. token from the [R2 dashboard](https://dash.cloudflare.com/?to=/:account/r2/api-tokens)."
+          }
         }
       }
     },
@@ -3562,6 +3951,49 @@
         }
       }
     },
+    "com.cloudflare.r2#BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider": {
+      "type": "enum",
+      "members": {
+        "AZURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azure"
+          }
+        }
+      }
+    },
+    "com.cloudflare.r2#BucketsSippyUpdateRequestSourceR2EnableSippyAzure": {
+      "type": "structure",
+      "members": {
+        "accountKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Access key for the Azure Storage account. Mutually exclusive with sasToken."
+          }
+        },
+        "accountName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Azure Storage account."
+          }
+        },
+        "container": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Azure Blob Storage container."
+          }
+        },
+        "provider": {
+          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestSourceR2EnableSippyAzureProvider"
+        },
+        "sasToken": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Shared Access Signature token for the Azure Storage account. Mutually exclusive with accountKey."
+          }
+        }
+      }
+    },
     "com.cloudflare.r2#BucketsSippyUpdateRequestSource": {
       "type": "union",
       "members": {
@@ -3573,6 +4005,9 @@
         },
         "R2EnableSippyS3": {
           "target": "com.cloudflare.r2#BucketsSippyUpdateRequestSourceR2EnableSippyS3"
+        },
+        "R2EnableSippyAzure": {
+          "target": "com.cloudflare.r2#BucketsSippyUpdateRequestSourceR2EnableSippyAzure"
         }
       }
     },
@@ -3593,7 +4028,7 @@
         "accessKeyId": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "ID of the Cloudflare API token used when writing objects to this"
+            "smithy.api#documentation": "ID of the Cloudflare API token used when writing objects to this bucket."
           }
         },
         "account": {
@@ -3630,6 +4065,12 @@
           "traits": {
             "smithy.api#enumValue": "s3"
           }
+        },
+        "AZURE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "azure"
+          }
         }
       }
     },
@@ -3646,6 +4087,12 @@
           "target": "smithy.api#String",
           "traits": {
             "smithy.api#documentation": "S3-compatible URL (Generic S3-compatible providers only)."
+          }
+        },
+        "container": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the Azure Blob Storage container (Azure only)."
           }
         },
         "provider": {
@@ -3733,13 +4180,25 @@
       }
     },
     "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendor": {
-      "type": "union",
+      "type": "enum",
       "members": {
-        "SuperSlurperConnectivityPrecheckSourceRequestVendorEnum": {
-          "target": "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendorEnum"
+        "S3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "s3"
+          }
         },
-        "R2SlurperR2SourceSchema": {
-          "target": "com.cloudflare.r2#SuperSlurperConnectivityPrecheckSourceRequestVendorR2SlurperR2SourceSchema"
+        "GCS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "gcs"
+          }
+        },
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2"
+          }
         }
       }
     },
@@ -3762,6 +4221,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
           }
         },
         "FEDRAMP": {
@@ -3830,6 +4295,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
           }
         },
         "FEDRAMP": {
@@ -4035,6 +4506,12 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
@@ -4112,6 +4589,17 @@
         }
       }
     },
+    "com.cloudflare.r2#SuperSlurperJobsCreateRequestTargetVendor": {
+      "type": "enum",
+      "members": {
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2"
+          }
+        }
+      }
+    },
     "com.cloudflare.r2#SuperSlurperJobsCreateRequestTargetJurisdiction": {
       "type": "enum",
       "members": {
@@ -4125,6 +4613,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
           }
         },
         "FEDRAMP": {
@@ -4151,7 +4645,7 @@
           }
         },
         "vendor": {
-          "target": "com.cloudflare.r2#SuperSlurperJobsCreateRequestSourceR2SlurperR2SourceSchemaVendor",
+          "target": "com.cloudflare.r2#SuperSlurperJobsCreateRequestTargetVendor",
           "traits": {
             "smithy.api#required": {}
           }
@@ -4245,6 +4739,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
           }
         },
         "FEDRAMP": {
@@ -4350,10 +4850,27 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
+    "com.cloudflare.r2#SuperSlurperJobsGetResponseTargetVendor": {
+      "type": "enum",
+      "members": {
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2"
           }
         }
       }
@@ -4368,7 +4885,7 @@
           "target": "com.cloudflare.r2#SuperSlurperJobsGetResponseTargetJurisdiction"
         },
         "vendor": {
-          "target": "com.cloudflare.r2#SuperSlurperJobsGetResponseSourceR2SourceResponseSchemaVendor"
+          "target": "com.cloudflare.r2#SuperSlurperJobsGetResponseTargetVendor"
         }
       }
     },
@@ -4456,6 +4973,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
           }
         },
         "FEDRAMP": {
@@ -4561,10 +5084,27 @@
             "smithy.api#enumValue": "eu"
           }
         },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
         "FEDRAMP": {
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
+    "com.cloudflare.r2#SuperSlurperJobsListResultItemTargetVendor": {
+      "type": "enum",
+      "members": {
+        "R2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "r2"
           }
         }
       }
@@ -4579,7 +5119,7 @@
           "target": "com.cloudflare.r2#SuperSlurperJobsListResultItemTargetJurisdiction"
         },
         "vendor": {
-          "target": "com.cloudflare.r2#SuperSlurperJobsListResultItemSourceR2SourceResponseSchemaVendor"
+          "target": "com.cloudflare.r2#SuperSlurperJobsListResultItemTargetVendor"
         }
       }
     },
@@ -6177,7 +6717,7 @@
         "object_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The key (name) of the object to delete. May contain slashes for path-like keys.",
+            "smithy.api#documentation": "The key (name) of the object to delete. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -6628,7 +7168,7 @@
         "jurisdiction": {
           "target": "com.cloudflare.r2#BucketsEventNotificationsGetRequestCfR2Jurisdiction",
           "traits": {
-            "smithy.api#documentation": "The bucket jurisdiction.",
+            "smithy.api#documentation": "Jurisdiction where objects in this bucket are guaranteed to be stored.",
             "smithy.api#httpHeader": "cf-r2-jurisdiction"
           }
         }
@@ -6857,7 +7397,7 @@
         "ifModifiedSince": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Returns the object only if it has been modified since the specified time.",
+            "smithy.api#documentation": "Returns the object only if it has been modified since the specified time. Must be formatted as an HTTP-date (RFC 7231), e.g. `Tue, 15 Jan 2024 10:30:00 GMT`.",
             "smithy.api#httpHeader": "If-Modified-Since"
           }
         },
@@ -6871,7 +7411,7 @@
         "object_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The key (name) of the object to retrieve. May contain slashes for path-like keys.",
+            "smithy.api#documentation": "The key (name) of the object to retrieve. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8802,7 +9342,7 @@
         "object_name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "The key (name) to assign to the object. May contain slashes for path-like keys.",
+            "smithy.api#documentation": "The key (name) to assign to the object. May contain slashes for path-like keys. Slashes (`/`) within the key MUST be sent literally and MUST NOT be percent-encoded (i.e. `%2F`); other reserved characters should be percent-encoded as usual.",
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
@@ -8861,13 +9401,6 @@
           "traits": {
             "smithy.api#httpHeader": "Expires",
             "smithy.api#documentation": "Expiration date of the object."
-          }
-        },
-        "cf_r2_storage_class": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#httpHeader": "cf-r2-storage-class",
-            "smithy.api#documentation": "Storage class for the object."
           }
         }
       },

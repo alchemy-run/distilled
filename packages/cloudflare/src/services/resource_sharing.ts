@@ -150,7 +150,7 @@ export interface CreateRecipientResponse {
   id: string;
   /** Account identifier. */
   accountId: string;
-  /** Share Recipient association status. */
+  /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsCreateResponseAssociationStatus;
   /** When the share was created. */
   created: string;
@@ -179,7 +179,8 @@ export type ResourcesCreateRequestResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesCreateRequestResourceType = S.String;
 
 export interface CreateResourceRequest {
@@ -225,7 +226,8 @@ export type ResourcesCreateResponseResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesCreateResponseResourceType = S.String;
 
 export type ResourcesCreateResponseStatus = "active" | "deleting" | "deleted";
@@ -271,7 +273,7 @@ export const CreateResourceResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateResourceResponse>;
 
 export interface CreateRequestRecipientsItem {
-  /** Deprecated alias for `recipient_account_id`. Use `recipient_account_id` instead. */
+  /** This field has been renamed to `recipient_account_id`. Both names are accepted during the deprecation period. */
   accountId?: string;
   /** Organization identifier. */
   organizationId?: string;
@@ -301,7 +303,8 @@ export type CreateRequestResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const CreateRequestResourcesItemResourceType = S.String;
 
 export interface CreateRequestResourcesItem {
@@ -374,7 +377,8 @@ export type CreateResponseResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const CreateResponseResourcesItemResourceType = S.String;
 
 export type CreateResponseResourcesItemStatus =
@@ -536,7 +540,7 @@ export interface DeleteRecipientResponse {
   id: string;
   /** Account identifier. */
   accountId: string;
-  /** Share Recipient association status. */
+  /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsDeleteResponseAssociationStatus;
   /** When the share was created. */
   created: string;
@@ -591,7 +595,8 @@ export type ResourcesDeleteResponseResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesDeleteResponseResourceType = S.String;
 
 export type ResourcesDeleteResponseStatus = "active" | "deleting" | "deleted";
@@ -674,7 +679,8 @@ export type DeleteResponseResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const DeleteResponseResourcesItemResourceType = S.String;
 
 export type DeleteResponseResourcesItemStatus =
@@ -839,7 +845,7 @@ export interface GetRecipientResponse {
   id: string;
   /** Account identifier. */
   accountId: string;
-  /** Share Recipient association status. */
+  /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsGetResponseAssociationStatus;
   /** When the share was created. */
   created: string;
@@ -894,7 +900,8 @@ export type ResourcesGetResponseResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesGetResponseResourceType = S.String;
 
 export type ResourcesGetResponseStatus = "active" | "deleting" | "deleted";
@@ -985,7 +992,8 @@ export type GetResponseResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const GetResponseResourcesItemResourceType = S.String;
 
 export type GetResponseResourcesItemStatus = "active" | "deleting" | "deleted";
@@ -1101,9 +1109,9 @@ export interface ListRecipientsRequest {
   shareId: string;
   /** Include resources in the response. */
   includeResources?: boolean;
-  /** Page number. Defaults to `1` when `per_page` is supplied without */
+  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
   page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` */
+  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
   perPage?: number;
 }
 export const ListRecipientsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -1149,7 +1157,7 @@ export interface RecipientsListResultItem {
   id: string;
   /** Account identifier. */
   accountId: string;
-  /** Share Recipient association status. */
+  /** The current state of the recipient relative to the share. The `desired_association_status` (not exposed in the response) tracks the target state set by the API; the background reconciliation workflow drives `current_association_status` toward it. */
   associationStatus: RecipientsListResultItemAssociationStatus;
   /** When the share was created. */
   created: string;
@@ -1198,7 +1206,8 @@ export type ResourcesListRequestResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesListRequestResourceType = S.String;
 
 export type ResourcesListRequestStatus = "active" | "deleting" | "deleted";
@@ -1209,9 +1218,9 @@ export interface ListResourcesRequest {
   accountId: string;
   /** Share identifier tag. */
   shareId: string;
-  /** Page number. Defaults to `1` when `per_page` is supplied without */
+  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
   page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` */
+  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
   perPage?: number;
   /** Filter share resources by resource_type. */
   resourceType?: ResourcesListRequestResourceType | (string & {});
@@ -1247,7 +1256,8 @@ export type ResourcesListResultItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesListResultItemResourceType = S.String;
 
 export type ResourcesListResultItemStatus = "active" | "deleting" | "deleted";
@@ -1326,7 +1336,8 @@ export type ListRequestResourceTypes =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ListRequestResourceTypes = S.String;
 
 export type ListRequestResourceTypesList = Array<
@@ -1360,9 +1371,9 @@ export interface ListResourceSharingsRequest {
   kind?: ListRequestKind | (string & {});
   /** Order shares by values in the given field. */
   order?: ListRequestOrder | (string & {});
-  /** Page number. Defaults to `1` when `per_page` is supplied without */
+  /** Page number. Defaults to `1` when `per_page` is supplied without `page`. May be omitted entirely along with `per_page` to receive a non-paginated response. */
   page?: number;
-  /** Number of objects to return per page. Defaults to `20` when `page` */
+  /** Number of objects to return per page. Defaults to `20` when `page` is supplied without `per_page`. May be omitted entirely along with `page` to receive a non-paginated response. */
   perPage?: number;
   /** Filter share resources by resource_types. */
   resourceTypes?: ListRequestResourceTypesList;
@@ -1419,7 +1430,8 @@ export type ListResultItemResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ListResultItemResourcesItemResourceType = S.String;
 
 export type ListResultItemResourcesItemStatus =
@@ -1583,7 +1595,8 @@ export type ResourcesUpdateResponseResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const ResourcesUpdateResponseResourceType = S.String;
 
 export type ResourcesUpdateResponseStatus = "active" | "deleting" | "deleted";
@@ -1669,7 +1682,8 @@ export type UpdateResponseResourcesItemResourceType =
   | "gateway-destination-ip"
   | "gateway-block-page-settings"
   | "gateway-extended-email-matching"
-  | "idp-federation-grant";
+  | "idp-federation-grant"
+  | "trust-grant";
 export const UpdateResponseResourcesItemResourceType = S.String;
 
 export type UpdateResponseResourcesItemStatus =
@@ -1785,7 +1799,7 @@ export type CreateRecipientError =
   | ShareNotFound
   | Forbidden
   | CloudflareOpError;
-/** Adds a recipient to a resource share, granting them access to the shared resources. */
+/** Adds a single recipient to an account-targeted resource share, granting them access to the shared resources. The recipient account must belong to the same organization as the share owner. To replace the entire recipient list in one call, use `PUT /accounts/{account_id}/shares/{share_id}/recipients` instead. */
 export const createRecipient: API.OperationMethod<
   CreateRecipientRequest,
   CreateRecipientResponse,
@@ -1833,7 +1847,7 @@ export type DeleteRecipientError =
   | ShareRecipientNotFound
   | Forbidden
   | CloudflareOpError;
-/** Deletion is not immediate, an updated share recipient object with a new status will be returned. */
+/** Performs a **soft delete**: sets the recipient's `desired_association_status` to `disassociated`, which signals the background reconciliation workflow (Temporal) to remove the shared resources from the recipient account. The recipient record remains in the database for audit purposes and is still returned by `GET /accounts/{account_id}/shares/{share_id}/recipients` with its updated status. Resource access is not fully removed until the workflow completes and `current_association_status` transitions to `disassociated`. The recipient record itself is never physically deleted. */
 export const deleteRecipient: API.OperationMethod<
   DeleteRecipientRequest,
   DeleteRecipientResponse,
@@ -1958,7 +1972,7 @@ export const getResourceSharing: API.OperationMethod<
 }));
 
 export type ListRecipientsError = ShareNotFound | Forbidden | CloudflareOpError;
-/** List share recipients by share ID. */
+/** List share recipients by share ID. Returns **all** recipients regardless of their `association_status` (associating, associated, disassociating, disassociated). Callers that want only "active" recipients must filter client-side on the `association_status` field. */
 export const listRecipients: API.PaginatedOperationMethod<
   ListRecipientsRequest,
   ListRecipientsResponse,
@@ -2062,7 +2076,7 @@ export type UpdateResourceSharingError =
   | ShareNotFound
   | Forbidden
   | CloudflareOpError;
-/** Updating is not immediate, an updated share object with a new status will be returned. */
+/** Updates the share's display name and tags. This endpoint does **not** modify recipients or resources — those are managed via dedicated subresource endpoints: - **Recipients**: Use `POST /accounts/{account_id}/shares/{share_id}/recipients` to add a single recipient, `PUT /accounts/{account_id}/shares/{share_id}/recipients` to replace the full recipient list, or `DELETE /accounts/{account_id}/shares/{share_id}/recipients/{recipient_id}` to remove a recipient. - **Resources**: Use the share's resource subresource endpoints. Updating is not immediate; an updated share object with a new status will be returned. */
 export const updateResourceSharing: API.OperationMethod<
   UpdateResourceSharingRequest,
   UpdateResourceSharingResponse,

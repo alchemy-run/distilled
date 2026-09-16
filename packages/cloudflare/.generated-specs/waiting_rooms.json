@@ -3794,7 +3794,7 @@
         "index": {
           "target": "smithy.api#Double",
           "traits": {
-            "smithy.api#documentation": "Places the rule in the exact position specified by the integer number <POSITION_NUMBER>. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten)."
+            "smithy.api#documentation": "Places the rule in the exact position specified by the integer number &lt;POSITION_NUMBER&gt;. Position numbers start with 1. Existing rules in the ruleset from the specified position number onward are shifted one position (no rule is overwritten)."
           }
         }
       }
@@ -3805,7 +3805,7 @@
         "before": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Places the rule before rule <RULE_ID>. Use this argument with an empty rule ID value (\"\") to set the rule as the first rule in the ruleset."
+            "smithy.api#documentation": "Places the rule before rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value (\"\") to set the rule as the first rule in the ruleset."
           }
         }
       }
@@ -3816,7 +3816,7 @@
         "after": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Places the rule after rule <RULE_ID>. Use this argument with an empty rule ID value (\"\") to set the rule as the last rule in the ruleset."
+            "smithy.api#documentation": "Places the rule after rule &lt;RULE_ID&gt;. Use this argument with an empty rule ID value (\"\") to set the rule as the last rule in the ruleset."
           }
         }
       }
@@ -4698,13 +4698,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#CreateRequestTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#CreateRequestTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -4853,13 +4853,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#CreateResponseTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#CreateResponseTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -5413,7 +5413,7 @@
           "uri": "/zones/{zone_id}/waiting_rooms/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Gets the zone-level Waiting Room settings that apply as defaults to all waiting rooms on the zone.",
+        "smithy.api#documentation": "Get zone-level Waiting Room settings.",
         "smithy.api#readonly": {}
       },
       "errors": [
@@ -5444,7 +5444,7 @@
         "search_engine_crawler_bypass": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.",
+            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.",
             "smithy.api#required": {}
           }
         }
@@ -5468,7 +5468,7 @@
           "uri": "/zones/{zone_id}/waiting_rooms/{waiting_room_id}/status",
           "code": 200
         },
-        "smithy.api#documentation": "Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not\\_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event\\_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 1. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 1. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 1. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 1. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users.",
+        "smithy.api#documentation": "Fetches the status of a configured waiting room. Response fields include: 1. `status`: String indicating the status of the waiting room. The possible status are: - **not_queueing** indicates that the configured thresholds have not been met and all users are going through to the origin. - **queueing** indicates that the thresholds have been met and some users are held in the waiting room. - **event_prequeueing** indicates that an event is active and is currently prequeueing users before it starts. - **suspended** indicates that the room is suspended. 2. `event_id`: String of the current event's `id` if an event is active, otherwise an empty string. 3. `estimated_queued_users`: Integer of the estimated number of users currently waiting in the queue. 4. `estimated_total_active_users`: Integer of the estimated number of users currently active on the origin. 5. `max_estimated_time_minutes`: Integer of the maximum estimated time currently presented to the users.",
         "smithy.api#readonly": {}
       }
     },
@@ -5709,13 +5709,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#GetResponseTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#GetResponseTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -6282,7 +6282,7 @@
           "uri": "/zones/{zone_id}/waiting_rooms/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Partially updates zone-level Waiting Room settings using PATCH semantics."
+        "smithy.api#documentation": "Patch zone-level Waiting Room settings."
       }
     },
     "com.cloudflare.waiting_rooms#PatchSettingRequest": {
@@ -6299,7 +6299,7 @@
         "search_engine_crawler_bypass": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone."
+            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics."
           }
         }
       },
@@ -6313,7 +6313,7 @@
         "search_engine_crawler_bypass": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.",
+            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.",
             "smithy.api#required": {}
           }
         }
@@ -6479,13 +6479,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#EditRequestTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#EditRequestTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -6634,13 +6634,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#EditResponseTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#EditResponseTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -6663,7 +6663,7 @@
           "uri": "/zones/{zone_id}/waiting_rooms/preview",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 1. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 1. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning \"Welcome\". - **reject** indicates a Reject queue. 1. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 1. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active (`event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes."
+        "smithy.api#documentation": "Creates a waiting room page preview. Upload a custom waiting room page for preview. You will receive a preview URL in the form `http://waitingrooms.dev/preview/<uuid>`. You can use the following query parameters to change the state of the preview: 1. `force_queue`: Boolean indicating if all users will be queued in the waiting room and no one will be let into the origin website (also known as queueAll). 2. `queue_is_full`: Boolean indicating if the waiting room's queue is currently full and not accepting new users at the moment. 3. `queueing_method`: The queueing method currently used by the waiting room. - **fifo** indicates a FIFO queue. - **random** indicates a Random queue. - **passthrough** indicates a Passthrough queue. Keep in mind that the waiting room page will only be displayed if `force_queue=true` or `event=prequeueing` — for other cases the request will pass through to the origin. For our preview, this will be a fake origin website returning \"Welcome\". - **reject** indicates a Reject queue. 4. `event`: Used to preview a waiting room event. - **none** indicates no event is occurring. - **prequeueing** indicates that an event is prequeueing (between `prequeue_start_time` and `event_start_time`). - **started** indicates that an event has started (between `event_start_time` and `event_end_time`). 5. `shuffle_at_event_start`: Boolean indicating if the event will shuffle users in the prequeue when it starts. This can only be set to **true** if an event is active ( `event` is not **none**). For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?force_queue=false&queue_is_full=false&queueing_method=random&event=started&shuffle_at_event_start=true` 6. `waitTime`: Non-zero, positive integer indicating the estimated wait time in minutes. The default value is 10 minutes. For example, you can make a request to `http://waitingrooms.dev/preview/<uuid>?waitTime=50` to configure the estimated wait time as 50 minutes."
       }
     },
     "com.cloudflare.waiting_rooms#PreviewPageRequest": {
@@ -6718,7 +6718,7 @@
           "uri": "/zones/{zone_id}/waiting_rooms/settings",
           "code": 200
         },
-        "smithy.api#documentation": "Fully updates zone-level Waiting Room settings, replacing the existing configuration.",
+        "smithy.api#documentation": "Replace zone-level Waiting Room settings.",
         "smithy.api#idempotent": {}
       },
       "errors": [
@@ -6744,7 +6744,7 @@
         "search_engine_crawler_bypass": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone."
+            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics."
           }
         }
       },
@@ -6758,7 +6758,7 @@
         "search_engine_crawler_bypass": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone.",
+            "smithy.api#documentation": "Whether to allow verified search engine crawlers to bypass all waiting rooms on this zone. Verified search engine crawlers will not be tracked or counted by the waiting room system, and will not appear in waiting room analytics.",
             "smithy.api#required": {}
           }
         }
@@ -7251,13 +7251,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#UpdateRequestTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#UpdateRequestTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -7406,13 +7406,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#UpdateResponseTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#UpdateResponseTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       },
@@ -8002,13 +8002,13 @@
         "turnstile_action": {
           "target": "com.cloudflare.waiting_rooms#ListResultItemTurnstileAction",
           "traits": {
-            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will"
+            "smithy.api#documentation": "Which action to take when a bot is detected using Turnstile. `log` will have no impact on queueing behavior, simply keeping track of how many bots are detected in Waiting Room Analytics. `infinite_queue` will send bots to a false queueing state, where they will never reach your origin. `infinite_queue` requires Advanced Waiting Room."
           }
         },
         "turnstile_mode": {
           "target": "com.cloudflare.waiting_rooms#ListResultItemTurnstileMode",
           "traits": {
-            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See"
+            "smithy.api#documentation": "Which Turnstile widget type to use for detecting bot traffic. See [the Turnstile documentation](https://developers.cloudflare.com/turnstile/concepts/widget/#widget-types) for the definitions of these widget types. Set to `off` to disable the Turnstile integration entirely. Setting this to anything other than `off` or `invisible` requires Advanced Waiting Room."
           }
         }
       }

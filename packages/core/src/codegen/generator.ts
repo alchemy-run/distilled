@@ -55,6 +55,10 @@ import {
 } from "./operations.ts";
 import { memberBases, smithyWireName } from "./members.ts";
 import { validatePaginated } from "./pagination.ts";
+import {
+  booleanStringEnums,
+  STRING_ENCODED_TRAIT,
+} from "./boolean-string-enums.ts";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
@@ -447,6 +451,9 @@ export const generateService = (
   model: any,
   spec: SdkSpec,
 ): GeneratedService => {
+  // `"true" | "false"` request members become real booleans that travel as
+  // their string spelling (see boolean-string-enums.ts).
+  booleanStringEnums(model);
   const shapes: ShapeMap = model.shapes;
   const pure = spec.pure ?? PURE;
   const prelude = spec.prelude ?? JSON_PRELUDE;
@@ -625,6 +632,50 @@ export const generateService = (
       };
     });
 
+  /** The single value a one-value enum shape fixes, if `target` is one. */
+  const soleEnumValue = (target: string): string | undefined => {
+    const d = shapes[target];
+    if (d?.type !== "enum") return undefined;
+    const values = Object.values(d.members ?? {}).map(
+      (m: any) => m.traits?.["smithy.api#enumValue"],
+    );
+    return values.length === 1 && typeof values[0] === "string"
+      ? values[0]
+      : undefined;
+  };
+
+  /**
+   * The member every case of a union pins to a different literal — the tag
+   * the API itself discriminates by (`type: "zone"`, `id: "browser_check"`).
+   * Undefined unless every case is a structure carrying that member and no
+   * two cases claim the same value.
+   */
+  const unionDiscriminator = (
+    caseTargets: readonly string[],
+  ): { key: string; values: string[] } | undefined => {
+    if (caseTargets.length < 2) return undefined;
+    const perCase = caseTargets.map((t) => {
+      const cd = shapes[t];
+      if (cd?.type !== "structure") return undefined;
+      const tags = new Map<string, string>();
+      for (const mi of memberInfos(cd)) {
+        const value = soleEnumValue(mi.target);
+        if (value !== undefined) tags.set(mi.tsName, value);
+      }
+      return tags;
+    });
+    if (perCase.some((tags) => tags === undefined || tags.size === 0)) {
+      return undefined;
+    }
+    for (const key of perCase[0]!.keys()) {
+      const values = perCase.map((tags) => tags!.get(key));
+      if (values.some((v) => v === undefined)) continue;
+      if (new Set(values).size !== values.length) continue;
+      return { key, values: values as string[] };
+    }
+    return undefined;
+  };
+
   // Generic pipes for the smithy bindings (the SDK's traits module exports
   // core's Label/Query/Header/HttpBody/Body builders under these names);
   // provider bindings and member traits append theirs via memberExtraPipes.
@@ -668,6 +719,7 @@ export const generateService = (
           ([trait, builder]) =>
             `${builder}(${JSON.stringify(info.traits[trait])})`,
         ),
+      ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 
@@ -988,9 +1040,10 @@ export const generateService = (
       if (spec.union) {
         out.push(...spec.union({ name, caseTargets, caseKeys, tsRef }));
       } else if (spec.unionStyle === "opaque-cases") {
+        const disc = unionDiscriminator(caseTargets);
         out.push(
           `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "unknown"};`,
-          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}));\n`,
+          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
         );
       } else {
         throw new Error(

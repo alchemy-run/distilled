@@ -58,6 +58,29 @@
     "distilled.finalized": true
   },
   "shapes": {
+    "com.cloudflare.queues#CreateRequestJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#CreateResponseConsumersItemWorkerSettings": {
       "type": "structure",
       "members": {
@@ -225,6 +248,29 @@
         "target": "com.cloudflare.queues#CreateResponseConsumersItem"
       }
     },
+    "com.cloudflare.queues#CreateResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#CreateResponseProducersItemMqWorkerProducerType": {
       "type": "enum",
       "members": {
@@ -305,6 +351,29 @@
           "target": "smithy.api#Double",
           "traits": {
             "smithy.api#documentation": "Number of seconds after which an unconsumed message will be delayed."
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#EditRequestJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
           }
         }
       }
@@ -497,6 +566,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.queues#EditResponseConsumersItem"
+      }
+    },
+    "com.cloudflare.queues#EditResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
       }
     },
     "com.cloudflare.queues#EditResponseProducersItemMqWorkerProducerType": {
@@ -750,6 +842,29 @@
         "target": "com.cloudflare.queues#GetResponseConsumersItem"
       }
     },
+    "com.cloudflare.queues#GetResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#GetResponseProducersItemMqWorkerProducerType": {
       "type": "enum",
       "members": {
@@ -1001,6 +1116,29 @@
         "target": "com.cloudflare.queues#ListResultItemConsumersItem"
       }
     },
+    "com.cloudflare.queues#ListResultItemJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#ListResultItemProducersItemMqWorkerProducerType": {
       "type": "enum",
       "members": {
@@ -1097,6 +1235,9 @@
         "created_on": {
           "target": "smithy.api#String"
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#ListResultItemJurisdiction"
+        },
         "modified_on": {
           "target": "smithy.api#String"
         },
@@ -1121,6 +1262,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.queues#ListResultItem"
+      }
+    },
+    "com.cloudflare.queues#UpdateRequestJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
       }
     },
     "com.cloudflare.queues#UpdateRequestSettings": {
@@ -1311,6 +1475,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.queues#UpdateResponseConsumersItem"
+      }
+    },
+    "com.cloudflare.queues#UpdateResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
       }
     },
     "com.cloudflare.queues#UpdateResponseProducersItemMqWorkerProducerType": {
@@ -2392,6 +2579,97 @@
         }
       }
     },
+    "com.cloudflare.queues#MessagesPeekRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Resource identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "queue_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Resource identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "batch_size": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "The maximum number of messages to include in a batch."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.queues#MessagesPeekResponseMessagesItem": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String"
+        },
+        "attempts": {
+          "target": "smithy.api#Double"
+        },
+        "body": {
+          "target": "smithy.api#String"
+        },
+        "metadata": {
+          "target": "smithy.api#Document"
+        },
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An opaque reference to a peeked message. You must hold on to this value and use it to purge the message."
+          }
+        },
+        "timestamp_ms": {
+          "target": "smithy.api#Double"
+        }
+      }
+    },
+    "com.cloudflare.queues#MessagesPeekResponseMessagesList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.queues#MessagesPeekResponseMessagesItem"
+      }
+    },
+    "com.cloudflare.queues#MessagesPeekResponse": {
+      "type": "structure",
+      "members": {
+        "messages": {
+          "target": "com.cloudflare.queues#MessagesPeekResponseMessagesList"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.queues#MessagesPeek": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.queues#MessagesPeekRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.queues#MessagesPeekResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/queues/{queue_id}/messages/peek",
+          "code": 200
+        },
+        "smithy.api#documentation": "Peek messages from a Queue without leasing them. Messages remain available for subsequent peek or pull operations."
+      }
+    },
     "com.cloudflare.queues#MessagesPullResponseMessagesItem": {
       "type": "structure",
       "members": {
@@ -2459,6 +2737,115 @@
             "smithy.api#documentation": "Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues."
           }
         }
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageRequestRefsItem": {
+      "type": "structure",
+      "members": {
+        "ref": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An opaque reference to a peeked message. You must hold on to this value and use it to purge the message.",
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageRequestRefsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.queues#PurgeMessageRequestRefsItem"
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Resource identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "queue_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A Resource identifier.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "refs": {
+          "target": "com.cloudflare.queues#PurgeMessageRequestRefsList",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageResponseErrorsItem": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageResponseErrorsList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.queues#PurgeMessageResponseErrorsItem"
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageResponseWarningsMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.queues#PurgeMessageResponse": {
+      "type": "structure",
+      "members": {
+        "errors": {
+          "target": "com.cloudflare.queues#PurgeMessageResponseErrorsList",
+          "traits": {
+            "smithy.api#documentation": "Errors encountered while purging messages."
+          }
+        },
+        "warnings": {
+          "target": "com.cloudflare.queues#PurgeMessageResponseWarningsMap",
+          "traits": {
+            "smithy.api#documentation": "Map of refs to warning messages encountered during purge."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.queues#PurgeMessage": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.queues#PurgeMessageRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.queues#PurgeMessageResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/queues/{queue_id}/messages/purge",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete peeked messages from a Queue by their ref. Purged messages aren't considered delivered, they are instantly deleted from this queue and do not affect metrics."
       }
     },
     "com.cloudflare.queues#MessagesPushRequestContentType": {
@@ -2680,6 +3067,29 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.queues#PurgeStartResponseConsumersItem"
+      }
+    },
+    "com.cloudflare.queues#PurgeStartResponseJurisdiction": {
+      "type": "enum",
+      "members": {
+        "EU": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "eu"
+          }
+        },
+        "US": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "us"
+          }
+        },
+        "FEDRAMP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fedramp"
+          }
+        }
       }
     },
     "com.cloudflare.queues#PurgeStartResponseProducersItemMqWorkerProducerType": {
@@ -2968,6 +3378,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -3019,6 +3457,9 @@
         },
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkersBuildsWorker"
+        },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkersScript"
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflow"
@@ -3227,6 +3668,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -3278,6 +3747,9 @@
         },
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkersBuildsWorker"
+        },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkersScript"
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflow"
@@ -3486,6 +3958,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -3537,6 +4037,9 @@
         },
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkersBuildsWorker"
+        },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkersScript"
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflow"
@@ -3745,6 +4248,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -3796,6 +4327,9 @@
         },
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkersBuildsWorker"
+        },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkersScript"
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflow"
@@ -4050,6 +4584,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -4101,6 +4663,9 @@
         },
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkersBuildsWorker"
+        },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkersScript"
         },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflow"
@@ -4412,6 +4977,34 @@
         }
       }
     },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkersScriptType": {
+      "type": "enum",
+      "members": {
+        "WORKERS_SCRIPT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "workers.script"
+          }
+        }
+      }
+    },
+    "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkersScript": {
+      "type": "structure",
+      "members": {
+        "script_tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Tag of the Worker script"
+          }
+        },
+        "type": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkersScriptType",
+          "traits": {
+            "smithy.api#documentation": "Type of source"
+          }
+        }
+      }
+    },
     "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflowType": {
       "type": "enum",
       "members": {
@@ -4464,6 +5057,9 @@
         "MqEventSourceWorkersBuildsWorker": {
           "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkersBuildsWorker"
         },
+        "MqEventSourceWorkersScript": {
+          "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkersScript"
+        },
         "MqEventSourceWorkflowsWorkflow": {
           "target": "com.cloudflare.queues#SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflow"
         }
@@ -4473,6 +5069,12 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.queues#MessagesPeek"
+        },
+        {
+          "target": "com.cloudflare.queues#PurgeMessage"
+        },
         {
           "target": "com.cloudflare.queues#PurgeStatus"
         },
@@ -5207,6 +5809,9 @@
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#CreateRequestJurisdiction"
         }
       },
       "traits": {
@@ -5224,6 +5829,9 @@
         },
         "created_on": {
           "target": "smithy.api#String"
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#CreateResponseJurisdiction"
         },
         "modified_on": {
           "target": "smithy.api#String"
@@ -5836,6 +6444,9 @@
         "created_on": {
           "target": "smithy.api#String"
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#GetResponseJurisdiction"
+        },
         "modified_on": {
           "target": "smithy.api#String"
         },
@@ -6241,6 +6852,9 @@
             "smithy.api#required": {}
           }
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#EditRequestJurisdiction"
+        },
         "queue_name": {
           "target": "smithy.api#String"
         },
@@ -6263,6 +6877,9 @@
         },
         "created_on": {
           "target": "smithy.api#String"
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#EditResponseJurisdiction"
         },
         "modified_on": {
           "target": "smithy.api#String"
@@ -6660,6 +7277,9 @@
         "created_on": {
           "target": "smithy.api#String"
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#PurgeStartResponseJurisdiction"
+        },
         "modified_on": {
           "target": "smithy.api#String"
         },
@@ -6906,6 +7526,9 @@
             "smithy.api#required": {}
           }
         },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#UpdateRequestJurisdiction"
+        },
         "queue_name": {
           "target": "smithy.api#String"
         },
@@ -6928,6 +7551,9 @@
         },
         "created_on": {
           "target": "smithy.api#String"
+        },
+        "jurisdiction": {
+          "target": "com.cloudflare.queues#UpdateResponseJurisdiction"
         },
         "modified_on": {
           "target": "smithy.api#String"

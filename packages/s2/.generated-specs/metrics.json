@@ -1,0 +1,590 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.metrics#AccountMetricSet": {
+      "type": "enum",
+      "members": {
+        "ACTIVE_BASINS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "active-basins"
+          }
+        },
+        "ACCOUNT_OPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "account-ops"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#TimeseriesInterval": {
+      "type": "enum",
+      "members": {
+        "MINUTE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "minute"
+          }
+        },
+        "HOUR": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "hour"
+          }
+        },
+        "DAY": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "day"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#AccountMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "set": {
+          "target": "com.s2.metrics#AccountMetricSet",
+          "traits": {
+            "smithy.api#httpQuery": "set",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Metric set to return."
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Start timestamp as Unix epoch seconds, if applicable for the metric set."
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "End timestamp as Unix epoch seconds, if applicable for the metric set."
+          }
+        },
+        "interval": {
+          "target": "com.s2.metrics#TimeseriesInterval",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "Interval to aggregate over for timeseries metric sets."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.metrics#MetricSetResponse": {
+      "type": "structure",
+      "members": {
+        "values": {
+          "target": "com.s2.metrics#MetricSetResponseValuesList",
+          "traits": {
+            "smithy.api#documentation": "Metrics comprising the set.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#Metric": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.s2.metrics#MetricCase0"
+        },
+        "Case1": {
+          "target": "com.s2.metrics#MetricCase1"
+        },
+        "Case2": {
+          "target": "com.s2.metrics#MetricCase2"
+        },
+        "Case3": {
+          "target": "com.s2.metrics#MetricCase3"
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#ScalarMetric": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Metric name.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.s2.metrics#MetricUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit of the metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Metric value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#MetricUnit": {
+      "type": "enum",
+      "members": {
+        "BYTES": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "bytes"
+          }
+        },
+        "OPERATIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "operations"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#MetricCase0": {
+      "type": "structure",
+      "members": {
+        "scalar": {
+          "target": "com.s2.metrics#ScalarMetric",
+          "traits": {
+            "smithy.api#documentation": "Single named value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Single named value."
+      }
+    },
+    "com.s2.metrics#AccumulationMetric": {
+      "type": "structure",
+      "members": {
+        "interval": {
+          "target": "com.s2.metrics#TimeseriesInterval",
+          "traits": {
+            "smithy.api#documentation": "The interval at which data points are accumulated.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timeseries name.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.s2.metrics#MetricUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit of the metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.s2.metrics#AccumulationMetricValuesList",
+          "traits": {
+            "smithy.api#documentation": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the accumulated value for the time period starting at the timestamp, spanning one `interval`.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#AccumulationMetricValuesItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#AccumulationMetricValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.metrics#AccumulationMetricValuesItemList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the accumulated value for the time period starting at the timestamp, spanning one `interval`."
+      }
+    },
+    "com.s2.metrics#MetricCase1": {
+      "type": "structure",
+      "members": {
+        "accumulation": {
+          "target": "com.s2.metrics#AccumulationMetric",
+          "traits": {
+            "smithy.api#documentation": "Named series of `(timestamp, value)` points representing an accumulation over a specified interval.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Named series of `(timestamp, value)` points representing an accumulation over a specified interval."
+      }
+    },
+    "com.s2.metrics#GaugeMetric": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Timeseries name.",
+            "smithy.api#required": {}
+          }
+        },
+        "unit": {
+          "target": "com.s2.metrics#MetricUnit",
+          "traits": {
+            "smithy.api#documentation": "Unit of the metric.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.s2.metrics#GaugeMetricValuesList",
+          "traits": {
+            "smithy.api#documentation": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the value at the instant of the timestamp.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#GaugeMetricValuesItemList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Document"
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#GaugeMetricValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.metrics#GaugeMetricValuesItemList"
+      },
+      "traits": {
+        "smithy.api#documentation": "Timeseries values.\nEach element is a tuple of a timestamp in Unix epoch seconds and a data point.\nThe data point represents the value at the instant of the timestamp."
+      }
+    },
+    "com.s2.metrics#MetricCase2": {
+      "type": "structure",
+      "members": {
+        "gauge": {
+          "target": "com.s2.metrics#GaugeMetric",
+          "traits": {
+            "smithy.api#documentation": "Named series of `(timestamp, value)` points each representing an instantaneous value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Named series of `(timestamp, value)` points each representing an instantaneous value."
+      }
+    },
+    "com.s2.metrics#LabelMetric": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Label name.",
+            "smithy.api#required": {}
+          }
+        },
+        "values": {
+          "target": "com.s2.metrics#LabelMetricValuesList",
+          "traits": {
+            "smithy.api#documentation": "Label values.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#LabelMetricValuesList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Label values."
+      }
+    },
+    "com.s2.metrics#MetricCase3": {
+      "type": "structure",
+      "members": {
+        "label": {
+          "target": "com.s2.metrics#LabelMetric",
+          "traits": {
+            "smithy.api#documentation": "Set of string labels.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Set of string labels."
+      }
+    },
+    "com.s2.metrics#MetricSetResponseValuesList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.metrics#Metric"
+      },
+      "traits": {
+        "smithy.api#documentation": "Metrics comprising the set."
+      }
+    },
+    "com.s2.metrics#AccountMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.metrics#AccountMetricsRequest"
+      },
+      "output": {
+        "target": "com.s2.metrics#MetricSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/metrics",
+          "code": 200
+        },
+        "smithy.api#documentation": "Account-level metrics."
+      }
+    },
+    "com.s2.metrics#BasinMetricSet": {
+      "type": "enum",
+      "members": {
+        "STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage"
+          }
+        },
+        "APPEND_OPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "append-ops"
+          }
+        },
+        "READ_OPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read-ops"
+          }
+        },
+        "READ_THROUGHPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "read-throughput"
+          }
+        },
+        "APPEND_THROUGHPUT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "append-throughput"
+          }
+        },
+        "BASIN_OPS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "basin-ops"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#BasinMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        },
+        "set": {
+          "target": "com.s2.metrics#BasinMetricSet",
+          "traits": {
+            "smithy.api#httpQuery": "set",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Metric set to return."
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Start timestamp as Unix epoch seconds, if applicable for the metric set."
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "End timestamp as Unix epoch seconds, if applicable for the metric set."
+          }
+        },
+        "interval": {
+          "target": "com.s2.metrics#TimeseriesInterval",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "Interval to aggregate over for timeseries metric sets."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.metrics#BasinMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.metrics#BasinMetricsRequest"
+      },
+      "output": {
+        "target": "com.s2.metrics#MetricSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/metrics/{basin}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Basin-level metrics."
+      }
+    },
+    "com.s2.metrics#StreamMetricSet": {
+      "type": "enum",
+      "members": {
+        "STORAGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "storage"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.metrics#StreamMetricsRequest": {
+      "type": "structure",
+      "members": {
+        "basin": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Basin name."
+          }
+        },
+        "stream": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Stream name."
+          }
+        },
+        "set": {
+          "target": "com.s2.metrics#StreamMetricSet",
+          "traits": {
+            "smithy.api#httpQuery": "set",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Metric set to return."
+          }
+        },
+        "start": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "start",
+            "smithy.api#documentation": "Start timestamp as Unix epoch seconds, if applicable for the metric set."
+          }
+        },
+        "end": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "end",
+            "smithy.api#documentation": "End timestamp as Unix epoch seconds, if applicable for metric set."
+          }
+        },
+        "interval": {
+          "target": "com.s2.metrics#TimeseriesInterval",
+          "traits": {
+            "smithy.api#httpQuery": "interval",
+            "smithy.api#documentation": "Interval to aggregate over for timeseries metric sets."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.metrics#StreamMetrics": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.metrics#StreamMetricsRequest"
+      },
+      "output": {
+        "target": "com.s2.metrics#MetricSetResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/metrics/{basin}/{stream}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Stream-level metrics."
+      }
+    },
+    "com.s2.metrics#Metrics": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.metrics#AccountMetrics"
+        },
+        {
+          "target": "com.s2.metrics#BasinMetrics"
+        },
+        {
+          "target": "com.s2.metrics#StreamMetrics"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}

@@ -297,13 +297,13 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "advertised_modified_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "approved": {
@@ -357,13 +357,13 @@
         "on_demand_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "on_demand_locked": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement status of the prefix is locked, meaning it cannot be changed."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "ownership_validation_state": {
@@ -390,6 +390,158 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.addressing#PrefixesListResultItem"
+      }
+    },
+    "com.cloudflare.addressing#ValidatePrefixRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of a Cloudflare account.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "prefix_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of an IP Prefix.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.addressing#ValidatePrefixResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of an IP Prefix."
+          }
+        },
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of a Cloudflare account."
+          }
+        },
+        "advertised": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
+          }
+        },
+        "advertised_modified_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
+          }
+        },
+        "approved": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Approval state of the prefix (P = pending, V = active)."
+          }
+        },
+        "asn": {
+          "target": "smithy.api#Double",
+          "traits": {
+            "smithy.api#documentation": "Autonomous System Number (ASN) the prefix will be advertised under."
+          }
+        },
+        "cidr": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "IP Prefix in Classless Inter-Domain Routing format."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "delegate_loa_creation": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner."
+          }
+        },
+        "description": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Description of the prefix."
+          }
+        },
+        "irr_validation_state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of one kind of validation for an IP prefix."
+          }
+        },
+        "loa_document_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier for the uploaded LOA document."
+          }
+        },
+        "modified_at": {
+          "target": "smithy.api#String"
+        },
+        "on_demand_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
+          }
+        },
+        "on_demand_locked": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
+          }
+        },
+        "ownership_validation_state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of one kind of validation for an IP prefix."
+          }
+        },
+        "ownership_validation_token": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token provided to demonstrate ownership of the prefix."
+          }
+        },
+        "rpki_validation_state": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "State of one kind of validation for an IP prefix."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.addressing#ValidatePrefix": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.addressing#ValidatePrefixRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.addressing#ValidatePrefixResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/addressing/prefixes/{prefix_id}/validate",
+          "code": 200
+        },
+        "smithy.api#documentation": "Triggers a new prefix validation. The checks are run asynchronously and include IRR, RPKI, and prefix ownership."
       }
     },
     "com.cloudflare.addressing#PrefixesBgpPrefixesCreateResponseBgpSignalOpts": {
@@ -436,6 +588,56 @@
             "smithy.api#documentation": "Whether the advertisement status of the prefix is locked, meaning it cannot be changed."
           }
         }
+      }
+    },
+    "com.cloudflare.addressing#DeletePrefixesBgpPrefixRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of a Cloudflare account.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "prefix_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of an IP Prefix.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "bgp_prefix_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Identifier of BGP Prefix.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.addressing#DeletePrefixesBgpPrefix": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.addressing#DeletePrefixesBgpPrefixRequest"
+      },
+      "output": {
+        "target": "smithy.api#Unit"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/addressing/prefixes/{prefix_id}/bgp/prefixes/{bgp_prefix_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a BGP Prefix associated with the specified IP Prefix. A BGP Prefix must be withdrawn before it can be deleted.",
+        "smithy.api#idempotent": {}
       }
     },
     "com.cloudflare.addressing#PrefixesBgpPrefixesEditRequestOnDemand": {
@@ -692,6 +894,12 @@
           "traits": {
             "smithy.api#enumValue": "active"
           }
+        },
+        "MAGIC_TRANSIT_ROUTE_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_transit_route_missing"
+          }
         }
       }
     },
@@ -720,6 +928,12 @@
           "traits": {
             "smithy.api#enumValue": "active"
           }
+        },
+        "MAGIC_TRANSIT_ROUTE_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_transit_route_missing"
+          }
         }
       }
     },
@@ -747,6 +961,12 @@
           "target": "smithy.api#Unit",
           "traits": {
             "smithy.api#enumValue": "active"
+          }
+        },
+        "MAGIC_TRANSIT_ROUTE_MISSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "magic_transit_route_missing"
           }
         }
       }
@@ -786,7 +1006,7 @@
         "service_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the"
+            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint."
           }
         },
         "service_name": {
@@ -871,7 +1091,7 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the"
+            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint."
           }
         },
         "name": {
@@ -892,6 +1112,12 @@
       "type": "service",
       "version": "4.0",
       "operations": [
+        {
+          "target": "com.cloudflare.addressing#ValidatePrefix"
+        },
+        {
+          "target": "com.cloudflare.addressing#DeletePrefixesBgpPrefix"
+        },
         {
           "target": "com.cloudflare.addressing#CreateAddressMap"
         },
@@ -1613,6 +1839,13 @@
             "smithy.api#httpLabel": {},
             "smithy.api#required": {}
           }
+        },
+        "loa_document": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "LOA document to upload.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -1767,13 +2000,13 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "advertised_modified_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "approved": {
@@ -1827,13 +2060,13 @@
         "on_demand_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "on_demand_locked": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement status of the prefix is locked, meaning it cannot be changed."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "ownership_validation_state": {
@@ -2089,7 +2322,7 @@
           "uri": "/accounts/{account_id}/addressing/prefixes/{prefix_id}/bindings",
           "code": 200
         },
-        "smithy.api#documentation": "Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare's network. **NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix's CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the  [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details."
+        "smithy.api#documentation": "Creates a new Service Binding, routing traffic to IPs within the given CIDR to a service running on Cloudflare's network. **NOTE:** The first Service Binding created for an IP Prefix must exactly match the IP Prefix's CIDR. Subsequent Service Bindings may be created with a more-specific CIDR. Refer to the [Service Bindings Documentation](https://developers.cloudflare.com/byoip/service-bindings/) for compatibility details."
       },
       "errors": [
         {
@@ -2129,7 +2362,7 @@
         "service_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the",
+            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint.",
             "smithy.api#required": {}
           }
         }
@@ -2162,7 +2395,7 @@
         "service_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the"
+            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint."
           }
         },
         "service_name": {
@@ -2997,13 +3230,13 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "advertised_modified_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "approved": {
@@ -3057,13 +3290,13 @@
         "on_demand_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "on_demand_locked": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement status of the prefix is locked, meaning it cannot be changed."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "ownership_validation_state": {
@@ -3146,7 +3379,7 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If"
+            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn."
           }
         },
         "advertised_modified_at": {
@@ -3358,7 +3591,7 @@
         "service_id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the"
+            "smithy.api#documentation": "Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the **List Services** endpoint."
           }
         },
         "service_name": {
@@ -4138,13 +4371,13 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Prefix advertisement status to the Internet. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "advertised_modified_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "approved": {
@@ -4198,13 +4431,13 @@
         "on_demand_enabled": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement of the prefix to the Internet may be dynamically enabled or disabled."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "on_demand_locked": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Whether advertisement status of the prefix is locked, meaning it cannot be changed."
+            "smithy.api#documentation": "Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BGP routes within a single IP Prefix."
           }
         },
         "ownership_validation_state": {
@@ -4278,7 +4511,7 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If",
+            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn.",
             "smithy.api#required": {}
           }
         }
@@ -4293,7 +4526,7 @@
         "advertised": {
           "target": "smithy.api#Boolean",
           "traits": {
-            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If"
+            "smithy.api#documentation": "Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn."
           }
         },
         "advertised_modified_at": {

@@ -367,9 +367,19 @@ export const GetCustomCsrForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetCustomCsrForZoneRequest",
 }) as any as S.Schema<GetCustomCsrForZoneRequest>;
 
+export type ListRequestDirection = "asc" | "desc";
+export const ListRequestDirection = S.String;
+
+export type ListRequestOrder = "name" | "account_tag" | "created_at";
+export const ListRequestOrder = S.String;
+
 export interface ListCustomCsrsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
+  /** The direction to sort by. */
+  direction?: ListRequestDirection | (string & {});
+  /** The field to sort the returned custom CSRs by. */
+  order?: ListRequestOrder | (string & {});
   /** Page number of paginated results. */
   page?: number;
   /** Number of custom CSRs per page. */
@@ -378,6 +388,8 @@ export interface ListCustomCsrsForAccountRequest {
 export const ListCustomCsrsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.Label("account_id")),
+    direction: S.optional(ListRequestDirection.pipe(T.Query())),
+    order: S.optional(ListRequestOrder.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })
@@ -475,6 +487,10 @@ export const ListCustomCsrsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface ListCustomCsrsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
+  /** The direction to sort by. */
+  direction?: ListRequestDirection | (string & {});
+  /** The field to sort the returned custom CSRs by. */
+  order?: ListRequestOrder | (string & {});
   /** Page number of paginated results. */
   page?: number;
   /** Number of custom CSRs per page. */
@@ -483,6 +499,8 @@ export interface ListCustomCsrsForZoneRequest {
 export const ListCustomCsrsForZoneRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     zoneId: S.String.pipe(T.Label("zone_id")),
+    direction: S.optional(ListRequestDirection.pipe(T.Query())),
+    order: S.optional(ListRequestOrder.pipe(T.Query())),
     page: S.optional(S.Number.pipe(T.Query())),
     perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
   })

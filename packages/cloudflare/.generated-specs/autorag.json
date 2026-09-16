@@ -571,7 +571,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/ai-search",
           "code": 200
         },
-        "smithy.api#documentation": "AI Search"
+        "smithy.api#documentation": "Runs an AI Search query against an AutoRAG."
       }
     },
     "com.cloudflare.autorag#FilesRequestStatus": {
@@ -702,7 +702,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/files",
           "code": 200
         },
-        "smithy.api#documentation": "Files",
+        "smithy.api#documentation": "Lists files indexed by an AutoRAG.",
         "smithy.api#readonly": {}
       }
     },
@@ -1083,7 +1083,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/search",
           "code": 200
         },
-        "smithy.api#documentation": "Search"
+        "smithy.api#documentation": "Searches an AutoRAG."
       }
     },
     "com.cloudflare.autorag#SyncRequest": {
@@ -1138,7 +1138,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/sync",
           "code": 200
         },
-        "smithy.api#documentation": "Sync"
+        "smithy.api#documentation": "Starts synchronization for an AutoRAG."
       }
     },
     "com.cloudflare.autorag#GetJobRequest": {
@@ -1235,7 +1235,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}",
           "code": 200
         },
-        "smithy.api#documentation": "Get a Job Details",
+        "smithy.api#documentation": "Returns details for an AutoRAG job.",
         "smithy.api#readonly": {}
       }
     },
@@ -1355,7 +1355,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/jobs",
           "code": 200
         },
-        "smithy.api#documentation": "List Jobs",
+        "smithy.api#documentation": "Lists jobs for an AutoRAG.",
         "smithy.api#readonly": {}
       }
     },
@@ -1465,7 +1465,7 @@
           "uri": "/accounts/{account_id}/autorag/rags/{id}/jobs/{job_id}/logs",
           "code": 200
         },
-        "smithy.api#documentation": "List Job Logs",
+        "smithy.api#documentation": "Lists logs for an AutoRAG job.",
         "smithy.api#readonly": {}
       }
     },

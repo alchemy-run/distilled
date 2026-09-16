@@ -846,7 +846,7 @@
           "uri": "/zones/{zone_id}/keyless_certificates/{keyless_certificate_id}",
           "code": 200
         },
-        "smithy.api#documentation": "This will update attributes of a Keyless SSL. Consists of one or more of the following:  host,name,port."
+        "smithy.api#documentation": "This will update attributes of a Keyless SSL. Consists of one or more of the following: host,name,port."
       },
       "errors": [
         {

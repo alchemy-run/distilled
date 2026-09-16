@@ -1,0 +1,149 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.s2.locations#LocationInfo": {
+      "type": "structure",
+      "members": {
+        "is_private": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Location represents a private placement, limited by account.",
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Location name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.s2.locations#ListLocationsResponseBodyList": {
+      "type": "list",
+      "member": {
+        "target": "com.s2.locations#LocationInfo"
+      },
+      "traits": {}
+    },
+    "com.s2.locations#ListLocationsResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "com.s2.locations#ListLocationsResponseBodyList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.s2.locations#ListLocations": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.s2.locations#ListLocationsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/locations",
+          "code": 200
+        },
+        "smithy.api#documentation": "List locations."
+      }
+    },
+    "com.s2.locations#GetDefaultLocation": {
+      "type": "operation",
+      "input": {
+        "target": "smithy.api#Unit"
+      },
+      "output": {
+        "target": "com.s2.locations#LocationInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/locations/default",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get the default location."
+      }
+    },
+    "com.s2.locations#SetDefaultLocationRequest": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpPayload": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.s2.locations#SetDefaultLocation": {
+      "type": "operation",
+      "input": {
+        "target": "com.s2.locations#SetDefaultLocationRequest"
+      },
+      "output": {
+        "target": "com.s2.locations#LocationInfo"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "PUT",
+          "uri": "/locations/default",
+          "code": 200
+        },
+        "smithy.api#documentation": "Set the default location."
+      }
+    },
+    "com.s2.locations#Locations": {
+      "type": "service",
+      "version": "1.0.0",
+      "operations": [
+        {
+          "target": "com.s2.locations#ListLocations"
+        },
+        {
+          "target": "com.s2.locations#GetDefaultLocation"
+        },
+        {
+          "target": "com.s2.locations#SetDefaultLocation"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "S2, the durable streams API",
+        "smithy.api#documentation": "Streams as a cloud storage primitive."
+      }
+    }
+  }
+}
