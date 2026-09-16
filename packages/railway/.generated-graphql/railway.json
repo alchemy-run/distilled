@@ -297,21 +297,24 @@
     "ActiveFeatureFlag": {
       "kind": "ENUM",
       "enumValues": [
+        "ACTIVITY_FEED_HISTORY",
+        "AGENT_BOOTSTRAPS",
         "AGENT_BYOK",
         "AGENT_CONNECTORS",
-        "AGENT_USAGE_WARNINGS",
+        "BOT_CLOUD_AGENTS",
         "CHAT_SANDBOX",
         "CLOUD_AGENTS",
         "CLOUD_AGENT_CHAT",
+        "CS_MCP_EXPRESS",
         "DEBUG_SMART_DIAGNOSIS",
         "EMAIL_FORWARDING",
         "IN_DASHBOARD_SUPPORT",
         "MAGIC_CONFIG",
         "MYSQL_PITR",
         "PRIORITY_BOARDING",
-        "PROJECT_FAVORITES",
-        "PROJECT_SANDBOXES",
+        "RAILWAY_AGENT_DASHBOARD",
         "TEMPLATE_CHAT",
+        "TRACING",
         "USAGE_INSIGHTS",
         "VM_STORAGE_TRACES"
       ]
@@ -320,7 +323,6 @@
       "kind": "ENUM",
       "enumValues": [
         "AGENT_USAGE_CH_INGEST",
-        "AGENT_USAGE_WARNINGS",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
@@ -328,6 +330,7 @@
         "CHAT_SANDBOX",
         "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE",
         "CS_MCP",
+        "CS_MCP_EXPRESS",
         "CTRD_IMAGE_STORE_ROLLOUT",
         "DEFAULT_USAGE_ALERTS",
         "DEMO_PERCENTAGE_ROLLOUT",
@@ -340,20 +343,28 @@
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
+        "NUDGES",
+        "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
+        "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
+        "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
-        "PROJECT_FAVORITES",
         "PROJECT_HISTORY_DUAL_WRITE",
         "PROJECT_HISTORY_READ_FROM_CH",
         "REMOVE_DEPLOYMENT_COMPACT",
-        "RESTRICTION_APPEALS",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
+        "SSH_ANON_PROVISIONING",
+        "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
-        "UNIFIED_TOKENS_AUTHORIZATION_SHADOW",
+        "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
         "UPDATED_VM_QUERIES",
+        "USAGE_CH_READS",
+        "VM_COUPON_MIGRATION",
         "VM_USAGE_CH_INGEST",
         "WORKSPACE_MCP_KILLSWITCH"
       ]
@@ -1200,6 +1211,11 @@
           "args": {},
           "errors": []
         },
+        "operationId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
         "stagedPatchId": {
           "type": "String",
           "args": {},
@@ -1345,7 +1361,7 @@
           "type": "String",
           "args": {},
           "errors": [],
-          "description": "WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake, and the observation keeps it. Null only on agents created before the gate existed, or before their first observation lands."
+          "description": "WebSocket endpoint of the in-VM harness gate, for the dashboard chat. Survives sleep: the domain is stable across sleep and wake. Prefers the machine observation; when that carries no gate domain it falls back to the domain network-cp actively serves, so an agent whose observation lagged still offers chat. Null on agents created before the gate existed, or asleep/absent machines."
         },
         "consoleTargetId": {
           "type": "String",
@@ -1362,7 +1378,7 @@
           "type": "String",
           "args": {},
           "errors": [],
-          "description": "The first of the agent machine's public domains. Stable across sleep and wake; returns no endpoints while the machine sleeps."
+          "description": "The agent machine's public HTTP domain (port 8080) — the live preview. Prefers the observation (falling back to the first declared domain when 8080 was never requested); when the observation carries no domains it falls back to the domain network-cp actively serves on 8080, so a preview shows even when the observation lagged. Returns null while the machine sleeps."
         },
         "domains": {
           "type": "[CloudAgentDomain!]!",
@@ -1382,6 +1398,11 @@
         },
         "name": {
           "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "project": {
+          "type": "Project!",
           "args": {},
           "errors": []
         },
@@ -1465,12 +1486,26 @@
       "description": "Capture progress of a cloud agent checkpoint.",
       "enumValues": ["FAILED", "IN_PROGRESS", "SUCCEEDED"]
     },
+    "CloudAgentCodeEndpointInput": {
+      "kind": "INPUT_OBJECT",
+      "description": "Opt-in public code endpoint, provisioned only when creating a cloud agent.",
+      "inputFields": {
+        "port": {
+          "type": "Int",
+          "description": "Target port. Defaults to 4096; must be 1024-65535, excluding 8080 and 8790."
+        }
+      }
+    },
     "CloudAgentCreateInput": {
       "kind": "INPUT_OBJECT",
       "inputFields": {
         "cloudAgentCheckpointId": {
           "type": "String",
           "description": "Create the cloud agent from an existing checkpoint."
+        },
+        "codeEndpoint": {
+          "type": "CloudAgentCodeEndpointInput",
+          "description": "Provision a code-* domain. Omit to disable, including when restoring a checkpoint or bootstrap."
         },
         "environmentId": {
           "type": "String!"
@@ -1514,6 +1549,59 @@
         }
       },
       "interfaces": []
+    },
+    "CloudAgentFeedbackInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "activeTools": {
+          "type": "[String!]!"
+        },
+        "agentVersion": {
+          "type": "String!"
+        },
+        "cloudAgentId": {
+          "type": "String!"
+        },
+        "description": {
+          "type": "String!"
+        },
+        "elapsedMs": {
+          "type": "Float"
+        },
+        "lastProgressAgeMs": {
+          "type": "Float"
+        },
+        "model": {
+          "type": "String!"
+        },
+        "reportId": {
+          "type": "String!"
+        },
+        "reportedAtMs": {
+          "type": "Float!"
+        },
+        "runId": {
+          "type": "String"
+        },
+        "runStartedAtMs": {
+          "type": "Float"
+        },
+        "sessionId": {
+          "type": "String!"
+        },
+        "sessionName": {
+          "type": "String"
+        },
+        "state": {
+          "type": "String!"
+        },
+        "steps": {
+          "type": "Int!"
+        },
+        "tuiVersion": {
+          "type": "String!"
+        }
+      }
     },
     "CloudAgentSnapshot": {
       "kind": "OBJECT",
@@ -1567,6 +1655,12 @@
           "type": "Boolean!",
           "args": {},
           "errors": []
+        },
+        "title": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Generated display title for the session, display-only. Null until generated; fall back to latestPrompt, then prompt."
         },
         "updatedAt": {
           "type": "String!",
@@ -1656,7 +1750,7 @@
         },
         "serviceId": {
           "type": "String",
-          "description": "Resolve the repo from this service's connected source."
+          "description": "Resolve the repo from this service's source."
         }
       }
     },
@@ -3432,6 +3526,11 @@
           "args": {},
           "errors": []
         },
+        "tracing": {
+          "type": "EdgeTracingConfig",
+          "args": {},
+          "errors": []
+        },
         "underAttackModeUntil": {
           "type": "Int",
           "args": {},
@@ -3463,6 +3562,22 @@
         },
         "path": {
           "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "EdgeTracingConfig": {
+      "kind": "OBJECT",
+      "fields": {
+        "enabled": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": []
+        },
+        "sampleRate": {
+          "type": "Float",
           "args": {},
           "errors": []
         }
@@ -5903,6 +6018,16 @@
           "errors": [],
           "description": "Delete a cloud agent."
         },
+        "cloudAgentFeedbackCreate": {
+          "type": "String!",
+          "args": {
+            "input": {
+              "type": "CloudAgentFeedbackInput!"
+            }
+          },
+          "errors": [],
+          "description": "Send lightweight agent feedback to Railway. Returns the report ID after delivery."
+        },
         "cloudAgentFork": {
           "type": "CloudAgent!",
           "args": {
@@ -6146,6 +6271,22 @@
           },
           "errors": [],
           "description": "Updates a deployment trigger."
+        },
+        "devNewLandingTargetClear": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Forget the box `ssh dev.new` lands you in; the next connection creates a new one."
+        },
+        "devNewLandingTargetSet": {
+          "type": "CloudAgent!",
+          "args": {
+            "cloudAgentId": {
+              "type": "ID!"
+            }
+          },
+          "errors": [],
+          "description": "Make this cloud agent the box `ssh dev.new` lands you in. Replaces any previous choice."
         },
         "disablePitrForHaCluster": {
           "type": "TemplateDeployPayload!",
@@ -6810,7 +6951,8 @@
             }
           },
           "errors": ["RailwayNotFound"],
-          "description": "Create or get a private network."
+          "description": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          "deprecated": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead."
         },
         "privateNetworkEndpointCreateOrGet": {
           "type": "PrivateNetworkEndpoint!",
@@ -6820,7 +6962,8 @@
             }
           },
           "errors": ["RailwayNotFound"],
-          "description": "Create or get a private network endpoint."
+          "description": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          "deprecated": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead."
         },
         "privateNetworkEndpointDelete": {
           "type": "Boolean!",
@@ -6830,7 +6973,8 @@
             }
           },
           "errors": ["RailwayNotFound"],
-          "description": "Delete a private network endpoint."
+          "description": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          "deprecated": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead."
         },
         "privateNetworkEndpointRename": {
           "type": "Boolean!",
@@ -6856,7 +7000,8 @@
             }
           },
           "errors": ["RailwayNotFound"],
-          "description": "Delete all private networks for an environment."
+          "description": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead.",
+          "deprecated": "Removed. Private networks and endpoints are managed by the platform; enable private networking on the environment instead."
         },
         "projectClaim": {
           "type": "Project!",
@@ -7289,7 +7434,7 @@
               "type": "String!"
             }
           },
-          "errors": [],
+          "errors": ["RailwaySandboxNotFound"],
           "description": "Capture a running sandbox's current disk into a reusable, named checkpoint. Synchronous: the checkpoint is ready when this returns."
         },
         "sandboxCheckpointDelete": {
@@ -7318,7 +7463,7 @@
               "type": "String!"
             }
           },
-          "errors": [],
+          "errors": ["RailwaySandboxCheckpointNotFound"],
           "description": "Rename a sandbox checkpoint."
         },
         "sandboxCreate": {
@@ -7328,7 +7473,11 @@
               "type": "SandboxCreateInput!"
             }
           },
-          "errors": [],
+          "errors": [
+            "RailwaySandboxNotFound",
+            "RailwaySandboxCheckpointNotFound",
+            "RailwaySandboxValidationError"
+          ],
           "description": "Create a sandbox in an environment."
         },
         "sandboxDestroy": {
@@ -7360,7 +7509,7 @@
               "type": "Int"
             }
           },
-          "errors": [],
+          "errors": ["RailwaySandboxNotFound"],
           "description": "Execute a command inside a running sandbox."
         },
         "sandboxHeartbeat": {
@@ -7417,7 +7566,7 @@
           "args": {
             "environmentId": {
               "type": "String",
-              "description": "[Experimental] Environment ID. If the environment is a forked environment, the service will only be deleted in the specified environment, otherwise it will deleted in all environments that are not forks of other environments"
+              "description": "Environment ID. When set, the service is deleted only in that environment; the service itself is deleted once no instances remain in any environment. When omitted, the service is deleted in every environment that is not a fork of another environment."
             },
             "id": {
               "type": "String!"
@@ -7820,10 +7969,13 @@
           "args": {
             "code": {
               "type": "String!"
+            },
+            "workspaceId": {
+              "type": "String"
             }
           },
           "errors": [],
-          "description": "Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized."
+          "description": "Approve an SSH signup: register the offered SSH key on the authenticated account so the agent is recognized. When the key owns an anonymous trial box, claims that trial into workspaceId and re-owns the key."
         },
         "tcpProxyCreate": {
           "type": "TCPProxy!",
@@ -9801,7 +9953,6 @@
       "kind": "ENUM",
       "enumValues": [
         "AGENT_USAGE_CH_INGEST",
-        "AGENT_USAGE_WARNINGS",
         "ALERT_SUS_USERS_CRON_KILLSWITCH",
         "BUILD_DEPLOY_QUEUE_V2",
         "CAC_T0_KILLSWITCH",
@@ -9809,6 +9960,7 @@
         "CHAT_SANDBOX",
         "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE",
         "CS_MCP",
+        "CS_MCP_EXPRESS",
         "CTRD_IMAGE_STORE_ROLLOUT",
         "DEFAULT_USAGE_ALERTS",
         "DEMO_PERCENTAGE_ROLLOUT",
@@ -9821,20 +9973,28 @@
         "IN_DASHBOARD_SUPPORT",
         "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES",
         "LOGS_LONG_WINDOW_CHUNKING",
+        "NEW_PROJECT_PAGE",
         "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT",
+        "NUDGES",
+        "NUDGE_BACKUP_SCHEDULE_MISSING",
+        "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT",
+        "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE",
+        "NUDGE_UPGRADE_TO_PRO",
         "OAUTH_DCR_KILLSWITCH",
         "PRE_DEPLOY_TIMEOUT_KILLSWITCH",
-        "PROJECT_FAVORITES",
         "PROJECT_HISTORY_DUAL_WRITE",
         "PROJECT_HISTORY_READ_FROM_CH",
         "REMOVE_DEPLOYMENT_COMPACT",
-        "RESTRICTION_APPEALS",
         "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL",
         "SPLIT_USAGE_QUERIES",
+        "SSH_ANON_PROVISIONING",
+        "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION",
         "STRIPE_METERS_NEW_ACCOUNTS",
         "STRIPE_METERS_SHADOW_ENABLED",
-        "UNIFIED_TOKENS_AUTHORIZATION_SHADOW",
+        "STRIPE_WEBHOOK_DISPUTE_CANCELLATION",
         "UPDATED_VM_QUERIES",
+        "USAGE_CH_READS",
+        "VM_COUPON_MIGRATION",
         "VM_USAGE_CH_INGEST",
         "WORKSPACE_MCP_KILLSWITCH"
       ]
@@ -10587,6 +10747,18 @@
           "errors": [],
           "deprecated": "Use workspaceId"
         },
+        "tracingEnabled": {
+          "type": "Boolean!",
+          "args": {},
+          "errors": [],
+          "description": "Whether the project's services are traced by default. A service can override it with its own tracingEnabled."
+        },
+        "tracingSampleRate": {
+          "type": "Float",
+          "args": {},
+          "errors": [],
+          "description": "Fraction of client-facing requests the edge traces, 0..1. Null uses Railway's default."
+        },
         "updatedAt": {
           "type": "DateTime!",
           "args": {},
@@ -10958,6 +11130,11 @@
         },
         "payload": {
           "type": "JSON",
+          "args": {},
+          "errors": []
+        },
+        "serviceIds": {
+          "type": "[String!]!",
           "args": {},
           "errors": []
         },
@@ -11611,6 +11788,14 @@
         },
         "prDeploys": {
           "type": "Boolean"
+        },
+        "tracingEnabled": {
+          "type": "Boolean",
+          "description": "Trace the project's services by default: the edge records a span for each sampled request to their domains, and the next deploy configures each app's OpenTelemetry SDK to export to Railway. A service's own tracingEnabled overrides this."
+        },
+        "tracingSampleRate": {
+          "type": "Float",
+          "description": "Fraction of client-facing requests the edge traces, 0..1, for every traced service in the project. Null resets to Railway's default."
         }
       }
     },
@@ -12265,6 +12450,12 @@
           },
           "errors": [],
           "description": "All deployment triggers."
+        },
+        "devNewLandingTarget": {
+          "type": "CloudAgent",
+          "args": {},
+          "errors": [],
+          "description": "The cloud agent `ssh dev.new` lands you in, or null when the next connection will create one."
         },
         "dnsQueryLogs": {
           "type": "[DnsQueryLog!]!",
@@ -13844,7 +14035,7 @@
             }
           },
           "errors": [],
-          "description": "Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account."
+          "description": "Details for an SSH signup confirm page: the SSH key fingerprint to verify before binding it to the account, and the trial box it owns if any."
         },
         "tcpProxies": {
           "type": "[TCPProxy!]!",
@@ -16011,6 +16202,10 @@
           "type": "String",
           "description": "Region to place the sandbox in (e.g. us-west2, us-east4-eqdc4a). Defaults to the platform default region when omitted."
         },
+        "resources": {
+          "type": "SandboxResourcesInput",
+          "description": "Creation-time CPU and memory, including for forks and checkpoint restores. Each omitted or null field uses the workspace's sandbox default; explicit values must not exceed its independent VM maximum."
+        },
         "sourceSandboxId": {
           "type": "String",
           "description": "Fork an existing running sandbox in this environment. Mutually exclusive with template."
@@ -16097,6 +16292,19 @@
       "kind": "ENUM",
       "description": "Controls a sandbox's access to the environment's private network.",
       "enumValues": ["ISOLATED", "PRIVATE"]
+    },
+    "SandboxResourcesInput": {
+      "kind": "INPUT_OBJECT",
+      "inputFields": {
+        "cpu": {
+          "type": "Float",
+          "description": "Positive vCPU for the new sandbox; fractional values are supported. Omitted or null uses the workspace's sandbox default. Must not exceed its VM maximum."
+        },
+        "memoryGB": {
+          "type": "Float",
+          "description": "Memory in decimal GB (1 GB = 1,000,000,000 bytes), rounded to whole bytes. Must be at least 1 byte and at most the workspace's VM maximum. Omitted or null uses its sandbox default."
+        }
+      }
     },
     "SandboxSession": {
       "kind": "OBJECT",
@@ -16361,6 +16569,12 @@
           "type": "String",
           "args": {},
           "errors": []
+        },
+        "tracingEnabled": {
+          "type": "Boolean",
+          "args": {},
+          "errors": [],
+          "description": "The service's tracing override: true or false pins it, null follows the project's tracingEnabled."
         },
         "updatedAt": {
           "type": "DateTime!",
@@ -17075,6 +17289,10 @@
         },
         "name": {
           "type": "String"
+        },
+        "tracingEnabled": {
+          "type": "Boolean",
+          "description": "Tracing override for the service: true or false pins it, null follows the project default. Takes effect at the edge within seconds and in the app on the next deploy."
         }
       }
     },
@@ -17629,10 +17847,63 @@
         }
       }
     },
+    "SSHSignupClaimableWorkspace": {
+      "kind": "OBJECT",
+      "fields": {
+        "id": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "name": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
     "SSHSignupInfo": {
       "kind": "OBJECT",
       "fields": {
+        "claimableWorkspaces": {
+          "type": "[SSHSignupClaimableWorkspace!]!",
+          "args": {},
+          "errors": []
+        },
         "fingerprint": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "trial": {
+          "type": "SSHSignupTrial",
+          "args": {},
+          "errors": []
+        }
+      },
+      "interfaces": []
+    },
+    "SSHSignupTrial": {
+      "kind": "OBJECT",
+      "description": "The anonymous trial box the offered SSH key currently owns; approving the signup claims it.",
+      "fields": {
+        "buildExpiresAt": {
+          "type": "DateTime",
+          "args": {},
+          "errors": []
+        },
+        "cloudAgentId": {
+          "type": "String",
+          "args": {},
+          "errors": []
+        },
+        "projectId": {
+          "type": "String!",
+          "args": {},
+          "errors": []
+        },
+        "projectName": {
           "type": "String!",
           "args": {},
           "errors": []
@@ -18418,6 +18689,12 @@
           "args": {},
           "errors": []
         },
+        "publishingRestrictionId": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "The active restriction stopping this workspace publishing templates, so a restricted author can be sent to the page that explains it and takes the appeal. Null when publishing is not restricted, and for anyone but the template's owner: the `template` query is public, and whether a workspace is under an abuse restriction is not."
+        },
         "readme": {
           "type": "String",
           "args": {},
@@ -18650,7 +18927,7 @@
         },
         "existingRootServiceId": {
           "type": "String",
-          "description": "Use an existing service as the cluster root instead of creating a new one. Used for HA cluster conversion where an existing postgres becomes the primary."
+          "description": "Use an existing service as the cluster root instead of creating a new one. A live cluster edge is resolved to the root it fronts. Used for HA cluster conversion where an existing postgres becomes the primary."
         },
         "projectId": {
           "type": "String"
@@ -20350,6 +20627,18 @@
     "WorkflowId": {
       "kind": "OBJECT",
       "fields": {
+        "archiveContinuityUnverifiedReason": {
+          "type": "String",
+          "args": {},
+          "errors": [],
+          "description": "Why MySQL archive continuity could not be verified. The restore remains allowed and its image performs the authoritative replay check."
+        },
+        "archiveContinuityVerified": {
+          "type": "Boolean",
+          "args": {},
+          "errors": [],
+          "description": "For MySQL PITR restores, whether archive continuity was verified before the workflow started."
+        },
         "workflowId": {
           "type": "String",
           "args": {},
@@ -21273,6 +21562,83 @@
       "matchers": [
         {
           "message": "Problem processing request"
+        }
+      ]
+    },
+    "RailwaySandboxNotFound": {
+      "description": "The sandbox to execute in, checkpoint, or fork does not exist. Observed exact message: Sandbox not found.",
+      "category": "notFound",
+      "retryable": false,
+      "matchers": [
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Sandbox not found"
+        }
+      ]
+    },
+    "RailwaySandboxCheckpointNotFound": {
+      "description": "The named checkpoint to rename or boot does not exist. Both exact messages were observed live.",
+      "category": "notFound",
+      "retryable": false,
+      "matchers": [
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Sandbox checkpoint not found"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Sandbox checkpoint not found. Build or capture it before creating a sandbox from it."
+        }
+      ]
+    },
+    "RailwaySandboxValidationError": {
+      "description": "Invalid sandbox creation options. Live CPU and memory errors ended in 'at most 24 vCPU' and 'at most 24 GB'; the idle timeout range was 1 to 120 minutes. Match stable prefixes for workspace-dependent limits. The source-conflict message mentions checkpointName, but introspection exposes checkpoint restore only through template.name.",
+      "category": "badRequest",
+      "retryable": false,
+      "matchers": [
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Provide at most one of checkpointName, template, or sourceSandboxId"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Provide either template.name or template.instructions, not both"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "messageIncludes": "cpu must be greater than 0 and at most "
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "messageIncludes": "memoryGB must be at least 0.000000001 GB (1 byte) and at most "
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "messageIncludes": "idleTimeoutMinutes must be between 1 and "
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "Public domains require PRIVATE network isolation"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "publicDomains ports must be between 1 and 65535"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "publicDomains ports must be unique"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "publicDomains prefixes must be unique"
+        },
+        {
+          "code": "INTERNAL_SERVER_ERROR",
+          "message": "publicDomains supports at most 10 domains"
         }
       ]
     }
