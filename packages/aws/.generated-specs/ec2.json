@@ -113571,6 +113571,9 @@
           "target": "aws.patched#RequestLimitExceeded"
         },
         {
+          "target": "aws.patched#InvalidParameterValue"
+        },
+        {
           "target": "aws.patched#MissingParameter"
         },
         {

@@ -1802,6 +1802,7 @@
     "modifySecurityGroupRules": {
       "errors": [
         "RequestLimitExceeded",
+        "InvalidParameterValue",
         "MissingParameter",
         "UnauthorizedOperation"
       ]
