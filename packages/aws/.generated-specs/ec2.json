@@ -131863,6 +131863,9 @@
           "target": "aws.patched#RequestLimitExceeded"
         },
         {
+          "target": "aws.patched#InvalidSecurityGroupRuleIdNotFound"
+        },
+        {
           "target": "aws.patched#InvalidGroupNotFound"
         },
         {
@@ -132026,6 +132029,9 @@
       "errors": [
         {
           "target": "aws.patched#RequestLimitExceeded"
+        },
+        {
+          "target": "aws.patched#InvalidSecurityGroupRuleIdNotFound"
         },
         {
           "target": "aws.patched#InvalidGroupNotFound"
@@ -154937,6 +154943,13 @@
         "aws.codegen#errorTag": "InvalidPermission.Duplicate"
       }
     },
+    "aws.patched#InvalidSecurityGroupRuleIdNotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "aws.codegen#errorTag": "InvalidSecurityGroupRuleId.NotFound"
+      }
+    },
     "aws.patched#InvalidPermissionNotFound": {
       "type": "structure",
       "members": {},
@@ -155182,13 +155195,6 @@
       "members": {},
       "traits": {
         "aws.codegen#errorTag": "InvalidEgressOnlyInternetGatewayId.Malformed"
-      }
-    },
-    "aws.patched#InvalidSecurityGroupRuleIdNotFound": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "aws.codegen#errorTag": "InvalidSecurityGroupRuleId.NotFound"
       }
     },
     "aws.patched#InvalidSnapshotNotFound": {

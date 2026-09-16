@@ -346,6 +346,7 @@
     "revokeSecurityGroupIngress": {
       "errors": [
         "RequestLimitExceeded",
+        "InvalidSecurityGroupRuleId.NotFound",
         "InvalidGroup.NotFound",
         "InvalidGroupId.Malformed",
         "InvalidPermission.NotFound",
@@ -548,6 +549,7 @@
     "revokeSecurityGroupEgress": {
       "errors": [
         "RequestLimitExceeded",
+        "InvalidSecurityGroupRuleId.NotFound",
         "InvalidGroup.NotFound",
         "InvalidGroupId.Malformed",
         "InvalidParameterValue",

@@ -102086,6 +102086,7 @@ export const revokeClientVpnIngress: API.OperationMethod<
 
 export type RevokeSecurityGroupEgressError =
   | RequestLimitExceeded
+  | InvalidSecurityGroupRuleIdNotFound
   | InvalidGroupNotFound
   | InvalidGroupIdMalformed
   | InvalidParameterValue
@@ -102125,6 +102126,7 @@ export const revokeSecurityGroupEgress: API.OperationMethod<
   output: RevokeSecurityGroupEgressResult,
   errors: [
     RequestLimitExceeded,
+    InvalidSecurityGroupRuleIdNotFound,
     InvalidGroupNotFound,
     InvalidGroupIdMalformed,
     InvalidParameterValue,
@@ -102142,6 +102144,7 @@ export const revokeSecurityGroupEgress: API.OperationMethod<
 
 export type RevokeSecurityGroupIngressError =
   | RequestLimitExceeded
+  | InvalidSecurityGroupRuleIdNotFound
   | InvalidGroupNotFound
   | InvalidGroupIdMalformed
   | InvalidPermissionNotFound
@@ -102183,6 +102186,7 @@ export const revokeSecurityGroupIngress: API.OperationMethod<
   output: RevokeSecurityGroupIngressResult,
   errors: [
     RequestLimitExceeded,
+    InvalidSecurityGroupRuleIdNotFound,
     InvalidGroupNotFound,
     InvalidGroupIdMalformed,
     InvalidPermissionNotFound,
