@@ -972,6 +972,15 @@ export class McpPortalNotFound
     [{ status: 404 }],
   ) {}
 
+export class McpServerNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<McpServerNotFound>()("McpServerNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 404 }],
+  ) {}
+
 export class OrganizationAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<OrganizationAlreadyExists>()(
@@ -231724,7 +231733,7 @@ export const createAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type CreateAccessAiControlMcpServerError = CloudflareOpError;
+export type CreateAccessAiControlMcpServerError = Forbidden | CloudflareOpError;
 /** Creates a new MCP server for connecting to an upstream MCP endpoint. */
 export const createAccessAiControlMcpServer: API.OperationMethod<
   CreateAccessAiControlMcpServerRequest,
@@ -231734,7 +231743,7 @@ export const createAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAccessAiControlMcpServerRequest,
   output: CreateAccessAiControlMcpServerResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -233023,7 +233032,10 @@ export const deleteAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteAccessAiControlMcpServerError = CloudflareOpError;
+export type DeleteAccessAiControlMcpServerError =
+  | McpServerNotFound
+  | Forbidden
+  | CloudflareOpError;
 /** Deletes an MCP server from the account. */
 export const deleteAccessAiControlMcpServer: API.OperationMethod<
   DeleteAccessAiControlMcpServerRequest,
@@ -233033,7 +233045,12 @@ export const deleteAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAccessAiControlMcpServerRequest,
   output: DeleteAccessAiControlMcpServerResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    McpServerNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -236316,7 +236333,7 @@ export const listAccessAiControlMcpPortals: API.PaginatedOperationMethod<
   cloudflarePaginate,
 ) as any;
 
-export type ListAccessAiControlMcpServersError = CloudflareOpError;
+export type ListAccessAiControlMcpServersError = Forbidden | CloudflareOpError;
 /** Lists all MCP servers configured for the account. */
 export const listAccessAiControlMcpServers: API.PaginatedOperationMethod<
   ListAccessAiControlMcpServersRequest,
@@ -236328,7 +236345,7 @@ export const listAccessAiControlMcpServers: API.PaginatedOperationMethod<
   () => ({
     input: ListAccessAiControlMcpServersRequest,
     output: ListAccessAiControlMcpServersResponse,
-    errors: [CloudflareRateLimited, CloudflareError],
+    errors: [Forbidden, CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
     pagination: {
@@ -239362,7 +239379,10 @@ export const readAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ReadAccessAiControlMcpServerError = CloudflareOpError;
+export type ReadAccessAiControlMcpServerError =
+  | McpServerNotFound
+  | Forbidden
+  | CloudflareOpError;
 /** Retrieves an MCP server's configuration and capability sync state. */
 export const readAccessAiControlMcpServer: API.OperationMethod<
   ReadAccessAiControlMcpServerRequest,
@@ -239372,7 +239392,12 @@ export const readAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReadAccessAiControlMcpServerRequest,
   output: ReadAccessAiControlMcpServerResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    McpServerNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -239587,7 +239612,10 @@ export const rotateSeedGatewayAuditSshSetting: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type SyncAccessAiControlMcpServerError = CloudflareOpError;
+export type SyncAccessAiControlMcpServerError =
+  | McpServerNotFound
+  | Forbidden
+  | CloudflareOpError;
 /** Syncs an MCP server's capabilities and returns the updated server state, including any connection errors. */
 export const syncAccessAiControlMcpServer: API.OperationMethod<
   SyncAccessAiControlMcpServerRequest,
@@ -239597,7 +239625,12 @@ export const syncAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SyncAccessAiControlMcpServerRequest,
   output: SyncAccessAiControlMcpServerResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    McpServerNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -239687,7 +239720,10 @@ export const updateAccessAiControlMcpPortal: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateAccessAiControlMcpServerError = CloudflareOpError;
+export type UpdateAccessAiControlMcpServerError =
+  | McpServerNotFound
+  | Forbidden
+  | CloudflareOpError;
 /** Updates an MCP server's configuration and credentials. */
 export const updateAccessAiControlMcpServer: API.OperationMethod<
   UpdateAccessAiControlMcpServerRequest,
@@ -239697,7 +239733,12 @@ export const updateAccessAiControlMcpServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAccessAiControlMcpServerRequest,
   output: UpdateAccessAiControlMcpServerResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    McpServerNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

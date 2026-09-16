@@ -119701,6 +119701,25 @@
         ]
       }
     },
+    "com.cloudflare.zero_trust#McpServerNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
     "com.cloudflare.zero_trust#OrganizationAlreadyExists": {
       "type": "structure",
       "members": {
@@ -120544,7 +120563,12 @@
           "code": 200
         },
         "smithy.api#documentation": "Creates a new MCP server for connecting to an upstream MCP endpoint."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#CreateAccessAiControlMcpServerRequest": {
       "type": "structure",
@@ -128523,7 +128547,15 @@
         },
         "smithy.api#documentation": "Deletes an MCP server from the account.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#DeleteAccessAiControlMcpServerRequest": {
       "type": "structure",
@@ -142195,7 +142227,12 @@
           "items": "result",
           "pageSize": "perPage"
         }
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#ListAccessAiControlMcpServersRequest": {
       "type": "structure",
@@ -154138,7 +154175,15 @@
         },
         "smithy.api#documentation": "Retrieves an MCP server's configuration and capability sync state.",
         "smithy.api#readonly": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#ReadAccessAiControlMcpServerRequest": {
       "type": "structure",
@@ -155214,7 +155259,15 @@
           "code": 200
         },
         "smithy.api#documentation": "Syncs an MCP server's capabilities and returns the updated server state, including any connection errors."
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#SyncAccessAiControlMcpServerRequest": {
       "type": "structure",
@@ -155494,7 +155547,15 @@
         },
         "smithy.api#documentation": "Updates an MCP server's configuration and credentials.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.zero_trust#McpServerNotFound"
+        },
+        {
+          "target": "com.cloudflare.zero_trust#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.zero_trust#UpdateAccessAiControlMcpServerRequest": {
       "type": "structure",
