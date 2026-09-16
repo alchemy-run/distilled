@@ -1219,6 +1219,8 @@ pre.code code {
 }
 .loop__edge--patch {
   stroke: var(--rose);
+}
+.loop__edge--dashes {
   stroke-dasharray: 14 9;
 }
 .loop__tip--sub {
@@ -1413,7 +1415,11 @@ pre.code code {
   [data-reveal].is-in .node {
     opacity: 1;
   }
-  [data-reveal] .loop__edge {
+  /* pathLength=100 on every edge. A dash of 100 with offset +100 is fully
+     hidden; sliding the offset to 0 reveals it from the path's END. Using a
+     negative start offset instead reveals from the path's START, which is
+     where each edge is authored to begin. */
+  [data-reveal] .loop__edge:not(.loop__edge--dashes) {
     stroke-dasharray: 100;
     stroke-dashoffset: 100;
   }
@@ -1423,17 +1429,23 @@ pre.code code {
   [data-reveal].is-in .loop__edge--sub {
     animation: loop-draw 600ms ease-out 450ms forwards;
   }
-  [data-reveal].is-in .loop__edge--patch {
-    animation: loop-draw-dashed 900ms ease-out 900ms forwards;
+  [data-reveal].is-in .loop__edge--draw {
+    animation: loop-draw 900ms ease-out 900ms forwards;
   }
-  [data-reveal] .loop__drop,
-  [data-reveal] .loop__leg {
+  /* The dashed twin fades in over the solid arc once it has drawn, then the
+     solid arc fades out — the dashes never pop. */
+  [data-reveal] .loop__edge--dashes {
     opacity: 0;
-    transition: opacity 400ms ease 1600ms;
+    transition: opacity 350ms ease 1750ms;
   }
-  [data-reveal].is-in .loop__drop,
-  [data-reveal].is-in .loop__leg {
+  [data-reveal].is-in .loop__edge--dashes {
     opacity: 1;
+  }
+  [data-reveal] .loop__edge--draw {
+    transition: opacity 350ms ease 1900ms;
+  }
+  [data-reveal].is-in .loop__edge--draw {
+    opacity: 0;
   }
   /* Marker tips can't be dash-drawn; fade each in as its edge finishes. */
   [data-reveal] .loop__tip {
@@ -1461,16 +1473,6 @@ pre.code code {
 @keyframes loop-draw {
   to {
     stroke-dashoffset: 0;
-  }
-}
-@keyframes loop-draw-dashed {
-  from {
-    stroke-dashoffset: 100;
-    stroke-dasharray: 100;
-  }
-  to {
-    stroke-dashoffset: 0;
-    stroke-dasharray: 14 9;
   }
 }
 
