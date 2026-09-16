@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * convert — the Prisma Postgres Management API OpenAPI 3.1 spec → a Smithy
+ * convert — the Prisma Management API OpenAPI 3.1 spec → a Smithy
  * JSON model in .generated-specs/.
  *
  * The OpenAPI→Smithy compiler and pipeline live in
@@ -27,7 +27,7 @@ await runOpenApiConvert({
     },
   ],
   options: {
-    namespace: "com.prisma.postgres",
-    serviceName: "PrismaPostgres",
+    namespace: "com.prisma",
+    serviceName: "Prisma",
   },
 });

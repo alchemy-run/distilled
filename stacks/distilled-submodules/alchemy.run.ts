@@ -6,7 +6,7 @@ import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Path from "effect/Path";
 import { makeSyncScaffold, scaffoldDigest } from "./Scaffold.ts";
-import { repositoryName, SPEC_REPOS } from "./SpecRepos.ts";
+import { mirrorId, repositoryName, SPEC_REPOS } from "./SpecRepos.ts";
 import { loadScaffolds } from "./SpecRepos.ts";
 
 /**
@@ -106,9 +106,10 @@ export default Alchemy.Stack(
       SPEC_REPOS.map((specRepo) =>
         Effect.gen(function* () {
           const pkg = specRepo.package;
+          const id = mirrorId(specRepo);
           const name = repositoryName(specRepo);
 
-          const repository = yield* GitHub.Repository(pkg, {
+          const repository = yield* GitHub.Repository(id, {
             owner,
             name,
             description:
@@ -138,7 +139,7 @@ export default Alchemy.Stack(
             // references. Hand it `owner`/`name` literals and the Action has
             // no upstream, so it runs alongside the repository it means to
             // commit into and 404s on a from-scratch deploy.
-            yield* SyncScaffold(`scaffold-${pkg}`, {
+            yield* SyncScaffold(`scaffold-${id}`, {
               fullName: repository.fullName,
               branch: repository.defaultBranch,
               paths: Object.keys(files).sort(),

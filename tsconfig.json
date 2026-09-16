@@ -119,10 +119,10 @@
       "path": "./packages/posthog/tsconfig.scripts.json"
     },
     {
-      "path": "./packages/prisma-postgres/tsconfig.json"
+      "path": "./packages/prisma/tsconfig.json"
     },
     {
-      "path": "./packages/prisma-postgres/tsconfig.scripts.json"
+      "path": "./packages/prisma/tsconfig.scripts.json"
     },
     {
       "path": "./packages/railway/tsconfig.json"

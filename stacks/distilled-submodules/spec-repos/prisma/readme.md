@@ -1,6 +1,6 @@
 # spec-mirror-prisma-postgres
 
-A git mirror of the Prisma Postgres [Management API spec](https://api.prisma.io/v1/doc). The spec is fetched and committed as a JSON file so the repo serves as a versioned snapshot.
+A git mirror of the Prisma [Management API spec](https://api.prisma.io/v1/doc), used by `@distilled.cloud/prisma`. The spec is fetched and committed as a JSON file so the repo serves as a versioned snapshot. The repository retains its historical name to preserve existing pins and history.
 
 The mirror is updated every 24 hours and is designed to be used as a stable git submodule.
 

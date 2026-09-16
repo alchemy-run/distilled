@@ -1,7 +1,7 @@
 /**
- * Prisma Postgres credentials — hand-written.
+ * Prisma credentials — hand-written.
  *
- * API-compatible port of the distilled repo's prisma-postgres credentials
+ * API-compatible port of the distilled repo's prisma credentials
  * module: the `Credentials` service holds an *effect* that resolves the
  * current credentials on every request. Auth is a single bearer token
  * (`Authorization: Bearer <apiToken>`) against `https://api.prisma.io`.
@@ -23,7 +23,7 @@ export interface Config {
 export class Credentials extends Context.Service<
   Credentials,
   Effect.Effect<Config, ConfigError, never>
->()("PrismaPostgresCredentials") {}
+>()("PrismaCredentials") {}
 
 /** Layer from a plain token + optional base URL. */
 export const fromApiToken = (config: {
@@ -39,13 +39,15 @@ export const fromApiToken = (config: {
   );
 
 const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.String("PRISMA_POSTGRES_API_TOKEN"),
+  apiToken: EffectConfig.String("PRISMA_API_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.String("PRISMA_POSTGRES_API_TOKEN")),
+  ),
 });
 
 /**
- * Layer resolving credentials from the environment: `PRISMA_POSTGRES_API_TOKEN`
- * (required). The base URL is fixed to {@link DEFAULT_API_BASE_URL}, matching
- * the distilled v0 SDK.
+ * Layer resolving credentials from `PRISMA_API_TOKEN`, with
+ * `PRISMA_POSTGRES_API_TOKEN` as a backwards-compatible fallback.
+ * The base URL is fixed to {@link DEFAULT_API_BASE_URL}.
  */
 export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
   Credentials,
@@ -53,7 +55,8 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     Effect.mapError(
       () =>
         new ConfigError({
-          message: "PRISMA_POSTGRES_API_TOKEN environment variable is required",
+          message:
+            "PRISMA_API_TOKEN (or PRISMA_POSTGRES_API_TOKEN) environment variable is required",
         }),
     ),
     Effect.map(({ apiToken }) => ({

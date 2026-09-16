@@ -6,7 +6,7 @@
  * Output: src/services/management.ts  +  services/index.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
- * `@distilled.cloud/core/codegen`; this script is Prisma Postgres's provider
+ * `@distilled.cloud/core/codegen`; this script is Prisma's provider
  * spec. The Management API is plain bearer-REST: camelCase wire names
  * (identity member naming), no response envelope, typed per-op error classes
  * matched by HTTP status (v0's includeOperationErrors: true), sensitive
@@ -23,7 +23,7 @@ const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
-/** Prisma Postgres's provider spec for the shared smithy→SDK compiler. */
+/** Prisma's provider spec for the shared smithy→SDK compiler. */
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
@@ -58,7 +58,7 @@ const spec: SdkSpec = {
       : code,
 
   sourceNote:
-    ".generated-specs (converted from specs/distilled-spec-prisma-postgres)",
+    ".generated-specs (converted from specs/spec-mirror-prisma-postgres)",
 
   // Structural unions (the spec's oneOf database-source variants): a plain
   // TS union + `S.Union([...])` over the named case shapes — Prisma returns
@@ -89,16 +89,16 @@ const spec: SdkSpec = {
   // port mirrors that.
 
   operationDecl: {
-    contextType: "PrismaPostgresOpContext",
-    commonErrorType: "PrismaPostgresOpError",
-    commonErrorClasses: ["UnknownPrismaPostgresError"],
-    protocol: "PrismaPostgresProtocol",
+    contextType: "PrismaOpContext",
+    commonErrorType: "PrismaOpError",
+    commonErrorClasses: ["UnknownPrismaError"],
+    protocol: "PrismaProtocol",
     retry: "Retry.Retry",
   },
 };
 
 runGeneratorCli({
-  description: "Generate the Prisma Postgres Effect SDK from the Smithy model",
+  description: "Generate the Prisma Effect SDK from the Smithy model",
   root: `${import.meta.dir}/..`,
   // The RFC-6902 patch chain applies to the OpenAPI document in
   // scripts/convert.ts, not to the Smithy model.

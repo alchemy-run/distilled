@@ -1,10 +1,10 @@
 {
-  "name": "@distilled.cloud/prisma-postgres",
+  "name": "@distilled.cloud/prisma",
   "version": "1.0.0-rc.10",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
-    "directory": "packages/prisma-postgres"
+    "directory": "packages/prisma"
   },
   "license": "Apache-2.0",
   "type": "module",
@@ -66,6 +66,7 @@
   },
   "scripts": {
     "build": "tsc -b",
+    "test": "bun test test",
     "convert": "bun scripts/convert.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",

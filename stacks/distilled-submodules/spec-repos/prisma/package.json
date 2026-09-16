@@ -1,5 +1,5 @@
 {
-  "name": "prisma-postgres-spec",
+  "name": "prisma-spec",
   "private": true,
   "type": "module",
   "scripts": {

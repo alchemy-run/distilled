@@ -4,7 +4,7 @@ import * as Path from "effect/Path";
 import type { ScaffoldFiles } from "./Scaffold.ts";
 
 /**
- * The spec mirrors: one `distilled-mirror/spec-mirror-<package>` repository
+ * The spec mirrors: one `distilled-mirror/spec-mirror-<mirrorId>` repository
  * per `packages/*` directory that consumes an API spec.
  *
  * Each mirror holds the spec files the package's generator reads and the
@@ -25,6 +25,8 @@ import type { ScaffoldFiles } from "./Scaffold.ts";
 export interface SpecRepo {
   /** Directory under `packages/` this mirror feeds. */
   readonly package: string;
+  /** Stable mirror identity when the package directory is renamed. Defaults to package. */
+  readonly mirror?: string;
   /**
    * Why this mirror has no fetch machinery yet. A blocked mirror still gets
    * its repository — so its settings and state stay converged — but no
@@ -33,9 +35,13 @@ export interface SpecRepo {
   readonly blocked?: string;
 }
 
+/** Stable identity for repository and scaffold logical IDs. */
+export const mirrorId = (specRepo: SpecRepo) =>
+  specRepo.mirror ?? specRepo.package;
+
 /** Repository name for a mirror. */
 export const repositoryName = (specRepo: SpecRepo) =>
-  `spec-mirror-${specRepo.package}`;
+  `spec-mirror-${mirrorId(specRepo)}`;
 
 export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "adyen" },
@@ -92,7 +98,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "polar" },
   { package: "porkbun" },
   { package: "posthog" },
-  { package: "prisma-postgres" },
+  { package: "prisma", mirror: "prisma-postgres" },
   { package: "railway" },
   { package: "redis-cloud" },
   { package: "remote" },

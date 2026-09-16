@@ -1,9 +1,9 @@
 /**
- * Prisma Postgres SDK trait surface — hand-written.
+ * Prisma SDK trait surface — hand-written.
  *
  * Re-exports the generic protocol traits from core so generated operations
  * import everything from one place (`import * as T from "../traits.ts"`).
- * The Prisma Postgres API is plain bearer-REST with no response envelope, so
+ * The Prisma API is plain bearer-REST with no response envelope, so
  * there are no provider-specific traits — only the shared REST vocabulary:
  * `SensitiveValue` (from `smithy.api#sensitive` — connection strings etc.
  * arrive `Redacted`) and `RawResponse`/`RawResponseRoot` (bare array/scalar

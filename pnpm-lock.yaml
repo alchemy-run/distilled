@@ -1244,7 +1244,7 @@ importers:
         specifier: 'catalog:'
         version: 26.2.0
 
-  packages/prisma-postgres:
+  packages/prisma:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

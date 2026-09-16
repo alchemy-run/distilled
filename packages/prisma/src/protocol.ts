@@ -1,7 +1,7 @@
 /**
- * PrismaPostgresProtocol — hand-written.
+ * PrismaProtocol — hand-written.
  *
- * The Prisma Postgres Management API (api.prisma.io) is a plain bearer-auth
+ * The Prisma Management API (api.prisma.io) is a plain bearer-auth
  * JSON REST API with no response envelope, so this is a thin
  * `makeRestProtocol` instantiation (see `@distilled.cloud/core/protocol-rest`
  * for the shared request/response machinery). What is Prisma's own:
@@ -14,7 +14,7 @@
  *             — matched per-op typed errors first, then the core HTTP status
  *             map (message only, mirroring distilled v0: the envelope's
  *             string `code` is swallowed for status-mapped classes), with
- *             {@link UnknownPrismaPostgresError} carrying code/message/hint/
+ *             {@link UnknownPrismaError} carrying code/message/hint/
  *             body as the fallback.
  */
 import * as Effect from "effect/Effect";
@@ -29,21 +29,21 @@ import {
 } from "@distilled.cloud/core/protocol-rest";
 import type { ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
-import { type DefaultErrors, UnknownPrismaPostgresError } from "./errors.ts";
+import { type DefaultErrors, UnknownPrismaError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Prisma Postgres operation.
+ * Error channel shared by every generated Prisma operation.
  * Generated service files annotate operations with `API.OperationMethod<I, O,
- * PrismaPostgresOpError, PrismaPostgresOpContext>` explicitly so the compiler
+ * PrismaOpError, PrismaOpContext>` explicitly so the compiler
  * never infers these back out of the schema generics.
  */
-export type PrismaPostgresOpError =
+export type PrismaOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError;
 
-/** Context (requirements) shared by every generated Prisma Postgres operation. */
-export type PrismaPostgresOpContext = Credentials | HttpClient.HttpClient;
+/** Context (requirements) shared by every generated Prisma operation. */
+export type PrismaOpContext = Credentials | HttpClient.HttpClient;
 
 /** The `{ error: { code, message, hint? } }` envelope, read leniently. */
 const envelopeOf = (
@@ -65,12 +65,12 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return env && { code: env.code, message: env.message };
 };
 
-export const PrismaPostgresProtocol: Layer.Layer<API.Protocol> =
+export const PrismaProtocol: Layer.Layer<API.Protocol> =
   makeRestProtocol<Config>({
     // Resolved per request on the calling fiber — the Credentials service
     // holds an effect, so rotated tokens are picked up. Its ConfigError
     // channel is erased at this boundary (Protocol effects carry none) and
-    // reintroduced for callers by `PrismaPostgresOpError`.
+    // reintroduced for callers by `PrismaOpError`.
     credentials: Effect.gen(function* () {
       const resolve = yield* Credentials;
       return yield* resolve;
@@ -82,7 +82,7 @@ export const PrismaPostgresProtocol: Layer.Layer<API.Protocol> =
     errorEnvelope,
     unknownError: (info) => {
       const env = envelopeOf(info.body);
-      return new UnknownPrismaPostgresError({
+      return new UnknownPrismaError({
         code: env?.code,
         message: env?.message ?? info.message,
         hint: env?.hint,
