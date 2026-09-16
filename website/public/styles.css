@@ -1495,7 +1495,7 @@ pre.code code {
 /* ───────────── Capabilities ───────────── */
 
 .why {
-  padding: clamp(3rem, 7vw, 5.5rem) 0 0;
+  padding: clamp(3rem, 7vw, 5.5rem) 0;
 }
 
 .caps {
