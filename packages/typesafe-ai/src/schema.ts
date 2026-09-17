@@ -87,13 +87,46 @@ export const instructionsId: unique symbol = Symbol.for(
 
 export type QuestionType = "noul" | "choice" | "score";
 
+declare const questionKind: unique symbol;
+
 /**
- * The schema a question builder returns. Decoding an answer is pure, so
- * the services are pinned to `never` — `Schema.Schema<T>` would inherit
- * `unknown` from `Schema.Top` and poison the requirement channel of every
- * {@link query} built from it.
+ * The schema a question builder returns, carrying the KIND of question
+ * it compiles to. The kind is phantom — nothing reads it at runtime —
+ * and it is what lets {@link query} hand back an answer already
+ * narrowed to `choice`, `noul` or `score`, rather than the wire union
+ * every caller would otherwise have to re-discriminate by hand.
+ *
+ * Decoding an answer is pure, so the services are pinned to `never`:
+ * `Schema.Schema<T>` would inherit `unknown` from `Schema.Top` and
+ * poison the requirement channel of every query built from it.
  */
-export interface QuestionSchema<T> extends Schema.Codec<T, T, never, never> {}
+export interface QuestionSchema<
+  T,
+  K extends QuestionType = QuestionType,
+> extends Schema.Codec<T, T, never, never> {
+  readonly [questionKind]?: K;
+}
+
+/** The answer a question of kind `K` produces. */
+export type AnswerOf<S> =
+  S extends QuestionSchema<any, infer K>
+    ? K extends "choice"
+      ? ChoiceAnswer
+      : K extends "noul"
+        ? NoulAnswer
+        : K extends "score"
+          ? ScoreAnswer
+          : Answer
+    : Answer;
+
+/**
+ * The calibrated answers of one judgment, each narrowed to its own
+ * question's kind — `confidence` and `probabilities` on a choice,
+ * `noul` on a noul, `score` on a score, all reachable directly.
+ */
+export type Answers<Q extends QuestionFields> = {
+  readonly [K in keyof Q]: AnswerOf<Q[K]> | undefined;
+};
 
 const annotation = (ast: AST.AST, key: PropertyKey): unknown => {
   const direct = ast.annotations?.[key as keyof typeof ast.annotations];
@@ -342,7 +375,7 @@ export const Score = <
 >(
   instructions: Description,
   levels: Levels,
-): QuestionSchema<number> =>
+): QuestionSchema<number, "score"> =>
   Schema.Number.annotate({
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "score",
@@ -363,7 +396,7 @@ export const Noul = (
       readonly false?: Description;
     };
   },
-): QuestionSchema<boolean> =>
+): QuestionSchema<boolean, "noul"> =>
   Schema.Boolean.annotate({
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "noul",
@@ -384,7 +417,7 @@ export const Noul = (
 export const Choice = <const C extends Record<string, Description>>(
   instructions: Description,
   criteria: C,
-): QuestionSchema<keyof C & string> => {
+): QuestionSchema<keyof C & string, "choice"> => {
   const keys = Object.keys(criteria);
   if (keys.length === 0) {
     throw new TypesafeAiParseError({
@@ -396,7 +429,7 @@ export const Choice = <const C extends Record<string, Description>>(
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "choice",
     [criteriaId]: criteria,
-  }) as QuestionSchema<keyof C & string>;
+  }) as QuestionSchema<keyof C & string, "choice">;
 };
 
 const tryCompile = <A>(run: () => A): Effect.Effect<A, TypesafeAiParseError> =>
@@ -452,7 +485,21 @@ export interface QueryOptions {
   readonly model?: string;
 }
 
-export type QueryResult<A> = SystemOneResponse & { readonly value: A };
+/**
+ * One judgment: the raw response, `value` decoded into the questions'
+ * types, and `answers` — narrowed per question when the questions were
+ * built with {@link Choice} / {@link Noul} / {@link Score}, the wire
+ * union when they came from a hand-written `Schema.Struct` whose kinds
+ * are only known at runtime.
+ */
+export type QueryResult<
+  A,
+  Ans extends SystemOneResponseAnswersMap | object =
+    SystemOneResponseAnswersMap,
+> = Omit<SystemOneResponse, "answers"> & {
+  readonly value: A;
+  readonly answers: Ans;
+};
 
 /** A judgment as a plain record: field name → question schema. */
 export type QuestionFields = Record<string, Schema.Top>;
@@ -490,7 +537,7 @@ export function query<const Q extends QuestionFields>(
   questions: Q,
   options: QueryOptions,
 ): Effect.Effect<
-  QueryResult<{ readonly [K in keyof Q]: Q[K]["Type"] }>,
+  QueryResult<{ readonly [K in keyof Q]: Q[K]["Type"] }, Answers<Q>>,
   SystemOneError | TypesafeAiParseError,
   TypesafeAiOpContext | Q[keyof Q]["DecodingServices"]
 >;
