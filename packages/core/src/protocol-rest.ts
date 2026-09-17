@@ -83,6 +83,13 @@ export const rawResponseRootSymbol = Symbol.for(
 export const RawResponseRoot = () =>
   makeAnnotation(rawResponseRootSymbol, true);
 
+export const binaryResponseSymbol = Symbol.for(
+  "@distilled.cloud/core/binary-response",
+);
+
+/** Decode a successful raw binary response as bytes, without text conversion. */
+export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
+
 // =============================================================================
 // Value helpers
 // =============================================================================
@@ -301,12 +308,18 @@ export const makeRestProtocol = <C>(
     readonly errors: ReadonlyArray<unknown>;
   }) =>
     Effect.gen(function* () {
+      if (
+        response.status >= 200 &&
+        response.status < 300 &&
+        getAnn(outputAst, binaryResponseSymbol) !== undefined
+      ) {
+        const bytes = yield* response.arrayBuffer as Effect.Effect<ArrayBuffer>;
+        return new Uint8Array(bytes);
+      }
       // Read as text and parse tolerantly — error pages are often non-JSON.
       const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
       if (process.env.DISTILLED_DEBUG_HTTP) {
-        console.error(
-          `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
-        );
+        console.error(`[distilled] <- ${response.status}`);
       }
       let json: unknown;
       let nonJson = false;

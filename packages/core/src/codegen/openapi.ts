@@ -23,7 +23,7 @@
  *     across operations; anonymous nested objects synthesize names from the
  *     parent + member path
  *   • responses: 200 → 201 → 204 precedence (`successStatuses` overrides),
- *     `application/json` only; object
+ *     JSON or binary `application/octet-stream`; object
  *     results become `<Op>Response` structures (a sole `$ref` reuses the named
  *     shape); bare array/scalar results wrap in a structure whose single
  *     member carries `com.distilled.openapi#rawResponse` (the SdkSpec maps it
@@ -226,6 +226,7 @@ export interface SmithyModel {
 const PRELUDE = {
   Unit: "smithy.api#Unit",
   String: "smithy.api#String",
+  Blob: "smithy.api#Blob",
   Boolean: "smithy.api#Boolean",
   Double: "smithy.api#Double",
   Integer: "smithy.api#Integer",
@@ -913,7 +914,10 @@ const convertSchema = (
   // --- scalars --------------------------------------------------------------
   switch (t) {
     case "string":
-      return inline(PRELUDE.String, nullable);
+      return inline(
+        def.format === "binary" ? PRELUDE.Blob : PRELUDE.String,
+        nullable,
+      );
     case "boolean":
       return inline(PRELUDE.Boolean, nullable);
     case "integer":
@@ -1104,7 +1108,7 @@ const opDoc = (op: any): string | undefined => {
 // Responses
 // ============================================================================
 
-/** First declared status in `order` wins; response-level `$ref` resolved; JSON only. */
+/** First declared status wins; resolve response refs and preserve JSON or binary bodies. */
 const successSchema = (
   ctx: Ctx,
   responses: any,
@@ -1118,7 +1122,12 @@ const successSchema = (
     if (ctx.version === "2.0") {
       return { schema: resp.schema };
     }
-    return { schema: resp.content?.["application/json"]?.schema };
+    const json = resp.content?.["application/json"]?.schema;
+    const binary = resp.content?.["application/octet-stream"]?.schema;
+    return {
+      schema:
+        json ?? (deref(ctx, binary)?.format === "binary" ? binary : undefined),
+    };
   }
   return { schema: undefined };
 };

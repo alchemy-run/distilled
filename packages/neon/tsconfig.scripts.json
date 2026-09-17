@@ -3,6 +3,7 @@
   "include": ["scripts/**/*.ts"],
   "compilerOptions": {
     "composite": true,
+    "noCheck": false,
     "noEmit": false,
     "emitDeclarationOnly": true,
     "outDir": "./.scripts-types",

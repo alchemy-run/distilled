@@ -15,15 +15,29 @@ const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
 
 import { existsSync, mkdirSync } from "fs";
 
-// Ensure the specs directory exists
-if (!existsSync(SPECS_DIR)) {
-  mkdirSync(SPECS_DIR, { recursive: true });
+export function serializeSpec(spec: unknown): string {
+  if (
+    spec === null ||
+    typeof spec !== "object" ||
+    !("openapi" in spec) ||
+    typeof spec.openapi !== "string" ||
+    !("paths" in spec) ||
+    spec.paths === null ||
+    typeof spec.paths !== "object" ||
+    Array.isArray(spec.paths) ||
+    Object.keys(spec.paths).length === 0
+  ) {
+    throw new Error("Neon response is not a nonempty OpenAPI document");
+  }
+  return JSON.stringify(spec, null, 2) + "\n";
 }
 
 async function main() {
   console.log(`Fetching OpenAPI spec from ${OPENAPI_SPEC_URL}...`);
 
-  const response = await fetch(OPENAPI_SPEC_URL);
+  const response = await fetch(OPENAPI_SPEC_URL, {
+    signal: AbortSignal.timeout(30_000),
+  });
 
   if (!response.ok) {
     throw new Error(
@@ -31,15 +45,19 @@ async function main() {
     );
   }
 
-  const spec = await response.json();
-
+  const serialized = serializeSpec(await response.json());
+  if (!existsSync(SPECS_DIR)) {
+    mkdirSync(SPECS_DIR, { recursive: true });
+  }
   console.log(`Writing spec to ${OUTPUT_PATH}...`);
-  await Bun.write(OUTPUT_PATH, JSON.stringify(spec, null, 2));
+  await Bun.write(OUTPUT_PATH, serialized);
 
   console.log("Done!");
 }
 
-main().catch((err) => {
-  console.error("Fatal error:", err);
-  process.exit(1);
-});
+if (import.meta.main) {
+  main().catch((err) => {
+    console.error("Fatal error:", err);
+    process.exit(1);
+  });
+}
