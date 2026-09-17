@@ -4588,6 +4588,9 @@
         },
         {
           "target": "com.amazonaws.lambda#TooManyRequestsException"
+        },
+        {
+          "target": "aws.synthetic#LambdaInternalKmsError"
         }
       ],
       "traits": {
@@ -23378,6 +23381,31 @@
           "max": 8192
         },
         "smithy.api#tags": ["feature:public"]
+      }
+    },
+    "aws.synthetic#LambdaInternalKmsError": {
+      "type": "structure",
+      "members": {
+        "Type": {
+          "target": "com.amazonaws.lambda#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The exception type.</p>",
+            "smithy.api#tags": ["feature:public"]
+          }
+        },
+        "message": {
+          "target": "com.amazonaws.lambda#String",
+          "traits": {
+            "smithy.api#documentation": "<p>The exception message.</p>",
+            "smithy.api#tags": ["feature:public"]
+          }
+        }
+      },
+      "traits": {
+        "aws.codegen#synthetic": {
+          "from": "InvalidParameterValueException",
+          "message": "Internal KMS service error. Try again."
+        }
       }
     },
     "aws.patched#RequestLimitExceeded": {

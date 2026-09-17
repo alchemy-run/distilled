@@ -5276,6 +5276,9 @@
         },
         {
           "target": "com.flyio.machines#Conflict"
+        },
+        {
+          "target": "com.flyio.machines#MachineStartFromCreatedState"
         }
       ],
       "traits": {
@@ -5719,6 +5722,9 @@
         },
         {
           "target": "com.flyio.machines#GatewayTimeout"
+        },
+        {
+          "target": "com.flyio.machines#MachineWaitTimeout"
         }
       ],
       "traits": {
@@ -11051,6 +11057,40 @@
       "traits": {
         "smithy.api#title": "Machines API",
         "smithy.api#documentation": "This site hosts documentation generated from the Fly.io Machines API OpenAPI specification. Visit our complete [Machines API docs](https://fly.io/docs/machines/api/) for how to get started, more information about each endpoint, parameter descriptions, and examples."
+      }
+    },
+    "com.flyio.machines#MachineStartFromCreatedState": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": "failed_precondition: unable to start machine from current state: 'created'"
+          }
+        ]
+      }
+    },
+    "com.flyio.machines#MachineWaitTimeout": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "message": {
+              "matches": "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$"
+            }
+          }
+        ]
       }
     }
   }

@@ -1,11 +1,36 @@
 {
-  "description": "Type Conflict (409) on machinesStart so already-starting races are catchable.",
+  "description": "Type Conflict (409) and the exact observed created-state start precondition on startMachine. The precondition's HTTP status was not captured; match its message only.",
   "patches": [
     {
       "op": "add",
       "path": "/paths/~1v1~1apps~1{app_name}~1machines~1{machine_id}~1start/post/responses/409",
       "value": {
         "description": "Conflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#MachineStartFromCreatedState",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "message": "failed_precondition: unable to start machine from current state: 'created'"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.flyio.machines#StartMachine/errors/-",
+      "value": {
+        "target": "com.flyio.machines#MachineStartFromCreatedState"
       }
     }
   ]

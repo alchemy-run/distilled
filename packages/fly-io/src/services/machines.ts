@@ -19,6 +19,37 @@ import * as Retry from "../retry.ts";
 
 export type { FlyIoOpError, FlyIoOpContext };
 
+export class MachineStartFromCreatedState
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineStartFromCreatedState>()(
+      "MachineStartFromCreatedState",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        message:
+          "failed_precondition: unable to start machine from current state: 'created'",
+      },
+    ],
+  ) {}
+
+export class MachineWaitTimeout
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineWaitTimeout>()("MachineWaitTimeout", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          matches:
+            "^deadline_exceeded: machine failed to reach desired state, [a-z_]+, currently [a-z_]+$",
+        },
+      },
+    ],
+  ) {}
+
 export interface AuthenticateTokenRequest {
   header?: string;
 }
@@ -7214,6 +7245,7 @@ export type StartMachineError =
   | Forbidden
   | NotFound
   | Conflict
+  | MachineStartFromCreatedState
   | FlyIoOpError;
 /** Start Machine Start a specific Machine within an app. */
 export const startMachine: API.OperationMethod<
@@ -7224,7 +7256,13 @@ export const startMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartMachineRequest,
   output: StartMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    Conflict,
+    MachineStartFromCreatedState,
+  ],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
@@ -7422,6 +7460,7 @@ export type WaitMachineError =
   | Forbidden
   | NotFound
   | GatewayTimeout
+  | MachineWaitTimeout
   | FlyIoOpError;
 /** Wait for State Wait for a Machine to reach a specific state. Specify the desired state with the state parameter. See the [Machine states table](https://fly.io/docs/machines/working-with-machines/#machine-states) for a list of possible states. The default for this parameter is `started`. This request will block for up to 60 seconds. Set a shorter timeout with the timeout parameter. */
 export const waitMachine: API.OperationMethod<
@@ -7432,7 +7471,7 @@ export const waitMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: WaitMachineRequest,
   output: WaitMachineResponse,
-  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout],
+  errors: [BadRequest, Forbidden, NotFound, GatewayTimeout, MachineWaitTimeout],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));

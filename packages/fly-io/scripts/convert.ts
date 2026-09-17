@@ -37,9 +37,16 @@ import {
 import {
   applyRfc6902Files,
   finalizeConvert,
+  isSmithyPatchPath,
   listRfc6902PatchFiles,
 } from "@distilled.cloud/core/codegen/patches";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
+
+const resourceIndex = process.argv.indexOf("--resource");
+const machinesOnly = resourceIndex !== -1;
+if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
+  throw new Error("Only --resource machines is supported");
+}
 
 const root = `${import.meta.dir}/..`;
 const patchesRoot = path.join(root, "patches");
@@ -61,8 +68,8 @@ const DEFAULT_ERROR_STATUSES = ["401", "429", "500", "502", "503", "504"];
 // ---------------------------------------------------------------------------
 
 // Flat `patches/*.patch.json` are Machines-wide error responses; the
-// per-operation ones live under `patches/machines/`. Both are OpenAPI
-// pointers into the `/v1/…` spec-mirror paths.
+// per-operation ones live under `patches/machines/`. OpenAPI pointers target
+// `/v1/…` spec-mirror paths; Smithy pointers apply in finalizeConvert.
 const machinesPatchFiles = [
   ...(await listRfc6902PatchFiles(patchesRoot)).filter((f) =>
     f.endsWith(".patch.json"),
@@ -78,6 +85,7 @@ await runOpenApiConvert({
       specPath: "specs/spec-mirror-fly-io/specs/openapi.json",
       preprocess: async (spec) => {
         const applied = await applyRfc6902Files(spec, machinesPatchFiles, {
+          include: (op) => !isSmithyPatchPath(op.path),
           label: (f) => path.relative(patchesRoot, f),
         });
         if (applied.errors.length) {
@@ -104,6 +112,11 @@ await runOpenApiConvert({
     operationNames: MACHINES_OPERATION_NAMES,
   },
 });
+
+if (machinesOnly) {
+  await finalizeConvert({ root, include: (name) => name === "machines" });
+  process.exit(0);
+}
 
 // ---------------------------------------------------------------------------
 // sprites + mpg — per-spec OpenAPI under patches/{sprites,mpg}/
