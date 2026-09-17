@@ -1,14 +1,16 @@
 /**
  * TypeSafe AI credentials — hand-written.
  *
- * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
- * on the calling fiber). TypeSafe authenticates with an API key as
- * `Authorization: Bearer <apiKey>`.
+ * The `Credentials` service holds an *effect* that the protocol layer runs
+ * per request on the calling fiber, so a layer backed by a rotating source
+ * (a token broker, say) can hand out fresh credentials. The two layers here
+ * are static: both resolve once and serve a constant. TypeSafe
+ * authenticates with an API key as `Authorization: Bearer <apiKey>`.
  *
  * Environment variable names match the official JS SDK (`TYPESAFE_API_KEY`,
  * `TYPESAFE_BASE_URL`, `TYPESAFE_DEFAULT_MODEL`).
  */
+import * as EffectConfig from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -46,25 +48,39 @@ export const fromApiKey = (config: {
     }),
   );
 
+const envConfig = EffectConfig.all({
+  apiKey: EffectConfig.Redacted("TYPESAFE_API_KEY"),
+  apiBaseUrl: EffectConfig.String("TYPESAFE_BASE_URL").pipe(
+    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
+  ),
+  defaultModel: EffectConfig.String("TYPESAFE_DEFAULT_MODEL").pipe(
+    EffectConfig.withDefault(DEFAULT_MODEL),
+  ),
+});
+
 /**
  * Reads `TYPESAFE_API_KEY` (required), `TYPESAFE_BASE_URL` (optional) and
- * `TYPESAFE_DEFAULT_MODEL` (optional).
+ * `TYPESAFE_DEFAULT_MODEL` (optional) through Effect's `Config`, so the
+ * values resolve from whatever provider is ambient — the process
+ * environment on Node/Bun, the platform's own seam elsewhere (a Worker's
+ * secret bindings, for instance, which never reach `process.env`).
+ *
+ * The read happens when the LAYER BUILDS, not per request. Deploy
+ * frameworks that bind env by watching `Config` reads during a Worker's
+ * construction (Alchemy, for one) only see a read that happens while the
+ * layer stack is being built; a lazily-resolved key would never be bound
+ * and would be missing at runtime.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
+export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.effect(
   Credentials,
-  Effect.gen(function* () {
-    const apiKey = process.env.TYPESAFE_API_KEY;
-
-    if (!apiKey) {
-      return yield* new ConfigError({
-        message: "TYPESAFE_API_KEY environment variable is required",
-      });
-    }
-
-    return {
-      apiKey: Redacted.make(apiKey),
-      apiBaseUrl: process.env.TYPESAFE_BASE_URL ?? DEFAULT_API_BASE_URL,
-      defaultModel: process.env.TYPESAFE_DEFAULT_MODEL ?? DEFAULT_MODEL,
-    };
-  }).pipe(Effect.orDie),
+  envConfig.pipe(
+    Effect.mapError(
+      () =>
+        new ConfigError({
+          message: "TYPESAFE_API_KEY environment variable is required",
+        }),
+    ),
+    Effect.orDie,
+    Effect.map(Effect.succeed),
+  ),
 );

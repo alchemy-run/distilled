@@ -87,6 +87,14 @@ export const instructionsId: unique symbol = Symbol.for(
 
 export type QuestionType = "noul" | "choice" | "score";
 
+/**
+ * The schema a question builder returns. Decoding an answer is pure, so
+ * the services are pinned to `never` — `Schema.Schema<T>` would inherit
+ * `unknown` from `Schema.Top` and poison the requirement channel of every
+ * {@link query} built from it.
+ */
+export interface QuestionSchema<T> extends Schema.Codec<T, T, never, never> {}
+
 const annotation = (ast: AST.AST, key: PropertyKey): unknown => {
   const direct = ast.annotations?.[key as keyof typeof ast.annotations];
   if (direct !== undefined) return direct;
@@ -273,7 +281,14 @@ const compileField = (name: string, ast: AST.AST): CompiledField => {
   };
 };
 
-const asNoul = (answer: Answer | undefined): NoulAnswer | undefined =>
+/**
+ * Read a raw answer as the kind of question that produced it.
+ *
+ * The wire union types `type` as a plain string, so an answer can't be
+ * narrowed by tag; these are how a caller reaches `confidence`,
+ * `probabilities`, or `noul` with types intact.
+ */
+export const asNoul = (answer: Answer | undefined): NoulAnswer | undefined =>
   answer !== undefined &&
   typeof answer === "object" &&
   answer !== null &&
@@ -282,7 +297,10 @@ const asNoul = (answer: Answer | undefined): NoulAnswer | undefined =>
     ? (answer as NoulAnswer)
     : undefined;
 
-const asChoice = (answer: Answer | undefined): ChoiceAnswer | undefined =>
+/** @see {@link asNoul} */
+export const asChoice = (
+  answer: Answer | undefined,
+): ChoiceAnswer | undefined =>
   answer !== undefined &&
   typeof answer === "object" &&
   answer !== null &&
@@ -291,7 +309,8 @@ const asChoice = (answer: Answer | undefined): ChoiceAnswer | undefined =>
     ? (answer as ChoiceAnswer)
     : undefined;
 
-const asScore = (answer: Answer | undefined): ScoreAnswer | undefined =>
+/** @see {@link asNoul} */
+export const asScore = (answer: Answer | undefined): ScoreAnswer | undefined =>
   answer !== undefined &&
   typeof answer === "object" &&
   answer !== null &&
@@ -323,7 +342,7 @@ export const Score = <
 >(
   instructions: Description,
   levels: Levels,
-): Schema.Schema<number> =>
+): QuestionSchema<number> =>
   Schema.Number.annotate({
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "score",
@@ -344,7 +363,7 @@ export const Noul = (
       readonly false?: Description;
     };
   },
-): Schema.Schema<boolean> =>
+): QuestionSchema<boolean> =>
   Schema.Boolean.annotate({
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "noul",
@@ -365,7 +384,7 @@ export const Noul = (
 export const Choice = <const C extends Record<string, Description>>(
   instructions: Description,
   criteria: C,
-): Schema.Schema<keyof C & string> => {
+): QuestionSchema<keyof C & string> => {
   const keys = Object.keys(criteria);
   if (keys.length === 0) {
     throw new TypesafeAiParseError({
@@ -377,7 +396,7 @@ export const Choice = <const C extends Record<string, Description>>(
     ...instructionsAnnotations(instructions),
     [questionTypeId]: "choice",
     [criteriaId]: criteria,
-  }) as Schema.Schema<keyof C & string>;
+  }) as QuestionSchema<keyof C & string>;
 };
 
 const tryCompile = <A>(run: () => A): Effect.Effect<A, TypesafeAiParseError> =>
