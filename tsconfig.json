@@ -483,6 +483,12 @@
     },
     {
       "path": "./packages/s2/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/typesafe-ai/tsconfig.json"
+    },
+    {
+      "path": "./packages/typesafe-ai/tsconfig.scripts.json"
     }
   ]
 }
