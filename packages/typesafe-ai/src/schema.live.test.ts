@@ -37,14 +37,11 @@ describe.skipIf(!key)("typesafe live", () => {
             },
           ),
           urgency: Noul("Does `message` convey urgency or time pressure?"),
-          complexity: Score(
-            "How much work is a good response to `message`?",
-            [
-              "Answerable from general knowledge in one message",
-              "Needs looking at the repository",
-              "Needs building, testing, or multiple steps",
-            ],
-          ),
+          complexity: Score("How much work is a good response to `message`?", [
+            "Answerable from general knowledge in one message",
+            "Needs looking at the repository",
+            "Needs building, testing, or multiple steps",
+          ]),
         },
         {
           state: {
