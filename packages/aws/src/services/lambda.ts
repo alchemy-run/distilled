@@ -366,6 +366,18 @@ export class KMSNotFoundException
     },
     T.HttpError(502),
   ).pipe(C.withServerError) {}
+export class LambdaInternalKmsError
+  extends /*@__PURE__*/ S.TaggedError<LambdaInternalKmsError>()(
+    "LambdaInternalKmsError",
+    {
+      Type: S.optional(S.String),
+      message: S.optional(S.String).pipe(T.ErrorMessage()),
+    },
+    T.SyntheticError({
+      from: "InvalidParameterValueException",
+      message: "Internal KMS service error. Try again.",
+    }),
+  ).pipe(C.withRetryableError) {}
 export class ModeNotSupportedException
   extends /*@__PURE__*/ S.TaggedError<ModeNotSupportedException>()(
     "ModeNotSupportedException",
@@ -6518,6 +6530,7 @@ export type CreateFunctionError =
   | ResourceNotFoundException
   | ServiceException
   | TooManyRequestsException
+  | LambdaInternalKmsError
   | CommonErrors;
 /**
  * Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing.
@@ -6557,6 +6570,7 @@ export const createFunction: API.OperationMethod<
     ResourceNotFoundException,
     ServiceException,
     TooManyRequestsException,
+    LambdaInternalKmsError,
   ],
   protocol: AwsProtocol,
   retry: Retry,
