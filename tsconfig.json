@@ -489,6 +489,9 @@
     },
     {
       "path": "./packages/typesafe-ai/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/typesafe-ai/tsconfig.test.json"
     }
   ]
 }

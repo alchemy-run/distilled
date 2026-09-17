@@ -1,8 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { query, type Answers } from "./query.ts";
-import { Choice, Noul, Score } from "./schema.ts";
+import { query, type Answers } from "../src/query.ts";
+import { Choice, Noul, Score } from "../src/schema.ts";
 
 /**
  * An answer comes back narrowed to the kind of question that produced
@@ -36,7 +36,13 @@ describe("typed answers", () => {
         probabilities: { billing: 0.91, technical: 0.09 },
       },
       isUrgent: { type: "noul", noul: 0.2 },
-      effort: { type: "score", score: 1.4, confidence: 0.8 },
+      effort: {
+        type: "score",
+        score: 1.4,
+        confidence: 0.8,
+        legend: { "1": "a little", "2": "a lot" },
+        probabilities: { "a little": 0.6, "a lot": 0.4 },
+      },
     };
 
     expect(read(sample)).toEqual({

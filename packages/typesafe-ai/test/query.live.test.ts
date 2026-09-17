@@ -9,9 +9,9 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { CredentialsFromEnv } from "./credentials.ts";
-import { query } from "./query.ts";
-import { Choice, Noul, Score } from "./schema.ts";
+import { CredentialsFromEnv } from "../src/credentials.ts";
+import { query } from "../src/query.ts";
+import { Choice, Noul, Score } from "../src/schema.ts";
 
 const key = process.env.TYPESAFE_API_KEY;
 
@@ -63,12 +63,15 @@ describe.skipIf(!key)("typesafe live", () => {
     expect(verdict.value.complexity).toBeGreaterThan(0.5);
 
     // the raw calibrated layer rides along for confidence gates
+    // asked as a Choice, so the answer IS a choice answer
     const disposition = verdict.answers.disposition;
-    if (disposition?.type !== "choice") throw new Error("expected a choice");
+    if (disposition === undefined) throw new Error("expected an answer");
     expect(disposition.confidence).toBeGreaterThan(0.5);
-    expect(
-      Object.values(disposition.probabilities).reduce((a, b) => a + b, 0),
-    ).toBeCloseTo(1, 1);
+    const total = Object.values(disposition.probabilities).reduce(
+      (sum: number, value) => sum + (value ?? 0),
+      0,
+    );
+    expect(total).toBeCloseTo(1, 1);
 
     // the reflex-layer promise — generous bound for CI jitter
     expect(elapsed).toBeLessThan(10_000);

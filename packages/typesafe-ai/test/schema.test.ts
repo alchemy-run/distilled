@@ -1,14 +1,14 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { TypesafeAiParseError } from "./errors.ts";
+import { TypesafeAiParseError } from "../src/errors.ts";
 import {
   Choice,
   Noul,
   Score,
   decodeAnswers,
   questionsFromSchema,
-} from "./schema.ts";
+} from "../src/schema.ts";
 
 describe("questionsFromSchema", () => {
   test("maps Boolean → noul, Literals → choice, Score → score", () => {

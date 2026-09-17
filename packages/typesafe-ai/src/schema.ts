@@ -406,7 +406,7 @@ export const Noul = (
  * Keys are the options; values are rubric descriptions (`null` if the
  * name is enough, text or structured JSON otherwise).
  */
-export const Choice = <const C extends Record<string, Description>>(
+export const Choice = <const C extends Record<string, Description | null>>(
   instructions: Description,
   criteria: C,
 ): QuestionSchema<keyof C & string, "choice"> => {

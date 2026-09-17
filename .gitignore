@@ -18,6 +18,7 @@ lib/
 .tmp
 *.tgz
 .scripts-types/
+.test-types/
 **/.turbo/
 
 # Local spec-mirror working copies — `pnpm specs:local <pkg>` materialises the
