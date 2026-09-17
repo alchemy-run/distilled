@@ -16258,7 +16258,12 @@
             }
           }
         ]
-      }
+      },
+      "errors": [
+        {
+          "target": "aws.patched#InvalidParameterCombination"
+        }
+      ]
     },
     "com.amazonaws.rds#DescribeDBEngineVersionsMessage": {
       "type": "structure",
