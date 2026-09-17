@@ -14,24 +14,24 @@
  *
  * @example
  * ```ts
- * import * as Schema from "effect/Schema"
  * import * as TypesafeAi from "@distilled.cloud/typesafe-ai"
  *
- * const Ticket = Schema.Struct({
- *   isUrgent: Schema.Boolean.annotate({
- *     description: "Does this convey urgency?",
- *   }),
- *   department: Schema.Literals(["billing", "technical", "sales"]).annotate({
- *     description: "Which team should handle this?",
- *   }),
- *   frustration: TypesafeAi.Score(["Calm", "Frustrated", "Very angry"]).annotate({
- *     description: "How frustrated is the customer?",
- *   }),
- * })
- *
- * const { value, answers } = yield* TypesafeAi.query(Ticket, {
- *   state: "Help! My payouts have been failing for 3 days.",
- * })
+ * const { value, answers } = yield* TypesafeAi.query(
+ *   {
+ *     isUrgent: TypesafeAi.Noul("Does this convey urgency?"),
+ *     department: TypesafeAi.Choice("Which team should handle this?", {
+ *       billing: null,
+ *       technical: null,
+ *       sales: null,
+ *     }),
+ *     frustration: TypesafeAi.Score("How frustrated is the customer?", [
+ *       "Calm",
+ *       "Frustrated",
+ *       "Very angry",
+ *     ]),
+ *   },
+ *   { state: "Help! My payouts have been failing for 3 days." },
+ * )
  * ```
  */
 import * as Effect from "effect/Effect";
@@ -78,6 +78,13 @@ export const noulThresholdId: unique symbol = Symbol.for(
   "@distilled.cloud/typesafe-ai/noulThreshold",
 );
 
+/** STRUCTURED instructions (`{ question, focus, compare, … }` — see
+ *  docs.typesafe.ai/primitives/advanced). Text instructions ride the
+ *  standard `description` annotation instead. */
+export const instructionsId: unique symbol = Symbol.for(
+  "@distilled.cloud/typesafe-ai/instructions",
+);
+
 export type QuestionType = "noul" | "choice" | "score";
 
 const annotation = (ast: AST.AST, key: PropertyKey): unknown => {
@@ -88,13 +95,23 @@ const annotation = (ast: AST.AST, key: PropertyKey): unknown => {
   return resolved.annotations?.[key as keyof typeof resolved.annotations];
 };
 
-const instructionsOf = (ast: AST.AST, fallback: string): string => {
+const instructionsOf = (ast: AST.AST, fallback: string): Description => {
+  const structured = annotation(ast, instructionsId);
+  if (structured !== undefined) return structured as Description;
   const description = annotation(ast, "description");
   if (typeof description === "string") return description;
   const title = annotation(ast, "title");
   if (typeof title === "string") return title;
   return fallback;
 };
+
+/** The annotations one combinator writes for its instructions. */
+const instructionsAnnotations = (
+  instructions: Description,
+): Record<PropertyKey, unknown> =>
+  typeof instructions === "string"
+    ? { description: instructions }
+    : { [instructionsId]: instructions };
 
 const stringLiterals = (ast: AST.AST): string[] | undefined => {
   const node = resolveNode(ast);
@@ -296,31 +313,40 @@ const compileSchema = (schema: Schema.Top): CompiledField[] => {
 };
 
 /**
- * Number schema that becomes a TypeSafe score question. Levels are the
- * ordered rubric; the decoded value is the probability-weighted score.
+ * Number schema that becomes a TypeSafe score question — QUESTION
+ * FIRST, like reading it aloud: `Score("How urgent?", [levels])`.
+ * Levels are the ordered rubric (text or structured JSON); the
+ * decoded value is the probability-weighted score.
  */
 export const Score = <
-  const Levels extends readonly [string, string, ...string[]],
+  const Levels extends readonly [Description, Description, ...Description[]],
 >(
+  instructions: Description,
   levels: Levels,
 ): Schema.Schema<number> =>
   Schema.Number.annotate({
+    ...instructionsAnnotations(instructions),
     [questionTypeId]: "score",
     [criteriaId]: levels,
   });
 
 /**
- * Boolean schema that becomes a TypeSafe noul question. Decoded as
- * `noul >= threshold` (default 0.5).
+ * Boolean schema that becomes a TypeSafe noul question — QUESTION
+ * FIRST: `Noul("Is this spam?")`. Decoded as `noul >= threshold`
+ * (default 0.5).
  */
-export const Noul = (options?: {
-  readonly threshold?: number;
-  readonly criteria?: {
-    readonly true?: Description;
-    readonly false?: Description;
-  };
-}): Schema.Schema<boolean> =>
+export const Noul = (
+  instructions: Description,
+  options?: {
+    readonly threshold?: number;
+    readonly criteria?: {
+      readonly true?: Description;
+      readonly false?: Description;
+    };
+  },
+): Schema.Schema<boolean> =>
   Schema.Boolean.annotate({
+    ...instructionsAnnotations(instructions),
     [questionTypeId]: "noul",
     ...(options?.threshold !== undefined
       ? { [noulThresholdId]: options.threshold }
@@ -331,10 +357,13 @@ export const Noul = (options?: {
   });
 
 /**
- * String-literal schema that becomes a TypeSafe choice question. Keys are
- * the options; values are rubric descriptions (`null` if the name is enough).
+ * String-literal schema that becomes a TypeSafe choice question —
+ * QUESTION FIRST: `Choice("Which team?", { billing: …, technical: … })`.
+ * Keys are the options; values are rubric descriptions (`null` if the
+ * name is enough, text or structured JSON otherwise).
  */
 export const Choice = <const C extends Record<string, Description>>(
+  instructions: Description,
   criteria: C,
 ): Schema.Schema<keyof C & string> => {
   const keys = Object.keys(criteria);
@@ -345,6 +374,7 @@ export const Choice = <const C extends Record<string, Description>>(
     });
   }
   return Schema.Literals(keys as [string, ...string[]]).annotate({
+    ...instructionsAnnotations(instructions),
     [questionTypeId]: "choice",
     [criteriaId]: criteria,
   }) as Schema.Schema<keyof C & string>;
@@ -405,19 +435,66 @@ export interface QueryOptions {
 
 export type QueryResult<A> = SystemOneResponse & { readonly value: A };
 
+/** A judgment as a plain record: field name → question schema. */
+export type QuestionFields = Record<string, Schema.Top>;
+
+/** A runtime Schema (a record of question fields has no `annotate`). */
+const isSchemaTop = (input: object): input is Schema.Top =>
+  "ast" in input &&
+  typeof (input as { annotate?: unknown }).annotate === "function";
+
 /**
- * Evaluate `state` against an Effect Schema of questions. Returns the raw
- * TypeSafe response plus `value`, the answers decoded into the schema type.
+ * Evaluate `state` against typed questions. Returns the raw TypeSafe
+ * response plus `value`, the answers decoded into the questions' types.
+ *
+ * The questions are a PLAIN RECORD of fields — no struct ceremony:
+ *
+ * ```ts
+ * const verdict = yield* TypesafeAi.query(
+ *   {
+ *     isUrgent: TypesafeAi.Noul("Does this convey urgency?"),
+ *     department: TypesafeAi.Choice("Which team should handle this?", {
+ *       billing: null,
+ *       technical: null,
+ *       sales: null,
+ *     }),
+ *   },
+ *   { state: "Help! My payouts have been failing for 3 days." },
+ * );
+ * verdict.value.department // "billing" — decoded, typed
+ * ```
+ *
+ * A full `Schema.Struct` (or any struct-shaped schema) is the advanced
+ * form for reuse and derivation — both are accepted.
  */
-export const query = <S extends Schema.Top>(
+export function query<const Q extends QuestionFields>(
+  questions: Q,
+  options: QueryOptions,
+): Effect.Effect<
+  QueryResult<{ readonly [K in keyof Q]: Q[K]["Type"] }>,
+  SystemOneError | TypesafeAiParseError,
+  TypesafeAiOpContext | Q[keyof Q]["DecodingServices"]
+>;
+export function query<S extends Schema.Top>(
   schema: S,
   options: QueryOptions,
 ): Effect.Effect<
   QueryResult<S["Type"]>,
   SystemOneError | TypesafeAiParseError,
   TypesafeAiOpContext | S["DecodingServices"]
-> =>
-  Effect.gen(function* () {
+>;
+export function query(
+  input: Schema.Top | QuestionFields,
+  options: QueryOptions,
+): Effect.Effect<
+  QueryResult<unknown>,
+  SystemOneError | TypesafeAiParseError,
+  TypesafeAiOpContext
+> {
+  const schema = isSchemaTop(input)
+    ? input
+    : Schema.Struct(input as QuestionFields);
+  return Effect.gen(function* () {
     const resolve = yield* Credentials;
     const creds = yield* resolve;
     const questions = yield* tryCompile(() => questionsFromSchema(schema));
@@ -428,4 +505,9 @@ export const query = <S extends Schema.Top>(
     });
     const value = yield* decodeAnswers(schema, response.answers);
     return { ...response, value };
-  });
+  }) as Effect.Effect<
+    QueryResult<unknown>,
+    SystemOneError | TypesafeAiParseError,
+    TypesafeAiOpContext
+  >;
+}

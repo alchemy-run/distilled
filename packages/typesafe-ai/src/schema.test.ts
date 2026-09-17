@@ -19,9 +19,11 @@ describe("questionsFromSchema", () => {
       department: Schema.Literals(["billing", "technical", "sales"]).annotate({
         description: "Which team should handle this?",
       }),
-      frustration: Score(["Calm", "Frustrated", "Very angry"]).annotate({
-        description: "How frustrated is the customer?",
-      }),
+      frustration: Score("How frustrated is the customer?", [
+        "Calm",
+        "Frustrated",
+        "Very angry",
+      ]),
     });
 
     expect(questionsFromSchema(Ticket)).toEqual({
@@ -46,15 +48,15 @@ describe("questionsFromSchema", () => {
     });
   });
 
-  test("Noul/Choice helpers attach criteria and keep the field name as fallback instructions", () => {
+  test("Noul/Choice are question-first and attach criteria", () => {
     const Questions = Schema.Struct({
-      spam: Noul({
+      spam: Noul("Is this message spam?", {
         criteria: {
           true: "Unsolicited advertising",
           false: "A legitimate conversation",
         },
       }),
-      tone: Choice({
+      tone: Choice("What is the message's tone?", {
         angry: "An upset or hostile message",
         calm: "A neutral or polite message",
       }),
@@ -63,7 +65,7 @@ describe("questionsFromSchema", () => {
     expect(questionsFromSchema(Questions)).toEqual({
       spam: {
         type: "noul",
-        instructions: "spam",
+        instructions: "Is this message spam?",
         criteria: {
           true: "Unsolicited advertising",
           false: "A legitimate conversation",
@@ -71,11 +73,141 @@ describe("questionsFromSchema", () => {
       },
       tone: {
         type: "choice",
-        instructions: "tone",
+        instructions: "What is the message's tone?",
         criteria: {
           angry: "An upset or hostile message",
           calm: "A neutral or polite message",
         },
+      },
+    });
+  });
+
+  test("ADVANCED structure: instructions, choice rubrics, score levels, and noul criteria all accept JSON", () => {
+    // the shapes from docs.typesafe.ai/primitives/advanced
+    const questions = {
+      department: Choice(
+        {
+          question: "Which team should handle this message?",
+          focus: "Classify the customer's primary request.",
+        },
+        {
+          billing: {
+            what: "Charges, invoices, refunds, or subscriptions",
+            notFor: "Order tracking or account access",
+            examples: ["I was charged twice", "Where is my refund?"],
+          },
+          orders: {
+            what: "Order status, delivery, cancellation, or returns",
+            notFor: "Charges or account access",
+            examples: ["Where is my package?", "Cancel my order"],
+          },
+        },
+      ),
+      scope: Score(
+        {
+          question: "How focused is this pull request on a single change?",
+          note: "Judge the number of independent changes.",
+        },
+        [
+          { summary: "One change, clearly stated" },
+          { summary: "One main change plus a small related tweak" },
+          { summary: "Several independent changes bundled together" },
+        ],
+      ),
+      requests_credentials: Noul(
+        {
+          question:
+            "Does the `message` ask the recipient to disclose a credential?",
+          inspect: "message",
+        },
+        {
+          criteria: {
+            true: {
+              what: "Asks for a password, PIN, or one-time code",
+              examples: ["Reply with your password"],
+            },
+            false: {
+              what: "No sensitive credential is requested",
+              examples: ["Reset your password from the settings page"],
+            },
+          },
+        },
+      ),
+    };
+
+    expect(questionsFromSchema(Schema.Struct(questions))).toEqual({
+      department: {
+        type: "choice",
+        instructions: {
+          question: "Which team should handle this message?",
+          focus: "Classify the customer's primary request.",
+        },
+        criteria: {
+          billing: {
+            what: "Charges, invoices, refunds, or subscriptions",
+            notFor: "Order tracking or account access",
+            examples: ["I was charged twice", "Where is my refund?"],
+          },
+          orders: {
+            what: "Order status, delivery, cancellation, or returns",
+            notFor: "Charges or account access",
+            examples: ["Where is my package?", "Cancel my order"],
+          },
+        },
+      },
+      scope: {
+        type: "score",
+        instructions: {
+          question: "How focused is this pull request on a single change?",
+          note: "Judge the number of independent changes.",
+        },
+        criteria: [
+          { summary: "One change, clearly stated" },
+          { summary: "One main change plus a small related tweak" },
+          { summary: "Several independent changes bundled together" },
+        ],
+      },
+      requests_credentials: {
+        type: "noul",
+        instructions: {
+          question:
+            "Does the `message` ask the recipient to disclose a credential?",
+          inspect: "message",
+        },
+        criteria: {
+          true: {
+            what: "Asks for a password, PIN, or one-time code",
+            examples: ["Reply with your password"],
+          },
+          false: {
+            what: "No sensitive credential is requested",
+            examples: ["Reset your password from the settings page"],
+          },
+        },
+      },
+    });
+  });
+
+  test("a plain RECORD of question fields works without Schema.Struct", () => {
+    const questions = {
+      disposition: Choice("Reply inline, or open a thread?", {
+        inline: "A short factual answer suffices",
+        thread: "Real work: needs dedicated people",
+      }),
+      urgency: Noul("Does the message convey urgency?"),
+    };
+    expect(questionsFromSchema(Schema.Struct(questions))).toEqual({
+      disposition: {
+        type: "choice",
+        instructions: "Reply inline, or open a thread?",
+        criteria: {
+          inline: "A short factual answer suffices",
+          thread: "Real work: needs dedicated people",
+        },
+      },
+      urgency: {
+        type: "noul",
+        instructions: "Does the message convey urgency?",
       },
     });
   });
@@ -132,7 +264,11 @@ describe("decodeAnswers", () => {
   const Mixed = Schema.Struct({
     isUrgent: Schema.Boolean,
     department: Schema.Literals(["billing", "technical", "sales"]),
-    frustration: Score(["Calm", "Frustrated", "Very angry"]),
+    frustration: Score("How frustrated is the customer?", [
+      "Calm",
+      "Frustrated",
+      "Very angry",
+    ]),
     likely: Schema.Number,
   });
 
