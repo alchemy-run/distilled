@@ -29,7 +29,7 @@
  *   }),
  * })
  *
- * const { value, answers } = yield* TypesafeAi.ask(Ticket, {
+ * const { value, answers } = yield* TypesafeAi.query(Ticket, {
  *   state: "Help! My payouts have been failing for 3 days.",
  * })
  * ```
@@ -289,7 +289,7 @@ const compileSchema = (schema: Schema.Top): CompiledField[] => {
     throw new TypesafeAiParseError({
       body: { tag: schema.ast._tag },
       cause:
-        "ask() expects a Schema.Struct of question fields (Boolean, Literals, Score, …)",
+        "query() expects a Schema.Struct of question fields (Boolean, Literals, Score, …)",
     });
   }
   return props.map((prop) => compileField(String(prop.name), prop.type));
@@ -397,23 +397,23 @@ export const decodeAnswers = <S extends Schema.Top>(
     );
   });
 
-export interface AskOptions {
+export interface QueryOptions {
   readonly state: SystemOneRequestState;
   /** Defaults to the credentials' `defaultModel` (`jev-latest`). */
   readonly model?: string;
 }
 
-export type AskResult<A> = SystemOneResponse & { readonly value: A };
+export type QueryResult<A> = SystemOneResponse & { readonly value: A };
 
 /**
  * Evaluate `state` against an Effect Schema of questions. Returns the raw
  * TypeSafe response plus `value`, the answers decoded into the schema type.
  */
-export const ask = <S extends Schema.Top>(
+export const query = <S extends Schema.Top>(
   schema: S,
-  options: AskOptions,
+  options: QueryOptions,
 ): Effect.Effect<
-  AskResult<S["Type"]>,
+  QueryResult<S["Type"]>,
   SystemOneError | TypesafeAiParseError,
   TypesafeAiOpContext | S["DecodingServices"]
 > =>

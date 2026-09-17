@@ -18,7 +18,7 @@
  * });
  * ```
  *
- * Pass an Effect `Schema.Struct` to {@link ask} to derive questions from
+ * Pass an Effect `Schema.Struct` to {@link query} to derive questions from
  * field types (`Boolean` → noul, string literals → choice, {@link Score}
  * → score) and decode answers back into the schema's type.
  */

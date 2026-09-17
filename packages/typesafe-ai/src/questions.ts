@@ -3,7 +3,7 @@
  *
  * These match the official JS SDK helpers (`noul` / `choice` / `score`) and
  * produce the objects `systemOne` sends as `questions`. For Effect Schema
- * structs, see {@link ask} in `schema.ts`.
+ * structs, see {@link query} in `schema.ts`.
  */
 import type {
   ChoiceQuestion,
