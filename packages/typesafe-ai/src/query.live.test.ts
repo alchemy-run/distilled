@@ -10,7 +10,8 @@ import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { CredentialsFromEnv } from "./credentials.ts";
-import { Choice, Noul, Score, query } from "./schema.ts";
+import { query } from "./query.ts";
+import { Choice, Noul, Score } from "./schema.ts";
 
 const key = process.env.TYPESAFE_API_KEY;
 

@@ -1,7 +1,8 @@
 import { describe, expect, it } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { Choice, Noul, Score, query, type Answers } from "./schema.ts";
+import { query, type Answers } from "./query.ts";
+import { Choice, Noul, Score } from "./schema.ts";
 
 /**
  * An answer comes back narrowed to the kind of question that produced

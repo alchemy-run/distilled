@@ -40,4 +40,5 @@ export * as Services from "./services/index.ts";
 export * from "./services/typesafe-ai.ts";
 export { UnprocessableEntity } from "./services/typesafe-ai.ts";
 export * from "./questions.ts";
+export * from "./query.ts";
 export * from "./schema.ts";
