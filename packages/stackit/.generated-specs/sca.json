@@ -1,0 +1,1907 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ],
+    "distilled.finalized": true
+  },
+  "shapes": {
+    "com.stackit.sca#ListProjectApplicationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to list the applications in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#ListApplicationsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.sca#ListApplicationsResponseItemsList",
+          "traits": {
+            "smithy.api#documentation": "Applications under the requested parent."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListApplicationsResponse contains applications and pagination metadata."
+      }
+    },
+    "com.stackit.sca#ApplicationSummary": {
+      "type": "structure",
+      "members": {
+        "containers": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of containers."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date in RFC3339 format."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application's human-readable name."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment's identifier."
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment's human-readable name."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application identifier, for example: 00000000-0000-0000-0000-000000000000."
+          }
+        },
+        "instances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Application's running instances."
+          }
+        },
+        "lastDeployment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Date of the last moment the application got the running status in RFC3339 format."
+          }
+        },
+        "status": {
+          "target": "com.stackit.sca#CurrentStatus"
+        },
+        "stopped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the application resources are stopped."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application's published URL."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ApplicationSummary describes a summary of an application."
+      }
+    },
+    "com.stackit.sca#CurrentStatus": {
+      "type": "enum",
+      "members": {
+        "CURRENT_STATUS_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_UNSPECIFIED"
+          }
+        },
+        "CURRENT_STATUS_PROGRESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_PROGRESSING"
+          }
+        },
+        "CURRENT_STATUS_RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_RUNNING"
+          }
+        },
+        "CURRENT_STATUS_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_FAILED"
+          }
+        },
+        "CURRENT_STATUS_IDLE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_IDLE"
+          }
+        },
+        "CURRENT_STATUS_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "CURRENT_STATUS_NONE"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " - CURRENT_STATUS_UNSPECIFIED: Used as zero value.\n - CURRENT_STATUS_PROGRESSING: Applications replicas are being created.\n - CURRENT_STATUS_RUNNING: Application is ready and has the desired replicas running.\n - CURRENT_STATUS_FAILED: Application is not available and has some error.\n - CURRENT_STATUS_IDLE: Application is ready but is scaled to 0 replicas.\n - CURRENT_STATUS_NONE: Application is stopped."
+      }
+    },
+    "com.stackit.sca#ListApplicationsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Applications under the requested parent."
+      }
+    },
+    "com.stackit.sca#ListProjectApplications": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#ListProjectApplicationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#ListApplicationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/applications",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Lists applications within a project."
+      }
+    },
+    "com.stackit.sca#ListEnvironmentsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parent project resource name to list under."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#ListEnvironmentsResponse": {
+      "type": "structure",
+      "members": {
+        "items": {
+          "target": "com.stackit.sca#ListEnvironmentsResponseItemsList",
+          "traits": {
+            "smithy.api#documentation": "Environments under the requested parent."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ListEnvironmentsResponse contains environments and pagination metadata."
+      }
+    },
+    "com.stackit.sca#EnvironmentSummary": {
+      "type": "structure",
+      "members": {
+        "applicationsNumber": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Amount of applications in the environment."
+          }
+        },
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date in RFC3339 format."
+          }
+        },
+        "default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Is the default environmet."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment identifier, for example: default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment summary."
+      }
+    },
+    "com.stackit.sca#ListEnvironmentsResponseItemsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#EnvironmentSummary"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environments under the requested parent."
+      }
+    },
+    "com.stackit.sca#ListEnvironments": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#ListEnvironmentsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#ListEnvironmentsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Lists environments within a project."
+      }
+    },
+    "com.stackit.sca#CreateEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parent project resource name to create under"
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#Environment": {
+      "type": "structure",
+      "members": {
+        "createdAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Creation date in RFC3339 format."
+          }
+        },
+        "default": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Is the default environmet."
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment identifier, for example: default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment describes an isolated container scope within a project."
+      }
+    },
+    "com.stackit.sca#CreateEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#CreateEnvironmentRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Environment"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        },
+        {
+          "target": "com.stackit.sca#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/environments",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new environment within a project."
+      }
+    },
+    "com.stackit.sca#GetEnvironmentRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parent project resource name to fetch under."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Environment identifier, for example: default."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#GetEnvironment": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#GetEnvironmentRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Environment"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieves an environment by resource name."
+      }
+    },
+    "com.stackit.sca#ListApplicationsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to list the applications in."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "environment to list the applications in."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#ListApplications": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#ListApplicationsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#ListApplicationsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Lists applications within an environment."
+      }
+    },
+    "com.stackit.sca#Container": {
+      "type": "structure",
+      "members": {
+        "args": {
+          "target": "com.stackit.sca#ContainerArgsList",
+          "traits": {
+            "smithy.api#documentation": "Container argument override."
+          }
+        },
+        "command": {
+          "target": "com.stackit.sca#ContainerCommandList",
+          "traits": {
+            "smithy.api#documentation": "Container command override."
+          }
+        },
+        "cpu": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "CPU limit for the container."
+          }
+        },
+        "environmentVariables": {
+          "target": "com.stackit.sca#ContainerEnvironmentVariablesList",
+          "traits": {
+            "smithy.api#documentation": "Environment variables exposed to the container."
+          }
+        },
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Container image configuration.",
+            "smithy.api#required": {}
+          }
+        },
+        "memory": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Memory limit for the container."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Container name.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Container describes a simplified container configuration for the application."
+      }
+    },
+    "com.stackit.sca#ContainerArgsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Container argument override."
+      }
+    },
+    "com.stackit.sca#ContainerCommandList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Container command override."
+      }
+    },
+    "com.stackit.sca#EnvVar": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment variable key.",
+            "smithy.api#required": {}
+          }
+        },
+        "origin": {
+          "target": "com.stackit.sca#EnvVarType"
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment variable value.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "EnvVar defines a single environment variable."
+      }
+    },
+    "com.stackit.sca#EnvVarType": {
+      "type": "enum",
+      "members": {
+        "ENV_FROM_SOURCE_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENV_FROM_SOURCE_TYPE_UNSPECIFIED"
+          }
+        },
+        "ENV_FROM_SOURCE_TYPE_MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENV_FROM_SOURCE_TYPE_MANUAL"
+          }
+        },
+        "ENV_FROM_SOURCE_TYPE_SECRET": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ENV_FROM_SOURCE_TYPE_SECRET"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "EnvVarType identifies the origin of an environment variable.\n\n - ENV_FROM_SOURCE_TYPE_UNSPECIFIED: Used as zero value.\n - ENV_FROM_SOURCE_TYPE_MANUAL: Environment source from a literal value.\n - ENV_FROM_SOURCE_TYPE_SECRET: Environment source from a secret."
+      }
+    },
+    "com.stackit.sca#ContainerEnvironmentVariablesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#EnvVar"
+      },
+      "traits": {
+        "smithy.api#documentation": "Environment variables exposed to the container."
+      }
+    },
+    "com.stackit.sca#CreateApplicationRequestContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Container"
+      },
+      "traits": {
+        "smithy.api#documentation": "Containers to deploy for the application."
+      }
+    },
+    "com.stackit.sca#Network": {
+      "type": "structure",
+      "members": {
+        "ingressAcl": {
+          "target": "com.stackit.sca#NetworkIngressAclList",
+          "traits": {
+            "smithy.api#documentation": "Allowed destination CIDRs for Ingress traffic."
+          }
+        },
+        "port": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Port number."
+          }
+        },
+        "publicIngress": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether the application should be accessible from the internet.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Network configuration for an application."
+      }
+    },
+    "com.stackit.sca#NetworkIngressAclList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Allowed destination CIDRs for Ingress traffic."
+      }
+    },
+    "com.stackit.sca#ApplicationRegistry": {
+      "type": "structure",
+      "members": {
+        "credentials": {
+          "target": "com.stackit.sca#ApplicationRegistryCredentialsAuth"
+        },
+        "type": {
+          "target": "com.stackit.sca#ApplicationRegistryAuthType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#ApplicationRegistryCredentialsAuth": {
+      "type": "structure",
+      "members": {
+        "password": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Password to authenticate to the registry.\nOmit or set to null to indicate deletion in updates.",
+            "smithy.api#sensitive": {}
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "user": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#ApplicationRegistryAuthType": {
+      "type": "enum",
+      "members": {
+        "AUTH_TYPE_NONE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUTH_TYPE_NONE"
+          }
+        },
+        "AUTH_TYPE_CREDENTIALS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "AUTH_TYPE_CREDENTIALS"
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#CreateApplicationRequestRegistryList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationRegistry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Image registry configuration for the application."
+      }
+    },
+    "com.stackit.sca#RuntimeStatusInput": {
+      "type": "structure",
+      "members": {
+        "currentStatus": {
+          "target": "com.stackit.sca#CurrentStatus"
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#Scaling": {
+      "type": "structure",
+      "members": {
+        "autoScaling": {
+          "target": "com.stackit.sca#AutoScaling"
+        },
+        "manualScaling": {
+          "target": "com.stackit.sca#ManualScaling"
+        },
+        "type": {
+          "target": "com.stackit.sca#ScalingType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling configuration for the application."
+      }
+    },
+    "com.stackit.sca#AutoScaling": {
+      "type": "structure",
+      "members": {
+        "allowScaleToZero": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Allow automatically scale to zero."
+          }
+        },
+        "maxInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Maximum number of instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "minInstances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Minimum number of instances.",
+            "smithy.api#required": {}
+          }
+        },
+        "rules": {
+          "target": "com.stackit.sca#AutoScalingRulesList",
+          "traits": {
+            "smithy.api#documentation": "Scaling rules.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "AutoScaling configuration."
+      }
+    },
+    "com.stackit.sca#ScaleRule": {
+      "type": "structure",
+      "members": {
+        "customRule": {
+          "target": "com.stackit.sca#CustomScaleRule"
+        },
+        "httpRule": {
+          "target": "com.stackit.sca#HttpScaleRule"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Rule name.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.stackit.sca#RuleType",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ScaleRule defines one autoscaling trigger."
+      }
+    },
+    "com.stackit.sca#CustomScaleRule": {
+      "type": "structure",
+      "members": {
+        "parameters": {
+          "target": "com.stackit.sca#CustomScaleRuleParametersList",
+          "traits": {
+            "smithy.api#documentation": "Scaler parameters."
+          }
+        },
+        "secretsMapping": {
+          "target": "com.stackit.sca#CustomScaleRuleSecretsMappingList",
+          "traits": {
+            "smithy.api#documentation": "Secret mappings for the scaler."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Scaler type.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CustomScaleRule defines parameters for custom scalers (e.g., KEDA)."
+      }
+    },
+    "com.stackit.sca#CustomRuleParameter": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CustomRuleParameter defines a single scaler parameter."
+      }
+    },
+    "com.stackit.sca#CustomScaleRuleParametersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#CustomRuleParameter"
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaler parameters."
+      }
+    },
+    "com.stackit.sca#CustomRuleSecretMapping": {
+      "type": "structure",
+      "members": {
+        "parameter": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret parameter name.",
+            "smithy.api#required": {}
+          }
+        },
+        "secret": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Environment secret name.",
+            "smithy.api#required": {},
+            "smithy.api#sensitive": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "CustomRuleSecretMapping maps a scaler parameter to an environment secret."
+      }
+    },
+    "com.stackit.sca#CustomScaleRuleSecretsMappingList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#CustomRuleSecretMapping"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secret mappings for the scaler."
+      }
+    },
+    "com.stackit.sca#HttpScaleRule": {
+      "type": "structure",
+      "members": {
+        "concurrency": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Target concurrency per instance."
+          }
+        },
+        "rps": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Target requests per second per instance."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "HttpScaleRule defines parameters for HTTP-based scaling."
+      }
+    },
+    "com.stackit.sca#RuleType": {
+      "type": "enum",
+      "members": {
+        "RULE_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RULE_TYPE_UNSPECIFIED"
+          }
+        },
+        "RULE_TYPE_HTTP": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RULE_TYPE_HTTP"
+          }
+        },
+        "RULE_TYPE_CUSTOM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "RULE_TYPE_CUSTOM"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " - RULE_TYPE_UNSPECIFIED: Used as zero value.\n - RULE_TYPE_HTTP: HTTP scaling rule.\n - RULE_TYPE_CUSTOM: Custom scaling rule (e.g. KEDA)."
+      }
+    },
+    "com.stackit.sca#AutoScalingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ScaleRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "Scaling rules."
+      }
+    },
+    "com.stackit.sca#ManualScaling": {
+      "type": "structure",
+      "members": {
+        "instances": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of instances to run.",
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ManualScaling configuration."
+      }
+    },
+    "com.stackit.sca#ScalingType": {
+      "type": "enum",
+      "members": {
+        "SCALING_TYPE_UNSPECIFIED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCALING_TYPE_UNSPECIFIED"
+          }
+        },
+        "SCALING_TYPE_AUTO": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCALING_TYPE_AUTO"
+          }
+        },
+        "SCALING_TYPE_MANUAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "SCALING_TYPE_MANUAL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " - SCALING_TYPE_UNSPECIFIED: Used as zero value.\n - SCALING_TYPE_AUTO: Auto scaling based on rules.\n - SCALING_TYPE_MANUAL: Manual scaling with fixed number of instances."
+      }
+    },
+    "com.stackit.sca#ApplicationSecret": {
+      "type": "structure",
+      "members": {
+        "key": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret key.",
+            "smithy.api#required": {}
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Secret value.\nOmit or set to null to keep the existing value unchanged."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "ApplicationSecret defines a single secret key-value pair."
+      }
+    },
+    "com.stackit.sca#CreateApplicationRequestSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationSecret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets associated with the application."
+      }
+    },
+    "com.stackit.sca#CreateApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project  to create the application in."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "environment to create the application in."
+          }
+        },
+        "containers": {
+          "target": "com.stackit.sca#CreateApplicationRequestContainersList",
+          "traits": {
+            "smithy.api#documentation": "Containers to deploy for the application.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "network": {
+          "target": "com.stackit.sca#Network",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "registry": {
+          "target": "com.stackit.sca#CreateApplicationRequestRegistryList",
+          "traits": {
+            "smithy.api#documentation": "Image registry configuration for the application."
+          }
+        },
+        "runtimeStatus": {
+          "target": "com.stackit.sca#RuntimeStatusInput"
+        },
+        "scaling": {
+          "target": "com.stackit.sca#Scaling",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.stackit.sca#CreateApplicationRequestSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Secrets associated with the application."
+          }
+        },
+        "stopped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the application resources are stopped."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#Application": {
+      "type": "structure",
+      "members": {
+        "containers": {
+          "target": "com.stackit.sca#ApplicationContainersList",
+          "traits": {
+            "smithy.api#documentation": "Containers to deploy for the application.",
+            "smithy.api#required": {}
+          }
+        },
+        "displayName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Human-readable display name.",
+            "smithy.api#required": {}
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application environment ID."
+          }
+        },
+        "environmentName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application human-readable display name."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Application identifier, for example: 00000000-0000-0000-0000-000000000000."
+          }
+        },
+        "network": {
+          "target": "com.stackit.sca#Network",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "registry": {
+          "target": "com.stackit.sca#ApplicationRegistryList",
+          "traits": {
+            "smithy.api#documentation": "Image registry configuration for the application."
+          }
+        },
+        "runtimeStatus": {
+          "target": "com.stackit.sca#RuntimeStatus"
+        },
+        "scaling": {
+          "target": "com.stackit.sca#Scaling",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "secrets": {
+          "target": "com.stackit.sca#ApplicationSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Secrets associated with the application."
+          }
+        },
+        "stopped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the application resources are stopped."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Application describes a deployable multi-container workload instance."
+      }
+    },
+    "com.stackit.sca#ApplicationContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Container"
+      },
+      "traits": {
+        "smithy.api#documentation": "Containers to deploy for the application."
+      }
+    },
+    "com.stackit.sca#ApplicationRegistryList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationRegistry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Image registry configuration for the application."
+      }
+    },
+    "com.stackit.sca#RuntimeStatus": {
+      "type": "structure",
+      "members": {
+        "currentStatus": {
+          "target": "com.stackit.sca#CurrentStatus"
+        },
+        "failureReasons": {
+          "target": "com.stackit.sca#RuntimeStatusFailureReasonsList",
+          "traits": {
+            "smithy.api#documentation": "Failure reasons collected from workload conditions."
+          }
+        },
+        "instances": {
+          "target": "com.stackit.sca#RuntimeStatusInstancesList"
+        },
+        "lastDeployment": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Last time the application was deployed."
+          }
+        },
+        "urls": {
+          "target": "com.stackit.sca#RuntimeStatusUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Known URLs for the running application."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#RuntimeStatusFailureReasonsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Failure reasons collected from workload conditions."
+      }
+    },
+    "com.stackit.sca#Instance": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Instance's name."
+          }
+        },
+        "status": {
+          "target": "com.stackit.sca#InstanceStatus"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Application instance summary."
+      }
+    },
+    "com.stackit.sca#InstanceStatus": {
+      "type": "enum",
+      "members": {
+        "INSTANCE_STATUS_PROGRESSING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTANCE_STATUS_PROGRESSING"
+          }
+        },
+        "INSTANCE_STATUS_RUNNING": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTANCE_STATUS_RUNNING"
+          }
+        },
+        "INSTANCE_STATUS_FAILED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INSTANCE_STATUS_FAILED"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": " - INSTANCE_STATUS_PROGRESSING: Instance is being created.\n - INSTANCE_STATUS_RUNNING: Instance is available and running.\n - INSTANCE_STATUS_FAILED: Instance is not available and has some error."
+      }
+    },
+    "com.stackit.sca#RuntimeStatusInstancesList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Instance"
+      },
+      "traits": {}
+    },
+    "com.stackit.sca#RuntimeStatusUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "Known URLs for the running application."
+      }
+    },
+    "com.stackit.sca#ApplicationSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationSecret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets associated with the application."
+      }
+    },
+    "com.stackit.sca#CreateApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#CreateApplicationRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Application"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        },
+        {
+          "target": "com.stackit.sca#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Creates a new application within a environment."
+      }
+    },
+    "com.stackit.sca#GetApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to fetch the application from."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "environment to fetch the application from."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Application id to fetch."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#GetApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#GetApplicationRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Application"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Retrieves a application by resource name."
+      }
+    },
+    "com.stackit.sca#UpdateApplicationRequestContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Container"
+      },
+      "traits": {
+        "smithy.api#documentation": "Containers to deploy for the application."
+      }
+    },
+    "com.stackit.sca#UpdateApplicationRequestRegistryList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationRegistry"
+      },
+      "traits": {
+        "smithy.api#documentation": "Image registry configuration for the application."
+      }
+    },
+    "com.stackit.sca#UpdateApplicationRequestSecretsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#ApplicationSecret"
+      },
+      "traits": {
+        "smithy.api#documentation": "Secrets associated with the application."
+      }
+    },
+    "com.stackit.sca#UpdateApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to update the application in."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "environment to update the application in."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Application id to update."
+          }
+        },
+        "containers": {
+          "target": "com.stackit.sca#UpdateApplicationRequestContainersList",
+          "traits": {
+            "smithy.api#documentation": "Containers to deploy for the application."
+          }
+        },
+        "network": {
+          "target": "com.stackit.sca#Network"
+        },
+        "registry": {
+          "target": "com.stackit.sca#UpdateApplicationRequestRegistryList",
+          "traits": {
+            "smithy.api#documentation": "Image registry configuration for the application."
+          }
+        },
+        "scaling": {
+          "target": "com.stackit.sca#Scaling"
+        },
+        "secrets": {
+          "target": "com.stackit.sca#UpdateApplicationRequestSecretsList",
+          "traits": {
+            "smithy.api#documentation": "Secrets associated with the application."
+          }
+        },
+        "stopped": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Indicates if the application resources are stopped."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#UpdateApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#UpdateApplicationRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Application"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        },
+        {
+          "target": "com.stackit.sca#NotFound"
+        },
+        {
+          "target": "com.stackit.sca#Conflict"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "PATCH",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Updates an existing application."
+      }
+    },
+    "com.stackit.sca#DeleteApplicationRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to delete the application in."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "environment to delete the application in."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Application id to delete."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#DeleteApplication": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#DeleteApplicationRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#Application"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "Deletes an application by resource name."
+      }
+    },
+    "com.stackit.sca#GetApplicationEventsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to fetch the application from."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Environment to fetch the application from."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Application id to fetch."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#GetApplicationEventsResponse": {
+      "type": "structure",
+      "members": {
+        "events": {
+          "target": "com.stackit.sca#GetApplicationEventsResponseEventsList",
+          "traits": {
+            "smithy.api#documentation": "Events list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetApplicationEventsResponse contains an application's events list."
+      }
+    },
+    "com.stackit.sca#Event": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Event message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Event defines an event line."
+      }
+    },
+    "com.stackit.sca#GetApplicationEventsResponseEventsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Event"
+      },
+      "traits": {
+        "smithy.api#documentation": "Events list."
+      }
+    },
+    "com.stackit.sca#GetApplicationEvents": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#GetApplicationEventsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#GetApplicationEventsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}/events",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "GetApplicationEvents retrieves events of an application."
+      }
+    },
+    "com.stackit.sca#GetApplicationLogsRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Project to fetch the application from."
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Environment to fetch the application from."
+          }
+        },
+        "applicationId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Application id to fetch."
+          }
+        },
+        "instance": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "instance",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Instance name of the application."
+          }
+        },
+        "container": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "container",
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Container name to collect logs."
+          }
+        },
+        "previous": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "previous",
+            "smithy.api#documentation": "Get previous failed execution of the container."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#GetApplicationLogsResponse": {
+      "type": "structure",
+      "members": {
+        "logs": {
+          "target": "com.stackit.sca#GetApplicationLogsResponseLogsList",
+          "traits": {
+            "smithy.api#documentation": "Logs list."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetApplicationLogsResponse contains an application's logs list."
+      }
+    },
+    "com.stackit.sca#Log": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Log message."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Log defines a log line."
+      }
+    },
+    "com.stackit.sca#GetApplicationLogsResponseLogsList": {
+      "type": "list",
+      "member": {
+        "target": "com.stackit.sca#Log"
+      },
+      "traits": {
+        "smithy.api#documentation": "Logs list."
+      }
+    },
+    "com.stackit.sca#GetApplicationLogs": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#GetApplicationLogsRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#GetApplicationLogsResponse"
+      },
+      "errors": [
+        {
+          "target": "com.stackit.sca#BadRequest"
+        },
+        {
+          "target": "com.stackit.sca#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}/logs",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        },
+        "smithy.api#documentation": "GetApplicationLogs retrieves logs of an application."
+      }
+    },
+    "com.stackit.sca#GetOverviewRequest": {
+      "type": "structure",
+      "members": {
+        "projectId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parent project resource name to list under."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.stackit.sca#GetOverviewResponse": {
+      "type": "structure",
+      "members": {
+        "summary": {
+          "target": "com.stackit.sca#Summary",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "GetOverviewResponse contains a summary of the current state of the project's application."
+      }
+    },
+    "com.stackit.sca#Summary": {
+      "type": "structure",
+      "members": {
+        "applicationsRunning": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of applications running in a project."
+          }
+        },
+        "applicationsTotal": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "Number of applications created in a project."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Summary describes the current status of a project."
+      }
+    },
+    "com.stackit.sca#GetOverview": {
+      "type": "operation",
+      "input": {
+        "target": "com.stackit.sca#GetOverviewRequest"
+      },
+      "output": {
+        "target": "com.stackit.sca#GetOverviewResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/v1alpha/projects/{projectId}/overview",
+          "code": 200,
+          "baseUrl": "https://sca.api.{region}stackit.cloud"
+        }
+      }
+    },
+    "com.stackit.sca#BadRequest": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400
+          }
+        ]
+      }
+    },
+    "com.stackit.sca#Conflict": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.stackit.sca#NotFound": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404
+          }
+        ]
+      }
+    },
+    "com.stackit.sca#Sca": {
+      "type": "service",
+      "version": "1alpha.0.0",
+      "operations": [
+        {
+          "target": "com.stackit.sca#ListProjectApplications"
+        },
+        {
+          "target": "com.stackit.sca#ListEnvironments"
+        },
+        {
+          "target": "com.stackit.sca#CreateEnvironment"
+        },
+        {
+          "target": "com.stackit.sca#GetEnvironment"
+        },
+        {
+          "target": "com.stackit.sca#ListApplications"
+        },
+        {
+          "target": "com.stackit.sca#CreateApplication"
+        },
+        {
+          "target": "com.stackit.sca#GetApplication"
+        },
+        {
+          "target": "com.stackit.sca#UpdateApplication"
+        },
+        {
+          "target": "com.stackit.sca#DeleteApplication"
+        },
+        {
+          "target": "com.stackit.sca#GetApplicationEvents"
+        },
+        {
+          "target": "com.stackit.sca#GetApplicationLogs"
+        },
+        {
+          "target": "com.stackit.sca#GetOverview"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "STACKIT Container Applications (SCA)",
+        "smithy.api#documentation": "STACKIT Container Applications (SCA) is a Platform as a Service (PaaS) that provides developers with a complete, managed platform to deploy and operate applications without managing the underlying infrastructure."
+      }
+    }
+  }
+}

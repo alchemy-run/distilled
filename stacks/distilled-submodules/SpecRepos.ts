@@ -114,6 +114,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
     blocked: "docs.slack.dev method JSON twins are committed in-repo",
   },
   { package: "spacetimedb" },
+  { package: "stackit" },
   { package: "squarespace" },
   { package: "stripe" },
   { package: "supabase" },
