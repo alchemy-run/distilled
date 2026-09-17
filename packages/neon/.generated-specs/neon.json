@@ -6490,9 +6490,30 @@
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails.",
             "smithy.api#required": {}
           }
+        },
+        "type": {
+          "target": "com.neon.api#StandardEmailServerResponseType",
+          "traits": {
+            "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#StandardEmailServerResponseType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+      }
     },
     "com.neon.api#SharedEmailServer": {
       "type": "structure",
@@ -6508,9 +6529,30 @@
           "traits": {
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails."
           }
+        },
+        "type": {
+          "target": "com.neon.api#SharedEmailServerType",
+          "traits": {
+            "smithy.api#documentation": "Use the shared email server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#SharedEmailServerType": {
+      "type": "enum",
+      "members": {
+        "SHARED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "shared"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use the shared email server to send authentication emails."
+      }
     },
     "com.neon.api#GetNeonAuthEmailProviderResponse": {
       "type": "structure",
@@ -6595,9 +6637,30 @@
           "traits": {
             "smithy.api#documentation": "Display name shown as the sender in outgoing emails."
           }
+        },
+        "type": {
+          "target": "com.neon.api#StandardEmailServerType",
+          "traits": {
+            "smithy.api#documentation": "Use a custom SMTP server to send authentication emails.",
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {}
+    },
+    "com.neon.api#StandardEmailServerType": {
+      "type": "enum",
+      "members": {
+        "STANDARD": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "standard"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Use a custom SMTP server to send authentication emails."
+      }
     },
     "com.neon.api#UpdateNeonAuthEmailProviderRequest": {
       "type": "structure",

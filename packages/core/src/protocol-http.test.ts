@@ -1,5 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import * as Redacted from "effect/Redacted";
 import { buildRequest, mapKeys } from "./protocol-http.ts";
+import { SensitiveValue, wrapSensitive } from "./protocol-rest.ts";
 import * as S from "./schema.ts";
 import * as T from "./trait.ts";
 
@@ -97,6 +99,71 @@ describe("multipart binary parts", () => {
       expect(new Uint8Array(await part.arrayBuffer())).toEqual(
         new Uint8Array([80, 75, 255]),
       );
+    }
+  });
+});
+
+describe("sensitive union responses", () => {
+  const schema = S.suspend(() =>
+    S.Union([
+      S.Struct({
+        type: S.Literal("standard"),
+        password: S.String.pipe(SensitiveValue()),
+      }),
+      S.Struct({
+        type: S.Literal("token"),
+        token: S.String.pipe(SensitiveValue()),
+      }),
+      S.Struct({ type: S.Literal("shared") }),
+    ]),
+  );
+
+  test("all arms redact their secrets, even in partial or ambiguous responses", () => {
+    for (const value of [
+      { type: "standard", password: "fixture-password" },
+      { type: "token", token: "fixture-token" },
+      { password: "fixture-password", token: "fixture-token" },
+    ]) {
+      const wrapped = wrapSensitive(schema.ast, value);
+      expect(wrapped).toEqual(
+        Object.fromEntries(
+          Object.entries(value).map(([key, value]) => [
+            key,
+            key === "type" ? value : Redacted.make(value),
+          ]),
+        ),
+      );
+      expect(JSON.stringify(wrapped)).not.toContain("fixture-password");
+      expect(JSON.stringify(wrapped)).not.toContain("fixture-token");
+      expect(wrapSensitive(schema.ast, wrapped)).toEqual(wrapped);
+    }
+  });
+
+  test("nested arrays and optional nullable unions preserve nonsecret values", () => {
+    const nested = S.Struct({
+      provider: S.optional(S.NullOr(schema)),
+      providers: S.Array(schema),
+    });
+    for (const value of [
+      {},
+      { provider: null },
+      { provider: { type: "shared" } },
+    ]) {
+      expect(
+        wrapSensitive(nested.ast, {
+          ...value,
+          providers: [
+            { type: "standard", password: "fixture-password" },
+            { type: "shared" },
+          ],
+        }),
+      ).toEqual({
+        ...value,
+        providers: [
+          { type: "standard", password: Redacted.make("fixture-password") },
+          { type: "shared" },
+        ],
+      });
     }
   });
 });

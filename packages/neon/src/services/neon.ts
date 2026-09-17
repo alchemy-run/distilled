@@ -4873,6 +4873,9 @@ export const GetNeonAuthEmailProviderRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetNeonAuthEmailProviderRequest",
 }) as any as S.Codec<GetNeonAuthEmailProviderRequest>;
 
+/** Use a custom SMTP server to send authentication emails. */
+export type StandardEmailServerResponseType = "standard";
+export const StandardEmailServerResponseType = S.Literals(["standard"]);
 export interface StandardEmailServerResponse {
   /** Hostname of the email server. */
   host: string;
@@ -4886,6 +4889,8 @@ export interface StandardEmailServerResponse {
   sender_email: string;
   /** Display name shown as the sender in outgoing emails. */
   sender_name: string;
+  /** Use a custom SMTP server to send authentication emails. */
+  type: StandardEmailServerResponseType;
 }
 export const StandardEmailServerResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -4898,21 +4903,28 @@ export const StandardEmailServerResponse = /*@__PURE__*/ S.suspend(() =>
     ]).pipe(T.SensitiveValue({})),
     sender_email: S.String,
     sender_name: S.String,
+    type: StandardEmailServerResponseType,
   }),
 ).annotate({
   identifier: "StandardEmailServerResponse",
 }) as any as S.Codec<StandardEmailServerResponse>;
 
+/** Use the shared email server to send authentication emails. */
+export type SharedEmailServerType = "shared";
+export const SharedEmailServerType = S.Literals(["shared"]);
 export interface SharedEmailServer {
   /** Email address used as the sender for outgoing messages from this shared email server. */
   sender_email?: string;
   /** Display name shown as the sender in outgoing emails. */
   sender_name?: string;
+  /** Use the shared email server to send authentication emails. */
+  type: SharedEmailServerType;
 }
 export const SharedEmailServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sender_email: S.optional(S.String),
     sender_name: S.optional(S.String),
+    type: SharedEmailServerType,
   }),
 ).annotate({
   identifier: "SharedEmailServer",
@@ -4921,8 +4933,9 @@ export const SharedEmailServer = /*@__PURE__*/ S.suspend(() =>
 export type NeonAuthEmailServerConfigResponse =
   | StandardEmailServerResponse
   | SharedEmailServer;
-export const NeonAuthEmailServerConfigResponse =
-  S.Unknown as any as S.Codec<NeonAuthEmailServerConfigResponse>;
+export const NeonAuthEmailServerConfigResponse = S.suspend(() =>
+  S.Union([StandardEmailServerResponse, SharedEmailServer]),
+) as S.Codec<NeonAuthEmailServerConfigResponse>;
 
 export type GetNeonAuthEmailProviderResponse =
   NeonAuthEmailServerConfigResponse;
@@ -9224,6 +9237,9 @@ export const UpdateNeonAuthEmailAndPasswordConfigRequest =
     identifier: "UpdateNeonAuthEmailAndPasswordConfigRequest",
   }) as any as S.Codec<UpdateNeonAuthEmailAndPasswordConfigRequest>;
 
+/** Use a custom SMTP server to send authentication emails. */
+export type StandardEmailServerType = "standard";
+export const StandardEmailServerType = S.Literals(["standard"]);
 export interface StandardEmailServer {
   /** Hostname of the email server. */
   host?: string;
@@ -9237,6 +9253,8 @@ export interface StandardEmailServer {
   sender_email?: string;
   /** Display name shown as the sender in outgoing emails. */
   sender_name?: string;
+  /** Use a custom SMTP server to send authentication emails. */
+  type: StandardEmailServerType;
 }
 export const StandardEmailServer = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -9251,14 +9269,16 @@ export const StandardEmailServer = /*@__PURE__*/ S.suspend(() =>
     ),
     sender_email: S.optional(S.String),
     sender_name: S.optional(S.String),
+    type: StandardEmailServerType,
   }),
 ).annotate({
   identifier: "StandardEmailServer",
 }) as any as S.Codec<StandardEmailServer>;
 
 export type NeonAuthEmailServerConfig = StandardEmailServer | SharedEmailServer;
-export const NeonAuthEmailServerConfig =
-  S.Unknown as any as S.Codec<NeonAuthEmailServerConfig>;
+export const NeonAuthEmailServerConfig = S.suspend(() =>
+  S.Union([StandardEmailServer, SharedEmailServer]),
+) as S.Codec<NeonAuthEmailServerConfig>;
 
 export interface UpdateNeonAuthEmailProviderRequest {
   /** The Neon project ID */

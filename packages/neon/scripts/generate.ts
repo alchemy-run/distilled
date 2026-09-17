@@ -77,7 +77,16 @@ const neonSpec: SdkSpec = {
         `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
       ];
     }
-    if (def.type !== "enum" || !name.includes("Trigger")) return;
+    if (
+      def.type !== "enum" ||
+      (!name.includes("Trigger") &&
+        ![
+          "StandardEmailServerType",
+          "StandardEmailServerResponseType",
+          "SharedEmailServerType",
+        ].includes(name))
+    )
+      return;
     const values = Object.values(def.members ?? {}).map(
       (member: any) => member.traits["smithy.api#enumValue"],
     );
@@ -90,7 +99,9 @@ const neonSpec: SdkSpec = {
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
     name === "Trigger" ||
     name === "TriggerCreateRequest" ||
-    name === "TriggerUpdateRequest"
+    name === "TriggerUpdateRequest" ||
+    name === "NeonAuthEmailServerConfig" ||
+    name === "NeonAuthEmailServerConfigResponse"
       ? `export const ${name} = S.suspend(() => S.Union([${caseTargets.map(tsRef).join(", ")}])) as S.Codec<${name}>;\n`
       : `export const ${name} = S.Unknown as any as S.Codec<${name}>;\n`,
   ],

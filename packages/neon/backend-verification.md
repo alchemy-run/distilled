@@ -9,7 +9,7 @@ Observed on 2026-09-17. This report contains fixture values only, not credential
 - ZIP inputs support `Blob`, `Uint8Array`, and `ArrayBuffer`. The multipart environment is one JSON string; empty deletion values are preserved on the wire.
 - Credential issue/reveal/rotate secrets and presigned URLs are redacted. Debug logging excludes payloads and resolved URLs. Cross-origin redirect coverage verifies account authorization is not forwarded.
 - Binary downloads return `Uint8Array`, without UTF-8 conversion. Nullable Function/deployment fields and both trigger discriminants have schema regressions.
-- The current core and SDK regression run passed **330 tests, zero failures**. Earlier isolated live acceptance passed twice, including native Function invocation, credential recovery/revocation, both trigger types, presigned upload, byte-exact binary download, and cleanup. These passes do **not** establish update propagation.
+- Before the Auth email follow-up below, the core and SDK regression run passed **330 tests, zero failures**. Earlier isolated live acceptance passed twice, including native Function invocation, credential recovery/revocation, both trigger types, presigned upload, byte-exact binary download, and cleanup. These passes do **not** establish update propagation.
 
 Commands run from the Distilled root:
 
@@ -21,7 +21,7 @@ bun scripts/specs.ts check
 
 Regeneration runs from `packages/neon` with `bun scripts/convert.ts && bun scripts/generate.ts`. The generator formats its output. Two consecutive convert/generate/format runs after the independent-review fixes produced identical hashes for `.generated-specs/neon.json`, `src/services/neon.ts`, and `src/services/index.ts`.
 
-## Compile status: SDK and generator verified
+## Compile history: SDK and generator verified before the Auth follow-up
 
 The coordinator's authoritative workspace check reported unknown Effect requirements from generated `S.Schema<T>` annotations and inference errors in a mixed Function/Trigger effect array. In Effect 4, `Schema<T>` leaves decoding services unspecified.
 
@@ -38,6 +38,22 @@ No downstream service casts or suppressions were added. `noCheck: false` remains
 - Binary response detection dereferences a component schema to inspect `format`, then converts the original schema. Both inline and referenced binary responses have regressions; the reference-site nullability survives conversion.
 
 After these review corrections, the coordinator reran the Neon source and scripts build-mode typecheck and checked shared core with `tsc --noEmit --noCheck false -p submodules/distilled/packages/core/tsconfig.json`; both exited 0. An independent coordinator regression run passed all 330 tests across 10 files. `README.md`, public import paths, and existing live-probe results were preserved. No additional live probe ran.
+
+## Auth email discriminator follow-up
+
+The public [OpenAPI document](https://neon.com/api_spec/release/v2.json) still matched the pinned mirror. It and the [email-provider API documentation](https://api-docs.neon.tech/reference/updateneonauthemailprovider) declare `type` mappings of `standard` and `shared` for both email configuration unions, but omit that member from their constituent schemas. `005-auth-email-discriminators.patch.json` adds the evidenced required literal to `StandardEmailServer`, `StandardEmailServerResponse`, and `SharedEmailServer`. Existing optional PATCH fields, required response fields, and sensitivity remain unchanged; no nullable fields were changed or invented.
+
+Neon's generator now emits service-free, literal-discriminated codecs for both email configuration unions instead of `S.Unknown`. Initial wire regressions exposed a separate shared REST defect: `wrapSensitive` skipped multi-arm unions, returning the SMTP password as plaintext. The walker now conservatively redacts members marked sensitive by any arm, including incomplete responses. Coverage includes nested arrays, optional/nullable wrappers, and repeated redaction.
+
+The required bounded regression command above passed **338 tests across 10 files, zero failures** (630 assertions). The eight added tests cover redacted-password PATCH serialization, omitted fields, response redaction through codecs/JSON/inspection/debug diagnostics, required discriminator validation, generic JSON encoding protection, compile fixtures, and the shared union walker. The compile fixture adds 13 assertions for discriminator narrowing, optional inputs, required outputs, sensitive types, and service-free codecs. Bun does not typecheck these assertions.
+
+Only Neon was regenerated, retaining **163 operations** and producing **748 shapes**. Two consecutive convert/generate/format runs produced identical SHA-256 hashes:
+
+- `.generated-specs/neon.json`: `17dbb3038c53c206f87b888cd05a9989f22a7d6ccea2023f85ba6a0b9c0e5b29`
+- `src/services/neon.ts`: `6d58ee039d01ec3b43e972f7b2c1972b83f171f2683b8b4cc0b14537a9dc2450`
+- `src/services/index.ts`: `d520cc0aaf5fcb931962e09fc5dd4ecd27f9993fb6ee19231139f6a90a693403`
+
+The coordinator independently reran the Neon source/scripts build-mode typecheck and shared core's `tsc --noEmit --noCheck false` check after this follow-up; both exited 0. The independent bounded regression run passed all **338 tests across 10 files**. `README.md`, the mirror revision, and prior live-probe history remain unchanged. No additional typed API error gap was observed. The existing Function update-propagation blocker below is unchanged and was not retested.
 
 ## Observed API details
 

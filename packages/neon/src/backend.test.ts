@@ -444,6 +444,180 @@ describe("Neon backend wire contracts", () => {
   });
 });
 
+describe("Neon Auth email provider contracts", () => {
+  const standard = {
+    type: "standard" as const,
+    host: "smtp.fixture.test",
+    port: 587,
+    username: "fixture-user",
+    password: "fixture-smtp-secret",
+    sender_email: "auth@fixture.test",
+    sender_name: "Fixture Auth",
+  };
+
+  test("redacted SMTP passwords reach the PATCH wire as plaintext", async () => {
+    for (const password of [
+      standard.password,
+      Redacted.make(standard.password),
+    ]) {
+      const result = await Effect.runPromise(
+        Neon.updateNeonAuthEmailProvider({
+          ...scope,
+          body: { ...standard, password },
+        }).pipe(
+          Effect.provide(
+            harness((request) => {
+              expect(request.method).toBe("PATCH");
+              expect(request.url).toContain("/auth/email_provider");
+              if (request.body._tag !== "Uint8Array")
+                throw new Error("Expected JSON bytes");
+              expect(
+                JSON.parse(new TextDecoder().decode(request.body.body)),
+              ).toEqual(standard);
+              return Response.json({ ...standard, password: "" });
+            }),
+          ),
+        ),
+      );
+      expect(result.type).toBe("standard");
+      if (result.type !== "standard") throw new Error("Expected SMTP response");
+      expect(Redacted.isRedacted(result.password)).toBe(true);
+    }
+  });
+
+  test("partial standard and shared updates preserve omitted fields on the wire", async () => {
+    for (const body of [
+      { type: "standard" as const },
+      { type: "shared" as const },
+    ]) {
+      await Effect.runPromise(
+        Neon.updateNeonAuthEmailProvider({ ...scope, body }).pipe(
+          Effect.provide(
+            harness((request) => {
+              if (request.body._tag !== "Uint8Array")
+                throw new Error("Expected JSON bytes");
+              expect(
+                JSON.parse(new TextDecoder().decode(request.body.body)),
+              ).toEqual(body);
+              return Response.json(
+                body.type === "standard" ? { ...standard, password: "" } : body,
+              );
+            }),
+          ),
+        ),
+      );
+    }
+  });
+
+  test("returned SMTP passwords stay redacted through codecs, JSON and diagnostics", async () => {
+    const previous = process.env.DISTILLED_DEBUG_HTTP;
+    const logs: string[] = [];
+    const spy = spyOn(console, "error").mockImplementation((...args) => {
+      logs.push(args.join(" "));
+    });
+    process.env.DISTILLED_DEBUG_HTTP = "1";
+    try {
+      const result = await Effect.runPromise(
+        Neon.getNeonAuthEmailProvider(scope).pipe(
+          Effect.provide(harness(() => Response.json(standard))),
+        ),
+      );
+      for (const value of [
+        roundTrip(Neon.NeonAuthEmailServerConfigResponse, result),
+        roundTrip(Neon.GetNeonAuthEmailProviderResponse, result),
+        roundTrip(Neon.UpdateNeonAuthEmailProviderResponse, result),
+      ]) {
+        if (value.type !== "standard")
+          throw new Error("Expected SMTP response");
+        expect(Redacted.isRedacted(value.password)).toBe(true);
+        if (!Redacted.isRedacted(value.password))
+          throw new Error("Expected redacted password");
+        expect(Redacted.value(value.password)).toBe(standard.password);
+        expect(JSON.stringify(value)).not.toContain(standard.password);
+        expect(Bun.inspect(value)).not.toContain(standard.password);
+      }
+      expect(() =>
+        Schema.encodeSync(
+          Schema.toCodecJson(Neon.NeonAuthEmailServerConfigResponse),
+        )(result),
+      ).toThrow();
+      expect(logs.length).toBeGreaterThan(0);
+      expect(logs.join("\n")).not.toContain(standard.password);
+    } finally {
+      spy.mockRestore();
+      if (previous === undefined) delete process.env.DISTILLED_DEBUG_HTTP;
+      else process.env.DISTILLED_DEBUG_HTTP = previous;
+    }
+  });
+
+  test("request and response unions validate required standard/shared discriminators", () => {
+    const request = Schema.decodeUnknownSync(Neon.NeonAuthEmailServerConfig);
+    const response = Schema.decodeUnknownSync(
+      Neon.NeonAuthEmailServerConfigResponse,
+    );
+    expect(request(standard)).toEqual(standard);
+    expect(request({ type: "standard" })).toEqual({ type: "standard" });
+    expect(response(standard)).toEqual(standard);
+    for (const decode of [request, response]) {
+      expect(decode({ type: "shared" })).toEqual({ type: "shared" });
+      expect(decode({ type: "shared", sender_name: "Fixture" })).toEqual({
+        type: "shared",
+        sender_name: "Fixture",
+      });
+      for (const value of [
+        {},
+        { ...standard, type: "unsupported" },
+        { ...standard, type: null },
+        { type: "shared", sender_name: null },
+        { ...standard, password: null },
+        { ...standard, password: 123 },
+        { ...standard, password: Redacted.make(123) },
+      ])
+        expect(() => decode(value)).toThrow();
+    }
+    expect(() =>
+      response({ type: "standard", sender_email: "auth@fixture.test" }),
+    ).toThrow();
+    expect(() =>
+      Schema.decodeUnknownSync(Neon.StandardEmailServer)({
+        ...standard,
+        type: "shared",
+      }),
+    ).toThrow();
+    expect(() =>
+      Schema.decodeUnknownSync(Neon.StandardEmailServerResponse)({
+        ...standard,
+        type: "shared",
+      }),
+    ).toThrow();
+    expect(() =>
+      Schema.decodeUnknownSync(Neon.SharedEmailServer)({ type: "standard" }),
+    ).toThrow();
+  });
+
+  test("request codecs preserve sensitive unions without permitting generic JSON encoding", () => {
+    for (const password of [
+      standard.password,
+      Redacted.make(standard.password),
+    ]) {
+      const body = { ...standard, password };
+      expect(roundTrip(Neon.NeonAuthEmailServerConfig, body)).toEqual(body);
+      expect(
+        roundTrip(Neon.UpdateNeonAuthEmailProviderRequest, { ...scope, body })
+          .body,
+      ).toEqual(body);
+    }
+    expect(() =>
+      Schema.encodeSync(
+        Schema.toCodecJson(Neon.UpdateNeonAuthEmailProviderRequest),
+      )({
+        ...scope,
+        body: { ...standard, password: Redacted.make(standard.password) },
+      }),
+    ).toThrow();
+  });
+});
+
 describe("Neon trigger schemas", () => {
   test("both discriminated forms validate and mismatches fail", () => {
     const decode = Schema.decodeUnknownSync(Neon.TriggerCreateRequest);

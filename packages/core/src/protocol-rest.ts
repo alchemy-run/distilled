@@ -132,6 +132,13 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
     return value;
   }
   const node = resolveNode(ast);
+  if (node._tag === "Union") {
+    // Redact every possible sensitive member, including in partial responses.
+    return node.types.reduce<unknown>(
+      (redacted, arm) => wrapSensitive(arm, redacted),
+      value,
+    );
+  }
   if (node._tag === "Arrays") {
     if (!Array.isArray(value)) return value;
     const elem = (node as any).rest?.[0] as AST.AST | undefined;
