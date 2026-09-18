@@ -1,6 +1,10 @@
 {
   "files": [],
   "references": [
+    { "path": "./packages/acme/tsconfig.json" },
+    { "path": "./packages/acme/tsconfig.scripts.json" },
+    { "path": "./packages/zerossl/tsconfig.json" },
+    { "path": "./packages/zerossl/tsconfig.scripts.json" },
     {
       "path": "./packages/core/tsconfig.json"
     },

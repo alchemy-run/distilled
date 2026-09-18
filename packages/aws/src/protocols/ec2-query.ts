@@ -105,7 +105,7 @@ export const ec2QueryProtocol: Protocol = (
 
       // Parse body XML
       if (bodyText) {
-        const parsed = parseXml(bodyText);
+        const parsed = yield* parseXml(bodyText);
 
         // EC2 response root is {OperationName}Response
         const content = extractXmlRoot(parsed);
@@ -127,7 +127,7 @@ export const ec2QueryProtocol: Protocol = (
       }
 
       // Parse XML body
-      const parsed = parseXml(bodyText);
+      const parsed = yield* parseXml(bodyText);
 
       // EC2 Query error structure:
       // <Response>
