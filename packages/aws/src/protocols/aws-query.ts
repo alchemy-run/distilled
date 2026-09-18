@@ -113,7 +113,7 @@ export const awsQueryProtocol: Protocol = (
 
       // Parse body XML
       if (bodyText) {
-        const parsed = parseXml(bodyText);
+        const parsed = yield* parseXml(bodyText);
 
         // AWS Query response structure:
         // <{OperationName}Response xmlns="...">
@@ -155,7 +155,7 @@ export const awsQueryProtocol: Protocol = (
       }
 
       // Parse XML body
-      const parsed = parseXml(bodyText);
+      const parsed = yield* parseXml(bodyText);
 
       // AWS Query error structure:
       // <ErrorResponse>
