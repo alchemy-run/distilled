@@ -50,6 +50,21 @@ export class MachineWaitTimeout
     ],
   ) {}
 
+export class VolumeAttached
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<VolumeAttached>()("VolumeAttached", {
+      message: S.String,
+    }),
+    [
+      {
+        message: {
+          includes:
+            "failed_precondition: volume is currently bound to machine:",
+        },
+      },
+    ],
+  ) {}
+
 export interface AuthenticateTokenRequest {
   header?: string;
 }
@@ -3968,22 +3983,22 @@ export const ListAppIPAssignmentsRequest = /*@__PURE__*/ S.suspend(() =>
 
 export interface IPAssignment {
   created_at?: string;
-  egress?: boolean;
   ip?: string;
   region?: string;
   service_name?: string;
   shared?: boolean;
   type?: string;
+  egress?: boolean;
 }
 export const IPAssignment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     created_at: S.optional(S.String),
-    egress: S.optional(S.Boolean),
     ip: S.optional(S.String),
     region: S.optional(S.String),
     service_name: S.optional(S.String),
     shared: S.optional(S.Boolean),
     type: S.optional(S.String),
+    egress: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "IPAssignment" }) as any as S.Schema<IPAssignment>;
 
@@ -6370,7 +6385,12 @@ export const deleteSecretKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteVolumeError = Forbidden | NotFound | Conflict | FlyIoOpError;
+export type DeleteVolumeError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | VolumeAttached
+  | FlyIoOpError;
 /** Destroy Volume Delete a specific volume within an app by volume ID. */
 export const deleteVolume: API.OperationMethod<
   DeleteVolumeRequest,
@@ -6380,7 +6400,7 @@ export const deleteVolume: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVolumeRequest,
   output: Volume,
-  errors: [Forbidden, NotFound, Conflict],
+  errors: [Forbidden, NotFound, Conflict, VolumeAttached],
   protocol: FlyIoProtocol,
   retry: Retry.Retry,
 }));
