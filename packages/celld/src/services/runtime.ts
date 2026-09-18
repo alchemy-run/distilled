@@ -11,6 +11,15 @@ import {
 
 export type { CelldOpError, CelldOpContext };
 
+/** The native D1 engine rejected SQL execution. Exec and prepared-statement requests may have already committed earlier statements; this error does not authorize automatic mutation replay. */
+export class D1ExecutionError
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<D1ExecutionError>()("D1ExecutionError", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { matches: "^D1_(?:EXEC_)?ERROR:" } }],
+  ) {}
+
 /** peer protocol version is incompatible */
 export class PeerIncompatibleVersion
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -1176,6 +1185,7 @@ export const deleteKv: API.OperationMethod<
 }));
 
 export type ExecD1Error =
+  | D1ExecutionError
   | PeerIncompatibleVersion
   | PeerWrongTarget
   | PeerReplayRejected
@@ -1189,11 +1199,17 @@ export const execD1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecD1Input,
   output: ExecD1Output,
-  errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
+  errors: [
+    D1ExecutionError,
+    PeerIncompatibleVersion,
+    PeerWrongTarget,
+    PeerReplayRejected,
+  ],
   protocol: CelldProtocol,
 }));
 
 export type ExecuteD1StatementsError =
+  | D1ExecutionError
   | PeerIncompatibleVersion
   | PeerWrongTarget
   | PeerReplayRejected
@@ -1207,7 +1223,12 @@ export const executeD1Statements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ExecuteD1StatementsInput,
   output: ExecuteD1StatementsOutput,
-  errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
+  errors: [
+    D1ExecutionError,
+    PeerIncompatibleVersion,
+    PeerWrongTarget,
+    PeerReplayRejected,
+  ],
   protocol: CelldProtocol,
 }));
 
@@ -1284,6 +1305,7 @@ export const listKv: API.OperationMethod<
 }));
 
 export type MigrateD1Error =
+  | D1ExecutionError
   | PeerIncompatibleVersion
   | PeerWrongTarget
   | PeerReplayRejected
@@ -1297,7 +1319,12 @@ export const migrateD1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: MigrateD1Input,
   output: MigrateD1Output,
-  errors: [PeerIncompatibleVersion, PeerWrongTarget, PeerReplayRejected],
+  errors: [
+    D1ExecutionError,
+    PeerIncompatibleVersion,
+    PeerWrongTarget,
+    PeerReplayRejected,
+  ],
   protocol: CelldProtocol,
 }));
 

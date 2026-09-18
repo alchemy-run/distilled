@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
+import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
 import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/unstable/http/HttpClient";
@@ -42,8 +43,12 @@ const run = <A, E>(
 ) =>
   Effect.runPromise(
     effect.pipe(
-      Effect.provide(Endpoint.of("https://celld.test")),
-      Effect.provideService(HttpClient.HttpClient, client),
+      Effect.provide(
+        Layer.mergeAll(
+          Endpoint.of("https://celld.test"),
+          Layer.succeed(HttpClient.HttpClient, client),
+        ),
+      ),
     ),
   );
 
@@ -163,6 +168,47 @@ describe("generated Celld SDK", () => {
         });
       }),
     ));
+
+  for (const [name, operation, message] of [
+    [
+      "execD1",
+      Runtime.execD1({ ...peer, exec: { sql: "SELECT missing" } }).pipe(
+        Effect.asVoid,
+      ),
+      "D1_EXEC_ERROR: no such table: missing",
+    ],
+    [
+      "executeD1Statements",
+      Runtime.executeD1Statements({
+        ...peer,
+        statements: [{ sql: "SELECT missing" }],
+      }).pipe(Effect.asVoid),
+      "D1_ERROR: no such table: missing",
+    ],
+    [
+      "migrateD1",
+      Runtime.migrateD1({
+        ...peer,
+        migrate: { name: "failure", sql: "SELECT missing" },
+      }).pipe(Effect.asVoid),
+      "D1_ERROR: no such table: missing",
+    ],
+  ] as const) {
+    test(`decodes the native SQL error from ${name}`, () =>
+      run(
+        operation.pipe(
+          Effect.result,
+          Effect.tap((result) =>
+            Effect.sync(() => {
+              expect(Result.isFailure(result)).toBe(true);
+              if (Result.isFailure(result))
+                expect(result.failure._tag).toBe("D1ExecutionError");
+            }),
+          ),
+        ),
+        mock(() => new Response(message, { status: 400 })),
+      ));
+  }
 
   test("does not retry a signed mutation after an ambiguous server failure", () => {
     let calls = 0;
