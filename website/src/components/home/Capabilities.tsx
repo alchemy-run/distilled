@@ -5,19 +5,12 @@ import { revealOnScroll } from "../../lib/dom.ts";
 import { Code } from "../ui/Code.tsx";
 import { SectionHead } from "../ui/Section.tsx";
 
-const Cap = (props: {
-  index: number;
-  title: string;
-  code: string;
-  children: JSX.Element;
-}) => (
+const Cap = (props: { index: number; title: string; code: string; children: JSX.Element }) => (
   <article
     class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
     style={{ "--i": props.index }}
   >
-    <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">
-      {props.title}
-    </h3>
+    <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">{props.title}</h3>
     <Code
       src={props.code}
       class="my-[0.2rem] rounded-lg border border-line bg-bg px-[0.9rem] py-3 leading-[1.6]"
@@ -34,11 +27,7 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
     // ["AWS call incl. SigV4, p50", props.bench.awsP50],
   ];
   return (
-    <section
-      class="rule py-section"
-      id="features"
-      aria-labelledby="features-title"
-    >
+    <section class="rule py-section" id="features" aria-labelledby="features-title">
       <SectionHead
         id="features-title"
         title={
@@ -47,20 +36,14 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
           </>
         }
       >
-        Every operation returns an Effect, requests are made using Effect's
-        HttpClient, Effect's Schemas are used to define inputs and outputs.
-        Distilled's core maintains everything you want out of a true
-        Effect-First SDK: typed error categories, retry policies, pagination via
-        effect streams, a span per request; Each sdk is built on top of the same
-        core with the same naming patterns so if you've used one the rest should
-        feel familiar.
+        Every operation returns an Effect, requests are made using Effect's HttpClient, Effect's
+        Schemas are used to define inputs and outputs. Distilled's core maintains everything you
+        want out of a true Effect-First SDK: typed error categories, retry policies, pagination via
+        effect streams, a span per request; Each sdk is built on top of the same core with the same
+        naming patterns so if you've used one the rest should feel familiar.
       </SectionHead>
 
-      <div
-        class="grid grid-cols-1 gap-3 md:grid-cols-2"
-        data-reveal
-        ref={revealOnScroll}
-      >
+      <div class="grid grid-cols-1 gap-3 md:grid-cols-2" data-reveal ref={revealOnScroll}>
         <Cap
           index={0}
           title="Typed errors"
@@ -72,13 +55,11 @@ export const Capabilities = (props: { bench: BenchHeadline }) => {
   Effect.«f:catchIf»(«f:isThrottlingError», () => backOff),
 )`}
         >
-          Match the exact error's or entire categories category with the
-          Effect's functions you're already familiar with like{" "}
-          <code>Effect.catchTags</code> and <code>Effect.catchIf</code>! We
-          patch in the generic errors and the details the api spec never
-          documents for each SDK we produce, so nothing comes back as{" "}
-          <code>unknown</code> and keeps your types actually safe, unlike
-          first-party typescript SDKs.
+          Match the exact error's or entire categories category with the Effect's functions you're
+          already familiar with like <code>Effect.catchTags</code> and <code>Effect.catchIf</code>!
+          We patch in the generic errors and the details the api spec never documents for each SDK
+          we produce, so nothing comes back as <code>unknown</code> and keeps your types actually
+          safe, unlike first-party typescript SDKs.
         </Cap>
 
         <Cap
@@ -98,8 +79,8 @@ write.«f:pipe»(Effect.«f:retry»({
   schedule: Schedule.«f:exponential»("250 millis"),
 }))`}
         >
-          The API's own <code>Retry-After</code> is respected, but you can
-          define your own retry policies, and even stack them!
+          The API's own <code>Retry-After</code> is respected, but you can define your own retry
+          policies, and even stack them!
         </Cap>
 
         <Cap
@@ -119,13 +100,12 @@ write.«f:pipe»(Effect.«f:retry»({
 )`}
         >
           <p>
-            Every paginated operation has <code>.items()</code> and{" "}
-            <code>.pages()</code>. No need to loop over pages just pull from the
-            Effect stream!
+            Every paginated operation has <code>.items()</code> and <code>.pages()</code>. No need
+            to loop over pages just pull from the Effect stream!
           </p>
           <p>
-            Large bodies binary bodies stream in and out without being held in
-            memory. Cancel the Effect and the requests stop.
+            Large bodies binary bodies stream in and out without being held in memory. Cancel the
+            Effect and the requests stop.
           </p>
         </Cap>
 
@@ -146,10 +126,9 @@ write.«f:pipe»(Effect.«f:retry»({
 
 Effect.«f:all»([head, eu]).«f:pipe»(Effect.«f:provide»(AwsLive))`}
         >
-          Your code just calls <code>S3.headObject</code>; No need to pass
-          credentials and regions around or instantiate SDKs as globals. All
-          requiremnts are shoved into layers, so you can provide them once in
-          your root and override them as you see fit.
+          Your code just calls <code>S3.headObject</code>; No need to pass credentials and regions
+          around or instantiate SDKs as globals. All requiremnts are shoved into layers, so you can
+          provide them once in your root and override them as you see fit.
         </Cap>
 
         <Cap
@@ -164,17 +143,15 @@ program.«f:pipe»(
   })),
 )`}
         >
-          Operations are just effects, we piggyback on the same great otel
-          support Effect already provides!
+          Operations are just effects, we piggyback on the same great otel support Effect already
+          provides!
         </Cap>
 
         <article
           class="reveal-item panel flex min-w-0 flex-col gap-3 px-[1.6rem] pt-6 pb-[1.6rem] hover:border-line-2"
           style={{ "--i": 5 }}
         >
-          <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">
-            Per-operation imports
-          </h3>
+          <h3 class="display-48 text-[1.45rem] leading-[1.15] text-fg">Per-operation imports</h3>
           <Code
             src={`«m:// the bundle keeps getObject — not the other 111 S3 ops»
 «k:import» { getObject } «k:from» «s:"@distilled.cloud/aws/s3"»`}
@@ -195,13 +172,9 @@ program.«f:pipe»(
             </For>
           </dl>
           <p class="m-0 text-[0.93rem] text-pretty text-fg-2">
-            Every operation is its own export, so the bundler keeps only the
-            ones you call — 1 of 112 S3 operations survives in the measured
-            build. Runs on Node, Bun and Workers.{" "}
-            <A
-              class="ml-1.5 inline-block whitespace-nowrap text-accent"
-              href="/bench"
-            >
+            Every operation is its own export, so the bundler keeps only the ones you call — 1 of
+            112 S3 operations survives in the measured build. Runs on Node, Bun and Workers.{" "}
+            <A class="ml-1.5 inline-block whitespace-nowrap text-accent" href="/bench">
               See all the numbers →
             </A>
           </p>

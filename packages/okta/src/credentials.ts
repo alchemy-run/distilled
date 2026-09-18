@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Okta credentials — hand-written.
  *
@@ -16,7 +17,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Okta Management API token schemes. */
 export type AuthScheme = "SSWS" | "Bearer";
@@ -27,10 +27,9 @@ export interface Config {
   readonly authScheme: AuthScheme;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("OktaCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "OktaCredentials",
+) {}
 
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
@@ -73,13 +72,11 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!apiToken || !apiBaseUrl) {
       return yield* new ConfigError({
-        message:
-          "OKTA_API_TOKEN and OKTA_ORG_URL environment variables are required",
+        message: "OKTA_API_TOKEN and OKTA_ORG_URL environment variables are required",
       });
     }
 
-    const authScheme: AuthScheme =
-      scheme === "Bearer" || scheme === "SSWS" ? scheme : "SSWS";
+    const authScheme: AuthScheme = scheme === "Bearer" || scheme === "SSWS" ? scheme : "SSWS";
 
     return {
       apiToken: Redacted.make(apiToken),

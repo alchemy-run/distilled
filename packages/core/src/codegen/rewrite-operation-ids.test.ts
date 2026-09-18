@@ -28,10 +28,7 @@ const cases: ReadonlyArray<readonly [string, string]> = [
   ["addsServices_list", "listAddsServices"],
   ["addsServices_get", "getAddsService"],
   ["ServiceMembers_getMetrics", "getServiceMemberMetrics"],
-  [
-    "ServiceMembers_listGlobalConfiguration",
-    "listServiceMemberGlobalConfiguration",
-  ],
+  ["ServiceMembers_listGlobalConfiguration", "listServiceMemberGlobalConfiguration"],
   ["VirtualMachines_start", "startVirtualMachine"],
   ["OpenIdConnectProvider_get", "getOpenIdConnectProvider"],
   ["Report_verify", "verifyReport"],
@@ -80,14 +77,8 @@ const cases: ReadonlyArray<readonly [string, string]> = [
   ["index", "list"],
   ["RetrieveAccount", "getAccount"],
   ["WatchCoreV1PersistentVolumeList", "watchCoreV1PersistentVolumeList"],
-  [
-    "ReadAppsV1NamespacedReplicaSetStatus",
-    "readAppsV1NamespacedReplicaSetStatus",
-  ],
-  [
-    "ReplaceAppsV1NamespacedStatefulSetScale",
-    "replaceAppsV1NamespacedStatefulSetScale",
-  ],
+  ["ReadAppsV1NamespacedReplicaSetStatus", "readAppsV1NamespacedReplicaSetStatus"],
+  ["ReplaceAppsV1NamespacedStatefulSetScale", "replaceAppsV1NamespacedStatefulSetScale"],
   [
     "ConnectCoreV1DeleteNamespacedPodProxyWithPath",
     "connectCoreV1DeleteNamespacedPodProxyWithPath",
@@ -99,10 +90,7 @@ const cases: ReadonlyArray<readonly [string, string]> = [
   ["AddStatusCheckContexts", "addStatusCheckContexts"],
   ["UploadReleaseAsset", "uploadReleaseAsset"],
   ["PostRadarValueListItems", "postRadarValueListItems"],
-  [
-    "PostSetupIntentsIntentVerifyMicrodeposits",
-    "postSetupIntentsIntentVerifyMicrodeposits",
-  ],
+  ["PostSetupIntentsIntentVerifyMicrodeposits", "postSetupIntentsIntentVerifyMicrodeposits"],
   ["InsertCalendarList", "insertCalendarList"],
   ["FetchThreatListUpdates", "fetchThreatListUpdates"],
   ["StreamGenerateContent", "streamGenerateContent"],
@@ -245,9 +233,7 @@ describe("verbNounSmithyModel", () => {
       { target: "ns#GetApp" },
     ]);
     expect(shapes["ns#ListApps"].output.target).toBe("ns#ListAppsResponse");
-    expect(shapes["ns#ListAppsResponse"].members.items.target).toBe(
-      "ns#ListAppsResponseItemsList",
-    );
+    expect(shapes["ns#ListAppsResponse"].members.items.target).toBe("ns#ListAppsResponseItemsList");
   });
 
   test("is idempotent", () => {
@@ -278,10 +264,7 @@ describe("verbNounSmithyModel", () => {
     const r = verbNounSmithyModel(model);
     expect(r.renamed).toBe(0);
     expect(r.collisions).toEqual(["AppsList → ListApps"]);
-    expect(Object.keys(model.shapes).sort()).toEqual([
-      "ns#AppsList",
-      "ns#ListApps",
-    ]);
+    expect(Object.keys(model.shapes).sort()).toEqual(["ns#AppsList", "ns#ListApps"]);
   });
 });
 
@@ -295,31 +278,16 @@ describe("isMechanicalOperationId", () => {
     ["getEvents", "get", "/events", true],
     ["getMauUsage", "get", "/api/v2/usage/mau", false],
     ["getExperimentSnapshot", "get", "/v1/snapshots/{id}", false],
-    [
-      "deleteBranches",
-      "post",
-      "/api/v2/code-refs/repositories/{repo}/branch-delete-tasks",
-      false,
-    ],
+    ["deleteBranches", "post", "/api/v2/code-refs/repositories/{repo}/branch-delete-tasks", false],
     ["post-applePay-sessions", "post", "/applePay/sessions", true],
     ["Apps_list", "get", "/apps", false],
     ["listUsers", "get", "/users", false],
-    [
-      "delete-artifact",
-      "delete",
-      "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
-      false,
-    ],
+    ["delete-artifact", "delete", "/repos/{owner}/{repo}/actions/artifacts/{artifact_id}", false],
     ["get_pricing", "get", "/pricing", true],
     ["get_actions", "get", "/actions", true],
     ["deletePolicy", "delete", "/v2/policies/{policyId}", true],
     ["getCustomerById", "get", "/v2/customers/{customerId}", true],
-    [
-      "getBalanceByAsset",
-      "get",
-      "/accounts/{account_id}/balances/{asset}",
-      false,
-    ],
+    ["getBalanceByAsset", "get", "/accounts/{account_id}/balances/{asset}", false],
   ])("%s %s %s → %s", (id, method, path, expected) => {
     expect(isMechanicalOperationId(id, { method, path })).toBe(expected);
   });
@@ -337,20 +305,8 @@ describe("pathToVerbNoun with a mechanical id", () => {
       false,
       "getLoadBalancerMetrics",
     ],
-    [
-      "delete",
-      "/v2/policies/{policyId}",
-      "deletePolicy",
-      undefined,
-      "deletePolicy",
-    ],
-    [
-      "get",
-      "/v2/customers/{customerId}",
-      "getCustomerById",
-      undefined,
-      "getCustomer",
-    ],
+    ["delete", "/v2/policies/{policyId}", "deletePolicy", undefined, "deletePolicy"],
+    ["get", "/v2/customers/{customerId}", "getCustomerById", undefined, "getCustomer"],
     ["post", "/api/action", "post-api-action", undefined, "createAction"],
     [
       "get",
@@ -359,13 +315,7 @@ describe("pathToVerbNoun with a mechanical id", () => {
       undefined,
       "getOrgRuleset",
     ],
-    [
-      "get",
-      "/orgs/{org}/rulesets",
-      "repos/get-org-rulesets",
-      true,
-      "listOrgRulesets",
-    ],
+    ["get", "/orgs/{org}/rulesets", "repos/get-org-rulesets", true, "listOrgRulesets"],
     [
       "delete",
       "/api/jobs/{namespace}/scheduled/{id}",
@@ -381,31 +331,19 @@ describe("pathToVerbNoun with a mechanical id", () => {
       "getPaymentSessionAuthorization",
     ],
   ])("%s %s (%s) → %s", (method, path, id, coll, expected) => {
-    expect(
-      pathToVerbNoun({ method, path }, { returnsCollection: coll, nouns: id }),
-    ).toBe(expected);
+    expect(pathToVerbNoun({ method, path }, { returnsCollection: coll, nouns: id })).toBe(expected);
   });
 });
 
 describe("pathToVerbNoun with a verbatim id", () => {
   test.each([
-    [
-      "post",
-      "/v1/apps/{appId}/promote",
-      "postV1AppsByAppIdPromote",
-      "createAppPromote",
-    ],
+    ["post", "/v1/apps/{appId}/promote", "postV1AppsByAppIdPromote", "createAppPromote"],
     ["get", "/v1/apps", "getV1Apps", "getApps"],
     ["get", "/v1/apps/{appId}", "getV1AppsByAppId", "getApp"],
     ["post", "/v1/accounts/{account}", "PostAccountsAccount", "updateAccount"],
     ["post", "/v1/accounts", "PostAccounts", "createAccount"],
     ["get", "/v1/accounts/{account}", "GetAccountsAccount", "getAccount"],
-    [
-      "delete",
-      "/v1/accounts/{account}",
-      "DeleteAccountsAccount",
-      "deleteAccount",
-    ],
+    ["delete", "/v1/accounts/{account}", "DeleteAccountsAccount", "deleteAccount"],
     [
       "delete",
       "/v1/customers/{customer}/discount",
@@ -443,12 +381,7 @@ describe("pathToVerbNoun with a verbatim id", () => {
       "deleteBucketKey",
     ],
     ["get", "/v1/users/{id}", "get_v1_users_id", "getUser"],
-    [
-      "delete",
-      "/projects/{project_id}/jwks/{jwks_id}",
-      "deleteProjectJWKS",
-      "deleteProjectJWKS",
-    ],
+    ["delete", "/projects/{project_id}/jwks/{jwks_id}", "deleteProjectJWKS", "deleteProjectJWKS"],
     [
       "get",
       "/projects/{project_id}/branches/{branch_id}/data-api/{database_name}",
@@ -469,9 +402,7 @@ describe("pathToVerbNoun with a verbatim id", () => {
       "deleteSecurityFirewallConfig",
     ],
   ])("%s %s (%s) → %s", (method, path, id, expected) => {
-    expect(
-      pathToVerbNoun({ method, path }, { nouns: id, verbatim: true }),
-    ).toBe(expected);
+    expect(pathToVerbNoun({ method, path }, { nouns: id, verbatim: true })).toBe(expected);
   });
 });
 
@@ -497,11 +428,7 @@ describe("pathToVerbNoun", () => {
     ],
     ["post", "/applePay/sessions", "createApplePaySession"],
     ["post", "/cancels", "createCancel"],
-    [
-      "get",
-      "/v1/benefit-offers/country-summaries",
-      "listBenefitOfferCountrySummaries",
-    ],
+    ["get", "/v1/benefit-offers/country-summaries", "listBenefitOfferCountrySummaries"],
     ["get", "/v1/contractor-invoices/{id}", "getContractorInvoice"],
     ["post", "/auth/oauth2/token", "createAuthOauth2Token"],
     ["post", "/login", "login"],
@@ -515,10 +442,7 @@ describe("pathToVerbNoun", () => {
     ["delete", "/api/notifications", "deleteNotifications"],
   ])("%s %s → %s", (method, path, expected) => {
     expect(
-      pathToVerbNoun(
-        { method, path },
-        { returnsCollection: expected.startsWith("list") },
-      ),
+      pathToVerbNoun({ method, path }, { returnsCollection: expected.startsWith("list") }),
     ).toBe(expected);
   });
 });
@@ -538,25 +462,10 @@ describe("isVerbatimRouteId", () => {
     ],
     ["activity/get-feeds", "get", "/feeds", true],
     ["get_actions", "get", "/actions", true],
-    [
-      "deleteScheduledJob",
-      "delete",
-      "/api/jobs/{namespace}/scheduled/{id}",
-      false,
-    ],
+    ["deleteScheduledJob", "delete", "/api/jobs/{namespace}/scheduled/{id}", false],
     ["getCustomerById", "get", "/v2/customers/{customerId}", true],
-    [
-      "get_webhook_by_token",
-      "get",
-      "/webhooks/{webhook_id}/{webhook_token}",
-      false,
-    ],
-    [
-      "getFirewallConfig",
-      "get",
-      "/v1/security/firewall/config/{configVersion}",
-      false,
-    ],
+    ["get_webhook_by_token", "get", "/webhooks/{webhook_id}/{webhook_token}", false],
+    ["getFirewallConfig", "get", "/v1/security/firewall/config/{configVersion}", false],
   ])("%s %s %s → %s", (id, method, path, expected) => {
     expect(isVerbatimRouteId(id, { method, path })).toBe(expected);
   });

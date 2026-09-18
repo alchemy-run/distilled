@@ -10,11 +10,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  SlackProtocol,
-  type SlackOpError,
-  type SlackOpContext,
-} from "./protocol.ts";
+export { SlackProtocol, type SlackOpError, type SlackOpContext } from "./protocol.ts";
 export * as Retry from "./retry.ts";
 export * as Pagination from "./pagination.ts";
 export * as Services from "./services/index.ts";

@@ -72,10 +72,8 @@ export const toRecordFile = (
     runtime: `bun ${Bun.version}`,
     node: capture(["node", "--version"]) || "unknown",
     typescript:
-      capture(["node", "node_modules/typescript/bin/tsc", "-v"]).replace(
-        /^Version\s+/,
-        "",
-      ) || "unknown",
+      capture(["node", "node_modules/typescript/bin/tsc", "-v"]).replace(/^Version\s+/, "") ||
+      "unknown",
     cpu: cpus()[0]?.model ?? "unknown",
     cpus: cpus().length,
     os: `${platform()} ${release()} ${arch()}`,

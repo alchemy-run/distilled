@@ -1,3 +1,4 @@
+import * as Retries from "@distilled.cloud/core/retry";
 /**
  * GitHub retry surface — a veneer over `@distilled.cloud/core/retry`.
  *
@@ -20,7 +21,6 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import * as Retries from "@distilled.cloud/core/retry";
 
 export type Options = Retries.Options;
 export type Factory = Retries.Factory;
@@ -33,16 +33,11 @@ export class Retry extends Context.Service<Retry, Policy>()("GitHubRetry") {}
 export const policy: {
   (
     options: Options,
-  ): <A, E, R>(
-    effect: Effect.Effect<A, E, R>,
-  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
+  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
   (
     factory: Factory,
-  ): <A, E, R>(
-    effect: Effect.Effect<A, E, R>,
-  ) => Effect.Effect<A, E, Exclude<R, Retry>>;
-} = (optionsOrFactory: Options | Factory) =>
-  Effect.provide(Layer.succeed(Retry, optionsOrFactory));
+  ): <A, E, R>(effect: Effect.Effect<A, E, R>) => Effect.Effect<A, E, Exclude<R, Retry>>;
+} = (optionsOrFactory: Options | Factory) => Effect.provide(Layer.succeed(Retry, optionsOrFactory));
 
 /** Disables all automatic retries. */
 export const none: <A, E, R>(

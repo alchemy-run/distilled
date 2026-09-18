@@ -52,10 +52,7 @@ interface Element {
  * Throws XmlParseError for malformed input or exceeded limits.
  * The iterative scanner allocates no Effects while traversing the document.
  */
-export function parseXmlSync(
-  xml: string,
-  options: XmlParseOptions = {},
-): XmlObject {
+export function parseXmlSync(xml: string, options: XmlParseOptions = {}): XmlObject {
   let pos = xml.charCodeAt(0) === 0xfeff ? 1 : 0;
   const start = pos;
   const maxDepth = options.maxDepth ?? 256;
@@ -78,8 +75,7 @@ export function parseXmlSync(
   }
 
   if (!Number.isSafeInteger(maxDepth) || maxDepth < 1) fail("Invalid maxDepth");
-  if (!Number.isSafeInteger(maxLength) || maxLength < 0)
-    fail("Invalid maxLength");
+  if (!Number.isSafeInteger(maxLength) || maxLength < 0) fail("Invalid maxLength");
   if (xml.length > maxLength) fail("XML input length limit exceeded", 0);
   const invalid = invalidCharacter.exec(xml);
   if (invalid) fail("Invalid XML character", invalid.index);
@@ -111,9 +107,7 @@ export function parseXmlSync(
       const end = amp < 0 ? raw.length : amp;
       const literal = raw.slice(from, end);
       parts.push(
-        attribute
-          ? literal.replace(/\r\n|[\t\r\n]/g, " ")
-          : literal.replace(/\r\n?/g, "\n"),
+        attribute ? literal.replace(/\r\n|[\t\r\n]/g, " ") : literal.replace(/\r\n?/g, "\n"),
       );
       if (amp < 0) break;
       const semi = raw.indexOf(";", amp + 1);
@@ -169,10 +163,7 @@ export function parseXmlSync(
     if (!element.hasChildren && !element.hasAttributes) {
       value = text;
     } else {
-      if (
-        text &&
-        (!element.hasChildren || element.hasCdata || !xmlSpace.test(text))
-      ) {
+      if (text && (!element.hasChildren || element.hasCdata || !xmlSpace.test(text))) {
         element.object["#text"] = text;
       }
       value = element.object;
@@ -199,8 +190,7 @@ export function parseXmlSync(
         if (!xmlSpace.test(raw)) fail("Text outside root element", offset);
       } else {
         const cdataEnd = raw.indexOf("]]>");
-        if (cdataEnd >= 0)
-          fail("Unexpected CDATA terminator", offset + cdataEnd);
+        if (cdataEnd >= 0) fail("Unexpected CDATA terminator", offset + cdataEnd);
         element.text.push(decode(raw, offset));
       }
       continue;
@@ -210,8 +200,7 @@ export function parseXmlSync(
       const end = xml.indexOf("-->", pos + 4);
       if (end < 0) fail("Unterminated comment");
       const comment = xml.slice(pos + 4, end);
-      if (comment.includes("--") || comment.endsWith("-"))
-        fail("Invalid comment");
+      if (comment.includes("--") || comment.endsWith("-")) fail("Invalid comment");
       pos = end + 3;
     } else if (xml.startsWith("<![CDATA[", pos)) {
       const element = stack[stack.length - 1];
@@ -225,15 +214,11 @@ export function parseXmlSync(
       const offset = pos;
       pos += 2;
       const target = readName();
-      if (!xml.startsWith("?>", pos) && !skipSpace())
-        fail("Expected PI whitespace");
+      if (!xml.startsWith("?>", pos) && !skipSpace()) fail("Expected PI whitespace");
       const end = xml.indexOf("?>", pos);
       if (end < 0) fail("Unterminated processing instruction", offset);
       if (target.toLowerCase() === "xml") {
-        if (
-          offset !== start ||
-          !declarationPattern.test(xml.slice(offset + 2, end))
-        ) {
+        if (offset !== start || !declarationPattern.test(xml.slice(offset + 2, end))) {
           fail("Invalid or misplaced XML declaration", offset);
         }
       }
@@ -325,8 +310,7 @@ const xmlEscapes: Record<string, string> = {
 /**
  * Escape special XML characters in a string.
  */
-export const escapeXml = (s: string): string =>
-  s.replace(/[&<>"']/g, (c) => xmlEscapes[c]);
+export const escapeXml = (s: string): string => s.replace(/[&<>"']/g, (c) => xmlEscapes[c]);
 
 // =============================================================================
 // XML Tag Helpers

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "DLM", serviceShapeName: "dlm_20180112" });
 const auth = T.AwsAuthSigv4({ name: "dlm" });
 const ver = T.ServiceVersion("2018-01-12");
@@ -23,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,27 +52,17 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://dlm.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://dlm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://dlm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://dlm.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://dlm.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://dlm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://dlm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -151,17 +137,11 @@ export const ResourceTypeValues = S.String;
 
 export type ResourceTypeValuesList = ResourceTypeValues[];
 export const ResourceTypeValuesList = /*@__PURE__*/ S.Array(ResourceTypeValues);
-export type ResourceLocationValues =
-  | "CLOUD"
-  | "OUTPOST"
-  | "LOCAL_ZONE"
-  | (string & {});
+export type ResourceLocationValues = "CLOUD" | "OUTPOST" | "LOCAL_ZONE" | (string & {});
 export const ResourceLocationValues = S.String;
 
 export type ResourceLocationList = ResourceLocationValues[];
-export const ResourceLocationList = /*@__PURE__*/ S.Array(
-  ResourceLocationValues,
-);
+export const ResourceLocationList = /*@__PURE__*/ S.Array(ResourceLocationValues);
 export interface Tag {
   Key?: string;
   Value?: string;
@@ -177,11 +157,7 @@ export type TagsToAddList = Tag[];
 export const TagsToAddList = /*@__PURE__*/ S.Array(Tag);
 export type VariableTagsList = Tag[];
 export const VariableTagsList = /*@__PURE__*/ S.Array(Tag);
-export type LocationValues =
-  | "CLOUD"
-  | "OUTPOST_LOCAL"
-  | "LOCAL_ZONE"
-  | (string & {});
+export type LocationValues = "CLOUD" | "OUTPOST_LOCAL" | "LOCAL_ZONE" | (string & {});
 export const LocationValues = S.String;
 
 export type Interval = number;
@@ -196,9 +172,7 @@ export const StageValues = S.String;
 
 export type StagesList = StageValues[];
 export const StagesList = /*@__PURE__*/ S.Array(StageValues);
-export type ExecutionHandlerServiceValues =
-  | "AWS_SYSTEMS_MANAGER"
-  | (string & {});
+export type ExecutionHandlerServiceValues = "AWS_SYSTEMS_MANAGER" | (string & {});
 export const ExecutionHandlerServiceValues = S.String;
 
 export type ExecutionHandler = string;
@@ -245,12 +219,7 @@ export const CreateRule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "CreateRule" }) as any as S.Schema<CreateRule>;
 export type StandardTierRetainRuleCount = number;
 export type StandardTierRetainRuleInterval = number;
-export type RetentionIntervalUnitValues =
-  | "DAYS"
-  | "WEEKS"
-  | "MONTHS"
-  | "YEARS"
-  | (string & {});
+export type RetentionIntervalUnitValues = "DAYS" | "WEEKS" | "MONTHS" | "YEARS" | (string & {});
 export const RetentionIntervalUnitValues = S.String;
 
 export interface RetainRule {
@@ -504,9 +473,7 @@ export const CrossRegionCopyAction = /*@__PURE__*/ S.suspend(() =>
   identifier: "CrossRegionCopyAction",
 }) as any as S.Schema<CrossRegionCopyAction>;
 export type CrossRegionCopyActionList = CrossRegionCopyAction[];
-export const CrossRegionCopyActionList = /*@__PURE__*/ S.Array(
-  CrossRegionCopyAction,
-);
+export const CrossRegionCopyActionList = /*@__PURE__*/ S.Array(CrossRegionCopyAction);
 export interface Action {
   Name?: string;
   CrossRegionCopy?: CrossRegionCopyAction[];
@@ -533,9 +500,7 @@ export const CrossRegionCopyTarget = /*@__PURE__*/ S.suspend(() =>
   identifier: "CrossRegionCopyTarget",
 }) as any as S.Schema<CrossRegionCopyTarget>;
 export type CrossRegionCopyTargetList = CrossRegionCopyTarget[];
-export const CrossRegionCopyTargetList = /*@__PURE__*/ S.Array(
-  CrossRegionCopyTarget,
-);
+export const CrossRegionCopyTargetList = /*@__PURE__*/ S.Array(CrossRegionCopyTarget);
 export type ExtendDeletion = boolean;
 export type ExcludeBootVolumes = boolean;
 export type VolumeTypeValues = string;
@@ -596,10 +561,7 @@ export const PolicyDetails = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type DefaultPolicyTypeValues = "VOLUME" | "INSTANCE" | (string & {});
 export const DefaultPolicyTypeValues = S.String;
 
@@ -631,16 +593,7 @@ export const CreateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ExtendDeletion: S.optional(S.Boolean),
     CrossRegionCopyTargets: S.optional(CrossRegionCopyTargetList),
     Exclusions: S.optional(Exclusions),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/policies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/policies" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateLifecyclePolicyRequest",
 }) as any as S.Schema<CreateLifecyclePolicyRequest>;
@@ -658,31 +611,18 @@ export interface DeleteLifecyclePolicyRequest {
 }
 export const DeleteLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PolicyId: S.String.pipe(T.HttpLabel("PolicyId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/policies/{PolicyId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/policies/{PolicyId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteLifecyclePolicyRequest",
 }) as any as S.Schema<DeleteLifecyclePolicyRequest>;
 export interface DeleteLifecyclePolicyResponse {}
-export const DeleteLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteLifecyclePolicyResponse",
 }) as any as S.Schema<DeleteLifecyclePolicyResponse>;
 export type PolicyIdList = string[];
 export const PolicyIdList = /*@__PURE__*/ S.Array(S.String);
-export type GettablePolicyStateValues =
-  | "ENABLED"
-  | "DISABLED"
-  | "ERROR"
-  | (string & {});
+export type GettablePolicyStateValues = "ENABLED" | "DISABLED" | "ERROR" | (string & {});
 export const GettablePolicyStateValues = S.String;
 
 export type TagFilter = string;
@@ -690,11 +630,7 @@ export type TargetTagsFilterList = string[];
 export const TargetTagsFilterList = /*@__PURE__*/ S.Array(S.String);
 export type TagsToAddFilterList = string[];
 export const TagsToAddFilterList = /*@__PURE__*/ S.Array(S.String);
-export type DefaultPoliciesTypeValues =
-  | "VOLUME"
-  | "INSTANCE"
-  | "ALL"
-  | (string & {});
+export type DefaultPoliciesTypeValues = "VOLUME" | "INSTANCE" | "ALL" | (string & {});
 export const DefaultPoliciesTypeValues = S.String;
 
 export interface GetLifecyclePoliciesRequest {
@@ -709,26 +645,11 @@ export const GetLifecyclePoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PolicyIds: S.optional(PolicyIdList).pipe(T.HttpQuery("policyIds")),
     State: S.optional(GettablePolicyStateValues).pipe(T.HttpQuery("state")),
-    ResourceTypes: S.optional(ResourceTypeValuesList).pipe(
-      T.HttpQuery("resourceTypes"),
-    ),
-    TargetTags: S.optional(TargetTagsFilterList).pipe(
-      T.HttpQuery("targetTags"),
-    ),
+    ResourceTypes: S.optional(ResourceTypeValuesList).pipe(T.HttpQuery("resourceTypes")),
+    TargetTags: S.optional(TargetTagsFilterList).pipe(T.HttpQuery("targetTags")),
     TagsToAdd: S.optional(TagsToAddFilterList).pipe(T.HttpQuery("tagsToAdd")),
-    DefaultPolicyType: S.optional(DefaultPoliciesTypeValues).pipe(
-      T.HttpQuery("defaultPolicyType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/policies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    DefaultPolicyType: S.optional(DefaultPoliciesTypeValues).pipe(T.HttpQuery("defaultPolicyType")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/policies" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetLifecyclePoliciesRequest",
 }) as any as S.Schema<GetLifecyclePoliciesRequest>;
@@ -754,9 +675,7 @@ export const LifecyclePolicySummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "LifecyclePolicySummary",
 }) as any as S.Schema<LifecyclePolicySummary>;
 export type LifecyclePolicySummaryList = LifecyclePolicySummary[];
-export const LifecyclePolicySummaryList = /*@__PURE__*/ S.Array(
-  LifecyclePolicySummary,
-);
+export const LifecyclePolicySummaryList = /*@__PURE__*/ S.Array(LifecyclePolicySummary);
 export interface GetLifecyclePoliciesResponse {
   Policies?: LifecyclePolicySummary[];
 }
@@ -770,14 +689,7 @@ export interface GetLifecyclePolicyRequest {
 }
 export const GetLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PolicyId: S.String.pipe(T.HttpLabel("PolicyId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/policies/{PolicyId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/policies/{PolicyId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetLifecyclePolicyRequest",
@@ -804,12 +716,8 @@ export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(GettablePolicyStateValues),
     StatusMessage: S.optional(S.String),
     ExecutionRoleArn: S.optional(S.String),
-    DateCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DateModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DateCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DateModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PolicyDetails: S.optional(PolicyDetails),
     Tags: S.optional(TagMap),
     PolicyArn: S.optional(S.String),
@@ -874,14 +782,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -903,22 +804,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -932,22 +824,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: S.optional(TagKeyList).pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateLifecyclePolicyRequest {
@@ -977,22 +860,13 @@ export const UpdateLifecyclePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     CrossRegionCopyTargets: S.optional(CrossRegionCopyTargetList),
     Exclusions: S.optional(Exclusions),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/policies/{PolicyId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/policies/{PolicyId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateLifecyclePolicyRequest",
 }) as any as S.Schema<UpdateLifecyclePolicyRequest>;
 export interface UpdateLifecyclePolicyResponse {}
-export const UpdateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateLifecyclePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateLifecyclePolicyResponse",
 }) as any as S.Schema<UpdateLifecyclePolicyResponse>;
 export type ErrorMessage = string;
@@ -1032,11 +906,7 @@ export const createLifecyclePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateLifecyclePolicyRequest,
   output: CreateLifecyclePolicyResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    LimitExceededException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLifecyclePolicy",
@@ -1062,11 +932,7 @@ export const deleteLifecyclePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLifecyclePolicyRequest,
   output: DeleteLifecyclePolicyResponse,
-  errors: [
-    InternalServerException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
@@ -1118,11 +984,7 @@ export const getLifecyclePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetLifecyclePolicyRequest,
   output: GetLifecyclePolicyResponse,
-  errors: [
-    InternalServerException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
@@ -1144,11 +1006,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1170,11 +1028,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1196,11 +1050,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    InvalidRequestException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidRequestException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

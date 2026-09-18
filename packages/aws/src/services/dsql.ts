@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "DSQL", serviceShapeName: "DSQL" });
 const auth = T.AwsAuthSigv4({ name: "dsql" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -23,9 +23,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -38,9 +36,7 @@ const rules = T.EndpointResolver((p, _) => {
             `https://dsql-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        return e(
-          `https://dsql.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-        );
+        return e(`https://dsql.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
       }
     }
   }
@@ -120,10 +116,7 @@ export type KmsEncryptionKey = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export type Region = string;
 export type ClusterArn = string;
@@ -161,16 +154,7 @@ export const CreateClusterInput = /*@__PURE__*/ S.suspend(() =>
     multiRegionProperties: S.optional(MultiRegionProperties),
     policy: S.optional(S.String),
     bypassPolicyLockoutSafetyCheck: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/cluster" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateClusterInput",
 }) as any as S.Schema<CreateClusterInput>;
@@ -190,10 +174,7 @@ export type ClusterStatus =
 export const ClusterStatus = S.String;
 
 export type ClusterCreationTime = Date;
-export type EncryptionType =
-  | "AWS_OWNED_KMS_KEY"
-  | "CUSTOMER_MANAGED_KMS_KEY"
-  | (string & {});
+export type EncryptionType = "AWS_OWNED_KMS_KEY" | "CUSTOMER_MANAGED_KMS_KEY" | (string & {});
 export const EncryptionType = S.String;
 
 export type KmsKeyArn = string;
@@ -336,19 +317,9 @@ export interface DeleteClusterInput {
 export const DeleteClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteClusterInput",
@@ -378,13 +349,8 @@ export interface DeleteClusterPolicyInput {
 export const DeleteClusterPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identifier: S.String.pipe(T.HttpLabel("identifier")),
-    expectedPolicyVersion: S.optional(S.String).pipe(
-      T.HttpQuery("expected-policy-version"),
-    ),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
+    expectedPolicyVersion: S.optional(S.String).pipe(T.HttpQuery("expected-policy-version")),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/cluster/{identifier}/policy" }),
@@ -415,10 +381,7 @@ export const DeleteStreamInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clusterIdentifier: S.String.pipe(T.HttpLabel("clusterIdentifier")),
     streamIdentifier: S.String.pipe(T.HttpLabel("streamIdentifier")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("client-token"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("client-token"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -458,14 +421,7 @@ export interface GetClusterInput {
 }
 export const GetClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identifier: S.String.pipe(T.HttpLabel("identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetClusterInput",
@@ -635,16 +591,7 @@ export const ListClustersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/cluster" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/cluster" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListClustersInput",
 }) as any as S.Schema<ListClustersInput>;
@@ -722,14 +669,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -786,22 +726,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -815,22 +746,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateClusterInput {
@@ -848,14 +770,7 @@ export const UpdateClusterInput = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     multiRegionProperties: S.optional(MultiRegionProperties),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/cluster/{identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/cluster/{identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateClusterInput",
@@ -895,9 +810,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateClusterError =
   | ConflictException
   | ServiceQuotaExceededException
@@ -956,11 +869,7 @@ export const createCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateClusterInput,
   output: CreateClusterOutput,
-  errors: [
-    ConflictException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
+  errors: [ConflictException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
@@ -1014,10 +923,7 @@ export const createStream: API.OperationMethod<
   operationName: "CreateStream",
 }));
 
-export type DeleteClusterError =
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DeleteClusterError = ConflictException | ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a cluster in Amazon Aurora DSQL.
  */
@@ -1057,10 +963,7 @@ export const deleteClusterPolicy: API.OperationMethod<
   operationName: "DeleteClusterPolicy",
 }));
 
-export type DeleteStreamError =
-  | ConflictException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type DeleteStreamError = ConflictException | ResourceNotFoundException | CommonErrors;
 /**
  * Deletes a stream from a cluster.
  */
@@ -1096,10 +999,7 @@ export const getCluster: API.OperationMethod<
   operationName: "GetCluster",
 }));
 
-export type GetClusterPolicyError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetClusterPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */

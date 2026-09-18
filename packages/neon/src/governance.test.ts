@@ -13,10 +13,7 @@ import * as Neon from "./services/neon.ts";
 
 type Assert<T extends true> = T;
 type SensitiveKeys = Assert<
-  [
-    Neon.CreateOrgApiKeyResponse["key"],
-    Neon.ApiKeyCreateResponse["key"],
-  ] extends [
+  [Neon.CreateOrgApiKeyResponse["key"], Neon.ApiKeyCreateResponse["key"]] extends [
     string | Redacted.Redacted<string>,
     string | Redacted.Redacted<string>,
   ]
@@ -32,9 +29,7 @@ type RedactedKeysAccepted = Assert<
     : false
 >;
 type InvalidKeyRejected = Assert<
-  Redacted.Redacted<number> extends Neon.CreateOrgApiKeyResponse["key"]
-    ? false
-    : true
+  Redacted.Redacted<number> extends Neon.CreateOrgApiKeyResponse["key"] ? false : true
 >;
 type MetadataHasNoSecret = Assert<
   "key" extends keyof Neon.OrgApiKeysListResponseItem ? false : true
@@ -58,18 +53,14 @@ const assertions: [
   ServiceFreeKeyCodecs,
 ] = [true, true, true, true, true];
 
-const harness = (
-  respond: (request: HttpClientRequest.HttpClientRequest) => Response,
-) =>
+const harness = (respond: (request: HttpClientRequest.HttpClientRequest) => Response) =>
   Layer.mergeAll(
     fromApiKey({ apiKey: "fixture-deployment-secret" }),
     Layer.succeed(Retry, { while: () => false }),
     Layer.succeed(
       HttpClient.HttpClient,
       HttpClient.make((request) =>
-        Effect.sync(() =>
-          HttpClientResponse.fromWeb(request, respond(request)),
-        ),
+        Effect.sync(() => HttpClientResponse.fromWeb(request, respond(request))),
       ),
     ),
   );
@@ -102,14 +93,9 @@ test("organization and personal create operations redact reveal-once keys and pr
         harness((request) => {
           expect(request.method).toBe("POST");
           expect(request.url).toEndWith("/organizations/org-fixture/api_keys");
-          expect(request.headers.authorization).toBe(
-            "Bearer fixture-deployment-secret",
-          );
-          if (request.body._tag !== "Uint8Array")
-            throw new Error("Expected JSON body");
-          expect(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          ).toEqual({
+          expect(request.headers.authorization).toBe("Bearer fixture-deployment-secret");
+          if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON body");
+          expect(JSON.parse(new TextDecoder().decode(request.body.body))).toEqual({
             key_name: key.name,
             project_id: "project-fixture",
           });
@@ -126,18 +112,11 @@ test("organization and personal create operations redact reveal-once keys and pr
     const encoded = Schema.encodeSync(codec)(validated);
     expect(Redacted.isRedacted(encoded.key)).toBe(true);
     expect(JSON.stringify(encoded)).not.toContain(key.key);
-    if (!Redacted.isRedacted(encoded.key))
-      throw new Error("Expected redacted key");
+    if (!Redacted.isRedacted(encoded.key)) throw new Error("Expected redacted key");
     expect(Redacted.value(encoded.key)).toBe(key.key);
-    expect(() =>
-      Schema.encodeSync(Schema.toCodecJson(codec))(validated),
-    ).toThrow();
-    expect(() =>
-      Schema.decodeUnknownSync(codec)({ ...value, key: Redacted.make(123) }),
-    ).toThrow();
-    expect(() =>
-      Schema.decodeUnknownSync(codec)({ ...value, key: 123 }),
-    ).toThrow();
+    expect(() => Schema.encodeSync(Schema.toCodecJson(codec))(validated)).toThrow();
+    expect(() => Schema.decodeUnknownSync(codec)({ ...value, key: Redacted.make(123) })).toThrow();
+    expect(() => Schema.decodeUnknownSync(codec)({ ...value, key: 123 })).toThrow();
   }
 });
 
@@ -192,9 +171,7 @@ test("organization key list is an unpaginated metadata array and revoke uses the
       Effect.provide(
         harness((request) => {
           expect(request.method).toBe("DELETE");
-          expect(request.url).toEndWith(
-            "/organizations/org-fixture/api_keys/123",
-          );
+          expect(request.url).toEndWith("/organizations/org-fixture/api_keys/123");
           expect(request.body._tag).toBe("Empty");
           return Response.json({
             ...metadata,
@@ -214,17 +191,13 @@ test("organization key races surface typed Conflict and NotFound unions", async 
       key_name: key.name,
       project_id: "project-fixture",
     }).pipe(
-      Effect.provide(
-        harness(() => Response.json({ message: "conflict" }, { status: 409 })),
-      ),
+      Effect.provide(harness(() => Response.json({ message: "conflict" }, { status: 409 }))),
       Effect.result,
     ),
   );
   const missing = await Effect.runPromise(
     Neon.revokeOrgApiKey({ org_id: "org-fixture", key_id: 123 }).pipe(
-      Effect.provide(
-        harness(() => Response.json({ message: "not found" }, { status: 404 })),
-      ),
+      Effect.provide(harness(() => Response.json({ message: "not found" }, { status: 404 }))),
       Effect.result,
     ),
   );

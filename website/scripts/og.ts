@@ -52,12 +52,7 @@ const findChromium = async (): Promise<string> => {
   if (existsSync(cache)) {
     for (const dir of (await readdir(cache)).sort().reverse()) {
       for (const candidate of [
-        join(
-          cache,
-          dir,
-          "chrome-headless-shell-linux64",
-          "chrome-headless-shell",
-        ),
+        join(cache, dir, "chrome-headless-shell-linux64", "chrome-headless-shell"),
         join(cache, dir, "chrome-linux64", "chrome"),
         join(cache, dir, "chrome-linux", "chrome"),
       ]) {
@@ -65,12 +60,7 @@ const findChromium = async (): Promise<string> => {
       }
     }
   }
-  for (const bin of [
-    "chromium",
-    "chromium-browser",
-    "google-chrome",
-    "google-chrome-stable",
-  ]) {
+  for (const bin of ["chromium", "chromium-browser", "google-chrome", "google-chrome-stable"]) {
     const found = Bun.which(bin);
     if (found) return found;
   }
@@ -109,9 +99,7 @@ const shoot = async (chromium: string, src: string, out: string) => {
   const rendered = [header.getUint32(16), header.getUint32(20)] as const;
   const expected = [WIDTH * SCALE, HEIGHT * SCALE] as const;
   if (rendered[0] !== expected[0] || rendered[1] !== expected[1]) {
-    throw new Error(
-      `${out}: rendered ${rendered.join("×")}, expected ${expected.join("×")}`,
-    );
+    throw new Error(`${out}: rendered ${rendered.join("×")}, expected ${expected.join("×")}`);
   }
   return { size: png.length, dimensions: rendered.join("×") };
 };
@@ -145,9 +133,7 @@ const standing = (stats: CatalogPackage["stats"]) => {
     return {
       tone: "ranked",
       badge: `RANK ${String(stats.rank).padStart(2, "0")} OF ${stats.ranked} · WALL OF SHAME`,
-      tags: `${ops} · ${fmt.format(stats.fixes)} PATCHES${
-        stats.used ? " · USED IN ALCHEMY" : ""
-      }`,
+      tags: `${ops} · ${fmt.format(stats.fixes)} PATCHES${stats.used ? " · USED IN ALCHEMY" : ""}`,
     };
   }
   return {
@@ -162,11 +148,7 @@ const markup = (icon: BrandIcon | undefined, short: string) =>
     ? `<svg viewBox="${escapeHtml(icon.viewBox)}" fill="currentColor">${icon.inner}</svg>`
     : `<span class="gram">${escapeHtml(monogram(short))}</span>`;
 
-const cardHtml = (
-  template: string,
-  pkg: CatalogPackage,
-  icon: BrandIcon | undefined,
-) => {
+const cardHtml = (template: string, pkg: CatalogPackage, icon: BrandIcon | undefined) => {
   const { tone, badge, tags } = standing(pkg.stats);
   const slots: Record<string, string> = {
     css: `file://${join(assets, "og.css")}`,
@@ -174,17 +156,12 @@ const cardHtml = (
     mark: markup(icon, pkg.short),
     name: escapeHtml(pkg.short),
     // Long names would otherwise run past the card's right margin.
-    nameSize: String(
-      Math.min(92, Math.floor(NAME_SLOT / (pkg.short.length * 0.52))),
-    ),
+    nameSize: String(Math.min(92, Math.floor(NAME_SLOT / (pkg.short.length * 0.52)))),
     install: escapeHtml(`pnpm add ${pkg.name} effect`),
     badge: escapeHtml(badge),
     tags: escapeHtml(tags),
   };
-  return template.replaceAll(
-    /\{\{(\w+)\}\}/g,
-    (whole, key: string) => slots[key] ?? whole,
-  );
+  return template.replaceAll(/\{\{(\w+)\}\}/g, (whole, key: string) => slots[key] ?? whole);
 };
 
 /** Run `task` over `items`, at most `limit` browsers at a time. */
@@ -221,11 +198,7 @@ const renderProviderCards = async (chromium: string) => {
     await pool(providers, Math.min(8, availableParallelism()), async (pkg) => {
       const src = join(scratch, `${pkg.dir}.html`);
       await writeFile(src, cardHtml(template, pkg, icons[pkg.dir]));
-      const { size } = await shoot(
-        chromium,
-        src,
-        join(cardsDir, `${pkg.dir}.png`),
-      );
+      const { size } = await shoot(chromium, src, join(cardsDir, `${pkg.dir}.png`));
       bytes += size;
     });
   } finally {
@@ -273,10 +246,7 @@ const renderShameCard = async (chromium: string) => {
   try {
     await writeFile(
       src,
-      template.replaceAll(
-        /\{\{(\w+)\}\}/g,
-        (whole, key: string) => slots[key] ?? whole,
-      ),
+      template.replaceAll(/\{\{(\w+)\}\}/g, (whole, key: string) => slots[key] ?? whole),
     );
     const out = join(cardsDir, "shame.png");
     const { size } = await shoot(chromium, src, out);
@@ -309,10 +279,6 @@ if (all) {
   await renderShameCard(chromium);
 } else {
   const out = join(publicDir, "og.png");
-  const { size, dimensions } = await shoot(
-    chromium,
-    join(assets, "og.html"),
-    out,
-  );
+  const { size, dimensions } = await shoot(chromium, join(assets, "og.html"), out);
   console.log(`wrote ${out} (${dimensions}, ${size} bytes)`);
 }

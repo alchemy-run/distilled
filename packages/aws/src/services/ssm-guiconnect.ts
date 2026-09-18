@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SSM GuiConnect",
   serviceShapeName: "SSMGuiConnect",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ssm-guiconnect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ssm-guiconnect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://ssm-guiconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://ssm-guiconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -129,48 +119,45 @@ export type ClientToken = string;
 export interface DeleteConnectionRecordingPreferencesRequest {
   ClientToken?: string;
 }
-export const DeleteConnectionRecordingPreferencesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/DeleteConnectionRecordingPreferences",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/DeleteConnectionRecordingPreferences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteConnectionRecordingPreferencesRequest",
-  }) as any as S.Schema<DeleteConnectionRecordingPreferencesRequest>;
+  ),
+).annotate({
+  identifier: "DeleteConnectionRecordingPreferencesRequest",
+}) as any as S.Schema<DeleteConnectionRecordingPreferencesRequest>;
 export interface DeleteConnectionRecordingPreferencesResponse {
   ClientToken?: string;
 }
-export const DeleteConnectionRecordingPreferencesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ClientToken: S.optional(S.String) }),
-  ).annotate({
-    identifier: "DeleteConnectionRecordingPreferencesResponse",
-  }) as any as S.Schema<DeleteConnectionRecordingPreferencesResponse>;
+export const DeleteConnectionRecordingPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ClientToken: S.optional(S.String) }),
+).annotate({
+  identifier: "DeleteConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<DeleteConnectionRecordingPreferencesResponse>;
 export interface GetConnectionRecordingPreferencesRequest {}
-export const GetConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/GetConnectionRecordingPreferences" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/GetConnectionRecordingPreferences" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetConnectionRecordingPreferencesRequest",
 }) as any as S.Schema<GetConnectionRecordingPreferencesRequest>;
@@ -209,57 +196,50 @@ export interface GetConnectionRecordingPreferencesResponse {
   ClientToken?: string;
   ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
 }
-export const GetConnectionRecordingPreferencesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ClientToken: S.optional(S.String),
-      ConnectionRecordingPreferences: S.optional(
-        ConnectionRecordingPreferences,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetConnectionRecordingPreferencesResponse",
-  }) as any as S.Schema<GetConnectionRecordingPreferencesResponse>;
+export const GetConnectionRecordingPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String),
+    ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+  }),
+).annotate({
+  identifier: "GetConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<GetConnectionRecordingPreferencesResponse>;
 export interface UpdateConnectionRecordingPreferencesRequest {
   ConnectionRecordingPreferences: ConnectionRecordingPreferences;
   ClientToken?: string;
 }
-export const UpdateConnectionRecordingPreferencesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConnectionRecordingPreferences: ConnectionRecordingPreferences,
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/UpdateConnectionRecordingPreferences",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConnectionRecordingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConnectionRecordingPreferences: ConnectionRecordingPreferences,
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/UpdateConnectionRecordingPreferences",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateConnectionRecordingPreferencesRequest",
-  }) as any as S.Schema<UpdateConnectionRecordingPreferencesRequest>;
+  ),
+).annotate({
+  identifier: "UpdateConnectionRecordingPreferencesRequest",
+}) as any as S.Schema<UpdateConnectionRecordingPreferencesRequest>;
 export interface UpdateConnectionRecordingPreferencesResponse {
   ClientToken?: string;
   ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
 }
-export const UpdateConnectionRecordingPreferencesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ClientToken: S.optional(S.String),
-      ConnectionRecordingPreferences: S.optional(
-        ConnectionRecordingPreferences,
-      ),
-    }),
-  ).annotate({
-    identifier: "UpdateConnectionRecordingPreferencesResponse",
-  }) as any as S.Schema<UpdateConnectionRecordingPreferencesResponse>;
+export const UpdateConnectionRecordingPreferencesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String),
+    ConnectionRecordingPreferences: S.optional(ConnectionRecordingPreferences),
+  }),
+).annotate({
+  identifier: "UpdateConnectionRecordingPreferencesResponse",
+}) as any as S.Schema<UpdateConnectionRecordingPreferencesResponse>;
 export type ErrorMessage = string;
 export type DeleteConnectionRecordingPreferencesError =
   | AccessDeniedException

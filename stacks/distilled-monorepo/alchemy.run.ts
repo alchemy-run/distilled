@@ -85,9 +85,7 @@ const ReposPat = Config.redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
  * information (`GET /apps/alchemy-version-bot`), and a secret only because
  * `actions/create-github-app-token` reads it next to the private key.
  */
-const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(
-  Config.withDefault("3107227"),
-);
+const BotAppId = Config.string("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault("3107227"));
 
 /**
  * The credentials no API can mint for us. Each is read as an option: a value
@@ -220,37 +218,30 @@ export default Alchemy.Stack(
     //   - Workers Routes Write    attach distilled.cloud and
     //                             main.distilled.cloud to their worker
     //   - DNS Write               the proxied record a custom domain needs
-    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken(
-      "state-store-token",
-      {
-        name: "distilled-stacks-ci",
-        accountId,
-        policies: [
-          {
-            effect: "allow",
-            permissionGroups: [
-              "Workers Scripts Write",
-              "Account Settings Write",
-              "Secrets Store Write",
-            ],
-            resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
-          },
-          {
-            effect: "allow",
-            permissionGroups: [
-              "Zone Read",
-              "Workers Routes Write",
-              "DNS Write",
-            ],
-            resources: {
-              [`com.cloudflare.api.account.${accountId}`]: {
-                "com.cloudflare.api.account.zone.*": "*",
-              },
+    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken("state-store-token", {
+      name: "distilled-stacks-ci",
+      accountId,
+      policies: [
+        {
+          effect: "allow",
+          permissionGroups: [
+            "Workers Scripts Write",
+            "Account Settings Write",
+            "Secrets Store Write",
+          ],
+          resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
+        },
+        {
+          effect: "allow",
+          permissionGroups: ["Zone Read", "Workers Routes Write", "DNS Write"],
+          resources: {
+            [`com.cloudflare.api.account.${accountId}`]: {
+              "com.cloudflare.api.account.zone.*": "*",
             },
           },
-        ],
-      },
-    );
+        },
+      ],
+    });
 
     // Deliberately NOT `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`.
     // Those already exist on this repository as long-lived, broadly-scoped

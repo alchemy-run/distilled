@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfigData",
   serviceShapeName: "AppConfigData",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://appconfigdata-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://appconfigdata.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://appconfigdata.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://appconfigdata.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -112,9 +102,7 @@ export class ResourceNotFoundException
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
       ResourceType: S.optional(S.String),
-      ReferencedBy: S.optional(
-        S.suspend(() => StringMap).annotate({ identifier: "StringMap" }),
-      ),
+      ReferencedBy: S.optional(S.suspend(() => StringMap).annotate({ identifier: "StringMap" })),
     },
     T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
@@ -131,16 +119,7 @@ export interface GetLatestConfigurationRequest {
 export const GetLatestConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigurationToken: S.String.pipe(T.HttpQuery("configuration_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/configuration" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetLatestConfigurationRequest",
 }) as any as S.Schema<GetLatestConfigurationRequest>;
@@ -181,14 +160,7 @@ export const StartConfigurationSessionRequest = /*@__PURE__*/ S.suspend(() =>
     ConfigurationProfileIdentifier: S.String,
     RequiredMinimumPollIntervalInSeconds: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/configurationsessions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/configurationsessions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartConfigurationSessionRequest",
@@ -226,10 +198,7 @@ export const BadRequestDetails = /*@__PURE__*/ S.Union([
 ]);
 export type ResourceType = string;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type GetLatestConfigurationError =
   | BadRequestException
   | InternalServerException

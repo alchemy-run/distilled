@@ -53,9 +53,7 @@ export const parseIni = (iniData: string): ParsedIniData => {
             currentSubSection = undefined;
           }
           map[currentSection] = map[currentSection] || {};
-          const key = currentSubSection
-            ? [currentSubSection, name].join(separator)
-            : name;
+          const key = currentSubSection ? [currentSubSection, name].join(separator) : name;
           map[currentSection][key] = value;
         }
       }

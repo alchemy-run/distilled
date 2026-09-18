@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "DataExchange",
   serviceShapeName: "DataExchange",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://dataexchange-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://dataexchange.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://dataexchange.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://dataexchange.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -190,9 +180,7 @@ export const AcceptDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
@@ -209,30 +197,18 @@ export interface CancelJobRequest {
 }
 export const CancelJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/jobs/{JobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CancelJobRequest",
 }) as any as S.Schema<CancelJobRequest>;
 export interface CancelJobResponse {}
-export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelJobResponse",
 }) as any as S.Schema<CancelJobResponse>;
 export type Description = string;
 export type MapOf__string = { [key: string]: string | undefined };
-export const MapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const MapOf__string = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDataGrantRequest {
   Name: string;
   GrantDistributionScope: string;
@@ -251,16 +227,7 @@ export const CreateDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/data-grants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/data-grants" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDataGrantRequest",
 }) as any as S.Schema<CreateDataGrantRequest>;
@@ -288,9 +255,7 @@ export const CreateDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
@@ -318,16 +283,7 @@ export const CreateDataSetRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.String,
     Name: S.String,
     Tags: S.optional(MapOf__string),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/data-sets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/data-sets" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDataSetRequest",
 }) as any as S.Schema<CreateDataSetRequest>;
@@ -359,9 +315,7 @@ export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
@@ -369,9 +323,7 @@ export const CreateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CreateDataSetResponse",
@@ -399,12 +351,11 @@ export interface AutoExportRevisionToS3RequestDetails {
   Encryption?: ExportServerSideEncryption;
   RevisionDestination: AutoExportRevisionDestinationEntry;
 }
-export const AutoExportRevisionToS3RequestDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Encryption: S.optional(ExportServerSideEncryption),
-      RevisionDestination: AutoExportRevisionDestinationEntry,
-    }),
+export const AutoExportRevisionToS3RequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Encryption: S.optional(ExportServerSideEncryption),
+    RevisionDestination: AutoExportRevisionDestinationEntry,
+  }),
 ).annotate({
   identifier: "AutoExportRevisionToS3RequestDetails",
 }) as any as S.Schema<AutoExportRevisionToS3RequestDetails>;
@@ -441,14 +392,7 @@ export const CreateEventActionRequest = /*@__PURE__*/ S.suspend(() =>
     Event: Event,
     Tags: S.optional(MapOf__string),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/event-actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/event-actions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateEventActionRequest",
@@ -466,15 +410,11 @@ export const CreateEventActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Event: S.optional(Event),
     Id: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CreateEventActionResponse",
@@ -501,9 +441,8 @@ export interface ExportAssetToSignedUrlRequestDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const ExportAssetToSignedUrlRequestDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AssetId: S.String, DataSetId: S.String, RevisionId: S.String }),
+export const ExportAssetToSignedUrlRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AssetId: S.String, DataSetId: S.String, RevisionId: S.String }),
 ).annotate({
   identifier: "ExportAssetToSignedUrlRequestDetails",
 }) as any as S.Schema<ExportAssetToSignedUrlRequestDetails>;
@@ -518,9 +457,7 @@ export const AssetDestinationEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssetDestinationEntry",
 }) as any as S.Schema<AssetDestinationEntry>;
 export type ListOfAssetDestinationEntry = AssetDestinationEntry[];
-export const ListOfAssetDestinationEntry = /*@__PURE__*/ S.Array(
-  AssetDestinationEntry,
-);
+export const ListOfAssetDestinationEntry = /*@__PURE__*/ S.Array(AssetDestinationEntry);
 export interface ExportAssetsToS3RequestDetails {
   AssetDestinations: AssetDestinationEntry[];
   DataSetId: string;
@@ -552,9 +489,7 @@ export const RevisionDestinationEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "RevisionDestinationEntry",
 }) as any as S.Schema<RevisionDestinationEntry>;
 export type ListOfRevisionDestinationEntry = RevisionDestinationEntry[];
-export const ListOfRevisionDestinationEntry = /*@__PURE__*/ S.Array(
-  RevisionDestinationEntry,
-);
+export const ListOfRevisionDestinationEntry = /*@__PURE__*/ S.Array(RevisionDestinationEntry);
 export interface ExportRevisionsToS3RequestDetails {
   DataSetId: string;
   Encryption?: ExportServerSideEncryption;
@@ -577,14 +512,13 @@ export interface ImportAssetFromSignedUrlRequestDetails {
   Md5Hash: string;
   RevisionId: string;
 }
-export const ImportAssetFromSignedUrlRequestDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AssetName: S.String,
-      DataSetId: S.String,
-      Md5Hash: S.String,
-      RevisionId: S.String,
-    }),
+export const ImportAssetFromSignedUrlRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetName: S.String,
+    DataSetId: S.String,
+    Md5Hash: S.String,
+    RevisionId: S.String,
+  }),
 ).annotate({
   identifier: "ImportAssetFromSignedUrlRequestDetails",
 }) as any as S.Schema<ImportAssetFromSignedUrlRequestDetails>;
@@ -621,8 +555,7 @@ export const RedshiftDataShareAssetSourceEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RedshiftDataShareAssetSourceEntry",
 }) as any as S.Schema<RedshiftDataShareAssetSourceEntry>;
-export type ListOfRedshiftDataShareAssetSourceEntry =
-  RedshiftDataShareAssetSourceEntry[];
+export type ListOfRedshiftDataShareAssetSourceEntry = RedshiftDataShareAssetSourceEntry[];
 export const ListOfRedshiftDataShareAssetSourceEntry = /*@__PURE__*/ S.Array(
   RedshiftDataShareAssetSourceEntry,
 );
@@ -631,16 +564,15 @@ export interface ImportAssetsFromRedshiftDataSharesRequestDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const ImportAssetsFromRedshiftDataSharesRequestDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AssetSources: ListOfRedshiftDataShareAssetSourceEntry,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetsFromRedshiftDataSharesRequestDetails",
-  }) as any as S.Schema<ImportAssetsFromRedshiftDataSharesRequestDetails>;
+export const ImportAssetsFromRedshiftDataSharesRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetSources: ListOfRedshiftDataShareAssetSourceEntry,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetsFromRedshiftDataSharesRequestDetails",
+}) as any as S.Schema<ImportAssetsFromRedshiftDataSharesRequestDetails>;
 export type ApiDescription = string;
 export type ProtocolType = string;
 export interface ImportAssetFromApiGatewayApiRequestDetails {
@@ -654,22 +586,21 @@ export interface ImportAssetFromApiGatewayApiRequestDetails {
   RevisionId: string;
   Stage: string;
 }
-export const ImportAssetFromApiGatewayApiRequestDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApiDescription: S.optional(S.String),
-      ApiId: S.String,
-      ApiKey: S.optional(SensitiveString),
-      ApiName: S.String,
-      ApiSpecificationMd5Hash: S.String,
-      DataSetId: S.String,
-      ProtocolType: S.String,
-      RevisionId: S.String,
-      Stage: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetFromApiGatewayApiRequestDetails",
-  }) as any as S.Schema<ImportAssetFromApiGatewayApiRequestDetails>;
+export const ImportAssetFromApiGatewayApiRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApiDescription: S.optional(S.String),
+    ApiId: S.String,
+    ApiKey: S.optional(SensitiveString),
+    ApiName: S.String,
+    ApiSpecificationMd5Hash: S.String,
+    DataSetId: S.String,
+    ProtocolType: S.String,
+    RevisionId: S.String,
+    Stage: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetFromApiGatewayApiRequestDetails",
+}) as any as S.Schema<ImportAssetFromApiGatewayApiRequestDetails>;
 export type ListOf__string = string[];
 export const ListOf__string = /*@__PURE__*/ S.Array(S.String);
 export type KmsKeyArn = string;
@@ -702,16 +633,15 @@ export interface CreateS3DataAccessFromS3BucketRequestDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const CreateS3DataAccessFromS3BucketRequestDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AssetSource: S3DataAccessAssetSourceEntry,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "CreateS3DataAccessFromS3BucketRequestDetails",
-  }) as any as S.Schema<CreateS3DataAccessFromS3BucketRequestDetails>;
+export const CreateS3DataAccessFromS3BucketRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetSource: S3DataAccessAssetSourceEntry,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "CreateS3DataAccessFromS3BucketRequestDetails",
+}) as any as S.Schema<CreateS3DataAccessFromS3BucketRequestDetails>;
 export type AwsAccountId = string;
 export type ListOfLFTagValues = string[];
 export const ListOfLFTagValues = /*@__PURE__*/ S.Array(S.String);
@@ -726,9 +656,7 @@ export type ListOfLFTags = LFTag[];
 export const ListOfLFTags = /*@__PURE__*/ S.Array(LFTag);
 export type DatabaseLFTagPolicyPermission = string;
 export type ListOfDatabaseLFTagPolicyPermissions = string[];
-export const ListOfDatabaseLFTagPolicyPermissions = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ListOfDatabaseLFTagPolicyPermissions = /*@__PURE__*/ S.Array(S.String);
 export interface DatabaseLFTagPolicyAndPermissions {
   Expression: LFTag[];
   Permissions: string[];
@@ -743,9 +671,7 @@ export const DatabaseLFTagPolicyAndPermissions = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DatabaseLFTagPolicyAndPermissions>;
 export type TableTagPolicyLFPermission = string;
 export type ListOfTableTagPolicyLFPermissions = string[];
-export const ListOfTableTagPolicyLFPermissions = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ListOfTableTagPolicyLFPermissions = /*@__PURE__*/ S.Array(S.String);
 export interface TableLFTagPolicyAndPermissions {
   Expression: LFTag[];
   Permissions: string[];
@@ -767,19 +693,18 @@ export interface ImportAssetsFromLakeFormationTagPolicyRequestDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const ImportAssetsFromLakeFormationTagPolicyRequestDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CatalogId: S.String,
-      Database: S.optional(DatabaseLFTagPolicyAndPermissions),
-      Table: S.optional(TableLFTagPolicyAndPermissions),
-      RoleArn: S.String,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetsFromLakeFormationTagPolicyRequestDetails",
-  }) as any as S.Schema<ImportAssetsFromLakeFormationTagPolicyRequestDetails>;
+export const ImportAssetsFromLakeFormationTagPolicyRequestDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CatalogId: S.String,
+    Database: S.optional(DatabaseLFTagPolicyAndPermissions),
+    Table: S.optional(TableLFTagPolicyAndPermissions),
+    RoleArn: S.String,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetsFromLakeFormationTagPolicyRequestDetails",
+}) as any as S.Schema<ImportAssetsFromLakeFormationTagPolicyRequestDetails>;
 export interface RequestDetails {
   ExportAssetToSignedUrl?: ExportAssetToSignedUrlRequestDetails;
   ExportAssetsToS3?: ExportAssetsToS3RequestDetails;
@@ -796,19 +721,13 @@ export const RequestDetails = /*@__PURE__*/ S.suspend(() =>
     ExportAssetToSignedUrl: S.optional(ExportAssetToSignedUrlRequestDetails),
     ExportAssetsToS3: S.optional(ExportAssetsToS3RequestDetails),
     ExportRevisionsToS3: S.optional(ExportRevisionsToS3RequestDetails),
-    ImportAssetFromSignedUrl: S.optional(
-      ImportAssetFromSignedUrlRequestDetails,
-    ),
+    ImportAssetFromSignedUrl: S.optional(ImportAssetFromSignedUrlRequestDetails),
     ImportAssetsFromS3: S.optional(ImportAssetsFromS3RequestDetails),
     ImportAssetsFromRedshiftDataShares: S.optional(
       ImportAssetsFromRedshiftDataSharesRequestDetails,
     ),
-    ImportAssetFromApiGatewayApi: S.optional(
-      ImportAssetFromApiGatewayApiRequestDetails,
-    ),
-    CreateS3DataAccessFromS3Bucket: S.optional(
-      CreateS3DataAccessFromS3BucketRequestDetails,
-    ),
+    ImportAssetFromApiGatewayApi: S.optional(ImportAssetFromApiGatewayApiRequestDetails),
+    CreateS3DataAccessFromS3Bucket: S.optional(CreateS3DataAccessFromS3BucketRequestDetails),
     ImportAssetsFromLakeFormationTagPolicy: S.optional(
       ImportAssetsFromLakeFormationTagPolicyRequestDetails,
     ),
@@ -825,16 +744,7 @@ export const CreateJobRequest = /*@__PURE__*/ S.suspend(() =>
     AssetConfiguration: S.optional(AssetConfiguration),
     Details: RequestDetails,
     Type: S.String,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateJobRequest",
 }) as any as S.Schema<CreateJobRequest>;
@@ -845,17 +755,14 @@ export interface ExportAssetToSignedUrlResponseDetails {
   SignedUrl?: string;
   SignedUrlExpiresAt?: Date;
 }
-export const ExportAssetToSignedUrlResponseDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AssetId: S.String,
-      DataSetId: S.String,
-      RevisionId: S.String,
-      SignedUrl: S.optional(S.String),
-      SignedUrlExpiresAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const ExportAssetToSignedUrlResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetId: S.String,
+    DataSetId: S.String,
+    RevisionId: S.String,
+    SignedUrl: S.optional(S.String),
+    SignedUrlExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
 ).annotate({
   identifier: "ExportAssetToSignedUrlResponseDetails",
 }) as any as S.Schema<ExportAssetToSignedUrlResponseDetails>;
@@ -899,18 +806,15 @@ export interface ImportAssetFromSignedUrlResponseDetails {
   SignedUrl?: string;
   SignedUrlExpiresAt?: Date;
 }
-export const ImportAssetFromSignedUrlResponseDetails = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AssetName: S.String,
-      DataSetId: S.String,
-      Md5Hash: S.optional(S.String),
-      RevisionId: S.String,
-      SignedUrl: S.optional(S.String),
-      SignedUrlExpiresAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const ImportAssetFromSignedUrlResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetName: S.String,
+    DataSetId: S.String,
+    Md5Hash: S.optional(S.String),
+    RevisionId: S.String,
+    SignedUrl: S.optional(S.String),
+    SignedUrlExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
 ).annotate({
   identifier: "ImportAssetFromSignedUrlResponseDetails",
 }) as any as S.Schema<ImportAssetFromSignedUrlResponseDetails>;
@@ -933,16 +837,15 @@ export interface ImportAssetsFromRedshiftDataSharesResponseDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const ImportAssetsFromRedshiftDataSharesResponseDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AssetSources: ListOfRedshiftDataShareAssetSourceEntry,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetsFromRedshiftDataSharesResponseDetails",
-  }) as any as S.Schema<ImportAssetsFromRedshiftDataSharesResponseDetails>;
+export const ImportAssetsFromRedshiftDataSharesResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetSources: ListOfRedshiftDataShareAssetSourceEntry,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetsFromRedshiftDataSharesResponseDetails",
+}) as any as S.Schema<ImportAssetsFromRedshiftDataSharesResponseDetails>;
 export interface ImportAssetFromApiGatewayApiResponseDetails {
   ApiDescription?: string;
   ApiId: string;
@@ -956,41 +859,37 @@ export interface ImportAssetFromApiGatewayApiResponseDetails {
   RevisionId: string;
   Stage: string;
 }
-export const ImportAssetFromApiGatewayApiResponseDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApiDescription: S.optional(S.String),
-      ApiId: S.String,
-      ApiKey: S.optional(SensitiveString),
-      ApiName: S.String,
-      ApiSpecificationMd5Hash: S.String,
-      ApiSpecificationUploadUrl: S.String,
-      ApiSpecificationUploadUrlExpiresAt: T.DateFromString.pipe(
-        T.TimestampFormat("date-time"),
-      ),
-      DataSetId: S.String,
-      ProtocolType: S.String,
-      RevisionId: S.String,
-      Stage: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetFromApiGatewayApiResponseDetails",
-  }) as any as S.Schema<ImportAssetFromApiGatewayApiResponseDetails>;
+export const ImportAssetFromApiGatewayApiResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApiDescription: S.optional(S.String),
+    ApiId: S.String,
+    ApiKey: S.optional(SensitiveString),
+    ApiName: S.String,
+    ApiSpecificationMd5Hash: S.String,
+    ApiSpecificationUploadUrl: S.String,
+    ApiSpecificationUploadUrlExpiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    DataSetId: S.String,
+    ProtocolType: S.String,
+    RevisionId: S.String,
+    Stage: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetFromApiGatewayApiResponseDetails",
+}) as any as S.Schema<ImportAssetFromApiGatewayApiResponseDetails>;
 export interface CreateS3DataAccessFromS3BucketResponseDetails {
   AssetSource: S3DataAccessAssetSourceEntry;
   DataSetId: string;
   RevisionId: string;
 }
-export const CreateS3DataAccessFromS3BucketResponseDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AssetSource: S3DataAccessAssetSourceEntry,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "CreateS3DataAccessFromS3BucketResponseDetails",
-  }) as any as S.Schema<CreateS3DataAccessFromS3BucketResponseDetails>;
+export const CreateS3DataAccessFromS3BucketResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AssetSource: S3DataAccessAssetSourceEntry,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "CreateS3DataAccessFromS3BucketResponseDetails",
+}) as any as S.Schema<CreateS3DataAccessFromS3BucketResponseDetails>;
 export interface ImportAssetsFromLakeFormationTagPolicyResponseDetails {
   CatalogId: string;
   Database?: DatabaseLFTagPolicyAndPermissions;
@@ -999,19 +898,18 @@ export interface ImportAssetsFromLakeFormationTagPolicyResponseDetails {
   DataSetId: string;
   RevisionId: string;
 }
-export const ImportAssetsFromLakeFormationTagPolicyResponseDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      CatalogId: S.String,
-      Database: S.optional(DatabaseLFTagPolicyAndPermissions),
-      Table: S.optional(TableLFTagPolicyAndPermissions),
-      RoleArn: S.String,
-      DataSetId: S.String,
-      RevisionId: S.String,
-    }),
-  ).annotate({
-    identifier: "ImportAssetsFromLakeFormationTagPolicyResponseDetails",
-  }) as any as S.Schema<ImportAssetsFromLakeFormationTagPolicyResponseDetails>;
+export const ImportAssetsFromLakeFormationTagPolicyResponseDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CatalogId: S.String,
+    Database: S.optional(DatabaseLFTagPolicyAndPermissions),
+    Table: S.optional(TableLFTagPolicyAndPermissions),
+    RoleArn: S.String,
+    DataSetId: S.String,
+    RevisionId: S.String,
+  }),
+).annotate({
+  identifier: "ImportAssetsFromLakeFormationTagPolicyResponseDetails",
+}) as any as S.Schema<ImportAssetsFromLakeFormationTagPolicyResponseDetails>;
 export interface ResponseDetails {
   ExportAssetToSignedUrl?: ExportAssetToSignedUrlResponseDetails;
   ExportAssetsToS3?: ExportAssetsToS3ResponseDetails;
@@ -1028,19 +926,13 @@ export const ResponseDetails = /*@__PURE__*/ S.suspend(() =>
     ExportAssetToSignedUrl: S.optional(ExportAssetToSignedUrlResponseDetails),
     ExportAssetsToS3: S.optional(ExportAssetsToS3ResponseDetails),
     ExportRevisionsToS3: S.optional(ExportRevisionsToS3ResponseDetails),
-    ImportAssetFromSignedUrl: S.optional(
-      ImportAssetFromSignedUrlResponseDetails,
-    ),
+    ImportAssetFromSignedUrl: S.optional(ImportAssetFromSignedUrlResponseDetails),
     ImportAssetsFromS3: S.optional(ImportAssetsFromS3ResponseDetails),
     ImportAssetsFromRedshiftDataShares: S.optional(
       ImportAssetsFromRedshiftDataSharesResponseDetails,
     ),
-    ImportAssetFromApiGatewayApi: S.optional(
-      ImportAssetFromApiGatewayApiResponseDetails,
-    ),
-    CreateS3DataAccessFromS3Bucket: S.optional(
-      CreateS3DataAccessFromS3BucketResponseDetails,
-    ),
+    ImportAssetFromApiGatewayApi: S.optional(ImportAssetFromApiGatewayApiResponseDetails),
+    CreateS3DataAccessFromS3Bucket: S.optional(CreateS3DataAccessFromS3BucketResponseDetails),
     ImportAssetsFromLakeFormationTagPolicy: S.optional(
       ImportAssetsFromLakeFormationTagPolicyResponseDetails,
     ),
@@ -1052,8 +944,8 @@ export type Code = string;
 export interface ImportAssetFromSignedUrlJobErrorDetails {
   AssetName: string;
 }
-export const ImportAssetFromSignedUrlJobErrorDetails = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ AssetName: S.String }),
+export const ImportAssetFromSignedUrlJobErrorDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AssetName: S.String }),
 ).annotate({
   identifier: "ImportAssetFromSignedUrlJobErrorDetails",
 }) as any as S.Schema<ImportAssetFromSignedUrlJobErrorDetails>;
@@ -1063,9 +955,7 @@ export interface Details {
 }
 export const Details = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ImportAssetFromSignedUrlJobErrorDetails: S.optional(
-      ImportAssetFromSignedUrlJobErrorDetails,
-    ),
+    ImportAssetFromSignedUrlJobErrorDetails: S.optional(ImportAssetFromSignedUrlJobErrorDetails),
     ImportAssetsFromS3JobErrorDetails: S.optional(ListOfAssetSourceEntry),
   }),
 ).annotate({ identifier: "Details" }) as any as S.Schema<Details>;
@@ -1109,17 +999,13 @@ export const CreateJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetConfiguration: S.optional(AssetConfiguration),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Details: S.optional(ResponseDetails),
     Errors: S.optional(ListOfJobError),
     Id: S.optional(S.String),
     State: S.optional(S.String),
     Type: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CreateJobResponse",
@@ -1167,22 +1053,16 @@ export const CreateRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CreateRevisionResponse",
@@ -1214,9 +1094,7 @@ export const DeleteAssetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssetRequest",
 }) as any as S.Schema<DeleteAssetRequest>;
 export interface DeleteAssetResponse {}
-export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssetResponse",
 }) as any as S.Schema<DeleteAssetResponse>;
 export type DataGrantId = string;
@@ -1238,9 +1116,7 @@ export const DeleteDataGrantRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDataGrantRequest",
 }) as any as S.Schema<DeleteDataGrantRequest>;
 export interface DeleteDataGrantResponse {}
-export const DeleteDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDataGrantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDataGrantResponse",
 }) as any as S.Schema<DeleteDataGrantResponse>;
 export interface DeleteDataSetRequest {
@@ -1261,9 +1137,7 @@ export const DeleteDataSetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDataSetRequest",
 }) as any as S.Schema<DeleteDataSetRequest>;
 export interface DeleteDataSetResponse {}
-export const DeleteDataSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDataSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDataSetResponse",
 }) as any as S.Schema<DeleteDataSetResponse>;
 export interface DeleteEventActionRequest {
@@ -1284,9 +1158,7 @@ export const DeleteEventActionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEventActionRequest",
 }) as any as S.Schema<DeleteEventActionRequest>;
 export interface DeleteEventActionResponse {}
-export const DeleteEventActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEventActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEventActionResponse",
 }) as any as S.Schema<DeleteEventActionResponse>;
 export interface DeleteRevisionRequest {
@@ -1314,9 +1186,7 @@ export const DeleteRevisionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRevisionRequest",
 }) as any as S.Schema<DeleteRevisionRequest>;
 export interface DeleteRevisionResponse {}
-export const DeleteRevisionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRevisionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRevisionResponse",
 }) as any as S.Schema<DeleteRevisionResponse>;
 export interface GetAssetRequest {
@@ -1349,11 +1219,11 @@ export type __doubleMin0 = number;
 export interface S3SnapshotAsset {
   Size: number;
 }
-export const S3SnapshotAsset = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Size: S.Number }),
-).annotate({
-  identifier: "S3SnapshotAsset",
-}) as any as S.Schema<S3SnapshotAsset>;
+export const S3SnapshotAsset = /*@__PURE__*/ S.suspend(() => S.Struct({ Size: S.Number })).annotate(
+  {
+    identifier: "S3SnapshotAsset",
+  },
+) as any as S.Schema<S3SnapshotAsset>;
 export interface RedshiftDataShareAsset {
   Arn: string;
 }
@@ -1494,9 +1364,7 @@ export const AssetDetails = /*@__PURE__*/ S.suspend(() =>
     RedshiftDataShareAsset: S.optional(RedshiftDataShareAsset),
     ApiGatewayApiAsset: S.optional(ApiGatewayApiAsset),
     S3DataAccessAsset: S.optional(S3DataAccessAsset),
-    LakeFormationDataPermissionAsset: S.optional(
-      LakeFormationDataPermissionAsset,
-    ),
+    LakeFormationDataPermissionAsset: S.optional(LakeFormationDataPermissionAsset),
   }),
 ).annotate({ identifier: "AssetDetails" }) as any as S.Schema<AssetDetails>;
 export interface GetAssetResponse {
@@ -1517,18 +1385,14 @@ export const GetAssetResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     AssetDetails: S.optional(AssetDetails),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     RevisionId: S.optional(S.String),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetAssetResponse",
@@ -1574,9 +1438,7 @@ export const GetDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
@@ -1624,9 +1486,7 @@ export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
@@ -1634,9 +1494,7 @@ export const GetDataSetResponse = /*@__PURE__*/ S.suspend(() =>
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetDataSetResponse",
@@ -1671,15 +1529,11 @@ export const GetEventActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Event: S.optional(Event),
     Id: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetEventActionResponse",
@@ -1689,14 +1543,7 @@ export interface GetJobRequest {
 }
 export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/jobs/{JobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetJobRequest" }) as any as S.Schema<GetJobRequest>;
 export interface GetJobResponse {
@@ -1714,17 +1561,13 @@ export const GetJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetConfiguration: S.optional(AssetConfiguration),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Details: S.optional(ResponseDetails),
     Errors: S.optional(ListOfJobError),
     Id: S.optional(S.String),
     State: S.optional(S.String),
     Type: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "GetJobResponse" }) as any as S.Schema<GetJobResponse>;
 export interface GetReceivedDataGrantRequest {
@@ -1766,9 +1609,7 @@ export const GetReceivedDataGrantResponse = /*@__PURE__*/ S.suspend(() =>
     ReceiverPrincipal: S.String,
     Description: S.optional(S.String),
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     GrantDistributionScope: S.String,
     DataSetId: S.String,
@@ -1822,22 +1663,16 @@ export const GetRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
     Tags: S.optional(MapOf__string),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetRevisionResponse",
@@ -1851,16 +1686,7 @@ export const ListDataGrantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/data-grants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/data-grants" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDataGrantsRequest",
 }) as any as S.Schema<ListDataGrantsRequest>;
@@ -1884,9 +1710,7 @@ export const DataGrantSummaryEntry = /*@__PURE__*/ S.suspend(() =>
     SenderPrincipal: S.String,
     ReceiverPrincipal: S.String,
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.String,
     SourceDataSetId: S.String,
@@ -1899,9 +1723,7 @@ export const DataGrantSummaryEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataGrantSummaryEntry",
 }) as any as S.Schema<DataGrantSummaryEntry>;
 export type ListOfDataGrantSummaryEntry = DataGrantSummaryEntry[];
-export const ListOfDataGrantSummaryEntry = /*@__PURE__*/ S.Array(
-  DataGrantSummaryEntry,
-);
+export const ListOfDataGrantSummaryEntry = /*@__PURE__*/ S.Array(DataGrantSummaryEntry);
 export type NextToken = string;
 export interface ListDataGrantsResponse {
   DataGrantSummaries?: DataGrantSummaryEntry[];
@@ -1963,9 +1785,7 @@ export const RevisionEntry = /*@__PURE__*/ S.suspend(() =>
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "RevisionEntry" }) as any as S.Schema<RevisionEntry>;
 export type ListOfRevisionEntry = RevisionEntry[];
@@ -1992,16 +1812,7 @@ export const ListDataSetsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     Origin: S.optional(S.String).pipe(T.HttpQuery("origin")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/data-sets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/data-sets" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDataSetsRequest",
 }) as any as S.Schema<ListDataSetsRequest>;
@@ -2055,16 +1866,7 @@ export const ListEventActionsRequest = /*@__PURE__*/ S.suspend(() =>
     EventSourceId: S.optional(S.String).pipe(T.HttpQuery("eventSourceId")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/event-actions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/event-actions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEventActionsRequest",
 }) as any as S.Schema<ListEventActionsRequest>;
@@ -2114,16 +1916,7 @@ export const ListJobsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     RevisionId: S.optional(S.String).pipe(T.HttpQuery("revisionId")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListJobsRequest",
 }) as any as S.Schema<ListJobsRequest>;
@@ -2177,18 +1970,9 @@ export const ListReceivedDataGrantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    AcceptanceState: S.optional(AcceptanceStateFilterValues).pipe(
-      T.HttpQuery("acceptanceState"),
-    ),
+    AcceptanceState: S.optional(AcceptanceStateFilterValues).pipe(T.HttpQuery("acceptanceState")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/received-data-grants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/received-data-grants" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListReceivedDataGrantsRequest",
@@ -2212,9 +1996,7 @@ export const ReceivedDataGrantSummariesEntry = /*@__PURE__*/ S.suspend(() =>
     SenderPrincipal: S.String,
     ReceiverPrincipal: S.String,
     AcceptanceState: S.String,
-    AcceptedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    AcceptedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndsAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.String,
     Id: S.String,
@@ -2225,8 +2007,7 @@ export const ReceivedDataGrantSummariesEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ReceivedDataGrantSummariesEntry",
 }) as any as S.Schema<ReceivedDataGrantSummariesEntry>;
-export type ListOfReceivedDataGrantSummariesEntry =
-  ReceivedDataGrantSummariesEntry[];
+export type ListOfReceivedDataGrantSummariesEntry = ReceivedDataGrantSummariesEntry[];
 export const ListOfReceivedDataGrantSummariesEntry = /*@__PURE__*/ S.Array(
   ReceivedDataGrantSummariesEntry,
 );
@@ -2315,14 +2096,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2331,9 +2105,7 @@ export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(MapOf__string) }).pipe(
-    S.encodeKeys({ Tags: "tags" }),
-  ),
+  S.Struct({ Tags: S.optional(MapOf__string) }).pipe(S.encodeKeys({ Tags: "tags" })),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -2380,21 +2152,15 @@ export const RevokeRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "RevokeRevisionResponse",
@@ -2418,14 +2184,10 @@ export const SendApiAssetRequest = /*@__PURE__*/ S.suspend(() =>
     RequestHeaders: S.optional(MapOf__string).pipe(
       T.HttpPrefixHeaders("x-amzn-dataexchange-header-"),
     ),
-    Method: S.optional(S.String).pipe(
-      T.HttpHeader("x-amzn-dataexchange-http-method"),
-    ),
+    Method: S.optional(S.String).pipe(T.HttpHeader("x-amzn-dataexchange-http-method")),
     Path: S.optional(S.String).pipe(T.HttpHeader("x-amzn-dataexchange-path")),
     RevisionId: S.String.pipe(T.HttpHeader("x-amzn-dataexchange-revision-id")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/v1" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendApiAssetRequest",
 }) as any as S.Schema<SendApiAssetRequest>;
@@ -2451,9 +2213,7 @@ export const LakeFormationTagPolicyDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "LakeFormationTagPolicyDetails",
 }) as any as S.Schema<LakeFormationTagPolicyDetails>;
 export type ListOfLakeFormationTagPolicies = LakeFormationTagPolicyDetails[];
-export const ListOfLakeFormationTagPolicies = /*@__PURE__*/ S.Array(
-  LakeFormationTagPolicyDetails,
-);
+export const ListOfLakeFormationTagPolicies = /*@__PURE__*/ S.Array(LakeFormationTagPolicyDetails);
 export interface RedshiftDataShareDetails {
   Arn: string;
   Database: string;
@@ -2475,9 +2235,7 @@ export const RedshiftDataShareDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedshiftDataShareDetails",
 }) as any as S.Schema<RedshiftDataShareDetails>;
 export type ListOfRedshiftDataShares = RedshiftDataShareDetails[];
-export const ListOfRedshiftDataShares = /*@__PURE__*/ S.Array(
-  RedshiftDataShareDetails,
-);
+export const ListOfRedshiftDataShares = /*@__PURE__*/ S.Array(RedshiftDataShareDetails);
 export interface S3DataAccessDetails {
   KeyPrefixes?: string[];
   Keys?: string[];
@@ -2511,9 +2269,7 @@ export interface DataUpdateRequestDetails {
 }
 export const DataUpdateRequestDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    DataUpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DataUpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DataUpdateRequestDetails",
@@ -2544,8 +2300,7 @@ export const SchemaChangeDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "SchemaChangeDetails",
 }) as any as S.Schema<SchemaChangeDetails>;
 export type ListOfSchemaChangeDetails = SchemaChangeDetails[];
-export const ListOfSchemaChangeDetails =
-  /*@__PURE__*/ S.Array(SchemaChangeDetails);
+export const ListOfSchemaChangeDetails = /*@__PURE__*/ S.Array(SchemaChangeDetails);
 export interface SchemaChangeRequestDetails {
   Changes?: SchemaChangeDetails[];
   SchemaChangeAt: Date;
@@ -2603,32 +2358,23 @@ export const SendDataSetNotificationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SendDataSetNotificationRequest",
 }) as any as S.Schema<SendDataSetNotificationRequest>;
 export interface SendDataSetNotificationResponse {}
-export const SendDataSetNotificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "SendDataSetNotificationResponse",
-}) as any as S.Schema<SendDataSetNotificationResponse>;
+export const SendDataSetNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "SendDataSetNotificationResponse",
+  },
+) as any as S.Schema<SendDataSetNotificationResponse>;
 export interface StartJobRequest {
   JobId: string;
 }
 export const StartJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ JobId: S.String.pipe(T.HttpLabel("JobId")) }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v1/jobs/{JobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/v1/jobs/{JobId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartJobRequest",
 }) as any as S.Schema<StartJobRequest>;
 export interface StartJobResponse {}
-export const StartJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartJobResponse",
 }) as any as S.Schema<StartJobResponse>;
 export interface TagResourceRequest {
@@ -2642,22 +2388,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   })
     .pipe(S.encodeKeys({ Tags: "tags" }))
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -2669,22 +2406,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: ListOf__string.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAssetRequest {
@@ -2732,17 +2460,13 @@ export const UpdateAssetResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     AssetDetails: S.optional(AssetDetails),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     RevisionId: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "UpdateAssetResponse",
@@ -2786,18 +2510,14 @@ export const UpdateDataSetResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     AssetType: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     Id: S.optional(S.String),
     Name: S.optional(S.String),
     Origin: S.optional(S.String),
     OriginDetails: S.optional(OriginDetails),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "UpdateDataSetResponse",
@@ -2835,14 +2555,10 @@ export const UpdateEventActionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Action: S.optional(Action),
     Arn: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Event: S.optional(Event),
     Id: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "UpdateEventActionResponse",
@@ -2892,21 +2608,15 @@ export const UpdateRevisionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
     Comment: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DataSetId: S.optional(S.String),
     Finalized: S.optional(S.Boolean),
     Id: S.optional(S.String),
     SourceId: S.optional(S.String),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RevocationComment: S.optional(S.String),
     Revoked: S.optional(S.Boolean),
-    RevokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    RevokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "UpdateRevisionResponse",

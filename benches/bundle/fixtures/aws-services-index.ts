@@ -9,10 +9,7 @@ import * as Layer from "effect/Layer";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 
 const layer = Layer.mergeAll(
-  Credentials.fromCredentials(
-    { accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" },
-    "us-east-1",
-  ),
+  Credentials.fromCredentials({ accessKeyId: "AKIA_BENCH", secretAccessKey: "bench" }, "us-east-1"),
   FetchHttpClient.layer,
 );
 
@@ -23,7 +20,5 @@ const program = AWS.S3.getObject({
 
 export default {
   fetch: () =>
-    Effect.runPromise(program).then(
-      (out) => new Response(String(out.ContentLength ?? 0)),
-    ),
+    Effect.runPromise(program).then((out) => new Response(String(out.ContentLength ?? 0))),
 };

@@ -103,8 +103,7 @@ const fetchText = (url: string): Effect.Effect<string, FetchError> =>
       }
       return await res.text();
     },
-    catch: (cause) =>
-      cause instanceof FetchError ? cause : new FetchError({ url, cause }),
+    catch: (cause) => (cause instanceof FetchError ? cause : new FetchError({ url, cause })),
   });
 
 // ============================================================================
@@ -158,9 +157,7 @@ const downloadSpec = Command.make(
     ),
     out: Flag.String("out").pipe(
       Flag.withDefault("specs"),
-      Flag.withDescription(
-        "Where to write the specs (relative to the whop package root)",
-      ),
+      Flag.withDescription("Where to write the specs (relative to the whop package root)"),
     ),
   },
   (config) =>
@@ -187,8 +184,7 @@ const downloadSpec = Command.make(
 
         const spec = yield* Effect.try({
           try: () => JSON.parse(text) as Record<string, any>,
-          catch: (cause) =>
-            new InvalidSpecError({ url, reason: `not valid JSON (${cause})` }),
+          catch: (cause) => new InvalidSpecError({ url, reason: `not valid JSON (${cause})` }),
         });
 
         if (typeof spec.openapi !== "string" || spec.paths === undefined) {
@@ -211,10 +207,7 @@ const downloadSpec = Command.make(
         versionDates[doc.surface] = date;
 
         const outPath = path.join(outDir, doc.file);
-        yield* fs.writeFileString(
-          outPath,
-          JSON.stringify(spec, null, 2) + "\n",
-        );
+        yield* fs.writeFileString(outPath, JSON.stringify(spec, null, 2) + "\n");
 
         const c = census(spec);
         yield* Console.log(
@@ -241,9 +234,7 @@ const downloadSpec = Command.make(
       yield* Console.log(`   Next: bun run generate`);
     }),
 ).pipe(
-  Command.withDescription(
-    "Download Whop's versioned + legacy OpenAPI documents into ./specs",
-  ),
+  Command.withDescription("Download Whop's versioned + legacy OpenAPI documents into ./specs"),
 );
 
 // ============================================================================

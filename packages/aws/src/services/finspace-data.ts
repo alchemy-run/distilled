@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "finspace data",
   serviceShapeName: "AWSHabaneroPublicAPI",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://finspace-api-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://finspace-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://finspace-api.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://finspace-api.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -144,25 +134,24 @@ export interface AssociateUserToPermissionGroupRequest {
   userId: string;
   clientToken?: string;
 }
-export const AssociateUserToPermissionGroupRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
-      userId: S.String.pipe(T.HttpLabel("userId")),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/permission-group/{permissionGroupId}/users/{userId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateUserToPermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/permission-group/{permissionGroupId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateUserToPermissionGroupRequest",
 }) as any as S.Schema<AssociateUserToPermissionGroupRequest>;
@@ -170,9 +159,8 @@ export type StatusCode = number;
 export interface AssociateUserToPermissionGroupResponse {
   statusCode?: number;
 }
-export const AssociateUserToPermissionGroupResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+export const AssociateUserToPermissionGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
 ).annotate({
   identifier: "AssociateUserToPermissionGroupResponse",
 }) as any as S.Schema<AssociateUserToPermissionGroupResponse>;
@@ -183,15 +171,9 @@ export const ChangeType = S.String;
 export type StringMapKey = string;
 export type StringMapValue = string;
 export type SourceParams = { [key: string]: string | undefined };
-export const SourceParams = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SourceParams = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type FormatParams = { [key: string]: string | undefined };
-export const FormatParams = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FormatParams = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateChangesetRequest {
   clientToken?: string;
   datasetId: string;
@@ -264,8 +246,7 @@ export const ResourcePermission = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourcePermission",
 }) as any as S.Schema<ResourcePermission>;
 export type ResourcePermissionsList = ResourcePermission[];
-export const ResourcePermissionsList =
-  /*@__PURE__*/ S.Array(ResourcePermission);
+export const ResourcePermissionsList = /*@__PURE__*/ S.Array(ResourcePermission);
 export interface PermissionGroupParams {
   permissionGroupId?: string;
   datasetPermissions?: ResourcePermission[];
@@ -353,16 +334,7 @@ export const CreateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     permissionGroupParams: PermissionGroupParams,
     alias: S.optional(S.String),
     schemaDefinition: S.optional(SchemaUnion),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/datasetsv2" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/datasetsv2" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatasetRequest",
 }) as any as S.Schema<CreateDatasetRequest>;
@@ -398,9 +370,7 @@ export const DataViewDestinationTypeParams = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     destinationType: S.String,
     s3DestinationExportFileFormat: S.optional(ExportFileFormat),
-    s3DestinationExportFileFormatOptions: S.optional(
-      S3DestinationFormatOptions,
-    ),
+    s3DestinationExportFileFormatOptions: S.optional(S3DestinationFormatOptions),
   }),
 ).annotate({
   identifier: "DataViewDestinationTypeParams",
@@ -463,9 +433,7 @@ export type ApplicationPermission =
 export const ApplicationPermission = S.String;
 
 export type ApplicationPermissionList = ApplicationPermission[];
-export const ApplicationPermissionList = /*@__PURE__*/ S.Array(
-  ApplicationPermission,
-);
+export const ApplicationPermissionList = /*@__PURE__*/ S.Array(ApplicationPermission);
 export interface CreatePermissionGroupRequest {
   name: string | redacted.Redacted<string>;
   description?: string | redacted.Redacted<string>;
@@ -479,14 +447,7 @@ export const CreatePermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
     applicationPermissions: ApplicationPermissionList,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/permission-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/permission-group" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreatePermissionGroupRequest",
@@ -526,16 +487,7 @@ export const CreateUserRequest = /*@__PURE__*/ S.suspend(() =>
     apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/user" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateUserRequest",
 }) as any as S.Schema<CreateUserRequest>;
@@ -553,10 +505,7 @@ export interface DeleteDatasetRequest {
 }
 export const DeleteDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     datasetId: S.String.pipe(T.HttpLabel("datasetId")),
   }).pipe(
     T.all(
@@ -586,10 +535,7 @@ export interface DeletePermissionGroupRequest {
 export const DeletePermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
   }).pipe(
     T.all(
       T.Http({
@@ -623,14 +569,7 @@ export const DisableUserRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user/{userId}/disable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/user/{userId}/disable" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisableUserRequest",
@@ -648,40 +587,35 @@ export interface DisassociateUserFromPermissionGroupRequest {
   userId: string;
   clientToken?: string;
 }
-export const DisassociateUserFromPermissionGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
-      userId: S.String.pipe(T.HttpLabel("userId")),
-      clientToken: S.optional(S.String).pipe(
-        T.HttpQuery("clientToken"),
-        T.IdempotencyToken(),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/permission-group/{permissionGroupId}/users/{userId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DisassociateUserFromPermissionGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    permissionGroupId: S.String.pipe(T.HttpLabel("permissionGroupId")),
+    userId: S.String.pipe(T.HttpLabel("userId")),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/permission-group/{permissionGroupId}/users/{userId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DisassociateUserFromPermissionGroupRequest",
-  }) as any as S.Schema<DisassociateUserFromPermissionGroupRequest>;
+  ),
+).annotate({
+  identifier: "DisassociateUserFromPermissionGroupRequest",
+}) as any as S.Schema<DisassociateUserFromPermissionGroupRequest>;
 export interface DisassociateUserFromPermissionGroupResponse {
   statusCode?: number;
 }
-export const DisassociateUserFromPermissionGroupResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
-  ).annotate({
-    identifier: "DisassociateUserFromPermissionGroupResponse",
-  }) as any as S.Schema<DisassociateUserFromPermissionGroupResponse>;
+export const DisassociateUserFromPermissionGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ statusCode: S.optional(S.Number).pipe(T.HttpResponseCode()) }),
+).annotate({
+  identifier: "DisassociateUserFromPermissionGroupResponse",
+}) as any as S.Schema<DisassociateUserFromPermissionGroupResponse>;
 export interface EnableUserRequest {
   userId: string;
   clientToken?: string;
@@ -691,14 +625,7 @@ export const EnableUserRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user/{userId}/enable" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/user/{userId}/enable" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "EnableUserRequest",
@@ -809,25 +736,13 @@ export interface GetDatasetRequest {
 }
 export const GetDatasetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datasetId: S.String.pipe(T.HttpLabel("datasetId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datasetsv2/{datasetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/datasetsv2/{datasetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDatasetRequest",
 }) as any as S.Schema<GetDatasetRequest>;
 export type DatasetArn = string;
-export type DatasetStatus =
-  | "PENDING"
-  | "FAILED"
-  | "SUCCESS"
-  | "RUNNING"
-  | (string & {});
+export type DatasetStatus = "PENDING" | "FAILED" | "SUCCESS" | "RUNNING" | (string & {});
 export const DatasetStatus = S.String;
 
 export interface GetDatasetResponse {
@@ -943,24 +858,23 @@ export interface GetExternalDataViewAccessDetailsRequest {
   dataViewId: string;
   datasetId: string;
 }
-export const GetExternalDataViewAccessDetailsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
-      datasetId: S.String.pipe(T.HttpLabel("datasetId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}/external-access-details",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetExternalDataViewAccessDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    dataViewId: S.String.pipe(T.HttpLabel("dataViewId")),
+    datasetId: S.String.pipe(T.HttpLabel("datasetId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/datasets/{datasetId}/dataviewsv2/{dataViewId}/external-access-details",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetExternalDataViewAccessDetailsRequest",
 }) as any as S.Schema<GetExternalDataViewAccessDetailsRequest>;
@@ -994,12 +908,11 @@ export interface GetExternalDataViewAccessDetailsResponse {
   credentials?: AwsCredentials;
   s3Location?: S3Location;
 }
-export const GetExternalDataViewAccessDetailsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      credentials: S.optional(AwsCredentials),
-      s3Location: S.optional(S3Location),
-    }),
+export const GetExternalDataViewAccessDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    credentials: S.optional(AwsCredentials),
+    s3Location: S.optional(S3Location),
+  }),
 ).annotate({
   identifier: "GetExternalDataViewAccessDetailsResponse",
 }) as any as S.Schema<GetExternalDataViewAccessDetailsResponse>;
@@ -1065,23 +978,20 @@ export interface GetProgrammaticAccessCredentialsRequest {
   durationInMinutes?: number;
   environmentId: string;
 }
-export const GetProgrammaticAccessCredentialsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      durationInMinutes: S.optional(S.Number).pipe(
-        T.HttpQuery("durationInMinutes"),
-      ),
-      environmentId: S.String.pipe(T.HttpQuery("environmentId")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/credentials/programmatic" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetProgrammaticAccessCredentialsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    durationInMinutes: S.optional(S.Number).pipe(T.HttpQuery("durationInMinutes")),
+    environmentId: S.String.pipe(T.HttpQuery("environmentId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/credentials/programmatic" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetProgrammaticAccessCredentialsRequest",
 }) as any as S.Schema<GetProgrammaticAccessCredentialsRequest>;
@@ -1103,12 +1013,11 @@ export interface GetProgrammaticAccessCredentialsResponse {
   credentials?: Credentials;
   durationInMinutes?: number;
 }
-export const GetProgrammaticAccessCredentialsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      credentials: S.optional(Credentials),
-      durationInMinutes: S.optional(S.Number),
-    }),
+export const GetProgrammaticAccessCredentialsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    credentials: S.optional(Credentials),
+    durationInMinutes: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "GetProgrammaticAccessCredentialsResponse",
 }) as any as S.Schema<GetProgrammaticAccessCredentialsResponse>;
@@ -1117,14 +1026,7 @@ export interface GetUserRequest {
 }
 export const GetUserRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ userId: S.String.pipe(T.HttpLabel("userId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/user/{userId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/user/{userId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetUserRequest" }) as any as S.Schema<GetUserRequest>;
 export type UserStatus = "CREATING" | "ENABLED" | "DISABLED" | (string & {});
@@ -1172,14 +1074,7 @@ export interface GetWorkingLocationRequest {
 }
 export const GetWorkingLocationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ locationType: S.optional(LocationType) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/workingLocationV1" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/workingLocationV1" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetWorkingLocationRequest",
@@ -1281,16 +1176,7 @@ export const ListDatasetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datasetsv2" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/datasetsv2" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatasetsRequest",
 }) as any as S.Schema<ListDatasetsRequest>;
@@ -1411,16 +1297,7 @@ export const ListPermissionGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/permission-group" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/permission-group" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPermissionGroupsRequest",
 }) as any as S.Schema<ListPermissionGroupsRequest>;
@@ -1476,9 +1353,7 @@ export const PermissionGroupByUser = /*@__PURE__*/ S.suspend(() =>
   identifier: "PermissionGroupByUser",
 }) as any as S.Schema<PermissionGroupByUser>;
 export type PermissionGroupByUserList = PermissionGroupByUser[];
-export const PermissionGroupByUserList = /*@__PURE__*/ S.Array(
-  PermissionGroupByUser,
-);
+export const PermissionGroupByUserList = /*@__PURE__*/ S.Array(PermissionGroupByUser);
 export interface ListPermissionGroupsByUserResponse {
   permissionGroups?: PermissionGroupByUser[];
   nextToken?: string;
@@ -1499,16 +1374,7 @@ export const ListUsersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.Number.pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/user" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/user" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListUsersRequest",
 }) as any as S.Schema<ListUsersRequest>;
@@ -1608,9 +1474,7 @@ export const UserByPermissionGroup = /*@__PURE__*/ S.suspend(() =>
   identifier: "UserByPermissionGroup",
 }) as any as S.Schema<UserByPermissionGroup>;
 export type UserByPermissionGroupList = UserByPermissionGroup[];
-export const UserByPermissionGroupList = /*@__PURE__*/ S.Array(
-  UserByPermissionGroup,
-);
+export const UserByPermissionGroupList = /*@__PURE__*/ S.Array(UserByPermissionGroup);
 export interface ListUsersByPermissionGroupResponse {
   users?: UserByPermissionGroup[];
   nextToken?: string;
@@ -1632,14 +1496,7 @@ export const ResetUserPasswordRequest = /*@__PURE__*/ S.suspend(() =>
     userId: S.String.pipe(T.HttpLabel("userId")),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user/{userId}/password" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/user/{userId}/password" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ResetUserPasswordRequest",
@@ -1718,14 +1575,7 @@ export const UpdateDatasetRequest = /*@__PURE__*/ S.suspend(() =>
     alias: S.optional(S.String),
     schemaDefinition: S.optional(SchemaUnion),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/datasetsv2/{datasetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/datasetsv2/{datasetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateDatasetRequest",
@@ -1791,16 +1641,7 @@ export const UpdateUserRequest = /*@__PURE__*/ S.suspend(() =>
     apiAccess: S.optional(ApiAccess),
     apiAccessPrincipalArn: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/user/{userId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/user/{userId}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateUserRequest",
 }) as any as S.Schema<UpdateUserRequest>;

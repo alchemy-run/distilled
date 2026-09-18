@@ -30,6 +30,5 @@ const program = Effect.gen(function* () {
 }).pipe(Effect.provide(layer));
 
 export default {
-  fetch: () =>
-    Effect.runPromise(program).then((out) => new Response(JSON.stringify(out))),
+  fetch: () => Effect.runPromise(program).then((out) => new Response(JSON.stringify(out))),
 };

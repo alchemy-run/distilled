@@ -1,5 +1,4 @@
 import type { Checksum } from "@smithy/types";
-import { toBase64 } from "../util/base64.ts";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type { Request as ProtocolRequest } from "../client/request.ts";
@@ -7,6 +6,7 @@ import { getCrc32ChecksumAlgorithmFunction } from "../hash/crc32.ts";
 import { getMd5ChecksumAlgorithmFunction } from "../hash/md5.ts";
 import { toUint8Array } from "../hash/utf8.ts";
 import { getAwsProtocolsHttpChecksum } from "../traits.ts";
+import { toBase64 } from "../util/base64.ts";
 import { createBufferedReadableStream } from "../util/stream.ts";
 
 export type SourceData = string | ArrayBuffer | ArrayBufferView;
@@ -15,10 +15,7 @@ export interface ChecksumConstructor {
   new (secret?: SourceData): Checksum;
 }
 
-export const stringHasher = (
-  checksumAlgorithmFn: ChecksumConstructor,
-  body: any,
-) =>
+export const stringHasher = (checksumAlgorithmFn: ChecksumConstructor, body: any) =>
   Effect.promise(async () => {
     const hash = new checksumAlgorithmFn();
     hash.update(toUint8Array(body || ""));
@@ -73,14 +70,10 @@ export const applyHttpChecksum = (
     // Determine algorithm: use specified, or default to CRC32 for streaming, MD5 for non-streaming
     const isStreaming = body instanceof ReadableStream;
     const algorithm = specifiedAlgorithm ?? (isStreaming ? "crc32" : "md5");
-    const checksumHeader =
-      algorithm === "md5" ? "Content-MD5" : `x-amz-checksum-${algorithm}`;
+    const checksumHeader = algorithm === "md5" ? "Content-MD5" : `x-amz-checksum-${algorithm}`;
 
     // Skip if checksum header already provided
-    if (
-      request.headers[checksumHeader] ||
-      request.headers[checksumHeader.toLowerCase()]
-    ) {
+    if (request.headers[checksumHeader] || request.headers[checksumHeader.toLowerCase()]) {
       return request;
     }
 
@@ -101,14 +94,9 @@ export const applyHttpChecksum = (
       const bufferedStream = createBufferedReadableStream(body, MIN_CHUNK_SIZE);
 
       // Create aws-chunked encoded stream with trailing checksum
-      const chunkedBody = createAwsChunkedStream(
-        bufferedStream,
-        hasher,
-        checksumHeader,
-      );
+      const chunkedBody = createAwsChunkedStream(bufferedStream, hasher, checksumHeader);
 
-      const contentLength =
-        request.headers["Content-Length"] || request.headers["content-length"];
+      const contentLength = request.headers["Content-Length"] || request.headers["content-length"];
 
       // Remove Content-Length as it's now chunked
       const {
@@ -181,9 +169,7 @@ export function createAwsChunkedStream(
       const footer = encoder.encode("\r\n");
 
       // Combine header + data + footer
-      const combined = new Uint8Array(
-        header.length + value.length + footer.length,
-      );
+      const combined = new Uint8Array(header.length + value.length + footer.length);
       combined.set(header, 0);
       combined.set(value, header.length);
       combined.set(footer, header.length + value.length);

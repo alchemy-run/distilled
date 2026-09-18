@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * ArchilProtocol — hand-written.
  *
@@ -18,9 +21,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownArchilError } from "./errors.ts";
 
@@ -39,37 +39,31 @@ export type ArchilOpError =
 /** Context (requirements) shared by every generated Archil operation. */
 export type ArchilOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArchilProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // The Credentials service holds an effect — resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const ArchilProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // The Credentials service holds an effect — resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  // Archil's control plane authenticates with the raw API key, not Bearer.
+  headers: (creds) => ({
+    Authorization: Redacted.value(creds.apiKey),
+  }),
+  // Archil's error body is `{ success: false, error: string }` — map
+  // `error` onto the unknown-error message when `message` is absent.
+  unknownError: ({ code, message, body }) =>
+    new UnknownArchilError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message:
+        message ??
+        (body !== null &&
+        typeof body === "object" &&
+        "error" in body &&
+        typeof (body as { error: unknown }).error === "string"
+          ? (body as { error: string }).error
+          : undefined),
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    // Archil's control plane authenticates with the raw API key, not Bearer.
-    headers: (creds) => ({
-      Authorization: Redacted.value(creds.apiKey),
-    }),
-    // Archil's error body is `{ success: false, error: string }` — map
-    // `error` onto the unknown-error message when `message` is absent.
-    unknownError: ({ code, message, body }) =>
-      new UnknownArchilError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message:
-          message ??
-          (body !== null &&
-          typeof body === "object" &&
-          "error" in body &&
-          typeof (body as { error: unknown }).error === "string"
-            ? (body as { error: string }).error
-            : undefined),
-        body,
-      }),
-  });
+});

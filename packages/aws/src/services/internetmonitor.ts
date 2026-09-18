@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "InternetMonitor",
   serviceShapeName: "InternetMonitor20210603",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://internetmonitor-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://internetmonitor.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://internetmonitor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://internetmonitor.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -156,10 +146,7 @@ export const SetOfARNs = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type MaxCityNetworksToMonitor = number;
 export type LogDeliveryStatus = string;
 export interface S3Config {
@@ -232,20 +219,11 @@ export const CreateMonitorInput = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagMap),
     MaxCityNetworksToMonitor: S.optional(S.Number),
-    InternetMeasurementsLogDelivery: S.optional(
-      InternetMeasurementsLogDelivery,
-    ),
+    InternetMeasurementsLogDelivery: S.optional(InternetMeasurementsLogDelivery),
     TrafficPercentageToMonitor: S.optional(S.Number),
     HealthEventsConfig: S.optional(HealthEventsConfig),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v20210603/Monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v20210603/Monitors" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateMonitorInput",
@@ -279,9 +257,7 @@ export const DeleteMonitorInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMonitorInput",
 }) as any as S.Schema<DeleteMonitorInput>;
 export interface DeleteMonitorOutput {}
-export const DeleteMonitorOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMonitorOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMonitorOutput",
 }) as any as S.Schema<DeleteMonitorOutput>;
 export type HealthEventName = string;
@@ -451,9 +427,7 @@ export const GetHealthEventOutput = /*@__PURE__*/ S.suspend(() =>
     EventId: S.String,
     StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ImpactedLocations: ImpactedLocationsList,
     Status: S.String,
@@ -577,9 +551,7 @@ export const GetMonitorOutput = /*@__PURE__*/ S.suspend(() =>
     ProcessingStatusInfo: S.optional(S.String),
     Tags: S.optional(TagMap),
     MaxCityNetworksToMonitor: S.optional(S.Number),
-    InternetMeasurementsLogDelivery: S.optional(
-      InternetMeasurementsLogDelivery,
-    ),
+    InternetMeasurementsLogDelivery: S.optional(InternetMeasurementsLogDelivery),
     TrafficPercentageToMonitor: S.optional(S.Number),
     HealthEventsConfig: S.optional(HealthEventsConfig),
   }),
@@ -688,12 +660,12 @@ export interface ListHealthEventsInput {
 export const ListHealthEventsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MonitorName: S.String.pipe(T.HttpLabel("MonitorName")),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("StartTime")),
-    EndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("EndTime")),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("StartTime"),
+    ),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("EndTime"),
+    ),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
@@ -733,9 +705,7 @@ export const HealthEvent = /*@__PURE__*/ S.suspend(() =>
     EventId: S.String,
     StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     ImpactedLocations: ImpactedLocationsList,
     Status: S.String,
@@ -767,15 +737,13 @@ export interface ListInternetEventsInput {
 export const ListInternetEventsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-    MaxResults: S.optional(S.Number).pipe(
-      T.HttpQuery("InternetEventMaxResults"),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("InternetEventMaxResults")),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("StartTime"),
     ),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("StartTime")),
-    EndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("EndTime")),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("EndTime"),
+    ),
     EventStatus: S.optional(S.String).pipe(T.HttpQuery("EventStatus")),
     EventType: S.optional(S.String).pipe(T.HttpQuery("EventType")),
   }).pipe(
@@ -838,18 +806,9 @@ export const ListMonitorsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
     MonitorStatus: S.optional(S.String).pipe(T.HttpQuery("MonitorStatus")),
-    IncludeLinkedAccounts: S.optional(S.Boolean).pipe(
-      T.HttpQuery("IncludeLinkedAccounts"),
-    ),
+    IncludeLinkedAccounts: S.optional(S.Boolean).pipe(T.HttpQuery("IncludeLinkedAccounts")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v20210603/Monitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v20210603/Monitors" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMonitorsInput",
@@ -884,14 +843,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -987,9 +939,7 @@ export const StopQueryInput = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "StopQueryInput" }) as any as S.Schema<StopQueryInput>;
 export interface StopQueryOutput {}
-export const StopQueryOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopQueryOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopQueryOutput",
 }) as any as S.Schema<StopQueryOutput>;
 export interface TagResourceInput {
@@ -1001,22 +951,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeys = string[];
@@ -1030,22 +971,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateMonitorInput {
@@ -1067,9 +999,7 @@ export const UpdateMonitorInput = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(S.String),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     MaxCityNetworksToMonitor: S.optional(S.Number),
-    InternetMeasurementsLogDelivery: S.optional(
-      InternetMeasurementsLogDelivery,
-    ),
+    InternetMeasurementsLogDelivery: S.optional(InternetMeasurementsLogDelivery),
     TrafficPercentageToMonitor: S.optional(S.Number),
     HealthEventsConfig: S.optional(HealthEventsConfig),
   }).pipe(

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Agent Registry",
   serviceShapeName: "AgentRegistry",
@@ -97,26 +97,24 @@ export const RegistryRecordsEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordsEntry",
 }) as any as S.Schema<RegistryRecordsEntry>;
 export type RegistryRecordsEntryList = RegistryRecordsEntry[];
-export const RegistryRecordsEntryList =
-  /*@__PURE__*/ S.Array(RegistryRecordsEntry);
+export const RegistryRecordsEntryList = /*@__PURE__*/ S.Array(RegistryRecordsEntry);
 export interface BatchGetDiscoverableRegistryRecordRequest {
   entries: RegistryRecordsEntry[];
 }
-export const BatchGetDiscoverableRegistryRecordRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ entries: RegistryRecordsEntryList }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/discoverable-records-batch" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchGetDiscoverableRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ entries: RegistryRecordsEntryList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/discoverable-records-batch" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchGetDiscoverableRegistryRecordRequest",
-  }) as any as S.Schema<BatchGetDiscoverableRegistryRecordRequest>;
+  ),
+).annotate({
+  identifier: "BatchGetDiscoverableRegistryRecordRequest",
+}) as any as S.Schema<BatchGetDiscoverableRegistryRecordRequest>;
 export type RegistryArn = string;
 export type RegistryRecordArn = string;
 export type RegistryRecordId = string;
@@ -300,9 +298,7 @@ export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordSummary",
 }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
-export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(
-  RegistryRecordSummary,
-);
+export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(RegistryRecordSummary);
 export type BatchGetDiscoverableRegistryRecordErrorCode =
   | "RESOURCE_NOT_FOUND"
   | "ACCESS_DENIED"
@@ -316,38 +312,34 @@ export interface BatchGetDiscoverableRegistryRecordError_ {
   errorCode: BatchGetDiscoverableRegistryRecordErrorCode;
   message?: string;
 }
-export const BatchGetDiscoverableRegistryRecordError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      registryId: S.String,
-      recordId: S.String,
-      errorCode: BatchGetDiscoverableRegistryRecordErrorCode,
-      message: S.optional(S.String),
-    }),
+export const BatchGetDiscoverableRegistryRecordError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryId: S.String,
+    recordId: S.String,
+    errorCode: BatchGetDiscoverableRegistryRecordErrorCode,
+    message: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchGetDiscoverableRegistryRecordError",
 }) as any as S.Schema<BatchGetDiscoverableRegistryRecordError_>;
 export type BatchGetDiscoverableRegistryRecordErrorList =
   BatchGetDiscoverableRegistryRecordError_[];
-export const BatchGetDiscoverableRegistryRecordErrorList =
-  /*@__PURE__*/ S.Array(BatchGetDiscoverableRegistryRecordError_);
+export const BatchGetDiscoverableRegistryRecordErrorList = /*@__PURE__*/ S.Array(
+  BatchGetDiscoverableRegistryRecordError_,
+);
 export interface BatchGetDiscoverableRegistryRecordResponse {
   registryRecords: RegistryRecordSummary[];
   errors: BatchGetDiscoverableRegistryRecordError_[];
 }
-export const BatchGetDiscoverableRegistryRecordResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      registryRecords: RegistryRecordSummaryList,
-      errors: BatchGetDiscoverableRegistryRecordErrorList,
-    }),
-  ).annotate({
-    identifier: "BatchGetDiscoverableRegistryRecordResponse",
-  }) as any as S.Schema<BatchGetDiscoverableRegistryRecordResponse>;
-export type RegistryRecordFilterName =
-  | "recordType"
-  | "descriptorType"
-  | (string & {});
+export const BatchGetDiscoverableRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryRecords: RegistryRecordSummaryList,
+    errors: BatchGetDiscoverableRegistryRecordErrorList,
+  }),
+).annotate({
+  identifier: "BatchGetDiscoverableRegistryRecordResponse",
+}) as any as S.Schema<BatchGetDiscoverableRegistryRecordResponse>;
+export type RegistryRecordFilterName = "recordType" | "descriptorType" | (string & {});
 export const RegistryRecordFilterName = S.String;
 
 export type FilterValue = string;
@@ -366,34 +358,32 @@ export const RegistryRecordFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordFilter",
 }) as any as S.Schema<RegistryRecordFilter>;
 export type RegistryRecordFilterList = RegistryRecordFilter[];
-export const RegistryRecordFilterList =
-  /*@__PURE__*/ S.Array(RegistryRecordFilter);
+export const RegistryRecordFilterList = /*@__PURE__*/ S.Array(RegistryRecordFilter);
 export interface ListDiscoverableRegistryRecordsRequest {
   registryId: string;
   maxResults?: number;
   nextToken?: string;
   filters?: RegistryRecordFilter[];
 }
-export const ListDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      registryId: S.String.pipe(T.HttpLabel("registryId")),
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-      filters: S.optional(RegistryRecordFilterList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/registries/{registryId}/discoverable-records-list",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryId: S.String.pipe(T.HttpLabel("registryId")),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+    filters: S.optional(RegistryRecordFilterList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/registries/{registryId}/discoverable-records-list",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListDiscoverableRegistryRecordsRequest",
 }) as any as S.Schema<ListDiscoverableRegistryRecordsRequest>;
@@ -427,8 +417,7 @@ export const DiscoverableRegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DiscoverableRegistryRecordSummary",
 }) as any as S.Schema<DiscoverableRegistryRecordSummary>;
-export type DiscoverableRegistryRecordSummaryList =
-  DiscoverableRegistryRecordSummary[];
+export type DiscoverableRegistryRecordSummaryList = DiscoverableRegistryRecordSummary[];
 export const DiscoverableRegistryRecordSummaryList = /*@__PURE__*/ S.Array(
   DiscoverableRegistryRecordSummary,
 );
@@ -436,12 +425,11 @@ export interface ListDiscoverableRegistryRecordsResponse {
   registryRecords: DiscoverableRegistryRecordSummary[];
   nextToken?: string;
 }
-export const ListDiscoverableRegistryRecordsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      registryRecords: DiscoverableRegistryRecordSummaryList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListDiscoverableRegistryRecordsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryRecords: DiscoverableRegistryRecordSummaryList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListDiscoverableRegistryRecordsResponse",
 }) as any as S.Schema<ListDiscoverableRegistryRecordsResponse>;
@@ -455,35 +443,33 @@ export interface SearchDiscoverableRegistryRecordsRequest {
   maxResults?: number;
   filters?: any;
 }
-export const SearchDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      searchQuery: SensitiveString,
-      registryIds: RegistryIdList,
-      maxResults: S.optional(S.Number),
-      filters: S.optional(S.Any),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/discoverable-records-search" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const SearchDiscoverableRegistryRecordsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    searchQuery: SensitiveString,
+    registryIds: RegistryIdList,
+    maxResults: S.optional(S.Number),
+    filters: S.optional(S.Any),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/discoverable-records-search" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "SearchDiscoverableRegistryRecordsRequest",
 }) as any as S.Schema<SearchDiscoverableRegistryRecordsRequest>;
 export interface SearchDiscoverableRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
 }
-export const SearchDiscoverableRegistryRecordsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ registryRecords: RegistryRecordSummaryList }),
-  ).annotate({
-    identifier: "SearchDiscoverableRegistryRecordsResponse",
-  }) as any as S.Schema<SearchDiscoverableRegistryRecordsResponse>;
+export const SearchDiscoverableRegistryRecordsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ registryRecords: RegistryRecordSummaryList }),
+).annotate({
+  identifier: "SearchDiscoverableRegistryRecordsResponse",
+}) as any as S.Schema<SearchDiscoverableRegistryRecordsResponse>;
 export type NonBlankString = string;
 export type ValidationExceptionReason =
   | "CannotParse"
@@ -504,9 +490,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type BatchGetDiscoverableRegistryRecordError =
   | AccessDeniedException
   | InternalServerException

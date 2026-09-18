@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudHSM",
   serviceShapeName: "CloudHsmFrontendService",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cloudhsm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://cloudhsm-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudhsm.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -83,29 +71,20 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class CloudHsmInternalException
-  extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()(
-    "CloudHsmInternalException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CloudHsmInternalException>()("CloudHsmInternalException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export class CloudHsmServiceException
-  extends /*@__PURE__*/ S.TaggedError<CloudHsmServiceException>()(
-    "CloudHsmServiceException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CloudHsmServiceException>()("CloudHsmServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      retryable: S.optional(S.Boolean),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    retryable: S.optional(S.Boolean),
+  }) {}
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -307,11 +286,7 @@ export const HsmList = /*@__PURE__*/ S.Array(S.String);
 export type PartitionSerial = string;
 export type PartitionSerialList = string[];
 export const PartitionSerialList = /*@__PURE__*/ S.Array(S.String);
-export type CloudHsmObjectState =
-  | "READY"
-  | "UPDATING"
-  | "DEGRADED"
-  | (string & {});
+export type CloudHsmObjectState = "READY" | "UPDATING" | "DEGRADED" | (string & {});
 export const CloudHsmObjectState = S.String;
 
 export interface DescribeHapgResponse {
@@ -349,9 +324,7 @@ export const DescribeHsmRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     HsmArn: S.optional(S.String),
     HsmSerialNumber: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeHsmRequest",
 }) as any as S.Schema<DescribeHsmRequest>;
@@ -431,9 +404,7 @@ export const DescribeLunaClientRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientArn: S.optional(S.String),
     CertificateFingerprint: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeLunaClientRequest",
 }) as any as S.Schema<DescribeLunaClientRequest>;
@@ -470,9 +441,7 @@ export const GetConfigRequest = /*@__PURE__*/ S.suspend(() =>
     ClientArn: S.String,
     ClientVersion: ClientVersion,
     HapgList: HapgList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetConfigRequest",
 }) as any as S.Schema<GetConfigRequest>;
@@ -492,9 +461,7 @@ export const GetConfigResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetConfigResponse>;
 export interface ListAvailableZonesRequest {}
 export const ListAvailableZonesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAvailableZonesRequest",
 }) as any as S.Schema<ListAvailableZonesRequest>;
@@ -596,9 +563,7 @@ export const ModifyHapgRequest = /*@__PURE__*/ S.suspend(() =>
     HapgArn: S.String,
     Label: S.optional(S.String),
     PartitionSerialList: S.optional(PartitionSerialList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ModifyHapgRequest",
 }) as any as S.Schema<ModifyHapgRequest>;
@@ -718,11 +683,7 @@ export const addTagsToResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTagsToResourceRequest,
   output: AddTagsToResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
@@ -756,11 +717,7 @@ export const createHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateHapgRequest,
   output: CreateHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHapg",
@@ -802,11 +759,7 @@ export const createHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateHsmRequest,
   output: CreateHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
@@ -839,11 +792,7 @@ export const createLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateLunaClientRequest,
   output: CreateLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLunaClient",
@@ -876,11 +825,7 @@ export const deleteHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHapgRequest,
   output: DeleteHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHapg",
@@ -914,11 +859,7 @@ export const deleteHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHsmRequest,
   output: DeleteHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
@@ -951,11 +892,7 @@ export const deleteLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteLunaClientRequest,
   output: DeleteLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLunaClient",
@@ -988,11 +925,7 @@ export const describeHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeHapgRequest,
   output: DescribeHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHapg",
@@ -1026,11 +959,7 @@ export const describeHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeHsmRequest,
   output: DescribeHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHsm",
@@ -1063,11 +992,7 @@ export const describeLunaClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeLunaClientRequest,
   output: DescribeLunaClientResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLunaClient",
@@ -1101,11 +1026,7 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
@@ -1138,11 +1059,7 @@ export const listAvailableZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListAvailableZonesRequest,
   output: ListAvailableZonesResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableZones",
@@ -1180,11 +1097,7 @@ export const listHapgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHapgsRequest,
   output: ListHapgsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHapgs",
@@ -1223,11 +1136,7 @@ export const listHsms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListHsmsRequest,
   output: ListHsmsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHsms",
@@ -1265,11 +1174,7 @@ export const listLunaClients: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListLunaClientsRequest,
   output: ListLunaClientsResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLunaClients",
@@ -1302,11 +1207,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1339,11 +1240,7 @@ export const modifyHapg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyHapgRequest,
   output: ModifyHapgResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHapg",
@@ -1381,11 +1278,7 @@ export const modifyHsm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ModifyHsmRequest,
   output: ModifyHsmResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyHsm",
@@ -1453,11 +1346,7 @@ export const removeTagsFromResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveTagsFromResourceRequest,
   output: RemoveTagsFromResourceResponse,
-  errors: [
-    CloudHsmInternalException,
-    CloudHsmServiceException,
-    InvalidRequestException,
-  ],
+  errors: [CloudHsmInternalException, CloudHsmServiceException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",

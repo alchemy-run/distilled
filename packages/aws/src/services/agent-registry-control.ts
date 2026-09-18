@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Agent Registry Control",
   serviceShapeName: "AgentRegistryControl",
@@ -102,10 +102,7 @@ export type AllowedScopeType = string;
 export type AllowedScopesType = string[];
 export const AllowedScopesType = /*@__PURE__*/ S.Array(S.String);
 export type InboundTokenClaimNameType = string;
-export type InboundTokenClaimValueType =
-  | "STRING"
-  | "STRING_ARRAY"
-  | (string & {});
+export type InboundTokenClaimValueType = "STRING" | "STRING_ARRAY" | (string & {});
 export const InboundTokenClaimValueType = S.String;
 
 export type MatchValueString = string;
@@ -118,11 +115,7 @@ export const ClaimMatchValueType = /*@__PURE__*/ S.Union([
   S.Struct({ matchValueString: S.String }),
   S.Struct({ matchValueStringList: MatchValueStringList }),
 ]);
-export type ClaimMatchOperatorType =
-  | "EQUALS"
-  | "CONTAINS"
-  | "CONTAINS_ANY"
-  | (string & {});
+export type ClaimMatchOperatorType = "EQUALS" | "CONTAINS" | "CONTAINS_ANY" | (string & {});
 export const ClaimMatchOperatorType = S.String;
 
 export interface AuthorizingClaimMatchValueType {
@@ -152,9 +145,7 @@ export const CustomClaimValidationType = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomClaimValidationType",
 }) as any as S.Schema<CustomClaimValidationType>;
 export type CustomClaimValidationsType = CustomClaimValidationType[];
-export const CustomClaimValidationsType = /*@__PURE__*/ S.Array(
-  CustomClaimValidationType,
-);
+export const CustomClaimValidationsType = /*@__PURE__*/ S.Array(CustomClaimValidationType);
 export type ResourceConfigurationIdentifier = string;
 export type SelfManagedLatticeResource = {
   resourceConfigurationIdentifier: string;
@@ -175,10 +166,7 @@ export const SecurityGroupIds = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RoutingDomain = string;
 export interface ManagedVpcResource {
   vpcIdentifier: string;
@@ -224,9 +212,7 @@ export const PrivateEndpointOverride = /*@__PURE__*/ S.suspend(() =>
   identifier: "PrivateEndpointOverride",
 }) as any as S.Schema<PrivateEndpointOverride>;
 export type PrivateEndpointOverrides = PrivateEndpointOverride[];
-export const PrivateEndpointOverrides = /*@__PURE__*/ S.Array(
-  PrivateEndpointOverride,
-);
+export const PrivateEndpointOverrides = /*@__PURE__*/ S.Array(PrivateEndpointOverride);
 export interface CustomJWTAuthorizerConfiguration {
   discoveryUrl: string;
   allowedAudience?: string[];
@@ -300,16 +286,7 @@ export const CreateRegistryRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagsMap),
     approvalConfiguration: S.optional(ApprovalConfiguration),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/registries" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRegistryRequest",
 }) as any as S.Schema<CreateRegistryRequest>;
@@ -351,10 +328,7 @@ export const McpServerAdditionalData = /*@__PURE__*/ S.suspend(() =>
   identifier: "McpServerAdditionalData",
 }) as any as S.Schema<McpServerAdditionalData>;
 export type DescriptorSourceUrl = string;
-export type RegistryRecordCredentialProviderType =
-  | "OAUTH"
-  | "IAM"
-  | (string & {});
+export type RegistryRecordCredentialProviderType = "OAUTH" | "IAM" | (string & {});
 export const RegistryRecordCredentialProviderType = S.String;
 
 export type CredentialProviderArn = string;
@@ -364,24 +338,20 @@ export const RegistryRecordOAuthGrantType = S.String;
 export type ScopeList = string[];
 export const ScopeList = /*@__PURE__*/ S.Array(S.String);
 export type CustomParameterMap = { [key: string]: string | undefined };
-export const CustomParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const CustomParameterMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface RegistryRecordOAuthCredentialProvider {
   providerArn: string;
   grantType?: RegistryRecordOAuthGrantType;
   scopes?: string[];
   customParameters?: { [key: string]: string | undefined };
 }
-export const RegistryRecordOAuthCredentialProvider = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      providerArn: S.String,
-      grantType: S.optional(RegistryRecordOAuthGrantType),
-      scopes: S.optional(ScopeList),
-      customParameters: S.optional(CustomParameterMap),
-    }),
+export const RegistryRecordOAuthCredentialProvider = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    providerArn: S.String,
+    grantType: S.optional(RegistryRecordOAuthGrantType),
+    scopes: S.optional(ScopeList),
+    customParameters: S.optional(CustomParameterMap),
+  }),
 ).annotate({
   identifier: "RegistryRecordOAuthCredentialProvider",
 }) as any as S.Schema<RegistryRecordOAuthCredentialProvider>;
@@ -419,19 +389,19 @@ export interface RegistryRecordCredentialProviderConfiguration {
   credentialProviderType: RegistryRecordCredentialProviderType;
   credentialProvider: RegistryRecordCredentialProviderUnion;
 }
-export const RegistryRecordCredentialProviderConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      credentialProviderType: RegistryRecordCredentialProviderType,
-      credentialProvider: RegistryRecordCredentialProviderUnion,
-    }),
-  ).annotate({
-    identifier: "RegistryRecordCredentialProviderConfiguration",
-  }) as any as S.Schema<RegistryRecordCredentialProviderConfiguration>;
+export const RegistryRecordCredentialProviderConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    credentialProviderType: RegistryRecordCredentialProviderType,
+    credentialProvider: RegistryRecordCredentialProviderUnion,
+  }),
+).annotate({
+  identifier: "RegistryRecordCredentialProviderConfiguration",
+}) as any as S.Schema<RegistryRecordCredentialProviderConfiguration>;
 export type RegistryRecordCredentialProviderConfigurationList =
   RegistryRecordCredentialProviderConfiguration[];
-export const RegistryRecordCredentialProviderConfigurationList =
-  /*@__PURE__*/ S.Array(RegistryRecordCredentialProviderConfiguration);
+export const RegistryRecordCredentialProviderConfigurationList = /*@__PURE__*/ S.Array(
+  RegistryRecordCredentialProviderConfiguration,
+);
 export interface DescriptorSourceFromUrl {
   url: string;
   credentialProviderConfigurations?: RegistryRecordCredentialProviderConfiguration[];
@@ -439,9 +409,7 @@ export interface DescriptorSourceFromUrl {
 export const DescriptorSourceFromUrl = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     url: S.String,
-    credentialProviderConfigurations: S.optional(
-      RegistryRecordCredentialProviderConfigurationList,
-    ),
+    credentialProviderConfigurations: S.optional(RegistryRecordCredentialProviderConfigurationList),
   }),
 ).annotate({
   identifier: "DescriptorSourceFromUrl",
@@ -663,9 +631,7 @@ export const DeleteRegistryRecordRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRegistryRecordRequest",
 }) as any as S.Schema<DeleteRegistryRecordRequest>;
 export interface DeleteRegistryRecordResponse {}
-export const DeleteRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRegistryRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRegistryRecordResponse",
 }) as any as S.Schema<DeleteRegistryRecordResponse>;
 export interface GetRegistryRequest {
@@ -673,14 +639,7 @@ export interface GetRegistryRequest {
 }
 export const GetRegistryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ registryId: S.String.pipe(T.HttpLabel("registryId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/registries/{registryId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/registries/{registryId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetRegistryRequest",
@@ -775,10 +734,7 @@ export const GetRegistryRecordResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetRegistryRecordResponse>;
 export type MaxResults = number;
 export type NextToken = string;
-export type RegistryFilterName =
-  | "status"
-  | "discoveryConfiguration.authorizerType"
-  | (string & {});
+export type RegistryFilterName = "status" | "discoveryConfiguration.authorizerType" | (string & {});
 export const RegistryFilterName = S.String;
 
 export type FilterValue = string;
@@ -803,16 +759,7 @@ export const ListRegistriesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
     filters: S.optional(RegistryFilterList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/registries-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/registries-list" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRegistriesRequest",
 }) as any as S.Schema<ListRegistriesRequest>;
@@ -856,11 +803,7 @@ export const ListRegistriesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListRegistriesResponse",
 }) as any as S.Schema<ListRegistriesResponse>;
-export type RegistryRecordFilterName =
-  | "name"
-  | "status"
-  | "recordType"
-  | (string & {});
+export type RegistryRecordFilterName = "name" | "status" | "recordType" | (string & {});
 export const RegistryRecordFilterName = S.String;
 
 export interface RegistryRecordFilter {
@@ -873,8 +816,7 @@ export const RegistryRecordFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordFilter",
 }) as any as S.Schema<RegistryRecordFilter>;
 export type RegistryRecordFilterList = RegistryRecordFilter[];
-export const RegistryRecordFilterList =
-  /*@__PURE__*/ S.Array(RegistryRecordFilter);
+export const RegistryRecordFilterList = /*@__PURE__*/ S.Array(RegistryRecordFilter);
 export interface ListRegistryRecordsRequest {
   registryId: string;
   maxResults?: number;
@@ -931,9 +873,7 @@ export const RegistryRecordSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RegistryRecordSummary",
 }) as any as S.Schema<RegistryRecordSummary>;
 export type RegistryRecordSummaryList = RegistryRecordSummary[];
-export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(
-  RegistryRecordSummary,
-);
+export const RegistryRecordSummaryList = /*@__PURE__*/ S.Array(RegistryRecordSummary);
 export interface ListRegistryRecordsResponse {
   registryRecords: RegistryRecordSummary[];
   nextToken?: string;
@@ -952,23 +892,13 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type ResourceTagsMap = { [key: string]: string | undefined };
-export const ResourceTagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ResourceTagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
@@ -981,24 +911,23 @@ export interface SubmitRegistryRecordForApprovalRequest {
   registryId: string;
   recordId: string;
 }
-export const SubmitRegistryRecordForApprovalRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      registryId: S.String.pipe(T.HttpLabel("registryId")),
-      recordId: S.String.pipe(T.HttpLabel("recordId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/registries/{registryId}/records/{recordId}/submit-for-approval",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const SubmitRegistryRecordForApprovalRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryId: S.String.pipe(T.HttpLabel("registryId")),
+    recordId: S.String.pipe(T.HttpLabel("recordId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/registries/{registryId}/records/{recordId}/submit-for-approval",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "SubmitRegistryRecordForApprovalRequest",
 }) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>;
@@ -1009,15 +938,14 @@ export interface SubmitRegistryRecordForApprovalResponse {
   status: RegistryRecordStatus;
   updatedAt: Date;
 }
-export const SubmitRegistryRecordForApprovalResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      registryArn: S.String,
-      recordArn: S.String,
-      recordId: S.String,
-      status: RegistryRecordStatus,
-      updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    }),
+export const SubmitRegistryRecordForApprovalResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    registryArn: S.String,
+    recordArn: S.String,
+    recordId: S.String,
+    status: RegistryRecordStatus,
+    updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
 ).annotate({
   identifier: "SubmitRegistryRecordForApprovalResponse",
 }) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>;
@@ -1030,22 +958,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1059,22 +978,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdatedDescription {
@@ -1221,8 +1131,8 @@ export const UpdatedMcpToolsDescriptor = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatedMcpServerAdditionalDataFields {
   tools?: UpdatedMcpToolsDescriptor;
 }
-export const UpdatedMcpServerAdditionalDataFields = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ tools: S.optional(UpdatedMcpToolsDescriptor) }),
+export const UpdatedMcpServerAdditionalDataFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tools: S.optional(UpdatedMcpToolsDescriptor) }),
 ).annotate({
   identifier: "UpdatedMcpServerAdditionalDataFields",
 }) as any as S.Schema<UpdatedMcpServerAdditionalDataFields>;
@@ -1285,13 +1195,12 @@ export interface UpdatedAgentSkillsMdDescriptorFields {
   dataSchemaVersion?: UpdatedDataSchemaVersion;
   source?: UpdatedDescriptorSource;
 }
-export const UpdatedAgentSkillsMdDescriptorFields = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      data: S.optional(UpdatedDescriptorData),
-      dataSchemaVersion: S.optional(UpdatedDataSchemaVersion),
-      source: S.optional(UpdatedDescriptorSource),
-    }),
+export const UpdatedAgentSkillsMdDescriptorFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(UpdatedDescriptorData),
+    dataSchemaVersion: S.optional(UpdatedDataSchemaVersion),
+    source: S.optional(UpdatedDescriptorSource),
+  }),
 ).annotate({
   identifier: "UpdatedAgentSkillsMdDescriptorFields",
 }) as any as S.Schema<UpdatedAgentSkillsMdDescriptorFields>;
@@ -1306,8 +1215,8 @@ export const UpdatedAgentSkillsMdDescriptor = /*@__PURE__*/ S.suspend(() =>
 export interface UpdatedAgentSkillsAdditionalDataFields {
   skillMd?: UpdatedAgentSkillsMdDescriptor;
 }
-export const UpdatedAgentSkillsAdditionalDataFields = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ skillMd: S.optional(UpdatedAgentSkillsMdDescriptor) }),
+export const UpdatedAgentSkillsAdditionalDataFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ skillMd: S.optional(UpdatedAgentSkillsMdDescriptor) }),
 ).annotate({
   identifier: "UpdatedAgentSkillsAdditionalDataFields",
 }) as any as S.Schema<UpdatedAgentSkillsAdditionalDataFields>;
@@ -1326,24 +1235,22 @@ export interface UpdatedAgentSkillsDefinitionDescriptorFields {
   dataSchemaVersion?: UpdatedDataSchemaVersion;
   additionalData?: UpdatedAgentSkillsAdditionalData;
 }
-export const UpdatedAgentSkillsDefinitionDescriptorFields =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      data: S.optional(UpdatedDescriptorData),
-      dataSchemaVersion: S.optional(UpdatedDataSchemaVersion),
-      additionalData: S.optional(UpdatedAgentSkillsAdditionalData),
-    }),
-  ).annotate({
-    identifier: "UpdatedAgentSkillsDefinitionDescriptorFields",
-  }) as any as S.Schema<UpdatedAgentSkillsDefinitionDescriptorFields>;
+export const UpdatedAgentSkillsDefinitionDescriptorFields = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    data: S.optional(UpdatedDescriptorData),
+    dataSchemaVersion: S.optional(UpdatedDataSchemaVersion),
+    additionalData: S.optional(UpdatedAgentSkillsAdditionalData),
+  }),
+).annotate({
+  identifier: "UpdatedAgentSkillsDefinitionDescriptorFields",
+}) as any as S.Schema<UpdatedAgentSkillsDefinitionDescriptorFields>;
 export interface UpdatedAgentSkillsDefinitionDescriptor {
   optionalValue?: UpdatedAgentSkillsDefinitionDescriptorFields;
 }
-export const UpdatedAgentSkillsDefinitionDescriptor = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      optionalValue: S.optional(UpdatedAgentSkillsDefinitionDescriptorFields),
-    }),
+export const UpdatedAgentSkillsDefinitionDescriptor = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    optionalValue: S.optional(UpdatedAgentSkillsDefinitionDescriptorFields),
+  }),
 ).annotate({
   identifier: "UpdatedAgentSkillsDefinitionDescriptor",
 }) as any as S.Schema<UpdatedAgentSkillsDefinitionDescriptor>;
@@ -1527,9 +1434,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateRegistryError =
   | AccessDeniedException
   | ConflictException

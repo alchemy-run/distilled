@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Axiom error — returned when nothing else matches the failure. */
 export class UnknownAxiomError extends Schema.TaggedError<UnknownAxiomError>()(
@@ -41,10 +41,7 @@ export class UnknownAxiomError extends Schema.TaggedError<UnknownAxiomError>()(
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
-export class AxiomParseError extends Schema.TaggedError<AxiomParseError>()(
-  "AxiomParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class AxiomParseError extends Schema.TaggedError<AxiomParseError>()("AxiomParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

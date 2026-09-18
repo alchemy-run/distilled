@@ -1,3 +1,16 @@
+import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
+import {
+  enumDecl,
+  errorClass,
+  errorUnionAlias,
+  interfaceDecl,
+  interfaceField,
+  operationConst,
+  PURE,
+  suspendConst,
+} from "./emit.ts";
+import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
+import { memberBases, smithyWireName } from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -14,38 +27,7 @@
  * pipeline — docs-derived specs, patches, …), define its {@link SdkSpec},
  * call {@link generateService} per model, write files.
  */
-import {
-  camel as _camel,
-  local,
-  lowerFirst,
-  oneLine,
-  q,
-  tsKey,
-  upperFirst,
-} from "./naming.ts";
-import {
-  orderIndex,
-  reachableFrom,
-  shapeDeps,
-  topoOrder,
-  type ShapeMap,
-} from "./graph.ts";
-import {
-  enumDecl,
-  errorClass,
-  errorUnionAlias,
-  interfaceDecl,
-  interfaceField,
-  operationConst,
-  PURE,
-  suspendConst,
-} from "./emit.ts";
-import {
-  JSON_PRELUDE,
-  makeSchemaRef,
-  makeTsRef,
-  TS_JSON_PRELUDE,
-} from "./prelude.ts";
+import { camel as _camel, local, lowerFirst, oneLine, q, tsKey, upperFirst } from "./naming.ts";
 import {
   collectOperations,
   collectOpErrorIds,
@@ -53,12 +35,8 @@ import {
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
-import { memberBases, smithyWireName } from "./members.ts";
 import { validatePaginated } from "./pagination.ts";
-import {
-  booleanStringEnums,
-  STRING_ENCODED_TRAIT,
-} from "./boolean-string-enums.ts";
+import { JSON_PRELUDE, makeSchemaRef, makeTsRef, TS_JSON_PRELUDE } from "./prelude.ts";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
@@ -122,12 +100,7 @@ const categoryPipes = (traits: Record<string, any> | undefined): string[] =>
   errorCategories(traits).map((name) => `C.with${name}`);
 
 /** A member's resolved binding. The four generic kinds plus provider extras. */
-export type MemberBinding =
-  | "label"
-  | "query"
-  | "header"
-  | "body"
-  | (string & {});
+export type MemberBinding = "label" | "query" | "header" | "body" | (string & {});
 
 export interface EmittedMember {
   readonly name: string;
@@ -214,10 +187,7 @@ export interface SdkSpec {
    * fields reference schema consts); the error shapes themselves are still
    * emitted as error classes, not schemas.
    */
-  readonly extraRoots?: (
-    selected: readonly OpEntry[],
-    shapes: ShapeMap,
-  ) => Iterable<string>;
+  readonly extraRoots?: (selected: readonly OpEntry[], shapes: ShapeMap) => Iterable<string>;
 
   /**
    * Provider member bindings as data, checked in order between the generic
@@ -244,9 +214,7 @@ export interface SdkSpec {
    * Which wire-name rule a binding follows. Defaults: the three generic
    * kinds map to themselves, everything else to `"other"` (jsonName).
    */
-  readonly wireKind?: (
-    binding: MemberBinding,
-  ) => "label" | "query" | "header" | "other";
+  readonly wireKind?: (binding: MemberBinding) => "label" | "query" | "header" | "other";
   /** Trait id marking a member nullable (`S.NullOr` + `| null`). */
   readonly nullableTrait?: string;
   /**
@@ -275,10 +243,7 @@ export interface SdkSpec {
   /** Full override of member pipe emission (rarely needed). */
   readonly memberPipes?: (m: EmittedMember) => string[];
   /** Override the value schema before nullability, bindings and optionality. */
-  readonly memberSchema?: (
-    m: EmittedMember,
-    ref: (target: string) => string,
-  ) => string | undefined;
+  readonly memberSchema?: (m: EmittedMember, ref: (target: string) => string) => string | undefined;
   /** Function override for member TS types beyond the binding table. */
   readonly memberTsType?: (
     m: EmittedMember,
@@ -309,10 +274,7 @@ export interface SdkSpec {
    * trait / shape). Default: the sole declared profile; with several
    * profiles this becomes required for ops to paginate.
    */
-  readonly paginationProfileFor?: (
-    trait: any,
-    op: OpEntry,
-  ) => string | undefined;
+  readonly paginationProfileFor?: (trait: any, op: OpEntry) => string | undefined;
 
   /**
    * Service-wide fallback key dictionary stamped on op I/O roots (emitted
@@ -397,9 +359,7 @@ export interface SdkSpec {
     /** Field line for a declared member. Default: prelude-mapped schema. */
     readonly field?: (name: string, target: string) => string;
     /** Optional wrapper (e.g. matcher application) from the shape's traits. */
-    readonly wrap?: (
-      traits: Record<string, any>,
-    ) => ((cls: string) => string) | undefined;
+    readonly wrap?: (traits: Record<string, any>) => ((cls: string) => string) | undefined;
   };
 
   /**
@@ -433,10 +393,7 @@ export interface SdkSpec {
    * `../retry.ts`), re-exports the op error/context types, and emits the
    * `KEY_DICTIONARY` const when {@link SdkSpec.rootKeyDictionary} is set.
    */
-  readonly header?: (ctx: {
-    readonly hasPaginated: boolean;
-    readonly model: any;
-  }) => string;
+  readonly header?: (ctx: { readonly hasPaginated: boolean; readonly model: any }) => string;
 
   /** Final pass over the assembled module (e.g. pruning unused imports). */
   readonly postProcess?: (code: string) => string;
@@ -455,10 +412,7 @@ export interface GeneratedService {
 }
 
 /** Compile one Smithy model into a service module. */
-export const generateService = (
-  model: any,
-  spec: SdkSpec,
-): GeneratedService => {
+export const generateService = (model: any, spec: SdkSpec): GeneratedService => {
   // `"true" | "false"` request members become real booleans that travel as
   // their string spelling (see boolean-string-enums.ts).
   booleanStringEnums(model);
@@ -473,11 +427,7 @@ export const generateService = (
   //    operation has an input shape that can carry operation-level traits.
   const operations = collectOperations(shapes);
   const httpFor: Record<string, any> = {}; // input shape id → http trait
-  const ns = modelNamespace(
-    operations,
-    shapes,
-    spec.namespaceFallback ?? "smithy.unknown",
-  );
+  const ns = modelNamespace(operations, shapes, spec.namespaceFallback ?? "smithy.unknown");
 
   const selected: OpEntry[] = [];
   for (const op of operations) {
@@ -520,8 +470,7 @@ export const generateService = (
 
   const rawRef = makeSchemaRef(prelude, indexOf);
   const rawTsRef = makeTsRef(tsPrelude);
-  const ref = (target: string, selfIdx: number) =>
-    rawRef(canon(target), selfIdx);
+  const ref = (target: string, selfIdx: number) => rawRef(canon(target), selfIdx);
   const tsRef = (target: string) => rawTsRef(canon(target));
 
   // Direction classification for enum openness. Enum ALIASES are emitted
@@ -577,18 +526,10 @@ export const generateService = (
   const wireKind =
     spec.wireKind ??
     ((b: MemberBinding): "label" | "query" | "header" | "other" =>
-      b === "label"
-        ? "label"
-        : b === "query"
-          ? "query"
-          : b === "header"
-            ? "header"
-            : "other");
+      b === "label" ? "label" : b === "query" ? "query" : b === "header" ? "header" : "other");
 
   // The generic binding cascade; provider bindings slot in after headers.
-  const extraBindingOf = (
-    traits: Record<string, any>,
-  ): MemberBinding | undefined => {
+  const extraBindingOf = (traits: Record<string, any>): MemberBinding | undefined => {
     for (const b of spec.extraBindings ?? []) {
       if (b.trait in traits) return b.binding;
     }
@@ -601,8 +542,7 @@ export const generateService = (
         ? "query"
         : "smithy.api#httpHeader" in traits
           ? "header"
-          : (extraBindingOf(traits) ??
-            ("smithy.api#httpPayload" in traits ? "rawBody" : "body"));
+          : (extraBindingOf(traits) ?? ("smithy.api#httpPayload" in traits ? "rawBody" : "body"));
 
   // Shapes reachable from any response/error root — used to scope the
   // blanket-nullable-optionals rule to reads (the wire returns explicit
@@ -611,10 +551,7 @@ export const generateService = (
     spec.optionalsNullable === true
       ? reachableFrom(
           shapes,
-          [
-            ...selected.map((op) => op.def.__output),
-            ...collectOpErrorIds(selected, shapes),
-          ],
+          [...selected.map((op) => op.def.__output), ...collectOpErrorIds(selected, shapes)],
           shapeDeps,
         )
       : undefined;
@@ -647,9 +584,7 @@ export const generateService = (
     const values = Object.values(d.members ?? {}).map(
       (m: any) => m.traits?.["smithy.api#enumValue"],
     );
-    return values.length === 1 && typeof values[0] === "string"
-      ? values[0]
-      : undefined;
+    return values.length === 1 && typeof values[0] === "string" ? values[0] : undefined;
   };
 
   /**
@@ -690,19 +625,11 @@ export const generateService = (
   const genericPipes = (info: EmittedMember): string[] => {
     switch (info.binding) {
       case "label":
-        return [
-          info.wire === info.tsName ? "T.Label()" : `T.Label(${q(info.wire)})`,
-        ];
+        return [info.wire === info.tsName ? "T.Label()" : `T.Label(${q(info.wire)})`];
       case "query":
-        return [
-          info.wire === info.tsName ? "T.Query()" : `T.Query(${q(info.wire)})`,
-        ];
+        return [info.wire === info.tsName ? "T.Query()" : `T.Query(${q(info.wire)})`];
       case "header":
-        return [
-          info.wire === info.tsName
-            ? "T.Header()"
-            : `T.Header(${q(info.wire)})`,
-        ];
+        return [info.wire === info.tsName ? "T.Header()" : `T.Header(${q(info.wire)})`];
       case "rawBody":
         return ["T.HttpBody()"];
       case "body":
@@ -723,10 +650,7 @@ export const generateService = (
       // Trait-table pipes: trait value JSON-inlined as the argument.
       ...Object.entries(spec.memberTraitPipes ?? {})
         .filter(([trait]) => info.traits[trait] !== undefined)
-        .map(
-          ([trait, builder]) =>
-            `${builder}(${JSON.stringify(info.traits[trait])})`,
-        ),
+        .map(([trait, builder]) => `${builder}(${JSON.stringify(info.traits[trait])})`),
       ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
@@ -736,14 +660,12 @@ export const generateService = (
     tsRefFn: (target: string) => string,
   ): string | undefined =>
     spec.memberTsType?.(info, tsRefFn) ??
-    (spec.extraBindings ?? []).find(
-      (b) => b.binding === info.binding && b.tsType !== undefined,
-    )?.tsType;
+    (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
+      ?.tsType;
 
   const emitMember = (info: EmittedMember, selfIdx: number): string => {
     let expr =
-      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ??
-      ref(info.target, selfIdx);
+      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = memberPipes(info);
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
@@ -779,16 +701,10 @@ export const generateService = (
       const profileName =
         spec.paginationProfileFor?.(pg, op) ??
         (profileNames.length === 1 ? profileNames[0] : undefined);
-      const profile = profileName
-        ? spec.paginationProfiles![profileName]
-        : undefined;
+      const profile = profileName ? spec.paginationProfiles![profileName] : undefined;
       if (!profile) continue;
-      const inNames = new Set(
-        memberInfos(shapes[op.def.__input] ?? {}).map((m) => m.tsName),
-      );
-      const outNames = new Set(
-        memberInfos(shapes[op.def.__output] ?? {}).map((m) => m.tsName),
-      );
+      const inNames = new Set(memberInfos(shapes[op.def.__input] ?? {}).map((m) => m.tsName));
+      const outNames = new Set(memberInfos(shapes[op.def.__output] ?? {}).map((m) => m.tsName));
       const { ok, itemsRoot } = validatePaginated({
         trait: pg,
         inputNames: inNames,
@@ -800,10 +716,7 @@ export const generateService = (
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
         paginatedItemsRoot.set(op.def.__output, itemsRoot);
-        paginatedItemsPath.set(
-          op.id,
-          String(pg.items ?? profile.itemsFallback ?? ""),
-        );
+        paginatedItemsPath.set(op.id, String(pg.items ?? profile.itemsFallback ?? ""));
         outputProfile.set(op.def.__output, profile);
         opProfile.set(op.id, profile);
         usedProfiles.add(profile);
@@ -841,34 +754,26 @@ export const generateService = (
     }
     const errorField =
       spec.errors?.field ??
-      ((mn: string, target: string) =>
-        `  ${tsKey(mn)}: ${prelude[local(target)] ?? "S.Unknown"},`);
+      ((mn: string, target: string) => `  ${tsKey(mn)}: ${prelude[local(target)] ?? "S.Unknown"},`);
     const fields =
       d.members && Object.keys(d.members).length
-        ? Object.entries(d.members).map(([mn, m]: [string, any]) =>
-            errorField(mn, m.target),
-          )
+        ? Object.entries(d.members).map(([mn, m]: [string, any]) => errorField(mn, m.target))
         : (spec.errors?.defaultFields?.(prelude) ?? [
             errorField("code", "smithy.api#Integer"),
             errorField("message", "smithy.api#String"),
           ]);
-    const matchers = spec.errorMatchersTrait
-      ? d.traits?.[spec.errorMatchersTrait]
-      : undefined;
+    const matchers = spec.errorMatchersTrait ? d.traits?.[spec.errorMatchersTrait] : undefined;
     const categories = categoryPipes(d.traits);
     if (categories.length) usesCategories = true;
     out.push(
       errorClass({
         name,
         fields,
-        pipes: categories.length
-          ? `.pipe(${categories.join(", ")})`
-          : undefined,
+        pipes: categories.length ? `.pipe(${categories.join(", ")})` : undefined,
         wrap:
           spec.errors?.wrap?.(d.traits ?? {}) ??
           (matchers
-            ? (cls) =>
-                `T.applyErrorMatchers(\n${cls},\n${JSON.stringify(matchers)},\n)`
+            ? (cls) => `T.applyErrorMatchers(\n${cls},\n${JSON.stringify(matchers)},\n)`
             : undefined),
       }),
     );
@@ -956,21 +861,15 @@ export const generateService = (
         fields.push(...inject.interfaceLines);
         members.push(inject.structLine);
       }
-      const struct = members.length
-        ? `S.Struct({\n${members.join("\n")}\n})`
-        : `S.Struct({})`;
+      const struct = members.length ? `S.Struct({\n${members.join("\n")}\n})` : `S.Struct({})`;
       const structCtx = {
         id,
         isOpIo: opIoShapes.has(id),
         httpTrait: httpFor[id],
       };
       const pipes = spec.structPipes?.(structCtx) ?? [
-        ...(structCtx.httpTrait
-          ? [`T.Http(${JSON.stringify(structCtx.httpTrait)})`]
-          : []),
-        ...(spec.rootKeyDictionary && structCtx.isOpIo
-          ? [`T.KeyDictionary(KEY_DICTIONARY)`]
-          : []),
+        ...(structCtx.httpTrait ? [`T.Http(${JSON.stringify(structCtx.httpTrait)})`] : []),
+        ...(spec.rootKeyDictionary && structCtx.isOpIo ? [`T.KeyDictionary(KEY_DICTIONARY)`] : []),
       ];
       const tail = pipes.map((p) => `.pipe(${p})`).join("");
 
@@ -986,9 +885,7 @@ export const generateService = (
       // Operation I/O is excluded: those carry the operation's Http trait and
       // must never be merged onto one another.
       const bodyKey = `${JSON.stringify(fields)}|${struct}${tail}`;
-      const canonical = structCtx.isOpIo
-        ? undefined
-        : structBodies.get(bodyKey);
+      const canonical = structCtx.isOpIo ? undefined : structBodies.get(bodyKey);
       if (canonical !== undefined) {
         out.push(`export type ${name} = ${canonical.name};`);
         out.push(`export const ${name} = ${canonical.name};\n`);
@@ -1014,8 +911,7 @@ export const generateService = (
       }
     } else if (d.type === "list") {
       const nullable =
-        spec.nullableTrait !== undefined &&
-        spec.nullableTrait in (d.member.traits ?? {});
+        spec.nullableTrait !== undefined && spec.nullableTrait in (d.member.traits ?? {});
       const item = ref(d.member.target, i);
       out.push(
         `export type ${name} = Array<${tsRefAt(d.member.target, id)}${nullable ? " | null" : ""}>;`,
@@ -1025,8 +921,7 @@ export const generateService = (
       );
     } else if (d.type === "map") {
       const nullable =
-        spec.nullableTrait !== undefined &&
-        spec.nullableTrait in (d.value.traits ?? {});
+        spec.nullableTrait !== undefined && spec.nullableTrait in (d.value.traits ?? {});
       const value = ref(d.value.target, i);
       out.push(
         `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)}${nullable ? " | null" : ""} | undefined };`,
@@ -1045,9 +940,7 @@ export const generateService = (
         .filter((t: string) => t !== id);
       const caseKeys = caseTargets.map((t: string) => {
         const cd = shapes[t];
-        return cd?.type === "structure"
-          ? memberInfos(cd).map((mi) => mi.tsName)
-          : [];
+        return cd?.type === "structure" ? memberInfos(cd).map((mi) => mi.tsName) : [];
       });
       if (spec.union) {
         out.push(...spec.union({ name, caseTargets, caseKeys, tsRef }));
@@ -1065,8 +958,7 @@ export const generateService = (
         const primitiveType = (target: string) => {
           const type = tsRef(target);
           if (shapes[target]?.type === "enum") return `${type} | (string & {})`;
-          if (shapes[target]?.type === "intEnum")
-            return `${type} | (number & {})`;
+          if (shapes[target]?.type === "intEnum") return `${type} | (number & {})`;
           return type;
         };
         out.push(
@@ -1080,9 +972,7 @@ export const generateService = (
           `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
         );
       } else {
-        throw new Error(
-          `no union emission configured for shape ${id} — set unionStyle or union`,
-        );
+        throw new Error(`no union emission configured for shape ${id} — set unionStyle or union`);
       }
     } else if (d.type === "enum") {
       const values = Object.values(d.members ?? {})
@@ -1097,10 +987,7 @@ export const generateService = (
         .map((m: any) => m.traits?.["smithy.api#enumValue"])
         .filter((v: unknown): v is number => typeof v === "number");
       const union = values.length ? values.join(" | ") : "number";
-      out.push(
-        `export type ${name} = ${union};`,
-        `export const ${name} = S.Number;\n`,
-      );
+      out.push(`export type ${name} = ${union};`, `export const ${name} = S.Number;\n`);
     }
   });
 
@@ -1120,10 +1007,7 @@ export const generateService = (
    * the annotation on the structural fallback rather than asserting a type
    * the shape doesn't support.
    */
-  const paginatedItemTsType = (
-    outputId: string,
-    itemsPath: string,
-  ): string | undefined => {
+  const paginatedItemTsType = (outputId: string, itemsPath: string): string | undefined => {
     // No items path: `.items()` is a page passthrough at runtime, so an
     // item IS a whole response.
     if (!itemsPath) return tsRef(outputId);
@@ -1159,10 +1043,7 @@ export const generateService = (
       const errList = [...ctx.errorNames, ...decl.commonErrorClasses];
       const paginated = ctx.pagination !== undefined;
       const itemTsType = paginated
-        ? paginatedItemTsType(
-            ctx.op.def.__output,
-            paginatedItemsPath.get(ctx.op.id) ?? "",
-          )
+        ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
       const typeAnnotation =
         `API.${paginated ? "PaginatedOperationMethod" : "OperationMethod"}<\n` +
@@ -1180,9 +1061,7 @@ export const generateService = (
         `  protocol: ${(paginated && opProfile.get(ctx.op.id)?.protocol) || decl.protocol},\n` +
         `  retry: ${decl.retry},\n` +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
-        (paginated
-          ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n`
-          : "") +
+        (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
         errorUnionAlias(ctx.opName, ctx.errorNames, decl.commonErrorType),
@@ -1248,9 +1127,7 @@ export const generateService = (
   const defaultHeader = (ctx: { hasPaginated: boolean }): string => {
     const decl = spec.operationDecl;
     if (!decl) {
-      throw new Error(
-        "the default header needs operationDecl — or pass header",
-      );
+      throw new Error("the default header needs operationDecl — or pass header");
     }
     const retryNs = decl.retry.split(".")[0];
     // Imports the used pagination profiles pull in: their protocol consts
@@ -1277,9 +1154,7 @@ export const generateService = (
       }. Do not edit.\n` +
       `import * as S from "@distilled.cloud/core/schema";\n` +
       `import * as API from "@distilled.cloud/core/api";\n` +
-      (usesCategories
-        ? `import * as C from "@distilled.cloud/core/category";\n`
-        : "") +
+      (usesCategories ? `import * as C from "@distilled.cloud/core/category";\n` : "") +
       `import * as T from "../traits.ts";\n` +
       `import {\n` +
       `  ${decl.protocol},\n` +

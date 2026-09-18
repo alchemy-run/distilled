@@ -22,10 +22,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * Unknown WorkOS error — returned when a failed response's HTTP status has no
@@ -41,13 +40,10 @@ export class UnknownWorkosError extends Schema.TaggedError<UnknownWorkosError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class WorkosParseError extends Schema.TaggedError<WorkosParseError>()(
-  "WorkosParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class WorkosParseError extends Schema.TaggedError<WorkosParseError>()("WorkosParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any WorkOS operation may surface in addition to the per-operation

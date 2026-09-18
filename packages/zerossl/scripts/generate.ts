@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the hand-authored Smithy model into the Effect ZeroSSL SDK.
  *
@@ -7,7 +8,6 @@
  * Output: src/services/zerossl.ts  +  src/services/index.ts
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -50,8 +50,7 @@ const spec: SdkSpec = {
     protocol: "ZeroSslProtocol",
     retry: "Retry.Retry",
   },
-  postProcess: (code) =>
-    code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
+  postProcess: (code) => code.replace(/import \{\s*\} from "\.\.\/errors\.ts";\n/, ""),
 };
 
 runGeneratorCli({

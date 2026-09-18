@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Secrets Manager",
   serviceShapeName: "secretsmanager",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -68,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://secretsmanager-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -87,13 +81,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://secretsmanager.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://secretsmanager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://secretsmanager.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -101,40 +91,33 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class DecryptionFailure
-  extends /*@__PURE__*/ S.TaggedError<DecryptionFailure>()(
-    "DecryptionFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ S.TaggedError<DecryptionFailure>()("DecryptionFailure", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError) {}
 export class EncryptionFailure
-  extends /*@__PURE__*/ S.TaggedError<EncryptionFailure>()(
-    "EncryptionFailure",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError) {}
+  extends /*@__PURE__*/ S.TaggedError<EncryptionFailure>()("EncryptionFailure", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError) {}
 export class InternalServiceError
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()(
-    "InternalServiceError",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withServerError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServiceError>()("InternalServiceError", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class InvalidParameterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
-    "InvalidParameterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()("InvalidParameterException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class InvalidRequestException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()(
-    "InvalidRequestException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRequestException>()("InvalidRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withQuotaError) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withQuotaError) {}
 export class MalformedPolicyDocumentException
   extends /*@__PURE__*/ S.TaggedError<MalformedPolicyDocumentException>()(
     "MalformedPolicyDocumentException",
@@ -146,20 +129,17 @@ export class PreconditionNotMetException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withConflictError) {}
 export class PublicPolicyException
-  extends /*@__PURE__*/ S.TaggedError<PublicPolicyException>()(
-    "PublicPolicyException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withBadRequestError) {}
+  extends /*@__PURE__*/ S.TaggedError<PublicPolicyException>()("PublicPolicyException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withBadRequestError) {}
 export class ResourceExistsException
-  extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()(
-    "ResourceExistsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withConflictError, C.withAlreadyExistsError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceExistsException>()("ResourceExistsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withConflictError, C.withAlreadyExistsError) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withNotFoundError) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withNotFoundError) {}
 export type SecretIdType = string;
 export type SecretIdListType = string[];
 export const SecretIdListType = /*@__PURE__*/ S.Array(S.String);
@@ -203,9 +183,7 @@ export const BatchGetSecretValueRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FiltersListType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchGetSecretValueRequest",
 }) as any as S.Schema<BatchGetSecretValueRequest>;
@@ -322,8 +300,7 @@ export const ReplicaRegionType = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReplicaRegionType",
 }) as any as S.Schema<ReplicaRegionType>;
 export type AddReplicaRegionListType = ReplicaRegionType[];
-export const AddReplicaRegionListType =
-  /*@__PURE__*/ S.Array(ReplicaRegionType);
+export const AddReplicaRegionListType = /*@__PURE__*/ S.Array(ReplicaRegionType);
 export type MedeaTypeType = string;
 export interface CreateSecretRequest {
   Name: string;
@@ -349,9 +326,7 @@ export const CreateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     AddReplicaRegions: S.optional(AddReplicaRegionListType),
     ForceOverwriteReplicaSecret: S.optional(S.Boolean),
     Type: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSecretRequest",
 }) as any as S.Schema<CreateSecretRequest>;
@@ -373,17 +348,13 @@ export const ReplicationStatusType = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     Status: S.optional(StatusType),
     StatusMessage: S.optional(S.String),
-    LastAccessedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastAccessedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ReplicationStatusType",
 }) as any as S.Schema<ReplicationStatusType>;
 export type ReplicationStatusListType = ReplicationStatusType[];
-export const ReplicationStatusListType = /*@__PURE__*/ S.Array(
-  ReplicationStatusType,
-);
+export const ReplicationStatusListType = /*@__PURE__*/ S.Array(ReplicationStatusType);
 export interface CreateSecretResponse {
   ARN?: string;
   Name?: string;
@@ -430,9 +401,7 @@ export const DeleteSecretRequest = /*@__PURE__*/ S.suspend(() =>
     SecretId: S.String,
     RecoveryWindowInDays: S.optional(S.Number),
     ForceDeleteWithoutRecovery: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteSecretRequest",
 }) as any as S.Schema<DeleteSecretRequest>;
@@ -491,8 +460,7 @@ export const ExternalSecretRotationMetadataItem = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ExternalSecretRotationMetadataItem",
 }) as any as S.Schema<ExternalSecretRotationMetadataItem>;
-export type ExternalSecretRotationMetadataType =
-  ExternalSecretRotationMetadataItem[];
+export type ExternalSecretRotationMetadataType = ExternalSecretRotationMetadataItem[];
 export const ExternalSecretRotationMetadataType = /*@__PURE__*/ S.Array(
   ExternalSecretRotationMetadataItem,
 );
@@ -542,23 +510,13 @@ export const DescribeSecretResponse = /*@__PURE__*/ S.suspend(() =>
     RotationEnabled: S.optional(S.Boolean),
     RotationLambdaARN: S.optional(S.String),
     RotationRules: S.optional(RotationRulesType),
-    ExternalSecretRotationMetadata: S.optional(
-      ExternalSecretRotationMetadataType,
-    ),
+    ExternalSecretRotationMetadata: S.optional(ExternalSecretRotationMetadataType),
     ExternalSecretRotationRoleArn: S.optional(S.String),
-    LastRotatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastChangedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastAccessedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastRotatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastChangedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastAccessedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextRotationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    NextRotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagListType),
     VersionIdsToStages: S.optional(SecretVersionsToStagesMapType),
     OwningService: S.optional(S.String),
@@ -597,9 +555,7 @@ export const GetRandomPasswordRequest = /*@__PURE__*/ S.suspend(() =>
     ExcludeLowercase: S.optional(S.Boolean),
     IncludeSpace: S.optional(S.Boolean),
     RequireEachIncludedType: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRandomPasswordRequest",
 }) as any as S.Schema<GetRandomPasswordRequest>;
@@ -647,9 +603,7 @@ export const GetSecretValueRequest = /*@__PURE__*/ S.suspend(() =>
     SecretId: S.String,
     VersionId: S.optional(S.String),
     VersionStage: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetSecretValueRequest",
 }) as any as S.Schema<GetSecretValueRequest>;
@@ -703,9 +657,7 @@ export const ListSecretsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(FiltersListType),
     SortOrder: S.optional(SortOrderType),
     SortBy: S.optional(SortByType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSecretsRequest",
 }) as any as S.Schema<ListSecretsRequest>;
@@ -741,23 +693,13 @@ export const SecretListEntry = /*@__PURE__*/ S.suspend(() =>
     RotationEnabled: S.optional(S.Boolean),
     RotationLambdaARN: S.optional(S.String),
     RotationRules: S.optional(RotationRulesType),
-    ExternalSecretRotationMetadata: S.optional(
-      ExternalSecretRotationMetadataType,
-    ),
+    ExternalSecretRotationMetadata: S.optional(ExternalSecretRotationMetadataType),
     ExternalSecretRotationRoleArn: S.optional(S.String),
-    LastRotatedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastChangedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastAccessedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastRotatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastChangedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastAccessedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeletedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    NextRotationDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    NextRotationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagListType),
     SecretVersionsToStages: S.optional(SecretVersionsToStagesMapType),
     OwningService: S.optional(S.String),
@@ -793,9 +735,7 @@ export const ListSecretVersionIdsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     IncludeDeprecated: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSecretVersionIdsRequest",
 }) as any as S.Schema<ListSecretVersionIdsRequest>;
@@ -812,9 +752,7 @@ export const SecretVersionsListEntry = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VersionId: S.optional(S.String),
     VersionStages: S.optional(SecretVersionStagesType),
-    LastAccessedDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastAccessedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KmsKeyIds: S.optional(KmsKeyIdListType),
   }),
@@ -822,9 +760,7 @@ export const SecretVersionsListEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecretVersionsListEntry",
 }) as any as S.Schema<SecretVersionsListEntry>;
 export type SecretVersionsListType = SecretVersionsListEntry[];
-export const SecretVersionsListType = /*@__PURE__*/ S.Array(
-  SecretVersionsListEntry,
-);
+export const SecretVersionsListType = /*@__PURE__*/ S.Array(SecretVersionsListEntry);
 export interface ListSecretVersionIdsResponse {
   Versions?: SecretVersionsListEntry[];
   NextToken?: string;
@@ -851,9 +787,7 @@ export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
     SecretId: S.String,
     ResourcePolicy: S.String,
     BlockPublicPolicy: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
@@ -883,9 +817,7 @@ export const PutSecretValueRequest = /*@__PURE__*/ S.suspend(() =>
     SecretString: S.optional(SensitiveString),
     VersionStages: S.optional(SecretVersionStagesType),
     RotationToken: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutSecretValueRequest",
 }) as any as S.Schema<PutSecretValueRequest>;
@@ -915,9 +847,7 @@ export const RemoveRegionsFromReplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     SecretId: S.String,
     RemoveReplicaRegions: RemoveReplicaRegionListType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RemoveRegionsFromReplicationRequest",
 }) as any as S.Schema<RemoveRegionsFromReplicationRequest>;
@@ -925,12 +855,11 @@ export interface RemoveRegionsFromReplicationResponse {
   ARN?: string;
   ReplicationStatus?: ReplicationStatusType[];
 }
-export const RemoveRegionsFromReplicationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ARN: S.optional(S.String),
-      ReplicationStatus: S.optional(ReplicationStatusListType),
-    }),
+export const RemoveRegionsFromReplicationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ARN: S.optional(S.String),
+    ReplicationStatus: S.optional(ReplicationStatusListType),
+  }),
 ).annotate({
   identifier: "RemoveRegionsFromReplicationResponse",
 }) as any as S.Schema<RemoveRegionsFromReplicationResponse>;
@@ -944,9 +873,7 @@ export const ReplicateSecretToRegionsRequest = /*@__PURE__*/ S.suspend(() =>
     SecretId: S.String,
     AddReplicaRegions: AddReplicaRegionListType,
     ForceOverwriteReplicaSecret: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ReplicateSecretToRegionsRequest",
 }) as any as S.Schema<ReplicateSecretToRegionsRequest>;
@@ -996,14 +923,10 @@ export const RotateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     RotationLambdaARN: S.optional(S.String),
     RotationRules: S.optional(RotationRulesType),
-    ExternalSecretRotationMetadata: S.optional(
-      ExternalSecretRotationMetadataType,
-    ),
+    ExternalSecretRotationMetadata: S.optional(ExternalSecretRotationMetadataType),
     ExternalSecretRotationRoleArn: S.optional(S.String),
     RotateImmediately: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RotateSecretRequest",
 }) as any as S.Schema<RotateSecretRequest>;
@@ -1051,9 +974,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyListType = string[];
@@ -1070,9 +991,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateSecretRequest {
@@ -1093,9 +1012,7 @@ export const UpdateSecretRequest = /*@__PURE__*/ S.suspend(() =>
     SecretBinary: S.optional(SensitiveBlob),
     SecretString: S.optional(SensitiveString),
     Type: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSecretRequest",
 }) as any as S.Schema<UpdateSecretRequest>;
@@ -1125,9 +1042,7 @@ export const UpdateSecretVersionStageRequest = /*@__PURE__*/ S.suspend(() =>
     VersionStage: S.String,
     RemoveFromVersionId: S.optional(S.String),
     MoveToVersionId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSecretVersionStageRequest",
 }) as any as S.Schema<UpdateSecretVersionStageRequest>;
@@ -1164,9 +1079,7 @@ export const ValidationErrorsEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationErrorsEntry",
 }) as any as S.Schema<ValidationErrorsEntry>;
 export type ValidationErrorsType = ValidationErrorsEntry[];
-export const ValidationErrorsType = /*@__PURE__*/ S.Array(
-  ValidationErrorsEntry,
-);
+export const ValidationErrorsType = /*@__PURE__*/ S.Array(ValidationErrorsEntry);
 export interface ValidateResourcePolicyResponse {
   PolicyValidationPassed?: boolean;
   ValidationErrors?: ValidationErrorsEntry[];
@@ -1507,11 +1420,7 @@ export const describeSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeSecretRequest,
   output: DescribeSecretResponse,
-  errors: [
-    InternalServiceError,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServiceError, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecret",
@@ -1546,11 +1455,7 @@ export const getRandomPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRandomPasswordRequest,
   output: GetRandomPasswordResponse,
-  errors: [
-    InternalServiceError,
-    InvalidParameterException,
-    InvalidRequestException,
-  ],
+  errors: [InternalServiceError, InvalidParameterException, InvalidRequestException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRandomPassword",

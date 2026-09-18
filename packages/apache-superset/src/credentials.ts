@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Apache Superset credentials — hand-written.
  *
@@ -14,7 +15,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Common local Superset listen address (the instance origin, not `/api/v1`). */
 export const DEFAULT_API_BASE_URL = "http://localhost:8088";
@@ -24,10 +24,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("ApacheSupersetCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "ApacheSupersetCredentials",
+) {}
 
 /** Layer from a JWT access token + optional instance URL. */
 export const fromApiKey = (config: {

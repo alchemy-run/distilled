@@ -1,3 +1,22 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type ConfigError,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import {
+  unwrapRedactedDeep,
+  wrapSensitive,
+  type RestErrorEnvelope,
+} from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol } from "@distilled.cloud/core/trait";
 /**
  * StackitProtocol — the shared bearer-REST protocol instantiated for STACKIT.
  *
@@ -20,25 +39,6 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-} from "@distilled.cloud/core/errors";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { httpSymbol } from "@distilled.cloud/core/trait";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownStackitError } from "./errors.ts";
 import type { DefaultErrors } from "./errors.ts";
@@ -99,8 +99,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
   if (creds.apiBaseUrl !== undefined && creds.apiBaseUrl !== "") {
@@ -109,9 +108,7 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
   const http = getAnn(inputAst, httpSymbol) as StackitHttpTrait | undefined;
   const specUrl = http?.baseUrl;
   if (typeof specUrl !== "string" || specUrl === "") {
-    throw new Error(
-      "STACKIT operation is missing T.Http({ baseUrl }) — regenerate from convert",
-    );
+    throw new Error("STACKIT operation is missing T.Http({ baseUrl }) — regenerate from convert");
   }
   return applyRegion(specUrl, creds.region);
 };
@@ -119,13 +116,7 @@ const baseUrlFor = (creds: Config, inputAst: AST.AST): string => {
 export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
-    encode: ({
-      input,
-      inputAst,
-    }: {
-      readonly input: unknown;
-      readonly inputAst: AST.AST;
-    }) =>
+    encode: ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
       Effect.gen(function* () {
         const resolve = yield* Credentials;
         const creds = yield* resolve;
@@ -150,9 +141,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
       Effect.gen(function* () {
         const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
         if (process.env.DISTILLED_DEBUG_HTTP) {
-          console.error(
-            `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
-          );
+          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
         }
         let json: unknown;
         let nonJson = false;
@@ -168,9 +157,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
 
         if (status >= 400) {
           const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
-          const message =
-            env.message ??
-            (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+          const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
           const typed = matchTypedError(errorClasses, status, [
             {
@@ -183,11 +170,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
           const StatusErrorClass = (
             HTTP_STATUS_MAP as Record<
               number,
-              | (new (args: {
-                  message: string;
-                  retryAfter?: unknown;
-                }) => unknown)
-              | undefined
+              (new (args: { message: string; retryAfter?: unknown }) => unknown) | undefined
             >
           )[status];
           if (StatusErrorClass) {

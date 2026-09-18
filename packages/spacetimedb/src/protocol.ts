@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 /**
  * SpacetimeDBProtocol — hand-written.
  *
@@ -20,9 +23,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
-import type { API_ERRORS, ConfigError } from "@distilled.cloud/core/errors";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownSpacetimeDBError } from "./errors.ts";
 
@@ -42,30 +42,24 @@ export type SpacetimeDBOpError =
 /** Context (requirements) shared by every generated SpacetimeDB operation. */
 export type SpacetimeDBOpContext = Credentials | HttpClient.HttpClient;
 
-export const SpacetimeDBProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const SpacetimeDBProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds): Record<string, string> => {
+    const headers: Record<string, string> = {};
+    const token = Redacted.value(creds.apiKey);
+    if (token !== "") {
+      headers.Authorization = `Bearer ${token}`;
+    }
+    return headers;
+  },
+  unknownError: ({ code, message, body }) =>
+    new UnknownSpacetimeDBError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds): Record<string, string> => {
-      const headers: Record<string, string> = {};
-      const token = Redacted.value(creds.apiKey);
-      if (token !== "") {
-        headers.Authorization = `Bearer ${token}`;
-      }
-      return headers;
-    },
-    unknownError: ({ code, message, body }) =>
-      new UnknownSpacetimeDBError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

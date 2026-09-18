@@ -29,11 +29,5 @@ export * from "./operations.ts";
 // with the core HTTP errors; at the root the core classes win (v0 parity) —
 // explicit re-exports beat the ambiguous star exports above. The generated
 // classes remain importable from `./Operations`.
-export {
-  BadRequest,
-  Conflict,
-  Forbidden,
-  NotFound,
-  UnprocessableEntity,
-} from "./errors.ts";
+export { BadRequest, Conflict, Forbidden, NotFound, UnprocessableEntity } from "./errors.ts";
 export * as Services from "./services/index.ts";

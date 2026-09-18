@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://amplify.amazonaws.com");
 const svc = T.AwsApiService({ sdkId: "Amplify", serviceShapeName: "Amplify" });
 const auth = T.AwsAuthSigv4({ name: "amplify" });
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://amplify-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplify.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://amplify.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -142,10 +130,7 @@ export type AccessToken = string | redacted.Redacted<string>;
 export type EnvKey = string;
 export type EnvValue = string;
 export type EnvironmentVariables = { [key: string]: string | undefined };
-export const EnvironmentVariables = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EnvironmentVariables = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EnableBranchAutoBuild = boolean;
 export type EnableBranchAutoDeletion = boolean;
 export type EnableBasicAuth = boolean;
@@ -173,10 +158,7 @@ export const CustomRules = /*@__PURE__*/ S.Array(CustomRule);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type BuildSpec = string | redacted.Redacted<string>;
 export type CustomHeaders = string;
 export type EnableAutoBranchCreation = boolean;
@@ -225,11 +207,7 @@ export const AutoBranchCreationConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AutoBranchCreationConfig",
 }) as any as S.Schema<AutoBranchCreationConfig>;
-export type BuildComputeType =
-  | "STANDARD_8GB"
-  | "LARGE_16GB"
-  | "XLARGE_72GB"
-  | (string & {});
+export type BuildComputeType = "STANDARD_8GB" | "LARGE_16GB" | "XLARGE_72GB" | (string & {});
 export const BuildComputeType = S.String;
 
 export interface JobConfig {
@@ -238,10 +216,7 @@ export interface JobConfig {
 export const JobConfig = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ buildComputeType: BuildComputeType }),
 ).annotate({ identifier: "JobConfig" }) as any as S.Schema<JobConfig>;
-export type CacheConfigType =
-  | "AMPLIFY_MANAGED"
-  | "AMPLIFY_MANAGED_NO_COOKIES"
-  | (string & {});
+export type CacheConfigType = "AMPLIFY_MANAGED" | "AMPLIFY_MANAGED_NO_COOKIES" | (string & {});
 export const CacheConfigType = S.String;
 
 export interface CacheConfig {
@@ -298,17 +273,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/apps" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
@@ -424,9 +389,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     autoBranchCreationConfig: S.optional(AutoBranchCreationConfig),
     repositoryCloneMethod: S.optional(RepositoryCloneMethod),
     cacheConfig: S.optional(CacheConfig),
-    webhookCreateTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    webhookCreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     wafConfiguration: S.optional(WafConfiguration),
     jobConfig: S.optional(JobConfig),
   }),
@@ -654,10 +617,7 @@ export const CreateBranchResult = /*@__PURE__*/ S.suspend(() =>
 export type FileName = string;
 export type MD5Hash = string;
 export type FileMap = { [key: string]: string | undefined };
-export const FileMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FileMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDeploymentRequest {
   appId: string;
   branchName: string;
@@ -688,10 +648,7 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
 export type JobId = string;
 export type UploadUrl = string;
 export type FileUploadUrls = { [key: string]: string | undefined };
-export const FileUploadUrls = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FileUploadUrls = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDeploymentResult {
   jobId?: string;
   fileUploadUrls?: { [key: string]: string | undefined };
@@ -927,15 +884,7 @@ export interface DeleteAppRequest {
 }
 export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "DELETE", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "DELETE", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAppRequest",
@@ -1086,12 +1035,7 @@ export type JobStatus =
 export const JobStatus = S.String;
 
 export type EndTime = Date;
-export type JobType =
-  | "RELEASE"
-  | "RETRY"
-  | "MANUAL"
-  | "WEB_HOOK"
-  | (string & {});
+export type JobType = "RELEASE" | "RETRY" | "MANUAL" | "WEB_HOOK" | (string & {});
 export const JobType = S.String;
 
 export type SourceUrl = string;
@@ -1200,23 +1144,15 @@ export interface GetAppRequest {
 }
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appId: S.String.pipe(T.HttpLabel("appId")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 export interface GetAppResult {
   app: App;
 }
-export const GetAppResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }).pipe(ns),
-).annotate({ identifier: "GetAppResult" }) as any as S.Schema<GetAppResult>;
+export const GetAppResult = /*@__PURE__*/ S.suspend(() => S.Struct({ app: App }).pipe(ns)).annotate(
+  { identifier: "GetAppResult" },
+) as any as S.Schema<GetAppResult>;
 export type ArtifactId = string;
 export interface GetArtifactUrlRequest {
   artifactId: string;
@@ -1370,10 +1306,7 @@ export type TestArtifactsUrl = string;
 export type TestConfigUrl = string;
 export type ThumbnailName = string;
 export type Screenshots = { [key: string]: string | undefined };
-export const Screenshots = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Screenshots = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Context = string;
 export interface Step {
   stepName: string;
@@ -1415,9 +1348,9 @@ export const Job = /*@__PURE__*/ S.suspend(() =>
 export interface GetJobResult {
   job: Job;
 }
-export const GetJobResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ job: Job }).pipe(ns),
-).annotate({ identifier: "GetJobResult" }) as any as S.Schema<GetJobResult>;
+export const GetJobResult = /*@__PURE__*/ S.suspend(() => S.Struct({ job: Job }).pipe(ns)).annotate(
+  { identifier: "GetJobResult" },
+) as any as S.Schema<GetJobResult>;
 export interface GetWebhookRequest {
   webhookId: string;
 }
@@ -1454,17 +1387,7 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "GET", uri: "/apps" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAppsRequest",
 }) as any as S.Schema<ListAppsRequest>;
@@ -1688,15 +1611,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1867,23 +1782,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1911,9 +1816,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppRequest {
@@ -1965,15 +1868,7 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     jobConfig: S.optional(JobConfig),
     cacheConfig: S.optional(CacheConfig),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/apps/{appId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/apps/{appId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateAppRequest",
@@ -2803,12 +2698,7 @@ export const listApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApps",
@@ -2880,12 +2770,7 @@ export const listBackendEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListBackendEnvironmentsRequest,
   output: ListBackendEnvironmentsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendEnvironments",
@@ -2909,12 +2794,7 @@ export const listBranches: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBranchesRequest,
   output: ListBranchesResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBranches",
@@ -2944,12 +2824,7 @@ export const listDomainAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDomainAssociationsRequest,
   output: ListDomainAssociationsResult,
-  errors: [
-    BadRequestException,
-    InternalFailureException,
-    UnauthorizedException,
-    TimeoutException,
-  ],
+  errors: [BadRequestException, InternalFailureException, UnauthorizedException, TimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainAssociations",

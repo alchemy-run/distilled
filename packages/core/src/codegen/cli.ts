@@ -59,10 +59,7 @@ export interface GeneratorCliOptions {
    * modules after the service's `aws.api#service` sdkId (`amazon-s3.json` →
    * `s3.ts`), so the public surface reads `AWS.S3.getObject`.
    */
-  readonly resourceName?: (ctx: {
-    readonly model: any;
-    readonly file: string;
-  }) => string;
+  readonly resourceName?: (ctx: { readonly model: any; readonly file: string }) => string;
   /** Barrel export name for a resource. Default: the resource name itself. */
   readonly barrelExportName?: (resource: string) => string;
   /**
@@ -132,10 +129,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         const generated = options.discoverModels
           ? yield* options.discoverModels({ smithyDir })
           : (yield* fs.readDirectory(smithyDir))
-              .filter(
-                (f) =>
-                  f.endsWith(".json") && !(options.excludeModel?.(f) ?? false),
-              )
+              .filter((f) => f.endsWith(".json") && !(options.excludeModel?.(f) ?? false))
               .map((f) => ({ file: f, dir: smithyDir }));
         const manualDir = options.manualSpecsDir
           ? path.resolve(root, options.manualSpecsDir)
@@ -155,9 +149,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             );
           }
         }
-        const entries = [...generated, ...manual].sort((a, b) =>
-          a.file.localeCompare(b.file),
-        );
+        const entries = [...generated, ...manual].sort((a, b) => a.file.localeCompare(b.file));
 
         yield* fs.makeDirectory(outDir, { recursive: true });
 
@@ -166,14 +158,10 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         let totalOps = 0;
 
         for (const { file, dir } of entries) {
-          const model = JSON.parse(
-            yield* fs.readFileString(path.join(dir, file)),
-          );
+          const model = JSON.parse(yield* fs.readFileString(path.join(dir, file)));
           // The module's name — the model's filename unless the provider
           // derives it from the model itself (AWS: the service's sdkId).
-          const resource =
-            options.resourceName?.({ model, file }) ??
-            file.replace(/\.json$/, "");
+          const resource = options.resourceName?.({ model, file }) ?? file.replace(/\.json$/, "");
           if (config.resource && resource !== config.resource) continue;
 
           if (options.transformModel) {
@@ -190,9 +178,7 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
             generated = generateService(model, options.spec(model));
           } catch (e) {
             if (!options.continueOnModelError) throw e;
-            failedModels.push(
-              `${resource}: ${e instanceof Error ? e.message : String(e)}`,
-            );
+            failedModels.push(`${resource}: ${e instanceof Error ? e.message : String(e)}`);
             yield* Console.error(`❌ ${resource}`);
             continue;
           }
@@ -220,19 +206,14 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         // Sorted, not in generation order: a provider that discovers models
         // in some other order (AWS walks Amazon's directory tree) would
         // otherwise reshuffle the barrel on every run.
-        let resources = [...written].sort((a, b) =>
-          `${a}.json`.localeCompare(`${b}.json`),
-        );
+        let resources = [...written].sort((a, b) => `${a}.json`.localeCompare(`${b}.json`));
         if (filtered && (yield* fs.exists(barrelPath))) {
           // Recover the RESOURCE from each export line's path, not its name:
           // the two differ when barrelExportName renames (AWS exports
           // `S3` from `./s3.ts`).
           const existing = (yield* fs.readFileString(barrelPath))
             .split("\n")
-            .map(
-              (line) =>
-                /^export \* as \S+ from "\.\/(.+)\.ts";/.exec(line)?.[1],
-            )
+            .map((line) => /^export \* as \S+ from "\.\/(.+)\.ts";/.exec(line)?.[1])
             .filter((name): name is string => name !== undefined);
           // Ordered exactly as a full run orders it: by MODEL FILENAME, so
           // the `.json` takes part in the collation (`ai_gateway.json` sorts
@@ -265,21 +246,12 @@ export const runGeneratorCli = (options: GeneratorCliOptions): void => {
         // at the end, and the run FAILS — a generate that couldn't produce
         // a module must not exit 0 with the failure buried in the log.
         if (failedModels.length) {
-          yield* Console.error(
-            `\n❌ ${failedModels.length} model(s) failed to generate:`,
-          );
+          yield* Console.error(`\n❌ ${failedModels.length} model(s) failed to generate:`);
           for (const f of failedModels) yield* Console.error(`   ${f}`);
-          return yield* Effect.die(
-            new Error(`${failedModels.length} model(s) failed to generate`),
-          );
+          return yield* Effect.die(new Error(`${failedModels.length} model(s) failed to generate`));
         }
       }),
   ).pipe(Command.withDescription(options.description));
 
-  BunRuntime.runMain(
-    Effect.provide(
-      Command.run(command, { version: "1.0.0" }),
-      BunServices.layer,
-    ),
-  );
+  BunRuntime.runMain(Effect.provide(Command.run(command, { version: "1.0.0" }), BunServices.layer));
 };

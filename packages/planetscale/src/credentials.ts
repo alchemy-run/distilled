@@ -50,10 +50,9 @@ export interface OAuthConfig {
 
 export type Config = ServiceTokenConfig | OAuthConfig;
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PlanetScaleCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "PlanetScaleCredentials",
+) {}
 
 /**
  * Build the `Authorization` header for a resolved set of credentials.

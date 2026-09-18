@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint",
   serviceShapeName: "Pinpoint",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://pinpoint-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://pinpoint-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +62,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://pinpoint.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "us-east-1") {
           return e("https://pinpoint.us-east-1.amazonaws.com");
@@ -89,9 +79,7 @@ const rules = T.EndpointResolver((p, _) => {
         if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
           return e(`https://pinpoint.${Region}.amazonaws.com`);
         }
-        return e(
-          `https://pinpoint.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://pinpoint.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -171,10 +159,7 @@ export class TooManyRequestsException
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export type MapOf__string = { [key: string]: string | undefined };
-export const MapOf__string = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const MapOf__string = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateApplicationRequest {
   Name?: string;
   tags?: { [key: string]: string | undefined };
@@ -192,16 +177,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     CreateApplicationRequest: S.optional(CreateApplicationRequest)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "CreateApplicationRequest" }),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/apps" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
@@ -257,9 +233,7 @@ export type __EndpointTypesElement =
 export const __EndpointTypesElement = S.String;
 
 export type ListOf__EndpointTypesElement = __EndpointTypesElement[];
-export const ListOf__EndpointTypesElement = /*@__PURE__*/ S.Array(
-  __EndpointTypesElement,
-);
+export const ListOf__EndpointTypesElement = /*@__PURE__*/ S.Array(__EndpointTypesElement);
 export interface CustomDeliveryConfiguration {
   DeliveryUri?: string;
   EndpointTypes?: __EndpointTypesElement[];
@@ -466,8 +440,7 @@ export const InAppMessageContent = /*@__PURE__*/ S.suspend(() =>
   identifier: "InAppMessageContent",
 }) as any as S.Schema<InAppMessageContent>;
 export type ListOfInAppMessageContent = InAppMessageContent[];
-export const ListOfInAppMessageContent =
-  /*@__PURE__*/ S.Array(InAppMessageContent);
+export const ListOfInAppMessageContent = /*@__PURE__*/ S.Array(InAppMessageContent);
 export type Layout =
   | "BOTTOM_BANNER"
   | "TOP_BANNER"
@@ -699,9 +672,7 @@ export const WriteTreatmentResource = /*@__PURE__*/ S.suspend(() =>
   identifier: "WriteTreatmentResource",
 }) as any as S.Schema<WriteTreatmentResource>;
 export type ListOfWriteTreatmentResource = WriteTreatmentResource[];
-export const ListOfWriteTreatmentResource = /*@__PURE__*/ S.Array(
-  WriteTreatmentResource,
-);
+export const ListOfWriteTreatmentResource = /*@__PURE__*/ S.Array(WriteTreatmentResource);
 export type Mode = "DELIVERY" | "FILTER" | (string & {});
 export const Mode = S.String;
 
@@ -959,9 +930,7 @@ export interface CreateCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -1023,9 +992,7 @@ export interface CreateCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
@@ -1687,9 +1654,7 @@ export const MultiConditionalBranch = /*@__PURE__*/ S.suspend(() =>
   identifier: "MultiConditionalBranch",
 }) as any as S.Schema<MultiConditionalBranch>;
 export type ListOfMultiConditionalBranch = MultiConditionalBranch[];
-export const ListOfMultiConditionalBranch = /*@__PURE__*/ S.Array(
-  MultiConditionalBranch,
-);
+export const ListOfMultiConditionalBranch = /*@__PURE__*/ S.Array(MultiConditionalBranch);
 export interface MultiConditionalSplitActivity {
   Branches?: MultiConditionalBranch[];
   DefaultActivity?: string;
@@ -1831,10 +1796,7 @@ export const Activity = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Activity" }) as any as S.Schema<Activity>;
 export type MapOfActivity = { [key: string]: Activity | undefined };
-export const MapOfActivity = /*@__PURE__*/ S.Record(
-  S.String,
-  Activity.pipe(S.optional),
-);
+export const MapOfActivity = /*@__PURE__*/ S.Record(S.String, Activity.pipe(S.optional));
 export interface JourneyTimeframeCap {
   Cap?: number;
   Days?: number;
@@ -1871,9 +1833,7 @@ export interface JourneySchedule {
 export const JourneySchedule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Timezone: S.optional(S.String),
   }),
 ).annotate({
@@ -2008,14 +1968,10 @@ export const ClosedDays = /*@__PURE__*/ S.suspend(() =>
     CUSTOM: S.optional(ListOfClosedDaysRules),
   }),
 ).annotate({ identifier: "ClosedDays" }) as any as S.Schema<ClosedDays>;
-export type __TimezoneEstimationMethodsElement =
-  | "PHONE_NUMBER"
-  | "POSTAL_CODE"
-  | (string & {});
+export type __TimezoneEstimationMethodsElement = "PHONE_NUMBER" | "POSTAL_CODE" | (string & {});
 export const __TimezoneEstimationMethodsElement = S.String;
 
-export type ListOf__TimezoneEstimationMethodsElement =
-  __TimezoneEstimationMethodsElement[];
+export type ListOf__TimezoneEstimationMethodsElement = __TimezoneEstimationMethodsElement[];
 export const ListOf__TimezoneEstimationMethodsElement = /*@__PURE__*/ S.Array(
   __TimezoneEstimationMethodsElement,
 );
@@ -2060,9 +2016,7 @@ export const WriteJourneyRequest = /*@__PURE__*/ S.suspend(() =>
     SendingSchedule: S.optional(S.Boolean),
     OpenHours: S.optional(OpenHours),
     ClosedDays: S.optional(ClosedDays),
-    TimezoneEstimationMethods: S.optional(
-      ListOf__TimezoneEstimationMethodsElement,
-    ),
+    TimezoneEstimationMethods: S.optional(ListOf__TimezoneEstimationMethodsElement),
   }),
 ).annotate({
   identifier: "WriteJourneyRequest",
@@ -2137,9 +2091,7 @@ export const JourneyResponse = /*@__PURE__*/ S.suspend(() =>
     SendingSchedule: S.optional(S.Boolean),
     OpenHours: S.optional(OpenHours),
     ClosedDays: S.optional(ClosedDays),
-    TimezoneEstimationMethods: S.optional(
-      ListOf__TimezoneEstimationMethodsElement,
-    ),
+    TimezoneEstimationMethods: S.optional(ListOf__TimezoneEstimationMethodsElement),
   }),
 ).annotate({
   identifier: "JourneyResponse",
@@ -2176,9 +2128,7 @@ export interface CreateJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -2212,9 +2162,7 @@ export interface CreateJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 })[];
@@ -2245,9 +2193,7 @@ export interface CreateJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -2281,9 +2227,7 @@ export interface CreateJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 };
@@ -2297,9 +2241,7 @@ export interface CreateJourneyResponse {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -2483,24 +2425,12 @@ export const CreateRecommenderConfigurationShape = /*@__PURE__*/ S.suspend(() =>
 export interface CreateRecommenderConfigurationRequest {
   CreateRecommenderConfiguration?: CreateRecommenderConfigurationShape;
 }
-export const CreateRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CreateRecommenderConfiguration: S.optional(
-        CreateRecommenderConfigurationShape,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "CreateRecommenderConfigurationShape" }),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v1/recommenders" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const CreateRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CreateRecommenderConfiguration: S.optional(CreateRecommenderConfigurationShape)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "CreateRecommenderConfigurationShape" }),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/recommenders" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRecommenderConfigurationRequest",
 }) as any as S.Schema<CreateRecommenderConfigurationRequest>;
@@ -2545,15 +2475,12 @@ export interface CreateRecommenderConfigurationResponse {
     RecommendationProviderUri: string;
   };
 }
-export const CreateRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RecommenderConfigurationResponse: S.optional(
-        RecommenderConfigurationResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "RecommenderConfigurationResponse" }),
-    }),
+export const CreateRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecommenderConfigurationResponse: S.optional(RecommenderConfigurationResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "RecommenderConfigurationResponse" }),
+  }),
 ).annotate({
   identifier: "CreateRecommenderConfigurationResponse",
 }) as any as S.Schema<CreateRecommenderConfigurationResponse>;
@@ -2647,10 +2574,7 @@ export const CreateSegmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSegmentRequest",
 }) as any as S.Schema<CreateSegmentRequest>;
 export type MapOf__integer = { [key: string]: number | undefined };
-export const MapOf__integer = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const MapOf__integer = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface SegmentImportResource {
   ChannelCounts?: { [key: string]: number | undefined };
   ExternalId?: string;
@@ -2715,9 +2639,7 @@ export interface CreateSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -2745,9 +2667,7 @@ export interface CreateSegmentResponse {
           | undefined;
       };
       UserAttributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -2761,9 +2681,7 @@ export interface CreateSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -2797,9 +2715,7 @@ export interface CreateSegmentResponse {
               | undefined;
           };
           UserAttributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -3233,13 +3149,12 @@ export interface DeleteApnsVoipSandboxChannelResponse {
     Platform: string;
   };
 }
-export const DeleteApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "APNSVoipSandboxChannelResponse" }),
-    }),
+export const DeleteApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "APNSVoipSandboxChannelResponse" }),
+  }),
 ).annotate({
   identifier: "DeleteApnsVoipSandboxChannelResponse",
 }) as any as S.Schema<DeleteApnsVoipSandboxChannelResponse>;
@@ -3423,9 +3338,7 @@ export interface DeleteCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -3487,9 +3400,7 @@ export interface DeleteCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
@@ -3718,10 +3629,7 @@ export const EndpointLocation = /*@__PURE__*/ S.suspend(() =>
   identifier: "EndpointLocation",
 }) as any as S.Schema<EndpointLocation>;
 export type MapOf__double = { [key: string]: number | undefined };
-export const MapOf__double = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const MapOf__double = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface EndpointUser {
   UserAttributes?: { [key: string]: string[] | undefined };
   UserId?: string;
@@ -3988,9 +3896,7 @@ export interface DeleteJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -4024,9 +3930,7 @@ export interface DeleteJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 })[];
@@ -4057,9 +3961,7 @@ export interface DeleteJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -4093,9 +3995,7 @@ export interface DeleteJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 };
@@ -4109,9 +4009,7 @@ export interface DeleteJourneyResponse {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -4175,20 +4073,19 @@ export const DeletePushTemplateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteRecommenderConfigurationRequest {
   RecommenderId: string;
 }
-export const DeleteRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/v1/recommenders/{RecommenderId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/v1/recommenders/{RecommenderId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteRecommenderConfigurationRequest",
 }) as any as S.Schema<DeleteRecommenderConfigurationRequest>;
@@ -4201,15 +4098,12 @@ export interface DeleteRecommenderConfigurationResponse {
     RecommendationProviderUri: string;
   };
 }
-export const DeleteRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RecommenderConfigurationResponse: S.optional(
-        RecommenderConfigurationResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "RecommenderConfigurationResponse" }),
-    }),
+export const DeleteRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecommenderConfigurationResponse: S.optional(RecommenderConfigurationResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "RecommenderConfigurationResponse" }),
+  }),
 ).annotate({
   identifier: "DeleteRecommenderConfigurationResponse",
 }) as any as S.Schema<DeleteRecommenderConfigurationResponse>;
@@ -4246,9 +4140,7 @@ export interface DeleteSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -4276,9 +4168,7 @@ export interface DeleteSegmentResponse {
           | undefined;
       };
       UserAttributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -4292,9 +4182,7 @@ export interface DeleteSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -4328,9 +4216,7 @@ export interface DeleteSegmentResponse {
               | undefined;
           };
           UserAttributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -4748,14 +4634,7 @@ export interface GetAppRequest {
 }
 export const GetAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/apps/{ApplicationId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetAppRequest" }) as any as S.Schema<GetAppRequest>;
 export interface GetAppResponse {
@@ -4783,15 +4662,15 @@ export interface GetApplicationDateRangeKpiRequest {
 export const GetApplicationDateRangeKpiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("end-time")),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("end-time"),
+    ),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("start-time")),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("start-time"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -4855,9 +4734,7 @@ export const ApplicationDateRangeKpiResponse = /*@__PURE__*/ S.suspend(() =>
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ApplicationDateRangeKpiResponse",
@@ -4966,20 +4843,10 @@ export const GetAppsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/apps" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetAppsRequest" }) as any as S.Schema<GetAppsRequest>;
 export type ListOfApplicationResponse = ApplicationResponse[];
-export const ListOfApplicationResponse =
-  /*@__PURE__*/ S.Array(ApplicationResponse);
+export const ListOfApplicationResponse = /*@__PURE__*/ S.Array(ApplicationResponse);
 export interface ApplicationsResponse {
   Item?: ApplicationResponse[];
   NextToken?: string;
@@ -5120,9 +4987,7 @@ export interface GetCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -5184,9 +5049,7 @@ export interface GetCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
@@ -5321,15 +5184,15 @@ export const GetCampaignDateRangeKpiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
     CampaignId: S.String.pipe(T.HttpLabel("CampaignId")),
-    EndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("end-time")),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("end-time"),
+    ),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("start-time")),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("start-time"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -5363,9 +5226,7 @@ export const CampaignDateRangeKpiResponse = /*@__PURE__*/ S.suspend(() =>
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CampaignDateRangeKpiResponse",
@@ -5506,9 +5367,7 @@ export interface GetCampaignsResponse {
           EventFilter: CampaignEventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]:
-                  | (AttributeDimension & { Values: ListOf__string })
-                  | undefined;
+                [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
@@ -5570,9 +5429,7 @@ export interface GetCampaignsResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -5683,9 +5540,7 @@ export interface GetCampaignVersionResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -5747,9 +5602,7 @@ export interface GetCampaignVersionResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
@@ -5870,9 +5723,7 @@ export interface GetCampaignVersionsResponse {
           EventFilter: CampaignEventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]:
-                  | (AttributeDimension & { Values: ListOf__string })
-                  | undefined;
+                [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
@@ -5934,9 +5785,7 @@ export interface GetCampaignVersionsResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -6083,13 +5932,7 @@ export const GetEmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetEmailTemplateRequest",
 }) as any as S.Schema<GetEmailTemplateRequest>;
-export type TemplateType =
-  | "EMAIL"
-  | "SMS"
-  | "VOICE"
-  | "PUSH"
-  | "INAPP"
-  | (string & {});
+export type TemplateType = "EMAIL" | "SMS" | "VOICE" | "PUSH" | "INAPP" | (string & {});
 export const TemplateType = S.String;
 
 export interface EmailTemplateResponse {
@@ -6528,8 +6371,7 @@ export const InAppMessageCampaign = /*@__PURE__*/ S.suspend(() =>
   identifier: "InAppMessageCampaign",
 }) as any as S.Schema<InAppMessageCampaign>;
 export type ListOfInAppMessageCampaign = InAppMessageCampaign[];
-export const ListOfInAppMessageCampaign =
-  /*@__PURE__*/ S.Array(InAppMessageCampaign);
+export const ListOfInAppMessageCampaign = /*@__PURE__*/ S.Array(InAppMessageCampaign);
 export interface InAppMessagesResponse {
   InAppMessageCampaigns?: InAppMessageCampaign[];
 }
@@ -6581,9 +6423,7 @@ export interface GetInAppMessagesResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -6764,9 +6604,7 @@ export interface GetJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -6800,9 +6638,7 @@ export interface GetJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 })[];
@@ -6833,9 +6669,7 @@ export interface GetJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -6869,9 +6703,7 @@ export interface GetJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 };
@@ -6885,9 +6717,7 @@ export interface GetJourneyResponse {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -6927,16 +6757,16 @@ export interface GetJourneyDateRangeKpiRequest {
 export const GetJourneyDateRangeKpiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    EndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("end-time")),
+    EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("end-time"),
+    ),
     JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
     KpiName: S.String.pipe(T.HttpLabel("KpiName")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ).pipe(T.HttpQuery("start-time")),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))).pipe(
+      T.HttpQuery("start-time"),
+    ),
   }).pipe(
     T.all(
       T.Http({
@@ -6970,9 +6800,7 @@ export const JourneyDateRangeKpiResponse = /*@__PURE__*/ S.suspend(() =>
     KpiName: S.optional(S.String),
     KpiResult: S.optional(BaseKpiResult),
     NextToken: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "JourneyDateRangeKpiResponse",
@@ -7016,30 +6844,29 @@ export interface GetJourneyExecutionActivityMetricsRequest {
   NextToken?: string;
   PageSize?: string;
 }
-export const GetJourneyExecutionActivityMetricsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      JourneyActivityId: S.String.pipe(T.HttpLabel("JourneyActivityId")),
-      JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-      PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/activities/{JourneyActivityId}/execution-metrics",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetJourneyExecutionActivityMetricsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    JourneyActivityId: S.String.pipe(T.HttpLabel("JourneyActivityId")),
+    JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/activities/{JourneyActivityId}/execution-metrics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetJourneyExecutionActivityMetricsRequest",
-  }) as any as S.Schema<GetJourneyExecutionActivityMetricsRequest>;
+  ),
+).annotate({
+  identifier: "GetJourneyExecutionActivityMetricsRequest",
+}) as any as S.Schema<GetJourneyExecutionActivityMetricsRequest>;
 export interface JourneyExecutionActivityMetricsResponse {
   ActivityType?: string;
   ApplicationId?: string;
@@ -7048,16 +6875,15 @@ export interface JourneyExecutionActivityMetricsResponse {
   LastEvaluatedTime?: string;
   Metrics?: { [key: string]: string | undefined };
 }
-export const JourneyExecutionActivityMetricsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ActivityType: S.optional(S.String),
-      ApplicationId: S.optional(S.String),
-      JourneyActivityId: S.optional(S.String),
-      JourneyId: S.optional(S.String),
-      LastEvaluatedTime: S.optional(S.String),
-      Metrics: S.optional(MapOf__string),
-    }),
+export const JourneyExecutionActivityMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ActivityType: S.optional(S.String),
+    ApplicationId: S.optional(S.String),
+    JourneyActivityId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
+  }),
 ).annotate({
   identifier: "JourneyExecutionActivityMetricsResponse",
 }) as any as S.Schema<JourneyExecutionActivityMetricsResponse>;
@@ -7071,18 +6897,15 @@ export interface GetJourneyExecutionActivityMetricsResponse {
     Metrics: MapOf__string;
   };
 }
-export const GetJourneyExecutionActivityMetricsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JourneyExecutionActivityMetricsResponse: S.optional(
-        JourneyExecutionActivityMetricsResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "JourneyExecutionActivityMetricsResponse" }),
-    }),
-  ).annotate({
-    identifier: "GetJourneyExecutionActivityMetricsResponse",
-  }) as any as S.Schema<GetJourneyExecutionActivityMetricsResponse>;
+export const GetJourneyExecutionActivityMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JourneyExecutionActivityMetricsResponse: S.optional(JourneyExecutionActivityMetricsResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "JourneyExecutionActivityMetricsResponse" }),
+  }),
+).annotate({
+  identifier: "GetJourneyExecutionActivityMetricsResponse",
+}) as any as S.Schema<GetJourneyExecutionActivityMetricsResponse>;
 export interface GetJourneyExecutionMetricsRequest {
   ApplicationId: string;
   JourneyId: string;
@@ -7152,31 +6975,30 @@ export interface GetJourneyRunExecutionActivityMetricsRequest {
   PageSize?: string;
   RunId: string;
 }
-export const GetJourneyRunExecutionActivityMetricsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      JourneyActivityId: S.String.pipe(T.HttpLabel("JourneyActivityId")),
-      JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-      PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-      RunId: S.String.pipe(T.HttpLabel("RunId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/activities/{JourneyActivityId}/execution-metrics",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetJourneyRunExecutionActivityMetricsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    JourneyActivityId: S.String.pipe(T.HttpLabel("JourneyActivityId")),
+    JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/activities/{JourneyActivityId}/execution-metrics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetJourneyRunExecutionActivityMetricsRequest",
-  }) as any as S.Schema<GetJourneyRunExecutionActivityMetricsRequest>;
+  ),
+).annotate({
+  identifier: "GetJourneyRunExecutionActivityMetricsRequest",
+}) as any as S.Schema<GetJourneyRunExecutionActivityMetricsRequest>;
 export interface JourneyRunExecutionActivityMetricsResponse {
   ActivityType?: string;
   ApplicationId?: string;
@@ -7186,20 +7008,19 @@ export interface JourneyRunExecutionActivityMetricsResponse {
   Metrics?: { [key: string]: string | undefined };
   RunId?: string;
 }
-export const JourneyRunExecutionActivityMetricsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ActivityType: S.optional(S.String),
-      ApplicationId: S.optional(S.String),
-      JourneyActivityId: S.optional(S.String),
-      JourneyId: S.optional(S.String),
-      LastEvaluatedTime: S.optional(S.String),
-      Metrics: S.optional(MapOf__string),
-      RunId: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "JourneyRunExecutionActivityMetricsResponse",
-  }) as any as S.Schema<JourneyRunExecutionActivityMetricsResponse>;
+export const JourneyRunExecutionActivityMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ActivityType: S.optional(S.String),
+    ApplicationId: S.optional(S.String),
+    JourneyActivityId: S.optional(S.String),
+    JourneyId: S.optional(S.String),
+    LastEvaluatedTime: S.optional(S.String),
+    Metrics: S.optional(MapOf__string),
+    RunId: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "JourneyRunExecutionActivityMetricsResponse",
+}) as any as S.Schema<JourneyRunExecutionActivityMetricsResponse>;
 export interface GetJourneyRunExecutionActivityMetricsResponse {
   JourneyRunExecutionActivityMetricsResponse: JourneyRunExecutionActivityMetricsResponse & {
     ActivityType: string;
@@ -7211,18 +7032,17 @@ export interface GetJourneyRunExecutionActivityMetricsResponse {
     RunId: string;
   };
 }
-export const GetJourneyRunExecutionActivityMetricsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      JourneyRunExecutionActivityMetricsResponse: S.optional(
-        JourneyRunExecutionActivityMetricsResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "JourneyRunExecutionActivityMetricsResponse" }),
-    }),
-  ).annotate({
-    identifier: "GetJourneyRunExecutionActivityMetricsResponse",
-  }) as any as S.Schema<GetJourneyRunExecutionActivityMetricsResponse>;
+export const GetJourneyRunExecutionActivityMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JourneyRunExecutionActivityMetricsResponse: S.optional(
+      JourneyRunExecutionActivityMetricsResponse,
+    )
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "JourneyRunExecutionActivityMetricsResponse" }),
+  }),
+).annotate({
+  identifier: "GetJourneyRunExecutionActivityMetricsResponse",
+}) as any as S.Schema<GetJourneyRunExecutionActivityMetricsResponse>;
 export interface GetJourneyRunExecutionMetricsRequest {
   ApplicationId: string;
   JourneyId: string;
@@ -7230,27 +7050,26 @@ export interface GetJourneyRunExecutionMetricsRequest {
   PageSize?: string;
   RunId: string;
 }
-export const GetJourneyRunExecutionMetricsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
-      PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
-      RunId: S.String.pipe(T.HttpLabel("RunId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/execution-metrics",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetJourneyRunExecutionMetricsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    JourneyId: S.String.pipe(T.HttpLabel("JourneyId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
+    RunId: S.String.pipe(T.HttpLabel("RunId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/apps/{ApplicationId}/journeys/{JourneyId}/runs/{RunId}/execution-metrics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetJourneyRunExecutionMetricsRequest",
 }) as any as S.Schema<GetJourneyRunExecutionMetricsRequest>;
@@ -7281,15 +7100,12 @@ export interface GetJourneyRunExecutionMetricsResponse {
     RunId: string;
   };
 }
-export const GetJourneyRunExecutionMetricsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JourneyRunExecutionMetricsResponse: S.optional(
-        JourneyRunExecutionMetricsResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "JourneyRunExecutionMetricsResponse" }),
-    }),
+export const GetJourneyRunExecutionMetricsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JourneyRunExecutionMetricsResponse: S.optional(JourneyRunExecutionMetricsResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "JourneyRunExecutionMetricsResponse" }),
+  }),
 ).annotate({
   identifier: "GetJourneyRunExecutionMetricsResponse",
 }) as any as S.Schema<GetJourneyRunExecutionMetricsResponse>;
@@ -7321,12 +7137,7 @@ export const GetJourneyRunsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetJourneyRunsRequest",
 }) as any as S.Schema<GetJourneyRunsRequest>;
-export type JourneyRunStatus =
-  | "SCHEDULED"
-  | "RUNNING"
-  | "COMPLETED"
-  | "CANCELLED"
-  | (string & {});
+export type JourneyRunStatus = "SCHEDULED" | "RUNNING" | "COMPLETED" | "CANCELLED" | (string & {});
 export const JourneyRunStatus = S.String;
 
 export interface JourneyRunResponse {
@@ -7346,8 +7157,7 @@ export const JourneyRunResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "JourneyRunResponse",
 }) as any as S.Schema<JourneyRunResponse>;
 export type ListOfJourneyRunResponse = JourneyRunResponse[];
-export const ListOfJourneyRunResponse =
-  /*@__PURE__*/ S.Array(JourneyRunResponse);
+export const ListOfJourneyRunResponse = /*@__PURE__*/ S.Array(JourneyRunResponse);
 export interface JourneyRunsResponse {
   Item?: JourneyRunResponse[];
   NextToken?: string;
@@ -7448,9 +7258,7 @@ export interface GetPushTemplateResponse {
 }
 export const GetPushTemplateResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    PushNotificationTemplateResponse: S.optional(
-      PushNotificationTemplateResponse,
-    )
+    PushNotificationTemplateResponse: S.optional(PushNotificationTemplateResponse)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "PushNotificationTemplateResponse" }),
   }),
@@ -7485,9 +7293,7 @@ export interface GetRecommenderConfigurationResponse {
 }
 export const GetRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    RecommenderConfigurationResponse: S.optional(
-      RecommenderConfigurationResponse,
-    )
+    RecommenderConfigurationResponse: S.optional(RecommenderConfigurationResponse)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "RecommenderConfigurationResponse" }),
   }),
@@ -7502,21 +7308,11 @@ export const GetRecommenderConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
     Token: S.optional(S.String).pipe(T.HttpQuery("token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/recommenders" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/recommenders" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRecommenderConfigurationsRequest",
 }) as any as S.Schema<GetRecommenderConfigurationsRequest>;
-export type ListOfRecommenderConfigurationResponse =
-  RecommenderConfigurationResponse[];
+export type ListOfRecommenderConfigurationResponse = RecommenderConfigurationResponse[];
 export const ListOfRecommenderConfigurationResponse = /*@__PURE__*/ S.Array(
   RecommenderConfigurationResponse,
 );
@@ -7524,12 +7320,11 @@ export interface ListRecommenderConfigurationsResponse {
   Item?: RecommenderConfigurationResponse[];
   NextToken?: string;
 }
-export const ListRecommenderConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Item: S.optional(ListOfRecommenderConfigurationResponse),
-      NextToken: S.optional(S.String),
-    }),
+export const ListRecommenderConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Item: S.optional(ListOfRecommenderConfigurationResponse),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListRecommenderConfigurationsResponse",
 }) as any as S.Schema<ListRecommenderConfigurationsResponse>;
@@ -7544,15 +7339,12 @@ export interface GetRecommenderConfigurationsResponse {
     })[];
   };
 }
-export const GetRecommenderConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ListRecommenderConfigurationsResponse: S.optional(
-        ListRecommenderConfigurationsResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "ListRecommenderConfigurationsResponse" }),
-    }),
+export const GetRecommenderConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ListRecommenderConfigurationsResponse: S.optional(ListRecommenderConfigurationsResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "ListRecommenderConfigurationsResponse" }),
+  }),
 ).annotate({
   identifier: "GetRecommenderConfigurationsResponse",
 }) as any as S.Schema<GetRecommenderConfigurationsResponse>;
@@ -7589,9 +7381,7 @@ export interface GetSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -7619,9 +7409,7 @@ export interface GetSegmentResponse {
           | undefined;
       };
       UserAttributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -7635,9 +7423,7 @@ export interface GetSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -7671,9 +7457,7 @@ export interface GetSegmentResponse {
               | undefined;
           };
           UserAttributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -7839,9 +7623,7 @@ export interface GetSegmentsResponse {
       SegmentType: SegmentType;
       Dimensions: SegmentDimensions & {
         Attributes: {
-          [key: string]:
-            | (AttributeDimension & { Values: ListOf__string })
-            | undefined;
+          [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
         Behavior: SegmentBehaviors & {
           Recency: RecencyDimension & {
@@ -7872,9 +7654,7 @@ export interface GetSegmentsResponse {
             | undefined;
         };
         UserAttributes: {
-          [key: string]:
-            | (AttributeDimension & { Values: ListOf__string })
-            | undefined;
+          [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
       };
       ImportDefinition: SegmentImportResource & {
@@ -7888,9 +7668,7 @@ export interface GetSegmentsResponse {
         Groups: (SegmentGroup & {
           Dimensions: (SegmentDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             Behavior: SegmentBehaviors & {
               Recency: RecencyDimension & {
@@ -7924,9 +7702,7 @@ export interface GetSegmentsResponse {
                 | undefined;
             };
             UserAttributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
           })[];
           SourceSegments: (SegmentReference & { Id: string })[];
@@ -7979,9 +7755,7 @@ export interface GetSegmentVersionResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -8009,9 +7783,7 @@ export interface GetSegmentVersionResponse {
           | undefined;
       };
       UserAttributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -8025,9 +7797,7 @@ export interface GetSegmentVersionResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -8061,9 +7831,7 @@ export interface GetSegmentVersionResponse {
               | undefined;
           };
           UserAttributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -8118,9 +7886,7 @@ export interface GetSegmentVersionsResponse {
       SegmentType: SegmentType;
       Dimensions: SegmentDimensions & {
         Attributes: {
-          [key: string]:
-            | (AttributeDimension & { Values: ListOf__string })
-            | undefined;
+          [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
         Behavior: SegmentBehaviors & {
           Recency: RecencyDimension & {
@@ -8151,9 +7917,7 @@ export interface GetSegmentVersionsResponse {
             | undefined;
         };
         UserAttributes: {
-          [key: string]:
-            | (AttributeDimension & { Values: ListOf__string })
-            | undefined;
+          [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
         };
       };
       ImportDefinition: SegmentImportResource & {
@@ -8167,9 +7931,7 @@ export interface GetSegmentVersionsResponse {
         Groups: (SegmentGroup & {
           Dimensions: (SegmentDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             Behavior: SegmentBehaviors & {
               Recency: RecencyDimension & {
@@ -8203,9 +7965,7 @@ export interface GetSegmentVersionsResponse {
                 | undefined;
             };
             UserAttributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
           })[];
           SourceSegments: (SegmentReference & { Id: string })[];
@@ -8643,9 +8403,7 @@ export interface ListJourneysResponse {
           EventFilter: EventFilter & {
             Dimensions: EventDimensions & {
               Attributes: {
-                [key: string]:
-                  | (AttributeDimension & { Values: ListOf__string })
-                  | undefined;
+                [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
               };
               EventType: SetDimension & { Values: ListOf__string };
               Metrics: {
@@ -8679,14 +8437,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -8702,9 +8453,7 @@ export interface ListTagsForResourceResponse {
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    TagsModel: S.optional(TagsModel)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TagsModel" }),
+    TagsModel: S.optional(TagsModel).pipe(T.HttpPayload()).annotate({ identifier: "TagsModel" }),
   }),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
@@ -8721,16 +8470,7 @@ export const ListTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
     PageSize: S.optional(S.String).pipe(T.HttpQuery("page-size")),
     Prefix: S.optional(S.String).pipe(T.HttpQuery("prefix")),
     TemplateType: S.optional(S.String).pipe(T.HttpQuery("template-type")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/templates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/templates" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTemplatesRequest",
 }) as any as S.Schema<ListTemplatesRequest>;
@@ -8844,9 +8584,7 @@ export const TemplateVersionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "TemplateVersionResponse",
 }) as any as S.Schema<TemplateVersionResponse>;
 export type ListOfTemplateVersionResponse = TemplateVersionResponse[];
-export const ListOfTemplateVersionResponse = /*@__PURE__*/ S.Array(
-  TemplateVersionResponse,
-);
+export const ListOfTemplateVersionResponse = /*@__PURE__*/ S.Array(TemplateVersionResponse);
 export interface TemplateVersionsResponse {
   Item?: TemplateVersionResponse[];
   Message?: string;
@@ -9032,10 +8770,7 @@ export const Event = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Event" }) as any as S.Schema<Event>;
 export type MapOfEvent = { [key: string]: Event | undefined };
-export const MapOfEvent = /*@__PURE__*/ S.Record(
-  S.String,
-  Event.pipe(S.optional),
-);
+export const MapOfEvent = /*@__PURE__*/ S.Record(S.String, Event.pipe(S.optional));
 export interface EventsBatch {
   Endpoint?: PublicEndpoint;
   Events?: { [key: string]: Event | undefined };
@@ -9047,10 +8782,7 @@ export const EventsBatch = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "EventsBatch" }) as any as S.Schema<EventsBatch>;
 export type MapOfEventsBatch = { [key: string]: EventsBatch | undefined };
-export const MapOfEventsBatch = /*@__PURE__*/ S.Record(
-  S.String,
-  EventsBatch.pipe(S.optional),
-);
+export const MapOfEventsBatch = /*@__PURE__*/ S.Record(S.String, EventsBatch.pipe(S.optional));
 export interface EventsRequest {
   BatchItem?: { [key: string]: EventsBatch | undefined };
 }
@@ -9116,10 +8848,7 @@ export const ItemResponse = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ItemResponse" }) as any as S.Schema<ItemResponse>;
 export type MapOfItemResponse = { [key: string]: ItemResponse | undefined };
-export const MapOfItemResponse = /*@__PURE__*/ S.Record(
-  S.String,
-  ItemResponse.pipe(S.optional),
-);
+export const MapOfItemResponse = /*@__PURE__*/ S.Record(S.String, ItemResponse.pipe(S.optional));
 export interface EventsResponse {
   Results?: { [key: string]: ItemResponse | undefined };
 }
@@ -9706,10 +9435,7 @@ export const MessageResult = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "MessageResult" }) as any as S.Schema<MessageResult>;
 export type MapOfMessageResult = { [key: string]: MessageResult | undefined };
-export const MapOfMessageResult = /*@__PURE__*/ S.Record(
-  S.String,
-  MessageResult.pipe(S.optional),
-);
+export const MapOfMessageResult = /*@__PURE__*/ S.Record(S.String, MessageResult.pipe(S.optional));
 export interface MessageResponse {
   ApplicationId?: string;
   EndpointResult?: { [key: string]: EndpointMessageResult | undefined };
@@ -9884,9 +9610,7 @@ export const SendUsersMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SendUsersMessagesRequest",
 }) as any as S.Schema<SendUsersMessagesRequest>;
 export type MapOfMapOfEndpointMessageResult = {
-  [key: string]:
-    | { [key: string]: EndpointMessageResult | undefined }
-    | undefined;
+  [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined;
 };
 export const MapOfMapOfEndpointMessageResult = /*@__PURE__*/ S.Record(
   S.String,
@@ -9896,9 +9620,7 @@ export interface SendUsersMessageResponse {
   ApplicationId?: string;
   RequestId?: string;
   Result?: {
-    [key: string]:
-      | { [key: string]: EndpointMessageResult | undefined }
-      | undefined;
+    [key: string]: { [key: string]: EndpointMessageResult | undefined } | undefined;
   };
 }
 export const SendUsersMessageResponse = /*@__PURE__*/ S.suspend(() =>
@@ -9943,26 +9665,15 @@ export interface TagResourceRequest {
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
-    TagsModel: S.optional(TagsModel)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "TagsModel" }),
+    TagsModel: S.optional(TagsModel).pipe(T.HttpPayload()).annotate({ identifier: "TagsModel" }),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -9987,9 +9698,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface ADMChannelRequest {
@@ -10279,13 +9988,12 @@ export interface UpdateApnsVoipSandboxChannelResponse {
     Platform: string;
   };
 }
-export const UpdateApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "APNSVoipSandboxChannelResponse" }),
-    }),
+export const UpdateApnsVoipSandboxChannelResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    APNSVoipSandboxChannelResponse: S.optional(APNSVoipSandboxChannelResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "APNSVoipSandboxChannelResponse" }),
+  }),
 ).annotate({
   identifier: "UpdateApnsVoipSandboxChannelResponse",
 }) as any as S.Schema<UpdateApnsVoipSandboxChannelResponse>;
@@ -10484,9 +10192,7 @@ export interface UpdateCampaignResponse {
         EventFilter: CampaignEventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -10548,9 +10254,7 @@ export interface UpdateCampaignResponse {
       EventFilter: CampaignEventFilter & {
         Dimensions: EventDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           EventType: SetDimension & { Values: ListOf__string };
           Metrics: {
@@ -10639,9 +10343,7 @@ export interface UpdateEmailTemplateRequest {
 }
 export const UpdateEmailTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateNewVersion: S.optional(S.Boolean).pipe(
-      T.HttpQuery("create-new-version"),
-    ),
+    CreateNewVersion: S.optional(S.Boolean).pipe(T.HttpQuery("create-new-version")),
     EmailTemplateRequest: S.optional(EmailTemplateRequest)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "EmailTemplateRequest" }),
@@ -10878,9 +10580,7 @@ export interface UpdateInAppTemplateRequest {
 }
 export const UpdateInAppTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateNewVersion: S.optional(S.Boolean).pipe(
-      T.HttpQuery("create-new-version"),
-    ),
+    CreateNewVersion: S.optional(S.Boolean).pipe(T.HttpQuery("create-new-version")),
     InAppTemplateRequest: S.optional(InAppTemplateRequest)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "InAppTemplateRequest" }),
@@ -10971,9 +10671,7 @@ export interface UpdateJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -11007,9 +10705,7 @@ export interface UpdateJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 })[];
@@ -11040,9 +10736,7 @@ export interface UpdateJourneyResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -11076,9 +10770,7 @@ export interface UpdateJourneyResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 };
@@ -11092,9 +10784,7 @@ export interface UpdateJourneyResponse {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -11190,9 +10880,7 @@ export interface UpdateJourneyStateResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -11226,9 +10914,7 @@ export interface UpdateJourneyStateResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 })[];
@@ -11259,9 +10945,7 @@ export interface UpdateJourneyStateResponse {
                   SegmentCondition: SegmentCondition & { SegmentId: string };
                   SegmentDimensions: SegmentDimensions & {
                     Attributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                     Behavior: SegmentBehaviors & {
                       Recency: RecencyDimension & {
@@ -11295,9 +10979,7 @@ export interface UpdateJourneyStateResponse {
                         | undefined;
                     };
                     UserAttributes: {
-                      [key: string]:
-                        | (AttributeDimension & { Values: ListOf__string })
-                        | undefined;
+                      [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
                     };
                   };
                 };
@@ -11311,9 +10993,7 @@ export interface UpdateJourneyStateResponse {
         EventFilter: EventFilter & {
           Dimensions: EventDimensions & {
             Attributes: {
-              [key: string]:
-                | (AttributeDimension & { Values: ListOf__string })
-                | undefined;
+              [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
             };
             EventType: SetDimension & { Values: ListOf__string };
             Metrics: {
@@ -11349,9 +11029,7 @@ export interface UpdatePushTemplateRequest {
 }
 export const UpdatePushTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateNewVersion: S.optional(S.Boolean).pipe(
-      T.HttpQuery("create-new-version"),
-    ),
+    CreateNewVersion: S.optional(S.Boolean).pipe(T.HttpQuery("create-new-version")),
     PushNotificationTemplateRequest: S.optional(PushNotificationTemplateRequest)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "PushNotificationTemplateRequest" }),
@@ -11412,25 +11090,22 @@ export interface UpdateRecommenderConfigurationRequest {
   RecommenderId: string;
   UpdateRecommenderConfiguration?: UpdateRecommenderConfigurationShape;
 }
-export const UpdateRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
-      UpdateRecommenderConfiguration: S.optional(
-        UpdateRecommenderConfigurationShape,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "UpdateRecommenderConfigurationShape" }),
-    }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v1/recommenders/{RecommenderId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateRecommenderConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecommenderId: S.String.pipe(T.HttpLabel("RecommenderId")),
+    UpdateRecommenderConfiguration: S.optional(UpdateRecommenderConfigurationShape)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "UpdateRecommenderConfigurationShape" }),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/v1/recommenders/{RecommenderId}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateRecommenderConfigurationRequest",
 }) as any as S.Schema<UpdateRecommenderConfigurationRequest>;
@@ -11443,15 +11118,12 @@ export interface UpdateRecommenderConfigurationResponse {
     RecommendationProviderUri: string;
   };
 }
-export const UpdateRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RecommenderConfigurationResponse: S.optional(
-        RecommenderConfigurationResponse,
-      )
-        .pipe(T.HttpPayload())
-        .annotate({ identifier: "RecommenderConfigurationResponse" }),
-    }),
+export const UpdateRecommenderConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RecommenderConfigurationResponse: S.optional(RecommenderConfigurationResponse)
+      .pipe(T.HttpPayload())
+      .annotate({ identifier: "RecommenderConfigurationResponse" }),
+  }),
 ).annotate({
   identifier: "UpdateRecommenderConfigurationResponse",
 }) as any as S.Schema<UpdateRecommenderConfigurationResponse>;
@@ -11492,9 +11164,7 @@ export interface UpdateSegmentResponse {
     SegmentType: SegmentType;
     Dimensions: SegmentDimensions & {
       Attributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
       Behavior: SegmentBehaviors & {
         Recency: RecencyDimension & {
@@ -11522,9 +11192,7 @@ export interface UpdateSegmentResponse {
           | undefined;
       };
       UserAttributes: {
-        [key: string]:
-          | (AttributeDimension & { Values: ListOf__string })
-          | undefined;
+        [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
       };
     };
     ImportDefinition: SegmentImportResource & {
@@ -11538,9 +11206,7 @@ export interface UpdateSegmentResponse {
       Groups: (SegmentGroup & {
         Dimensions: (SegmentDimensions & {
           Attributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
           Behavior: SegmentBehaviors & {
             Recency: RecencyDimension & {
@@ -11574,9 +11240,7 @@ export interface UpdateSegmentResponse {
               | undefined;
           };
           UserAttributes: {
-            [key: string]:
-              | (AttributeDimension & { Values: ListOf__string })
-              | undefined;
+            [key: string]: (AttributeDimension & { Values: ListOf__string }) | undefined;
           };
         })[];
         SourceSegments: (SegmentReference & { Id: string })[];
@@ -11650,9 +11314,7 @@ export interface UpdateSmsTemplateRequest {
 }
 export const UpdateSmsTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateNewVersion: S.optional(S.Boolean).pipe(
-      T.HttpQuery("create-new-version"),
-    ),
+    CreateNewVersion: S.optional(S.Boolean).pipe(T.HttpQuery("create-new-version")),
     SMSTemplateRequest: S.optional(SMSTemplateRequest)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "SMSTemplateRequest" }),
@@ -11782,9 +11444,7 @@ export interface UpdateVoiceTemplateRequest {
 }
 export const UpdateVoiceTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreateNewVersion: S.optional(S.Boolean).pipe(
-      T.HttpQuery("create-new-version"),
-    ),
+    CreateNewVersion: S.optional(S.Boolean).pipe(T.HttpQuery("create-new-version")),
     TemplateName: S.String.pipe(T.HttpLabel("TemplateName")),
     Version: S.optional(S.String).pipe(T.HttpQuery("version")),
     VoiceTemplateRequest: S.optional(VoiceTemplateRequest)
@@ -11836,9 +11496,7 @@ export interface VerifyOTPMessageRequest {
 export const VerifyOTPMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    VerifyOTPMessageRequestParameters: S.optional(
-      VerifyOTPMessageRequestParameters,
-    )
+    VerifyOTPMessageRequestParameters: S.optional(VerifyOTPMessageRequestParameters)
       .pipe(T.HttpPayload())
       .annotate({ identifier: "VerifyOTPMessageRequestParameters" }),
   }).pipe(

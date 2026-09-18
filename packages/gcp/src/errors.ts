@@ -20,28 +20,22 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown GCP error - returned when an error status is not recognized. */
-export class UnknownGCPError extends Schema.TaggedError<UnknownGCPError>()(
-  "UnknownGCPError",
-  {
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
+export class UnknownGCPError extends Schema.TaggedError<UnknownGCPError>()("UnknownGCPError", {
+  code: Schema.optional(Schema.Number),
+  message: Schema.optional(Schema.String),
+  status: Schema.optional(Schema.String),
+  body: Schema.Unknown,
+}).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class GCPParseError extends Schema.TaggedError<GCPParseError>()(
-  "GCPParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class GCPParseError extends Schema.TaggedError<GCPParseError>()("GCPParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any GCP operation may surface in addition to the per-operation

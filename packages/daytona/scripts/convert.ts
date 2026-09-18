@@ -150,9 +150,9 @@ for (const doc of DOCS) {
   const fullSpec = doc.name === "toolbox" ? toolboxSpec : loadSpec(doc);
   const tagBuckets = new Map<string, PathBucket>();
 
-  for (const [pathTemplate, pathItem] of Object.entries<
-    Record<string, unknown>
-  >(fullSpec.paths ?? {})) {
+  for (const [pathTemplate, pathItem] of Object.entries<Record<string, unknown>>(
+    fullSpec.paths ?? {},
+  )) {
     for (const method of HTTP_METHODS) {
       const op = (pathItem as Record<string, any>)[method];
       if (!op) continue;
@@ -166,9 +166,7 @@ for (const doc of DOCS) {
       const bucketPaths = tagBuckets.get(slug)!;
       if (!bucketPaths[pathTemplate]) {
         const pathParams = (pathItem as Record<string, any>).parameters;
-        bucketPaths[pathTemplate] = pathParams
-          ? { parameters: pathParams }
-          : {};
+        bucketPaths[pathTemplate] = pathParams ? { parameters: pathParams } : {};
       }
       (bucketPaths[pathTemplate] as Record<string, unknown>)[method] = op;
     }
@@ -176,8 +174,7 @@ for (const doc of DOCS) {
 
   for (const [slug, paths] of tagBuckets) {
     const owner = claimed.get(slug);
-    const finalSlug =
-      owner !== undefined && owner !== doc.name ? `${doc.name}_${slug}` : slug;
+    const finalSlug = owner !== undefined && owner !== doc.name ? `${doc.name}_${slug}` : slug;
     if (claimed.has(finalSlug) && claimed.get(finalSlug) !== doc.name) {
       throw new Error(
         `slug collision: ${finalSlug} from ${doc.name} and ${claimed.get(finalSlug)}`,
@@ -201,9 +198,7 @@ fs.mkdirSync(outDir, { recursive: true });
 
 let written = 0;
 let totalOps = 0;
-for (const { slug, spec, paths } of buckets.sort((a, b) =>
-  a.slug.localeCompare(b.slug),
-)) {
+for (const { slug, spec, paths } of buckets.sort((a, b) => a.slug.localeCompare(b.slug))) {
   const subSpec = { ...spec, paths };
   const model = convertOpenApiToSmithy(subSpec, {
     namespace: `com.daytona.${slug}`,
@@ -218,18 +213,13 @@ for (const { slug, spec, paths } of buckets.sort((a, b) =>
     statusToErrorClass: {},
   });
 
-  const operations = Object.entries<any>(model.shapes).filter(
-    ([, s]) => s.type === "operation",
-  );
+  const operations = Object.entries<any>(model.shapes).filter(([, s]) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);
     continue;
   }
 
-  fs.writeFileSync(
-    path.join(outDir, `${slug}.json`),
-    JSON.stringify(model, null, 2) + "\n",
-  );
+  fs.writeFileSync(path.join(outDir, `${slug}.json`), JSON.stringify(model, null, 2) + "\n");
   written++;
   totalOps += operations.length;
 }

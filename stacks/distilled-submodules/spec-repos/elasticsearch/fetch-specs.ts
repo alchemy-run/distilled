@@ -25,15 +25,12 @@ const REF = "main";
 /** Path of the generated OpenAPI document within {@link REPO}. */
 const OPENAPI_PATH = "output/openapi/elasticsearch-openapi.json";
 
-const OPENAPI_SPEC_URL = `https://raw.githubusercontent.com/${REPO}/${REF}/${OPENAPI_PATH.split(
-  "/",
-)
+const OPENAPI_SPEC_URL = `https://raw.githubusercontent.com/${REPO}/${REF}/${OPENAPI_PATH.split("/")
   .map(encodeURIComponent)
   .join("/")}`;
 
 /** Vendor-hosted API docs index (markdown snapshot; not used at generate time). */
-const DOCS_INDEX_URL =
-  "https://www.elastic.co/docs/api/doc/elasticsearch/v9.md";
+const DOCS_INDEX_URL = "https://www.elastic.co/docs/api/doc/elasticsearch/v9.md";
 
 const SPECS_DIR = "../specs";
 const OPENAPI_OUTPUT_PATH = `${SPECS_DIR}/elasticsearch-openapi.json`;
@@ -52,9 +49,7 @@ async function fetchOpenApi(): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch OpenAPI spec: ${response.status} ${response.statusText}`);
   }
 
   const spec = (await response.json()) as Record<string, unknown>;
@@ -70,9 +65,7 @@ async function fetchOpenApi(): Promise<void> {
   console.log(`Writing spec to ${OPENAPI_OUTPUT_PATH}...`);
   await Bun.write(OPENAPI_OUTPUT_PATH, JSON.stringify(spec, null, 2) + "\n");
 
-  console.log(
-    `OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 async function fetchDocsIndex(): Promise<void> {
@@ -86,9 +79,7 @@ async function fetchDocsIndex(): Promise<void> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch vendor docs index: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch vendor docs index: ${response.status} ${response.statusText}`);
   }
 
   const text = await response.text();

@@ -187,11 +187,9 @@ const GLOBAL_PARAMS = new Set([
   "access_token",
 ]);
 
-const capitalize = (s: string): string =>
-  s ? s[0]!.toUpperCase() + s.slice(1) : s;
+const capitalize = (s: string): string => (s ? s[0]!.toUpperCase() + s.slice(1) : s);
 
-const safeIdentifier = (name: string): string =>
-  name.replace(/[^a-zA-Z0-9_$]/g, "_");
+const safeIdentifier = (name: string): string => name.replace(/[^a-zA-Z0-9_$]/g, "_");
 
 /** `[a-z0-9_]` identifier segment for namespaces / file names. */
 const ident = (s: string): string => {
@@ -253,9 +251,7 @@ const collectOperations = (doc: DiscoveryDoc): CollectedOperation[] => {
     resourcePath: string[],
   ): CollectedOperation => {
     const safeName = safeIdentifier(methodName);
-    const resourcePart = resourcePath
-      .map((r) => capitalize(safeIdentifier(r)))
-      .join("");
+    const resourcePart = resourcePath.map((r) => capitalize(safeIdentifier(r))).join("");
     // Merge global parameters with method parameters (globals filtered later,
     // in v0's order: globals first, then method params).
     const parameters: Record<string, ParameterSchema> = {};
@@ -278,15 +274,10 @@ const collectOperations = (doc: DiscoveryDoc): CollectedOperation[] => {
       description: method.description,
     };
   };
-  const walkResources = (
-    resources: Record<string, ResourceObject>,
-    parentPath: string[],
-  ): void => {
+  const walkResources = (resources: Record<string, ResourceObject>, parentPath: string[]): void => {
     for (const [resourceName, resource] of Object.entries(resources)) {
       const currentPath = [...parentPath, resourceName];
-      for (const [methodName, method] of Object.entries(
-        resource.methods ?? {},
-      )) {
+      for (const [methodName, method] of Object.entries(resource.methods ?? {})) {
         ops.push(methodToOperation(methodName, method, currentPath));
       }
       if (resource.resources) walkResources(resource.resources, currentPath);
@@ -341,9 +332,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
   const renames = new Map<string, string>();
   for (const originalName of Object.keys(doc.schemas ?? {})) {
     const base = safeIdentifier(originalName);
-    const local = RESERVED_SCHEMA_NAMES.has(base)
-      ? `${capitalize(ident(doc.name))}_${base}`
-      : base;
+    const local = RESERVED_SCHEMA_NAMES.has(base) ? `${capitalize(ident(doc.name))}_${base}` : base;
     renames.set(originalName, alloc(local));
   }
   const refTarget = (ref: string): string => {
@@ -416,14 +405,8 @@ const convertDoc = (doc: DiscoveryDoc): object => {
   ): Record<string, any> => {
     const members: Record<string, any> = {};
     for (const [propName, prop] of Object.entries(properties)) {
-      const target = propTarget(
-        prop,
-        `${localName}${capitalize(safeIdentifier(propName))}`,
-      );
-      const traits = memberTraits(
-        prop.description,
-        required?.includes(propName) ?? false,
-      );
+      const target = propTarget(prop, `${localName}${capitalize(safeIdentifier(propName))}`);
+      const traits = memberTraits(prop.description, required?.includes(propName) ?? false);
       members[propName] = traits ? { target, traits } : { target };
     }
     return members;
@@ -433,11 +416,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     const localName = alloc(baseName);
     const id = `${ns}#${localName}`;
     shapes[id] = { type: "structure", members: {} }; // placeholder for recursion
-    shapes[id].members = structMembers(
-      localName,
-      prop.properties ?? {},
-      prop.required,
-    );
+    shapes[id].members = structMembers(localName, prop.properties ?? {}, prop.required);
     return id;
   };
 
@@ -454,16 +433,12 @@ const convertDoc = (doc: DiscoveryDoc): object => {
         return PRELUDE_BY_TYPE[prop.type]!;
       case "array":
         return listFor(
-          prop.items
-            ? propTarget(prop.items, `${baseName}Item`)
-            : "smithy.api#Document",
+          prop.items ? propTarget(prop.items, `${baseName}Item`) : "smithy.api#Document",
         );
       case "object":
         if (prop.properties) return structFor(baseName, prop);
         if (prop.additionalProperties) {
-          return mapFor(
-            propTarget(prop.additionalProperties, `${baseName}Value`),
-          );
+          return mapFor(propTarget(prop.additionalProperties, `${baseName}Value`));
         }
         return "smithy.api#Document";
       default:
@@ -484,21 +459,14 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     const withTraits = (shape: Record<string, any>): Record<string, any> =>
       Object.keys(traits).length ? { ...shape, traits } : shape;
 
-    if (
-      schema.enum &&
-      (schema.type === "string" || schema.type === undefined)
-    ) {
+    if (schema.enum && (schema.type === "string" || schema.type === undefined)) {
       shapes[id] = withTraits({
         type: "enum",
         members: enumMembers(schema.enum),
       });
     } else if (schema.type === "object" && schema.properties) {
       shapes[id] = withTraits({ type: "structure", members: {} });
-      shapes[id].members = structMembers(
-        localName,
-        schema.properties,
-        schema.required,
-      );
+      shapes[id].members = structMembers(localName, schema.properties, schema.required);
     } else if (schema.type === "object" && schema.additionalProperties) {
       shapes[id] = withTraits({
         type: "map",
@@ -563,9 +531,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
       } else {
         while (takenLocals.has(local)) local = `${local}_`;
       }
-      console.warn(
-        `⚠️  ${doc.name}-${doc.version}: operation shape collision → ${local}`,
-      );
+      console.warn(`⚠️  ${doc.name}-${doc.version}: operation shape collision → ${local}`);
     }
     takenLocals.add(local);
     opExports.add(exportOf(local));
@@ -577,9 +543,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     const opBase = capitalize(op.functionName);
     const opLocal = allocOp(opBase);
 
-    const opParams = Object.entries(op.parameters).filter(
-      ([name]) => !GLOBAL_PARAMS.has(name),
-    );
+    const opParams = Object.entries(op.parameters).filter(([name]) => !GLOBAL_PARAMS.has(name));
 
     // Input shape (named from the collision-free base so the Request type
     // matches v0's `<Fn>Request` even when the op shape carries a suffix).
@@ -590,10 +554,7 @@ const convertDoc = (doc: DiscoveryDoc): object => {
       const isPath = param.location === "path";
       const primitive =
         param.enum && (param.type === "string" || param.type === undefined)
-          ? enumFor(
-              `${opLocal}${capitalize(safeIdentifier(paramName))}`,
-              param.enum,
-            )
+          ? enumFor(`${opLocal}${capitalize(safeIdentifier(paramName))}`, param.enum)
           : (PRELUDE_BY_TYPE[param.type ?? "string"] ?? "smithy.api#String");
       const target = param.repeated ? listFor(primitive) : primitive;
       const traits: Record<string, any> = {};
@@ -627,16 +588,11 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     const hasPageTokenParam =
       opParams.some(([name]) => name === "pageToken") ||
       opParams.some(
-        ([, p]) =>
-          (p.type ?? "string") === "string" &&
-          /pageToken/i.test(p.description ?? ""),
+        ([, p]) => (p.type ?? "string") === "string" && /pageToken/i.test(p.description ?? ""),
       );
-    const responseSchema = op.responseRef
-      ? doc.schemas?.[op.responseRef]
-      : undefined;
+    const responseSchema = op.responseRef ? doc.schemas?.[op.responseRef] : undefined;
     const isPaginated =
-      hasPageTokenParam &&
-      responseSchema?.properties?.nextPageToken !== undefined;
+      hasPageTokenParam && responseSchema?.properties?.nextPageToken !== undefined;
     const hasItemsField = responseSchema?.properties?.items !== undefined;
 
     // Errors: method-keyed defaults (patches may add more via the
@@ -687,24 +643,15 @@ const convertDoc = (doc: DiscoveryDoc): object => {
 // =============================================================================
 
 const args = process.argv.slice(2);
-const serviceFilter = args.includes("--service")
-  ? args[args.indexOf("--service") + 1]
-  : undefined;
-const versionFilter = args.includes("--version")
-  ? args[args.indexOf("--version") + 1]
-  : undefined;
+const serviceFilter = args.includes("--service") ? args[args.indexOf("--service") + 1] : undefined;
+const versionFilter = args.includes("--version") ? args[args.indexOf("--version") + 1] : undefined;
 
 const root = path.resolve(import.meta.dir, "..");
-const specsDir = resolveSpecPath(
-  root,
-  "specs/spec-mirror-google-workspace/specs",
-);
+const specsDir = resolveSpecPath(root, "specs/spec-mirror-google-workspace/specs");
 const manifestPath = path.join(specsDir, "_manifest.json");
 
 if (!fs.existsSync(manifestPath)) {
-  console.error(
-    "No manifest found. Run `git submodule update --init` first to fetch specs.",
-  );
+  console.error("No manifest found. Run `git submodule update --init` first to fetch specs.");
   process.exit(1);
 }
 
@@ -716,9 +663,7 @@ interface ManifestEntry {
   filename: string;
 }
 
-let entries: ManifestEntry[] = JSON.parse(
-  fs.readFileSync(manifestPath, "utf-8"),
-);
+let entries: ManifestEntry[] = JSON.parse(fs.readFileSync(manifestPath, "utf-8"));
 if (serviceFilter) {
   entries = entries.filter((e) => e.name === serviceFilter);
   if (versionFilter) {
@@ -753,11 +698,7 @@ for (const entry of entries) {
     const model = convertDoc(doc);
     const outName = `${ident(entry.name)}_${ident(entry.version)}.json`;
     const outDir = entry.preferred ? STABLE_DIR : UNSTABLE_DIR;
-    fs.writeFileSync(
-      path.join(outDir, outName),
-      JSON.stringify(model, null, 2) + "\n",
-      "utf-8",
-    );
+    fs.writeFileSync(path.join(outDir, outName), JSON.stringify(model, null, 2) + "\n", "utf-8");
     converted++;
   } catch (err) {
     failed++;

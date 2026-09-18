@@ -7,11 +7,7 @@
  * operation's `T.Http({ ... baseUrl })` pipe. `StackitProtocol` reads it
  * and applies the configured region.
  */
-import {
-  httpSymbol,
-  makeAnnotation,
-  type HttpTrait,
-} from "@distilled.cloud/core/trait";
+import { httpSymbol, makeAnnotation, type HttpTrait } from "@distilled.cloud/core/trait";
 
 export {
   Body,
@@ -61,5 +57,4 @@ export interface StackitHttpTrait extends HttpTrait {
 }
 
 /** Operation-level HTTP binding carrying the STACKIT per-product base URL. */
-export const Http = (trait: StackitHttpTrait) =>
-  makeAnnotation(httpSymbol, trait);
+export const Http = (trait: StackitHttpTrait) => makeAnnotation(httpSymbol, trait);

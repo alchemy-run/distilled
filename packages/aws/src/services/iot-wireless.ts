@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Wireless",
   serviceShapeName: "iotwireless",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.iotwireless-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.iotwireless.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://api.iotwireless.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://api.iotwireless.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -169,149 +159,139 @@ export interface AssociateAwsAccountWithPartnerAccountRequest {
   ClientRequestToken?: string;
   Tags?: Tag[];
 }
-export const AssociateAwsAccountWithPartnerAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Sidewalk: SidewalkAccountInfo,
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/partner-accounts" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AssociateAwsAccountWithPartnerAccountRequest",
-  }) as any as S.Schema<AssociateAwsAccountWithPartnerAccountRequest>;
+export const AssociateAwsAccountWithPartnerAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sidewalk: SidewalkAccountInfo,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/partner-accounts" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "AssociateAwsAccountWithPartnerAccountRequest",
+}) as any as S.Schema<AssociateAwsAccountWithPartnerAccountRequest>;
 export type PartnerAccountArn = string;
 export interface AssociateAwsAccountWithPartnerAccountResponse {
   Sidewalk?: SidewalkAccountInfo;
   Arn?: string;
 }
-export const AssociateAwsAccountWithPartnerAccountResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Sidewalk: S.optional(SidewalkAccountInfo),
-      Arn: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AssociateAwsAccountWithPartnerAccountResponse",
-  }) as any as S.Schema<AssociateAwsAccountWithPartnerAccountResponse>;
+export const AssociateAwsAccountWithPartnerAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sidewalk: S.optional(SidewalkAccountInfo),
+    Arn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AssociateAwsAccountWithPartnerAccountResponse",
+}) as any as S.Schema<AssociateAwsAccountWithPartnerAccountResponse>;
 export type FuotaTaskId = string;
 export type MulticastGroupId = string;
 export interface AssociateMulticastGroupWithFuotaTaskRequest {
   Id: string;
   MulticastGroupId: string;
 }
-export const AssociateMulticastGroupWithFuotaTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      MulticastGroupId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/multicast-group" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateMulticastGroupWithFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    MulticastGroupId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/multicast-group" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateMulticastGroupWithFuotaTaskRequest",
-  }) as any as S.Schema<AssociateMulticastGroupWithFuotaTaskRequest>;
+  ),
+).annotate({
+  identifier: "AssociateMulticastGroupWithFuotaTaskRequest",
+}) as any as S.Schema<AssociateMulticastGroupWithFuotaTaskRequest>;
 export interface AssociateMulticastGroupWithFuotaTaskResponse {}
-export const AssociateMulticastGroupWithFuotaTaskResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateMulticastGroupWithFuotaTaskResponse",
-  }) as any as S.Schema<AssociateMulticastGroupWithFuotaTaskResponse>;
+export const AssociateMulticastGroupWithFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateMulticastGroupWithFuotaTaskResponse",
+}) as any as S.Schema<AssociateMulticastGroupWithFuotaTaskResponse>;
 export type WirelessDeviceId = string;
 export interface AssociateWirelessDeviceWithFuotaTaskRequest {
   Id: string;
   WirelessDeviceId: string;
 }
-export const AssociateWirelessDeviceWithFuotaTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      WirelessDeviceId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/wireless-device" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateWirelessDeviceWithFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}/wireless-device" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateWirelessDeviceWithFuotaTaskRequest",
-  }) as any as S.Schema<AssociateWirelessDeviceWithFuotaTaskRequest>;
+  ),
+).annotate({
+  identifier: "AssociateWirelessDeviceWithFuotaTaskRequest",
+}) as any as S.Schema<AssociateWirelessDeviceWithFuotaTaskRequest>;
 export interface AssociateWirelessDeviceWithFuotaTaskResponse {}
-export const AssociateWirelessDeviceWithFuotaTaskResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateWirelessDeviceWithFuotaTaskResponse",
-  }) as any as S.Schema<AssociateWirelessDeviceWithFuotaTaskResponse>;
+export const AssociateWirelessDeviceWithFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateWirelessDeviceWithFuotaTaskResponse",
+}) as any as S.Schema<AssociateWirelessDeviceWithFuotaTaskResponse>;
 export interface AssociateWirelessDeviceWithMulticastGroupRequest {
   Id: string;
   WirelessDeviceId: string;
 }
-export const AssociateWirelessDeviceWithMulticastGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      WirelessDeviceId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/multicast-groups/{Id}/wireless-device",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateWirelessDeviceWithMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/multicast-groups/{Id}/wireless-device",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateWirelessDeviceWithMulticastGroupRequest",
-  }) as any as S.Schema<AssociateWirelessDeviceWithMulticastGroupRequest>;
+  ),
+).annotate({
+  identifier: "AssociateWirelessDeviceWithMulticastGroupRequest",
+}) as any as S.Schema<AssociateWirelessDeviceWithMulticastGroupRequest>;
 export interface AssociateWirelessDeviceWithMulticastGroupResponse {}
-export const AssociateWirelessDeviceWithMulticastGroupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateWirelessDeviceWithMulticastGroupResponse",
-  }) as any as S.Schema<AssociateWirelessDeviceWithMulticastGroupResponse>;
+export const AssociateWirelessDeviceWithMulticastGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateWirelessDeviceWithMulticastGroupResponse",
+}) as any as S.Schema<AssociateWirelessDeviceWithMulticastGroupResponse>;
 export type ThingArn = string;
 export interface AssociateWirelessDeviceWithThingRequest {
   Id: string;
   ThingArn: string;
 }
-export const AssociateWirelessDeviceWithThingRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/wireless-devices/{Id}/thing" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateWirelessDeviceWithThingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/wireless-devices/{Id}/thing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateWirelessDeviceWithThingRequest",
 }) as any as S.Schema<AssociateWirelessDeviceWithThingRequest>;
 export interface AssociateWirelessDeviceWithThingResponse {}
-export const AssociateWirelessDeviceWithThingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const AssociateWirelessDeviceWithThingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "AssociateWirelessDeviceWithThingResponse",
 }) as any as S.Schema<AssociateWirelessDeviceWithThingResponse>;
@@ -321,57 +301,55 @@ export interface AssociateWirelessGatewayWithCertificateRequest {
   Id: string;
   IotCertificateId: string;
 }
-export const AssociateWirelessGatewayWithCertificateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      IotCertificateId: S.String,
-    }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/certificate" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateWirelessGatewayWithCertificateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    IotCertificateId: S.String,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/certificate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateWirelessGatewayWithCertificateRequest",
-  }) as any as S.Schema<AssociateWirelessGatewayWithCertificateRequest>;
+  ),
+).annotate({
+  identifier: "AssociateWirelessGatewayWithCertificateRequest",
+}) as any as S.Schema<AssociateWirelessGatewayWithCertificateRequest>;
 export interface AssociateWirelessGatewayWithCertificateResponse {
   IotCertificateId?: string;
 }
-export const AssociateWirelessGatewayWithCertificateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ IotCertificateId: S.optional(S.String) }),
-  ).annotate({
-    identifier: "AssociateWirelessGatewayWithCertificateResponse",
-  }) as any as S.Schema<AssociateWirelessGatewayWithCertificateResponse>;
+export const AssociateWirelessGatewayWithCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IotCertificateId: S.optional(S.String) }),
+).annotate({
+  identifier: "AssociateWirelessGatewayWithCertificateResponse",
+}) as any as S.Schema<AssociateWirelessGatewayWithCertificateResponse>;
 export interface AssociateWirelessGatewayWithThingRequest {
   Id: string;
   ThingArn: string;
 }
-export const AssociateWirelessGatewayWithThingRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String }).pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/thing" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateWirelessGatewayWithThingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")), ThingArn: S.String }).pipe(
+    T.all(
+      T.Http({ method: "PUT", uri: "/wireless-gateways/{Id}/thing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateWirelessGatewayWithThingRequest",
 }) as any as S.Schema<AssociateWirelessGatewayWithThingRequest>;
 export interface AssociateWirelessGatewayWithThingResponse {}
-export const AssociateWirelessGatewayWithThingResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateWirelessGatewayWithThingResponse",
-  }) as any as S.Schema<AssociateWirelessGatewayWithThingResponse>;
+export const AssociateWirelessGatewayWithThingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateWirelessGatewayWithThingResponse",
+}) as any as S.Schema<AssociateWirelessGatewayWithThingResponse>;
 export interface CancelMulticastGroupSessionRequest {
   Id: string;
 }
@@ -420,16 +398,7 @@ export const CreateDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     RoleArn: S.String,
     Tags: S.optional(TagList),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/destinations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/destinations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDestinationRequest",
 }) as any as S.Schema<CreateDestinationRequest>;
@@ -512,9 +481,7 @@ export const LoRaWANDeviceProfile = /*@__PURE__*/ S.suspend(() =>
   identifier: "LoRaWANDeviceProfile",
 }) as any as S.Schema<LoRaWANDeviceProfile>;
 export interface SidewalkCreateDeviceProfile {}
-export const SidewalkCreateDeviceProfile = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SidewalkCreateDeviceProfile = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SidewalkCreateDeviceProfile",
 }) as any as S.Schema<SidewalkCreateDeviceProfile>;
 export interface CreateDeviceProfileRequest {
@@ -531,16 +498,7 @@ export const CreateDeviceProfileRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Sidewalk: S.optional(SidewalkCreateDeviceProfile),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/device-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/device-profiles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDeviceProfileRequest",
 }) as any as S.Schema<CreateDeviceProfileRequest>;
@@ -613,16 +571,7 @@ export const CreateFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
     FragmentSizeBytes: S.optional(S.Number),
     FragmentIntervalMS: S.optional(S.Number),
     Descriptor: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/fuota-tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/fuota-tasks" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFuotaTaskRequest",
 }) as any as S.Schema<CreateFuotaTaskRequest>;
@@ -697,14 +646,7 @@ export const CreateMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
     LoRaWAN: LoRaWANMulticast,
     Tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/multicast-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/multicast-groups" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateMulticastGroupRequest",
@@ -746,9 +688,7 @@ export const WirelessDeviceList = /*@__PURE__*/ S.Array(S.String);
 export type WirelessGatewayList = string[];
 export const WirelessGatewayList = /*@__PURE__*/ S.Array(S.String);
 export type NetworkAnalyzerMulticastGroupList = string[];
-export const NetworkAnalyzerMulticastGroupList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const NetworkAnalyzerMulticastGroupList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateNetworkAnalyzerConfigurationRequest {
   Name: string;
   TraceContent?: TraceContent;
@@ -759,41 +699,39 @@ export interface CreateNetworkAnalyzerConfigurationRequest {
   ClientRequestToken?: string;
   MulticastGroups?: string[];
 }
-export const CreateNetworkAnalyzerConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Name: S.String,
-      TraceContent: S.optional(TraceContent),
-      WirelessDevices: S.optional(WirelessDeviceList),
-      WirelessGateways: S.optional(WirelessGatewayList),
-      Description: S.optional(S.String),
-      Tags: S.optional(TagList),
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      MulticastGroups: S.optional(NetworkAnalyzerMulticastGroupList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/network-analyzer-configurations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateNetworkAnalyzerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.String,
+    TraceContent: S.optional(TraceContent),
+    WirelessDevices: S.optional(WirelessDeviceList),
+    WirelessGateways: S.optional(WirelessGatewayList),
+    Description: S.optional(S.String),
+    Tags: S.optional(TagList),
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    MulticastGroups: S.optional(NetworkAnalyzerMulticastGroupList),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/network-analyzer-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "CreateNetworkAnalyzerConfigurationRequest",
-  }) as any as S.Schema<CreateNetworkAnalyzerConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "CreateNetworkAnalyzerConfigurationRequest",
+}) as any as S.Schema<CreateNetworkAnalyzerConfigurationRequest>;
 export type NetworkAnalyzerConfigurationArn = string;
 export interface CreateNetworkAnalyzerConfigurationResponse {
   Arn?: string;
   Name?: string;
 }
-export const CreateNetworkAnalyzerConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
-  ).annotate({
-    identifier: "CreateNetworkAnalyzerConfigurationResponse",
-  }) as any as S.Schema<CreateNetworkAnalyzerConfigurationResponse>;
+export const CreateNetworkAnalyzerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateNetworkAnalyzerConfigurationResponse",
+}) as any as S.Schema<CreateNetworkAnalyzerConfigurationResponse>;
 export type ServiceProfileName = string;
 export type AddGwMetadata = boolean;
 export type DrMinBox = number;
@@ -843,14 +781,7 @@ export const CreateServiceProfileRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/service-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/service-profiles" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateServiceProfileRequest",
@@ -1080,14 +1011,7 @@ export const CreateWirelessDeviceRequest = /*@__PURE__*/ S.suspend(() =>
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkCreateWirelessDevice),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/wireless-devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/wireless-devices" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateWirelessDeviceRequest",
@@ -1164,14 +1088,7 @@ export const CreateWirelessGatewayRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/wireless-gateways" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/wireless-gateways" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateWirelessGatewayRequest",
@@ -1289,45 +1206,16 @@ export interface CreateWirelessGatewayTaskDefinitionRequest {
   ClientRequestToken?: string;
   Tags?: Tag[];
 }
-export const CreateWirelessGatewayTaskDefinitionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AutoCreateTasks: S.Boolean,
-      Name: S.optional(S.String),
-      Update: S.optional(UpdateWirelessGatewayTaskCreate),
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      Tags: S.optional(TagList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/wireless-gateway-task-definitions" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "CreateWirelessGatewayTaskDefinitionRequest",
-  }) as any as S.Schema<CreateWirelessGatewayTaskDefinitionRequest>;
-export type WirelessGatewayTaskDefinitionArn = string;
-export interface CreateWirelessGatewayTaskDefinitionResponse {
-  Id?: string;
-  Arn?: string;
-}
-export const CreateWirelessGatewayTaskDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
-  ).annotate({
-    identifier: "CreateWirelessGatewayTaskDefinitionResponse",
-  }) as any as S.Schema<CreateWirelessGatewayTaskDefinitionResponse>;
-export interface DeleteDestinationRequest {
-  Name: string;
-}
-export const DeleteDestinationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+export const CreateWirelessGatewayTaskDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AutoCreateTasks: S.Boolean,
+    Name: S.optional(S.String),
+    Update: S.optional(UpdateWirelessGatewayTaskCreate),
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+  }).pipe(
     T.all(
-      T.Http({ method: "DELETE", uri: "/destinations/{Name}" }),
+      T.Http({ method: "POST", uri: "/wireless-gateway-task-definitions" }),
       svc,
       auth,
       proto,
@@ -1336,12 +1224,30 @@ export const DeleteDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
+  identifier: "CreateWirelessGatewayTaskDefinitionRequest",
+}) as any as S.Schema<CreateWirelessGatewayTaskDefinitionRequest>;
+export type WirelessGatewayTaskDefinitionArn = string;
+export interface CreateWirelessGatewayTaskDefinitionResponse {
+  Id?: string;
+  Arn?: string;
+}
+export const CreateWirelessGatewayTaskDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotate({
+  identifier: "CreateWirelessGatewayTaskDefinitionResponse",
+}) as any as S.Schema<CreateWirelessGatewayTaskDefinitionResponse>;
+export interface DeleteDestinationRequest {
+  Name: string;
+}
+export const DeleteDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(T.Http({ method: "DELETE", uri: "/destinations/{Name}" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
   identifier: "DeleteDestinationRequest",
 }) as any as S.Schema<DeleteDestinationRequest>;
 export interface DeleteDestinationResponse {}
-export const DeleteDestinationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDestinationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDestinationResponse",
 }) as any as S.Schema<DeleteDestinationResponse>;
 export interface DeleteDeviceProfileRequest {
@@ -1349,22 +1255,13 @@ export interface DeleteDeviceProfileRequest {
 }
 export const DeleteDeviceProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/device-profiles/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/device-profiles/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDeviceProfileRequest",
 }) as any as S.Schema<DeleteDeviceProfileRequest>;
 export interface DeleteDeviceProfileResponse {}
-export const DeleteDeviceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDeviceProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDeviceProfileResponse",
 }) as any as S.Schema<DeleteDeviceProfileResponse>;
 export interface DeleteFuotaTaskRequest {
@@ -1372,22 +1269,13 @@ export interface DeleteFuotaTaskRequest {
 }
 export const DeleteFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/fuota-tasks/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/fuota-tasks/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteFuotaTaskRequest",
 }) as any as S.Schema<DeleteFuotaTaskRequest>;
 export interface DeleteFuotaTaskResponse {}
-export const DeleteFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFuotaTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFuotaTaskResponse",
 }) as any as S.Schema<DeleteFuotaTaskResponse>;
 export interface DeleteMulticastGroupRequest {
@@ -1408,39 +1296,37 @@ export const DeleteMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMulticastGroupRequest",
 }) as any as S.Schema<DeleteMulticastGroupRequest>;
 export interface DeleteMulticastGroupResponse {}
-export const DeleteMulticastGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMulticastGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMulticastGroupResponse",
 }) as any as S.Schema<DeleteMulticastGroupResponse>;
 export interface DeleteNetworkAnalyzerConfigurationRequest {
   ConfigurationName: string;
 }
-export const DeleteNetworkAnalyzerConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/network-analyzer-configurations/{ConfigurationName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteNetworkAnalyzerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/network-analyzer-configurations/{ConfigurationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteNetworkAnalyzerConfigurationRequest",
-  }) as any as S.Schema<DeleteNetworkAnalyzerConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "DeleteNetworkAnalyzerConfigurationRequest",
+}) as any as S.Schema<DeleteNetworkAnalyzerConfigurationRequest>;
 export interface DeleteNetworkAnalyzerConfigurationResponse {}
-export const DeleteNetworkAnalyzerConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteNetworkAnalyzerConfigurationResponse",
-  }) as any as S.Schema<DeleteNetworkAnalyzerConfigurationResponse>;
+export const DeleteNetworkAnalyzerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteNetworkAnalyzerConfigurationResponse",
+}) as any as S.Schema<DeleteNetworkAnalyzerConfigurationResponse>;
 export type MessageId = string;
 export interface DeleteQueuedMessagesRequest {
   Id: string;
@@ -1451,9 +1337,7 @@ export const DeleteQueuedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     MessageId: S.String.pipe(T.HttpQuery("messageId")),
-    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(
-      T.HttpQuery("WirelessDeviceType"),
-    ),
+    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(T.HttpQuery("WirelessDeviceType")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/wireless-devices/{Id}/data" }),
@@ -1468,9 +1352,7 @@ export const DeleteQueuedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQueuedMessagesRequest",
 }) as any as S.Schema<DeleteQueuedMessagesRequest>;
 export interface DeleteQueuedMessagesResponse {}
-export const DeleteQueuedMessagesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQueuedMessagesResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQueuedMessagesResponse",
 }) as any as S.Schema<DeleteQueuedMessagesResponse>;
 export interface DeleteServiceProfileRequest {
@@ -1491,9 +1373,7 @@ export const DeleteServiceProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteServiceProfileRequest",
 }) as any as S.Schema<DeleteServiceProfileRequest>;
 export interface DeleteServiceProfileResponse {}
-export const DeleteServiceProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteServiceProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteServiceProfileResponse",
 }) as any as S.Schema<DeleteServiceProfileResponse>;
 export interface DeleteWirelessDeviceRequest {
@@ -1514,33 +1394,30 @@ export const DeleteWirelessDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWirelessDeviceRequest",
 }) as any as S.Schema<DeleteWirelessDeviceRequest>;
 export interface DeleteWirelessDeviceResponse {}
-export const DeleteWirelessDeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWirelessDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWirelessDeviceResponse",
 }) as any as S.Schema<DeleteWirelessDeviceResponse>;
 export type ImportTaskId = string;
 export interface DeleteWirelessDeviceImportTaskRequest {
   Id: string;
 }
-export const DeleteWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/wireless_device_import_task/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/wireless_device_import_task/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteWirelessDeviceImportTaskRequest",
 }) as any as S.Schema<DeleteWirelessDeviceImportTaskRequest>;
 export interface DeleteWirelessDeviceImportTaskResponse {}
-export const DeleteWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteWirelessDeviceImportTaskResponse",
 }) as any as S.Schema<DeleteWirelessDeviceImportTaskResponse>;
@@ -1562,9 +1439,7 @@ export const DeleteWirelessGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWirelessGatewayRequest",
 }) as any as S.Schema<DeleteWirelessGatewayRequest>;
 export interface DeleteWirelessGatewayResponse {}
-export const DeleteWirelessGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWirelessGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWirelessGatewayResponse",
 }) as any as S.Schema<DeleteWirelessGatewayResponse>;
 export interface DeleteWirelessGatewayTaskRequest {
@@ -1593,29 +1468,29 @@ export const DeleteWirelessGatewayTaskResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteWirelessGatewayTaskDefinitionRequest {
   Id: string;
 }
-export const DeleteWirelessGatewayTaskDefinitionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/wireless-gateway-task-definitions/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteWirelessGatewayTaskDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/wireless-gateway-task-definitions/{Id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteWirelessGatewayTaskDefinitionRequest",
-  }) as any as S.Schema<DeleteWirelessGatewayTaskDefinitionRequest>;
+  ),
+).annotate({
+  identifier: "DeleteWirelessGatewayTaskDefinitionRequest",
+}) as any as S.Schema<DeleteWirelessGatewayTaskDefinitionRequest>;
 export interface DeleteWirelessGatewayTaskDefinitionResponse {}
-export const DeleteWirelessGatewayTaskDefinitionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteWirelessGatewayTaskDefinitionResponse",
-  }) as any as S.Schema<DeleteWirelessGatewayTaskDefinitionResponse>;
+export const DeleteWirelessGatewayTaskDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteWirelessGatewayTaskDefinitionResponse",
+}) as any as S.Schema<DeleteWirelessGatewayTaskDefinitionResponse>;
 export type Identifier = string;
 export interface DeregisterWirelessDeviceRequest {
   Identifier: string;
@@ -1624,9 +1499,7 @@ export interface DeregisterWirelessDeviceRequest {
 export const DeregisterWirelessDeviceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(
-      T.HttpQuery("WirelessDeviceType"),
-    ),
+    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(T.HttpQuery("WirelessDeviceType")),
   }).pipe(
     T.all(
       T.Http({
@@ -1657,207 +1530,200 @@ export interface DisassociateAwsAccountFromPartnerAccountRequest {
   PartnerAccountId: string;
   PartnerType: PartnerType;
 }
-export const DisassociateAwsAccountFromPartnerAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PartnerAccountId: S.String.pipe(T.HttpLabel("PartnerAccountId")),
-      PartnerType: PartnerType.pipe(T.HttpQuery("partnerType")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/partner-accounts/{PartnerAccountId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateAwsAccountFromPartnerAccountRequest",
-  }) as any as S.Schema<DisassociateAwsAccountFromPartnerAccountRequest>;
-export interface DisassociateAwsAccountFromPartnerAccountResponse {}
-export const DisassociateAwsAccountFromPartnerAccountResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateAwsAccountFromPartnerAccountResponse",
-  }) as any as S.Schema<DisassociateAwsAccountFromPartnerAccountResponse>;
-export interface DisassociateMulticastGroupFromFuotaTaskRequest {
-  Id: string;
-  MulticastGroupId: string;
-}
-export const DisassociateMulticastGroupFromFuotaTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      MulticastGroupId: S.String.pipe(T.HttpLabel("MulticastGroupId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateMulticastGroupFromFuotaTaskRequest",
-  }) as any as S.Schema<DisassociateMulticastGroupFromFuotaTaskRequest>;
-export interface DisassociateMulticastGroupFromFuotaTaskResponse {}
-export const DisassociateMulticastGroupFromFuotaTaskResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateMulticastGroupFromFuotaTaskResponse",
-  }) as any as S.Schema<DisassociateMulticastGroupFromFuotaTaskResponse>;
-export interface DisassociateWirelessDeviceFromFuotaTaskRequest {
-  Id: string;
-  WirelessDeviceId: string;
-}
-export const DisassociateWirelessDeviceFromFuotaTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateWirelessDeviceFromFuotaTaskRequest",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromFuotaTaskRequest>;
-export interface DisassociateWirelessDeviceFromFuotaTaskResponse {}
-export const DisassociateWirelessDeviceFromFuotaTaskResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateWirelessDeviceFromFuotaTaskResponse",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromFuotaTaskResponse>;
-export interface DisassociateWirelessDeviceFromMulticastGroupRequest {
-  Id: string;
-  WirelessDeviceId: string;
-}
-export const DisassociateWirelessDeviceFromMulticastGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateWirelessDeviceFromMulticastGroupRequest",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromMulticastGroupRequest>;
-export interface DisassociateWirelessDeviceFromMulticastGroupResponse {}
-export const DisassociateWirelessDeviceFromMulticastGroupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateWirelessDeviceFromMulticastGroupResponse",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromMulticastGroupResponse>;
-export interface DisassociateWirelessDeviceFromThingRequest {
-  Id: string;
-}
-export const DisassociateWirelessDeviceFromThingRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/wireless-devices/{Id}/thing" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateWirelessDeviceFromThingRequest",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromThingRequest>;
-export interface DisassociateWirelessDeviceFromThingResponse {}
-export const DisassociateWirelessDeviceFromThingResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateWirelessDeviceFromThingResponse",
-  }) as any as S.Schema<DisassociateWirelessDeviceFromThingResponse>;
-export interface DisassociateWirelessGatewayFromCertificateRequest {
-  Id: string;
-}
-export const DisassociateWirelessGatewayFromCertificateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/wireless-gateways/{Id}/certificate",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateWirelessGatewayFromCertificateRequest",
-  }) as any as S.Schema<DisassociateWirelessGatewayFromCertificateRequest>;
-export interface DisassociateWirelessGatewayFromCertificateResponse {}
-export const DisassociateWirelessGatewayFromCertificateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateWirelessGatewayFromCertificateResponse",
-  }) as any as S.Schema<DisassociateWirelessGatewayFromCertificateResponse>;
-export interface DisassociateWirelessGatewayFromThingRequest {
-  Id: string;
-}
-export const DisassociateWirelessGatewayFromThingRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}/thing" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DisassociateWirelessGatewayFromThingRequest",
-  }) as any as S.Schema<DisassociateWirelessGatewayFromThingRequest>;
-export interface DisassociateWirelessGatewayFromThingResponse {}
-export const DisassociateWirelessGatewayFromThingResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateWirelessGatewayFromThingResponse",
-  }) as any as S.Schema<DisassociateWirelessGatewayFromThingResponse>;
-export interface GetDestinationRequest {
-  Name: string;
-}
-export const GetDestinationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+export const DisassociateAwsAccountFromPartnerAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PartnerAccountId: S.String.pipe(T.HttpLabel("PartnerAccountId")),
+    PartnerType: PartnerType.pipe(T.HttpQuery("partnerType")),
+  }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/destinations/{Name}" }),
+      T.Http({
+        method: "DELETE",
+        uri: "/partner-accounts/{PartnerAccountId}",
+      }),
       svc,
       auth,
       proto,
       ver,
       rules,
     ),
+  ),
+).annotate({
+  identifier: "DisassociateAwsAccountFromPartnerAccountRequest",
+}) as any as S.Schema<DisassociateAwsAccountFromPartnerAccountRequest>;
+export interface DisassociateAwsAccountFromPartnerAccountResponse {}
+export const DisassociateAwsAccountFromPartnerAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateAwsAccountFromPartnerAccountResponse",
+}) as any as S.Schema<DisassociateAwsAccountFromPartnerAccountResponse>;
+export interface DisassociateMulticastGroupFromFuotaTaskRequest {
+  Id: string;
+  MulticastGroupId: string;
+}
+export const DisassociateMulticastGroupFromFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    MulticastGroupId: S.String.pipe(T.HttpLabel("MulticastGroupId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/fuota-tasks/{Id}/multicast-groups/{MulticastGroupId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateMulticastGroupFromFuotaTaskRequest",
+}) as any as S.Schema<DisassociateMulticastGroupFromFuotaTaskRequest>;
+export interface DisassociateMulticastGroupFromFuotaTaskResponse {}
+export const DisassociateMulticastGroupFromFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateMulticastGroupFromFuotaTaskResponse",
+}) as any as S.Schema<DisassociateMulticastGroupFromFuotaTaskResponse>;
+export interface DisassociateWirelessDeviceFromFuotaTaskRequest {
+  Id: string;
+  WirelessDeviceId: string;
+}
+export const DisassociateWirelessDeviceFromFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/fuota-tasks/{Id}/wireless-devices/{WirelessDeviceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromFuotaTaskRequest",
+}) as any as S.Schema<DisassociateWirelessDeviceFromFuotaTaskRequest>;
+export interface DisassociateWirelessDeviceFromFuotaTaskResponse {}
+export const DisassociateWirelessDeviceFromFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromFuotaTaskResponse",
+}) as any as S.Schema<DisassociateWirelessDeviceFromFuotaTaskResponse>;
+export interface DisassociateWirelessDeviceFromMulticastGroupRequest {
+  Id: string;
+  WirelessDeviceId: string;
+}
+export const DisassociateWirelessDeviceFromMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    WirelessDeviceId: S.String.pipe(T.HttpLabel("WirelessDeviceId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/multicast-groups/{Id}/wireless-devices/{WirelessDeviceId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromMulticastGroupRequest",
+}) as any as S.Schema<DisassociateWirelessDeviceFromMulticastGroupRequest>;
+export interface DisassociateWirelessDeviceFromMulticastGroupResponse {}
+export const DisassociateWirelessDeviceFromMulticastGroupResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromMulticastGroupResponse",
+}) as any as S.Schema<DisassociateWirelessDeviceFromMulticastGroupResponse>;
+export interface DisassociateWirelessDeviceFromThingRequest {
+  Id: string;
+}
+export const DisassociateWirelessDeviceFromThingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/wireless-devices/{Id}/thing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromThingRequest",
+}) as any as S.Schema<DisassociateWirelessDeviceFromThingRequest>;
+export interface DisassociateWirelessDeviceFromThingResponse {}
+export const DisassociateWirelessDeviceFromThingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateWirelessDeviceFromThingResponse",
+}) as any as S.Schema<DisassociateWirelessDeviceFromThingResponse>;
+export interface DisassociateWirelessGatewayFromCertificateRequest {
+  Id: string;
+}
+export const DisassociateWirelessGatewayFromCertificateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/wireless-gateways/{Id}/certificate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateWirelessGatewayFromCertificateRequest",
+}) as any as S.Schema<DisassociateWirelessGatewayFromCertificateRequest>;
+export interface DisassociateWirelessGatewayFromCertificateResponse {}
+export const DisassociateWirelessGatewayFromCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateWirelessGatewayFromCertificateResponse",
+}) as any as S.Schema<DisassociateWirelessGatewayFromCertificateResponse>;
+export interface DisassociateWirelessGatewayFromThingRequest {
+  Id: string;
+}
+export const DisassociateWirelessGatewayFromThingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "DELETE", uri: "/wireless-gateways/{Id}/thing" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisassociateWirelessGatewayFromThingRequest",
+}) as any as S.Schema<DisassociateWirelessGatewayFromThingRequest>;
+export interface DisassociateWirelessGatewayFromThingResponse {}
+export const DisassociateWirelessGatewayFromThingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateWirelessGatewayFromThingResponse",
+}) as any as S.Schema<DisassociateWirelessGatewayFromThingResponse>;
+export interface GetDestinationRequest {
+  Name: string;
+}
+export const GetDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/destinations/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDestinationRequest",
@@ -1887,14 +1753,7 @@ export interface GetDeviceProfileRequest {
 }
 export const GetDeviceProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/device-profiles/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/device-profiles/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeviceProfileRequest",
@@ -1925,9 +1784,7 @@ export const DakCertificateMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "DakCertificateMetadata",
 }) as any as S.Schema<DakCertificateMetadata>;
 export type DakCertificateMetadataList = DakCertificateMetadata[];
-export const DakCertificateMetadataList = /*@__PURE__*/ S.Array(
-  DakCertificateMetadata,
-);
+export const DakCertificateMetadataList = /*@__PURE__*/ S.Array(DakCertificateMetadata);
 export interface SidewalkGetDeviceProfile {
   ApplicationServerPublicKey?: string | redacted.Redacted<string>;
   QualificationStatus?: boolean;
@@ -1961,67 +1818,59 @@ export const GetDeviceProfileResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDeviceProfileResponse",
 }) as any as S.Schema<GetDeviceProfileResponse>;
 export interface GetEventConfigurationByResourceTypesRequest {}
-export const GetEventConfigurationByResourceTypesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/event-configurations-resource-types" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetEventConfigurationByResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/event-configurations-resource-types" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetEventConfigurationByResourceTypesRequest",
-  }) as any as S.Schema<GetEventConfigurationByResourceTypesRequest>;
-export type EventNotificationTopicStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+  ),
+).annotate({
+  identifier: "GetEventConfigurationByResourceTypesRequest",
+}) as any as S.Schema<GetEventConfigurationByResourceTypesRequest>;
+export type EventNotificationTopicStatus = "Enabled" | "Disabled" | (string & {});
 export const EventNotificationTopicStatus = S.String;
 
 export interface SidewalkResourceTypeEventConfiguration {
   WirelessDeviceEventTopic?: EventNotificationTopicStatus;
 }
-export const SidewalkResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      WirelessDeviceEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
+export const SidewalkResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    WirelessDeviceEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
 ).annotate({
   identifier: "SidewalkResourceTypeEventConfiguration",
 }) as any as S.Schema<SidewalkResourceTypeEventConfiguration>;
 export interface DeviceRegistrationStateResourceTypeEventConfiguration {
   Sidewalk?: SidewalkResourceTypeEventConfiguration;
 }
-export const DeviceRegistrationStateResourceTypeEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
-  ).annotate({
-    identifier: "DeviceRegistrationStateResourceTypeEventConfiguration",
-  }) as any as S.Schema<DeviceRegistrationStateResourceTypeEventConfiguration>;
+export const DeviceRegistrationStateResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
+).annotate({
+  identifier: "DeviceRegistrationStateResourceTypeEventConfiguration",
+}) as any as S.Schema<DeviceRegistrationStateResourceTypeEventConfiguration>;
 export interface ProximityResourceTypeEventConfiguration {
   Sidewalk?: SidewalkResourceTypeEventConfiguration;
 }
-export const ProximityResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
+export const ProximityResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
 ).annotate({
   identifier: "ProximityResourceTypeEventConfiguration",
 }) as any as S.Schema<ProximityResourceTypeEventConfiguration>;
 export interface LoRaWANJoinResourceTypeEventConfiguration {
   WirelessDeviceEventTopic?: EventNotificationTopicStatus;
 }
-export const LoRaWANJoinResourceTypeEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      WirelessDeviceEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
-  ).annotate({
-    identifier: "LoRaWANJoinResourceTypeEventConfiguration",
-  }) as any as S.Schema<LoRaWANJoinResourceTypeEventConfiguration>;
+export const LoRaWANJoinResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    WirelessDeviceEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
+).annotate({
+  identifier: "LoRaWANJoinResourceTypeEventConfiguration",
+}) as any as S.Schema<LoRaWANJoinResourceTypeEventConfiguration>;
 export interface JoinResourceTypeEventConfiguration {
   LoRaWAN?: LoRaWANJoinResourceTypeEventConfiguration;
 }
@@ -2033,36 +1882,31 @@ export const JoinResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface LoRaWANConnectionStatusResourceTypeEventConfiguration {
   WirelessGatewayEventTopic?: EventNotificationTopicStatus;
 }
-export const LoRaWANConnectionStatusResourceTypeEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      WirelessGatewayEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
-  ).annotate({
-    identifier: "LoRaWANConnectionStatusResourceTypeEventConfiguration",
-  }) as any as S.Schema<LoRaWANConnectionStatusResourceTypeEventConfiguration>;
+export const LoRaWANConnectionStatusResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    WirelessGatewayEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
+).annotate({
+  identifier: "LoRaWANConnectionStatusResourceTypeEventConfiguration",
+}) as any as S.Schema<LoRaWANConnectionStatusResourceTypeEventConfiguration>;
 export interface ConnectionStatusResourceTypeEventConfiguration {
   LoRaWAN?: LoRaWANConnectionStatusResourceTypeEventConfiguration;
 }
-export const ConnectionStatusResourceTypeEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      LoRaWAN: S.optional(
-        LoRaWANConnectionStatusResourceTypeEventConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "ConnectionStatusResourceTypeEventConfiguration",
-  }) as any as S.Schema<ConnectionStatusResourceTypeEventConfiguration>;
+export const ConnectionStatusResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoRaWAN: S.optional(LoRaWANConnectionStatusResourceTypeEventConfiguration),
+  }),
+).annotate({
+  identifier: "ConnectionStatusResourceTypeEventConfiguration",
+}) as any as S.Schema<ConnectionStatusResourceTypeEventConfiguration>;
 export interface MessageDeliveryStatusResourceTypeEventConfiguration {
   Sidewalk?: SidewalkResourceTypeEventConfiguration;
 }
-export const MessageDeliveryStatusResourceTypeEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
-  ).annotate({
-    identifier: "MessageDeliveryStatusResourceTypeEventConfiguration",
-  }) as any as S.Schema<MessageDeliveryStatusResourceTypeEventConfiguration>;
+export const MessageDeliveryStatusResourceTypeEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Sidewalk: S.optional(SidewalkResourceTypeEventConfiguration) }),
+).annotate({
+  identifier: "MessageDeliveryStatusResourceTypeEventConfiguration",
+}) as any as S.Schema<MessageDeliveryStatusResourceTypeEventConfiguration>;
 export interface GetEventConfigurationByResourceTypesResponse {
   DeviceRegistrationState?: DeviceRegistrationStateResourceTypeEventConfiguration;
   Proximity?: ProximityResourceTypeEventConfiguration;
@@ -2070,37 +1914,23 @@ export interface GetEventConfigurationByResourceTypesResponse {
   ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration;
   MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration;
 }
-export const GetEventConfigurationByResourceTypesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DeviceRegistrationState: S.optional(
-        DeviceRegistrationStateResourceTypeEventConfiguration,
-      ),
-      Proximity: S.optional(ProximityResourceTypeEventConfiguration),
-      Join: S.optional(JoinResourceTypeEventConfiguration),
-      ConnectionStatus: S.optional(
-        ConnectionStatusResourceTypeEventConfiguration,
-      ),
-      MessageDeliveryStatus: S.optional(
-        MessageDeliveryStatusResourceTypeEventConfiguration,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetEventConfigurationByResourceTypesResponse",
-  }) as any as S.Schema<GetEventConfigurationByResourceTypesResponse>;
+export const GetEventConfigurationByResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeviceRegistrationState: S.optional(DeviceRegistrationStateResourceTypeEventConfiguration),
+    Proximity: S.optional(ProximityResourceTypeEventConfiguration),
+    Join: S.optional(JoinResourceTypeEventConfiguration),
+    ConnectionStatus: S.optional(ConnectionStatusResourceTypeEventConfiguration),
+    MessageDeliveryStatus: S.optional(MessageDeliveryStatusResourceTypeEventConfiguration),
+  }),
+).annotate({
+  identifier: "GetEventConfigurationByResourceTypesResponse",
+}) as any as S.Schema<GetEventConfigurationByResourceTypesResponse>;
 export interface GetFuotaTaskRequest {
   Id: string;
 }
 export const GetFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/fuota-tasks/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/fuota-tasks/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetFuotaTaskRequest",
@@ -2122,9 +1952,7 @@ export interface LoRaWANFuotaTaskGetInfo {
 export const LoRaWANFuotaTaskGetInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RfRegion: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "LoRaWANFuotaTaskGetInfo",
@@ -2167,14 +1995,7 @@ export const GetFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetLogLevelsByResourceTypesRequest {}
 export const GetLogLevelsByResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/log-levels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/log-levels" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetLogLevelsByResourceTypesRequest",
@@ -2182,10 +2003,7 @@ export const GetLogLevelsByResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
 export type WirelessGatewayType = "LoRaWAN" | (string & {});
 export const WirelessGatewayType = S.String;
 
-export type WirelessGatewayEvent =
-  | "CUPS_Request"
-  | "Certificate"
-  | (string & {});
+export type WirelessGatewayEvent = "CUPS_Request" | "Certificate" | (string & {});
 export const WirelessGatewayEvent = S.String;
 
 export interface WirelessGatewayEventLogOption {
@@ -2216,9 +2034,7 @@ export const WirelessGatewayLogOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessGatewayLogOption",
 }) as any as S.Schema<WirelessGatewayLogOption>;
 export type WirelessGatewayLogOptionList = WirelessGatewayLogOption[];
-export const WirelessGatewayLogOptionList = /*@__PURE__*/ S.Array(
-  WirelessGatewayLogOption,
-);
+export const WirelessGatewayLogOptionList = /*@__PURE__*/ S.Array(WirelessGatewayLogOption);
 export type WirelessDeviceEvent =
   | "Join"
   | "Rejoin"
@@ -2238,9 +2054,7 @@ export const WirelessDeviceEventLogOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessDeviceEventLogOption",
 }) as any as S.Schema<WirelessDeviceEventLogOption>;
 export type WirelessDeviceEventLogOptionList = WirelessDeviceEventLogOption[];
-export const WirelessDeviceEventLogOptionList = /*@__PURE__*/ S.Array(
-  WirelessDeviceEventLogOption,
-);
+export const WirelessDeviceEventLogOptionList = /*@__PURE__*/ S.Array(WirelessDeviceEventLogOption);
 export interface WirelessDeviceLogOption {
   Type: WirelessDeviceType;
   LogLevel: LogLevel;
@@ -2256,9 +2070,7 @@ export const WirelessDeviceLogOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessDeviceLogOption",
 }) as any as S.Schema<WirelessDeviceLogOption>;
 export type WirelessDeviceLogOptionList = WirelessDeviceLogOption[];
-export const WirelessDeviceLogOptionList = /*@__PURE__*/ S.Array(
-  WirelessDeviceLogOption,
-);
+export const WirelessDeviceLogOptionList = /*@__PURE__*/ S.Array(WirelessDeviceLogOption);
 export type FuotaTaskType = "LoRaWAN" | (string & {});
 export const FuotaTaskType = S.String;
 
@@ -2275,9 +2087,7 @@ export const FuotaTaskEventLogOption = /*@__PURE__*/ S.suspend(() =>
   identifier: "FuotaTaskEventLogOption",
 }) as any as S.Schema<FuotaTaskEventLogOption>;
 export type FuotaTaskEventLogOptionList = FuotaTaskEventLogOption[];
-export const FuotaTaskEventLogOptionList = /*@__PURE__*/ S.Array(
-  FuotaTaskEventLogOption,
-);
+export const FuotaTaskEventLogOptionList = /*@__PURE__*/ S.Array(FuotaTaskEventLogOption);
 export interface FuotaTaskLogOption {
   Type: FuotaTaskType;
   LogLevel: LogLevel;
@@ -2313,22 +2123,12 @@ export const GetLogLevelsByResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetMetricConfigurationRequest {}
 export const GetMetricConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/metric-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/metric-configuration" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMetricConfigurationRequest",
 }) as any as S.Schema<GetMetricConfigurationRequest>;
-export type SummaryMetricConfigurationStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type SummaryMetricConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export const SummaryMetricConfigurationStatus = S.String;
 
 export interface SummaryMetricConfiguration {
@@ -2397,11 +2197,7 @@ export const Dimension = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Dimension" }) as any as S.Schema<Dimension>;
 export type Dimensions = Dimension[];
 export const Dimensions = /*@__PURE__*/ S.Array(Dimension);
-export type AggregationPeriod =
-  | "OneHour"
-  | "OneDay"
-  | "OneWeek"
-  | (string & {});
+export type AggregationPeriod = "OneHour" | "OneDay" | "OneWeek" | (string & {});
 export const AggregationPeriod = S.String;
 
 export type MetricQueryStartTimestamp = Date;
@@ -2433,14 +2229,7 @@ export interface GetMetricsRequest {
 }
 export const GetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SummaryMetricQueries: S.optional(SummaryMetricQueries) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/metrics" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMetricsRequest",
@@ -2514,9 +2303,7 @@ export const SummaryMetricQueryResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "SummaryMetricQueryResult",
 }) as any as S.Schema<SummaryMetricQueryResult>;
 export type SummaryMetricQueryResults = SummaryMetricQueryResult[];
-export const SummaryMetricQueryResults = /*@__PURE__*/ S.Array(
-  SummaryMetricQueryResult,
-);
+export const SummaryMetricQueryResults = /*@__PURE__*/ S.Array(SummaryMetricQueryResult);
 export interface GetMetricsResponse {
   SummaryMetricQueryResults?: SummaryMetricQueryResult[];
 }
@@ -2532,14 +2319,7 @@ export interface GetMulticastGroupRequest {
 }
 export const GetMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/multicast-groups/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/multicast-groups/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMulticastGroupRequest",
@@ -2619,9 +2399,7 @@ export const LoRaWANMulticastSession = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DlDr: S.optional(S.Number),
     DlFreq: S.optional(S.Number),
-    SessionStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    SessionStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     SessionTimeout: S.optional(S.Number),
     PingSlotPeriod: S.optional(S.Number),
   }),
@@ -2639,23 +2417,22 @@ export const GetMulticastGroupSessionResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetNetworkAnalyzerConfigurationRequest {
   ConfigurationName: string;
 }
-export const GetNetworkAnalyzerConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/network-analyzer-configurations/{ConfigurationName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetNetworkAnalyzerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/network-analyzer-configurations/{ConfigurationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetNetworkAnalyzerConfigurationRequest",
 }) as any as S.Schema<GetNetworkAnalyzerConfigurationRequest>;
@@ -2668,17 +2445,16 @@ export interface GetNetworkAnalyzerConfigurationResponse {
   Name?: string;
   MulticastGroups?: string[];
 }
-export const GetNetworkAnalyzerConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TraceContent: S.optional(TraceContent),
-      WirelessDevices: S.optional(WirelessDeviceList),
-      WirelessGateways: S.optional(WirelessGatewayList),
-      Description: S.optional(S.String),
-      Arn: S.optional(S.String),
-      Name: S.optional(S.String),
-      MulticastGroups: S.optional(NetworkAnalyzerMulticastGroupList),
-    }),
+export const GetNetworkAnalyzerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TraceContent: S.optional(TraceContent),
+    WirelessDevices: S.optional(WirelessDeviceList),
+    WirelessGateways: S.optional(WirelessGatewayList),
+    Description: S.optional(S.String),
+    Arn: S.optional(S.String),
+    Name: S.optional(S.String),
+    MulticastGroups: S.optional(NetworkAnalyzerMulticastGroupList),
+  }),
 ).annotate({
   identifier: "GetNetworkAnalyzerConfigurationResponse",
 }) as any as S.Schema<GetNetworkAnalyzerConfigurationResponse>;
@@ -2732,10 +2508,7 @@ export const GetPartnerAccountResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetPartnerAccountResponse",
 }) as any as S.Schema<GetPartnerAccountResponse>;
 export type PositionResourceIdentifier = string;
-export type PositionResourceType =
-  | "WirelessDevice"
-  | "WirelessGateway"
-  | (string & {});
+export type PositionResourceType = "WirelessDevice" | "WirelessGateway" | (string & {});
 export const PositionResourceType = S.String;
 
 export interface GetPositionRequest {
@@ -2826,10 +2599,7 @@ export const GetPositionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetPositionConfigurationRequest",
 }) as any as S.Schema<GetPositionConfigurationRequest>;
-export type PositionConfigurationStatus =
-  | "Enabled"
-  | "Disabled"
-  | (string & {});
+export type PositionConfigurationStatus = "Enabled" | "Disabled" | (string & {});
 export const PositionConfigurationStatus = S.String;
 
 export type PositionConfigurationFec = "ROSE" | "NONE" | (string & {});
@@ -3193,9 +2963,9 @@ export type IPAddress = string;
 export interface Ip {
   IpAddress: string;
 }
-export const Ip = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ IpAddress: S.String }),
-).annotate({ identifier: "Ip" }) as any as S.Schema<Ip>;
+export const Ip = /*@__PURE__*/ S.suspend(() => S.Struct({ IpAddress: S.String })).annotate({
+  identifier: "Ip",
+}) as any as S.Schema<Ip>;
 export type GnssNav = string;
 export type GPST = number;
 export type CaptureTimeAccuracy = number;
@@ -3254,14 +3024,7 @@ export const GetPositionEstimateRequest = /*@__PURE__*/ S.suspend(() =>
     Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AdvancedConfiguration: S.optional(AdvancedConfiguration),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/position-estimate" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/position-estimate" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPositionEstimateRequest",
@@ -3293,33 +3056,29 @@ export interface GetResourceEventConfigurationRequest {
   IdentifierType: IdentifierType;
   PartnerType?: EventNotificationPartnerType;
 }
-export const GetResourceEventConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-      IdentifierType: IdentifierType.pipe(T.HttpQuery("identifierType")),
-      PartnerType: S.optional(EventNotificationPartnerType).pipe(
-        T.HttpQuery("partnerType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/event-configurations/{Identifier}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetResourceEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    IdentifierType: IdentifierType.pipe(T.HttpQuery("identifierType")),
+    PartnerType: S.optional(EventNotificationPartnerType).pipe(T.HttpQuery("partnerType")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/event-configurations/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetResourceEventConfigurationRequest",
 }) as any as S.Schema<GetResourceEventConfigurationRequest>;
 export interface SidewalkEventNotificationConfigurations {
   AmazonIdEventTopic?: EventNotificationTopicStatus;
 }
-export const SidewalkEventNotificationConfigurations = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AmazonIdEventTopic: S.optional(EventNotificationTopicStatus) }),
+export const SidewalkEventNotificationConfigurations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AmazonIdEventTopic: S.optional(EventNotificationTopicStatus) }),
 ).annotate({
   identifier: "SidewalkEventNotificationConfigurations",
 }) as any as S.Schema<SidewalkEventNotificationConfigurations>;
@@ -3327,15 +3086,14 @@ export interface DeviceRegistrationStateEventConfiguration {
   Sidewalk?: SidewalkEventNotificationConfigurations;
   WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
 }
-export const DeviceRegistrationStateEventConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Sidewalk: S.optional(SidewalkEventNotificationConfigurations),
-      WirelessDeviceIdEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
-  ).annotate({
-    identifier: "DeviceRegistrationStateEventConfiguration",
-  }) as any as S.Schema<DeviceRegistrationStateEventConfiguration>;
+export const DeviceRegistrationStateEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sidewalk: S.optional(SidewalkEventNotificationConfigurations),
+    WirelessDeviceIdEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
+).annotate({
+  identifier: "DeviceRegistrationStateEventConfiguration",
+}) as any as S.Schema<DeviceRegistrationStateEventConfiguration>;
 export interface ProximityEventConfiguration {
   Sidewalk?: SidewalkEventNotificationConfigurations;
   WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
@@ -3351,12 +3109,11 @@ export const ProximityEventConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface LoRaWANJoinEventNotificationConfigurations {
   DevEuiEventTopic?: EventNotificationTopicStatus;
 }
-export const LoRaWANJoinEventNotificationConfigurations =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DevEuiEventTopic: S.optional(EventNotificationTopicStatus) }),
-  ).annotate({
-    identifier: "LoRaWANJoinEventNotificationConfigurations",
-  }) as any as S.Schema<LoRaWANJoinEventNotificationConfigurations>;
+export const LoRaWANJoinEventNotificationConfigurations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DevEuiEventTopic: S.optional(EventNotificationTopicStatus) }),
+).annotate({
+  identifier: "LoRaWANJoinEventNotificationConfigurations",
+}) as any as S.Schema<LoRaWANJoinEventNotificationConfigurations>;
 export interface JoinEventConfiguration {
   LoRaWAN?: LoRaWANJoinEventNotificationConfigurations;
   WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
@@ -3372,14 +3129,13 @@ export const JoinEventConfiguration = /*@__PURE__*/ S.suspend(() =>
 export interface LoRaWANConnectionStatusEventNotificationConfigurations {
   GatewayEuiEventTopic?: EventNotificationTopicStatus;
 }
-export const LoRaWANConnectionStatusEventNotificationConfigurations =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      GatewayEuiEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
-  ).annotate({
-    identifier: "LoRaWANConnectionStatusEventNotificationConfigurations",
-  }) as any as S.Schema<LoRaWANConnectionStatusEventNotificationConfigurations>;
+export const LoRaWANConnectionStatusEventNotificationConfigurations = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    GatewayEuiEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
+).annotate({
+  identifier: "LoRaWANConnectionStatusEventNotificationConfigurations",
+}) as any as S.Schema<LoRaWANConnectionStatusEventNotificationConfigurations>;
 export interface ConnectionStatusEventConfiguration {
   LoRaWAN?: LoRaWANConnectionStatusEventNotificationConfigurations;
   WirelessGatewayIdEventTopic?: EventNotificationTopicStatus;
@@ -3396,12 +3152,11 @@ export interface MessageDeliveryStatusEventConfiguration {
   Sidewalk?: SidewalkEventNotificationConfigurations;
   WirelessDeviceIdEventTopic?: EventNotificationTopicStatus;
 }
-export const MessageDeliveryStatusEventConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Sidewalk: S.optional(SidewalkEventNotificationConfigurations),
-      WirelessDeviceIdEventTopic: S.optional(EventNotificationTopicStatus),
-    }),
+export const MessageDeliveryStatusEventConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Sidewalk: S.optional(SidewalkEventNotificationConfigurations),
+    WirelessDeviceIdEventTopic: S.optional(EventNotificationTopicStatus),
+  }),
 ).annotate({
   identifier: "MessageDeliveryStatusEventConfiguration",
 }) as any as S.Schema<MessageDeliveryStatusEventConfiguration>;
@@ -3412,19 +3167,14 @@ export interface GetResourceEventConfigurationResponse {
   ConnectionStatus?: ConnectionStatusEventConfiguration;
   MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration;
 }
-export const GetResourceEventConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DeviceRegistrationState: S.optional(
-        DeviceRegistrationStateEventConfiguration,
-      ),
-      Proximity: S.optional(ProximityEventConfiguration),
-      Join: S.optional(JoinEventConfiguration),
-      ConnectionStatus: S.optional(ConnectionStatusEventConfiguration),
-      MessageDeliveryStatus: S.optional(
-        MessageDeliveryStatusEventConfiguration,
-      ),
-    }),
+export const GetResourceEventConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeviceRegistrationState: S.optional(DeviceRegistrationStateEventConfiguration),
+    Proximity: S.optional(ProximityEventConfiguration),
+    Join: S.optional(JoinEventConfiguration),
+    ConnectionStatus: S.optional(ConnectionStatusEventConfiguration),
+    MessageDeliveryStatus: S.optional(MessageDeliveryStatusEventConfiguration),
+  }),
 ).annotate({
   identifier: "GetResourceEventConfigurationResponse",
 }) as any as S.Schema<GetResourceEventConfigurationResponse>;
@@ -3501,19 +3251,8 @@ export interface GetServiceEndpointRequest {
 }
 export const GetServiceEndpointRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ServiceType: S.optional(WirelessGatewayServiceType).pipe(
-      T.HttpQuery("serviceType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/service-endpoint" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    ServiceType: S.optional(WirelessGatewayServiceType).pipe(T.HttpQuery("serviceType")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/service-endpoint" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetServiceEndpointRequest",
 }) as any as S.Schema<GetServiceEndpointRequest>;
@@ -3538,14 +3277,7 @@ export interface GetServiceProfileRequest {
 }
 export const GetServiceProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/service-profiles/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/service-profiles/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetServiceProfileRequest",
@@ -3816,9 +3548,7 @@ export const GetWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
     DestinationName: S.optional(S.String),
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkGetStartImportInfo),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(ImportTaskStatus),
     StatusReason: S.optional(S.String),
     InitializedImportedDeviceCount: S.optional(S.Number),
@@ -3866,9 +3596,7 @@ export const LoRaWANGatewayMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "LoRaWANGatewayMetadata",
 }) as any as S.Schema<LoRaWANGatewayMetadata>;
 export type LoRaWANGatewayMetadataList = LoRaWANGatewayMetadata[];
-export const LoRaWANGatewayMetadataList = /*@__PURE__*/ S.Array(
-  LoRaWANGatewayMetadata,
-);
+export const LoRaWANGatewayMetadataList = /*@__PURE__*/ S.Array(LoRaWANGatewayMetadata);
 export type ProviderNetId = string;
 export type Id = string;
 export type DlAllowed = boolean;
@@ -3893,9 +3621,7 @@ export const LoRaWANPublicGatewayMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "LoRaWANPublicGatewayMetadata",
 }) as any as S.Schema<LoRaWANPublicGatewayMetadata>;
 export type LoRaWANPublicGatewayMetadataList = LoRaWANPublicGatewayMetadata[];
-export const LoRaWANPublicGatewayMetadataList = /*@__PURE__*/ S.Array(
-  LoRaWANPublicGatewayMetadata,
-);
+export const LoRaWANPublicGatewayMetadataList = /*@__PURE__*/ S.Array(LoRaWANPublicGatewayMetadata);
 export interface LoRaWANDeviceMetadata {
   DevEui?: string;
   FPort?: number;
@@ -3921,13 +3647,7 @@ export const LoRaWANDeviceMetadata = /*@__PURE__*/ S.suspend(() =>
 export type BatteryLevel = "normal" | "low" | "critical" | (string & {});
 export const BatteryLevel = S.String;
 
-export type Event =
-  | "discovered"
-  | "lost"
-  | "ack"
-  | "nack"
-  | "passthrough"
-  | (string & {});
+export type Event = "discovered" | "lost" | "ack" | "nack" | "passthrough" | (string & {});
 export const Event = S.String;
 
 export type DeviceState =
@@ -4023,18 +3743,17 @@ export const GetWirelessGatewayResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetWirelessGatewayCertificateRequest {
   Id: string;
 }
-export const GetWirelessGatewayCertificateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/wireless-gateways/{Id}/certificate" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetWirelessGatewayCertificateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/wireless-gateways/{Id}/certificate" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetWirelessGatewayCertificateRequest",
 }) as any as S.Schema<GetWirelessGatewayCertificateRequest>;
@@ -4042,36 +3761,34 @@ export interface GetWirelessGatewayCertificateResponse {
   IotCertificateId?: string;
   LoRaWANNetworkServerCertificateId?: string;
 }
-export const GetWirelessGatewayCertificateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      IotCertificateId: S.optional(S.String),
-      LoRaWANNetworkServerCertificateId: S.optional(S.String),
-    }),
+export const GetWirelessGatewayCertificateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IotCertificateId: S.optional(S.String),
+    LoRaWANNetworkServerCertificateId: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetWirelessGatewayCertificateResponse",
 }) as any as S.Schema<GetWirelessGatewayCertificateResponse>;
 export interface GetWirelessGatewayFirmwareInformationRequest {
   Id: string;
 }
-export const GetWirelessGatewayFirmwareInformationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/wireless-gateways/{Id}/firmware-information",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetWirelessGatewayFirmwareInformationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/wireless-gateways/{Id}/firmware-information",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetWirelessGatewayFirmwareInformationRequest",
-  }) as any as S.Schema<GetWirelessGatewayFirmwareInformationRequest>;
+  ),
+).annotate({
+  identifier: "GetWirelessGatewayFirmwareInformationRequest",
+}) as any as S.Schema<GetWirelessGatewayFirmwareInformationRequest>;
 export interface LoRaWANGatewayCurrentVersion {
   CurrentVersion?: LoRaWANGatewayVersion;
 }
@@ -4083,12 +3800,11 @@ export const LoRaWANGatewayCurrentVersion = /*@__PURE__*/ S.suspend(() =>
 export interface GetWirelessGatewayFirmwareInformationResponse {
   LoRaWAN?: LoRaWANGatewayCurrentVersion;
 }
-export const GetWirelessGatewayFirmwareInformationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ LoRaWAN: S.optional(LoRaWANGatewayCurrentVersion) }),
-  ).annotate({
-    identifier: "GetWirelessGatewayFirmwareInformationResponse",
-  }) as any as S.Schema<GetWirelessGatewayFirmwareInformationResponse>;
+export const GetWirelessGatewayFirmwareInformationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ LoRaWAN: S.optional(LoRaWANGatewayCurrentVersion) }),
+).annotate({
+  identifier: "GetWirelessGatewayFirmwareInformationResponse",
+}) as any as S.Schema<GetWirelessGatewayFirmwareInformationResponse>;
 export interface GetWirelessGatewayStatisticsRequest {
   WirelessGatewayId: string;
 }
@@ -4119,13 +3835,12 @@ export interface GetWirelessGatewayStatisticsResponse {
   LastUplinkReceivedAt?: string;
   ConnectionStatus?: ConnectionStatus;
 }
-export const GetWirelessGatewayStatisticsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      WirelessGatewayId: S.optional(S.String),
-      LastUplinkReceivedAt: S.optional(S.String),
-      ConnectionStatus: S.optional(ConnectionStatus),
-    }),
+export const GetWirelessGatewayStatisticsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    WirelessGatewayId: S.optional(S.String),
+    LastUplinkReceivedAt: S.optional(S.String),
+    ConnectionStatus: S.optional(ConnectionStatus),
+  }),
 ).annotate({
   identifier: "GetWirelessGatewayStatisticsResponse",
 }) as any as S.Schema<GetWirelessGatewayStatisticsResponse>;
@@ -4167,21 +3882,20 @@ export const GetWirelessGatewayTaskResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetWirelessGatewayTaskDefinitionRequest {
   Id: string;
 }
-export const GetWirelessGatewayTaskDefinitionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/wireless-gateway-task-definitions/{Id}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetWirelessGatewayTaskDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.String.pipe(T.HttpLabel("Id")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/wireless-gateway-task-definitions/{Id}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetWirelessGatewayTaskDefinitionRequest",
 }) as any as S.Schema<GetWirelessGatewayTaskDefinitionRequest>;
@@ -4191,14 +3905,13 @@ export interface GetWirelessGatewayTaskDefinitionResponse {
   Update?: UpdateWirelessGatewayTaskCreate;
   Arn?: string;
 }
-export const GetWirelessGatewayTaskDefinitionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AutoCreateTasks: S.optional(S.Boolean),
-      Name: S.optional(S.String),
-      Update: S.optional(UpdateWirelessGatewayTaskCreate),
-      Arn: S.optional(S.String),
-    }),
+export const GetWirelessGatewayTaskDefinitionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AutoCreateTasks: S.optional(S.Boolean),
+    Name: S.optional(S.String),
+    Update: S.optional(UpdateWirelessGatewayTaskCreate),
+    Arn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetWirelessGatewayTaskDefinitionResponse",
 }) as any as S.Schema<GetWirelessGatewayTaskDefinitionResponse>;
@@ -4212,16 +3925,7 @@ export const ListDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/destinations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/destinations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDestinationsRequest",
 }) as any as S.Schema<ListDestinationsRequest>;
@@ -4269,19 +3973,8 @@ export const ListDeviceProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    DeviceProfileType: S.optional(DeviceProfileType).pipe(
-      T.HttpQuery("deviceProfileType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/device-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    DeviceProfileType: S.optional(DeviceProfileType).pipe(T.HttpQuery("deviceProfileType")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/device-profiles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDeviceProfilesRequest",
 }) as any as S.Schema<ListDeviceProfilesRequest>;
@@ -4311,12 +4004,7 @@ export const ListDeviceProfilesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDeviceProfilesResponse",
 }) as any as S.Schema<ListDeviceProfilesResponse>;
-export type OnboardStatus =
-  | "INITIALIZED"
-  | "PENDING"
-  | "ONBOARDED"
-  | "FAILED"
-  | (string & {});
+export type OnboardStatus = "INITIALIZED" | "PENDING" | "ONBOARDED" | "FAILED" | (string & {});
 export const OnboardStatus = S.String;
 
 export interface ListDevicesForWirelessDeviceImportTaskRequest {
@@ -4325,26 +4013,25 @@ export interface ListDevicesForWirelessDeviceImportTaskRequest {
   NextToken?: string;
   Status?: OnboardStatus;
 }
-export const ListDevicesForWirelessDeviceImportTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpQuery("id")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      Status: S.optional(OnboardStatus).pipe(T.HttpQuery("status")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/wireless_device_import_task" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDevicesForWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpQuery("id")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    Status: S.optional(OnboardStatus).pipe(T.HttpQuery("status")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/wireless_device_import_task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListDevicesForWirelessDeviceImportTaskRequest",
-  }) as any as S.Schema<ListDevicesForWirelessDeviceImportTaskRequest>;
+  ),
+).annotate({
+  identifier: "ListDevicesForWirelessDeviceImportTaskRequest",
+}) as any as S.Schema<ListDevicesForWirelessDeviceImportTaskRequest>;
 export interface SidewalkListDevicesForImportInfo {
   Positioning?: SidewalkPositioning;
 }
@@ -4366,9 +4053,7 @@ export const ImportedSidewalkDevice = /*@__PURE__*/ S.suspend(() =>
     SidewalkManufacturingSn: S.optional(S.String),
     OnboardingStatus: S.optional(OnboardStatus),
     OnboardingStatusReason: S.optional(S.String),
-    LastUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ImportedSidewalkDevice",
@@ -4382,9 +4067,7 @@ export const ImportedWirelessDevice = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportedWirelessDevice",
 }) as any as S.Schema<ImportedWirelessDevice>;
 export type ImportedWirelessDeviceList = ImportedWirelessDevice[];
-export const ImportedWirelessDeviceList = /*@__PURE__*/ S.Array(
-  ImportedWirelessDevice,
-);
+export const ImportedWirelessDeviceList = /*@__PURE__*/ S.Array(ImportedWirelessDevice);
 export interface ListDevicesForWirelessDeviceImportTaskResponse {
   NextToken?: string;
   DestinationName?: string;
@@ -4392,18 +4075,17 @@ export interface ListDevicesForWirelessDeviceImportTaskResponse {
   Sidewalk?: SidewalkListDevicesForImportInfo;
   ImportedWirelessDeviceList?: ImportedWirelessDevice[];
 }
-export const ListDevicesForWirelessDeviceImportTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      DestinationName: S.optional(S.String),
-      Positioning: S.optional(PositioningConfigStatus),
-      Sidewalk: S.optional(SidewalkListDevicesForImportInfo),
-      ImportedWirelessDeviceList: S.optional(ImportedWirelessDeviceList),
-    }),
-  ).annotate({
-    identifier: "ListDevicesForWirelessDeviceImportTaskResponse",
-  }) as any as S.Schema<ListDevicesForWirelessDeviceImportTaskResponse>;
+export const ListDevicesForWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    DestinationName: S.optional(S.String),
+    Positioning: S.optional(PositioningConfigStatus),
+    Sidewalk: S.optional(SidewalkListDevicesForImportInfo),
+    ImportedWirelessDeviceList: S.optional(ImportedWirelessDeviceList),
+  }),
+).annotate({
+  identifier: "ListDevicesForWirelessDeviceImportTaskResponse",
+}) as any as S.Schema<ListDevicesForWirelessDeviceImportTaskResponse>;
 export type EventNotificationResourceType =
   | "SidewalkAccount"
   | "WirelessDevice"
@@ -4418,20 +4100,11 @@ export interface ListEventConfigurationsRequest {
 }
 export const ListEventConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ResourceType: EventNotificationResourceType.pipe(
-      T.HttpQuery("resourceType"),
-    ),
+    ResourceType: EventNotificationResourceType.pipe(T.HttpQuery("resourceType")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/event-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/event-configurations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListEventConfigurationsRequest",
@@ -4445,9 +4118,7 @@ export interface EventNotificationItemConfigurations {
 }
 export const EventNotificationItemConfigurations = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    DeviceRegistrationState: S.optional(
-      DeviceRegistrationStateEventConfiguration,
-    ),
+    DeviceRegistrationState: S.optional(DeviceRegistrationStateEventConfiguration),
     Proximity: S.optional(ProximityEventConfiguration),
     Join: S.optional(JoinEventConfiguration),
     ConnectionStatus: S.optional(ConnectionStatusEventConfiguration),
@@ -4473,9 +4144,7 @@ export const EventConfigurationItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "EventConfigurationItem",
 }) as any as S.Schema<EventConfigurationItem>;
 export type EventConfigurationsList = EventConfigurationItem[];
-export const EventConfigurationsList = /*@__PURE__*/ S.Array(
-  EventConfigurationItem,
-);
+export const EventConfigurationsList = /*@__PURE__*/ S.Array(EventConfigurationItem);
 export interface ListEventConfigurationsResponse {
   NextToken?: string;
   EventConfigurationsList?: EventConfigurationItem[];
@@ -4496,16 +4165,7 @@ export const ListFuotaTasksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/fuota-tasks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/fuota-tasks" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFuotaTasksRequest",
 }) as any as S.Schema<ListFuotaTasksRequest>;
@@ -4543,16 +4203,7 @@ export const ListMulticastGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/multicast-groups" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/multicast-groups" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMulticastGroupsRequest",
 }) as any as S.Schema<ListMulticastGroupsRequest>;
@@ -4587,22 +4238,21 @@ export interface ListMulticastGroupsByFuotaTaskRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListMulticastGroupsByFuotaTaskRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/fuota-tasks/{Id}/multicast-groups" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListMulticastGroupsByFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/fuota-tasks/{Id}/multicast-groups" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListMulticastGroupsByFuotaTaskRequest",
 }) as any as S.Schema<ListMulticastGroupsByFuotaTaskRequest>;
@@ -4615,19 +4265,16 @@ export const MulticastGroupByFuotaTask = /*@__PURE__*/ S.suspend(() =>
   identifier: "MulticastGroupByFuotaTask",
 }) as any as S.Schema<MulticastGroupByFuotaTask>;
 export type MulticastGroupListByFuotaTask = MulticastGroupByFuotaTask[];
-export const MulticastGroupListByFuotaTask = /*@__PURE__*/ S.Array(
-  MulticastGroupByFuotaTask,
-);
+export const MulticastGroupListByFuotaTask = /*@__PURE__*/ S.Array(MulticastGroupByFuotaTask);
 export interface ListMulticastGroupsByFuotaTaskResponse {
   NextToken?: string;
   MulticastGroupList?: MulticastGroupByFuotaTask[];
 }
-export const ListMulticastGroupsByFuotaTaskResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MulticastGroupList: S.optional(MulticastGroupListByFuotaTask),
-    }),
+export const ListMulticastGroupsByFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MulticastGroupList: S.optional(MulticastGroupListByFuotaTask),
+  }),
 ).annotate({
   identifier: "ListMulticastGroupsByFuotaTaskResponse",
 }) as any as S.Schema<ListMulticastGroupsByFuotaTaskResponse>;
@@ -4635,21 +4282,20 @@ export interface ListNetworkAnalyzerConfigurationsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListNetworkAnalyzerConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/network-analyzer-configurations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListNetworkAnalyzerConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/network-analyzer-configurations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListNetworkAnalyzerConfigurationsRequest",
 }) as any as S.Schema<ListNetworkAnalyzerConfigurationsRequest>;
@@ -4670,17 +4316,14 @@ export interface ListNetworkAnalyzerConfigurationsResponse {
   NextToken?: string;
   NetworkAnalyzerConfigurationList?: NetworkAnalyzerConfigurations[];
 }
-export const ListNetworkAnalyzerConfigurationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      NetworkAnalyzerConfigurationList: S.optional(
-        NetworkAnalyzerConfigurationList,
-      ),
-    }),
-  ).annotate({
-    identifier: "ListNetworkAnalyzerConfigurationsResponse",
-  }) as any as S.Schema<ListNetworkAnalyzerConfigurationsResponse>;
+export const ListNetworkAnalyzerConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    NetworkAnalyzerConfigurationList: S.optional(NetworkAnalyzerConfigurationList),
+  }),
+).annotate({
+  identifier: "ListNetworkAnalyzerConfigurationsResponse",
+}) as any as S.Schema<ListNetworkAnalyzerConfigurationsResponse>;
 export interface ListPartnerAccountsRequest {
   NextToken?: string;
   MaxResults?: number;
@@ -4689,23 +4332,12 @@ export const ListPartnerAccountsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/partner-accounts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/partner-accounts" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPartnerAccountsRequest",
 }) as any as S.Schema<ListPartnerAccountsRequest>;
 export type SidewalkAccountList = SidewalkAccountInfoWithFingerprint[];
-export const SidewalkAccountList = /*@__PURE__*/ S.Array(
-  SidewalkAccountInfoWithFingerprint,
-);
+export const SidewalkAccountList = /*@__PURE__*/ S.Array(SidewalkAccountInfoWithFingerprint);
 export interface ListPartnerAccountsResponse {
   NextToken?: string;
   Sidewalk?: SidewalkAccountInfoWithFingerprint[];
@@ -4725,20 +4357,11 @@ export interface ListPositionConfigurationsRequest {
 }
 export const ListPositionConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ResourceType: S.optional(PositionResourceType).pipe(
-      T.HttpQuery("resourceType"),
-    ),
+    ResourceType: S.optional(PositionResourceType).pipe(T.HttpQuery("resourceType")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/position-configurations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/position-configurations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListPositionConfigurationsRequest",
@@ -4760,9 +4383,7 @@ export const PositionConfigurationItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "PositionConfigurationItem",
 }) as any as S.Schema<PositionConfigurationItem>;
 export type PositionConfigurationList = PositionConfigurationItem[];
-export const PositionConfigurationList = /*@__PURE__*/ S.Array(
-  PositionConfigurationItem,
-);
+export const PositionConfigurationList = /*@__PURE__*/ S.Array(PositionConfigurationItem);
 export interface ListPositionConfigurationsResponse {
   PositionConfigurationList?: PositionConfigurationItem[];
   NextToken?: string;
@@ -4786,9 +4407,7 @@ export const ListQueuedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
     Id: S.String.pipe(T.HttpLabel("Id")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(
-      T.HttpQuery("WirelessDeviceType"),
-    ),
+    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(T.HttpQuery("WirelessDeviceType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/wireless-devices/{Id}/data" }),
@@ -4803,11 +4422,7 @@ export const ListQueuedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListQueuedMessagesRequest",
 }) as any as S.Schema<ListQueuedMessagesRequest>;
 export type TransmitMode = number;
-export type DownlinkMode =
-  | "SEQUENTIAL"
-  | "CONCURRENT"
-  | "USING_UPLINK_GATEWAY"
-  | (string & {});
+export type DownlinkMode = "SEQUENTIAL" | "CONCURRENT" | "USING_UPLINK_GATEWAY" | (string & {});
 export const DownlinkMode = S.String;
 
 export type DownlinkFrequency = number;
@@ -4866,8 +4481,7 @@ export const DownlinkQueueMessage = /*@__PURE__*/ S.suspend(() =>
   identifier: "DownlinkQueueMessage",
 }) as any as S.Schema<DownlinkQueueMessage>;
 export type DownlinkQueueMessagesList = DownlinkQueueMessage[];
-export const DownlinkQueueMessagesList =
-  /*@__PURE__*/ S.Array(DownlinkQueueMessage);
+export const DownlinkQueueMessagesList = /*@__PURE__*/ S.Array(DownlinkQueueMessage);
 export interface ListQueuedMessagesResponse {
   NextToken?: string;
   DownlinkQueueMessagesList?: DownlinkQueueMessage[];
@@ -4888,16 +4502,7 @@ export const ListServiceProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/service-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/service-profiles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListServiceProfilesRequest",
 }) as any as S.Schema<ListServiceProfilesRequest>;
@@ -4933,14 +4538,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -4957,21 +4555,20 @@ export interface ListWirelessDeviceImportTasksRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListWirelessDeviceImportTasksRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/wireless_device_import_tasks" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListWirelessDeviceImportTasksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/wireless_device_import_tasks" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListWirelessDeviceImportTasksRequest",
 }) as any as S.Schema<ListWirelessDeviceImportTasksRequest>;
@@ -4996,9 +4593,7 @@ export const WirelessDeviceImportTask = /*@__PURE__*/ S.suspend(() =>
     DestinationName: S.optional(S.String),
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkGetStartImportInfo),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(ImportTaskStatus),
     StatusReason: S.optional(S.String),
     InitializedImportedDeviceCount: S.optional(S.Number),
@@ -5010,19 +4605,16 @@ export const WirelessDeviceImportTask = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessDeviceImportTask",
 }) as any as S.Schema<WirelessDeviceImportTask>;
 export type WirelessDeviceImportTaskList = WirelessDeviceImportTask[];
-export const WirelessDeviceImportTaskList = /*@__PURE__*/ S.Array(
-  WirelessDeviceImportTask,
-);
+export const WirelessDeviceImportTaskList = /*@__PURE__*/ S.Array(WirelessDeviceImportTask);
 export interface ListWirelessDeviceImportTasksResponse {
   NextToken?: string;
   WirelessDeviceImportTaskList?: WirelessDeviceImportTask[];
 }
-export const ListWirelessDeviceImportTasksResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      WirelessDeviceImportTaskList: S.optional(WirelessDeviceImportTaskList),
-    }),
+export const ListWirelessDeviceImportTasksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    WirelessDeviceImportTaskList: S.optional(WirelessDeviceImportTaskList),
+  }),
 ).annotate({
   identifier: "ListWirelessDeviceImportTasksResponse",
 }) as any as S.Schema<ListWirelessDeviceImportTasksResponse>;
@@ -5042,26 +4634,11 @@ export const ListWirelessDevicesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     DestinationName: S.optional(S.String).pipe(T.HttpQuery("destinationName")),
     DeviceProfileId: S.optional(S.String).pipe(T.HttpQuery("deviceProfileId")),
-    ServiceProfileId: S.optional(S.String).pipe(
-      T.HttpQuery("serviceProfileId"),
-    ),
-    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(
-      T.HttpQuery("wirelessDeviceType"),
-    ),
+    ServiceProfileId: S.optional(S.String).pipe(T.HttpQuery("serviceProfileId")),
+    WirelessDeviceType: S.optional(WirelessDeviceType).pipe(T.HttpQuery("wirelessDeviceType")),
     FuotaTaskId: S.optional(S.String).pipe(T.HttpQuery("fuotaTaskId")),
-    MulticastGroupId: S.optional(S.String).pipe(
-      T.HttpQuery("multicastGroupId"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/wireless-devices" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    MulticastGroupId: S.optional(S.String).pipe(T.HttpQuery("multicastGroupId")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/wireless-devices" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWirelessDevicesRequest",
 }) as any as S.Schema<ListWirelessDevicesRequest>;
@@ -5146,9 +4723,7 @@ export const WirelessDeviceStatistics = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessDeviceStatistics",
 }) as any as S.Schema<WirelessDeviceStatistics>;
 export type WirelessDeviceStatisticsList = WirelessDeviceStatistics[];
-export const WirelessDeviceStatisticsList = /*@__PURE__*/ S.Array(
-  WirelessDeviceStatistics,
-);
+export const WirelessDeviceStatisticsList = /*@__PURE__*/ S.Array(WirelessDeviceStatistics);
 export interface ListWirelessDevicesResponse {
   NextToken?: string;
   WirelessDeviceList?: WirelessDeviceStatistics[];
@@ -5170,14 +4745,7 @@ export const ListWirelessGatewaysRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/wireless-gateways" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/wireless-gateways" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListWirelessGatewaysRequest",
@@ -5203,9 +4771,7 @@ export const WirelessGatewayStatistics = /*@__PURE__*/ S.suspend(() =>
   identifier: "WirelessGatewayStatistics",
 }) as any as S.Schema<WirelessGatewayStatistics>;
 export type WirelessGatewayStatisticsList = WirelessGatewayStatistics[];
-export const WirelessGatewayStatisticsList = /*@__PURE__*/ S.Array(
-  WirelessGatewayStatistics,
-);
+export const WirelessGatewayStatisticsList = /*@__PURE__*/ S.Array(WirelessGatewayStatistics);
 export interface ListWirelessGatewaysResponse {
   NextToken?: string;
   WirelessGatewayList?: WirelessGatewayStatistics[];
@@ -5226,27 +4792,26 @@ export interface ListWirelessGatewayTaskDefinitionsRequest {
   NextToken?: string;
   TaskDefinitionType?: WirelessGatewayTaskDefinitionType;
 }
-export const ListWirelessGatewayTaskDefinitionsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      TaskDefinitionType: S.optional(WirelessGatewayTaskDefinitionType).pipe(
-        T.HttpQuery("taskDefinitionType"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/wireless-gateway-task-definitions" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListWirelessGatewayTaskDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    TaskDefinitionType: S.optional(WirelessGatewayTaskDefinitionType).pipe(
+      T.HttpQuery("taskDefinitionType"),
     ),
-  ).annotate({
-    identifier: "ListWirelessGatewayTaskDefinitionsRequest",
-  }) as any as S.Schema<ListWirelessGatewayTaskDefinitionsRequest>;
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/wireless-gateway-task-definitions" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListWirelessGatewayTaskDefinitionsRequest",
+}) as any as S.Schema<ListWirelessGatewayTaskDefinitionsRequest>;
 export interface LoRaWANUpdateGatewayTaskEntry {
   CurrentVersion?: LoRaWANGatewayVersion;
   UpdateVersion?: LoRaWANGatewayVersion;
@@ -5273,8 +4838,7 @@ export const UpdateWirelessGatewayTaskEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateWirelessGatewayTaskEntry",
 }) as any as S.Schema<UpdateWirelessGatewayTaskEntry>;
-export type WirelessGatewayTaskDefinitionList =
-  UpdateWirelessGatewayTaskEntry[];
+export type WirelessGatewayTaskDefinitionList = UpdateWirelessGatewayTaskEntry[];
 export const WirelessGatewayTaskDefinitionList = /*@__PURE__*/ S.Array(
   UpdateWirelessGatewayTaskEntry,
 );
@@ -5282,15 +4846,14 @@ export interface ListWirelessGatewayTaskDefinitionsResponse {
   NextToken?: string;
   TaskDefinitions?: UpdateWirelessGatewayTaskEntry[];
 }
-export const ListWirelessGatewayTaskDefinitionsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      TaskDefinitions: S.optional(WirelessGatewayTaskDefinitionList),
-    }),
-  ).annotate({
-    identifier: "ListWirelessGatewayTaskDefinitionsResponse",
-  }) as any as S.Schema<ListWirelessGatewayTaskDefinitionsResponse>;
+export const ListWirelessGatewayTaskDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    TaskDefinitions: S.optional(WirelessGatewayTaskDefinitionList),
+  }),
+).annotate({
+  identifier: "ListWirelessGatewayTaskDefinitionsResponse",
+}) as any as S.Schema<ListWirelessGatewayTaskDefinitionsResponse>;
 export interface SemtechGnssConfiguration {
   Status: PositionConfigurationStatus;
   Fec: PositionConfigurationFec;
@@ -5369,22 +4932,13 @@ export const PutResourceLogLevelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutResourceLogLevelRequest",
 }) as any as S.Schema<PutResourceLogLevelRequest>;
 export interface PutResourceLogLevelResponse {}
-export const PutResourceLogLevelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutResourceLogLevelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutResourceLogLevelResponse",
 }) as any as S.Schema<PutResourceLogLevelResponse>;
 export interface ResetAllResourceLogLevelsRequest {}
 export const ResetAllResourceLogLevelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/log-levels" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/log-levels" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ResetAllResourceLogLevelsRequest",
@@ -5417,9 +4971,7 @@ export const ResetResourceLogLevelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResetResourceLogLevelRequest",
 }) as any as S.Schema<ResetResourceLogLevelRequest>;
 export interface ResetResourceLogLevelResponse {}
-export const ResetResourceLogLevelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ResetResourceLogLevelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResetResourceLogLevelResponse",
 }) as any as S.Schema<ResetResourceLogLevelResponse>;
 export type PayloadData = string;
@@ -5546,8 +5098,8 @@ export interface StartBulkAssociateWirelessDeviceWithMulticastGroupRequest {
   QueryString?: string;
   Tags?: Tag[];
 }
-export const StartBulkAssociateWirelessDeviceWithMulticastGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
+export const StartBulkAssociateWirelessDeviceWithMulticastGroupRequest = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       Id: S.String.pipe(T.HttpLabel("Id")),
       QueryString: S.optional(S.String),
@@ -5562,21 +5114,22 @@ export const StartBulkAssociateWirelessDeviceWithMulticastGroupRequest =
         rules,
       ),
     ),
-  ).annotate({
-    identifier: "StartBulkAssociateWirelessDeviceWithMulticastGroupRequest",
-  }) as any as S.Schema<StartBulkAssociateWirelessDeviceWithMulticastGroupRequest>;
+).annotate({
+  identifier: "StartBulkAssociateWirelessDeviceWithMulticastGroupRequest",
+}) as any as S.Schema<StartBulkAssociateWirelessDeviceWithMulticastGroupRequest>;
 export interface StartBulkAssociateWirelessDeviceWithMulticastGroupResponse {}
-export const StartBulkAssociateWirelessDeviceWithMulticastGroupResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "StartBulkAssociateWirelessDeviceWithMulticastGroupResponse",
-  }) as any as S.Schema<StartBulkAssociateWirelessDeviceWithMulticastGroupResponse>;
+export const StartBulkAssociateWirelessDeviceWithMulticastGroupResponse = /*@__PURE__*/ S.suspend(
+  () => S.Struct({}),
+).annotate({
+  identifier: "StartBulkAssociateWirelessDeviceWithMulticastGroupResponse",
+}) as any as S.Schema<StartBulkAssociateWirelessDeviceWithMulticastGroupResponse>;
 export interface StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest {
   Id: string;
   QueryString?: string;
   Tags?: Tag[];
 }
-export const StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest =
-  /*@__PURE__*/ S.suspend(() =>
+export const StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest = /*@__PURE__*/ S.suspend(
+  () =>
     S.Struct({
       Id: S.String.pipe(T.HttpLabel("Id")),
       QueryString: S.optional(S.String),
@@ -5591,9 +5144,9 @@ export const StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest =
         rules,
       ),
     ),
-  ).annotate({
-    identifier: "StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest",
-  }) as any as S.Schema<StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest>;
+).annotate({
+  identifier: "StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest",
+}) as any as S.Schema<StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest>;
 export interface StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse {}
 export const StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse =
   /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
@@ -5604,9 +5157,7 @@ export interface LoRaWANStartFuotaTask {
 }
 export const LoRaWANStartFuotaTask = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "LoRaWANStartFuotaTask",
@@ -5619,23 +5170,12 @@ export const StartFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Id: S.String.pipe(T.HttpLabel("Id")),
     LoRaWAN: S.optional(LoRaWANStartFuotaTask),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/fuota-tasks/{Id}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartFuotaTaskRequest",
 }) as any as S.Schema<StartFuotaTaskRequest>;
 export interface StartFuotaTaskResponse {}
-export const StartFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartFuotaTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartFuotaTaskResponse",
 }) as any as S.Schema<StartFuotaTaskResponse>;
 export interface StartMulticastGroupSessionRequest {
@@ -5686,38 +5226,36 @@ export interface StartSingleWirelessDeviceImportTaskRequest {
   Positioning?: PositioningConfigStatus;
   Sidewalk: SidewalkSingleStartImportInfo;
 }
-export const StartSingleWirelessDeviceImportTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DestinationName: S.String,
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      DeviceName: S.optional(S.String),
-      Tags: S.optional(TagList),
-      Positioning: S.optional(PositioningConfigStatus),
-      Sidewalk: SidewalkSingleStartImportInfo,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/wireless_single_device_import_task" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const StartSingleWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DestinationName: S.String,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DeviceName: S.optional(S.String),
+    Tags: S.optional(TagList),
+    Positioning: S.optional(PositioningConfigStatus),
+    Sidewalk: SidewalkSingleStartImportInfo,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/wireless_single_device_import_task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "StartSingleWirelessDeviceImportTaskRequest",
-  }) as any as S.Schema<StartSingleWirelessDeviceImportTaskRequest>;
+  ),
+).annotate({
+  identifier: "StartSingleWirelessDeviceImportTaskRequest",
+}) as any as S.Schema<StartSingleWirelessDeviceImportTaskRequest>;
 export interface StartSingleWirelessDeviceImportTaskResponse {
   Id?: string;
   Arn?: string;
 }
-export const StartSingleWirelessDeviceImportTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
-  ).annotate({
-    identifier: "StartSingleWirelessDeviceImportTaskResponse",
-  }) as any as S.Schema<StartSingleWirelessDeviceImportTaskResponse>;
+export const StartSingleWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+).annotate({
+  identifier: "StartSingleWirelessDeviceImportTaskResponse",
+}) as any as S.Schema<StartSingleWirelessDeviceImportTaskResponse>;
 export interface SidewalkStartImportInfo {
   DeviceCreationFile?: string;
   Role?: string;
@@ -5739,24 +5277,23 @@ export interface StartWirelessDeviceImportTaskRequest {
   Positioning?: PositioningConfigStatus;
   Sidewalk: SidewalkStartImportInfo;
 }
-export const StartWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DestinationName: S.String,
-      ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      Tags: S.optional(TagList),
-      Positioning: S.optional(PositioningConfigStatus),
-      Sidewalk: SidewalkStartImportInfo,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/wireless_device_import_task" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const StartWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DestinationName: S.String,
+    ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Tags: S.optional(TagList),
+    Positioning: S.optional(PositioningConfigStatus),
+    Sidewalk: SidewalkStartImportInfo,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/wireless_device_import_task" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "StartWirelessDeviceImportTaskRequest",
 }) as any as S.Schema<StartWirelessDeviceImportTaskRequest>;
@@ -5764,8 +5301,8 @@ export interface StartWirelessDeviceImportTaskResponse {
   Id?: string;
   Arn?: string;
 }
-export const StartWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
+export const StartWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Id: S.optional(S.String), Arn: S.optional(S.String) }),
 ).annotate({
   identifier: "StartWirelessDeviceImportTaskResponse",
 }) as any as S.Schema<StartWirelessDeviceImportTaskResponse>;
@@ -5777,23 +5314,12 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     Tags: TagList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TestWirelessDeviceRequest {
@@ -5832,23 +5358,12 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceArn: S.String.pipe(T.HttpQuery("resourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDestinationRequest {
@@ -5866,22 +5381,13 @@ export const UpdateDestinationRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     RoleArn: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/destinations/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/destinations/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateDestinationRequest",
 }) as any as S.Schema<UpdateDestinationRequest>;
 export interface UpdateDestinationResponse {}
-export const UpdateDestinationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateDestinationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateDestinationResponse",
 }) as any as S.Schema<UpdateDestinationResponse>;
 export interface UpdateEventConfigurationByResourceTypesRequest {
@@ -5891,41 +5397,35 @@ export interface UpdateEventConfigurationByResourceTypesRequest {
   ConnectionStatus?: ConnectionStatusResourceTypeEventConfiguration;
   MessageDeliveryStatus?: MessageDeliveryStatusResourceTypeEventConfiguration;
 }
-export const UpdateEventConfigurationByResourceTypesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DeviceRegistrationState: S.optional(
-        DeviceRegistrationStateResourceTypeEventConfiguration,
-      ),
-      Proximity: S.optional(ProximityResourceTypeEventConfiguration),
-      Join: S.optional(JoinResourceTypeEventConfiguration),
-      ConnectionStatus: S.optional(
-        ConnectionStatusResourceTypeEventConfiguration,
-      ),
-      MessageDeliveryStatus: S.optional(
-        MessageDeliveryStatusResourceTypeEventConfiguration,
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/event-configurations-resource-types",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateEventConfigurationByResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeviceRegistrationState: S.optional(DeviceRegistrationStateResourceTypeEventConfiguration),
+    Proximity: S.optional(ProximityResourceTypeEventConfiguration),
+    Join: S.optional(JoinResourceTypeEventConfiguration),
+    ConnectionStatus: S.optional(ConnectionStatusResourceTypeEventConfiguration),
+    MessageDeliveryStatus: S.optional(MessageDeliveryStatusResourceTypeEventConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/event-configurations-resource-types",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateEventConfigurationByResourceTypesRequest",
-  }) as any as S.Schema<UpdateEventConfigurationByResourceTypesRequest>;
+  ),
+).annotate({
+  identifier: "UpdateEventConfigurationByResourceTypesRequest",
+}) as any as S.Schema<UpdateEventConfigurationByResourceTypesRequest>;
 export interface UpdateEventConfigurationByResourceTypesResponse {}
-export const UpdateEventConfigurationByResourceTypesResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "UpdateEventConfigurationByResourceTypesResponse",
-  }) as any as S.Schema<UpdateEventConfigurationByResourceTypesResponse>;
+export const UpdateEventConfigurationByResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateEventConfigurationByResourceTypesResponse",
+}) as any as S.Schema<UpdateEventConfigurationByResourceTypesResponse>;
 export interface UpdateFuotaTaskRequest {
   Id: string;
   Name?: string;
@@ -5951,22 +5451,13 @@ export const UpdateFuotaTaskRequest = /*@__PURE__*/ S.suspend(() =>
     FragmentIntervalMS: S.optional(S.Number),
     Descriptor: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/fuota-tasks/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/fuota-tasks/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateFuotaTaskRequest",
 }) as any as S.Schema<UpdateFuotaTaskRequest>;
 export interface UpdateFuotaTaskResponse {}
-export const UpdateFuotaTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateFuotaTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateFuotaTaskResponse",
 }) as any as S.Schema<UpdateFuotaTaskResponse>;
 export interface UpdateLogLevelsByResourceTypesRequest {
@@ -5975,29 +5466,19 @@ export interface UpdateLogLevelsByResourceTypesRequest {
   WirelessDeviceLogOptions?: WirelessDeviceLogOption[];
   WirelessGatewayLogOptions?: WirelessGatewayLogOption[];
 }
-export const UpdateLogLevelsByResourceTypesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DefaultLogLevel: S.optional(LogLevel),
-      FuotaTaskLogOptions: S.optional(FuotaTaskLogOptionList),
-      WirelessDeviceLogOptions: S.optional(WirelessDeviceLogOptionList),
-      WirelessGatewayLogOptions: S.optional(WirelessGatewayLogOptionList),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/log-levels" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const UpdateLogLevelsByResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DefaultLogLevel: S.optional(LogLevel),
+    FuotaTaskLogOptions: S.optional(FuotaTaskLogOptionList),
+    WirelessDeviceLogOptions: S.optional(WirelessDeviceLogOptionList),
+    WirelessGatewayLogOptions: S.optional(WirelessGatewayLogOptionList),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/log-levels" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateLogLevelsByResourceTypesRequest",
 }) as any as S.Schema<UpdateLogLevelsByResourceTypesRequest>;
 export interface UpdateLogLevelsByResourceTypesResponse {}
-export const UpdateLogLevelsByResourceTypesResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateLogLevelsByResourceTypesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateLogLevelsByResourceTypesResponse",
 }) as any as S.Schema<UpdateLogLevelsByResourceTypesResponse>;
@@ -6006,14 +5487,7 @@ export interface UpdateMetricConfigurationRequest {
 }
 export const UpdateMetricConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ SummaryMetric: S.optional(SummaryMetricConfiguration) }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/metric-configuration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/metric-configuration" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateMetricConfigurationRequest",
@@ -6037,22 +5511,13 @@ export const UpdateMulticastGroupRequest = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     LoRaWAN: S.optional(LoRaWANMulticast),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/multicast-groups/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/multicast-groups/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateMulticastGroupRequest",
 }) as any as S.Schema<UpdateMulticastGroupRequest>;
 export interface UpdateMulticastGroupResponse {}
-export const UpdateMulticastGroupResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateMulticastGroupResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateMulticastGroupResponse",
 }) as any as S.Schema<UpdateMulticastGroupResponse>;
 export interface UpdateNetworkAnalyzerConfigurationRequest {
@@ -6066,39 +5531,39 @@ export interface UpdateNetworkAnalyzerConfigurationRequest {
   MulticastGroupsToAdd?: string[];
   MulticastGroupsToRemove?: string[];
 }
-export const UpdateNetworkAnalyzerConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
-      TraceContent: S.optional(TraceContent),
-      WirelessDevicesToAdd: S.optional(WirelessDeviceList),
-      WirelessDevicesToRemove: S.optional(WirelessDeviceList),
-      WirelessGatewaysToAdd: S.optional(WirelessGatewayList),
-      WirelessGatewaysToRemove: S.optional(WirelessGatewayList),
-      Description: S.optional(S.String),
-      MulticastGroupsToAdd: S.optional(NetworkAnalyzerMulticastGroupList),
-      MulticastGroupsToRemove: S.optional(NetworkAnalyzerMulticastGroupList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/network-analyzer-configurations/{ConfigurationName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateNetworkAnalyzerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationName: S.String.pipe(T.HttpLabel("ConfigurationName")),
+    TraceContent: S.optional(TraceContent),
+    WirelessDevicesToAdd: S.optional(WirelessDeviceList),
+    WirelessDevicesToRemove: S.optional(WirelessDeviceList),
+    WirelessGatewaysToAdd: S.optional(WirelessGatewayList),
+    WirelessGatewaysToRemove: S.optional(WirelessGatewayList),
+    Description: S.optional(S.String),
+    MulticastGroupsToAdd: S.optional(NetworkAnalyzerMulticastGroupList),
+    MulticastGroupsToRemove: S.optional(NetworkAnalyzerMulticastGroupList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/network-analyzer-configurations/{ConfigurationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateNetworkAnalyzerConfigurationRequest",
-  }) as any as S.Schema<UpdateNetworkAnalyzerConfigurationRequest>;
+  ),
+).annotate({
+  identifier: "UpdateNetworkAnalyzerConfigurationRequest",
+}) as any as S.Schema<UpdateNetworkAnalyzerConfigurationRequest>;
 export interface UpdateNetworkAnalyzerConfigurationResponse {}
-export const UpdateNetworkAnalyzerConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "UpdateNetworkAnalyzerConfigurationResponse",
-  }) as any as S.Schema<UpdateNetworkAnalyzerConfigurationResponse>;
+export const UpdateNetworkAnalyzerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateNetworkAnalyzerConfigurationResponse",
+}) as any as S.Schema<UpdateNetworkAnalyzerConfigurationResponse>;
 export interface SidewalkUpdateAccount {
   AppServerPrivateKey?: string | redacted.Redacted<string>;
 }
@@ -6131,9 +5596,7 @@ export const UpdatePartnerAccountRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePartnerAccountRequest",
 }) as any as S.Schema<UpdatePartnerAccountRequest>;
 export interface UpdatePartnerAccountResponse {}
-export const UpdatePartnerAccountResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdatePartnerAccountResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdatePartnerAccountResponse",
 }) as any as S.Schema<UpdatePartnerAccountResponse>;
 export interface UpdatePositionRequest {
@@ -6160,9 +5623,7 @@ export const UpdatePositionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdatePositionRequest",
 }) as any as S.Schema<UpdatePositionRequest>;
 export interface UpdatePositionResponse {}
-export const UpdatePositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdatePositionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdatePositionResponse",
 }) as any as S.Schema<UpdatePositionResponse>;
 export interface UpdateResourceEventConfigurationRequest {
@@ -6175,39 +5636,32 @@ export interface UpdateResourceEventConfigurationRequest {
   ConnectionStatus?: ConnectionStatusEventConfiguration;
   MessageDeliveryStatus?: MessageDeliveryStatusEventConfiguration;
 }
-export const UpdateResourceEventConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Identifier: S.String.pipe(T.HttpLabel("Identifier")),
-      IdentifierType: IdentifierType.pipe(T.HttpQuery("identifierType")),
-      PartnerType: S.optional(EventNotificationPartnerType).pipe(
-        T.HttpQuery("partnerType"),
-      ),
-      DeviceRegistrationState: S.optional(
-        DeviceRegistrationStateEventConfiguration,
-      ),
-      Proximity: S.optional(ProximityEventConfiguration),
-      Join: S.optional(JoinEventConfiguration),
-      ConnectionStatus: S.optional(ConnectionStatusEventConfiguration),
-      MessageDeliveryStatus: S.optional(
-        MessageDeliveryStatusEventConfiguration,
-      ),
-    }).pipe(
-      T.all(
-        T.Http({ method: "PATCH", uri: "/event-configurations/{Identifier}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateResourceEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Identifier: S.String.pipe(T.HttpLabel("Identifier")),
+    IdentifierType: IdentifierType.pipe(T.HttpQuery("identifierType")),
+    PartnerType: S.optional(EventNotificationPartnerType).pipe(T.HttpQuery("partnerType")),
+    DeviceRegistrationState: S.optional(DeviceRegistrationStateEventConfiguration),
+    Proximity: S.optional(ProximityEventConfiguration),
+    Join: S.optional(JoinEventConfiguration),
+    ConnectionStatus: S.optional(ConnectionStatusEventConfiguration),
+    MessageDeliveryStatus: S.optional(MessageDeliveryStatusEventConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/event-configurations/{Identifier}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateResourceEventConfigurationRequest",
 }) as any as S.Schema<UpdateResourceEventConfigurationRequest>;
 export interface UpdateResourceEventConfigurationResponse {}
-export const UpdateResourceEventConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateResourceEventConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateResourceEventConfigurationResponse",
 }) as any as S.Schema<UpdateResourceEventConfigurationResponse>;
@@ -6238,9 +5692,7 @@ export const UpdateResourcePositionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResourcePositionRequest",
 }) as any as S.Schema<UpdateResourcePositionRequest>;
 export interface UpdateResourcePositionResponse {}
-export const UpdateResourcePositionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateResourcePositionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateResourcePositionResponse",
 }) as any as S.Schema<UpdateResourcePositionResponse>;
 export interface UpdateAbpV1_1 {
@@ -6312,22 +5764,13 @@ export const UpdateWirelessDeviceRequest = /*@__PURE__*/ S.suspend(() =>
     Positioning: S.optional(PositioningConfigStatus),
     Sidewalk: S.optional(SidewalkUpdateWirelessDevice),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/wireless-devices/{Id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/wireless-devices/{Id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateWirelessDeviceRequest",
 }) as any as S.Schema<UpdateWirelessDeviceRequest>;
 export interface UpdateWirelessDeviceResponse {}
-export const UpdateWirelessDeviceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateWirelessDeviceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateWirelessDeviceResponse",
 }) as any as S.Schema<UpdateWirelessDeviceResponse>;
 export interface SidewalkUpdateImportInfo {
@@ -6342,27 +5785,26 @@ export interface UpdateWirelessDeviceImportTaskRequest {
   Id: string;
   Sidewalk: SidewalkUpdateImportInfo;
 }
-export const UpdateWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Id: S.String.pipe(T.HttpLabel("Id")),
-      Sidewalk: SidewalkUpdateImportInfo,
-    }).pipe(
-      T.all(
-        T.Http({ method: "PATCH", uri: "/wireless_device_import_task/{Id}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateWirelessDeviceImportTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Id: S.String.pipe(T.HttpLabel("Id")),
+    Sidewalk: SidewalkUpdateImportInfo,
+  }).pipe(
+    T.all(
+      T.Http({ method: "PATCH", uri: "/wireless_device_import_task/{Id}" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateWirelessDeviceImportTaskRequest",
 }) as any as S.Schema<UpdateWirelessDeviceImportTaskRequest>;
 export interface UpdateWirelessDeviceImportTaskResponse {}
-export const UpdateWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateWirelessDeviceImportTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateWirelessDeviceImportTaskResponse",
 }) as any as S.Schema<UpdateWirelessDeviceImportTaskResponse>;
@@ -6396,9 +5838,7 @@ export const UpdateWirelessGatewayRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateWirelessGatewayRequest",
 }) as any as S.Schema<UpdateWirelessGatewayRequest>;
 export interface UpdateWirelessGatewayResponse {}
-export const UpdateWirelessGatewayResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateWirelessGatewayResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateWirelessGatewayResponse",
 }) as any as S.Schema<UpdateWirelessGatewayResponse>;
 export type Message = string;

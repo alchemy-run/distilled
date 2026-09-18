@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SimSpaceWeaver",
   serviceShapeName: "SimSpaceWeaver",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://simspaceweaver-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://simspaceweaver.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://simspaceweaver.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://simspaceweaver.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -143,22 +133,13 @@ export interface CreateSnapshotInput {
 }
 export const CreateSnapshotInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String, Destination: S3Destination }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/createsnapshot" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/createsnapshot" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateSnapshotInput",
 }) as any as S.Schema<CreateSnapshotInput>;
 export interface CreateSnapshotOutput {}
-export const CreateSnapshotOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateSnapshotOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateSnapshotOutput",
 }) as any as S.Schema<CreateSnapshotOutput>;
 export interface DeleteAppInput {
@@ -171,21 +152,10 @@ export const DeleteAppInput = /*@__PURE__*/ S.suspend(() =>
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
     App: S.String.pipe(T.HttpQuery("app")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/deleteapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/deleteapp" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "DeleteAppInput" }) as any as S.Schema<DeleteAppInput>;
 export interface DeleteAppOutput {}
-export const DeleteAppOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAppOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAppOutput",
 }) as any as S.Schema<DeleteAppOutput>;
 export interface DeleteSimulationInput {
@@ -193,22 +163,13 @@ export interface DeleteSimulationInput {
 }
 export const DeleteSimulationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/deletesimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/deletesimulation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSimulationInput",
 }) as any as S.Schema<DeleteSimulationInput>;
 export interface DeleteSimulationOutput {}
-export const DeleteSimulationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSimulationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSimulationOutput",
 }) as any as S.Schema<DeleteSimulationOutput>;
 export type SimSpaceWeaverLongResourceName = string;
@@ -222,16 +183,7 @@ export const DescribeAppInput = /*@__PURE__*/ S.suspend(() =>
     Simulation: S.String.pipe(T.HttpQuery("simulation")),
     Domain: S.String.pipe(T.HttpQuery("domain")),
     App: S.String.pipe(T.HttpQuery("app")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/describeapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/describeapp" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAppInput",
 }) as any as S.Schema<DescribeAppInput>;
@@ -302,14 +254,7 @@ export interface DescribeSimulationInput {
 }
 export const DescribeSimulationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String.pipe(T.HttpQuery("simulation")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/describesimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/describesimulation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeSimulationInput",
@@ -443,16 +388,7 @@ export const ListAppsInput = /*@__PURE__*/ S.suspend(() =>
     Domain: S.optional(S.String).pipe(T.HttpQuery("domain")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/listapps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/listapps" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListAppsInput" }) as any as S.Schema<ListAppsInput>;
 export interface SimulationAppMetadata {
   Name?: string;
@@ -492,16 +428,7 @@ export const ListSimulationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/listsimulations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/listsimulations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSimulationsInput",
 }) as any as S.Schema<ListSimulationsInput>;
@@ -542,14 +469,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -557,10 +477,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceOutput {
   Tags?: { [key: string]: string | undefined };
 }
@@ -586,16 +503,7 @@ export const StartAppInput = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Description: S.optional(S.String),
     LaunchOverrides: S.optional(LaunchOverrides),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/startapp" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "StartAppInput" }) as any as S.Schema<StartAppInput>;
 export interface StartAppOutput {
   Name?: string;
@@ -614,22 +522,13 @@ export interface StartClockInput {
 }
 export const StartClockInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startclock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/startclock" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartClockInput",
 }) as any as S.Schema<StartClockInput>;
 export interface StartClockOutput {}
-export const StartClockOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartClockOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartClockOutput",
 }) as any as S.Schema<StartClockOutput>;
 export interface StartSimulationInput {
@@ -652,16 +551,7 @@ export const StartSimulationInput = /*@__PURE__*/ S.suspend(() =>
     MaximumDuration: S.optional(S.String),
     Tags: S.optional(TagMap),
     SnapshotS3Location: S.optional(S3Location),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/startsimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/startsimulation" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSimulationInput",
 }) as any as S.Schema<StartSimulationInput>;
@@ -686,39 +576,23 @@ export interface StopAppInput {
 }
 export const StopAppInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String, Domain: S.String, App: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopapp" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/stopapp" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "StopAppInput" }) as any as S.Schema<StopAppInput>;
 export interface StopAppOutput {}
-export const StopAppOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({ identifier: "StopAppOutput" }) as any as S.Schema<StopAppOutput>;
+export const StopAppOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+  identifier: "StopAppOutput",
+}) as any as S.Schema<StopAppOutput>;
 export interface StopClockInput {
   Simulation: string;
 }
 export const StopClockInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopclock" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/stopclock" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "StopClockInput" }) as any as S.Schema<StopClockInput>;
 export interface StopClockOutput {}
-export const StopClockOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopClockOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopClockOutput",
 }) as any as S.Schema<StopClockOutput>;
 export interface StopSimulationInput {
@@ -726,22 +600,13 @@ export interface StopSimulationInput {
 }
 export const StopSimulationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Simulation: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/stopsimulation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/stopsimulation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopSimulationInput",
 }) as any as S.Schema<StopSimulationInput>;
 export interface StopSimulationOutput {}
-export const StopSimulationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopSimulationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopSimulationOutput",
 }) as any as S.Schema<StopSimulationOutput>;
 export interface TagResourceInput {
@@ -753,22 +618,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -782,22 +638,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export type CreateSnapshotError =
@@ -1278,20 +1125,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceInput,
   output: TagResourceOutput,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  errors: [ResourceNotFoundException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.

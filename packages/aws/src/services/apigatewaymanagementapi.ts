@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayManagementApi",
   serviceShapeName: "ApiGatewayManagementApi",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://execute-api-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://execute-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://execute-api.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://execute-api.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -125,9 +115,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
 export interface GetConnectionRequest {
@@ -165,13 +153,9 @@ export interface GetConnectionResponse {
 }
 export const GetConnectionResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ConnectedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ConnectedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Identity: S.optional(Identity),
-    LastActiveAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastActiveAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(
     S.encodeKeys({
       ConnectedAt: "connectedAt",
@@ -204,9 +188,7 @@ export const PostToConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PostToConnectionRequest",
 }) as any as S.Schema<PostToConnectionRequest>;
 export interface PostToConnectionResponse {}
-export const PostToConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PostToConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PostToConnectionResponse",
 }) as any as S.Schema<PostToConnectionResponse>;
 export type DeleteConnectionError =
@@ -270,12 +252,7 @@ export const postToConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PostToConnectionRequest,
   output: PostToConnectionResponse,
-  errors: [
-    ForbiddenException,
-    GoneException,
-    LimitExceededException,
-    PayloadTooLargeException,
-  ],
+  errors: [ForbiddenException, GoneException, LimitExceededException, PayloadTooLargeException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostToConnection",

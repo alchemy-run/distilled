@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Budgets",
   serviceShapeName: "AWSBudgetServiceGateway",
@@ -39,14 +39,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -99,9 +95,7 @@ const rules = T.EndpointResolver((p, _) => {
           return e(
             "https://budgets.global.csp.hci.ic.gov",
             {
-              authSchemes: [
-                { name: "sigv4", signingRegion: "us-isof-south-1" },
-              ],
+              authSchemes: [{ name: "sigv4", signingRegion: "us-isof-south-1" }],
             },
             {},
           );
@@ -111,22 +105,14 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            "https://budgets.eusc-de-east-1.api.amazonwebservices.eu",
-            _p0(),
-            {},
-          );
+          return e("https://budgets.eusc-de-east-1.api.amazonwebservices.eu", _p0(), {});
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-eusc" &&
           UseFIPS === false &&
           UseDualStack === true
         ) {
-          return e(
-            "https://budgets.eusc-de-east-1.api.amazonwebservices.eu",
-            _p0(),
-            {},
-          );
+          return e("https://budgets.eusc-de-east-1.api.amazonwebservices.eu", _p0(), {});
         }
         if (UseFIPS === true && UseDualStack === true) {
           if (
@@ -151,9 +137,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -163,9 +147,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://budgets.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -262,18 +244,12 @@ export const Spend = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Amount: S.String, Unit: S.String }),
 ).annotate({ identifier: "Spend" }) as any as S.Schema<Spend>;
 export type PlannedBudgetLimits = { [key: string]: Spend | undefined };
-export const PlannedBudgetLimits = /*@__PURE__*/ S.Record(
-  S.String,
-  Spend.pipe(S.optional),
-);
+export const PlannedBudgetLimits = /*@__PURE__*/ S.Record(S.String, Spend.pipe(S.optional));
 export type DimensionValue = string;
 export type DimensionValues = string[];
 export const DimensionValues = /*@__PURE__*/ S.Array(S.String);
 export type CostFilters = { [key: string]: string[] | undefined };
-export const CostFilters = /*@__PURE__*/ S.Record(
-  S.String,
-  DimensionValues.pipe(S.optional),
-);
+export const CostFilters = /*@__PURE__*/ S.Record(S.String, DimensionValues.pipe(S.optional));
 export interface CostTypes {
   IncludeTax?: boolean;
   IncludeSubscription?: boolean;
@@ -302,13 +278,7 @@ export const CostTypes = /*@__PURE__*/ S.suspend(() =>
     UseAmortized: S.optional(S.Boolean),
   }),
 ).annotate({ identifier: "CostTypes" }) as any as S.Schema<CostTypes>;
-export type TimeUnit =
-  | "DAILY"
-  | "MONTHLY"
-  | "QUARTERLY"
-  | "ANNUALLY"
-  | "CUSTOM"
-  | (string & {});
+export type TimeUnit = "DAILY" | "MONTHLY" | "QUARTERLY" | "ANNUALLY" | "CUSTOM" | (string & {});
 export const TimeUnit = S.String;
 
 export interface TimePeriod {
@@ -365,9 +335,7 @@ export const AutoAdjustData = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoAdjustType: AutoAdjustType,
     HistoricalOptions: S.optional(HistoricalOptions),
-    LastAutoAdjustTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastAutoAdjustTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "AutoAdjustData" }) as any as S.Schema<AutoAdjustData>;
 export type Expressions = Expression[];
@@ -482,12 +450,8 @@ export interface Expression {
 }
 export const Expression = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    Or: S.optional(
-      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
-    ),
-    And: S.optional(
-      S.suspend(() => Expressions).annotate({ identifier: "Expressions" }),
-    ),
+    Or: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
+    And: S.optional(S.suspend(() => Expressions).annotate({ identifier: "Expressions" })),
     Not: S.optional(
       S.suspend((): S.Schema<Expression> => Expression).annotate({
         identifier: "Expression",
@@ -533,9 +497,7 @@ export const HealthStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Status: S.optional(HealthStatusValue),
     StatusReason: S.optional(HealthStatusReason),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "HealthStatus" }) as any as S.Schema<HealthStatus>;
 export interface Budget {
@@ -566,9 +528,7 @@ export const Budget = /*@__PURE__*/ S.suspend(() =>
     TimePeriod: S.optional(TimePeriod),
     CalculatedSpend: S.optional(CalculatedSpend),
     BudgetType: BudgetType,
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AutoAdjustData: S.optional(AutoAdjustData),
     FilterExpression: S.optional(Expression),
     Metrics: S.optional(Metrics),
@@ -579,11 +539,7 @@ export const Budget = /*@__PURE__*/ S.suspend(() =>
 export type NotificationType = "ACTUAL" | "FORECASTED" | (string & {});
 export const NotificationType = S.String;
 
-export type ComparisonOperator =
-  | "GREATER_THAN"
-  | "LESS_THAN"
-  | "EQUAL_TO"
-  | (string & {});
+export type ComparisonOperator = "GREATER_THAN" | "LESS_THAN" | "EQUAL_TO" | (string & {});
 export const ComparisonOperator = S.String;
 
 export type NotificationThreshold = number;
@@ -632,9 +588,7 @@ export const NotificationWithSubscribers = /*@__PURE__*/ S.suspend(() =>
   identifier: "NotificationWithSubscribers",
 }) as any as S.Schema<NotificationWithSubscribers>;
 export type NotificationWithSubscribersList = NotificationWithSubscribers[];
-export const NotificationWithSubscribersList = /*@__PURE__*/ S.Array(
-  NotificationWithSubscribers,
-);
+export const NotificationWithSubscribersList = /*@__PURE__*/ S.Array(NotificationWithSubscribers);
 export type ResourceTagKey = string;
 export type ResourceTagValue = string;
 export interface ResourceTag {
@@ -658,16 +612,12 @@ export const CreateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     Budget: Budget,
     NotificationsWithSubscribers: S.optional(NotificationWithSubscribersList),
     ResourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBudgetRequest",
 }) as any as S.Schema<CreateBudgetRequest>;
 export interface CreateBudgetResponse {}
-export const CreateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateBudgetResponse",
 }) as any as S.Schema<CreateBudgetResponse>;
 export type ActionType =
@@ -728,10 +678,7 @@ export const ScpActionDefinition = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ScpActionDefinition",
 }) as any as S.Schema<ScpActionDefinition>;
-export type ActionSubType =
-  | "STOP_EC2_INSTANCES"
-  | "STOP_RDS_INSTANCES"
-  | (string & {});
+export type ActionSubType = "STOP_EC2_INSTANCES" | "STOP_RDS_INSTANCES" | (string & {});
 export const ActionSubType = S.String;
 
 export type Region = string;
@@ -792,9 +739,7 @@ export const CreateBudgetActionRequest = /*@__PURE__*/ S.suspend(() =>
     ApprovalModel: ApprovalModel,
     Subscribers: Subscribers,
     ResourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBudgetActionRequest",
 }) as any as S.Schema<CreateBudgetActionRequest>;
@@ -821,16 +766,12 @@ export const CreateNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     BudgetName: S.String,
     Notification: Notification,
     Subscribers: Subscribers,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateNotificationRequest",
 }) as any as S.Schema<CreateNotificationRequest>;
 export interface CreateNotificationResponse {}
-export const CreateNotificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateNotificationResponse",
 }) as any as S.Schema<CreateNotificationResponse>;
 export interface CreateSubscriberRequest {
@@ -845,16 +786,12 @@ export const CreateSubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     BudgetName: S.String,
     Notification: Notification,
     Subscriber: Subscriber,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSubscriberRequest",
 }) as any as S.Schema<CreateSubscriberRequest>;
 export interface CreateSubscriberResponse {}
-export const CreateSubscriberResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateSubscriberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateSubscriberResponse",
 }) as any as S.Schema<CreateSubscriberResponse>;
 export interface DeleteBudgetRequest {
@@ -869,9 +806,7 @@ export const DeleteBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBudgetRequest",
 }) as any as S.Schema<DeleteBudgetRequest>;
 export interface DeleteBudgetResponse {}
-export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBudgetResponse",
 }) as any as S.Schema<DeleteBudgetResponse>;
 export interface DeleteBudgetActionRequest {
@@ -884,9 +819,7 @@ export const DeleteBudgetActionRequest = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.String,
     BudgetName: S.String,
     ActionId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteBudgetActionRequest",
 }) as any as S.Schema<DeleteBudgetActionRequest>;
@@ -950,16 +883,12 @@ export const DeleteNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.String,
     BudgetName: S.String,
     Notification: Notification,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteNotificationRequest",
 }) as any as S.Schema<DeleteNotificationRequest>;
 export interface DeleteNotificationResponse {}
-export const DeleteNotificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteNotificationResponse",
 }) as any as S.Schema<DeleteNotificationResponse>;
 export interface DeleteSubscriberRequest {
@@ -974,16 +903,12 @@ export const DeleteSubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     BudgetName: S.String,
     Notification: Notification,
     Subscriber: Subscriber,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteSubscriberRequest",
 }) as any as S.Schema<DeleteSubscriberRequest>;
 export interface DeleteSubscriberResponse {}
-export const DeleteSubscriberResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSubscriberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSubscriberResponse",
 }) as any as S.Schema<DeleteSubscriberResponse>;
 export interface DescribeBudgetRequest {
@@ -996,9 +921,7 @@ export const DescribeBudgetRequest = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.String,
     BudgetName: S.String,
     ShowFilterExpression: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetRequest",
 }) as any as S.Schema<DescribeBudgetRequest>;
@@ -1020,9 +943,7 @@ export const DescribeBudgetActionRequest = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.String,
     BudgetName: S.String,
     ActionId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetActionRequest",
 }) as any as S.Schema<DescribeBudgetActionRequest>;
@@ -1045,18 +966,15 @@ export interface DescribeBudgetActionHistoriesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBudgetActionHistoriesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String,
-      BudgetName: S.String,
-      ActionId: S.String,
-      TimePeriod: S.optional(TimePeriod),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeBudgetActionHistoriesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    BudgetName: S.String,
+    ActionId: S.String,
+    TimePeriod: S.optional(TimePeriod),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetActionHistoriesRequest",
 }) as any as S.Schema<DescribeBudgetActionHistoriesRequest>;
@@ -1098,12 +1016,11 @@ export interface DescribeBudgetActionHistoriesResponse {
   ActionHistories: ActionHistory[];
   NextToken?: string;
 }
-export const DescribeBudgetActionHistoriesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ActionHistories: ActionHistories,
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeBudgetActionHistoriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ActionHistories: ActionHistories,
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeBudgetActionHistoriesResponse",
 }) as any as S.Schema<DescribeBudgetActionHistoriesResponse>;
@@ -1112,15 +1029,12 @@ export interface DescribeBudgetActionsForAccountRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBudgetActionsForAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeBudgetActionsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetActionsForAccountRequest",
 }) as any as S.Schema<DescribeBudgetActionsForAccountRequest>;
@@ -1130,8 +1044,8 @@ export interface DescribeBudgetActionsForAccountResponse {
   Actions: Action[];
   NextToken?: string;
 }
-export const DescribeBudgetActionsForAccountResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Actions: Actions, NextToken: S.optional(S.String) }),
+export const DescribeBudgetActionsForAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Actions: Actions, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeBudgetActionsForAccountResponse",
 }) as any as S.Schema<DescribeBudgetActionsForAccountResponse>;
@@ -1141,16 +1055,13 @@ export interface DescribeBudgetActionsForBudgetRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBudgetActionsForBudgetRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String,
-      BudgetName: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeBudgetActionsForBudgetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    BudgetName: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetActionsForBudgetRequest",
 }) as any as S.Schema<DescribeBudgetActionsForBudgetRequest>;
@@ -1158,8 +1069,8 @@ export interface DescribeBudgetActionsForBudgetResponse {
   Actions: Action[];
   NextToken?: string;
 }
-export const DescribeBudgetActionsForBudgetResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Actions: Actions, NextToken: S.optional(S.String) }),
+export const DescribeBudgetActionsForBudgetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Actions: Actions, NextToken: S.optional(S.String) }),
 ).annotate({
   identifier: "DescribeBudgetActionsForBudgetResponse",
 }) as any as S.Schema<DescribeBudgetActionsForBudgetResponse>;
@@ -1169,18 +1080,15 @@ export interface DescribeBudgetNotificationsForAccountRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBudgetNotificationsForAccountRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeBudgetNotificationsForAccountRequest",
-  }) as any as S.Schema<DescribeBudgetNotificationsForAccountRequest>;
+export const DescribeBudgetNotificationsForAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeBudgetNotificationsForAccountRequest",
+}) as any as S.Schema<DescribeBudgetNotificationsForAccountRequest>;
 export type Notifications = Notification[];
 export const Notifications = /*@__PURE__*/ S.Array(Notification);
 export interface BudgetNotificationsForAccount {
@@ -1203,17 +1111,14 @@ export interface DescribeBudgetNotificationsForAccountResponse {
   BudgetNotificationsForAccount?: BudgetNotificationsForAccount[];
   NextToken?: string;
 }
-export const DescribeBudgetNotificationsForAccountResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      BudgetNotificationsForAccount: S.optional(
-        BudgetNotificationsForAccountList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeBudgetNotificationsForAccountResponse",
-  }) as any as S.Schema<DescribeBudgetNotificationsForAccountResponse>;
+export const DescribeBudgetNotificationsForAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BudgetNotificationsForAccount: S.optional(BudgetNotificationsForAccountList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeBudgetNotificationsForAccountResponse",
+}) as any as S.Schema<DescribeBudgetNotificationsForAccountResponse>;
 export interface DescribeBudgetPerformanceHistoryRequest {
   AccountId: string;
   BudgetName: string;
@@ -1221,17 +1126,14 @@ export interface DescribeBudgetPerformanceHistoryRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeBudgetPerformanceHistoryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String,
-      BudgetName: S.String,
-      TimePeriod: S.optional(TimePeriod),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeBudgetPerformanceHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    BudgetName: S.String,
+    TimePeriod: S.optional(TimePeriod),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetPerformanceHistoryRequest",
 }) as any as S.Schema<DescribeBudgetPerformanceHistoryRequest>;
@@ -1250,9 +1152,7 @@ export const BudgetedAndActualAmounts = /*@__PURE__*/ S.suspend(() =>
   identifier: "BudgetedAndActualAmounts",
 }) as any as S.Schema<BudgetedAndActualAmounts>;
 export type BudgetedAndActualAmountsList = BudgetedAndActualAmounts[];
-export const BudgetedAndActualAmountsList = /*@__PURE__*/ S.Array(
-  BudgetedAndActualAmounts,
-);
+export const BudgetedAndActualAmountsList = /*@__PURE__*/ S.Array(BudgetedAndActualAmounts);
 export interface BudgetPerformanceHistory {
   BudgetName?: string;
   BudgetType?: BudgetType;
@@ -1283,12 +1183,11 @@ export interface DescribeBudgetPerformanceHistoryResponse {
   BudgetPerformanceHistory?: BudgetPerformanceHistory;
   NextToken?: string;
 }
-export const DescribeBudgetPerformanceHistoryResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BudgetPerformanceHistory: S.optional(BudgetPerformanceHistory),
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeBudgetPerformanceHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BudgetPerformanceHistory: S.optional(BudgetPerformanceHistory),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeBudgetPerformanceHistoryResponse",
 }) as any as S.Schema<DescribeBudgetPerformanceHistoryResponse>;
@@ -1305,9 +1204,7 @@ export const DescribeBudgetsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     ShowFilterExpression: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeBudgetsRequest",
 }) as any as S.Schema<DescribeBudgetsRequest>;
@@ -1328,16 +1225,13 @@ export interface DescribeNotificationsForBudgetRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeNotificationsForBudgetRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AccountId: S.String,
-      BudgetName: S.String,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeNotificationsForBudgetRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    BudgetName: S.String,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeNotificationsForBudgetRequest",
 }) as any as S.Schema<DescribeNotificationsForBudgetRequest>;
@@ -1345,12 +1239,11 @@ export interface DescribeNotificationsForBudgetResponse {
   Notifications?: Notification[];
   NextToken?: string;
 }
-export const DescribeNotificationsForBudgetResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Notifications: S.optional(Notifications),
-      NextToken: S.optional(S.String),
-    }),
+export const DescribeNotificationsForBudgetResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Notifications: S.optional(Notifications),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeNotificationsForBudgetResponse",
 }) as any as S.Schema<DescribeNotificationsForBudgetResponse>;
@@ -1361,33 +1254,29 @@ export interface DescribeSubscribersForNotificationRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeSubscribersForNotificationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String,
-      BudgetName: S.String,
-      Notification: Notification,
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DescribeSubscribersForNotificationRequest",
-  }) as any as S.Schema<DescribeSubscribersForNotificationRequest>;
+export const DescribeSubscribersForNotificationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    BudgetName: S.String,
+    Notification: Notification,
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeSubscribersForNotificationRequest",
+}) as any as S.Schema<DescribeSubscribersForNotificationRequest>;
 export interface DescribeSubscribersForNotificationResponse {
   Subscribers?: Subscriber[];
   NextToken?: string;
 }
-export const DescribeSubscribersForNotificationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Subscribers: S.optional(Subscribers),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeSubscribersForNotificationResponse",
-  }) as any as S.Schema<DescribeSubscribersForNotificationResponse>;
+export const DescribeSubscribersForNotificationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Subscribers: S.optional(Subscribers),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeSubscribersForNotificationResponse",
+}) as any as S.Schema<DescribeSubscribersForNotificationResponse>;
 export type ExecutionType =
   | "APPROVE_BUDGET_ACTION"
   | "RETRY_BUDGET_ACTION"
@@ -1408,9 +1297,7 @@ export const ExecuteBudgetActionRequest = /*@__PURE__*/ S.suspend(() =>
     BudgetName: S.String,
     ActionId: S.String,
     ExecutionType: ExecutionType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExecuteBudgetActionRequest",
 }) as any as S.Schema<ExecuteBudgetActionRequest>;
@@ -1461,9 +1348,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeyList = string[];
@@ -1480,9 +1365,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBudgetRequest {
@@ -1497,9 +1380,7 @@ export const UpdateBudgetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateBudgetRequest",
 }) as any as S.Schema<UpdateBudgetRequest>;
 export interface UpdateBudgetResponse {}
-export const UpdateBudgetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateBudgetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateBudgetResponse",
 }) as any as S.Schema<UpdateBudgetResponse>;
 export interface UpdateBudgetActionRequest {
@@ -1524,9 +1405,7 @@ export const UpdateBudgetActionRequest = /*@__PURE__*/ S.suspend(() =>
     ExecutionRoleArn: S.optional(S.String),
     ApprovalModel: S.optional(ApprovalModel),
     Subscribers: S.optional(Subscribers),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateBudgetActionRequest",
 }) as any as S.Schema<UpdateBudgetActionRequest>;
@@ -1558,16 +1437,12 @@ export const UpdateNotificationRequest = /*@__PURE__*/ S.suspend(() =>
     BudgetName: S.String,
     OldNotification: Notification,
     NewNotification: Notification,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateNotificationRequest",
 }) as any as S.Schema<UpdateNotificationRequest>;
 export interface UpdateNotificationResponse {}
-export const UpdateNotificationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateNotificationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateNotificationResponse",
 }) as any as S.Schema<UpdateNotificationResponse>;
 export interface UpdateSubscriberRequest {
@@ -1584,16 +1459,12 @@ export const UpdateSubscriberRequest = /*@__PURE__*/ S.suspend(() =>
     Notification: Notification,
     OldSubscriber: Subscriber,
     NewSubscriber: Subscriber,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSubscriberRequest",
 }) as any as S.Schema<UpdateSubscriberRequest>;
 export interface UpdateSubscriberResponse {}
-export const UpdateSubscriberResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateSubscriberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateSubscriberResponse",
 }) as any as S.Schema<UpdateSubscriberResponse>;
 export type ErrorMessage = string;

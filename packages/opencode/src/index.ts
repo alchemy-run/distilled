@@ -22,11 +22,7 @@ export {
 export type { Config as OpencodeClientConfig } from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  OpencodeProtocol,
-  type OpencodeOpError,
-  type OpencodeOpContext,
-} from "./protocol.ts";
+export { OpencodeProtocol, type OpencodeOpError, type OpencodeOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
@@ -35,9 +31,4 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts — the ops actually raise the
 // service-local classes.
 export * from "./services/opencode.ts";
-export {
-  BadRequest,
-  Conflict,
-  Forbidden,
-  NotFound,
-} from "./services/opencode.ts";
+export { BadRequest, Conflict, Forbidden, NotFound } from "./services/opencode.ts";

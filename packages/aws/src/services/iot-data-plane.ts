@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoT Data Plane",
   serviceShapeName: "IotMoonrakerService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -81,9 +77,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data-ats.iot-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -91,9 +85,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         if (Region === "cn-north-1") {
           return e("https://data.ats.iot.cn-north-1.amazonaws.com.cn");
@@ -107,9 +99,7 @@ const rules = T.EndpointResolver((p, _) => {
         if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
           return e(`https://data-ats.iot.${Region}.amazonaws.com`);
         }
-        return e(
-          `https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data-ats.iot.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -200,9 +190,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.HttpLabel("clientId")),
     cleanSession: S.optional(S.Boolean).pipe(T.HttpQuery("cleanSession")),
-    preventWillMessage: S.optional(S.Boolean).pipe(
-      T.HttpQuery("preventWillMessage"),
-    ),
+    preventWillMessage: S.optional(S.Boolean).pipe(T.HttpQuery("preventWillMessage")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/connections/{clientId}" }),
@@ -217,9 +205,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
 export interface DeleteConnectionResponse {}
-export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConnectionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionResponse",
 }) as any as S.Schema<DeleteConnectionResponse>;
 export type ThingName = string;
@@ -261,18 +247,9 @@ export interface GetConnectionRequest {
 export const GetConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientId: S.String.pipe(T.HttpLabel("clientId")),
-    includeSocketInformation: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeSocketInformation"),
-    ),
+    includeSocketInformation: S.optional(S.Boolean).pipe(T.HttpQuery("includeSocketInformation")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/connections/{clientId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/connections/{clientId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetConnectionRequest",
@@ -328,14 +305,7 @@ export interface GetRetainedMessageRequest {
 }
 export const GetRetainedMessageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ topic: S.String.pipe(T.HttpLabel("topic")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/retainedMessage/{topic}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetRetainedMessageRequest",
@@ -443,16 +413,7 @@ export const ListRetainedMessagesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/retainedMessage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/retainedMessage" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRetainedMessagesRequest",
 }) as any as S.Schema<ListRetainedMessagesRequest>;
@@ -474,9 +435,7 @@ export const RetainedMessageSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "RetainedMessageSummary",
 }) as any as S.Schema<RetainedMessageSummary>;
 export type RetainedMessageList = RetainedMessageSummary[];
-export const RetainedMessageList = /*@__PURE__*/ S.Array(
-  RetainedMessageSummary,
-);
+export const RetainedMessageList = /*@__PURE__*/ S.Array(RetainedMessageSummary);
 export interface ListRetainedMessagesResponse {
   retainedTopics?: RetainedMessageSummary[];
   nextToken?: string;
@@ -538,10 +497,7 @@ export const ListSubscriptionsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSubscriptionsResponse>;
 export type Retain = boolean;
 export type SynthesizedJsonUserProperties = string;
-export type PayloadFormatIndicator =
-  | "UNSPECIFIED_BYTES"
-  | "UTF8_DATA"
-  | (string & {});
+export type PayloadFormatIndicator = "UNSPECIFIED_BYTES" | "UTF8_DATA" | (string & {});
 export const PayloadFormatIndicator = S.String;
 
 export type ContentType = string;
@@ -566,33 +522,18 @@ export const PublishRequest = /*@__PURE__*/ S.suspend(() =>
     qos: S.optional(S.Number).pipe(T.HttpQuery("qos")),
     retain: S.optional(S.Boolean).pipe(T.HttpQuery("retain")),
     payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    userProperties: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-user-properties"),
-    ),
+    userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
     payloadFormatIndicator: S.optional(PayloadFormatIndicator).pipe(
       T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
     ),
     contentType: S.optional(S.String).pipe(T.HttpQuery("contentType")),
     responseTopic: S.optional(S.String).pipe(T.HttpQuery("responseTopic")),
-    correlationData: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-correlation-data"),
-    ),
+    correlationData: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-correlation-data")),
     messageExpiry: S.optional(S.Number).pipe(T.HttpQuery("messageExpiry")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/topics/{topic}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/topics/{topic}" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "PublishRequest" }) as any as S.Schema<PublishRequest>;
 export interface PublishResponse {}
-export const PublishResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PublishResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishResponse",
 }) as any as S.Schema<PublishResponse>;
 export type Confirmation = boolean;
@@ -618,15 +559,11 @@ export const SendDirectMessageRequest = /*@__PURE__*/ S.suspend(() =>
     confirmation: S.optional(S.Boolean).pipe(T.HttpQuery("confirmation")),
     timeout: S.optional(S.Number).pipe(T.HttpQuery("timeout")),
     payload: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
-    userProperties: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-user-properties"),
-    ),
+    userProperties: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-user-properties")),
     payloadFormatIndicator: S.optional(PayloadFormatIndicator).pipe(
       T.HttpHeader("x-amz-mqtt5-payload-format-indicator"),
     ),
-    correlationData: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-mqtt5-correlation-data"),
-    ),
+    correlationData: S.optional(S.String).pipe(T.HttpHeader("x-amz-mqtt5-correlation-data")),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/connections/{clientId}/messages" }),

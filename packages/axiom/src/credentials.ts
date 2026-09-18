@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Axiom credentials — hand-written.
  *
@@ -12,7 +13,6 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** Default base URL for Axiom Cloud. Self-hosted users can override via AXIOM_URL. */
 export const DEFAULT_API_BASE_URL = "https://api.axiom.co";
@@ -28,10 +28,9 @@ export interface Config {
   readonly orgId?: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("AxiomCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "AxiomCredentials",
+) {}
 
 /** Layer from a plain API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
@@ -42,9 +41,7 @@ export const fromApiKey = (config: {
   Layer.succeed(
     Credentials,
     Effect.succeed({
-      apiKey: Redacted.isRedacted(config.apiKey)
-        ? config.apiKey
-        : Redacted.make(config.apiKey),
+      apiKey: Redacted.isRedacted(config.apiKey) ? config.apiKey : Redacted.make(config.apiKey),
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
       orgId: config.orgId,
     }),
@@ -53,9 +50,7 @@ export const fromApiKey = (config: {
 const envConfig = EffectConfig.all({
   apiToken: EffectConfig.option(EffectConfig.String("AXIOM_TOKEN")),
   apiKey: EffectConfig.option(EffectConfig.String("AXIOM_API_KEY")),
-  apiBaseUrl: EffectConfig.String("AXIOM_URL").pipe(
-    EffectConfig.withDefault(DEFAULT_API_BASE_URL),
-  ),
+  apiBaseUrl: EffectConfig.String("AXIOM_URL").pipe(EffectConfig.withDefault(DEFAULT_API_BASE_URL)),
   orgId: EffectConfig.option(EffectConfig.String("AXIOM_ORG_ID")),
 });
 
@@ -74,19 +69,15 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
       Effect.mapError(
         () =>
           new ConfigError({
-            message:
-              "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
+            message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
           }),
       ),
     );
-    const apiKey =
-      Option.getOrUndefined(config.apiToken) ??
-      Option.getOrUndefined(config.apiKey);
+    const apiKey = Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.apiKey);
 
     if (!apiKey) {
       return yield* new ConfigError({
-        message:
-          "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
+        message: "AXIOM_TOKEN (or AXIOM_API_KEY) environment variable is required",
       });
     }
 

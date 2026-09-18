@@ -30,7 +30,7 @@ import type * as AST from "effect/SchemaAST";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as API from "./api.ts";
-import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
+import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import {
   buildRequest,
   getAnn,
@@ -41,16 +41,14 @@ import {
   matchTypedError,
   resolveNode,
 } from "./protocol-http.ts";
-import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
 
 // =============================================================================
 // Traits
 // =============================================================================
 
-export const sensitiveValueSymbol = Symbol.for(
-  "@distilled.cloud/core/sensitive-value",
-);
+export const sensitiveValueSymbol = Symbol.for("@distilled.cloud/core/sensitive-value");
 /**
  * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
  * The REST protocol wraps decoded values in `Redacted` on the way out and
@@ -58,34 +56,25 @@ export const sensitiveValueSymbol = Symbol.for(
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
  */
-export const SensitiveValue = (_value?: unknown) =>
-  makeAnnotation(sensitiveValueSymbol, true);
+export const SensitiveValue = (_value?: unknown) => makeAnnotation(sensitiveValueSymbol, true);
 
-export const rawResponseSymbol = Symbol.for(
-  "@distilled.cloud/core/raw-response",
-);
+export const rawResponseSymbol = Symbol.for("@distilled.cloud/core/raw-response");
 /**
  * Marks the sole output member that carries a bare (array/scalar) response
  * body (mirrors `com.distilled.openapi#rawResponse`).
  */
-export const RawResponse = (_value?: unknown) =>
-  makeAnnotation(rawResponseSymbol, true);
+export const RawResponse = (_value?: unknown) => makeAnnotation(rawResponseSymbol, true);
 
-export const rawResponseRootSymbol = Symbol.for(
-  "@distilled.cloud/core/raw-response-root",
-);
+export const rawResponseRootSymbol = Symbol.for("@distilled.cloud/core/raw-response-root");
 /**
  * Marks a response schema whose ENTIRE value is the response body (the
  * generator's `rootPipe` for synthesized bare-payload wrappers): the emitted
  * response type IS the payload type and the protocol returns the mapped body
  * directly.
  */
-export const RawResponseRoot = () =>
-  makeAnnotation(rawResponseRootSymbol, true);
+export const RawResponseRoot = () => makeAnnotation(rawResponseRootSymbol, true);
 
-export const binaryResponseSymbol = Symbol.for(
-  "@distilled.cloud/core/binary-response",
-);
+export const binaryResponseSymbol = Symbol.for("@distilled.cloud/core/binary-response");
 
 /** Decode a successful raw binary response as bytes, without text conversion. */
 export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
@@ -99,8 +88,7 @@ const isPlainObject = (v: unknown): v is Record<string, unknown> =>
   typeof v === "object" &&
   !Array.isArray(v) &&
   !isOpaqueValue(v) &&
-  (Object.getPrototypeOf(v) === Object.prototype ||
-    Object.getPrototypeOf(v) === null);
+  (Object.getPrototypeOf(v) === Object.prototype || Object.getPrototypeOf(v) === null);
 
 /**
  * Deep-unwrap `Redacted` values in an input (plain objects/arrays only —
@@ -134,10 +122,7 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
   const node = resolveNode(ast);
   if (node._tag === "Union") {
     // Redact every possible sensitive member, including in partial responses.
-    return node.types.reduce<unknown>(
-      (redacted, arm) => wrapSensitive(arm, redacted),
-      value,
-    );
+    return node.types.reduce<unknown>((redacted, arm) => wrapSensitive(arm, redacted), value);
   }
   if (node._tag === "Arrays") {
     if (!Array.isArray(value)) return value;
@@ -154,10 +139,7 @@ export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
       const prop = byName.get(k);
       if (!prop) {
         out[k] = v;
-      } else if (
-        getPropAnn(prop, sensitiveValueSymbol) !== undefined &&
-        typeof v === "string"
-      ) {
+      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && typeof v === "string") {
         out[k] = Redacted.make(v);
       } else {
         out[k] = wrapSensitive(prop.type, v);
@@ -240,16 +222,9 @@ export interface RestProtocolOptions<C> {
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   if (body === null || typeof body !== "object") return undefined;
   const b = body as Record<string, unknown>;
-  const code =
-    typeof b.code === "string" || typeof b.code === "number"
-      ? b.code
-      : undefined;
+  const code = typeof b.code === "string" || typeof b.code === "number" ? b.code : undefined;
   const message =
-    typeof b.message === "string"
-      ? b.message
-      : typeof b.error === "string"
-        ? b.error
-        : undefined;
+    typeof b.message === "string" ? b.message : typeof b.error === "string" ? b.error : undefined;
   return { code, message };
 };
 
@@ -257,29 +232,19 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // but REST failures are real typed errors that operations re-surface via
 // their `errors: [...]` lists. Fail with the instance and erase the type
 // here; the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * Build a `Layer<Protocol>` for a simple REST JSON API. Assign the result to
  * a module-level const in the provider's `protocol.ts` — `API.make` memoizes
  * protocol layers by value identity.
  */
-export const makeRestProtocol = <C>(
-  options: RestProtocolOptions<C>,
-): Layer.Layer<API.Protocol> => {
+export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Layer<API.Protocol> => {
   const errorEnvelope = options.errorEnvelope ?? defaultErrorEnvelope;
-  const statusMap: Readonly<
-    Record<number, (new (args: any) => any) | undefined>
-  > = options.statusMap ?? HTTP_STATUS_MAP;
+  const statusMap: Readonly<Record<number, (new (args: any) => any) | undefined>> =
+    options.statusMap ?? HTTP_STATUS_MAP;
 
-  const encode = ({
-    input,
-    inputAst,
-  }: {
-    readonly input: unknown;
-    readonly inputAst: AST.AST;
-  }) =>
+  const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
     Effect.gen(function* () {
       const creds = yield* options.credentials as Effect.Effect<C>;
       const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
@@ -342,9 +307,7 @@ export const makeRestProtocol = <C>(
 
       if (status >= 400) {
         const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
-        const message =
-          env.message ??
-          (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
         // 1. Per-operation typed error (matcher metadata on the class).
         const typed = matchTypedError(errorClasses, status, [
@@ -403,8 +366,7 @@ export const makeRestProtocol = <C>(
     API.Protocol.of({
       // Erase encode's credentials requirement (resolved on the calling
       // fiber; see RestProtocolOptions.credentials).
-      encode: (args) =>
-        encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+      encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
       decode,
     }),
   );

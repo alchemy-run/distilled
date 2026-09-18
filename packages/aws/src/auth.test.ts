@@ -1,4 +1,8 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { createHash } from "node:crypto";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
 import * as Layer from "effect/Layer";
@@ -7,15 +11,7 @@ import * as PlatformError from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import { createHash } from "node:crypto";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import {
-  makeAuthService,
-  ssoRoleCredentialsCacheName,
-  ssoTokenCacheName,
-} from "./auth.ts";
+import { makeAuthService, ssoRoleCredentialsCacheName, ssoTokenCacheName } from "./auth.ts";
 
 const sha1 = (input: string) => createHash("sha1").update(input).digest("hex");
 
@@ -101,9 +97,7 @@ const harness = (home: string) => {
       Effect.sync(() => {
         expect(url.hostname).toBe(`portal.sso.${SSO_REGION}.amazonaws.com`);
         expect(url.pathname).toBe("/federation/credentials");
-        expect(request.headers["x-amz-sso_bearer_token"]).toBe(
-          "token-for-session",
-        );
+        expect(request.headers["x-amz-sso_bearer_token"]).toBe("token-for-session");
         const accountId = url.searchParams.get("account_id")!;
         const roleName = url.searchParams.get("role_name")!;
         portalCalls.push(`${accountId}/${roleName}`);
@@ -126,15 +120,12 @@ const harness = (home: string) => {
 
   const load = (profile: string) =>
     Effect.runPromise(
-      Effect.flatMap(makeAuthService(), (auth) =>
-        auth.loadProfileCredentials(profile),
-      ).pipe(Effect.provide(layer)),
+      Effect.flatMap(makeAuthService(), (auth) => auth.loadProfileCredentials(profile)).pipe(
+        Effect.provide(layer),
+      ),
     );
 
-  const credsPath = (profile: {
-    sso_account_id: string;
-    sso_role_name: string;
-  }) =>
+  const credsPath = (profile: { sso_account_id: string; sso_role_name: string }) =>
     join(
       cacheDir,
       `${ssoRoleCredentialsCacheName({ sso_session: SESSION, ...profile })}.credentials.json`,
@@ -164,17 +155,11 @@ describe("SSO role credentials cache (#565)", () => {
 
   test("two profiles sharing one sso_session each get their own account's keys", async () => {
     const dev = await h.load("dev");
-    expect(Redacted.value(dev.accessKeyId)).toBe(
-      "AKIA-111111111111-AdministratorAccess",
-    );
+    expect(Redacted.value(dev.accessKeyId)).toBe("AKIA-111111111111-AdministratorAccess");
 
     const prod = await h.load("prod");
-    expect(Redacted.value(prod.accessKeyId)).toBe(
-      "AKIA-222222222222-AdministratorAccess",
-    );
-    expect(Redacted.value(prod.secretAccessKey)).toBe(
-      "secret-222222222222-AdministratorAccess",
-    );
+    expect(Redacted.value(prod.accessKeyId)).toBe("AKIA-222222222222-AdministratorAccess");
+    expect(Redacted.value(prod.secretAccessKey)).toBe("secret-222222222222-AdministratorAccess");
 
     expect(h.portalCalls).toEqual([
       "111111111111/AdministratorAccess",
@@ -193,11 +178,9 @@ describe("SSO role credentials cache (#565)", () => {
     expect(devPath).not.toBe(prodPath);
     expect(h.files.has(devPath)).toBe(true);
     expect(h.files.has(prodPath)).toBe(true);
-    expect(
-      h.files.has(
-        join(h.cacheDir, `${ssoTokenCacheName(SESSION)}.credentials.json`),
-      ),
-    ).toBe(false);
+    expect(h.files.has(join(h.cacheDir, `${ssoTokenCacheName(SESSION)}.credentials.json`))).toBe(
+      false,
+    );
 
     expect(JSON.parse(h.files.get(prodPath)!)).toMatchObject({
       accessKeyId: "AKIA-222222222222-AdministratorAccess",
@@ -209,9 +192,7 @@ describe("SSO role credentials cache (#565)", () => {
   test("same account, different role is a different cache entry", async () => {
     await h.load("prod");
     const readonly = await h.load("prod-readonly");
-    expect(Redacted.value(readonly.accessKeyId)).toBe(
-      "AKIA-222222222222-ReadOnlyAccess",
-    );
+    expect(Redacted.value(readonly.accessKeyId)).toBe("AKIA-222222222222-ReadOnlyAccess");
     expect(h.portalCalls).toEqual([
       "222222222222/AdministratorAccess",
       "222222222222/ReadOnlyAccess",
@@ -222,9 +203,7 @@ describe("SSO role credentials cache (#565)", () => {
     const first = await h.load("dev");
     const second = await h.load("dev");
     expect(h.portalCalls).toEqual(["111111111111/AdministratorAccess"]);
-    expect(Redacted.value(second.accessKeyId)).toBe(
-      Redacted.value(first.accessKeyId),
-    );
+    expect(Redacted.value(second.accessKeyId)).toBe(Redacted.value(first.accessKeyId));
     expect(second.region).toBe("us-west-2");
   });
 
@@ -245,9 +224,7 @@ describe("SSO role credentials cache (#565)", () => {
     );
 
     const fresh = await h.load("dev");
-    expect(Redacted.value(fresh.accessKeyId)).toBe(
-      "AKIA-111111111111-AdministratorAccess",
-    );
+    expect(Redacted.value(fresh.accessKeyId)).toBe("AKIA-111111111111-AdministratorAccess");
     expect(h.portalCalls).toEqual([
       "111111111111/AdministratorAccess",
       "111111111111/AdministratorAccess",
@@ -276,9 +253,7 @@ describe("SSO role credentials cache (#565)", () => {
     );
 
     const prod = await h.load("prod");
-    expect(Redacted.value(prod.accessKeyId)).toBe(
-      "AKIA-222222222222-AdministratorAccess",
-    );
+    expect(Redacted.value(prod.accessKeyId)).toBe("AKIA-222222222222-AdministratorAccess");
     expect(h.portalCalls).toEqual(["222222222222/AdministratorAccess"]);
     expect(JSON.parse(h.files.get(path)!).sso_account_id).toBe("222222222222");
   });
@@ -293,10 +268,7 @@ describe("SSO role credentials cache (#565)", () => {
       sessionToken: "session-legacy",
       expiry: inOneHour().getTime(),
     });
-    h.files.set(
-      join(h.cacheDir, `${ssoTokenCacheName(SESSION)}.credentials.json`),
-      legacy,
-    );
+    h.files.set(join(h.cacheDir, `${ssoTokenCacheName(SESSION)}.credentials.json`), legacy);
     h.files.set(
       h.credsPath({
         sso_account_id: "222222222222",
@@ -306,9 +278,7 @@ describe("SSO role credentials cache (#565)", () => {
     );
 
     const prod = await h.load("prod");
-    expect(Redacted.value(prod.accessKeyId)).toBe(
-      "AKIA-222222222222-AdministratorAccess",
-    );
+    expect(Redacted.value(prod.accessKeyId)).toBe("AKIA-222222222222-AdministratorAccess");
     expect(h.portalCalls).toEqual(["222222222222/AdministratorAccess"]);
   });
 
@@ -358,9 +328,9 @@ describe("SSO role credentials cache (#565)", () => {
     const layer = Layer.mergeAll(fs, http, Path.layer);
     for (const profile of ["dev", "prod"]) {
       await Effect.runPromise(
-        Effect.flatMap(makeAuthService(), (auth) =>
-          auth.loadProfileCredentials(profile),
-        ).pipe(Effect.provide(layer)),
+        Effect.flatMap(makeAuthService(), (auth) => auth.loadProfileCredentials(profile)).pipe(
+          Effect.provide(layer),
+        ),
       );
     }
 
@@ -386,9 +356,7 @@ describe("SSO role credentials cache (#565)", () => {
     expect(ssoRoleCredentialsCacheName(base)).not.toBe(
       ssoRoleCredentialsCacheName({ ...base, sso_role_name: "ReadOnlyAccess" }),
     );
-    expect(ssoRoleCredentialsCacheName(base)).not.toBe(
-      ssoTokenCacheName(SESSION),
-    );
+    expect(ssoRoleCredentialsCacheName(base)).not.toBe(ssoTokenCacheName(SESSION));
     // Legacy inline profiles key on the start URL, like the token does.
     expect(
       ssoRoleCredentialsCacheName({

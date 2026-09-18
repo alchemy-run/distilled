@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "signer",
   serviceShapeName: "WallabyService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,13 +52,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +62,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://signer.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -245,9 +233,7 @@ export const CancelSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelSigningProfileRequest",
 }) as any as S.Schema<CancelSigningProfileRequest>;
 export interface CancelSigningProfileResponse {}
-export const CancelSigningProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CancelSigningProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CancelSigningProfileResponse",
 }) as any as S.Schema<CancelSigningProfileResponse>;
 export type JobId = string;
@@ -256,14 +242,7 @@ export interface DescribeSigningJobRequest {
 }
 export const DescribeSigningJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String.pipe(T.HttpLabel("jobId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-jobs/{jobId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/signing-jobs/{jobId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeSigningJobRequest",
@@ -314,11 +293,7 @@ export const SigningConfigurationOverrides = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SigningConfigurationOverrides",
 }) as any as S.Schema<SigningConfigurationOverrides>;
-export type ImageFormat =
-  | "JSON"
-  | "JSONEmbedded"
-  | "JSONDetached"
-  | (string & {});
+export type ImageFormat = "JSON" | "JSONEmbedded" | "JSONDetached" | (string & {});
 export const ImageFormat = S.String;
 
 export interface SigningPlatformOverrides {
@@ -336,16 +311,9 @@ export const SigningPlatformOverrides = /*@__PURE__*/ S.suspend(() =>
 export type SigningParameterKey = string;
 export type SigningParameterValue = string;
 export type SigningParameters = { [key: string]: string | undefined };
-export const SigningParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SigningParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RequestedBy = string;
-export type SigningStatus =
-  | "InProgress"
-  | "Failed"
-  | "Succeeded"
-  | (string & {});
+export type SigningStatus = "InProgress" | "Failed" | "Succeeded" | (string & {});
 export const SigningStatus = S.String;
 
 export type StatusReason = string;
@@ -411,9 +379,7 @@ export const DescribeSigningJobResponse = /*@__PURE__*/ S.suspend(() =>
     signingParameters: S.optional(SigningParameters),
     createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     completedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    signatureExpiresAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     requestedBy: S.optional(S.String),
     status: S.optional(SigningStatus),
     statusReason: S.optional(S.String),
@@ -444,16 +410,7 @@ export const GetRevocationStatusRequest = /*@__PURE__*/ S.suspend(() =>
     profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
     jobArn: S.String.pipe(T.HttpQuery("jobArn")),
     certificateHashes: CertificateHashes.pipe(T.HttpQuery("certificateHashes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/revocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/revocations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRevocationStatusRequest",
 }) as any as S.Schema<GetRevocationStatusRequest>;
@@ -590,9 +547,7 @@ export interface SigningProfileRevocationRecord {
 }
 export const SigningProfileRevocationRecord = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    revocationEffectiveFrom: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    revocationEffectiveFrom: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     revokedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     revokedBy: S.optional(S.String),
   }),
@@ -611,20 +566,13 @@ export const SignatureValidityPeriod = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SignatureValidityPeriod",
 }) as any as S.Schema<SignatureValidityPeriod>;
-export type SigningProfileStatus =
-  | "Active"
-  | "Canceled"
-  | "Revoked"
-  | (string & {});
+export type SigningProfileStatus = "Active" | "Canceled" | "Revoked" | (string & {});
 export const SigningProfileStatus = S.String;
 
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetSigningProfileResponse {
   profileName?: string;
   profileVersion?: string;
@@ -739,23 +687,14 @@ export const ListSigningJobsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     isRevoked: S.optional(S.Boolean).pipe(T.HttpQuery("isRevoked")),
-    signatureExpiresBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("signatureExpiresBefore")),
-    signatureExpiresAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("signatureExpiresAfter")),
-    jobInvoker: S.optional(S.String).pipe(T.HttpQuery("jobInvoker")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
+    signatureExpiresBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("signatureExpiresBefore"),
     ),
-  ),
+    signatureExpiresAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("signatureExpiresAfter"),
+    ),
+    jobInvoker: S.optional(S.String).pipe(T.HttpQuery("jobInvoker")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/signing-jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSigningJobsRequest",
 }) as any as S.Schema<ListSigningJobsRequest>;
@@ -788,9 +727,7 @@ export const SigningJob = /*@__PURE__*/ S.suspend(() =>
     profileVersion: S.optional(S.String),
     platformId: S.optional(S.String),
     platformDisplayName: S.optional(S.String),
-    signatureExpiresAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    signatureExpiresAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     jobOwner: S.optional(S.String),
     jobInvoker: S.optional(S.String),
   }),
@@ -821,14 +758,7 @@ export const ListSigningPlatformsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-platforms" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/signing-platforms" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSigningPlatformsRequest",
@@ -889,16 +819,7 @@ export const ListSigningProfilesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     platformId: S.optional(S.String).pipe(T.HttpQuery("platformId")),
     statuses: S.optional(Statuses).pipe(T.HttpQuery("statuses")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signing-profiles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/signing-profiles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSigningProfilesRequest",
 }) as any as S.Schema<ListSigningProfilesRequest>;
@@ -949,14 +870,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1073,9 +987,7 @@ export const RevokeSignatureRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RevokeSignatureRequest",
 }) as any as S.Schema<RevokeSignatureRequest>;
 export interface RevokeSignatureResponse {}
-export const RevokeSignatureResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RevokeSignatureResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RevokeSignatureResponse",
 }) as any as S.Schema<RevokeSignatureResponse>;
 export interface RevokeSigningProfileRequest {
@@ -1104,9 +1016,7 @@ export const RevokeSigningProfileRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RevokeSigningProfileRequest",
 }) as any as S.Schema<RevokeSigningProfileRequest>;
 export interface RevokeSigningProfileResponse {}
-export const RevokeSigningProfileResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RevokeSigningProfileResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RevokeSigningProfileResponse",
 }) as any as S.Schema<RevokeSigningProfileResponse>;
 export type Payload = Uint8Array;
@@ -1136,10 +1046,7 @@ export const SignPayloadRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SignPayloadRequest",
 }) as any as S.Schema<SignPayloadRequest>;
 export type Metadata = { [key: string]: string | undefined };
-export const Metadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Metadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SignPayloadResponse {
   jobId?: string;
   jobOwner?: string;
@@ -1185,16 +1092,7 @@ export const StartSigningJobRequest = /*@__PURE__*/ S.suspend(() =>
     profileName: S.String,
     clientRequestToken: S.String.pipe(T.IdempotencyToken()),
     profileOwner: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/signing-jobs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/signing-jobs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSigningJobRequest",
 }) as any as S.Schema<StartSigningJobRequest>;
@@ -1216,22 +1114,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1245,22 +1134,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -1579,11 +1459,7 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSigningProfilesRequest,
   output: ListSigningProfilesResponse,
-  errors: [
-    AccessDeniedException,
-    InternalServiceErrorException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, InternalServiceErrorException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSigningProfiles",

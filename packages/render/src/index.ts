@@ -15,11 +15,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  RenderProtocol,
-  type RenderOpError,
-  type RenderOpContext,
-} from "./protocol.ts";
+export { RenderProtocol, type RenderOpError, type RenderOpContext } from "./protocol.ts";
 export { paginateCursor, paginateRender } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";
@@ -28,9 +24,4 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts — the ops actually raise the
 // service-local classes.
 export * from "./services/render.ts";
-export {
-  BadRequest,
-  Conflict,
-  Forbidden,
-  NotFound,
-} from "./services/render.ts";
+export { BadRequest, Conflict, Forbidden, NotFound } from "./services/render.ts";

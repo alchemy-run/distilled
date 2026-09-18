@@ -51,8 +51,7 @@ const EXTRAS: DirectoryItem[] = [
     version: "v1",
     title: "Google Cloud Managed Lustre API",
     description: "Google Cloud Managed Lustre API.",
-    discoveryRestUrl:
-      "https://lustre.googleapis.com/$discovery/rest?version=v1",
+    discoveryRestUrl: "https://lustre.googleapis.com/$discovery/rest?version=v1",
     preferred: true,
   },
 ];
@@ -64,17 +63,12 @@ async function main() {
 
   const dirResponse = await fetch(DISCOVERY_URL);
   if (!dirResponse.ok) {
-    throw new Error(
-      `Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`,
-    );
+    throw new Error(`Failed to fetch directory: ${dirResponse.status} ${dirResponse.statusText}`);
   }
   const directory: DirectoryResponse = await dirResponse.json();
 
   // Save directory
-  await Bun.write(
-    `${SPECS_DIR}/_directory.json`,
-    JSON.stringify(directory, null, 2),
-  );
+  await Bun.write(`${SPECS_DIR}/_directory.json`, JSON.stringify(directory, null, 2));
 
   // Merge in APIs published outside the central directory. Re-sort by
   // name+version so the manifest stays alphabetically stable.
@@ -82,9 +76,7 @@ async function main() {
     `${a.name}:${a.version}`.localeCompare(`${b.name}:${b.version}`),
   );
 
-  console.log(
-    `Found ${directory.items.length} API entries (${EXTRAS.length} from EXTRAS)`,
-  );
+  console.log(`Found ${directory.items.length} API entries (${EXTRAS.length} from EXTRAS)`);
 
   // Fetch ALL versions of ALL APIs — no filtering
   const items = directory.items;
@@ -139,9 +131,7 @@ async function main() {
     .filter((item) => {
       // Check if file was actually written
       try {
-        return (
-          Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0
-        );
+        return Bun.file(`${SPECS_DIR}/${item.name}-${item.version}.json`).size > 0;
       } catch {
         return false;
       }
@@ -154,10 +144,7 @@ async function main() {
       filename: `${item.name}-${item.version}.json`,
     }));
 
-  await Bun.write(
-    `${SPECS_DIR}/_manifest.json`,
-    JSON.stringify(manifest, null, 2),
-  );
+  await Bun.write(`${SPECS_DIR}/_manifest.json`, JSON.stringify(manifest, null, 2));
 
   console.log(`\nDone! ${fetched} specs saved to specs/, ${failed} failed.`);
   console.log(`Manifest: ${SPECS_DIR}/_manifest.json`);

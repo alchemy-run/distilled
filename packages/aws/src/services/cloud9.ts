@@ -1,13 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Cloud9",
   serviceShapeName: "AWSCloud9WorkspaceManagementService",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,13 +53,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://cloud9-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://cloud9-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -71,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloud9.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloud9.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloud9.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -85,41 +73,29 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class BadRequestException
-  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()(
-    "BadRequestException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<BadRequestException>()("BadRequestException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class ConcurrentAccessException
-  extends /*@__PURE__*/ S.TaggedError<ConcurrentAccessException>()(
-    "ConcurrentAccessException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConcurrentAccessException>()("ConcurrentAccessException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class ForbiddenException
-  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()(
-    "ForbiddenException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ForbiddenException>()("ForbiddenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class InternalServerErrorException
   extends /*@__PURE__*/ S.TaggedError<InternalServerErrorException>()(
     "InternalServerErrorException",
@@ -130,32 +106,23 @@ export class InternalServerErrorException
     },
   ) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class NotFoundException
-  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()(
-    "NotFoundException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NotFoundException>()("NotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    {
-      message: S.optional(S.String).pipe(T.ErrorMessage()),
-      className: S.optional(S.String),
-      code: S.optional(S.Number),
-    },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+    className: S.optional(S.String),
+    code: S.optional(S.Number),
+  }) {}
 export type EnvironmentName = string;
 export type EnvironmentDescription = string | redacted.Redacted<string>;
 export type ClientRequestToken = string;
@@ -204,9 +171,7 @@ export const CreateEnvironmentEC2Request = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     connectionType: S.optional(ConnectionType),
     dryRun: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentEC2Request",
 }) as any as S.Schema<CreateEnvironmentEC2Request>;
@@ -232,9 +197,7 @@ export const CreateEnvironmentMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     userArn: S.String,
     permissions: MemberPermissions,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentMembershipRequest",
 }) as any as S.Schema<CreateEnvironmentMembershipRequest>;
@@ -278,9 +241,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResult {}
-export const DeleteEnvironmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEnvironmentResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResult",
 }) as any as S.Schema<DeleteEnvironmentResult>;
 export interface DeleteEnvironmentMembershipRequest {
@@ -310,17 +271,14 @@ export interface DescribeEnvironmentMembershipsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const DescribeEnvironmentMembershipsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userArn: S.optional(S.String),
-      environmentId: S.optional(S.String),
-      permissions: S.optional(PermissionsList),
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeEnvironmentMembershipsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userArn: S.optional(S.String),
+    environmentId: S.optional(S.String),
+    permissions: S.optional(PermissionsList),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEnvironmentMembershipsRequest",
 }) as any as S.Schema<DescribeEnvironmentMembershipsRequest>;
@@ -330,12 +288,11 @@ export interface DescribeEnvironmentMembershipsResult {
   memberships?: EnvironmentMember[];
   nextToken?: string;
 }
-export const DescribeEnvironmentMembershipsResult = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      memberships: S.optional(EnvironmentMembersList),
-      nextToken: S.optional(S.String),
-    }),
+export const DescribeEnvironmentMembershipsResult = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    memberships: S.optional(EnvironmentMembersList),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "DescribeEnvironmentMembershipsResult",
 }) as any as S.Schema<DescribeEnvironmentMembershipsResult>;
@@ -464,9 +421,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -515,9 +470,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = (string | redacted.Redacted<string>)[];
@@ -534,9 +487,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ManagedCredentialsAction = "ENABLE" | "DISABLE" | (string & {});
@@ -554,16 +505,12 @@ export const UpdateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     description: S.optional(SensitiveString),
     managedCredentialsAction: S.optional(ManagedCredentialsAction),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEnvironmentRequest",
 }) as any as S.Schema<UpdateEnvironmentRequest>;
 export interface UpdateEnvironmentResult {}
-export const UpdateEnvironmentResult = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateEnvironmentResult = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateEnvironmentResult",
 }) as any as S.Schema<UpdateEnvironmentResult>;
 export interface UpdateEnvironmentMembershipRequest {
@@ -576,9 +523,7 @@ export const UpdateEnvironmentMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     userArn: S.String,
     permissions: MemberPermissions,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEnvironmentMembershipRequest",
 }) as any as S.Schema<UpdateEnvironmentMembershipRequest>;
@@ -932,11 +877,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerErrorException,
-    NotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerErrorException, NotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",

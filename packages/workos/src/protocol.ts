@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * WorkosProtocol — the shared bearer-REST protocol instantiated for WorkOS.
  *
@@ -14,12 +17,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownWorkosError, type DefaultErrors } from "./errors.ts";
 
@@ -29,10 +26,7 @@ import { UnknownWorkosError, type DefaultErrors } from "./errors.ts";
  * WorkosOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type WorkosOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type WorkosOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated WorkOS operation. */
 export type WorkosOpContext = Credentials | HttpClient.HttpClient;
@@ -53,36 +47,27 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
         : typeof b.error === "string"
           ? b.error
           : undefined;
-  const code =
-    typeof b.code === "string" || typeof b.code === "number"
-      ? b.code
-      : undefined;
+  const code = typeof b.code === "string" || typeof b.code === "number" ? b.code : undefined;
   return { code, message };
 };
 
-export const WorkosProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect so rotating keys
-    // Just Work.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const WorkosProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect so rotating keys
+  // Just Work.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  errorEnvelope,
+  unknownError: ({ status: _status, code, message, body }) =>
+    new UnknownWorkosError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    errorEnvelope,
-    unknownError: ({ status: _status, code, message, body }) =>
-      new UnknownWorkosError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

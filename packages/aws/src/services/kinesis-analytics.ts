@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://analytics.kinesis.amazonaws.com/doc/2015-08-14",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://analytics.kinesis.amazonaws.com/doc/2015-08-14");
 const svc = T.AwsApiService({
   sdkId: "Kinesis Analytics",
   serviceShapeName: "KinesisAnalytics_20150814",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +57,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisanalytics-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kinesisanalytics.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -87,10 +75,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class CodeValidationException
-  extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()(
-    "CodeValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<CodeValidationException>()("CodeValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ConcurrentModificationException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentModificationException>()(
     "ConcurrentModificationException",
@@ -103,25 +90,21 @@ export class InvalidApplicationConfigurationException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidArgumentException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()(
-    "InvalidArgumentException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArgumentException>()("InvalidArgumentException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceProvisionedThroughputExceededException
   extends /*@__PURE__*/ S.TaggedError<ResourceProvisionedThroughputExceededException>()(
     "ResourceProvisionedThroughputExceededException",
@@ -134,10 +117,9 @@ export class ServiceUnavailableException
     T.HttpError(503),
   ).pipe(C.withServerError) {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()("TooManyTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class UnableToDetectSchemaException
   extends /*@__PURE__*/ S.TaggedError<UnableToDetectSchemaException>()(
     "UnableToDetectSchemaException",
@@ -178,31 +160,21 @@ export interface AddApplicationCloudWatchLoggingOptionRequest {
   CurrentApplicationVersionId: number;
   CloudWatchLoggingOption: CloudWatchLoggingOption;
 }
-export const AddApplicationCloudWatchLoggingOptionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      CloudWatchLoggingOption: CloudWatchLoggingOption,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AddApplicationCloudWatchLoggingOptionRequest",
-  }) as any as S.Schema<AddApplicationCloudWatchLoggingOptionRequest>;
+export const AddApplicationCloudWatchLoggingOptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    CloudWatchLoggingOption: CloudWatchLoggingOption,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AddApplicationCloudWatchLoggingOptionRequest",
+}) as any as S.Schema<AddApplicationCloudWatchLoggingOptionRequest>;
 export interface AddApplicationCloudWatchLoggingOptionResponse {}
-export const AddApplicationCloudWatchLoggingOptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationCloudWatchLoggingOptionResponse",
-  }) as any as S.Schema<AddApplicationCloudWatchLoggingOptionResponse>;
+export const AddApplicationCloudWatchLoggingOptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationCloudWatchLoggingOptionResponse",
+}) as any as S.Schema<AddApplicationCloudWatchLoggingOptionResponse>;
 export type InAppStreamName = string;
 export type ResourceARN = string;
 export interface InputLambdaProcessor {
@@ -352,17 +324,7 @@ export const AddApplicationInputRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     Input: Input,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddApplicationInputRequest",
 }) as any as S.Schema<AddApplicationInputRequest>;
@@ -379,32 +341,22 @@ export interface AddApplicationInputProcessingConfigurationRequest {
   InputId: string;
   InputProcessingConfiguration: InputProcessingConfiguration;
 }
-export const AddApplicationInputProcessingConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      InputId: S.String,
-      InputProcessingConfiguration: InputProcessingConfiguration,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "AddApplicationInputProcessingConfigurationRequest",
-  }) as any as S.Schema<AddApplicationInputProcessingConfigurationRequest>;
+export const AddApplicationInputProcessingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    InputId: S.String,
+    InputProcessingConfiguration: InputProcessingConfiguration,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AddApplicationInputProcessingConfigurationRequest",
+}) as any as S.Schema<AddApplicationInputProcessingConfigurationRequest>;
 export interface AddApplicationInputProcessingConfigurationResponse {}
-export const AddApplicationInputProcessingConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationInputProcessingConfigurationResponse",
-  }) as any as S.Schema<AddApplicationInputProcessingConfigurationResponse>;
+export const AddApplicationInputProcessingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationInputProcessingConfigurationResponse",
+}) as any as S.Schema<AddApplicationInputProcessingConfigurationResponse>;
 export interface KinesisStreamsOutput {
   ResourceARN: string;
   RoleARN: string;
@@ -464,17 +416,7 @@ export const AddApplicationOutputRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     Output: Output,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddApplicationOutputRequest",
 }) as any as S.Schema<AddApplicationOutputRequest>;
@@ -520,40 +462,28 @@ export interface AddApplicationReferenceDataSourceRequest {
   CurrentApplicationVersionId: number;
   ReferenceDataSource: ReferenceDataSource;
 }
-export const AddApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      ReferenceDataSource: ReferenceDataSource,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const AddApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    ReferenceDataSource: ReferenceDataSource,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AddApplicationReferenceDataSourceRequest",
 }) as any as S.Schema<AddApplicationReferenceDataSourceRequest>;
 export interface AddApplicationReferenceDataSourceResponse {}
-export const AddApplicationReferenceDataSourceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "AddApplicationReferenceDataSourceResponse",
-  }) as any as S.Schema<AddApplicationReferenceDataSourceResponse>;
+export const AddApplicationReferenceDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "AddApplicationReferenceDataSourceResponse",
+}) as any as S.Schema<AddApplicationReferenceDataSourceResponse>;
 export type ApplicationDescription = string;
 export type Inputs = Input[];
 export const Inputs = /*@__PURE__*/ S.Array(Input);
 export type Outputs = Output[];
 export const Outputs = /*@__PURE__*/ S.Array(Output);
 export type CloudWatchLoggingOptions = CloudWatchLoggingOption[];
-export const CloudWatchLoggingOptions = /*@__PURE__*/ S.Array(
-  CloudWatchLoggingOption,
-);
+export const CloudWatchLoggingOptions = /*@__PURE__*/ S.Array(CloudWatchLoggingOption);
 export type ApplicationCode = string;
 export type TagKey = string;
 export type TagValue = string;
@@ -584,17 +514,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     CloudWatchLoggingOptions: S.optional(CloudWatchLoggingOptions),
     ApplicationCode: S.optional(S.String),
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -638,17 +558,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     CreateTimestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
@@ -663,61 +573,41 @@ export interface DeleteApplicationCloudWatchLoggingOptionRequest {
   CurrentApplicationVersionId: number;
   CloudWatchLoggingOptionId: string;
 }
-export const DeleteApplicationCloudWatchLoggingOptionRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      CloudWatchLoggingOptionId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationCloudWatchLoggingOptionRequest",
-  }) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>;
+export const DeleteApplicationCloudWatchLoggingOptionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    CloudWatchLoggingOptionId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationCloudWatchLoggingOptionRequest",
+}) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionRequest>;
 export interface DeleteApplicationCloudWatchLoggingOptionResponse {}
-export const DeleteApplicationCloudWatchLoggingOptionResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationCloudWatchLoggingOptionResponse",
-  }) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionResponse>;
+export const DeleteApplicationCloudWatchLoggingOptionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationCloudWatchLoggingOptionResponse",
+}) as any as S.Schema<DeleteApplicationCloudWatchLoggingOptionResponse>;
 export interface DeleteApplicationInputProcessingConfigurationRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
   InputId: string;
 }
-export const DeleteApplicationInputProcessingConfigurationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      InputId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationInputProcessingConfigurationRequest",
-  }) as any as S.Schema<DeleteApplicationInputProcessingConfigurationRequest>;
+export const DeleteApplicationInputProcessingConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    InputId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationInputProcessingConfigurationRequest",
+}) as any as S.Schema<DeleteApplicationInputProcessingConfigurationRequest>;
 export interface DeleteApplicationInputProcessingConfigurationResponse {}
-export const DeleteApplicationInputProcessingConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationInputProcessingConfigurationResponse",
-  }) as any as S.Schema<DeleteApplicationInputProcessingConfigurationResponse>;
+export const DeleteApplicationInputProcessingConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationInputProcessingConfigurationResponse",
+}) as any as S.Schema<DeleteApplicationInputProcessingConfigurationResponse>;
 export interface DeleteApplicationOutputRequest {
   ApplicationName: string;
   CurrentApplicationVersionId: number;
@@ -728,17 +618,7 @@ export const DeleteApplicationOutputRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     OutputId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteApplicationOutputRequest",
 }) as any as S.Schema<DeleteApplicationOutputRequest>;
@@ -753,45 +633,27 @@ export interface DeleteApplicationReferenceDataSourceRequest {
   CurrentApplicationVersionId: number;
   ReferenceId: string;
 }
-export const DeleteApplicationReferenceDataSourceRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ApplicationName: S.String,
-      CurrentApplicationVersionId: S.Number,
-      ReferenceId: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteApplicationReferenceDataSourceRequest",
-  }) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>;
+export const DeleteApplicationReferenceDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationName: S.String,
+    CurrentApplicationVersionId: S.Number,
+    ReferenceId: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteApplicationReferenceDataSourceRequest",
+}) as any as S.Schema<DeleteApplicationReferenceDataSourceRequest>;
 export interface DeleteApplicationReferenceDataSourceResponse {}
-export const DeleteApplicationReferenceDataSourceResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteApplicationReferenceDataSourceResponse",
-  }) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>;
+export const DeleteApplicationReferenceDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteApplicationReferenceDataSourceResponse",
+}) as any as S.Schema<DeleteApplicationReferenceDataSourceResponse>;
 export interface DescribeApplicationRequest {
   ApplicationName: string;
 }
 export const DescribeApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeApplicationRequest",
@@ -813,13 +675,10 @@ export const InputLambdaProcessorDescription = /*@__PURE__*/ S.suspend(() =>
 export interface InputProcessingConfigurationDescription {
   InputLambdaProcessorDescription?: InputLambdaProcessorDescription;
 }
-export const InputProcessingConfigurationDescription = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      InputLambdaProcessorDescription: S.optional(
-        InputLambdaProcessorDescription,
-      ),
-    }),
+export const InputProcessingConfigurationDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    InputLambdaProcessorDescription: S.optional(InputLambdaProcessorDescription),
+  }),
 ).annotate({
   identifier: "InputProcessingConfigurationDescription",
 }) as any as S.Schema<InputProcessingConfigurationDescription>;
@@ -847,11 +706,7 @@ export const KinesisFirehoseInputDescription = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "KinesisFirehoseInputDescription",
 }) as any as S.Schema<KinesisFirehoseInputDescription>;
-export type InputStartingPosition =
-  | "NOW"
-  | "TRIM_HORIZON"
-  | "LAST_STOPPED_POINT"
-  | (string & {});
+export type InputStartingPosition = "NOW" | "TRIM_HORIZON" | "LAST_STOPPED_POINT" | (string & {});
 export const InputStartingPosition = S.String;
 
 export interface InputStartingPositionConfiguration {
@@ -878,18 +733,12 @@ export const InputDescription = /*@__PURE__*/ S.suspend(() =>
     InputId: S.optional(S.String),
     NamePrefix: S.optional(S.String),
     InAppStreamNames: S.optional(InAppStreamNames),
-    InputProcessingConfigurationDescription: S.optional(
-      InputProcessingConfigurationDescription,
-    ),
+    InputProcessingConfigurationDescription: S.optional(InputProcessingConfigurationDescription),
     KinesisStreamsInputDescription: S.optional(KinesisStreamsInputDescription),
-    KinesisFirehoseInputDescription: S.optional(
-      KinesisFirehoseInputDescription,
-    ),
+    KinesisFirehoseInputDescription: S.optional(KinesisFirehoseInputDescription),
     InputSchema: S.optional(SourceSchema),
     InputParallelism: S.optional(InputParallelism),
-    InputStartingPositionConfiguration: S.optional(
-      InputStartingPositionConfiguration,
-    ),
+    InputStartingPositionConfiguration: S.optional(InputStartingPositionConfiguration),
   }),
 ).annotate({
   identifier: "InputDescription",
@@ -944,12 +793,8 @@ export const OutputDescription = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OutputId: S.optional(S.String),
     Name: S.optional(S.String),
-    KinesisStreamsOutputDescription: S.optional(
-      KinesisStreamsOutputDescription,
-    ),
-    KinesisFirehoseOutputDescription: S.optional(
-      KinesisFirehoseOutputDescription,
-    ),
+    KinesisStreamsOutputDescription: S.optional(KinesisStreamsOutputDescription),
+    KinesisFirehoseOutputDescription: S.optional(KinesisFirehoseOutputDescription),
     LambdaOutputDescription: S.optional(LambdaOutputDescription),
     DestinationSchema: S.optional(DestinationSchema),
   }),
@@ -1006,8 +851,7 @@ export const CloudWatchLoggingOptionDescription = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CloudWatchLoggingOptionDescription",
 }) as any as S.Schema<CloudWatchLoggingOptionDescription>;
-export type CloudWatchLoggingOptionDescriptions =
-  CloudWatchLoggingOptionDescription[];
+export type CloudWatchLoggingOptionDescriptions = CloudWatchLoggingOptionDescription[];
 export const CloudWatchLoggingOptionDescriptions = /*@__PURE__*/ S.Array(
   CloudWatchLoggingOptionDescription,
 );
@@ -1031,20 +875,12 @@ export const ApplicationDetail = /*@__PURE__*/ S.suspend(() =>
     ApplicationDescription: S.optional(S.String),
     ApplicationARN: S.String,
     ApplicationStatus: ApplicationStatus,
-    CreateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastUpdateTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastUpdateTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     InputDescriptions: S.optional(InputDescriptions),
     OutputDescriptions: S.optional(OutputDescriptions),
-    ReferenceDataSourceDescriptions: S.optional(
-      ReferenceDataSourceDescriptions,
-    ),
-    CloudWatchLoggingOptionDescriptions: S.optional(
-      CloudWatchLoggingOptionDescriptions,
-    ),
+    ReferenceDataSourceDescriptions: S.optional(ReferenceDataSourceDescriptions),
+    CloudWatchLoggingOptionDescriptions: S.optional(CloudWatchLoggingOptionDescriptions),
     ApplicationCode: S.optional(S.String),
     ApplicationVersionId: S.Number,
   }),
@@ -1080,22 +916,10 @@ export const DiscoverInputSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.optional(S.String),
     RoleARN: S.optional(S.String),
-    InputStartingPositionConfiguration: S.optional(
-      InputStartingPositionConfiguration,
-    ),
+    InputStartingPositionConfiguration: S.optional(InputStartingPositionConfiguration),
     S3Configuration: S.optional(S3Configuration),
     InputProcessingConfiguration: S.optional(InputProcessingConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DiscoverInputSchemaRequest",
 }) as any as S.Schema<DiscoverInputSchemaRequest>;
@@ -1135,17 +959,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Limit: S.optional(S.Number),
     ExclusiveStartApplicationName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -1169,15 +983,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1212,17 +1018,7 @@ export const StartApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationName: S.String,
     InputConfigurations: InputConfigurations,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartApplicationRequest",
 }) as any as S.Schema<StartApplicationRequest>;
@@ -1237,15 +1033,7 @@ export interface StopApplicationRequest {
 }
 export const StopApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApplicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopApplicationRequest",
@@ -1262,23 +1050,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, Tags: Tags }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1289,23 +1067,13 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String, TagKeys: TagKeys }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface InputLambdaProcessorUpdate {
@@ -1387,9 +1155,7 @@ export const InputUpdate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     InputId: S.String,
     NamePrefixUpdate: S.optional(S.String),
-    InputProcessingConfigurationUpdate: S.optional(
-      InputProcessingConfigurationUpdate,
-    ),
+    InputProcessingConfigurationUpdate: S.optional(InputProcessingConfigurationUpdate),
     KinesisStreamsInputUpdate: S.optional(KinesisStreamsInputUpdate),
     KinesisFirehoseInputUpdate: S.optional(KinesisFirehoseInputUpdate),
     InputSchemaUpdate: S.optional(InputSchemaUpdate),
@@ -1485,9 +1251,7 @@ export const ReferenceDataSourceUpdate = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReferenceDataSourceUpdate",
 }) as any as S.Schema<ReferenceDataSourceUpdate>;
 export type ReferenceDataSourceUpdates = ReferenceDataSourceUpdate[];
-export const ReferenceDataSourceUpdates = /*@__PURE__*/ S.Array(
-  ReferenceDataSourceUpdate,
-);
+export const ReferenceDataSourceUpdates = /*@__PURE__*/ S.Array(ReferenceDataSourceUpdate);
 export interface CloudWatchLoggingOptionUpdate {
   CloudWatchLoggingOptionId: string;
   LogStreamARNUpdate?: string;
@@ -1503,9 +1267,7 @@ export const CloudWatchLoggingOptionUpdate = /*@__PURE__*/ S.suspend(() =>
   identifier: "CloudWatchLoggingOptionUpdate",
 }) as any as S.Schema<CloudWatchLoggingOptionUpdate>;
 export type CloudWatchLoggingOptionUpdates = CloudWatchLoggingOptionUpdate[];
-export const CloudWatchLoggingOptionUpdates = /*@__PURE__*/ S.Array(
-  CloudWatchLoggingOptionUpdate,
-);
+export const CloudWatchLoggingOptionUpdates = /*@__PURE__*/ S.Array(CloudWatchLoggingOptionUpdate);
 export interface ApplicationUpdate {
   InputUpdates?: InputUpdate[];
   ApplicationCodeUpdate?: string;
@@ -1534,17 +1296,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationName: S.String,
     CurrentApplicationVersionId: S.Number,
     ApplicationUpdate: ApplicationUpdate,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
@@ -2109,11 +1861,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    ConcurrentModificationException,
-    InvalidArgumentException,
-    ResourceNotFoundException,
-  ],
+  errors: [ConcurrentModificationException, InvalidArgumentException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2188,11 +1936,7 @@ export const stopApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
-  errors: [
-    ResourceInUseException,
-    ResourceNotFoundException,
-    UnsupportedOperationException,
-  ],
+  errors: [ResourceInUseException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "Voice ID", serviceShapeName: "VoiceID" });
 const auth = T.AwsAuthSigv4({ name: "voiceid" });
 const ver = T.ServiceVersion("2021-09-27");
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -55,13 +51,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://voiceid-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://voiceid-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +61,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://voiceid.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://voiceid.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://voiceid.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -143,9 +131,7 @@ export const AssociateFraudsterRequest = /*@__PURE__*/ S.suspend(() =>
     DomainId: S.String,
     WatchlistId: S.String,
     FraudsterId: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateFraudsterRequest",
 }) as any as S.Schema<AssociateFraudsterRequest>;
@@ -211,9 +197,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDomainRequest",
 }) as any as S.Schema<CreateDomainRequest>;
@@ -261,14 +245,10 @@ export const Domain = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
     DomainStatus: S.optional(S.String),
-    ServerSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    ServerSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ServerSideEncryptionUpdateDetails: S.optional(
-      ServerSideEncryptionUpdateDetails,
-    ),
+    ServerSideEncryptionUpdateDetails: S.optional(ServerSideEncryptionUpdateDetails),
     WatchlistDetails: S.optional(WatchlistDetails),
   }),
 ).annotate({ identifier: "Domain" }) as any as S.Schema<Domain>;
@@ -294,9 +274,7 @@ export const CreateWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
     Name: SensitiveString,
     Description: S.optional(SensitiveString),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateWatchlistRequest",
 }) as any as S.Schema<CreateWatchlistRequest>;
@@ -339,9 +317,7 @@ export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDomainRequest",
 }) as any as S.Schema<DeleteDomainRequest>;
 export interface DeleteDomainResponse {}
-export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDomainResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDomainResponse",
 }) as any as S.Schema<DeleteDomainResponse>;
 export interface DeleteFraudsterRequest {
@@ -356,9 +332,7 @@ export const DeleteFraudsterRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFraudsterRequest",
 }) as any as S.Schema<DeleteFraudsterRequest>;
 export interface DeleteFraudsterResponse {}
-export const DeleteFraudsterResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFraudsterResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFraudsterResponse",
 }) as any as S.Schema<DeleteFraudsterResponse>;
 export type SpeakerId = string | redacted.Redacted<string>;
@@ -374,9 +348,7 @@ export const DeleteSpeakerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSpeakerRequest",
 }) as any as S.Schema<DeleteSpeakerRequest>;
 export interface DeleteSpeakerResponse {}
-export const DeleteSpeakerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSpeakerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSpeakerResponse",
 }) as any as S.Schema<DeleteSpeakerResponse>;
 export interface DeleteWatchlistRequest {
@@ -391,9 +363,7 @@ export const DeleteWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWatchlistRequest",
 }) as any as S.Schema<DeleteWatchlistRequest>;
 export interface DeleteWatchlistResponse {}
-export const DeleteWatchlistResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWatchlistResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWatchlistResponse",
 }) as any as S.Schema<DeleteWatchlistResponse>;
 export interface DescribeDomainRequest {
@@ -438,11 +408,10 @@ export interface DescribeFraudsterRegistrationJobRequest {
   DomainId: string;
   JobId: string;
 }
-export const DescribeFraudsterRegistrationJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DomainId: S.String, JobId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DescribeFraudsterRegistrationJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DomainId: S.String, JobId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeFraudsterRegistrationJobRequest",
 }) as any as S.Schema<DescribeFraudsterRegistrationJobRequest>;
@@ -533,8 +502,8 @@ export const FraudsterRegistrationJob = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeFraudsterRegistrationJobResponse {
   Job?: FraudsterRegistrationJob;
 }
-export const DescribeFraudsterRegistrationJobResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
+export const DescribeFraudsterRegistrationJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
 ).annotate({
   identifier: "DescribeFraudsterRegistrationJobResponse",
 }) as any as S.Schema<DescribeFraudsterRegistrationJobResponse>;
@@ -595,8 +564,7 @@ export type SpeakerEnrollmentJobStatus = string;
 export type ExistingEnrollmentAction = string;
 export type FraudDetectionAction = string;
 export type EnrollmentJobFraudDetectionConfigWatchlistIds = string[];
-export const EnrollmentJobFraudDetectionConfigWatchlistIds =
-  /*@__PURE__*/ S.Array(S.String);
+export const EnrollmentJobFraudDetectionConfigWatchlistIds = /*@__PURE__*/ S.Array(S.String);
 export interface EnrollmentJobFraudDetectionConfig {
   FraudDetectionAction?: string;
   RiskThreshold?: number;
@@ -658,8 +626,8 @@ export const SpeakerEnrollmentJob = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeSpeakerEnrollmentJobResponse {
   Job?: SpeakerEnrollmentJob;
 }
-export const DescribeSpeakerEnrollmentJobResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Job: S.optional(SpeakerEnrollmentJob) }),
+export const DescribeSpeakerEnrollmentJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Job: S.optional(SpeakerEnrollmentJob) }),
 ).annotate({
   identifier: "DescribeSpeakerEnrollmentJobResponse",
 }) as any as S.Schema<DescribeSpeakerEnrollmentJobResponse>;
@@ -692,9 +660,7 @@ export const DisassociateFraudsterRequest = /*@__PURE__*/ S.suspend(() =>
     DomainId: S.String,
     WatchlistId: S.String,
     FraudsterId: SensitiveString,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateFraudsterRequest",
 }) as any as S.Schema<DisassociateFraudsterRequest>;
@@ -744,12 +710,8 @@ export interface AuthenticationResult {
 export const AuthenticationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AuthenticationResultId: S.optional(S.String),
-    AudioAggregationStartedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AudioAggregationEndedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AudioAggregationStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AudioAggregationEndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CustomerSpeakerId: S.optional(SensitiveString),
     GeneratedSpeakerId: S.optional(S.String),
     Decision: S.optional(S.String),
@@ -816,12 +778,8 @@ export interface FraudDetectionResult {
 export const FraudDetectionResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     FraudDetectionResultId: S.optional(S.String),
-    AudioAggregationStartedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    AudioAggregationEndedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AudioAggregationStartedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    AudioAggregationEndedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Configuration: S.optional(FraudDetectionConfiguration),
     Decision: S.optional(S.String),
     Reasons: S.optional(FraudDetectionReasons),
@@ -860,9 +818,7 @@ export const ListDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDomainsRequest",
 }) as any as S.Schema<ListDomainsRequest>;
@@ -885,14 +841,10 @@ export const DomainSummary = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
     DomainStatus: S.optional(S.String),
-    ServerSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    ServerSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    ServerSideEncryptionUpdateDetails: S.optional(
-      ServerSideEncryptionUpdateDetails,
-    ),
+    ServerSideEncryptionUpdateDetails: S.optional(ServerSideEncryptionUpdateDetails),
     WatchlistDetails: S.optional(WatchlistDetails),
   }),
 ).annotate({ identifier: "DomainSummary" }) as any as S.Schema<DomainSummary>;
@@ -917,16 +869,13 @@ export interface ListFraudsterRegistrationJobsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListFraudsterRegistrationJobsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DomainId: S.String,
-      JobStatus: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListFraudsterRegistrationJobsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DomainId: S.String,
+    JobStatus: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFraudsterRegistrationJobsRequest",
 }) as any as S.Schema<ListFraudsterRegistrationJobsRequest>;
@@ -954,8 +903,7 @@ export const FraudsterRegistrationJobSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "FraudsterRegistrationJobSummary",
 }) as any as S.Schema<FraudsterRegistrationJobSummary>;
-export type FraudsterRegistrationJobSummaries =
-  FraudsterRegistrationJobSummary[];
+export type FraudsterRegistrationJobSummaries = FraudsterRegistrationJobSummary[];
 export const FraudsterRegistrationJobSummaries = /*@__PURE__*/ S.Array(
   FraudsterRegistrationJobSummary,
 );
@@ -963,12 +911,11 @@ export interface ListFraudsterRegistrationJobsResponse {
   JobSummaries?: FraudsterRegistrationJobSummary[];
   NextToken?: string;
 }
-export const ListFraudsterRegistrationJobsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      JobSummaries: S.optional(FraudsterRegistrationJobSummaries),
-      NextToken: S.optional(S.String),
-    }),
+export const ListFraudsterRegistrationJobsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    JobSummaries: S.optional(FraudsterRegistrationJobSummaries),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListFraudsterRegistrationJobsResponse",
 }) as any as S.Schema<ListFraudsterRegistrationJobsResponse>;
@@ -984,9 +931,7 @@ export const ListFraudstersRequest = /*@__PURE__*/ S.suspend(() =>
     WatchlistId: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFraudstersRequest",
 }) as any as S.Schema<ListFraudstersRequest>;
@@ -1032,9 +977,7 @@ export const ListSpeakerEnrollmentJobsRequest = /*@__PURE__*/ S.suspend(() =>
     JobStatus: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSpeakerEnrollmentJobsRequest",
 }) as any as S.Schema<ListSpeakerEnrollmentJobsRequest>;
@@ -1063,9 +1006,7 @@ export const SpeakerEnrollmentJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "SpeakerEnrollmentJobSummary",
 }) as any as S.Schema<SpeakerEnrollmentJobSummary>;
 export type SpeakerEnrollmentJobSummaries = SpeakerEnrollmentJobSummary[];
-export const SpeakerEnrollmentJobSummaries = /*@__PURE__*/ S.Array(
-  SpeakerEnrollmentJobSummary,
-);
+export const SpeakerEnrollmentJobSummaries = /*@__PURE__*/ S.Array(SpeakerEnrollmentJobSummary);
 export interface ListSpeakerEnrollmentJobsResponse {
   JobSummaries?: SpeakerEnrollmentJobSummary[];
   NextToken?: string;
@@ -1088,9 +1029,7 @@ export const ListSpeakersRequest = /*@__PURE__*/ S.suspend(() =>
     DomainId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSpeakersRequest",
 }) as any as S.Schema<ListSpeakersRequest>;
@@ -1157,9 +1096,7 @@ export const ListWatchlistsRequest = /*@__PURE__*/ S.suspend(() =>
     DomainId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWatchlistsRequest",
 }) as any as S.Schema<ListWatchlistsRequest>;
@@ -1227,27 +1164,24 @@ export interface StartFraudsterRegistrationJobRequest {
   InputDataConfig: InputDataConfig;
   OutputDataConfig: OutputDataConfig;
 }
-export const StartFraudsterRegistrationJobRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      JobName: S.optional(SensitiveString),
-      DomainId: S.String,
-      DataAccessRoleArn: S.String,
-      RegistrationConfig: S.optional(RegistrationConfig),
-      InputDataConfig: InputDataConfig,
-      OutputDataConfig: OutputDataConfig,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const StartFraudsterRegistrationJobRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    JobName: S.optional(SensitiveString),
+    DomainId: S.String,
+    DataAccessRoleArn: S.String,
+    RegistrationConfig: S.optional(RegistrationConfig),
+    InputDataConfig: InputDataConfig,
+    OutputDataConfig: OutputDataConfig,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartFraudsterRegistrationJobRequest",
 }) as any as S.Schema<StartFraudsterRegistrationJobRequest>;
 export interface StartFraudsterRegistrationJobResponse {
   Job?: FraudsterRegistrationJob;
 }
-export const StartFraudsterRegistrationJobResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
+export const StartFraudsterRegistrationJobResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Job: S.optional(FraudsterRegistrationJob) }),
 ).annotate({
   identifier: "StartFraudsterRegistrationJobResponse",
 }) as any as S.Schema<StartFraudsterRegistrationJobResponse>;
@@ -1269,9 +1203,7 @@ export const StartSpeakerEnrollmentJobRequest = /*@__PURE__*/ S.suspend(() =>
     EnrollmentConfig: S.optional(EnrollmentConfig),
     InputDataConfig: InputDataConfig,
     OutputDataConfig: OutputDataConfig,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSpeakerEnrollmentJobRequest",
 }) as any as S.Schema<StartSpeakerEnrollmentJobRequest>;
@@ -1295,9 +1227,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = (string | redacted.Redacted<string>)[];
@@ -1314,9 +1244,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDomainRequest {
@@ -1331,9 +1259,7 @@ export const UpdateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     Name: SensitiveString,
     Description: S.optional(SensitiveString),
     ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDomainRequest",
 }) as any as S.Schema<UpdateDomainRequest>;
@@ -1357,9 +1283,7 @@ export const UpdateWatchlistRequest = /*@__PURE__*/ S.suspend(() =>
     WatchlistId: S.String,
     Name: S.optional(SensitiveString),
     Description: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateWatchlistRequest",
 }) as any as S.Schema<UpdateWatchlistRequest>;

@@ -37,9 +37,7 @@ import { toBase64 } from "./util/base64.ts";
  * // But at runtime, it's always Redacted:
  * console.log(key); // logs "<redacted>"
  */
-export const Sensitive = <A>(
-  schema: S.Schema<A>,
-): S.Schema<A | Redacted.Redacted<A>> =>
+export const Sensitive = <A>(schema: S.Schema<A>): S.Schema<A | Redacted.Redacted<A>> =>
   schema
     .pipe(
       S.decodeTo(

@@ -1,3 +1,30 @@
+import * as API from "@distilled.cloud/core/api";
+import { retryableKey } from "@distilled.cloud/core/category";
+import {
+  ConfigError,
+  Forbidden,
+  GatewayTimeout,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  TooManyRequests,
+  Unauthorized,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  getProps,
+  hasPropAnn,
+  mapKeys,
+  matchTypedError,
+  nameOf,
+} from "@distilled.cloud/core/protocol-http";
+import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import {
+  bodySymbol,
+  headerSymbol,
+  keyDictionarySymbol,
+  responseCodeSymbol,
+} from "@distilled.cloud/core/trait";
 /**
  * CloudflareProtocol — hand-written.
  *
@@ -28,36 +55,6 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  bodySymbol,
-  headerSymbol,
-  keyDictionarySymbol,
-  responseCodeSymbol,
-} from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
-  mapKeys,
-  matchTypedError,
-  nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import { retryableKey } from "@distilled.cloud/core/category";
-import {
-  ConfigError,
-  Forbidden,
-  GatewayTimeout,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  TooManyRequests,
-  Unauthorized,
-} from "@distilled.cloud/core/errors";
-import {
-  parseRetryAfterForStatus,
-  parseServerRetryHint,
-} from "@distilled.cloud/core/retry-after";
 import {
   Credentials,
   formatHeaders,
@@ -104,8 +101,7 @@ export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
 // Cloudflare failures are real typed errors that an operation re-surfaces via
 // its `errors: [...]` list. Fail with the instance and erase the error type
 // here; `API.make`'s signature reintroduces it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /**
  * Mark an error instance retryable regardless of its class categories —
@@ -117,8 +113,7 @@ const tagRetryable = <E>(error: E): E => {
   return error;
 };
 
-const GLOBAL_RATE_LIMIT_MESSAGE =
-  /\b(rate ?limit(ed|ing)?|throttl(ed|ing) your request)\b/i;
+const GLOBAL_RATE_LIMIT_MESSAGE = /\b(rate ?limit(ed|ing)?|throttl(ed|ing) your request)\b/i;
 
 /**
  * Cloudflare error codes that map to global/default errors regardless of
@@ -222,9 +217,7 @@ const camelToSnake = (key: string): string =>
  * is a raw token — Bearer-prefix it like distilled's request transform does.
  */
 const bearerPrefixAuthorization = (name: string, value: string): string =>
-  name === "authorization" && !/^Bearer\s/i.test(value)
-    ? `Bearer ${value}`
-    : value;
+  name === "authorization" && !/^Bearer\s/i.test(value) ? `Bearer ${value}` : value;
 
 // The protocol layer is memoized per process by `API.make` (see
 // `OperationConfig.protocol`), so the build must not capture credentials —
@@ -233,21 +226,14 @@ const bearerPrefixAuthorization = (name: string, value: string): string =>
 // erased at this boundary (Protocol effects are typed with no requirements)
 // and reintroduced for callers by the generated `CloudflareOpContext`
 // annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     // The Credentials service holds an effect — resolving it here (per
     // request) picks up token refreshes. Its ConfigError/OAuthRefreshError
     // channel is erased at this boundary like the rest of encode's
     // requirements; CloudflareOpError reintroduces it for callers.
     const resolveCredentials = yield* Credentials;
-    const creds =
-      yield* resolveCredentials as Effect.Effect<ResolvedCredentials>;
+    const creds = yield* resolveCredentials as Effect.Effect<ResolvedCredentials>;
     return buildRequest({
       input,
       inputAst,
@@ -303,9 +289,7 @@ const makeDecode =
       // through to the normal path below.
       if (response.status < 400) {
         const props = getProps(outputAst);
-        const binary = props.find((p) =>
-          hasPropAnn(p, binaryResponseBodySymbol),
-        );
+        const binary = props.find((p) => hasPropAnn(p, binaryResponseBodySymbol));
         if (binary !== undefined) {
           const result: Record<string, unknown> = {};
           for (const prop of props) {
@@ -313,8 +297,7 @@ const makeDecode =
             if (prop === binary) {
               result[key] = response.stream;
             } else if (hasPropAnn(prop, headerSymbol)) {
-              const v =
-                response.headers[nameOf(prop, headerSymbol).toLowerCase()];
+              const v = response.headers[nameOf(prop, headerSymbol).toLowerCase()];
               if (v !== undefined) {
                 result[key] = wantsNumber(prop.type) ? Number(v) : v;
               }
@@ -330,9 +313,7 @@ const makeDecode =
       // (HTML 5xx pages, bare plain-text 4xx) with non-JSON bodies.
       const text = (yield* response.text.pipe(Effect.orDie)) ?? "";
       if (process.env.DISTILLED_DEBUG_HTTP) {
-        console.error(
-          `[distilled] <- ${response.status} ${text.slice(0, 400)}`,
-        );
+        console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
       }
       let json: Record<string, unknown> = {};
       let nonJson = false;
@@ -356,21 +337,12 @@ const makeDecode =
       // then throttling, then HTTP-status classes, then the unknown fallback.
       const failed = status >= 400 || (!nonJson && json.success === false);
       if (failed) {
-        const rawErrors =
-          !nonJson && Array.isArray(json.errors) ? json.errors : [];
-        const first = rawErrors[0] as
-          | { code?: number; message?: string }
-          | undefined;
+        const rawErrors = !nonJson && Array.isArray(json.errors) ? json.errors : [];
+        const first = rawErrors[0] as { code?: number; message?: string } | undefined;
         // Cloudflare sometimes omits the code entirely (e.g. webhook errors);
         // treat missing code as 0 so `{ code: 0 }` matchers can match.
-        const errorCode = first
-          ? typeof first.code === "number"
-            ? first.code
-            : 0
-          : undefined;
-        const errorMessage = nonJson
-          ? text
-          : (first?.message ?? `HTTP ${status}`);
+        const errorCode = first ? (typeof first.code === "number" ? first.code : 0) : undefined;
+        const errorMessage = nonJson ? text : (first?.message ?? `HTTP ${status}`);
 
         // Transient auth blips must be tagged retryable on EVERY error path,
         // including per-operation typed errors — an op-declared class with a
@@ -381,12 +353,9 @@ const makeDecode =
         // flake under concurrency), "Unable to authenticate request" and the
         // code-10001 "internal error" variant (auth/edge hiccups).
         const isTransientAuthBlip =
-          /authentication error|unable to authenticate request/i.test(
-            errorMessage,
-          ) ||
+          /authentication error|unable to authenticate request/i.test(errorMessage) ||
           (errorCode === 10001 && /internal error/i.test(errorMessage));
-        const tagBlip = <E>(error: E): E =>
-          isTransientAuthBlip ? tagRetryable(error) : error;
+        const tagBlip = <E>(error: E): E => (isTransientAuthBlip ? tagRetryable(error) : error);
 
         // 1. Per-operation typed error (matcher metadata on the class).
         const typed = matchTypedError(errorClasses, status, [
@@ -398,9 +367,7 @@ const makeDecode =
 
         // 2. Global/infrastructure error codes (any endpoint, any status).
         if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
-          return yield* fail(
-            tagBlip(GLOBAL_ERROR_CODE_MAP[errorCode]!(errorMessage, headers)),
-          );
+          return yield* fail(tagBlip(GLOBAL_ERROR_CODE_MAP[errorCode]!(errorMessage, headers)));
         }
 
         // 3. Throttling — 429 or the global rate-limit message (Cloudflare
@@ -416,8 +383,7 @@ const makeDecode =
 
         // 4. HTTP-status classes (4xx) / retryable 5xx.
         if (status >= 400 && status < 500) {
-          const StatusErrorClass =
-            HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+          const StatusErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
           if (StatusErrorClass) {
             return yield* fail(
               tagBlip(
@@ -449,12 +415,10 @@ const makeDecode =
       // successful non-JSON body is the payload verbatim — e.g. the
       // security.txt GET answers an unconfigured zone with a bare non-JSON
       // sentinel that callers detect by `typeof === "string"`.
-      const payload = (
-        nonJson ? text : "result" in json ? json.result : json
-      ) as Record<string, unknown> | unknown;
-      const rootDict = getAnn(outputAst, keyDictionarySymbol) as
-        | Record<string, string>
-        | undefined;
+      const payload = (nonJson ? text : "result" in json ? json.result : json) as
+        | Record<string, unknown>
+        | unknown;
+      const rootDict = getAnn(outputAst, keyDictionarySymbol) as Record<string, string> | undefined;
 
       // Bare-payload response: the whole value IS the envelope's `result`
       // (array/scalar), returned directly rather than wrapped in a struct.
@@ -510,8 +474,7 @@ export const CloudflareProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode: makeDecode({ resultInfo: false }),
   }),
 );
@@ -522,12 +485,10 @@ export const CloudflareProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
  * the member marked `T.ResultInfo()`, camelCased) so `.pages()` / `.items()`
  * can advance and callers can read totals.
  */
-export const CloudflarePaginatedProtocol: Layer.Layer<API.Protocol> =
-  Layer.succeed(
-    API.Protocol,
-    API.Protocol.of({
-      encode: (args) =>
-        encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: makeDecode({ resultInfo: true }),
-    }),
-  );
+export const CloudflarePaginatedProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
+  API.Protocol,
+  API.Protocol.of({
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    decode: makeDecode({ resultInfo: true }),
+  }),
+);

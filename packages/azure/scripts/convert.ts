@@ -46,10 +46,7 @@ import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
 const rootDir = path.resolve(import.meta.dir, "..");
-const specsRoot = resolveSpecPath(
-  rootDir,
-  "specs/spec-mirror-azure/specs/specification",
-);
+const specsRoot = resolveSpecPath(rootDir, "specs/spec-mirror-azure/specs/specification");
 const outDir = path.join(rootDir, ".generated-specs");
 
 // ============================================================================
@@ -115,10 +112,7 @@ function transplantMissingDefinitions(
 
   if (typeof obj.$ref === "string" && obj.$ref.startsWith("#/definitions/")) {
     const defName = obj.$ref.slice("#/definitions/".length);
-    if (
-      !ctx.mainSpec.definitions?.[defName] &&
-      !ctx.transplanting.has(defName)
-    ) {
+    if (!ctx.mainSpec.definitions?.[defName] && !ctx.transplanting.has(defName)) {
       // Look for the definition in the external doc
       const externalDef = externalDoc?.definitions?.[defName];
       if (externalDef) {
@@ -135,12 +129,7 @@ function transplantMissingDefinitions(
         ctx.mainSpec.definitions[defName] = resolvedDef;
 
         // Recursively transplant any #/definitions/ refs within this new definition
-        transplantMissingDefinitions(
-          resolvedDef,
-          externalDoc,
-          externalDir,
-          ctx,
-        );
+        transplantMissingDefinitions(resolvedDef, externalDoc, externalDir, ctx);
       }
     }
     return;
@@ -252,11 +241,7 @@ function collectMissingDefinitions(
         const docDir = findFileDir(doc);
         const cloned = JSON.parse(JSON.stringify(doc.definitions[defName]));
         // Resolve any external refs within the transplanted definition
-        const resolved = resolveExternalRefs(
-          cloned,
-          docDir || specDir,
-          new Set(),
-        );
+        const resolved = resolveExternalRefs(cloned, docDir || specDir, new Set());
         root.definitions[defName] = resolved;
 
         // Also transplant any definitions this one references
@@ -308,18 +293,12 @@ function findMissingDefRefs(obj: any, root: any, missing: Set<string>): void {
 function mergeSiblingDefinitions(spec: any, versionDir: string): any {
   const jsonFiles = fs
     .readdirSync(versionDir)
-    .filter(
-      (f) =>
-        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
-    )
+    .filter((f) => f.endsWith(".json") && !f.startsWith("examples") && f !== "examples")
     .sort();
 
   for (const jsonFile of jsonFiles) {
     const filePath = path.join(versionDir, jsonFile);
-    if (
-      filePath.includes(`${path.sep}examples${path.sep}`) ||
-      filePath.includes("/examples/")
-    ) {
+    if (filePath.includes(`${path.sep}examples${path.sep}`) || filePath.includes("/examples/")) {
       continue;
     }
 
@@ -386,10 +365,7 @@ function discoverSpecs(): SpecFile[] {
     if (!fs.existsSync(rmPath) || !fs.statSync(rmPath).isDirectory()) continue;
 
     for (const provider of fs.readdirSync(rmPath).sort()) {
-      if (
-        !provider.startsWith("Microsoft.") &&
-        !provider.startsWith("microsoft.")
-      ) {
+      if (!provider.startsWith("Microsoft.") && !provider.startsWith("microsoft.")) {
         continue;
       }
       const providerPath = path.join(rmPath, provider);
@@ -398,9 +374,7 @@ function discoverSpecs(): SpecFile[] {
       // Pattern A: flat stable/
       const stablePath = path.join(providerPath, "stable");
       if (fs.existsSync(stablePath) && fs.statSync(stablePath).isDirectory()) {
-        specs.push(
-          ...findLatestStableSpecs(stablePath, service, provider, undefined),
-        );
+        specs.push(...findLatestStableSpecs(stablePath, service, provider, undefined));
       }
 
       // Pattern B: nested sub-service dirs
@@ -410,13 +384,8 @@ function discoverSpecs(): SpecFile[] {
         if (!fs.statSync(subPath).isDirectory()) continue;
 
         const subStablePath = path.join(subPath, "stable");
-        if (
-          fs.existsSync(subStablePath) &&
-          fs.statSync(subStablePath).isDirectory()
-        ) {
-          specs.push(
-            ...findLatestStableSpecs(subStablePath, service, provider, sub),
-          );
+        if (fs.existsSync(subStablePath) && fs.statSync(subStablePath).isDirectory()) {
+          specs.push(...findLatestStableSpecs(subStablePath, service, provider, sub));
         }
       }
     }
@@ -446,10 +415,7 @@ function findLatestStableSpecs(
 
   const jsonFiles = fs
     .readdirSync(versionDir)
-    .filter(
-      (f) =>
-        f.endsWith(".json") && !f.startsWith("examples") && f !== "examples",
-    )
+    .filter((f) => f.endsWith(".json") && !f.startsWith("examples") && f !== "examples")
     .sort();
 
   const results: SpecFile[] = [];
@@ -579,13 +545,7 @@ function graphEq(
     case "enum":
       return eqMemberBag(a.members, b.members);
     case "list":
-      return graphEq(
-        shapesA,
-        a.member?.target,
-        shapesB,
-        b.member?.target,
-        visited,
-      );
+      return graphEq(shapesA, a.member?.target, shapesB, b.member?.target, visited);
     case "map":
       return (
         graphEq(shapesA, a.key?.target, shapesB, b.key?.target, visited) &&
@@ -664,10 +624,7 @@ function mergeSpecModel(merged: MergedService, model: SmithyModel): void {
     if (def.type === "operation") continue;
     if (!merged.taken.has(name)) continue;
     const mergedId = id; // same namespace — ids align by local name
-    if (
-      merged.shapes[mergedId] &&
-      graphEq(shapes, id, merged.shapes, mergedId, new Set())
-    ) {
+    if (merged.shapes[mergedId] && graphEq(shapes, id, merged.shapes, mergedId, new Set())) {
       renameMap.set(id, mergedId); // dedupe
       continue;
     }
@@ -888,9 +845,7 @@ async function main() {
   console.log(`  Errors: ${specErrorCount}`);
   console.log(`  Service models: ${serviceCount}`);
   console.log(`  Total operations: ${totalOps}`);
-  console.log(
-    `  Colliding operations skipped (first spec wins): ${totalSkipped}`,
-  );
+  console.log(`  Colliding operations skipped (first spec wins): ${totalSkipped}`);
   console.log(`  Elapsed: ${((Date.now() - started) / 1000).toFixed(1)}s`);
   console.log(`  Output: ${outDir}`);
   await finalizeConvert({ root: rootDir });

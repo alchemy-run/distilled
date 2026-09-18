@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON models in .generated-specs into the
  * Hetzner Cloud Effect SDK.
@@ -21,7 +22,6 @@
  * (`Services.floatingIpActions.assignFloatingIp`).
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -90,8 +90,7 @@ const spec: SdkSpec = {
     },
   },
 
-  sourceNote:
-    ".generated-specs (specs/spec-mirror-hetzner/specs/cloud.spec.json)",
+  sourceNote: ".generated-specs (specs/spec-mirror-hetzner/specs/cloud.spec.json)",
 
   operationDecl: {
     contextType: "HetznerOpContext",

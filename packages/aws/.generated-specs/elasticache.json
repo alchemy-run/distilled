@@ -4080,11 +4080,7 @@
             "input": {
               "CacheSubnetGroupName": "my-sn-grp2",
               "CacheSubnetGroupDescription": "Sample subnet group",
-              "SubnetIds": [
-                "subnet-6f28c982",
-                "subnet-bcd382f3",
-                "subnet-845b3e7c0"
-              ]
+              "SubnetIds": ["subnet-6f28c982", "subnet-bcd382f3", "subnet-845b3e7c0"]
             },
             "output": {
               "CacheSubnetGroup": {
@@ -4327,11 +4323,7 @@
                 "ReplicationGroupId": "my-redis-rg",
                 "AutomaticFailover": "enabling",
                 "SnapshottingClusterId": "my-redis-rg-002",
-                "MemberClusters": [
-                  "my-redis-rg-001",
-                  "my-redis-rg-002",
-                  "my-redis-rg-003"
-                ],
+                "MemberClusters": ["my-redis-rg-001", "my-redis-rg-002", "my-redis-rg-003"],
                 "PendingModifiedValues": {}
               }
             }
@@ -12065,11 +12057,7 @@
                 "ReplicationGroupId": "my-redis-rg",
                 "AutomaticFailover": "enabled",
                 "SnapshottingClusterId": "my-redis-rg-002",
-                "MemberClusters": [
-                  "my-redis-rg-001",
-                  "my-redis-rg-002",
-                  "my-redis-rg-003"
-                ],
+                "MemberClusters": ["my-redis-rg-001", "my-redis-rg-002", "my-redis-rg-003"],
                 "PendingModifiedValues": {}
               }
             }

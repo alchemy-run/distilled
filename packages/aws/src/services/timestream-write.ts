@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream Write",
   serviceShapeName: "Timestream_20181101",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -71,9 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ingest.timestream-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -87,13 +81,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://ingest.timestream.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://ingest.timestream.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://ingest.timestream.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -174,12 +164,7 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export type StringValue256 = string;
-export type TimeUnit =
-  | "MILLISECONDS"
-  | "SECONDS"
-  | "MICROSECONDS"
-  | "NANOSECONDS"
-  | (string & {});
+export type TimeUnit = "MILLISECONDS" | "SECONDS" | "MICROSECONDS" | "NANOSECONDS" | (string & {});
 export const TimeUnit = S.String;
 
 export type SchemaName = string;
@@ -221,9 +206,7 @@ export const MultiMeasureAttributeMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "MultiMeasureAttributeMapping",
 }) as any as S.Schema<MultiMeasureAttributeMapping>;
 export type MultiMeasureAttributeMappingList = MultiMeasureAttributeMapping[];
-export const MultiMeasureAttributeMappingList = /*@__PURE__*/ S.Array(
-  MultiMeasureAttributeMapping,
-);
+export const MultiMeasureAttributeMappingList = /*@__PURE__*/ S.Array(MultiMeasureAttributeMapping);
 export interface MultiMeasureMappings {
   TargetMultiMeasureName?: string;
   MultiMeasureAttributeMappings: MultiMeasureAttributeMapping[];
@@ -265,8 +248,7 @@ export const MixedMeasureMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "MixedMeasureMapping",
 }) as any as S.Schema<MixedMeasureMapping>;
 export type MixedMeasureMappingList = MixedMeasureMapping[];
-export const MixedMeasureMappingList =
-  /*@__PURE__*/ S.Array(MixedMeasureMapping);
+export const MixedMeasureMappingList = /*@__PURE__*/ S.Array(MixedMeasureMapping);
 export interface DataModel {
   TimeColumn?: string;
   TimeUnit?: TimeUnit;
@@ -405,9 +387,7 @@ export const CreateBatchLoadTaskRequest = /*@__PURE__*/ S.suspend(() =>
     TargetDatabaseName: S.String,
     TargetTableName: S.String,
     RecordVersion: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBatchLoadTaskRequest",
 }) as any as S.Schema<CreateBatchLoadTaskRequest>;
@@ -441,9 +421,7 @@ export const CreateDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
     DatabaseName: S.String,
     KmsKeyId: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatabaseRequest",
 }) as any as S.Schema<CreateDatabaseRequest>;
@@ -463,9 +441,7 @@ export const Database = /*@__PURE__*/ S.suspend(() =>
     TableCount: S.optional(S.Number),
     KmsKeyId: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "Database" }) as any as S.Schema<Database>;
 export interface CreateDatabaseResponse {
@@ -521,9 +497,7 @@ export interface MagneticStoreWriteProperties {
 export const MagneticStoreWriteProperties = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnableMagneticStoreWrites: S.Boolean,
-    MagneticStoreRejectedDataLocation: S.optional(
-      MagneticStoreRejectedDataLocation,
-    ),
+    MagneticStoreRejectedDataLocation: S.optional(MagneticStoreRejectedDataLocation),
   }),
 ).annotate({
   identifier: "MagneticStoreWriteProperties",
@@ -531,10 +505,7 @@ export const MagneticStoreWriteProperties = /*@__PURE__*/ S.suspend(() =>
 export type PartitionKeyType = "DIMENSION" | "MEASURE" | (string & {});
 export const PartitionKeyType = S.String;
 
-export type PartitionKeyEnforcementLevel =
-  | "REQUIRED"
-  | "OPTIONAL"
-  | (string & {});
+export type PartitionKeyEnforcementLevel = "REQUIRED" | "OPTIONAL" | (string & {});
 export const PartitionKeyEnforcementLevel = S.String;
 
 export interface PartitionKey {
@@ -573,9 +544,7 @@ export const CreateTableRequest = /*@__PURE__*/ S.suspend(() =>
     Tags: S.optional(TagList),
     MagneticStoreWriteProperties: S.optional(MagneticStoreWriteProperties),
     Schema: S.optional(Schema),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTableRequest",
 }) as any as S.Schema<CreateTableRequest>;
@@ -601,9 +570,7 @@ export const Table = /*@__PURE__*/ S.suspend(() =>
     TableStatus: S.optional(TableStatus),
     RetentionProperties: S.optional(RetentionProperties),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MagneticStoreWriteProperties: S.optional(MagneticStoreWriteProperties),
     Schema: S.optional(Schema),
   }),
@@ -627,9 +594,7 @@ export const DeleteDatabaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDatabaseRequest",
 }) as any as S.Schema<DeleteDatabaseRequest>;
 export interface DeleteDatabaseResponse {}
-export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDatabaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDatabaseResponse",
 }) as any as S.Schema<DeleteDatabaseResponse>;
 export interface DeleteTableRequest {
@@ -644,9 +609,7 @@ export const DeleteTableRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTableRequest",
 }) as any as S.Schema<DeleteTableRequest>;
 export interface DeleteTableResponse {}
-export const DeleteTableResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTableResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTableResponse",
 }) as any as S.Schema<DeleteTableResponse>;
 export interface DescribeBatchLoadTaskRequest {
@@ -717,9 +680,7 @@ export const BatchLoadTaskDescription = /*@__PURE__*/ S.suspend(() =>
     TaskStatus: S.optional(BatchLoadStatus),
     RecordVersion: S.optional(S.Number),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResumableUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -753,9 +714,7 @@ export const DescribeDatabaseResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeDatabaseResponse>;
 export interface DescribeEndpointsRequest {}
 export const DescribeEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEndpointsRequest",
 }) as any as S.Schema<DescribeEndpointsRequest>;
@@ -806,9 +765,7 @@ export const ListBatchLoadTasksRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     TaskStatus: S.optional(BatchLoadStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBatchLoadTasksRequest",
 }) as any as S.Schema<ListBatchLoadTasksRequest>;
@@ -828,9 +785,7 @@ export const BatchLoadTask = /*@__PURE__*/ S.suspend(() =>
     DatabaseName: S.optional(S.String),
     TableName: S.optional(S.String),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResumableUntil: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "BatchLoadTask" }) as any as S.Schema<BatchLoadTask>;
@@ -857,9 +812,7 @@ export const ListDatabasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatabasesRequest",
 }) as any as S.Schema<ListDatabasesRequest>;
@@ -887,9 +840,7 @@ export const ListTablesRequest = /*@__PURE__*/ S.suspend(() =>
     DatabaseName: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTablesRequest",
 }) as any as S.Schema<ListTablesRequest>;
@@ -934,9 +885,7 @@ export const ResumeBatchLoadTaskRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResumeBatchLoadTaskRequest",
 }) as any as S.Schema<ResumeBatchLoadTaskRequest>;
 export interface ResumeBatchLoadTaskResponse {}
-export const ResumeBatchLoadTaskResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ResumeBatchLoadTaskResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResumeBatchLoadTaskResponse",
 }) as any as S.Schema<ResumeBatchLoadTaskResponse>;
 export interface TagResourceRequest {
@@ -951,9 +900,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -970,9 +917,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDatabaseRequest {
@@ -1008,9 +953,7 @@ export const UpdateTableRequest = /*@__PURE__*/ S.suspend(() =>
     RetentionProperties: S.optional(RetentionProperties),
     MagneticStoreWriteProperties: S.optional(MagneticStoreWriteProperties),
     Schema: S.optional(Schema),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateTableRequest",
 }) as any as S.Schema<UpdateTableRequest>;
@@ -1086,9 +1029,7 @@ export const WriteRecordsRequest = /*@__PURE__*/ S.suspend(() =>
     TableName: S.String,
     CommonAttributes: S.optional(Record),
     Records: Records,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "WriteRecordsRequest",
 }) as any as S.Schema<WriteRecordsRequest>;

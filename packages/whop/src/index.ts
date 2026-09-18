@@ -77,11 +77,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  WhopProtocol,
-  type WhopOpError,
-  type WhopOpContext,
-} from "./protocol.ts";
+export { WhopProtocol, type WhopOpError, type WhopOpContext } from "./protocol.ts";
 export { paginateRelay } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

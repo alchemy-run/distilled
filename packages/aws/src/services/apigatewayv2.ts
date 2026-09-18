@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "ApiGatewayV2",
   serviceShapeName: "ApiGatewayV2",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://apigateway-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://apigateway.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://apigateway.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://apigateway.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -220,16 +210,7 @@ export const CreateApiRequest = /*@__PURE__*/ S.suspend(() =>
         Version: "version",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v2/apis" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "POST", uri: "/v2/apis" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApiRequest",
 }) as any as S.Schema<CreateApiRequest>;
@@ -263,9 +244,7 @@ export const CreateApiResponse = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -501,11 +480,7 @@ export const CreateDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDeploymentRequest",
 }) as any as S.Schema<CreateDeploymentRequest>;
-export type DeploymentStatus =
-  | "PENDING"
-  | "FAILED"
-  | "DEPLOYED"
-  | (string & {});
+export type DeploymentStatus = "PENDING" | "FAILED" | "DEPLOYED" | (string & {});
 export const DeploymentStatus = S.String;
 
 export interface CreateDeploymentResponse {
@@ -519,9 +494,7 @@ export interface CreateDeploymentResponse {
 export const CreateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoDeployed: S.optional(S.Boolean),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeploymentId: S.optional(S.String),
     DeploymentStatus: S.optional(DeploymentStatus),
     DeploymentStatusMessage: S.optional(S.String),
@@ -572,9 +545,7 @@ export const DomainNameConfiguration = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayDomainName: S.optional(S.String),
     CertificateArn: S.optional(S.String),
     CertificateName: S.optional(S.String),
-    CertificateUploadDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CertificateUploadDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DomainNameStatus: S.optional(DomainNameStatus),
     DomainNameStatusMessage: S.optional(S.String),
     EndpointType: S.optional(EndpointType),
@@ -594,17 +565,14 @@ export const DomainNameConfiguration = /*@__PURE__*/ S.suspend(() =>
       HostedZoneId: "hostedZoneId",
       IpAddressType: "ipAddressType",
       SecurityPolicy: "securityPolicy",
-      OwnershipVerificationCertificateArn:
-        "ownershipVerificationCertificateArn",
+      OwnershipVerificationCertificateArn: "ownershipVerificationCertificateArn",
     }),
   ),
 ).annotate({
   identifier: "DomainNameConfiguration",
 }) as any as S.Schema<DomainNameConfiguration>;
 export type DomainNameConfigurations = DomainNameConfiguration[];
-export const DomainNameConfigurations = /*@__PURE__*/ S.Array(
-  DomainNameConfiguration,
-);
+export const DomainNameConfigurations = /*@__PURE__*/ S.Array(DomainNameConfiguration);
 export interface MutualTlsAuthenticationInput {
   TruststoreUri?: string;
   TruststoreVersion?: string;
@@ -653,16 +621,7 @@ export const CreateDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
         Tags: "tags",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v2/domainnames" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "POST", uri: "/v2/domainnames" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDomainNameRequest",
 }) as any as S.Schema<CreateDomainNameRequest>;
@@ -722,39 +681,20 @@ export type StringWithLengthBetween1And1024 = string;
 export type ConnectionType = "INTERNET" | "VPC_LINK" | (string & {});
 export const ConnectionType = S.String;
 
-export type ContentHandlingStrategy =
-  | "CONVERT_TO_BINARY"
-  | "CONVERT_TO_TEXT"
-  | (string & {});
+export type ContentHandlingStrategy = "CONVERT_TO_BINARY" | "CONVERT_TO_TEXT" | (string & {});
 export const ContentHandlingStrategy = S.String;
 
-export type IntegrationType =
-  | "AWS"
-  | "HTTP"
-  | "MOCK"
-  | "HTTP_PROXY"
-  | "AWS_PROXY"
-  | (string & {});
+export type IntegrationType = "AWS" | "HTTP" | "MOCK" | "HTTP_PROXY" | "AWS_PROXY" | (string & {});
 export const IntegrationType = S.String;
 
-export type PassthroughBehavior =
-  | "WHEN_NO_MATCH"
-  | "NEVER"
-  | "WHEN_NO_TEMPLATES"
-  | (string & {});
+export type PassthroughBehavior = "WHEN_NO_MATCH" | "NEVER" | "WHEN_NO_TEMPLATES" | (string & {});
 export const PassthroughBehavior = S.String;
 
 export type IntegrationParameters = { [key: string]: string | undefined };
-export const IntegrationParameters = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const IntegrationParameters = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type StringWithLengthBetween0And32K = string;
 export type TemplateMap = { [key: string]: string | undefined };
-export const TemplateMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TemplateMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ResponseParameters = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -912,8 +852,7 @@ export const CreateIntegrationResult = /*@__PURE__*/ S.suspend(() =>
       Description: "description",
       IntegrationId: "integrationId",
       IntegrationMethod: "integrationMethod",
-      IntegrationResponseSelectionExpression:
-        "integrationResponseSelectionExpression",
+      IntegrationResponseSelectionExpression: "integrationResponseSelectionExpression",
       IntegrationSubtype: "integrationSubtype",
       IntegrationType: "integrationType",
       IntegrationUri: "integrationUri",
@@ -1168,9 +1107,7 @@ export interface PortalTheme {
 export const PortalTheme = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CustomColors: S.optional(CustomColors),
-    LogoLastUploaded: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LogoLastUploaded: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }).pipe(
     S.encodeKeys({
       CustomColors: "customColors",
@@ -1227,16 +1164,7 @@ export const CreatePortalRequest = /*@__PURE__*/ S.suspend(() =>
         Tags: "tags",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v2/portals" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "POST", uri: "/v2/portals" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePortalRequest",
 }) as any as S.Schema<CreatePortalRequest>;
@@ -1329,12 +1257,8 @@ export const CreatePortalResponse = /*@__PURE__*/ S.suspend(() =>
     Authorization: S.optional(Authorization),
     EndpointConfiguration: S.optional(EndpointConfigurationResponse),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastPublished: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastPublished: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastPublishedDescription: S.optional(S.String),
     PortalArn: S.optional(S.String),
     PortalContent: S.optional(PortalContent),
@@ -1383,14 +1307,7 @@ export const CreatePortalProductRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v2/portalproducts" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "POST", uri: "/v2/portalproducts" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "CreatePortalProductRequest",
@@ -1449,9 +1366,7 @@ export const CreatePortalProductResponse = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     DisplayOrder: S.optional(DisplayOrder),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PortalProductArn: S.optional(S.String),
     PortalProductId: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -1517,9 +1432,7 @@ export interface CreateProductPageResponse {
 export const CreateProductPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DisplayContent: S.optional(DisplayContent),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProductPageArn: S.optional(S.String),
     ProductPageId: S.optional(S.String),
   }).pipe(
@@ -1612,34 +1525,33 @@ export interface CreateProductRestEndpointPageRequest {
   RestEndpointIdentifier?: RestEndpointIdentifier;
   TryItState?: TryItState;
 }
-export const CreateProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DisplayContent: S.optional(EndpointDisplayContent),
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-      RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
-      TryItState: S.optional(TryItState),
-    })
-      .pipe(
-        S.encodeKeys({
-          DisplayContent: "displayContent",
-          RestEndpointIdentifier: "restEndpointIdentifier",
-          TryItState: "tryItState",
+export const CreateProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContent),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    TryItState: S.optional(TryItState),
+  })
+    .pipe(
+      S.encodeKeys({
+        DisplayContent: "displayContent",
+        RestEndpointIdentifier: "restEndpointIdentifier",
+        TryItState: "tryItState",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
         }),
-      )
-      .pipe(
-        T.all(
-          T.Http({
-            method: "POST",
-            uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages",
-          }),
-          svc,
-          auth,
-          proto,
-          ver,
-          rules,
-        ),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
       ),
+    ),
 ).annotate({
   identifier: "CreateProductRestEndpointPageRequest",
 }) as any as S.Schema<CreateProductRestEndpointPageRequest>;
@@ -1685,56 +1597,43 @@ export interface CreateProductRestEndpointPageResponse {
   StatusException?: StatusException;
   TryItState?: TryItState;
 }
-export const CreateProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DisplayContent: S.optional(EndpointDisplayContentResponse),
-      LastModified: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      ProductRestEndpointPageArn: S.optional(S.String),
-      ProductRestEndpointPageId: S.optional(S.String),
-      RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
-      Status: S.optional(Status),
-      StatusException: S.optional(StatusException),
-      TryItState: S.optional(TryItState),
-    }).pipe(
-      S.encodeKeys({
-        DisplayContent: "displayContent",
-        LastModified: "lastModified",
-        ProductRestEndpointPageArn: "productRestEndpointPageArn",
-        ProductRestEndpointPageId: "productRestEndpointPageId",
-        RestEndpointIdentifier: "restEndpointIdentifier",
-        Status: "status",
-        StatusException: "statusException",
-        TryItState: "tryItState",
-      }),
-    ),
+export const CreateProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContentResponse),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "CreateProductRestEndpointPageResponse",
 }) as any as S.Schema<CreateProductRestEndpointPageResponse>;
 export type AuthorizationScopes = string[];
 export const AuthorizationScopes = /*@__PURE__*/ S.Array(S.String);
-export type AuthorizationType =
-  | "NONE"
-  | "AWS_IAM"
-  | "CUSTOM"
-  | "JWT"
-  | (string & {});
+export type AuthorizationType = "NONE" | "AWS_IAM" | "CUSTOM" | "JWT" | (string & {});
 export const AuthorizationType = S.String;
 
 export type RouteModels = { [key: string]: string | undefined };
-export const RouteModels = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RouteModels = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ParameterConstraints {
   Required?: boolean;
 }
 export const ParameterConstraints = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Required: S.optional(S.Boolean) }).pipe(
-    S.encodeKeys({ Required: "required" }),
-  ),
+  S.Struct({ Required: S.optional(S.Boolean) }).pipe(S.encodeKeys({ Required: "required" })),
 ).annotate({
   identifier: "ParameterConstraints",
 }) as any as S.Schema<ParameterConstraints>;
@@ -1950,17 +1849,14 @@ export const RoutingRuleAction = /*@__PURE__*/ S.suspend(() =>
   identifier: "RoutingRuleAction",
 }) as any as S.Schema<RoutingRuleAction>;
 export type __listOfRoutingRuleAction = RoutingRuleAction[];
-export const __listOfRoutingRuleAction =
-  /*@__PURE__*/ S.Array(RoutingRuleAction);
+export const __listOfRoutingRuleAction = /*@__PURE__*/ S.Array(RoutingRuleAction);
 export type __listOfSelectionKey = string[];
 export const __listOfSelectionKey = /*@__PURE__*/ S.Array(S.String);
 export interface RoutingRuleMatchBasePaths {
   AnyOf?: string[];
 }
 export const RoutingRuleMatchBasePaths = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AnyOf: S.optional(__listOfSelectionKey) }).pipe(
-    S.encodeKeys({ AnyOf: "anyOf" }),
-  ),
+  S.Struct({ AnyOf: S.optional(__listOfSelectionKey) }).pipe(S.encodeKeys({ AnyOf: "anyOf" })),
 ).annotate({
   identifier: "RoutingRuleMatchBasePaths",
 }) as any as S.Schema<RoutingRuleMatchBasePaths>;
@@ -2008,8 +1904,7 @@ export const RoutingRuleCondition = /*@__PURE__*/ S.suspend(() =>
   identifier: "RoutingRuleCondition",
 }) as any as S.Schema<RoutingRuleCondition>;
 export type __listOfRoutingRuleCondition = RoutingRuleCondition[];
-export const __listOfRoutingRuleCondition =
-  /*@__PURE__*/ S.Array(RoutingRuleCondition);
+export const __listOfRoutingRuleCondition = /*@__PURE__*/ S.Array(RoutingRuleCondition);
 export type RoutingRulePriority = number;
 export interface CreateRoutingRuleRequest {
   Actions?: RoutingRuleAction[];
@@ -2128,16 +2023,10 @@ export const RouteSettings = /*@__PURE__*/ S.suspend(() =>
   ),
 ).annotate({ identifier: "RouteSettings" }) as any as S.Schema<RouteSettings>;
 export type RouteSettingsMap = { [key: string]: RouteSettings | undefined };
-export const RouteSettingsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  RouteSettings.pipe(S.optional),
-);
+export const RouteSettingsMap = /*@__PURE__*/ S.Record(S.String, RouteSettings.pipe(S.optional));
 export type StringWithLengthBetween0And2048 = string;
 export type StageVariablesMap = { [key: string]: string | undefined };
-export const StageVariablesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StageVariablesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateStageRequest {
   AccessLogSettings?: AccessLogSettings;
   ApiId: string;
@@ -2214,16 +2103,12 @@ export const CreateStageResponse = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayManaged: S.optional(S.Boolean),
     AutoDeploy: S.optional(S.Boolean),
     ClientCertificateId: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DefaultRouteSettings: S.optional(RouteSettings),
     DeploymentId: S.optional(S.String),
     Description: S.optional(S.String),
     LastDeploymentStatusMessage: S.optional(S.String),
-    LastUpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RouteSettings: S.optional(RouteSettingsMap),
     StageName: S.optional(S.String),
     StageVariables: S.optional(StageVariablesMap),
@@ -2274,16 +2159,7 @@ export const CreateVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
         Tags: "tags",
       }),
     )
-    .pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/v2/vpclinks" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "POST", uri: "/v2/vpclinks" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateVpcLinkRequest",
 }) as any as S.Schema<CreateVpcLinkRequest>;
@@ -2312,9 +2188,7 @@ export interface CreateVpcLinkResponse {
 }
 export const CreateVpcLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Name: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIdList),
     SubnetIds: S.optional(SubnetIdList),
@@ -2364,32 +2238,23 @@ export const DeleteAccessLogSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessLogSettingsRequest",
 }) as any as S.Schema<DeleteAccessLogSettingsRequest>;
 export interface DeleteAccessLogSettingsResponse {}
-export const DeleteAccessLogSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteAccessLogSettingsResponse",
-}) as any as S.Schema<DeleteAccessLogSettingsResponse>;
+export const DeleteAccessLogSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteAccessLogSettingsResponse",
+  },
+) as any as S.Schema<DeleteAccessLogSettingsResponse>;
 export interface DeleteApiRequest {
   ApiId: string;
 }
 export const DeleteApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteApiRequest",
 }) as any as S.Schema<DeleteApiRequest>;
 export interface DeleteApiResponse {}
-export const DeleteApiResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApiResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApiResponse",
 }) as any as S.Schema<DeleteApiResponse>;
 export interface DeleteApiMappingRequest {
@@ -2417,9 +2282,7 @@ export const DeleteApiMappingRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApiMappingRequest",
 }) as any as S.Schema<DeleteApiMappingRequest>;
 export interface DeleteApiMappingResponse {}
-export const DeleteApiMappingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApiMappingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApiMappingResponse",
 }) as any as S.Schema<DeleteApiMappingResponse>;
 export interface DeleteAuthorizerRequest {
@@ -2447,9 +2310,7 @@ export const DeleteAuthorizerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAuthorizerRequest",
 }) as any as S.Schema<DeleteAuthorizerRequest>;
 export interface DeleteAuthorizerResponse {}
-export const DeleteAuthorizerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAuthorizerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAuthorizerResponse",
 }) as any as S.Schema<DeleteAuthorizerResponse>;
 export interface DeleteCorsConfigurationRequest {
@@ -2457,24 +2318,17 @@ export interface DeleteCorsConfigurationRequest {
 }
 export const DeleteCorsConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/cors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v2/apis/{ApiId}/cors" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteCorsConfigurationRequest",
 }) as any as S.Schema<DeleteCorsConfigurationRequest>;
 export interface DeleteCorsConfigurationResponse {}
-export const DeleteCorsConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteCorsConfigurationResponse",
-}) as any as S.Schema<DeleteCorsConfigurationResponse>;
+export const DeleteCorsConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteCorsConfigurationResponse",
+  },
+) as any as S.Schema<DeleteCorsConfigurationResponse>;
 export interface DeleteDeploymentRequest {
   ApiId: string;
   DeploymentId: string;
@@ -2500,9 +2354,7 @@ export const DeleteDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDeploymentRequest",
 }) as any as S.Schema<DeleteDeploymentRequest>;
 export interface DeleteDeploymentResponse {}
-export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDeploymentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDeploymentResponse",
 }) as any as S.Schema<DeleteDeploymentResponse>;
 export interface DeleteDomainNameRequest {
@@ -2523,9 +2375,7 @@ export const DeleteDomainNameRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDomainNameRequest",
 }) as any as S.Schema<DeleteDomainNameRequest>;
 export interface DeleteDomainNameResponse {}
-export const DeleteDomainNameResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDomainNameResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDomainNameResponse",
 }) as any as S.Schema<DeleteDomainNameResponse>;
 export interface DeleteIntegrationRequest {
@@ -2553,9 +2403,7 @@ export const DeleteIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIntegrationRequest",
 }) as any as S.Schema<DeleteIntegrationRequest>;
 export interface DeleteIntegrationResponse {}
-export const DeleteIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIntegrationResponse",
 }) as any as S.Schema<DeleteIntegrationResponse>;
 export interface DeleteIntegrationResponseRequest {
@@ -2612,9 +2460,7 @@ export const DeleteModelRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteModelRequest",
 }) as any as S.Schema<DeleteModelRequest>;
 export interface DeleteModelResponse {}
-export const DeleteModelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteModelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteModelResponse",
 }) as any as S.Schema<DeleteModelResponse>;
 export interface DeletePortalRequest {
@@ -2635,9 +2481,7 @@ export const DeletePortalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePortalRequest",
 }) as any as S.Schema<DeletePortalRequest>;
 export interface DeletePortalResponse {}
-export const DeletePortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePortalResponse",
 }) as any as S.Schema<DeletePortalResponse>;
 export interface DeletePortalProductRequest {
@@ -2660,37 +2504,34 @@ export const DeletePortalProductRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeletePortalProductRequest",
 }) as any as S.Schema<DeletePortalProductRequest>;
 export interface DeletePortalProductResponse {}
-export const DeletePortalProductResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePortalProductResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePortalProductResponse",
 }) as any as S.Schema<DeletePortalProductResponse>;
 export interface DeletePortalProductSharingPolicyRequest {
   PortalProductId: string;
 }
-export const DeletePortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeletePortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeletePortalProductSharingPolicyRequest",
 }) as any as S.Schema<DeletePortalProductSharingPolicyRequest>;
 export interface DeletePortalProductSharingPolicyResponse {}
-export const DeletePortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeletePortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeletePortalProductSharingPolicyResponse",
 }) as any as S.Schema<DeletePortalProductSharingPolicyResponse>;
@@ -2719,41 +2560,36 @@ export const DeleteProductPageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProductPageRequest",
 }) as any as S.Schema<DeleteProductPageRequest>;
 export interface DeleteProductPageResponse {}
-export const DeleteProductPageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteProductPageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProductPageResponse",
 }) as any as S.Schema<DeleteProductPageResponse>;
 export interface DeleteProductRestEndpointPageRequest {
   PortalProductId: string;
   ProductRestEndpointPageId: string;
 }
-export const DeleteProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-      ProductRestEndpointPageId: S.String.pipe(
-        T.HttpLabel("ProductRestEndpointPageId"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel("ProductRestEndpointPageId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteProductRestEndpointPageRequest",
 }) as any as S.Schema<DeleteProductRestEndpointPageRequest>;
 export interface DeleteProductRestEndpointPageResponse {}
-export const DeleteProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteProductRestEndpointPageResponse",
 }) as any as S.Schema<DeleteProductRestEndpointPageResponse>;
@@ -2779,9 +2615,7 @@ export const DeleteRouteRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRouteRequest",
 }) as any as S.Schema<DeleteRouteRequest>;
 export interface DeleteRouteResponse {}
-export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRouteResponse",
 }) as any as S.Schema<DeleteRouteResponse>;
 export interface DeleteRouteRequestParameterRequest {
@@ -2843,9 +2677,7 @@ export const DeleteRouteResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRouteResponseRequest",
 }) as any as S.Schema<DeleteRouteResponseRequest>;
 export interface DeleteRouteResponseResponse {}
-export const DeleteRouteResponseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRouteResponseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRouteResponseResponse",
 }) as any as S.Schema<DeleteRouteResponseResponse>;
 export interface DeleteRouteSettingsRequest {
@@ -2875,9 +2707,7 @@ export const DeleteRouteSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRouteSettingsRequest",
 }) as any as S.Schema<DeleteRouteSettingsRequest>;
 export interface DeleteRouteSettingsResponse {}
-export const DeleteRouteSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRouteSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRouteSettingsResponse",
 }) as any as S.Schema<DeleteRouteSettingsResponse>;
 export interface DeleteRoutingRuleRequest {
@@ -2907,9 +2737,7 @@ export const DeleteRoutingRuleRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRoutingRuleRequest",
 }) as any as S.Schema<DeleteRoutingRuleRequest>;
 export interface DeleteRoutingRuleResponse {}
-export const DeleteRoutingRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRoutingRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRoutingRuleResponse",
 }) as any as S.Schema<DeleteRoutingRuleResponse>;
 export interface DeleteStageRequest {
@@ -2934,9 +2762,7 @@ export const DeleteStageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteStageRequest",
 }) as any as S.Schema<DeleteStageRequest>;
 export interface DeleteStageResponse {}
-export const DeleteStageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteStageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteStageResponse",
 }) as any as S.Schema<DeleteStageResponse>;
 export interface DeleteVpcLinkRequest {
@@ -2957,9 +2783,7 @@ export const DeleteVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVpcLinkRequest",
 }) as any as S.Schema<DeleteVpcLinkRequest>;
 export interface DeleteVpcLinkResponse {}
-export const DeleteVpcLinkResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteVpcLinkResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteVpcLinkResponse",
 }) as any as S.Schema<DeleteVpcLinkResponse>;
 export interface DisablePortalRequest {
@@ -2980,9 +2804,7 @@ export const DisablePortalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisablePortalRequest",
 }) as any as S.Schema<DisablePortalRequest>;
 export interface DisablePortalResponse {}
-export const DisablePortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DisablePortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DisablePortalResponse",
 }) as any as S.Schema<DisablePortalResponse>;
 export interface ExportApiRequest {
@@ -2997,9 +2819,7 @@ export const ExportApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApiId: S.String.pipe(T.HttpLabel("ApiId")),
     ExportVersion: S.optional(S.String).pipe(T.HttpQuery("exportVersion")),
-    IncludeExtensions: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeExtensions"),
-    ),
+    IncludeExtensions: S.optional(S.Boolean).pipe(T.HttpQuery("includeExtensions")),
     OutputType: S.optional(S.String).pipe(T.HttpQuery("outputType")),
     Specification: S.String.pipe(T.HttpLabel("Specification")),
     StageName: S.optional(S.String).pipe(T.HttpQuery("stageName")),
@@ -3032,14 +2852,7 @@ export interface GetApiRequest {
 }
 export const GetApiRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ApiId: S.String.pipe(T.HttpLabel("ApiId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/apis/{ApiId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetApiRequest" }) as any as S.Schema<GetApiRequest>;
 export interface GetApiResponse {
@@ -3068,9 +2881,7 @@ export const GetApiResponse = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -3221,16 +3032,7 @@ export const GetApisRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/apis" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v2/apis" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GetApisRequest" }) as any as S.Schema<GetApisRequest>;
 export interface Api {
   ApiEndpoint?: string;
@@ -3258,9 +3060,7 @@ export const Api = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -3494,9 +3294,7 @@ export interface GetDeploymentResponse {
 export const GetDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoDeployed: S.optional(S.Boolean),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeploymentId: S.optional(S.String),
     DeploymentStatus: S.optional(DeploymentStatus),
     DeploymentStatusMessage: S.optional(S.String),
@@ -3548,9 +3346,7 @@ export interface Deployment {
 export const Deployment = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoDeployed: S.optional(S.Boolean),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeploymentId: S.optional(S.String),
     DeploymentStatus: S.optional(DeploymentStatus),
     DeploymentStatusMessage: S.optional(S.String),
@@ -3637,16 +3433,7 @@ export const GetDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/domainnames" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v2/domainnames" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetDomainNamesRequest",
 }) as any as S.Schema<GetDomainNamesRequest>;
@@ -3774,8 +3561,7 @@ export const GetIntegrationResult = /*@__PURE__*/ S.suspend(() =>
       Description: "description",
       IntegrationId: "integrationId",
       IntegrationMethod: "integrationMethod",
-      IntegrationResponseSelectionExpression:
-        "integrationResponseSelectionExpression",
+      IntegrationResponseSelectionExpression: "integrationResponseSelectionExpression",
       IntegrationSubtype: "integrationSubtype",
       IntegrationType: "integrationType",
       IntegrationUri: "integrationUri",
@@ -3905,8 +3691,7 @@ export const IntegrationResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "IntegrationResponse",
 }) as any as S.Schema<IntegrationResponse>;
 export type __listOfIntegrationResponse = IntegrationResponse[];
-export const __listOfIntegrationResponse =
-  /*@__PURE__*/ S.Array(IntegrationResponse);
+export const __listOfIntegrationResponse = /*@__PURE__*/ S.Array(IntegrationResponse);
 export interface GetIntegrationResponsesResponse {
   Items?: (IntegrationResponse & { IntegrationResponseKey: SelectionKey })[];
   NextToken?: string;
@@ -3998,8 +3783,7 @@ export const Integration = /*@__PURE__*/ S.suspend(() =>
       Description: "description",
       IntegrationId: "integrationId",
       IntegrationMethod: "integrationMethod",
-      IntegrationResponseSelectionExpression:
-        "integrationResponseSelectionExpression",
+      IntegrationResponseSelectionExpression: "integrationResponseSelectionExpression",
       IntegrationSubtype: "integrationSubtype",
       IntegrationType: "integrationType",
       IntegrationUri: "integrationUri",
@@ -4086,14 +3870,7 @@ export const GetModelsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/models" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetModelsRequest",
@@ -4164,9 +3941,7 @@ export interface GetModelTemplateResponse {
   Value?: string;
 }
 export const GetModelTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.optional(S.String) }).pipe(
-    S.encodeKeys({ Value: "value" }),
-  ),
+  S.Struct({ Value: S.optional(S.String) }).pipe(S.encodeKeys({ Value: "value" })),
 ).annotate({
   identifier: "GetModelTemplateResponse",
 }) as any as S.Schema<GetModelTemplateResponse>;
@@ -4175,14 +3950,7 @@ export interface GetPortalRequest {
 }
 export const GetPortalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PortalId: S.String.pipe(T.HttpLabel("PortalId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/portals/{PortalId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/portals/{PortalId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPortalRequest",
@@ -4254,12 +4022,8 @@ export const GetPortalResponse = /*@__PURE__*/ S.suspend(() =>
     Authorization: S.optional(Authorization),
     EndpointConfiguration: S.optional(EndpointConfigurationResponse),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastPublished: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastPublished: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastPublishedDescription: S.optional(S.String),
     PortalArn: S.optional(S.String),
     PortalContent: S.optional(PortalContent),
@@ -4297,9 +4061,7 @@ export interface GetPortalProductRequest {
 export const GetPortalProductRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    ResourceOwnerAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("resourceOwnerAccountId"),
-    ),
+    ResourceOwnerAccountId: S.optional(S.String).pipe(T.HttpQuery("resourceOwnerAccountId")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/v2/portalproducts/{PortalProductId}" }),
@@ -4332,9 +4094,7 @@ export const GetPortalProductResponse = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     DisplayOrder: S.optional(DisplayOrder),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PortalProductArn: S.optional(S.String),
     PortalProductId: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -4355,23 +4115,22 @@ export const GetPortalProductResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPortalProductSharingPolicyRequest {
   PortalProductId: string;
 }
-export const GetPortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetPortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetPortalProductSharingPolicyRequest",
 }) as any as S.Schema<GetPortalProductSharingPolicyRequest>;
@@ -4380,17 +4139,16 @@ export interface GetPortalProductSharingPolicyResponse {
   PolicyDocument?: string;
   PortalProductId?: string;
 }
-export const GetPortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PolicyDocument: S.optional(S.String),
-      PortalProductId: S.optional(S.String),
-    }).pipe(
-      S.encodeKeys({
-        PolicyDocument: "policyDocument",
-        PortalProductId: "portalProductId",
-      }),
-    ),
+export const GetPortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PortalProductId: S.optional(S.String),
+  }).pipe(
+    S.encodeKeys({
+      PolicyDocument: "policyDocument",
+      PortalProductId: "portalProductId",
+    }),
+  ),
 ).annotate({
   identifier: "GetPortalProductSharingPolicyResponse",
 }) as any as S.Schema<GetPortalProductSharingPolicyResponse>;
@@ -4403,9 +4161,7 @@ export const GetProductPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
     ProductPageId: S.String.pipe(T.HttpLabel("ProductPageId")),
-    ResourceOwnerAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("resourceOwnerAccountId"),
-    ),
+    ResourceOwnerAccountId: S.optional(S.String).pipe(T.HttpQuery("resourceOwnerAccountId")),
   }).pipe(
     T.all(
       T.Http({
@@ -4434,9 +4190,7 @@ export interface GetProductPageResponse {
 export const GetProductPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DisplayContent: S.optional(DisplayContent),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProductPageArn: S.optional(S.String),
     ProductPageId: S.optional(S.String),
   }).pipe(
@@ -4458,16 +4212,10 @@ export interface GetProductRestEndpointPageRequest {
 }
 export const GetProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    IncludeRawDisplayContent: S.optional(S.String).pipe(
-      T.HttpQuery("includeRawDisplayContent"),
-    ),
+    IncludeRawDisplayContent: S.optional(S.String).pipe(T.HttpQuery("includeRawDisplayContent")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    ProductRestEndpointPageId: S.String.pipe(
-      T.HttpLabel("ProductRestEndpointPageId"),
-    ),
-    ResourceOwnerAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("resourceOwnerAccountId"),
-    ),
+    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel("ProductRestEndpointPageId")),
+    ResourceOwnerAccountId: S.optional(S.String).pipe(T.HttpQuery("resourceOwnerAccountId")),
   }).pipe(
     T.all(
       T.Http({
@@ -4507,9 +4255,7 @@ export interface GetProductRestEndpointPageResponse {
 export const GetProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DisplayContent: S.optional(EndpointDisplayContentResponse),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProductRestEndpointPageArn: S.optional(S.String),
     ProductRestEndpointPageId: S.optional(S.String),
     RawDisplayContent: S.optional(S.String),
@@ -4731,14 +4477,7 @@ export const GetRoutesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/routes" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetRoutesRequest",
@@ -4913,16 +4652,12 @@ export const GetStageResponse = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayManaged: S.optional(S.Boolean),
     AutoDeploy: S.optional(S.Boolean),
     ClientCertificateId: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DefaultRouteSettings: S.optional(RouteSettings),
     DeploymentId: S.optional(S.String),
     Description: S.optional(S.String),
     LastDeploymentStatusMessage: S.optional(S.String),
-    LastUpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RouteSettings: S.optional(RouteSettingsMap),
     StageName: S.optional(S.String),
     StageVariables: S.optional(StageVariablesMap),
@@ -4959,14 +4694,7 @@ export const GetStagesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/apis/{ApiId}/stages" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetStagesRequest",
@@ -4993,16 +4721,12 @@ export const Stage = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayManaged: S.optional(S.Boolean),
     AutoDeploy: S.optional(S.Boolean),
     ClientCertificateId: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DefaultRouteSettings: S.optional(RouteSettings),
     DeploymentId: S.optional(S.String),
     Description: S.optional(S.String),
     LastDeploymentStatusMessage: S.optional(S.String),
-    LastUpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RouteSettings: S.optional(RouteSettingsMap),
     StageName: S.optional(S.String),
     StageVariables: S.optional(StageVariablesMap),
@@ -5045,14 +4769,7 @@ export interface GetTagsRequest {
 }
 export const GetTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetTagsRequest" }) as any as S.Schema<GetTagsRequest>;
 export interface GetTagsResponse {
@@ -5068,14 +4785,7 @@ export interface GetVpcLinkRequest {
 }
 export const GetVpcLinkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ VpcLinkId: S.String.pipe(T.HttpLabel("VpcLinkId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/vpclinks/{VpcLinkId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/vpclinks/{VpcLinkId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetVpcLinkRequest",
@@ -5093,9 +4803,7 @@ export interface GetVpcLinkResponse {
 }
 export const GetVpcLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Name: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIdList),
     SubnetIds: S.optional(SubnetIdList),
@@ -5128,16 +4836,7 @@ export const GetVpcLinksRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/vpclinks" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v2/vpclinks" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetVpcLinksRequest",
 }) as any as S.Schema<GetVpcLinksRequest>;
@@ -5154,9 +4853,7 @@ export interface VpcLink {
 }
 export const VpcLink = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Name: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIdList),
     SubnetIds: S.optional(SubnetIdList),
@@ -5210,16 +4907,7 @@ export const ImportApiRequest = /*@__PURE__*/ S.suspend(() =>
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
   })
     .pipe(S.encodeKeys({ Body: "body" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v2/apis" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "PUT", uri: "/v2/apis" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportApiRequest",
 }) as any as S.Schema<ImportApiRequest>;
@@ -5249,9 +4937,7 @@ export const ImportApiResponse = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -5298,14 +4984,7 @@ export const ListPortalProductsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     ResourceOwner: S.optional(S.String).pipe(T.HttpQuery("resourceOwner")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/portalproducts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/portalproducts" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListPortalProductsRequest",
@@ -5322,9 +5001,7 @@ export const PortalProductSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PortalProductArn: S.optional(S.String),
     PortalProductId: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -5342,8 +5019,7 @@ export const PortalProductSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PortalProductSummary",
 }) as any as S.Schema<PortalProductSummary>;
 export type __listOfPortalProductSummary = PortalProductSummary[];
-export const __listOfPortalProductSummary =
-  /*@__PURE__*/ S.Array(PortalProductSummary);
+export const __listOfPortalProductSummary = /*@__PURE__*/ S.Array(PortalProductSummary);
 export interface ListPortalProductsResponse {
   Items?: (PortalProductSummary & {
     Description: __stringMin0Max1024;
@@ -5370,16 +5046,7 @@ export const ListPortalsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/portals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v2/portals" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPortalsRequest",
 }) as any as S.Schema<ListPortalsRequest>;
@@ -5404,12 +5071,8 @@ export const PortalSummary = /*@__PURE__*/ S.suspend(() =>
     Authorization: S.optional(Authorization),
     EndpointConfiguration: S.optional(EndpointConfigurationResponse),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastPublished: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastPublished: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastPublishedDescription: S.optional(S.String),
     PortalArn: S.optional(S.String),
     PortalContent: S.optional(PortalContent),
@@ -5493,9 +5156,7 @@ export const ListProductPagesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    ResourceOwnerAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("resourceOwnerAccountId"),
-    ),
+    ResourceOwnerAccountId: S.optional(S.String).pipe(T.HttpQuery("resourceOwnerAccountId")),
   }).pipe(
     T.all(
       T.Http({
@@ -5520,9 +5181,7 @@ export interface ProductPageSummaryNoBody {
 }
 export const ProductPageSummaryNoBody = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PageTitle: S.optional(S.String),
     ProductPageArn: S.optional(S.String),
     ProductPageId: S.optional(S.String),
@@ -5538,9 +5197,7 @@ export const ProductPageSummaryNoBody = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProductPageSummaryNoBody",
 }) as any as S.Schema<ProductPageSummaryNoBody>;
 export type __listOfProductPageSummaryNoBody = ProductPageSummaryNoBody[];
-export const __listOfProductPageSummaryNoBody = /*@__PURE__*/ S.Array(
-  ProductPageSummaryNoBody,
-);
+export const __listOfProductPageSummaryNoBody = /*@__PURE__*/ S.Array(ProductPageSummaryNoBody);
 export interface ListProductPagesResponse {
   Items?: (ProductPageSummaryNoBody & {
     LastModified: __timestampIso8601;
@@ -5569,9 +5226,7 @@ export const ListProductRestEndpointPagesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.String).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    ResourceOwnerAccountId: S.optional(S.String).pipe(
-      T.HttpQuery("resourceOwnerAccountId"),
-    ),
+    ResourceOwnerAccountId: S.optional(S.String).pipe(T.HttpQuery("resourceOwnerAccountId")),
   }).pipe(
     T.all(
       T.Http({
@@ -5599,40 +5254,37 @@ export interface ProductRestEndpointPageSummaryNoBody {
   StatusException?: StatusException;
   TryItState?: TryItState;
 }
-export const ProductRestEndpointPageSummaryNoBody = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Endpoint: S.optional(S.String),
-      LastModified: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      OperationName: S.optional(S.String),
-      ProductRestEndpointPageArn: S.optional(S.String),
-      ProductRestEndpointPageId: S.optional(S.String),
-      RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
-      Status: S.optional(Status),
-      StatusException: S.optional(StatusException),
-      TryItState: S.optional(TryItState),
-    }).pipe(
-      S.encodeKeys({
-        Endpoint: "endpoint",
-        LastModified: "lastModified",
-        OperationName: "operationName",
-        ProductRestEndpointPageArn: "productRestEndpointPageArn",
-        ProductRestEndpointPageId: "productRestEndpointPageId",
-        RestEndpointIdentifier: "restEndpointIdentifier",
-        Status: "status",
-        StatusException: "statusException",
-        TryItState: "tryItState",
-      }),
-    ),
+export const ProductRestEndpointPageSummaryNoBody = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Endpoint: S.optional(S.String),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    OperationName: S.optional(S.String),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      Endpoint: "endpoint",
+      LastModified: "lastModified",
+      OperationName: "operationName",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "ProductRestEndpointPageSummaryNoBody",
 }) as any as S.Schema<ProductRestEndpointPageSummaryNoBody>;
-export type __listOfProductRestEndpointPageSummaryNoBody =
-  ProductRestEndpointPageSummaryNoBody[];
-export const __listOfProductRestEndpointPageSummaryNoBody =
-  /*@__PURE__*/ S.Array(ProductRestEndpointPageSummaryNoBody);
+export type __listOfProductRestEndpointPageSummaryNoBody = ProductRestEndpointPageSummaryNoBody[];
+export const __listOfProductRestEndpointPageSummaryNoBody = /*@__PURE__*/ S.Array(
+  ProductRestEndpointPageSummaryNoBody,
+);
 export interface ListProductRestEndpointPagesResponse {
   Items?: (ProductRestEndpointPageSummaryNoBody & {
     Endpoint: __stringMin1Max1024;
@@ -5652,12 +5304,11 @@ export interface ListProductRestEndpointPagesResponse {
   })[];
   NextToken?: string;
 }
-export const ListProductRestEndpointPagesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody),
-      NextToken: S.optional(S.String),
-    }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
+export const ListProductRestEndpointPagesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Items: S.optional(__listOfProductRestEndpointPageSummaryNoBody),
+    NextToken: S.optional(S.String),
+  }).pipe(S.encodeKeys({ Items: "items", NextToken: "nextToken" })),
 ).annotate({
   identifier: "ListProductRestEndpointPagesResponse",
 }) as any as S.Schema<ListProductRestEndpointPagesResponse>;
@@ -5742,9 +5393,7 @@ export const ListRoutingRulesResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     RoutingRules: S.optional(__listOfRoutingRule),
-  }).pipe(
-    S.encodeKeys({ NextToken: "nextToken", RoutingRules: "routingRules" }),
-  ),
+  }).pipe(S.encodeKeys({ NextToken: "nextToken", RoutingRules: "routingRules" })),
 ).annotate({
   identifier: "ListRoutingRulesResponse",
 }) as any as S.Schema<ListRoutingRulesResponse>;
@@ -5766,9 +5415,7 @@ export const PreviewPortalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PreviewPortalRequest",
 }) as any as S.Schema<PreviewPortalRequest>;
 export interface PreviewPortalResponse {}
-export const PreviewPortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PreviewPortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PreviewPortalResponse",
 }) as any as S.Schema<PreviewPortalResponse>;
 export interface PublishPortalRequest {
@@ -5795,41 +5442,38 @@ export const PublishPortalRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PublishPortalRequest",
 }) as any as S.Schema<PublishPortalRequest>;
 export interface PublishPortalResponse {}
-export const PublishPortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PublishPortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PublishPortalResponse",
 }) as any as S.Schema<PublishPortalResponse>;
 export interface PutPortalProductSharingPolicyRequest {
   PolicyDocument?: string;
   PortalProductId: string;
 }
-export const PutPortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      PolicyDocument: S.optional(S.String),
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-    })
-      .pipe(S.encodeKeys({ PolicyDocument: "policyDocument" }))
-      .pipe(
-        T.all(
-          T.Http({
-            method: "PUT",
-            uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
-          }),
-          svc,
-          auth,
-          proto,
-          ver,
-          rules,
-        ),
+export const PutPortalProductSharingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PolicyDocument: S.optional(S.String),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+  })
+    .pipe(S.encodeKeys({ PolicyDocument: "policyDocument" }))
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/v2/portalproducts/{PortalProductId}/sharingpolicy",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
       ),
+    ),
 ).annotate({
   identifier: "PutPortalProductSharingPolicyRequest",
 }) as any as S.Schema<PutPortalProductSharingPolicyRequest>;
 export interface PutPortalProductSharingPolicyResponse {}
-export const PutPortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const PutPortalProductSharingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "PutPortalProductSharingPolicyResponse",
 }) as any as S.Schema<PutPortalProductSharingPolicyResponse>;
@@ -5926,16 +5570,7 @@ export const ReimportApiRequest = /*@__PURE__*/ S.suspend(() =>
     FailOnWarnings: S.optional(S.Boolean).pipe(T.HttpQuery("failOnWarnings")),
   })
     .pipe(S.encodeKeys({ Body: "body" }))
-    .pipe(
-      T.all(
-        T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+    .pipe(T.all(T.Http({ method: "PUT", uri: "/v2/apis/{ApiId}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ReimportApiRequest",
 }) as any as S.Schema<ReimportApiRequest>;
@@ -5965,9 +5600,7 @@ export const ReimportApiResponse = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -6028,9 +5661,7 @@ export const ResetAuthorizersCacheRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResetAuthorizersCacheRequest",
 }) as any as S.Schema<ResetAuthorizersCacheRequest>;
 export interface ResetAuthorizersCacheResponse {}
-export const ResetAuthorizersCacheResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ResetAuthorizersCacheResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ResetAuthorizersCacheResponse",
 }) as any as S.Schema<ResetAuthorizersCacheResponse>;
 export interface TagResourceRequest {
@@ -6057,9 +5688,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -6084,9 +5713,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApiRequest {
@@ -6137,14 +5764,7 @@ export const UpdateApiRequest = /*@__PURE__*/ S.suspend(() =>
       }),
     )
     .pipe(
-      T.all(
-        T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+      T.all(T.Http({ method: "PATCH", uri: "/v2/apis/{ApiId}" }), svc, auth, proto, ver, rules),
     ),
 ).annotate({
   identifier: "UpdateApiRequest",
@@ -6175,9 +5795,7 @@ export const UpdateApiResponse = /*@__PURE__*/ S.suspend(() =>
     ApiId: S.optional(S.String),
     ApiKeySelectionExpression: S.optional(S.String),
     CorsConfiguration: S.optional(Cors),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     DisableSchemaValidation: S.optional(S.Boolean),
     DisableExecuteApiEndpoint: S.optional(S.Boolean),
@@ -6416,9 +6034,7 @@ export interface UpdateDeploymentResponse {
 export const UpdateDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AutoDeployed: S.optional(S.Boolean),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeploymentId: S.optional(S.String),
     DeploymentStatus: S.optional(DeploymentStatus),
     DeploymentStatusMessage: S.optional(S.String),
@@ -6639,8 +6255,7 @@ export const UpdateIntegrationResult = /*@__PURE__*/ S.suspend(() =>
       Description: "description",
       IntegrationId: "integrationId",
       IntegrationMethod: "integrationMethod",
-      IntegrationResponseSelectionExpression:
-        "integrationResponseSelectionExpression",
+      IntegrationResponseSelectionExpression: "integrationResponseSelectionExpression",
       IntegrationSubtype: "integrationSubtype",
       IntegrationType: "integrationType",
       IntegrationUri: "integrationUri",
@@ -6880,12 +6495,8 @@ export const UpdatePortalResponse = /*@__PURE__*/ S.suspend(() =>
     Authorization: S.optional(Authorization),
     EndpointConfiguration: S.optional(EndpointConfigurationResponse),
     IncludedPortalProductArns: S.optional(__listOf__stringMin20Max2048),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastPublished: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastPublished: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastPublishedDescription: S.optional(S.String),
     PortalArn: S.optional(S.String),
     PortalContent: S.optional(PortalContent),
@@ -6971,9 +6582,7 @@ export const UpdatePortalProductResponse = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     DisplayName: S.optional(S.String),
     DisplayOrder: S.optional(DisplayOrder),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PortalProductArn: S.optional(S.String),
     PortalProductId: S.optional(S.String),
     Tags: S.optional(Tags),
@@ -7031,9 +6640,7 @@ export interface UpdateProductPageResponse {
 export const UpdateProductPageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DisplayContent: S.optional(DisplayContent),
-    LastModified: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ProductPageArn: S.optional(S.String),
     ProductPageId: S.optional(S.String),
   }).pipe(
@@ -7053,35 +6660,32 @@ export interface UpdateProductRestEndpointPageRequest {
   ProductRestEndpointPageId: string;
   TryItState?: TryItState;
 }
-export const UpdateProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DisplayContent: S.optional(EndpointDisplayContent),
-      PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
-      ProductRestEndpointPageId: S.String.pipe(
-        T.HttpLabel("ProductRestEndpointPageId"),
-      ),
-      TryItState: S.optional(TryItState),
-    })
-      .pipe(
-        S.encodeKeys({
-          DisplayContent: "displayContent",
-          TryItState: "tryItState",
+export const UpdateProductRestEndpointPageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContent),
+    PortalProductId: S.String.pipe(T.HttpLabel("PortalProductId")),
+    ProductRestEndpointPageId: S.String.pipe(T.HttpLabel("ProductRestEndpointPageId")),
+    TryItState: S.optional(TryItState),
+  })
+    .pipe(
+      S.encodeKeys({
+        DisplayContent: "displayContent",
+        TryItState: "tryItState",
+      }),
+    )
+    .pipe(
+      T.all(
+        T.Http({
+          method: "PATCH",
+          uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
         }),
-      )
-      .pipe(
-        T.all(
-          T.Http({
-            method: "PATCH",
-            uri: "/v2/portalproducts/{PortalProductId}/productrestendpointpages/{ProductRestEndpointPageId}",
-          }),
-          svc,
-          auth,
-          proto,
-          ver,
-          rules,
-        ),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
       ),
+    ),
 ).annotate({
   identifier: "UpdateProductRestEndpointPageRequest",
 }) as any as S.Schema<UpdateProductRestEndpointPageRequest>;
@@ -7104,31 +6708,28 @@ export interface UpdateProductRestEndpointPageResponse {
   StatusException?: StatusException;
   TryItState?: TryItState;
 }
-export const UpdateProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DisplayContent: S.optional(EndpointDisplayContentResponse),
-      LastModified: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      ProductRestEndpointPageArn: S.optional(S.String),
-      ProductRestEndpointPageId: S.optional(S.String),
-      RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
-      Status: S.optional(Status),
-      StatusException: S.optional(StatusException),
-      TryItState: S.optional(TryItState),
-    }).pipe(
-      S.encodeKeys({
-        DisplayContent: "displayContent",
-        LastModified: "lastModified",
-        ProductRestEndpointPageArn: "productRestEndpointPageArn",
-        ProductRestEndpointPageId: "productRestEndpointPageId",
-        RestEndpointIdentifier: "restEndpointIdentifier",
-        Status: "status",
-        StatusException: "statusException",
-        TryItState: "tryItState",
-      }),
-    ),
+export const UpdateProductRestEndpointPageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DisplayContent: S.optional(EndpointDisplayContentResponse),
+    LastModified: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ProductRestEndpointPageArn: S.optional(S.String),
+    ProductRestEndpointPageId: S.optional(S.String),
+    RestEndpointIdentifier: S.optional(RestEndpointIdentifier),
+    Status: S.optional(Status),
+    StatusException: S.optional(StatusException),
+    TryItState: S.optional(TryItState),
+  }).pipe(
+    S.encodeKeys({
+      DisplayContent: "displayContent",
+      LastModified: "lastModified",
+      ProductRestEndpointPageArn: "productRestEndpointPageArn",
+      ProductRestEndpointPageId: "productRestEndpointPageId",
+      RestEndpointIdentifier: "restEndpointIdentifier",
+      Status: "status",
+      StatusException: "statusException",
+      TryItState: "tryItState",
+    }),
+  ),
 ).annotate({
   identifier: "UpdateProductRestEndpointPageResponse",
 }) as any as S.Schema<UpdateProductRestEndpointPageResponse>;
@@ -7382,16 +6983,12 @@ export const UpdateStageResponse = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayManaged: S.optional(S.Boolean),
     AutoDeploy: S.optional(S.Boolean),
     ClientCertificateId: S.optional(S.String),
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DefaultRouteSettings: S.optional(RouteSettings),
     DeploymentId: S.optional(S.String),
     Description: S.optional(S.String),
     LastDeploymentStatusMessage: S.optional(S.String),
-    LastUpdatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RouteSettings: S.optional(RouteSettingsMap),
     StageName: S.optional(S.String),
     StageVariables: S.optional(StageVariablesMap),
@@ -7453,9 +7050,7 @@ export interface UpdateVpcLinkResponse {
 }
 export const UpdateVpcLinkResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    CreatedDate: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Name: S.optional(S.String),
     SecurityGroupIds: S.optional(SecurityGroupIdList),
     SubnetIds: S.optional(SubnetIdList),
@@ -7497,12 +7092,7 @@ export const createApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateApiRequest,
   output: CreateApiResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
@@ -7525,12 +7115,7 @@ export const createApiMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateApiMappingRequest,
   output: CreateApiMappingResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiMapping",
@@ -7553,12 +7138,7 @@ export const createAuthorizer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateAuthorizerRequest,
   output: CreateAuthorizerResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
@@ -7581,12 +7161,7 @@ export const createDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDeploymentRequest,
   output: CreateDeploymentResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
@@ -7639,12 +7214,7 @@ export const createIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateIntegrationRequest,
   output: CreateIntegrationResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
@@ -7667,12 +7237,7 @@ export const createIntegrationResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateIntegrationResponseRequest,
   output: CreateIntegrationResponseResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationResponse",
@@ -7695,12 +7260,7 @@ export const createModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateModelRequest,
   output: CreateModelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
@@ -7722,11 +7282,7 @@ export const createPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePortalRequest,
   output: CreatePortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortal",
@@ -7748,11 +7304,7 @@ export const createPortalProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreatePortalProductRequest,
   output: CreatePortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortalProduct",
@@ -7775,12 +7327,7 @@ export const createProductPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProductPageRequest,
   output: CreateProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductPage",
@@ -7803,12 +7350,7 @@ export const createProductRestEndpointPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProductRestEndpointPageRequest,
   output: CreateProductRestEndpointPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProductRestEndpointPage",
@@ -7831,12 +7373,7 @@ export const createRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRouteRequest,
   output: CreateRouteResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
@@ -7859,12 +7396,7 @@ export const createRouteResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRouteResponseRequest,
   output: CreateRouteResponseResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRouteResponse",
@@ -7887,12 +7419,7 @@ export const createRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRoutingRuleRequest,
   output: CreateRoutingRuleResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingRule",
@@ -7915,21 +7442,13 @@ export const createStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateStageRequest,
   output: CreateStageResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
 }));
 
-export type CreateVpcLinkError =
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors;
+export type CreateVpcLinkError = BadRequestException | TooManyRequestsException | CommonErrors;
 /**
  * Creates a VPC link.
  */
@@ -7968,10 +7487,7 @@ export const deleteAccessLogSettings: API.OperationMethod<
   operationName: "DeleteAccessLogSettings",
 }));
 
-export type DeleteApiError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteApiError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes an Api resource.
  */
@@ -8011,10 +7527,7 @@ export const deleteApiMapping: API.OperationMethod<
   operationName: "DeleteApiMapping",
 }));
 
-export type DeleteAuthorizerError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteAuthorizerError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes an Authorizer.
  */
@@ -8053,10 +7566,7 @@ export const deleteCorsConfiguration: API.OperationMethod<
   operationName: "DeleteCorsConfiguration",
 }));
 
-export type DeleteDeploymentError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteDeploymentError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a Deployment.
  */
@@ -8074,10 +7584,7 @@ export const deleteDeployment: API.OperationMethod<
   operationName: "DeleteDeployment",
 }));
 
-export type DeleteDomainNameError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteDomainNameError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a domain name.
  */
@@ -8095,10 +7602,7 @@ export const deleteDomainName: API.OperationMethod<
   operationName: "DeleteDomainName",
 }));
 
-export type DeleteIntegrationError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteIntegrationError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes an Integration.
  */
@@ -8137,10 +7641,7 @@ export const deleteIntegrationResponse: API.OperationMethod<
   operationName: "DeleteIntegrationResponse",
 }));
 
-export type DeleteModelError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteModelError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a Model.
  */
@@ -8174,11 +7675,7 @@ export const deletePortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePortalRequest,
   output: DeletePortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortal",
@@ -8201,12 +7698,7 @@ export const deletePortalProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePortalProductRequest,
   output: DeletePortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProduct",
@@ -8229,12 +7721,7 @@ export const deletePortalProductSharingPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeletePortalProductSharingPolicyRequest,
   output: DeletePortalProductSharingPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortalProductSharingPolicy",
@@ -8257,12 +7744,7 @@ export const deleteProductPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProductPageRequest,
   output: DeleteProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductPage",
@@ -8285,21 +7767,13 @@ export const deleteProductRestEndpointPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProductRestEndpointPageRequest,
   output: DeleteProductRestEndpointPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProductRestEndpointPage",
 }));
 
-export type DeleteRouteError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteRouteError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a Route.
  */
@@ -8338,10 +7812,7 @@ export const deleteRouteRequestParameter: API.OperationMethod<
   operationName: "DeleteRouteRequestParameter",
 }));
 
-export type DeleteRouteResponseError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteRouteResponseError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a RouteResponse.
  */
@@ -8359,10 +7830,7 @@ export const deleteRouteResponse: API.OperationMethod<
   operationName: "DeleteRouteResponse",
 }));
 
-export type DeleteRouteSettingsError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteRouteSettingsError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes the RouteSettings for a stage.
  */
@@ -8402,10 +7870,7 @@ export const deleteRoutingRule: API.OperationMethod<
   operationName: "DeleteRoutingRule",
 }));
 
-export type DeleteStageError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteStageError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a Stage.
  */
@@ -8423,10 +7888,7 @@ export const deleteStage: API.OperationMethod<
   operationName: "DeleteStage",
 }));
 
-export type DeleteVpcLinkError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type DeleteVpcLinkError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Deletes a VPC link.
  */
@@ -8496,10 +7958,7 @@ export const exportApi: API.OperationMethod<
   operationName: "ExportApi",
 }));
 
-export type GetApiError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetApiError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets an Api resource.
  */
@@ -8583,10 +8042,7 @@ export const getApis: API.OperationMethod<
   operationName: "GetApis",
 }));
 
-export type GetAuthorizerError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetAuthorizerError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets an Authorizer.
  */
@@ -8626,10 +8082,7 @@ export const getAuthorizers: API.OperationMethod<
   operationName: "GetAuthorizers",
 }));
 
-export type GetDeploymentError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetDeploymentError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a Deployment.
  */
@@ -8669,10 +8122,7 @@ export const getDeployments: API.OperationMethod<
   operationName: "GetDeployments",
 }));
 
-export type GetDomainNameError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetDomainNameError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a domain name.
  */
@@ -8712,10 +8162,7 @@ export const getDomainNames: API.OperationMethod<
   operationName: "GetDomainNames",
 }));
 
-export type GetIntegrationError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetIntegrationError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets an Integration.
  */
@@ -8798,10 +8245,7 @@ export const getIntegrations: API.OperationMethod<
   operationName: "GetIntegrations",
 }));
 
-export type GetModelError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetModelError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a Model.
  */
@@ -8841,10 +8285,7 @@ export const getModels: API.OperationMethod<
   operationName: "GetModels",
 }));
 
-export type GetModelTemplateError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetModelTemplateError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a model template.
  */
@@ -8879,12 +8320,7 @@ export const getPortal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPortalRequest,
   output: GetPortalResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortal",
@@ -8907,12 +8343,7 @@ export const getPortalProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPortalProductRequest,
   output: GetPortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProduct",
@@ -8935,12 +8366,7 @@ export const getPortalProductSharingPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPortalProductSharingPolicyRequest,
   output: GetPortalProductSharingPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalProductSharingPolicy",
@@ -8963,12 +8389,7 @@ export const getProductPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProductPageRequest,
   output: GetProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProductPage",
@@ -8991,21 +8412,13 @@ export const getProductRestEndpointPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProductRestEndpointPageRequest,
   output: GetProductRestEndpointPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProductRestEndpointPage",
 }));
 
-export type GetRouteError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetRouteError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a Route.
  */
@@ -9023,10 +8436,7 @@ export const getRoute: API.OperationMethod<
   operationName: "GetRoute",
 }));
 
-export type GetRouteResponseError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetRouteResponseError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a RouteResponse.
  */
@@ -9110,10 +8520,7 @@ export const getRoutingRule: API.OperationMethod<
   operationName: "GetRoutingRule",
 }));
 
-export type GetStageError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetStageError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a Stage.
  */
@@ -9170,21 +8577,13 @@ export const getTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTagsRequest,
   output: GetTagsResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
 }));
 
-export type GetVpcLinkError =
-  | NotFoundException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetVpcLinkError = NotFoundException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a VPC link.
  */
@@ -9202,10 +8601,7 @@ export const getVpcLink: API.OperationMethod<
   operationName: "GetVpcLink",
 }));
 
-export type GetVpcLinksError =
-  | BadRequestException
-  | TooManyRequestsException
-  | CommonErrors;
+export type GetVpcLinksError = BadRequestException | TooManyRequestsException | CommonErrors;
 /**
  * Gets a collection of VPC links.
  */
@@ -9240,12 +8636,7 @@ export const importApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportApiRequest,
   output: ImportApiResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApi",
@@ -9267,11 +8658,7 @@ export const listPortalProducts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPortalProductsRequest,
   output: ListPortalProductsResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortalProducts",
@@ -9293,11 +8680,7 @@ export const listPortals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListPortalsRequest,
   output: ListPortalsResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPortals",
@@ -9320,12 +8703,7 @@ export const listProductPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProductPagesRequest,
   output: ListProductPagesResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProductPages",
@@ -9348,12 +8726,7 @@ export const listProductRestEndpointPages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListProductRestEndpointPagesRequest,
   output: ListProductRestEndpointPagesResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProductRestEndpointPages",
@@ -9465,12 +8838,7 @@ export const putPortalProductSharingPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutPortalProductSharingPolicyRequest,
   output: PutPortalProductSharingPolicyResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortalProductSharingPolicy",
@@ -9493,12 +8861,7 @@ export const putRoutingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutRoutingRuleRequest,
   output: PutRoutingRuleResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRoutingRule",
@@ -9521,12 +8884,7 @@ export const reimportApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ReimportApiRequest,
   output: ReimportApiResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReimportApi",
@@ -9570,12 +8928,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -9598,12 +8951,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -9626,12 +8974,7 @@ export const updateApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApiRequest,
   output: UpdateApiResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
@@ -9654,12 +8997,7 @@ export const updateApiMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApiMappingRequest,
   output: UpdateApiMappingResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiMapping",
@@ -9682,12 +9020,7 @@ export const updateAuthorizer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAuthorizerRequest,
   output: UpdateAuthorizerResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
@@ -9710,12 +9043,7 @@ export const updateDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDeploymentRequest,
   output: UpdateDeploymentResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
@@ -9738,12 +9066,7 @@ export const updateDomainName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDomainNameRequest,
   output: UpdateDomainNameResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
@@ -9766,12 +9089,7 @@ export const updateIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateIntegrationRequest,
   output: UpdateIntegrationResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
@@ -9794,12 +9112,7 @@ export const updateIntegrationResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateIntegrationResponseRequest,
   output: UpdateIntegrationResponseResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResponse",
@@ -9822,12 +9135,7 @@ export const updateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateModelRequest,
   output: UpdateModelResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
@@ -9880,12 +9188,7 @@ export const updatePortalProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdatePortalProductRequest,
   output: UpdatePortalProductResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortalProduct",
@@ -9908,12 +9211,7 @@ export const updateProductPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProductPageRequest,
   output: UpdateProductPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductPage",
@@ -9936,12 +9234,7 @@ export const updateProductRestEndpointPage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateProductRestEndpointPageRequest,
   output: UpdateProductRestEndpointPageResponse,
-  errors: [
-    AccessDeniedException,
-    BadRequestException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [AccessDeniedException, BadRequestException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProductRestEndpointPage",
@@ -9964,12 +9257,7 @@ export const updateRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRouteRequest,
   output: UpdateRouteResult,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
@@ -9992,12 +9280,7 @@ export const updateRouteResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRouteResponseRequest,
   output: UpdateRouteResponseResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRouteResponse",
@@ -10020,12 +9303,7 @@ export const updateStage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStageRequest,
   output: UpdateStageResponse,
-  errors: [
-    BadRequestException,
-    ConflictException,
-    NotFoundException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, ConflictException, NotFoundException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",

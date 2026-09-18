@@ -5706,9 +5706,7 @@
         },
         "aws.cloudformation#cfnResource": {
           "name": "TelemetryPipelines",
-          "additionalSchemas": [
-            "com.amazonaws.observabilityadmin#TelemetryPipeline"
-          ]
+          "additionalSchemas": ["com.amazonaws.observabilityadmin#TelemetryPipeline"]
         }
       }
     },

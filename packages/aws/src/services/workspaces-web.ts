@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkSpaces Web",
   serviceShapeName: "AWSErmineControlPlaneService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://workspaces-web-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://workspaces-web.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://workspaces-web.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://workspaces-web.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -201,26 +191,23 @@ export interface AssociateDataProtectionSettingsRequest {
   portalArn: string;
   dataProtectionSettingsArn: string;
 }
-export const AssociateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      portalArn: S.String.pipe(T.HttpLabel("portalArn")),
-      dataProtectionSettingsArn: S.String.pipe(
-        T.HttpQuery("dataProtectionSettingsArn"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/portals/{portalArn+}/dataProtectionSettings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
+    dataProtectionSettingsArn: S.String.pipe(T.HttpQuery("dataProtectionSettingsArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/portals/{portalArn+}/dataProtectionSettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "AssociateDataProtectionSettingsRequest",
 }) as any as S.Schema<AssociateDataProtectionSettingsRequest>;
@@ -228,8 +215,8 @@ export interface AssociateDataProtectionSettingsResponse {
   portalArn: string;
   dataProtectionSettingsArn: string;
 }
-export const AssociateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ portalArn: S.String, dataProtectionSettingsArn: S.String }),
+export const AssociateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ portalArn: S.String, dataProtectionSettingsArn: S.String }),
 ).annotate({
   identifier: "AssociateDataProtectionSettingsResponse",
 }) as any as S.Schema<AssociateDataProtectionSettingsResponse>;
@@ -357,39 +344,35 @@ export interface AssociateUserAccessLoggingSettingsRequest {
   portalArn: string;
   userAccessLoggingSettingsArn: string;
 }
-export const AssociateUserAccessLoggingSettingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      portalArn: S.String.pipe(T.HttpLabel("portalArn")),
-      userAccessLoggingSettingsArn: S.String.pipe(
-        T.HttpQuery("userAccessLoggingSettingsArn"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/portals/{portalArn+}/userAccessLoggingSettings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AssociateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portalArn: S.String.pipe(T.HttpLabel("portalArn")),
+    userAccessLoggingSettingsArn: S.String.pipe(T.HttpQuery("userAccessLoggingSettingsArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/portals/{portalArn+}/userAccessLoggingSettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AssociateUserAccessLoggingSettingsRequest",
-  }) as any as S.Schema<AssociateUserAccessLoggingSettingsRequest>;
+  ),
+).annotate({
+  identifier: "AssociateUserAccessLoggingSettingsRequest",
+}) as any as S.Schema<AssociateUserAccessLoggingSettingsRequest>;
 export interface AssociateUserAccessLoggingSettingsResponse {
   portalArn: string;
   userAccessLoggingSettingsArn: string;
 }
-export const AssociateUserAccessLoggingSettingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ portalArn: S.String, userAccessLoggingSettingsArn: S.String }),
-  ).annotate({
-    identifier: "AssociateUserAccessLoggingSettingsResponse",
-  }) as any as S.Schema<AssociateUserAccessLoggingSettingsResponse>;
+export const AssociateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ portalArn: S.String, userAccessLoggingSettingsArn: S.String }),
+).annotate({
+  identifier: "AssociateUserAccessLoggingSettingsResponse",
+}) as any as S.Schema<AssociateUserAccessLoggingSettingsResponse>;
 export interface AssociateUserSettingsRequest {
   portalArn: string;
   userSettingsArn: string;
@@ -434,10 +417,7 @@ export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type KeyArn = string;
 export type StringType = string;
 export type EncryptionContextMap = { [key: string]: string | undefined };
-export const EncryptionContextMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EncryptionContextMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type BrowserPolicy = string | redacted.Redacted<string>;
 export type ClientToken = string;
 export type Category =
@@ -506,16 +486,7 @@ export const CreateBrowserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     browserPolicy: S.optional(SensitiveString),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     webContentFilteringPolicy: S.optional(WebContentFilteringPolicy),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/browserSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/browserSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBrowserSettingsRequest",
 }) as any as S.Schema<CreateBrowserSettingsRequest>;
@@ -585,9 +556,7 @@ export const InlineRedactionPattern = /*@__PURE__*/ S.suspend(() =>
   identifier: "InlineRedactionPattern",
 }) as any as S.Schema<InlineRedactionPattern>;
 export type InlineRedactionPatterns = InlineRedactionPattern[];
-export const InlineRedactionPatterns = /*@__PURE__*/ S.Array(
-  InlineRedactionPattern,
-);
+export const InlineRedactionPatterns = /*@__PURE__*/ S.Array(InlineRedactionPattern);
 export type GlobalInlineRedactionUrls = (string | redacted.Redacted<string>)[];
 export const GlobalInlineRedactionUrls = /*@__PURE__*/ S.Array(SensitiveString);
 export interface InlineRedactionConfiguration {
@@ -625,14 +594,7 @@ export const CreateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     inlineRedactionConfiguration: S.optional(InlineRedactionConfiguration),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/dataProtectionSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/dataProtectionSettings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDataProtectionSettingsRequest",
@@ -640,18 +602,15 @@ export const CreateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface CreateDataProtectionSettingsResponse {
   dataProtectionSettingsArn: string;
 }
-export const CreateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dataProtectionSettingsArn: S.String }),
+export const CreateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ dataProtectionSettingsArn: S.String }),
 ).annotate({
   identifier: "CreateDataProtectionSettingsResponse",
 }) as any as S.Schema<CreateDataProtectionSettingsResponse>;
 export type IdentityProviderName = string | redacted.Redacted<string>;
 export type IdentityProviderType = string;
 export type IdentityProviderDetails = { [key: string]: string | undefined };
-export const IdentityProviderDetails = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const IdentityProviderDetails = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateIdentityProviderRequest {
   portalArn: string;
   identityProviderName: string | redacted.Redacted<string>;
@@ -669,14 +628,7 @@ export const CreateIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/identityProviders" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/identityProviders" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateIdentityProviderRequest",
@@ -724,14 +676,7 @@ export const CreateIpAccessSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     ipRules: IpRuleList,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ipAccessSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/ipAccessSettings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateIpAccessSettingsRequest",
@@ -765,16 +710,7 @@ export const CreateNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     securityGroupIds: SecurityGroupIdList,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/networkSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/networkSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateNetworkSettingsRequest",
 }) as any as S.Schema<CreateNetworkSettingsRequest>;
@@ -812,16 +748,7 @@ export const CreatePortalRequest = /*@__PURE__*/ S.suspend(() =>
     instanceType: S.optional(S.String),
     maxConcurrentSessions: S.optional(S.Number),
     portalCustomDomain: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/portals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/portals" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePortalRequest",
 }) as any as S.Schema<CreatePortalRequest>;
@@ -918,16 +845,7 @@ export const CreateSessionLoggerRequest = /*@__PURE__*/ S.suspend(() =>
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     tags: S.optional(TagList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/sessionLoggers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/sessionLoggers" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSessionLoggerRequest",
 }) as any as S.Schema<CreateSessionLoggerRequest>;
@@ -952,16 +870,7 @@ export const CreateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
     certificateList: CertificateList,
     tags: S.optional(TagList),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/trustStores" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/trustStores" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTrustStoreRequest",
 }) as any as S.Schema<CreateTrustStoreRequest>;
@@ -979,30 +888,29 @@ export interface CreateUserAccessLoggingSettingsRequest {
   tags?: Tag[];
   clientToken?: string;
 }
-export const CreateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      kinesisStreamArn: S.String,
-      tags: S.optional(TagList),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/userAccessLoggingSettings" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    kinesisStreamArn: S.String,
+    tags: S.optional(TagList),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/userAccessLoggingSettings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateUserAccessLoggingSettingsRequest",
 }) as any as S.Schema<CreateUserAccessLoggingSettingsRequest>;
 export interface CreateUserAccessLoggingSettingsResponse {
   userAccessLoggingSettingsArn: string;
 }
-export const CreateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ userAccessLoggingSettingsArn: S.String }),
+export const CreateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ userAccessLoggingSettingsArn: S.String }),
 ).annotate({
   identifier: "CreateUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<CreateUserAccessLoggingSettingsResponse>;
@@ -1064,9 +972,7 @@ export const ToolbarConfiguration = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ToolbarConfiguration>;
 export type IconImage = Uint8Array;
 export type S3Uri = string;
-export type IconImageInput =
-  | { blob: Uint8Array; s3Uri?: never }
-  | { blob?: never; s3Uri: string };
+export type IconImageInput = { blob: Uint8Array; s3Uri?: never } | { blob?: never; s3Uri: string };
 export const IconImageInput = /*@__PURE__*/ S.Union([
   S.Struct({ blob: T.Blob }),
   S.Struct({ s3Uri: S.String }),
@@ -1180,25 +1086,14 @@ export const CreateUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     disconnectTimeoutInMinutes: S.optional(S.Number),
     idleDisconnectTimeoutInMinutes: S.optional(S.Number),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    cookieSynchronizationConfiguration: S.optional(
-      CookieSynchronizationConfiguration,
-    ),
+    cookieSynchronizationConfiguration: S.optional(CookieSynchronizationConfiguration),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     deepLinkAllowed: S.optional(S.String),
     toolbarConfiguration: S.optional(ToolbarConfiguration),
     brandingConfigurationInput: S.optional(BrandingConfigurationCreateInput),
     webAuthnAllowed: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/userSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/userSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateUserSettingsRequest",
 }) as any as S.Schema<CreateUserSettingsRequest>;
@@ -1233,9 +1128,7 @@ export const DeleteBrowserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteBrowserSettingsRequest",
 }) as any as S.Schema<DeleteBrowserSettingsRequest>;
 export interface DeleteBrowserSettingsResponse {}
-export const DeleteBrowserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteBrowserSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteBrowserSettingsResponse",
 }) as any as S.Schema<DeleteBrowserSettingsResponse>;
 export interface DeleteDataProtectionSettingsRequest {
@@ -1243,9 +1136,7 @@ export interface DeleteDataProtectionSettingsRequest {
 }
 export const DeleteDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataProtectionSettingsArn: S.String.pipe(
-      T.HttpLabel("dataProtectionSettingsArn"),
-    ),
+    dataProtectionSettingsArn: S.String.pipe(T.HttpLabel("dataProtectionSettingsArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -1263,8 +1154,8 @@ export const DeleteDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDataProtectionSettingsRequest",
 }) as any as S.Schema<DeleteDataProtectionSettingsRequest>;
 export interface DeleteDataProtectionSettingsResponse {}
-export const DeleteDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteDataProtectionSettingsResponse",
 }) as any as S.Schema<DeleteDataProtectionSettingsResponse>;
@@ -1291,9 +1182,7 @@ export const DeleteIdentityProviderRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIdentityProviderRequest",
 }) as any as S.Schema<DeleteIdentityProviderRequest>;
 export interface DeleteIdentityProviderResponse {}
-export const DeleteIdentityProviderResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteIdentityProviderResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIdentityProviderResponse",
 }) as any as S.Schema<DeleteIdentityProviderResponse>;
 export interface DeleteIpAccessSettingsRequest {
@@ -1319,9 +1208,7 @@ export const DeleteIpAccessSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIpAccessSettingsRequest",
 }) as any as S.Schema<DeleteIpAccessSettingsRequest>;
 export interface DeleteIpAccessSettingsResponse {}
-export const DeleteIpAccessSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteIpAccessSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteIpAccessSettingsResponse",
 }) as any as S.Schema<DeleteIpAccessSettingsResponse>;
 export interface DeleteNetworkSettingsRequest {
@@ -1347,9 +1234,7 @@ export const DeleteNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteNetworkSettingsRequest",
 }) as any as S.Schema<DeleteNetworkSettingsRequest>;
 export interface DeleteNetworkSettingsResponse {}
-export const DeleteNetworkSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteNetworkSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteNetworkSettingsResponse",
 }) as any as S.Schema<DeleteNetworkSettingsResponse>;
 export interface DeletePortalRequest {
@@ -1357,22 +1242,13 @@ export interface DeletePortalRequest {
 }
 export const DeletePortalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/portals/{portalArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/portals/{portalArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeletePortalRequest",
 }) as any as S.Schema<DeletePortalRequest>;
 export interface DeletePortalResponse {}
-export const DeletePortalResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeletePortalResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeletePortalResponse",
 }) as any as S.Schema<DeletePortalResponse>;
 export interface DeleteSessionLoggerRequest {
@@ -1395,9 +1271,7 @@ export const DeleteSessionLoggerRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSessionLoggerRequest",
 }) as any as S.Schema<DeleteSessionLoggerRequest>;
 export interface DeleteSessionLoggerResponse {}
-export const DeleteSessionLoggerResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSessionLoggerResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSessionLoggerResponse",
 }) as any as S.Schema<DeleteSessionLoggerResponse>;
 export interface DeleteTrustStoreRequest {
@@ -1418,39 +1292,34 @@ export const DeleteTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTrustStoreRequest",
 }) as any as S.Schema<DeleteTrustStoreRequest>;
 export interface DeleteTrustStoreResponse {}
-export const DeleteTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTrustStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTrustStoreResponse",
 }) as any as S.Schema<DeleteTrustStoreResponse>;
 export interface DeleteUserAccessLoggingSettingsRequest {
   userAccessLoggingSettingsArn: string;
 }
-export const DeleteUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userAccessLoggingSettingsArn: S.String.pipe(
-        T.HttpLabel("userAccessLoggingSettingsArn"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel("userAccessLoggingSettingsArn")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteUserAccessLoggingSettingsRequest",
 }) as any as S.Schema<DeleteUserAccessLoggingSettingsRequest>;
 export interface DeleteUserAccessLoggingSettingsResponse {}
-export const DeleteUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<DeleteUserAccessLoggingSettingsResponse>;
@@ -1474,9 +1343,7 @@ export const DeleteUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteUserSettingsRequest",
 }) as any as S.Schema<DeleteUserSettingsRequest>;
 export interface DeleteUserSettingsResponse {}
-export const DeleteUserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteUserSettingsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteUserSettingsResponse",
 }) as any as S.Schema<DeleteUserSettingsResponse>;
 export interface DisassociateBrowserSettingsRequest {
@@ -1508,29 +1375,29 @@ export const DisassociateBrowserSettingsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DisassociateDataProtectionSettingsRequest {
   portalArn: string;
 }
-export const DisassociateDataProtectionSettingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/portals/{portalArn+}/dataProtectionSettings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DisassociateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/portals/{portalArn+}/dataProtectionSettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DisassociateDataProtectionSettingsRequest",
-  }) as any as S.Schema<DisassociateDataProtectionSettingsRequest>;
+  ),
+).annotate({
+  identifier: "DisassociateDataProtectionSettingsRequest",
+}) as any as S.Schema<DisassociateDataProtectionSettingsRequest>;
 export interface DisassociateDataProtectionSettingsResponse {}
-export const DisassociateDataProtectionSettingsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateDataProtectionSettingsResponse",
-  }) as any as S.Schema<DisassociateDataProtectionSettingsResponse>;
+export const DisassociateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateDataProtectionSettingsResponse",
+}) as any as S.Schema<DisassociateDataProtectionSettingsResponse>;
 export interface DisassociateIpAccessSettingsRequest {
   portalArn: string;
 }
@@ -1552,8 +1419,8 @@ export const DisassociateIpAccessSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisassociateIpAccessSettingsRequest",
 }) as any as S.Schema<DisassociateIpAccessSettingsRequest>;
 export interface DisassociateIpAccessSettingsResponse {}
-export const DisassociateIpAccessSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DisassociateIpAccessSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DisassociateIpAccessSettingsResponse",
 }) as any as S.Schema<DisassociateIpAccessSettingsResponse>;
@@ -1624,37 +1491,35 @@ export const DisassociateTrustStoreRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DisassociateTrustStoreRequest",
 }) as any as S.Schema<DisassociateTrustStoreRequest>;
 export interface DisassociateTrustStoreResponse {}
-export const DisassociateTrustStoreResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DisassociateTrustStoreResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DisassociateTrustStoreResponse",
 }) as any as S.Schema<DisassociateTrustStoreResponse>;
 export interface DisassociateUserAccessLoggingSettingsRequest {
   portalArn: string;
 }
-export const DisassociateUserAccessLoggingSettingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/portals/{portalArn+}/userAccessLoggingSettings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DisassociateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/portals/{portalArn+}/userAccessLoggingSettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DisassociateUserAccessLoggingSettingsRequest",
-  }) as any as S.Schema<DisassociateUserAccessLoggingSettingsRequest>;
+  ),
+).annotate({
+  identifier: "DisassociateUserAccessLoggingSettingsRequest",
+}) as any as S.Schema<DisassociateUserAccessLoggingSettingsRequest>;
 export interface DisassociateUserAccessLoggingSettingsResponse {}
-export const DisassociateUserAccessLoggingSettingsResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateUserAccessLoggingSettingsResponse",
-  }) as any as S.Schema<DisassociateUserAccessLoggingSettingsResponse>;
+export const DisassociateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateUserAccessLoggingSettingsResponse",
+}) as any as S.Schema<DisassociateUserAccessLoggingSettingsResponse>;
 export interface DisassociateUserSettingsRequest {
   portalArn: string;
 }
@@ -1705,9 +1570,7 @@ export const ExpireSessionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExpireSessionRequest",
 }) as any as S.Schema<ExpireSessionRequest>;
 export interface ExpireSessionResponse {}
-export const ExpireSessionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ExpireSessionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ExpireSessionResponse",
 }) as any as S.Schema<ExpireSessionResponse>;
 export interface GetBrowserSettingsRequest {
@@ -1764,9 +1627,7 @@ export interface GetDataProtectionSettingsRequest {
 }
 export const GetDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataProtectionSettingsArn: S.String.pipe(
-      T.HttpLabel("dataProtectionSettingsArn"),
-    ),
+    dataProtectionSettingsArn: S.String.pipe(T.HttpLabel("dataProtectionSettingsArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -1965,14 +1826,7 @@ export interface GetPortalRequest {
 }
 export const GetPortalRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/portals/{portalArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/portals/{portalArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPortalRequest",
@@ -2042,18 +1896,10 @@ export const GetPortalResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetPortalServiceProviderMetadataRequest {
   portalArn: string;
 }
-export const GetPortalServiceProviderMetadataRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/portalIdp/{portalArn+}" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetPortalServiceProviderMetadataRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ portalArn: S.String.pipe(T.HttpLabel("portalArn")) }).pipe(
+    T.all(T.Http({ method: "GET", uri: "/portalIdp/{portalArn+}" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetPortalServiceProviderMetadataRequest",
 }) as any as S.Schema<GetPortalServiceProviderMetadataRequest>;
@@ -2062,12 +1908,11 @@ export interface GetPortalServiceProviderMetadataResponse {
   portalArn: string;
   serviceProviderSamlMetadata?: string;
 }
-export const GetPortalServiceProviderMetadataResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      portalArn: S.String,
-      serviceProviderSamlMetadata: S.optional(S.String),
-    }),
+export const GetPortalServiceProviderMetadataResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    portalArn: S.String,
+    serviceProviderSamlMetadata: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "GetPortalServiceProviderMetadataResponse",
 }) as any as S.Schema<GetPortalServiceProviderMetadataResponse>;
@@ -2272,9 +2117,7 @@ export interface GetUserAccessLoggingSettingsRequest {
 }
 export const GetUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    userAccessLoggingSettingsArn: S.String.pipe(
-      T.HttpLabel("userAccessLoggingSettingsArn"),
-    ),
+    userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel("userAccessLoggingSettingsArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -2308,11 +2151,10 @@ export const UserAccessLoggingSettings = /*@__PURE__*/ S.suspend(() =>
 export interface GetUserAccessLoggingSettingsResponse {
   userAccessLoggingSettings?: UserAccessLoggingSettings;
 }
-export const GetUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userAccessLoggingSettings: S.optional(UserAccessLoggingSettings),
-    }),
+export const GetUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userAccessLoggingSettings: S.optional(UserAccessLoggingSettings),
+  }),
 ).annotate({
   identifier: "GetUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<GetUserAccessLoggingSettingsResponse>;
@@ -2335,11 +2177,7 @@ export const GetUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetUserSettingsRequest",
 }) as any as S.Schema<GetUserSettingsRequest>;
-export type MimeType =
-  | "image/png"
-  | "image/jpeg"
-  | "image/x-icon"
-  | (string & {});
+export type MimeType = "image/png" | "image/jpeg" | "image/x-icon" | (string & {});
 export const MimeType = S.String;
 
 export interface ImageMetadata {
@@ -2403,9 +2241,7 @@ export const UserSettings = /*@__PURE__*/ S.suspend(() =>
     printAllowed: S.optional(S.String),
     disconnectTimeoutInMinutes: S.optional(S.Number),
     idleDisconnectTimeoutInMinutes: S.optional(S.Number),
-    cookieSynchronizationConfiguration: S.optional(
-      CookieSynchronizationConfiguration,
-    ),
+    cookieSynchronizationConfiguration: S.optional(CookieSynchronizationConfiguration),
     customerManagedKey: S.optional(S.String),
     additionalEncryptionContext: S.optional(EncryptionContextMap),
     deepLinkAllowed: S.optional(S.String),
@@ -2432,16 +2268,7 @@ export const ListBrowserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/browserSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/browserSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBrowserSettingsRequest",
 }) as any as S.Schema<ListBrowserSettingsRequest>;
@@ -2454,9 +2281,7 @@ export const BrowserSettingsSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BrowserSettingsSummary",
 }) as any as S.Schema<BrowserSettingsSummary>;
 export type BrowserSettingsList = BrowserSettingsSummary[];
-export const BrowserSettingsList = /*@__PURE__*/ S.Array(
-  BrowserSettingsSummary,
-);
+export const BrowserSettingsList = /*@__PURE__*/ S.Array(BrowserSettingsSummary);
 export interface ListBrowserSettingsResponse {
   browserSettings?: BrowserSettingsSummary[];
   nextToken?: string;
@@ -2478,14 +2303,7 @@ export const ListDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/dataProtectionSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/dataProtectionSettings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDataProtectionSettingsRequest",
@@ -2507,9 +2325,7 @@ export const DataProtectionSettingsSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataProtectionSettingsSummary",
 }) as any as S.Schema<DataProtectionSettingsSummary>;
 export type DataProtectionSettingsList = DataProtectionSettingsSummary[];
-export const DataProtectionSettingsList = /*@__PURE__*/ S.Array(
-  DataProtectionSettingsSummary,
-);
+export const DataProtectionSettingsList = /*@__PURE__*/ S.Array(DataProtectionSettingsSummary);
 export interface ListDataProtectionSettingsResponse {
   dataProtectionSettings?: DataProtectionSettingsSummary[];
   nextToken?: string;
@@ -2560,9 +2376,7 @@ export const IdentityProviderSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "IdentityProviderSummary",
 }) as any as S.Schema<IdentityProviderSummary>;
 export type IdentityProviderList = IdentityProviderSummary[];
-export const IdentityProviderList = /*@__PURE__*/ S.Array(
-  IdentityProviderSummary,
-);
+export const IdentityProviderList = /*@__PURE__*/ S.Array(IdentityProviderSummary);
 export interface ListIdentityProvidersResponse {
   nextToken?: string;
   identityProviders?: IdentityProviderSummary[];
@@ -2583,16 +2397,7 @@ export const ListIpAccessSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ipAccessSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/ipAccessSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListIpAccessSettingsRequest",
 }) as any as S.Schema<ListIpAccessSettingsRequest>;
@@ -2613,9 +2418,7 @@ export const IpAccessSettingsSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "IpAccessSettingsSummary",
 }) as any as S.Schema<IpAccessSettingsSummary>;
 export type IpAccessSettingsList = IpAccessSettingsSummary[];
-export const IpAccessSettingsList = /*@__PURE__*/ S.Array(
-  IpAccessSettingsSummary,
-);
+export const IpAccessSettingsList = /*@__PURE__*/ S.Array(IpAccessSettingsSummary);
 export interface ListIpAccessSettingsResponse {
   ipAccessSettings?: IpAccessSettingsSummary[];
   nextToken?: string;
@@ -2636,16 +2439,7 @@ export const ListNetworkSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/networkSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/networkSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListNetworkSettingsRequest",
 }) as any as S.Schema<ListNetworkSettingsRequest>;
@@ -2659,9 +2453,7 @@ export const NetworkSettingsSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "NetworkSettingsSummary",
 }) as any as S.Schema<NetworkSettingsSummary>;
 export type NetworkSettingsList = NetworkSettingsSummary[];
-export const NetworkSettingsList = /*@__PURE__*/ S.Array(
-  NetworkSettingsSummary,
-);
+export const NetworkSettingsList = /*@__PURE__*/ S.Array(NetworkSettingsSummary);
 export interface ListNetworkSettingsResponse {
   networkSettings?: NetworkSettingsSummary[];
   nextToken?: string;
@@ -2682,16 +2474,7 @@ export const ListPortalsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/portals" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/portals" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPortalsRequest",
 }) as any as S.Schema<ListPortalsRequest>;
@@ -2761,16 +2544,7 @@ export const ListSessionLoggersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/sessionLoggers" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/sessionLoggers" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSessionLoggersRequest",
 }) as any as S.Schema<ListSessionLoggersRequest>;
@@ -2804,10 +2578,7 @@ export const ListSessionLoggersResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListSessionLoggersResponse",
 }) as any as S.Schema<ListSessionLoggersResponse>;
-export type SessionSortBy =
-  | "StartTimeAscending"
-  | "StartTimeDescending"
-  | (string & {});
+export type SessionSortBy = "StartTimeAscending" | "StartTimeDescending" | (string & {});
 export const SessionSortBy = S.String;
 
 export interface ListSessionsRequest {
@@ -2875,14 +2646,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2963,16 +2727,7 @@ export const ListTrustStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/trustStores" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/trustStores" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTrustStoresRequest",
 }) as any as S.Schema<ListTrustStoresRequest>;
@@ -3002,21 +2757,20 @@ export interface ListUserAccessLoggingSettingsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/userAccessLoggingSettings" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/userAccessLoggingSettings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListUserAccessLoggingSettingsRequest",
 }) as any as S.Schema<ListUserAccessLoggingSettingsRequest>;
@@ -3040,12 +2794,11 @@ export interface ListUserAccessLoggingSettingsResponse {
   userAccessLoggingSettings?: UserAccessLoggingSettingsSummary[];
   nextToken?: string;
 }
-export const ListUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userAccessLoggingSettings: S.optional(UserAccessLoggingSettingsList),
-      nextToken: S.optional(S.String),
-    }),
+export const ListUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userAccessLoggingSettings: S.optional(UserAccessLoggingSettingsList),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<ListUserAccessLoggingSettingsResponse>;
@@ -3057,16 +2810,7 @@ export const ListUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/userSettings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/userSettings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListUserSettingsRequest",
 }) as any as S.Schema<ListUserSettingsRequest>;
@@ -3095,9 +2839,7 @@ export const UserSettingsSummary = /*@__PURE__*/ S.suspend(() =>
     printAllowed: S.optional(S.String),
     disconnectTimeoutInMinutes: S.optional(S.Number),
     idleDisconnectTimeoutInMinutes: S.optional(S.Number),
-    cookieSynchronizationConfiguration: S.optional(
-      CookieSynchronizationConfiguration,
-    ),
+    cookieSynchronizationConfiguration: S.optional(CookieSynchronizationConfiguration),
     deepLinkAllowed: S.optional(S.String),
     toolbarConfiguration: S.optional(ToolbarConfiguration),
     brandingConfiguration: S.optional(BrandingConfiguration),
@@ -3131,22 +2873,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     tags: TagList,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = (string | redacted.Redacted<string>)[];
@@ -3160,22 +2893,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateBrowserSettingsRequest {
@@ -3223,9 +2947,7 @@ export interface UpdateDataProtectionSettingsRequest {
 }
 export const UpdateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataProtectionSettingsArn: S.String.pipe(
-      T.HttpLabel("dataProtectionSettingsArn"),
-    ),
+    dataProtectionSettingsArn: S.String.pipe(T.HttpLabel("dataProtectionSettingsArn")),
     inlineRedactionConfiguration: S.optional(InlineRedactionConfiguration),
     displayName: S.optional(SensitiveString),
     description: S.optional(SensitiveString),
@@ -3249,8 +2971,8 @@ export const UpdateDataProtectionSettingsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface UpdateDataProtectionSettingsResponse {
   dataProtectionSettings: DataProtectionSettings;
 }
-export const UpdateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dataProtectionSettings: DataProtectionSettings }),
+export const UpdateDataProtectionSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ dataProtectionSettings: DataProtectionSettings }),
 ).annotate({
   identifier: "UpdateDataProtectionSettingsResponse",
 }) as any as S.Schema<UpdateDataProtectionSettingsResponse>;
@@ -3385,14 +3107,7 @@ export const UpdatePortalRequest = /*@__PURE__*/ S.suspend(() =>
     maxConcurrentSessions: S.optional(S.Number),
     portalCustomDomain: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/portals/{portalArn+}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/portals/{portalArn+}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdatePortalRequest",
@@ -3478,35 +3193,32 @@ export interface UpdateUserAccessLoggingSettingsRequest {
   kinesisStreamArn?: string;
   clientToken?: string;
 }
-export const UpdateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      userAccessLoggingSettingsArn: S.String.pipe(
-        T.HttpLabel("userAccessLoggingSettingsArn"),
-      ),
-      kinesisStreamArn: S.optional(S.String),
-      clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateUserAccessLoggingSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    userAccessLoggingSettingsArn: S.String.pipe(T.HttpLabel("userAccessLoggingSettingsArn")),
+    kinesisStreamArn: S.optional(S.String),
+    clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/userAccessLoggingSettings/{userAccessLoggingSettingsArn+}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateUserAccessLoggingSettingsRequest",
 }) as any as S.Schema<UpdateUserAccessLoggingSettingsRequest>;
 export interface UpdateUserAccessLoggingSettingsResponse {
   userAccessLoggingSettings: UserAccessLoggingSettings;
 }
-export const UpdateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ userAccessLoggingSettings: UserAccessLoggingSettings }),
+export const UpdateUserAccessLoggingSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ userAccessLoggingSettings: UserAccessLoggingSettings }),
 ).annotate({
   identifier: "UpdateUserAccessLoggingSettingsResponse",
 }) as any as S.Schema<UpdateUserAccessLoggingSettingsResponse>;
@@ -3557,9 +3269,7 @@ export const UpdateUserSettingsRequest = /*@__PURE__*/ S.suspend(() =>
     disconnectTimeoutInMinutes: S.optional(S.Number),
     idleDisconnectTimeoutInMinutes: S.optional(S.Number),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-    cookieSynchronizationConfiguration: S.optional(
-      CookieSynchronizationConfiguration,
-    ),
+    cookieSynchronizationConfiguration: S.optional(CookieSynchronizationConfiguration),
     deepLinkAllowed: S.optional(S.String),
     toolbarConfiguration: S.optional(ToolbarConfiguration),
     brandingConfigurationInput: S.optional(BrandingConfigurationUpdateInput),
@@ -3603,9 +3313,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type TagExceptionMessage = string;
 export type AssociateBrowserSettingsError =
   | AccessDeniedException

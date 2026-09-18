@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://cloudtrail.amazonaws.com/doc/2013-11-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudTrail",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -67,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -77,13 +71,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudtrail.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -115,10 +105,7 @@ export class AccountNotFoundException
   extends /*@__PURE__*/ S.TaggedError<AccountNotFoundException>()(
     "AccountNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccountNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "AccountNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class AccountNotRegisteredException
   extends /*@__PURE__*/ S.TaggedError<AccountNotRegisteredException>()(
@@ -133,10 +120,7 @@ export class AccountRegisteredException
   extends /*@__PURE__*/ S.TaggedError<AccountRegisteredException>()(
     "AccountRegisteredException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "AccountRegistered", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "AccountRegistered", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class CannotDelegateManagementAccountException
   extends /*@__PURE__*/ S.TaggedError<CannotDelegateManagementAccountException>()(
@@ -163,10 +147,7 @@ export class ChannelARNInvalidException
   extends /*@__PURE__*/ S.TaggedError<ChannelARNInvalidException>()(
     "ChannelARNInvalidException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelARNInvalid", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "ChannelARNInvalid", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ChannelExistsForEDSException
   extends /*@__PURE__*/ S.TaggedError<ChannelExistsForEDSException>()(
@@ -193,10 +174,7 @@ export class ChannelNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ChannelNotFoundException>()(
     "ChannelNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChannelNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ChannelNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class CloudTrailAccessNotEnabledException
   extends /*@__PURE__*/ S.TaggedError<CloudTrailAccessNotEnabledException>()(
@@ -268,10 +246,7 @@ export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "ConflictException", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class DelegatedAdminAccountLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<DelegatedAdminAccountLimitExceededException>()(
@@ -373,19 +348,13 @@ export class GenerateResponseException
   extends /*@__PURE__*/ S.TaggedError<GenerateResponseException>()(
     "GenerateResponseException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "GenerateResponse", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "GenerateResponse", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ImportNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ImportNotFoundException>()(
     "ImportNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ImportNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ImportNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class InactiveEventDataStoreException
   extends /*@__PURE__*/ S.TaggedError<InactiveEventDataStoreException>()(
@@ -403,19 +372,13 @@ export class InactiveQueryException
   extends /*@__PURE__*/ S.TaggedError<InactiveQueryException>()(
     "InactiveQueryException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InactiveQuery", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InactiveQuery", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InsightNotEnabledException
   extends /*@__PURE__*/ S.TaggedError<InsightNotEnabledException>()(
     "InsightNotEnabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InsightNotEnabled", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InsightNotEnabled", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InsufficientDependencyServiceAccessPermissionException
   extends /*@__PURE__*/ S.TaggedError<InsufficientDependencyServiceAccessPermissionException>()(
@@ -505,10 +468,7 @@ export class InvalidDateRangeException
   extends /*@__PURE__*/ S.TaggedError<InvalidDateRangeException>()(
     "InvalidDateRangeException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidDateRange", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidDateRange", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidEventCategoryException
   extends /*@__PURE__*/ S.TaggedError<InvalidEventCategoryException>()(
@@ -556,10 +516,7 @@ export class InvalidHomeRegionException
   extends /*@__PURE__*/ S.TaggedError<InvalidHomeRegionException>()(
     "InvalidHomeRegionException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidHomeRegion", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidHomeRegion", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidImportSourceException
   extends /*@__PURE__*/ S.TaggedError<InvalidImportSourceException>()(
@@ -586,10 +543,7 @@ export class InvalidKmsKeyIdException
   extends /*@__PURE__*/ S.TaggedError<InvalidKmsKeyIdException>()(
     "InvalidKmsKeyIdException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidKmsKeyId", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidKmsKeyId", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidLookupAttributesException
   extends /*@__PURE__*/ S.TaggedError<InvalidLookupAttributesException>()(
@@ -607,19 +561,13 @@ export class InvalidMaxResultsException
   extends /*@__PURE__*/ S.TaggedError<InvalidMaxResultsException>()(
     "InvalidMaxResultsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidMaxResults", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidNextTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
     "InvalidNextTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidNextToken", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidParameterCombinationException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterCombinationException>()(
@@ -637,10 +585,7 @@ export class InvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
     "InvalidParameterException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidParameter", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidQueryStatementException
   extends /*@__PURE__*/ S.TaggedError<InvalidQueryStatementException>()(
@@ -655,10 +600,7 @@ export class InvalidQueryStatusException
   extends /*@__PURE__*/ S.TaggedError<InvalidQueryStatusException>()(
     "InvalidQueryStatusException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidQueryStatus", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidQueryStatus", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidS3BucketNameException
   extends /*@__PURE__*/ S.TaggedError<InvalidS3BucketNameException>()(
@@ -673,10 +615,7 @@ export class InvalidS3PrefixException
   extends /*@__PURE__*/ S.TaggedError<InvalidS3PrefixException>()(
     "InvalidS3PrefixException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidS3Prefix", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidS3Prefix", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidSnsTopicNameException
   extends /*@__PURE__*/ S.TaggedError<InvalidSnsTopicNameException>()(
@@ -691,10 +630,7 @@ export class InvalidSourceException
   extends /*@__PURE__*/ S.TaggedError<InvalidSourceException>()(
     "InvalidSourceException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidSource", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidSource", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidTagParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidTagParameterException>()(
@@ -709,55 +645,37 @@ export class InvalidTimeRangeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()(
     "InvalidTimeRangeException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTimeRange", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidTimeRange", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidTokenException
   extends /*@__PURE__*/ S.TaggedError<InvalidTokenException>()(
     "InvalidTokenException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidToken", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidToken", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class InvalidTrailNameException
   extends /*@__PURE__*/ S.TaggedError<InvalidTrailNameException>()(
     "InvalidTrailNameException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "InvalidTrailName", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidTrailName", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class KmsException
   extends /*@__PURE__*/ S.TaggedError<KmsException>()(
     "KmsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsException", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "KmsException", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class KmsKeyDisabledException
   extends /*@__PURE__*/ S.TaggedError<KmsKeyDisabledException>()(
     "KmsKeyDisabledException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsKeyDisabled", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "KmsKeyDisabled", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class KmsKeyNotFoundException
   extends /*@__PURE__*/ S.TaggedError<KmsKeyNotFoundException>()(
     "KmsKeyNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "KmsKeyNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "KmsKeyNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class MaxConcurrentQueriesException
   extends /*@__PURE__*/ S.TaggedError<MaxConcurrentQueriesException>()(
@@ -850,10 +768,7 @@ export class QueryIdNotFoundException
   extends /*@__PURE__*/ S.TaggedError<QueryIdNotFoundException>()(
     "QueryIdNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "QueryIdNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "QueryIdNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class ResourceARNNotValidException
   extends /*@__PURE__*/ S.TaggedError<ResourceARNNotValidException>()(
@@ -868,10 +783,7 @@ export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ResourcePolicyNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourcePolicyNotFoundException>()(
@@ -931,10 +843,7 @@ export class TagsLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TagsLimitExceededException>()(
     "TagsLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TagsLimitExceeded", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "TagsLimitExceeded", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
@@ -949,28 +858,19 @@ export class TrailAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<TrailAlreadyExistsException>()(
     "TrailAlreadyExistsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailAlreadyExists", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "TrailAlreadyExists", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError, C.withAlreadyExistsError) {}
 export class TrailNotFoundException
   extends /*@__PURE__*/ S.TaggedError<TrailNotFoundException>()(
     "TrailNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "TrailNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class TrailNotProvidedException
   extends /*@__PURE__*/ S.TaggedError<TrailNotProvidedException>()(
     "TrailNotProvidedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "TrailNotProvided", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "TrailNotProvided", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
@@ -998,21 +898,11 @@ export interface AddTagsRequest {
 }
 export const AddTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "AddTagsRequest" }) as any as S.Schema<AddTagsRequest>;
 export interface AddTagsResponse {}
-export const AddTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const AddTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "AddTagsResponse",
 }) as any as S.Schema<AddTagsResponse>;
 export type EventDataStoreArn = string;
@@ -1028,17 +918,7 @@ export const CancelQueryRequest = /*@__PURE__*/ S.suspend(() =>
     EventDataStore: S.optional(S.String),
     QueryId: S.String,
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelQueryRequest",
 }) as any as S.Schema<CancelQueryRequest>;
@@ -1068,10 +948,7 @@ export const CancelQueryResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CancelQueryResponse>;
 export type ChannelName = string;
 export type Source = string;
-export type DestinationType =
-  | "EVENT_DATA_STORE"
-  | "AWS_SERVICE"
-  | (string & {});
+export type DestinationType = "EVENT_DATA_STORE" | "AWS_SERVICE" | (string & {});
 export const DestinationType = S.String;
 
 export type Location = string;
@@ -1096,17 +973,7 @@ export const CreateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Source: S.String,
     Destinations: Destinations,
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateChannelRequest",
 }) as any as S.Schema<CreateChannelRequest>;
@@ -1172,10 +1039,7 @@ export const QueryParameters = /*@__PURE__*/ S.Array(S.String);
 export type ViewPropertiesKey = string;
 export type ViewPropertiesValue = string;
 export type ViewPropertiesMap = { [key: string]: string | undefined };
-export const ViewPropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ViewPropertiesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface RequestWidget {
   QueryStatement: string;
   QueryParameters?: string[];
@@ -1204,17 +1068,7 @@ export const CreateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     TagsList: S.optional(TagsList),
     TerminationProtectionEnabled: S.optional(S.Boolean),
     Widgets: S.optional(RequestWidgetList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDashboardRequest",
 }) as any as S.Schema<CreateDashboardRequest>;
@@ -1290,9 +1144,7 @@ export const AdvancedFieldSelector = /*@__PURE__*/ S.suspend(() =>
   identifier: "AdvancedFieldSelector",
 }) as any as S.Schema<AdvancedFieldSelector>;
 export type AdvancedFieldSelectors = AdvancedFieldSelector[];
-export const AdvancedFieldSelectors = /*@__PURE__*/ S.Array(
-  AdvancedFieldSelector,
-);
+export const AdvancedFieldSelectors = /*@__PURE__*/ S.Array(AdvancedFieldSelector);
 export interface AdvancedEventSelector {
   Name?: string;
   FieldSelectors: AdvancedFieldSelector[];
@@ -1306,9 +1158,7 @@ export const AdvancedEventSelector = /*@__PURE__*/ S.suspend(() =>
   identifier: "AdvancedEventSelector",
 }) as any as S.Schema<AdvancedEventSelector>;
 export type AdvancedEventSelectors = AdvancedEventSelector[];
-export const AdvancedEventSelectors = /*@__PURE__*/ S.Array(
-  AdvancedEventSelector,
-);
+export const AdvancedEventSelectors = /*@__PURE__*/ S.Array(AdvancedEventSelector);
 export type RetentionPeriod = number;
 export type EventDataStoreKmsKeyId = string;
 export type BillingMode =
@@ -1341,17 +1191,7 @@ export const CreateEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     StartIngestion: S.optional(S.Boolean),
     BillingMode: S.optional(BillingMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEventDataStoreRequest",
 }) as any as S.Schema<CreateEventDataStoreRequest>;
@@ -1391,12 +1231,8 @@ export const CreateEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
     RetentionPeriod: S.optional(S.Number),
     TerminationProtectionEnabled: S.optional(S.Boolean),
     TagsList: S.optional(TagsList),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(BillingMode),
   }).pipe(ns),
@@ -1431,17 +1267,7 @@ export const CreateTrailRequest = /*@__PURE__*/ S.suspend(() =>
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
     TagsList: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateTrailRequest",
 }) as any as S.Schema<CreateTrailRequest>;
@@ -1484,23 +1310,13 @@ export interface DeleteChannelRequest {
 }
 export const DeleteChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Channel: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteChannelRequest",
 }) as any as S.Schema<DeleteChannelRequest>;
 export interface DeleteChannelResponse {}
-export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteChannelResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteChannelResponse",
 }) as any as S.Schema<DeleteChannelResponse>;
 export interface DeleteDashboardRequest {
@@ -1508,15 +1324,7 @@ export interface DeleteDashboardRequest {
 }
 export const DeleteDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DashboardId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDashboardRequest",
@@ -1532,15 +1340,7 @@ export interface DeleteEventDataStoreRequest {
 }
 export const DeleteEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEventDataStoreRequest",
@@ -1557,15 +1357,7 @@ export interface DeleteResourcePolicyRequest {
 }
 export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteResourcePolicyRequest",
@@ -1581,49 +1373,31 @@ export interface DeleteTrailRequest {
 }
 export const DeleteTrailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteTrailRequest",
 }) as any as S.Schema<DeleteTrailRequest>;
 export interface DeleteTrailResponse {}
-export const DeleteTrailResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteTrailResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteTrailResponse",
 }) as any as S.Schema<DeleteTrailResponse>;
 export interface DeregisterOrganizationDelegatedAdminRequest {
   DelegatedAdminAccountId: string;
 }
-export const DeregisterOrganizationDelegatedAdminRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ DelegatedAdminAccountId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeregisterOrganizationDelegatedAdminRequest",
-  }) as any as S.Schema<DeregisterOrganizationDelegatedAdminRequest>;
+export const DeregisterOrganizationDelegatedAdminRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DelegatedAdminAccountId: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "DeregisterOrganizationDelegatedAdminRequest",
+}) as any as S.Schema<DeregisterOrganizationDelegatedAdminRequest>;
 export interface DeregisterOrganizationDelegatedAdminResponse {}
-export const DeregisterOrganizationDelegatedAdminResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeregisterOrganizationDelegatedAdminResponse",
-  }) as any as S.Schema<DeregisterOrganizationDelegatedAdminResponse>;
+export const DeregisterOrganizationDelegatedAdminResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeregisterOrganizationDelegatedAdminResponse",
+}) as any as S.Schema<DeregisterOrganizationDelegatedAdminResponse>;
 export type RefreshId = string;
 export interface DescribeQueryRequest {
   EventDataStore?: string;
@@ -1639,17 +1413,7 @@ export const DescribeQueryRequest = /*@__PURE__*/ S.suspend(() =>
     QueryAlias: S.optional(S.String),
     RefreshId: S.optional(S.String),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeQueryRequest",
 }) as any as S.Schema<DescribeQueryRequest>;
@@ -1723,17 +1487,7 @@ export const DescribeTrailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     trailNameList: S.optional(TrailNameList),
     includeShadowTrails: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeTrailsRequest",
 }) as any as S.Schema<DescribeTrailsRequest>;
@@ -1790,25 +1544,12 @@ export interface DisableFederationRequest {
 }
 export const DisableFederationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisableFederationRequest",
 }) as any as S.Schema<DisableFederationRequest>;
-export type FederationStatus =
-  | "ENABLING"
-  | "ENABLED"
-  | "DISABLING"
-  | "DISABLED"
-  | (string & {});
+export type FederationStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export const FederationStatus = S.String;
 
 export interface DisableFederationResponse {
@@ -1830,15 +1571,7 @@ export interface EnableFederationRequest {
 }
 export const EnableFederationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String, FederationRoleArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "EnableFederationRequest",
@@ -1865,15 +1598,7 @@ export interface GenerateQueryRequest {
 }
 export const GenerateQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStores: EventDataStoreList, Prompt: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GenerateQueryRequest",
@@ -1897,15 +1622,7 @@ export interface GetChannelRequest {
 }
 export const GetChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Channel: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetChannelRequest",
@@ -1929,14 +1646,10 @@ export interface IngestionStatus {
 }
 export const IngestionStatus = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    LatestIngestionSuccessTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestIngestionSuccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestIngestionSuccessEventID: S.optional(S.String),
     LatestIngestionErrorCode: S.optional(S.String),
-    LatestIngestionAttemptTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestIngestionAttemptTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestIngestionAttemptEventID: S.optional(S.String),
   }),
 ).annotate({
@@ -1967,15 +1680,7 @@ export interface GetDashboardRequest {
 }
 export const GetDashboardRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DashboardId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDashboardRequest",
@@ -2008,12 +1713,8 @@ export const GetDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(DashboardStatus),
     Widgets: S.optional(WidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastRefreshId: S.optional(S.String),
     LastRefreshFailureReason: S.optional(S.String),
     TerminationProtectionEnabled: S.optional(S.Boolean),
@@ -2029,17 +1730,7 @@ export const GetEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TrailName: S.optional(S.String),
     EventDataStore: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetEventConfigurationRequest",
 }) as any as S.Schema<GetEventConfigurationRequest>;
@@ -2063,11 +1754,7 @@ export const ContextKeySelector = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ContextKeySelector>;
 export type ContextKeySelectors = ContextKeySelector[];
 export const ContextKeySelectors = /*@__PURE__*/ S.Array(ContextKeySelector);
-export type Template =
-  | "API_ACTIVITY"
-  | "RESOURCE_ACCESS"
-  | "USER_ACTIONS"
-  | (string & {});
+export type Template = "API_ACTIVITY" | "RESOURCE_ACCESS" | "USER_ACTIONS" | (string & {});
 export const Template = S.String;
 
 export type Templates = Template[];
@@ -2085,9 +1772,7 @@ export const AggregationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregationConfiguration",
 }) as any as S.Schema<AggregationConfiguration>;
 export type AggregationConfigurations = AggregationConfiguration[];
-export const AggregationConfigurations = /*@__PURE__*/ S.Array(
-  AggregationConfiguration,
-);
+export const AggregationConfigurations = /*@__PURE__*/ S.Array(AggregationConfiguration);
 export interface GetEventConfigurationResponse {
   TrailARN?: string;
   EventDataStoreArn?: string;
@@ -2111,15 +1796,7 @@ export interface GetEventDataStoreRequest {
 }
 export const GetEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetEventDataStoreRequest",
@@ -2162,12 +1839,8 @@ export const GetEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
     OrganizationEnabled: S.optional(S.Boolean),
     RetentionPeriod: S.optional(S.Number),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(BillingMode),
     FederationStatus: S.optional(FederationStatus),
@@ -2182,15 +1855,7 @@ export interface GetEventSelectorsRequest {
 }
 export const GetEventSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ TrailName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetEventSelectorsRequest",
@@ -2249,15 +1914,7 @@ export interface GetImportRequest {
 }
 export const GetImportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImportId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetImportRequest",
@@ -2328,12 +1985,8 @@ export const GetImportResponse = /*@__PURE__*/ S.suspend(() =>
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportStatistics: S.optional(ImportStatistics),
   }).pipe(ns),
 ).annotate({
@@ -2347,24 +2000,11 @@ export const GetInsightSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TrailName: S.optional(S.String),
     EventDataStore: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetInsightSelectorsRequest",
 }) as any as S.Schema<GetInsightSelectorsRequest>;
-export type InsightType =
-  | "ApiCallRateInsight"
-  | "ApiErrorRateInsight"
-  | (string & {});
+export type InsightType = "ApiCallRateInsight" | "ApiErrorRateInsight" | (string & {});
 export const InsightType = S.String;
 
 export type SourceEventCategory = "Management" | "Data" | (string & {});
@@ -2418,17 +2058,7 @@ export const GetQueryResultsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxQueryResults: S.optional(S.Number),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetQueryResultsRequest",
 }) as any as S.Schema<GetQueryResultsRequest>;
@@ -2449,10 +2079,7 @@ export const QueryStatistics = /*@__PURE__*/ S.suspend(() =>
 export type QueryResultKey = string;
 export type QueryResultValue = string;
 export type QueryResultColumn = { [key: string]: string | undefined };
-export const QueryResultColumn = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const QueryResultColumn = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type QueryResultRow = { [key: string]: string | undefined }[];
 export const QueryResultRow = /*@__PURE__*/ S.Array(QueryResultColumn);
 export type QueryResultRows = { [key: string]: string | undefined }[][];
@@ -2480,15 +2107,7 @@ export interface GetResourcePolicyRequest {
 }
 export const GetResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetResourcePolicyRequest",
@@ -2513,15 +2132,7 @@ export interface GetTrailRequest {
 }
 export const GetTrailRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetTrailRequest",
@@ -2539,15 +2150,7 @@ export interface GetTrailStatusRequest {
 }
 export const GetTrailStatusRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetTrailStatusRequest",
@@ -2576,25 +2179,13 @@ export const GetTrailStatusResponse = /*@__PURE__*/ S.suspend(() =>
     IsLogging: S.optional(S.Boolean),
     LatestDeliveryError: S.optional(S.String),
     LatestNotificationError: S.optional(S.String),
-    LatestDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestNotificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StartLoggingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    StopLoggingTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LatestNotificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StartLoggingTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    StopLoggingTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestCloudWatchLogsDeliveryError: S.optional(S.String),
-    LatestCloudWatchLogsDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestDigestDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestCloudWatchLogsDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LatestDigestDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LatestDigestDeliveryError: S.optional(S.String),
     LatestDeliveryAttemptTime: S.optional(S.String),
     LatestNotificationAttemptTime: S.optional(S.String),
@@ -2615,17 +2206,7 @@ export const ListChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListChannelsRequest",
 }) as any as S.Schema<ListChannelsRequest>;
@@ -2663,17 +2244,7 @@ export const ListDashboardsRequest = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(DashboardType),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDashboardsRequest",
 }) as any as S.Schema<ListDashboardsRequest>;
@@ -2712,17 +2283,7 @@ export const ListEventDataStoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEventDataStoresRequest",
 }) as any as S.Schema<ListEventDataStoresRequest>;
@@ -2748,12 +2309,8 @@ export const EventDataStore = /*@__PURE__*/ S.suspend(() =>
     MultiRegionEnabled: S.optional(S.Boolean),
     OrganizationEnabled: S.optional(S.Boolean),
     RetentionPeriod: S.optional(S.Number),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "EventDataStore" }) as any as S.Schema<EventDataStore>;
 export type EventDataStores = EventDataStore[];
@@ -2781,25 +2338,11 @@ export const ListImportFailuresRequest = /*@__PURE__*/ S.suspend(() =>
     ImportId: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListImportFailuresRequest",
 }) as any as S.Schema<ListImportFailuresRequest>;
-export type ImportFailureStatus =
-  | "FAILED"
-  | "RETRY"
-  | "SUCCEEDED"
-  | (string & {});
+export type ImportFailureStatus = "FAILED" | "RETRY" | "SUCCEEDED" | (string & {});
 export const ImportFailureStatus = S.String;
 
 export interface ImportFailureListItem {
@@ -2815,9 +2358,7 @@ export const ImportFailureListItem = /*@__PURE__*/ S.suspend(() =>
     Status: S.optional(ImportFailureStatus),
     ErrorType: S.optional(S.String),
     ErrorMessage: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ImportFailureListItem",
@@ -2849,17 +2390,7 @@ export const ListImportsRequest = /*@__PURE__*/ S.suspend(() =>
     Destination: S.optional(S.String),
     ImportStatus: S.optional(ImportStatus),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListImportsRequest",
 }) as any as S.Schema<ListImportsRequest>;
@@ -2875,12 +2406,8 @@ export const ImportsListItem = /*@__PURE__*/ S.suspend(() =>
     ImportId: S.optional(S.String),
     ImportStatus: S.optional(ImportStatus),
     Destinations: S.optional(ImportDestinations),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ImportsListItem",
@@ -2902,11 +2429,7 @@ export const ListImportsResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListInsightsDataType = "InsightsEvents" | (string & {});
 export const ListInsightsDataType = S.String;
 
-export type ListInsightsDataDimensionKey =
-  | "EventId"
-  | "EventName"
-  | "EventSource"
-  | (string & {});
+export type ListInsightsDataDimensionKey = "EventId" | "EventName" | "EventSource" | (string & {});
 export const ListInsightsDataDimensionKey = S.String;
 
 export type ListInsightsDataDimensionValue = string;
@@ -2936,17 +2459,7 @@ export const ListInsightsDataRequest = /*@__PURE__*/ S.suspend(() =>
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInsightsDataRequest",
 }) as any as S.Schema<ListInsightsDataRequest>;
@@ -3004,10 +2517,7 @@ export type EventSource = string;
 export type EventName = string;
 export type ErrorCode = string;
 export type InsightsMetricPeriod = number;
-export type InsightsMetricDataType =
-  | "FillWithZeros"
-  | "NonZeroData"
-  | (string & {});
+export type InsightsMetricDataType = "FillWithZeros" | "NonZeroData" | (string & {});
 export const InsightsMetricDataType = S.String;
 
 export type InsightsMetricMaxResults = number;
@@ -3038,24 +2548,12 @@ export const ListInsightsMetricDataRequest = /*@__PURE__*/ S.suspend(() =>
     DataType: S.optional(InsightsMetricDataType),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListInsightsMetricDataRequest",
 }) as any as S.Schema<ListInsightsMetricDataRequest>;
 export type Timestamps = Date[];
-export const Timestamps = /*@__PURE__*/ S.Array(
-  S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-);
+export const Timestamps = /*@__PURE__*/ S.Array(S.Date.pipe(T.TimestampFormat("epoch-seconds")));
 export type InsightsMetricValues = number[];
 export const InsightsMetricValues = /*@__PURE__*/ S.Array(S.Number);
 export interface ListInsightsMetricDataResponse {
@@ -3092,17 +2590,7 @@ export const ListPublicKeysRequest = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPublicKeysRequest",
 }) as any as S.Schema<ListPublicKeysRequest>;
@@ -3116,12 +2604,8 @@ export interface PublicKey {
 export const PublicKey = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Value: S.optional(T.Blob),
-    ValidityStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ValidityEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ValidityStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ValidityEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Fingerprint: S.optional(S.String),
   }),
 ).annotate({ identifier: "PublicKey" }) as any as S.Schema<PublicKey>;
@@ -3156,17 +2640,7 @@ export const ListQueriesRequest = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     QueryStatus: S.optional(QueryStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListQueriesRequest",
 }) as any as S.Schema<ListQueriesRequest>;
@@ -3206,17 +2680,7 @@ export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceIdList: ResourceIdList,
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsRequest",
 }) as any as S.Schema<ListTagsRequest>;
@@ -3249,15 +2713,7 @@ export interface ListTrailsRequest {
 }
 export const ListTrailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTrailsRequest",
@@ -3333,17 +2789,7 @@ export const LookupEventsRequest = /*@__PURE__*/ S.suspend(() =>
     EventCategory: S.optional(EventCategory),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "LookupEventsRequest",
 }) as any as S.Schema<LookupEventsRequest>;
@@ -3373,17 +2819,7 @@ export const PutEventConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
     MaxEventSize: S.optional(MaxEventSize),
     ContextKeySelectors: S.optional(ContextKeySelectors),
     AggregationConfigurations: S.optional(AggregationConfigurations),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutEventConfigurationRequest",
 }) as any as S.Schema<PutEventConfigurationRequest>;
@@ -3415,17 +2851,7 @@ export const PutEventSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
     TrailName: S.String,
     EventSelectors: S.optional(EventSelectors),
     AdvancedEventSelectors: S.optional(AdvancedEventSelectors),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutEventSelectorsRequest",
 }) as any as S.Schema<PutEventSelectorsRequest>;
@@ -3455,17 +2881,7 @@ export const PutInsightSelectorsRequest = /*@__PURE__*/ S.suspend(() =>
     InsightSelectors: InsightSelectors,
     EventDataStore: S.optional(S.String),
     InsightsDestination: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutInsightSelectorsRequest",
 }) as any as S.Schema<PutInsightSelectorsRequest>;
@@ -3491,15 +2907,7 @@ export interface PutResourcePolicyRequest {
 }
 export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, ResourcePolicy: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutResourcePolicyRequest",
@@ -3521,50 +2929,32 @@ export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RegisterOrganizationDelegatedAdminRequest {
   MemberAccountId: string;
 }
-export const RegisterOrganizationDelegatedAdminRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MemberAccountId: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "RegisterOrganizationDelegatedAdminRequest",
-  }) as any as S.Schema<RegisterOrganizationDelegatedAdminRequest>;
+export const RegisterOrganizationDelegatedAdminRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MemberAccountId: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "RegisterOrganizationDelegatedAdminRequest",
+}) as any as S.Schema<RegisterOrganizationDelegatedAdminRequest>;
 export interface RegisterOrganizationDelegatedAdminResponse {}
-export const RegisterOrganizationDelegatedAdminResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "RegisterOrganizationDelegatedAdminResponse",
-  }) as any as S.Schema<RegisterOrganizationDelegatedAdminResponse>;
+export const RegisterOrganizationDelegatedAdminResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RegisterOrganizationDelegatedAdminResponse",
+}) as any as S.Schema<RegisterOrganizationDelegatedAdminResponse>;
 export interface RemoveTagsRequest {
   ResourceId: string;
   TagsList: Tag[];
 }
 export const RemoveTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceId: S.String, TagsList: TagsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RemoveTagsRequest",
 }) as any as S.Schema<RemoveTagsRequest>;
 export interface RemoveTagsResponse {}
-export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RemoveTagsResponse",
 }) as any as S.Schema<RemoveTagsResponse>;
 export interface RestoreEventDataStoreRequest {
@@ -3572,15 +2962,7 @@ export interface RestoreEventDataStoreRequest {
 }
 export const RestoreEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RestoreEventDataStoreRequest",
@@ -3609,12 +2991,8 @@ export const RestoreEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
     OrganizationEnabled: S.optional(S.Boolean),
     RetentionPeriod: S.optional(S.Number),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(BillingMode),
   }).pipe(ns),
@@ -3633,17 +3011,7 @@ export const SearchSampleQueriesRequest = /*@__PURE__*/ S.suspend(() =>
     SearchPhrase: S.String,
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SearchSampleQueriesRequest",
 }) as any as S.Schema<SearchSampleQueriesRequest>;
@@ -3667,8 +3035,7 @@ export const SearchSampleQueriesSearchResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SearchSampleQueriesSearchResult",
 }) as any as S.Schema<SearchSampleQueriesSearchResult>;
-export type SearchSampleQueriesSearchResults =
-  SearchSampleQueriesSearchResult[];
+export type SearchSampleQueriesSearchResults = SearchSampleQueriesSearchResult[];
 export const SearchSampleQueriesSearchResults = /*@__PURE__*/ S.Array(
   SearchSampleQueriesSearchResult,
 );
@@ -3687,10 +3054,7 @@ export const SearchSampleQueriesResponse = /*@__PURE__*/ S.suspend(() =>
 export type QueryParameterKey = string;
 export type QueryParameterValue = string;
 export type QueryParameterValues = { [key: string]: string | undefined };
-export const QueryParameterValues = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const QueryParameterValues = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
   QueryParameterValues?: { [key: string]: string | undefined };
@@ -3699,17 +3063,7 @@ export const StartDashboardRefreshRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DashboardId: S.String,
     QueryParameterValues: S.optional(QueryParameterValues),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartDashboardRefreshRequest",
 }) as any as S.Schema<StartDashboardRefreshRequest>;
@@ -3726,22 +3080,14 @@ export interface StartEventDataStoreIngestionRequest {
 }
 export const StartEventDataStoreIngestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartEventDataStoreIngestionRequest",
 }) as any as S.Schema<StartEventDataStoreIngestionRequest>;
 export interface StartEventDataStoreIngestionResponse {}
-export const StartEventDataStoreIngestionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const StartEventDataStoreIngestionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "StartEventDataStoreIngestionResponse",
 }) as any as S.Schema<StartEventDataStoreIngestionResponse>;
@@ -3759,17 +3105,7 @@ export const StartImportRequest = /*@__PURE__*/ S.suspend(() =>
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartImportRequest",
 }) as any as S.Schema<StartImportRequest>;
@@ -3791,12 +3127,8 @@ export const StartImportResponse = /*@__PURE__*/ S.suspend(() =>
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotate({
   identifier: "StartImportResponse",
@@ -3806,23 +3138,13 @@ export interface StartLoggingRequest {
 }
 export const StartLoggingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartLoggingRequest",
 }) as any as S.Schema<StartLoggingRequest>;
 export interface StartLoggingResponse {}
-export const StartLoggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const StartLoggingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "StartLoggingResponse",
 }) as any as S.Schema<StartLoggingResponse>;
 export interface StartQueryRequest {
@@ -3839,17 +3161,7 @@ export const StartQueryRequest = /*@__PURE__*/ S.suspend(() =>
     QueryAlias: S.optional(S.String),
     QueryParameters: S.optional(QueryParameters),
     EventDataStoreOwnerAccountId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartQueryRequest",
 }) as any as S.Schema<StartQueryRequest>;
@@ -3870,15 +3182,7 @@ export interface StopEventDataStoreIngestionRequest {
 }
 export const StopEventDataStoreIngestionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ EventDataStore: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopEventDataStoreIngestionRequest",
@@ -3894,15 +3198,7 @@ export interface StopImportRequest {
 }
 export const StopImportRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ImportId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopImportRequest",
@@ -3924,12 +3220,8 @@ export const StopImportResponse = /*@__PURE__*/ S.suspend(() =>
     ImportSource: S.optional(ImportSource),
     Destinations: S.optional(ImportDestinations),
     ImportStatus: S.optional(ImportStatus),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     StartEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndEventTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ImportStatistics: S.optional(ImportStatistics),
@@ -3942,23 +3234,13 @@ export interface StopLoggingRequest {
 }
 export const StopLoggingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopLoggingRequest",
 }) as any as S.Schema<StopLoggingRequest>;
 export interface StopLoggingResponse {}
-export const StopLoggingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const StopLoggingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "StopLoggingResponse",
 }) as any as S.Schema<StopLoggingResponse>;
 export interface UpdateChannelRequest {
@@ -3971,17 +3253,7 @@ export const UpdateChannelRequest = /*@__PURE__*/ S.suspend(() =>
     Channel: S.String,
     Destinations: S.optional(Destinations),
     Name: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateChannelRequest",
 }) as any as S.Schema<UpdateChannelRequest>;
@@ -4013,17 +3285,7 @@ export const UpdateDashboardRequest = /*@__PURE__*/ S.suspend(() =>
     Widgets: S.optional(RequestWidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDashboardRequest",
 }) as any as S.Schema<UpdateDashboardRequest>;
@@ -4045,12 +3307,8 @@ export const UpdateDashboardResponse = /*@__PURE__*/ S.suspend(() =>
     Widgets: S.optional(WidgetList),
     RefreshSchedule: S.optional(RefreshSchedule),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(ns),
 ).annotate({
   identifier: "UpdateDashboardResponse",
@@ -4077,17 +3335,7 @@ export const UpdateEventDataStoreRequest = /*@__PURE__*/ S.suspend(() =>
     TerminationProtectionEnabled: S.optional(S.Boolean),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(BillingMode),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEventDataStoreRequest",
 }) as any as S.Schema<UpdateEventDataStoreRequest>;
@@ -4117,12 +3365,8 @@ export const UpdateEventDataStoreResponse = /*@__PURE__*/ S.suspend(() =>
     OrganizationEnabled: S.optional(S.Boolean),
     RetentionPeriod: S.optional(S.Number),
     TerminationProtectionEnabled: S.optional(S.Boolean),
-    CreatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    UpdatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    UpdatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     KmsKeyId: S.optional(S.String),
     BillingMode: S.optional(BillingMode),
     FederationStatus: S.optional(FederationStatus),
@@ -4157,17 +3401,7 @@ export const UpdateTrailRequest = /*@__PURE__*/ S.suspend(() =>
     CloudWatchLogsRoleArn: S.optional(S.String),
     KmsKeyId: S.optional(S.String),
     IsOrganizationTrail: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateTrailRequest",
 }) as any as S.Schema<UpdateTrailRequest>;
@@ -4596,11 +3830,7 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDashboardRequest,
   output: DeleteDashboardResponse,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
-    UnsupportedOperationException,
-  ],
+  errors: [ConflictException, ResourceNotFoundException, UnsupportedOperationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",

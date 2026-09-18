@@ -2,10 +2,7 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
-import {
-  parseXml as parseCoreXml,
-  type XmlParseOptions,
-} from "@distilled.cloud/core/xml";
+import { parseXml as parseCoreXml, type XmlParseOptions } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
 import { ParseError } from "../errors.ts";
@@ -35,9 +32,7 @@ export const parseXml = (xml: string, options?: XmlParseOptions) =>
  * Extract the root element content from parsed XML.
  * Used by aws-query and ec2-query protocols.
  */
-export function extractXmlRoot(
-  parsed: Record<string, unknown>,
-): Record<string, unknown> {
+export function extractXmlRoot(parsed: Record<string, unknown>): Record<string, unknown> {
   const responseKey = Object.keys(parsed)[0];
   return responseKey
     ? (parsed[responseKey] as Record<string, unknown>)

@@ -8,17 +8,9 @@ import type { InputOptions, OutputOptions, Plugin } from "rolldown";
 import { purePlugin, type PurePluginStats } from "./pure-plugin.ts";
 
 /** `Bundle.BUN_CONDITION_NAMES` — never `import` / `require`. */
-export const BUN_CONDITION_NAMES: readonly string[] = [
-  "bun",
-  "module",
-  "default",
-];
+export const BUN_CONDITION_NAMES: readonly string[] = ["bun", "module", "default"];
 /** `Bundle.NODE_CONDITION_NAMES`. */
-export const NODE_CONDITION_NAMES: readonly string[] = [
-  "node",
-  "module",
-  "default",
-];
+export const NODE_CONDITION_NAMES: readonly string[] = ["node", "module", "default"];
 /** `@alchemy.run/cloudflare-runtime/rolldown` `DEFAULT_RESOLVE_CONDITION_NAMES` + production. */
 export const WORKER_CONDITION_NAMES: readonly string[] = [
   "workerd",
@@ -76,10 +68,7 @@ export const inputOptions = (
   };
 };
 
-export const outputOptions = (
-  dir: string,
-  variant: BuildVariant,
-): OutputOptions => ({
+export const outputOptions = (dir: string, variant: BuildVariant): OutputOptions => ({
   format: "esm",
   dir,
   entryFileNames: "index.js",

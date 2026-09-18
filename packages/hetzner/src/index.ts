@@ -26,11 +26,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  HetznerProtocol,
-  type HetznerOpError,
-  type HetznerOpContext,
-} from "./protocol.ts";
+export { HetznerProtocol, type HetznerOpError, type HetznerOpContext } from "./protocol.ts";
 export { paginatePageNumber } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

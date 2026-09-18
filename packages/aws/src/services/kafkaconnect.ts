@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "KafkaConnect",
   serviceShapeName: "KafkaConnect",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -48,9 +44,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === true &&
           UseDualStack === false
         ) {
-          return e(
-            `https://kafkaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://kafkaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -80,9 +74,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kafkaconnect-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -90,13 +82,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://kafkaconnect.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://kafkaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://kafkaconnect.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -203,10 +191,7 @@ export const Capacity = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Capacity" }) as any as S.Schema<Capacity>;
 export type ConnectorConfiguration = { [key: string]: string | undefined };
-export const ConnectorConfiguration = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ConnectorConfiguration = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type __stringMax1024 = string;
 export type __stringMin1Max128 = string;
 export type __listOf__string = string[];
@@ -366,16 +351,7 @@ export const CreateConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     serviceExecutionRoleArn: S.String,
     workerConfiguration: S.optional(WorkerConfiguration),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/connectors" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConnectorRequest",
 }) as any as S.Schema<CreateConnectorRequest>;
@@ -430,14 +406,7 @@ export const CreateCustomPluginRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/custom-plugins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/custom-plugins" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateCustomPluginRequest",
@@ -493,9 +462,7 @@ export interface WorkerConfigurationRevisionSummary {
 }
 export const WorkerConfigurationRevisionSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(S.String),
     revision: S.optional(S.Number),
   }),
@@ -512,9 +479,7 @@ export interface CreateWorkerConfigurationResponse {
 }
 export const CreateWorkerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     latestRevision: S.optional(WorkerConfigurationRevisionSummary),
     name: S.optional(S.String),
     workerConfigurationArn: S.optional(S.String),
@@ -592,9 +557,7 @@ export interface DeleteWorkerConfigurationRequest {
 }
 export const DeleteWorkerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workerConfigurationArn: S.String.pipe(
-      T.HttpLabel("workerConfigurationArn"),
-    ),
+    workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -733,31 +696,28 @@ export const KafkaClusterDescription = /*@__PURE__*/ S.suspend(() =>
 export interface KafkaClusterClientAuthenticationDescription {
   authenticationType?: string;
 }
-export const KafkaClusterClientAuthenticationDescription =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ authenticationType: S.optional(S.String) }),
-  ).annotate({
-    identifier: "KafkaClusterClientAuthenticationDescription",
-  }) as any as S.Schema<KafkaClusterClientAuthenticationDescription>;
+export const KafkaClusterClientAuthenticationDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ authenticationType: S.optional(S.String) }),
+).annotate({
+  identifier: "KafkaClusterClientAuthenticationDescription",
+}) as any as S.Schema<KafkaClusterClientAuthenticationDescription>;
 export interface KafkaClusterEncryptionInTransitDescription {
   encryptionType?: string;
 }
-export const KafkaClusterEncryptionInTransitDescription =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ encryptionType: S.optional(S.String) }),
-  ).annotate({
-    identifier: "KafkaClusterEncryptionInTransitDescription",
-  }) as any as S.Schema<KafkaClusterEncryptionInTransitDescription>;
+export const KafkaClusterEncryptionInTransitDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ encryptionType: S.optional(S.String) }),
+).annotate({
+  identifier: "KafkaClusterEncryptionInTransitDescription",
+}) as any as S.Schema<KafkaClusterEncryptionInTransitDescription>;
 export interface CloudWatchLogsLogDeliveryDescription {
   enabled?: boolean;
   logGroup?: string;
 }
-export const CloudWatchLogsLogDeliveryDescription = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      enabled: S.optional(S.Boolean),
-      logGroup: S.optional(S.String),
-    }),
+export const CloudWatchLogsLogDeliveryDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    logGroup: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CloudWatchLogsLogDeliveryDescription",
 }) as any as S.Schema<CloudWatchLogsLogDeliveryDescription>;
@@ -830,8 +790,7 @@ export const PluginDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "PluginDescription",
 }) as any as S.Schema<PluginDescription>;
 export type __listOfPluginDescription = PluginDescription[];
-export const __listOfPluginDescription =
-  /*@__PURE__*/ S.Array(PluginDescription);
+export const __listOfPluginDescription = /*@__PURE__*/ S.Array(PluginDescription);
 export interface WorkerConfigurationDescription {
   revision?: number;
   workerConfigurationArn?: string;
@@ -881,17 +840,11 @@ export const DescribeConnectorResponse = /*@__PURE__*/ S.suspend(() =>
     connectorDescription: S.optional(S.String),
     connectorName: S.optional(S.String),
     connectorState: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     currentVersion: S.optional(S.String),
     kafkaCluster: S.optional(KafkaClusterDescription),
-    kafkaClusterClientAuthentication: S.optional(
-      KafkaClusterClientAuthenticationDescription,
-    ),
-    kafkaClusterEncryptionInTransit: S.optional(
-      KafkaClusterEncryptionInTransitDescription,
-    ),
+    kafkaClusterClientAuthentication: S.optional(KafkaClusterClientAuthenticationDescription),
+    kafkaClusterEncryptionInTransit: S.optional(KafkaClusterEncryptionInTransitDescription),
     kafkaConnectVersion: S.optional(S.String),
     logDelivery: S.optional(LogDeliveryDescription),
     networkType: S.optional(S.String),
@@ -939,9 +892,7 @@ export const ConnectorOperationStep = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectorOperationStep",
 }) as any as S.Schema<ConnectorOperationStep>;
 export type __listOfConnectorOperationStep = ConnectorOperationStep[];
-export const __listOfConnectorOperationStep = /*@__PURE__*/ S.Array(
-  ConnectorOperationStep,
-);
+export const __listOfConnectorOperationStep = /*@__PURE__*/ S.Array(ConnectorOperationStep);
 export interface WorkerSetting {
   capacity?: CapacityDescription;
 }
@@ -974,9 +925,7 @@ export const DescribeConnectorOperationResponse = /*@__PURE__*/ S.suspend(() =>
     targetWorkerSetting: S.optional(WorkerSetting),
     targetConnectorConfiguration: S.optional(ConnectorConfiguration),
     errorInfo: S.optional(StateDescription),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
@@ -1043,9 +992,7 @@ export interface CustomPluginRevisionSummary {
 export const CustomPluginRevisionSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     contentType: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(S.String),
     fileDescription: S.optional(CustomPluginFileDescription),
     location: S.optional(CustomPluginLocationDescription),
@@ -1065,9 +1012,7 @@ export interface DescribeCustomPluginResponse {
 }
 export const DescribeCustomPluginResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     customPluginArn: S.optional(S.String),
     customPluginState: S.optional(S.String),
     description: S.optional(S.String),
@@ -1083,9 +1028,7 @@ export interface DescribeWorkerConfigurationRequest {
 }
 export const DescribeWorkerConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    workerConfigurationArn: S.String.pipe(
-      T.HttpLabel("workerConfigurationArn"),
-    ),
+    workerConfigurationArn: S.String.pipe(T.HttpLabel("workerConfigurationArn")),
   }).pipe(
     T.all(
       T.Http({
@@ -1108,16 +1051,13 @@ export interface WorkerConfigurationRevisionDescription {
   propertiesFileContent?: string | redacted.Redacted<string>;
   revision?: number;
 }
-export const WorkerConfigurationRevisionDescription = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      creationTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      description: S.optional(S.String),
-      propertiesFileContent: S.optional(SensitiveString),
-      revision: S.optional(S.Number),
-    }),
+export const WorkerConfigurationRevisionDescription = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    description: S.optional(S.String),
+    propertiesFileContent: S.optional(SensitiveString),
+    revision: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "WorkerConfigurationRevisionDescription",
 }) as any as S.Schema<WorkerConfigurationRevisionDescription>;
@@ -1131,9 +1071,7 @@ export interface DescribeWorkerConfigurationResponse {
 }
 export const DescribeWorkerConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(S.String),
     latestRevision: S.optional(WorkerConfigurationRevisionDescription),
     name: S.optional(S.String),
@@ -1182,18 +1120,14 @@ export const ConnectorOperationSummary = /*@__PURE__*/ S.suspend(() =>
     connectorOperationArn: S.optional(S.String),
     connectorOperationType: S.optional(S.String),
     connectorOperationState: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ConnectorOperationSummary",
 }) as any as S.Schema<ConnectorOperationSummary>;
 export type __listOfConnectorOperationSummary = ConnectorOperationSummary[];
-export const __listOfConnectorOperationSummary = /*@__PURE__*/ S.Array(
-  ConnectorOperationSummary,
-);
+export const __listOfConnectorOperationSummary = /*@__PURE__*/ S.Array(ConnectorOperationSummary);
 export interface ListConnectorOperationsResponse {
   connectorOperations?: ConnectorOperationSummary[];
   nextToken?: string;
@@ -1213,21 +1147,10 @@ export interface ListConnectorsRequest {
 }
 export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    connectorNamePrefix: S.optional(S.String).pipe(
-      T.HttpQuery("connectorNamePrefix"),
-    ),
+    connectorNamePrefix: S.optional(S.String).pipe(T.HttpQuery("connectorNamePrefix")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/connectors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/connectors" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectorsRequest",
 }) as any as S.Schema<ListConnectorsRequest>;
@@ -1256,17 +1179,11 @@ export const ConnectorSummary = /*@__PURE__*/ S.suspend(() =>
     connectorDescription: S.optional(S.String),
     connectorName: S.optional(S.String),
     connectorState: S.optional(S.String),
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     currentVersion: S.optional(S.String),
     kafkaCluster: S.optional(KafkaClusterDescription),
-    kafkaClusterClientAuthentication: S.optional(
-      KafkaClusterClientAuthenticationDescription,
-    ),
-    kafkaClusterEncryptionInTransit: S.optional(
-      KafkaClusterEncryptionInTransitDescription,
-    ),
+    kafkaClusterClientAuthentication: S.optional(KafkaClusterClientAuthenticationDescription),
+    kafkaClusterEncryptionInTransit: S.optional(KafkaClusterEncryptionInTransitDescription),
     kafkaConnectVersion: S.optional(S.String),
     logDelivery: S.optional(LogDeliveryDescription),
     networkType: S.optional(S.String),
@@ -1302,14 +1219,7 @@ export const ListCustomPluginsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     namePrefix: S.optional(S.String).pipe(T.HttpQuery("namePrefix")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/custom-plugins" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/custom-plugins" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListCustomPluginsRequest",
@@ -1324,9 +1234,7 @@ export interface CustomPluginSummary {
 }
 export const CustomPluginSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     customPluginArn: S.optional(S.String),
     customPluginState: S.optional(S.String),
     description: S.optional(S.String),
@@ -1337,8 +1245,7 @@ export const CustomPluginSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomPluginSummary",
 }) as any as S.Schema<CustomPluginSummary>;
 export type __listOfCustomPluginSummary = CustomPluginSummary[];
-export const __listOfCustomPluginSummary =
-  /*@__PURE__*/ S.Array(CustomPluginSummary);
+export const __listOfCustomPluginSummary = /*@__PURE__*/ S.Array(CustomPluginSummary);
 export interface ListCustomPluginsResponse {
   customPlugins?: CustomPluginSummary[];
   nextToken?: string;
@@ -1356,14 +1263,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1409,9 +1309,7 @@ export interface WorkerConfigurationSummary {
 }
 export const WorkerConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    creationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     description: S.optional(S.String),
     latestRevision: S.optional(WorkerConfigurationRevisionSummary),
     name: S.optional(S.String),
@@ -1422,9 +1320,7 @@ export const WorkerConfigurationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "WorkerConfigurationSummary",
 }) as any as S.Schema<WorkerConfigurationSummary>;
 export type __listOfWorkerConfigurationSummary = WorkerConfigurationSummary[];
-export const __listOfWorkerConfigurationSummary = /*@__PURE__*/ S.Array(
-  WorkerConfigurationSummary,
-);
+export const __listOfWorkerConfigurationSummary = /*@__PURE__*/ S.Array(WorkerConfigurationSummary);
 export interface ListWorkerConfigurationsResponse {
   nextToken?: string;
   workerConfigurations?: WorkerConfigurationSummary[];
@@ -1446,22 +1342,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1488,9 +1375,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface ScaleInPolicyUpdate {

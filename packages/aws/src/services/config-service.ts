@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://config.amazonaws.com/doc/2014-11-12/");
 const svc = T.AwsApiService({
   sdkId: "Config Service",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,13 +56,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://config.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://config-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://config-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -74,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://config.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://config.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://config.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -88,10 +76,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ConformancePackTemplateValidationException
   extends /*@__PURE__*/ S.TaggedError<ConformancePackTemplateValidationException>()(
     "ConformancePackTemplateValidationException",
@@ -124,20 +111,17 @@ export class InvalidDeliveryChannelNameException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidExpressionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidExpressionException>()(
-    "InvalidExpressionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidExpressionException>()("InvalidExpressionException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidLimitException
-  extends /*@__PURE__*/ S.TaggedError<InvalidLimitException>()(
-    "InvalidLimitException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidLimitException>()("InvalidLimitException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidParameterValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterValueException>()(
     "InvalidParameterValueException",
@@ -154,10 +138,9 @@ export class InvalidResultTokenException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidRoleException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRoleException>()(
-    "InvalidRoleException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRoleException>()("InvalidRoleException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidS3KeyPrefixException
   extends /*@__PURE__*/ S.TaggedError<InvalidS3KeyPrefixException>()(
     "InvalidS3KeyPrefixException",
@@ -174,20 +157,18 @@ export class InvalidSNSTopicARNException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidTimeRangeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()(
-    "InvalidTimeRangeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()("InvalidTimeRangeException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LastDeliveryChannelDeleteFailedException
   extends /*@__PURE__*/ S.TaggedError<LastDeliveryChannelDeleteFailedException>()(
     "LastDeliveryChannelDeleteFailedException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class MaxActiveResourcesExceededException
   extends /*@__PURE__*/ S.TaggedError<MaxActiveResourcesExceededException>()(
     "MaxActiveResourcesExceededException",
@@ -254,15 +235,13 @@ export class NoRunningConfigurationRecorderException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class NoSuchBucketException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchBucketException>()(
-    "NoSuchBucketException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchBucketException>()("NoSuchBucketException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class NoSuchConfigRuleException
-  extends /*@__PURE__*/ S.TaggedError<NoSuchConfigRuleException>()(
-    "NoSuchConfigRuleException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<NoSuchConfigRuleException>()("NoSuchConfigRuleException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class NoSuchConfigRuleInConformancePackException
   extends /*@__PURE__*/ S.TaggedError<NoSuchConfigRuleInConformancePackException>()(
     "NoSuchConfigRuleInConformancePackException",
@@ -344,35 +323,31 @@ export class ResourceConcurrentModificationException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ResourceInUseException
-  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()(
-    "ResourceInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceInUseException>()("ResourceInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotDiscoveredException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotDiscoveredException>()(
     "ResourceNotDiscoveredException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()("TooManyTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class UnmodifiableEntityException
   extends /*@__PURE__*/ S.TaggedError<UnmodifiableEntityException>()(
     "UnmodifiableEntityException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type AmazonResourceName = string;
 export type ResourceType =
   | "AWS::EC2::CustomerGateway"
@@ -921,17 +896,7 @@ export const AssociateResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigurationRecorderArn: S.String,
     ResourceTypes: ResourceTypeList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateResourceTypesRequest",
 }) as any as S.Schema<AssociateResourceTypesRequest>;
@@ -982,8 +947,7 @@ export const RecordingFrequency = S.String;
 
 export type Description = string;
 export type RecordingModeResourceTypesList = ResourceType[];
-export const RecordingModeResourceTypesList =
-  /*@__PURE__*/ S.Array(ResourceType);
+export const RecordingModeResourceTypesList = /*@__PURE__*/ S.Array(ResourceType);
 export interface RecordingModeOverride {
   description?: string;
   resourceTypes: ResourceType[];
@@ -999,9 +963,7 @@ export const RecordingModeOverride = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecordingModeOverride",
 }) as any as S.Schema<RecordingModeOverride>;
 export type RecordingModeOverrides = RecordingModeOverride[];
-export const RecordingModeOverrides = /*@__PURE__*/ S.Array(
-  RecordingModeOverride,
-);
+export const RecordingModeOverrides = /*@__PURE__*/ S.Array(RecordingModeOverride);
 export interface RecordingMode {
   recordingFrequency: RecordingFrequency;
   recordingModeOverrides?: RecordingModeOverride[];
@@ -1097,29 +1059,16 @@ export const AggregateResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregateResourceIdentifier",
 }) as any as S.Schema<AggregateResourceIdentifier>;
 export type ResourceIdentifiersList = AggregateResourceIdentifier[];
-export const ResourceIdentifiersList = /*@__PURE__*/ S.Array(
-  AggregateResourceIdentifier,
-);
+export const ResourceIdentifiersList = /*@__PURE__*/ S.Array(AggregateResourceIdentifier);
 export interface BatchGetAggregateResourceConfigRequest {
   ConfigurationAggregatorName: string;
   ResourceIdentifiers: AggregateResourceIdentifier[];
 }
-export const BatchGetAggregateResourceConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      ResourceIdentifiers: ResourceIdentifiersList,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const BatchGetAggregateResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    ResourceIdentifiers: ResourceIdentifiersList,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchGetAggregateResourceConfigRequest",
 }) as any as S.Schema<BatchGetAggregateResourceConfigRequest>;
@@ -1169,9 +1118,7 @@ export const BaseConfigurationItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     accountId: S.optional(S.String),
-    configurationItemCaptureTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    configurationItemCaptureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     configurationItemStatus: S.optional(ConfigurationItemStatus),
     configurationStateId: S.optional(S.String),
     arn: S.optional(S.String),
@@ -1180,39 +1127,28 @@ export const BaseConfigurationItem = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.optional(S.String),
     awsRegion: S.optional(S.String),
     availabilityZone: S.optional(S.String),
-    resourceCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    resourceCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     configuration: S.optional(S.String),
     supplementaryConfiguration: S.optional(SupplementaryConfiguration),
     recordingFrequency: S.optional(RecordingFrequency),
-    configurationItemDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    configurationItemDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "BaseConfigurationItem",
 }) as any as S.Schema<BaseConfigurationItem>;
 export type BaseConfigurationItems = BaseConfigurationItem[];
-export const BaseConfigurationItems = /*@__PURE__*/ S.Array(
-  BaseConfigurationItem,
-);
+export const BaseConfigurationItems = /*@__PURE__*/ S.Array(BaseConfigurationItem);
 export type UnprocessedResourceIdentifierList = AggregateResourceIdentifier[];
-export const UnprocessedResourceIdentifierList = /*@__PURE__*/ S.Array(
-  AggregateResourceIdentifier,
-);
+export const UnprocessedResourceIdentifierList = /*@__PURE__*/ S.Array(AggregateResourceIdentifier);
 export interface BatchGetAggregateResourceConfigResponse {
   BaseConfigurationItems?: BaseConfigurationItem[];
   UnprocessedResourceIdentifiers?: AggregateResourceIdentifier[];
 }
-export const BatchGetAggregateResourceConfigResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      BaseConfigurationItems: S.optional(BaseConfigurationItems),
-      UnprocessedResourceIdentifiers: S.optional(
-        UnprocessedResourceIdentifierList,
-      ),
-    }).pipe(ns),
+export const BatchGetAggregateResourceConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    BaseConfigurationItems: S.optional(BaseConfigurationItems),
+    UnprocessedResourceIdentifiers: S.optional(UnprocessedResourceIdentifierList),
+  }).pipe(ns),
 ).annotate({
   identifier: "BatchGetAggregateResourceConfigResponse",
 }) as any as S.Schema<BatchGetAggregateResourceConfigResponse>;
@@ -1230,15 +1166,7 @@ export interface BatchGetResourceConfigRequest {
 }
 export const BatchGetResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceKeys: ResourceKeys }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetResourceConfigRequest",
@@ -1259,28 +1187,17 @@ export interface DeleteAggregationAuthorizationRequest {
   AuthorizedAccountId: string;
   AuthorizedAwsRegion: string;
 }
-export const DeleteAggregationAuthorizationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AuthorizedAccountId: S.String,
-      AuthorizedAwsRegion: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteAggregationAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AuthorizedAccountId: S.String,
+    AuthorizedAwsRegion: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteAggregationAuthorizationRequest",
 }) as any as S.Schema<DeleteAggregationAuthorizationRequest>;
 export interface DeleteAggregationAuthorizationResponse {}
-export const DeleteAggregationAuthorizationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteAggregationAuthorizationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteAggregationAuthorizationResponse",
 }) as any as S.Schema<DeleteAggregationAuthorizationResponse>;
@@ -1290,15 +1207,7 @@ export interface DeleteConfigRuleRequest {
 }
 export const DeleteConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRuleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteConfigRuleRequest",
@@ -1312,25 +1221,16 @@ export const DeleteConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DeleteConfigurationAggregatorRequest {
   ConfigurationAggregatorName: string;
 }
-export const DeleteConfigurationAggregatorRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ConfigurationAggregatorName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteConfigurationAggregatorRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConfigurationAggregatorName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteConfigurationAggregatorRequest",
 }) as any as S.Schema<DeleteConfigurationAggregatorRequest>;
 export interface DeleteConfigurationAggregatorResponse {}
-export const DeleteConfigurationAggregatorResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteConfigurationAggregatorResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteConfigurationAggregatorResponse",
 }) as any as S.Schema<DeleteConfigurationAggregatorResponse>;
@@ -1339,15 +1239,7 @@ export interface DeleteConfigurationRecorderRequest {
 }
 export const DeleteConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigurationRecorderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteConfigurationRecorderRequest",
@@ -1364,15 +1256,7 @@ export interface DeleteConformancePackRequest {
 }
 export const DeleteConformancePackRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConformancePackName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteConformancePackRequest",
@@ -1388,15 +1272,7 @@ export interface DeleteConnectorRequest {
 }
 export const DeleteConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteConnectorRequest",
@@ -1413,15 +1289,7 @@ export interface DeleteDeliveryChannelRequest {
 }
 export const DeleteDeliveryChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeliveryChannelName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDeliveryChannelRequest",
@@ -1438,15 +1306,7 @@ export interface DeleteEvaluationResultsRequest {
 }
 export const DeleteEvaluationResultsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRuleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteEvaluationResultsRequest",
@@ -1463,22 +1323,14 @@ export interface DeleteOrganizationConfigRuleRequest {
 }
 export const DeleteOrganizationConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ OrganizationConfigRuleName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteOrganizationConfigRuleRequest",
 }) as any as S.Schema<DeleteOrganizationConfigRuleRequest>;
 export interface DeleteOrganizationConfigRuleResponse {}
-export const DeleteOrganizationConfigRuleResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteOrganizationConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteOrganizationConfigRuleResponse",
 }) as any as S.Schema<DeleteOrganizationConfigRuleResponse>;
@@ -1486,53 +1338,34 @@ export type OrganizationConformancePackName = string;
 export interface DeleteOrganizationConformancePackRequest {
   OrganizationConformancePackName: string;
 }
-export const DeleteOrganizationConformancePackRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ OrganizationConformancePackName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteOrganizationConformancePackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ OrganizationConformancePackName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeleteOrganizationConformancePackRequest",
 }) as any as S.Schema<DeleteOrganizationConformancePackRequest>;
 export interface DeleteOrganizationConformancePackResponse {}
-export const DeleteOrganizationConformancePackResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "DeleteOrganizationConformancePackResponse",
-  }) as any as S.Schema<DeleteOrganizationConformancePackResponse>;
+export const DeleteOrganizationConformancePackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteOrganizationConformancePackResponse",
+}) as any as S.Schema<DeleteOrganizationConformancePackResponse>;
 export interface DeletePendingAggregationRequestRequest {
   RequesterAccountId: string;
   RequesterAwsRegion: string;
 }
-export const DeletePendingAggregationRequestRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RequesterAccountId: S.String,
-      RequesterAwsRegion: S.String,
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeletePendingAggregationRequestRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RequesterAccountId: S.String,
+    RequesterAwsRegion: S.String,
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeletePendingAggregationRequestRequest",
 }) as any as S.Schema<DeletePendingAggregationRequestRequest>;
 export interface DeletePendingAggregationRequestResponse {}
-export const DeletePendingAggregationRequestResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeletePendingAggregationRequestResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeletePendingAggregationRequestResponse",
 }) as any as S.Schema<DeletePendingAggregationRequestResponse>;
@@ -1540,28 +1373,17 @@ export interface DeleteRemediationConfigurationRequest {
   ConfigRuleName: string;
   ResourceType?: string;
 }
-export const DeleteRemediationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigRuleName: S.String,
-      ResourceType: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeleteRemediationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceType: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteRemediationConfigurationRequest",
 }) as any as S.Schema<DeleteRemediationConfigurationRequest>;
 export interface DeleteRemediationConfigurationResponse {}
-export const DeleteRemediationConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteRemediationConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteRemediationConfigurationResponse",
 }) as any as S.Schema<DeleteRemediationConfigurationResponse>;
@@ -1579,8 +1401,7 @@ export const RemediationExceptionResourceKey = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RemediationExceptionResourceKey",
 }) as any as S.Schema<RemediationExceptionResourceKey>;
-export type RemediationExceptionResourceKeys =
-  RemediationExceptionResourceKey[];
+export type RemediationExceptionResourceKeys = RemediationExceptionResourceKey[];
 export const RemediationExceptionResourceKeys = /*@__PURE__*/ S.Array(
   RemediationExceptionResourceKey,
 );
@@ -1592,17 +1413,7 @@ export const DeleteRemediationExceptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.String,
     ResourceKeys: RemediationExceptionResourceKeys,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteRemediationExceptionsRequest",
 }) as any as S.Schema<DeleteRemediationExceptionsRequest>;
@@ -1610,17 +1421,15 @@ export interface FailedDeleteRemediationExceptionsBatch {
   FailureMessage?: string;
   FailedItems?: RemediationExceptionResourceKey[];
 }
-export const FailedDeleteRemediationExceptionsBatch = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FailureMessage: S.optional(S.String),
-      FailedItems: S.optional(RemediationExceptionResourceKeys),
-    }),
+export const FailedDeleteRemediationExceptionsBatch = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FailureMessage: S.optional(S.String),
+    FailedItems: S.optional(RemediationExceptionResourceKeys),
+  }),
 ).annotate({
   identifier: "FailedDeleteRemediationExceptionsBatch",
 }) as any as S.Schema<FailedDeleteRemediationExceptionsBatch>;
-export type FailedDeleteRemediationExceptionsBatches =
-  FailedDeleteRemediationExceptionsBatch[];
+export type FailedDeleteRemediationExceptionsBatches = FailedDeleteRemediationExceptionsBatch[];
 export const FailedDeleteRemediationExceptionsBatches = /*@__PURE__*/ S.Array(
   FailedDeleteRemediationExceptionsBatch,
 );
@@ -1641,15 +1450,7 @@ export interface DeleteResourceConfigRequest {
 }
 export const DeleteResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceType: S.String, ResourceId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteResourceConfigRequest",
@@ -1666,22 +1467,14 @@ export interface DeleteRetentionConfigurationRequest {
 }
 export const DeleteRetentionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RetentionConfigurationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteRetentionConfigurationRequest",
 }) as any as S.Schema<DeleteRetentionConfigurationRequest>;
 export interface DeleteRetentionConfigurationResponse {}
-export const DeleteRetentionConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeleteRetentionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeleteRetentionConfigurationResponse",
 }) as any as S.Schema<DeleteRetentionConfigurationResponse>;
@@ -1689,50 +1482,30 @@ export interface DeleteServiceLinkedConfigurationRecorderRequest {
   ServicePrincipal?: string;
   Arn?: string;
 }
-export const DeleteServiceLinkedConfigurationRecorderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServicePrincipal: S.optional(S.String),
-      Arn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DeleteServiceLinkedConfigurationRecorderRequest",
-  }) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderRequest>;
+export const DeleteServiceLinkedConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServicePrincipal: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteServiceLinkedConfigurationRecorderRequest",
+}) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderRequest>;
 export interface DeleteServiceLinkedConfigurationRecorderResponse {
   Arn: string;
   Name: string;
 }
-export const DeleteServiceLinkedConfigurationRecorderResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Arn: S.String, Name: S.String }).pipe(ns),
-  ).annotate({
-    identifier: "DeleteServiceLinkedConfigurationRecorderResponse",
-  }) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderResponse>;
+export const DeleteServiceLinkedConfigurationRecorderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Arn: S.String, Name: S.String }).pipe(ns),
+).annotate({
+  identifier: "DeleteServiceLinkedConfigurationRecorderResponse",
+}) as any as S.Schema<DeleteServiceLinkedConfigurationRecorderResponse>;
 export type QueryName = string;
 export interface DeleteStoredQueryRequest {
   QueryName: string;
 }
 export const DeleteStoredQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ QueryName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteStoredQueryRequest",
@@ -1748,15 +1521,7 @@ export interface DeliverConfigSnapshotRequest {
 }
 export const DeliverConfigSnapshotRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deliveryChannelName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeliverConfigSnapshotRequest",
@@ -1801,27 +1566,16 @@ export interface DescribeAggregateComplianceByConfigRulesRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeAggregateComplianceByConfigRulesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      Filters: S.optional(ConfigRuleComplianceFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeAggregateComplianceByConfigRulesRequest",
-  }) as any as S.Schema<DescribeAggregateComplianceByConfigRulesRequest>;
+export const DescribeAggregateComplianceByConfigRulesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    Filters: S.optional(ConfigRuleComplianceFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeAggregateComplianceByConfigRulesRequest",
+}) as any as S.Schema<DescribeAggregateComplianceByConfigRulesRequest>;
 export interface ComplianceContributorCount {
   CappedCount?: number;
   CapExceeded?: boolean;
@@ -1860,8 +1614,7 @@ export const AggregateComplianceByConfigRule = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AggregateComplianceByConfigRule",
 }) as any as S.Schema<AggregateComplianceByConfigRule>;
-export type AggregateComplianceByConfigRuleList =
-  AggregateComplianceByConfigRule[];
+export type AggregateComplianceByConfigRuleList = AggregateComplianceByConfigRule[];
 export const AggregateComplianceByConfigRuleList = /*@__PURE__*/ S.Array(
   AggregateComplianceByConfigRule,
 );
@@ -1869,17 +1622,14 @@ export interface DescribeAggregateComplianceByConfigRulesResponse {
   AggregateComplianceByConfigRules?: AggregateComplianceByConfigRule[];
   NextToken?: string;
 }
-export const DescribeAggregateComplianceByConfigRulesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregateComplianceByConfigRules: S.optional(
-        AggregateComplianceByConfigRuleList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeAggregateComplianceByConfigRulesResponse",
-  }) as any as S.Schema<DescribeAggregateComplianceByConfigRulesResponse>;
+export const DescribeAggregateComplianceByConfigRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregateComplianceByConfigRules: S.optional(AggregateComplianceByConfigRuleList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeAggregateComplianceByConfigRulesResponse",
+}) as any as S.Schema<DescribeAggregateComplianceByConfigRulesResponse>;
 export type ConformancePackComplianceType =
   | "COMPLIANT"
   | "NON_COMPLIANT"
@@ -1893,17 +1643,16 @@ export interface AggregateConformancePackComplianceFilters {
   AccountId?: string;
   AwsRegion?: string;
 }
-export const AggregateConformancePackComplianceFilters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackName: S.optional(S.String),
-      ComplianceType: S.optional(ConformancePackComplianceType),
-      AccountId: S.optional(S.String),
-      AwsRegion: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AggregateConformancePackComplianceFilters",
-  }) as any as S.Schema<AggregateConformancePackComplianceFilters>;
+export const AggregateConformancePackComplianceFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.optional(S.String),
+    ComplianceType: S.optional(ConformancePackComplianceType),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AggregateConformancePackComplianceFilters",
+}) as any as S.Schema<AggregateConformancePackComplianceFilters>;
 export type Limit = number;
 export interface DescribeAggregateComplianceByConformancePacksRequest {
   ConfigurationAggregatorName: string;
@@ -1911,27 +1660,16 @@ export interface DescribeAggregateComplianceByConformancePacksRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeAggregateComplianceByConformancePacksRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      Filters: S.optional(AggregateConformancePackComplianceFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeAggregateComplianceByConformancePacksRequest",
-  }) as any as S.Schema<DescribeAggregateComplianceByConformancePacksRequest>;
+export const DescribeAggregateComplianceByConformancePacksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    Filters: S.optional(AggregateConformancePackComplianceFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeAggregateComplianceByConformancePacksRequest",
+}) as any as S.Schema<DescribeAggregateComplianceByConformancePacksRequest>;
 export interface AggregateConformancePackCompliance {
   ComplianceType?: ConformancePackComplianceType;
   CompliantRuleCount?: number;
@@ -1954,19 +1692,17 @@ export interface AggregateComplianceByConformancePack {
   AccountId?: string;
   AwsRegion?: string;
 }
-export const AggregateComplianceByConformancePack = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConformancePackName: S.optional(S.String),
-      Compliance: S.optional(AggregateConformancePackCompliance),
-      AccountId: S.optional(S.String),
-      AwsRegion: S.optional(S.String),
-    }),
+export const AggregateComplianceByConformancePack = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.optional(S.String),
+    Compliance: S.optional(AggregateConformancePackCompliance),
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "AggregateComplianceByConformancePack",
 }) as any as S.Schema<AggregateComplianceByConformancePack>;
-export type AggregateComplianceByConformancePackList =
-  AggregateComplianceByConformancePack[];
+export type AggregateComplianceByConformancePackList = AggregateComplianceByConformancePack[];
 export const AggregateComplianceByConformancePackList = /*@__PURE__*/ S.Array(
   AggregateComplianceByConformancePack,
 );
@@ -1974,37 +1710,23 @@ export interface DescribeAggregateComplianceByConformancePacksResponse {
   AggregateComplianceByConformancePacks?: AggregateComplianceByConformancePack[];
   NextToken?: string;
 }
-export const DescribeAggregateComplianceByConformancePacksResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregateComplianceByConformancePacks: S.optional(
-        AggregateComplianceByConformancePackList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeAggregateComplianceByConformancePacksResponse",
-  }) as any as S.Schema<DescribeAggregateComplianceByConformancePacksResponse>;
+export const DescribeAggregateComplianceByConformancePacksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregateComplianceByConformancePacks: S.optional(AggregateComplianceByConformancePackList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeAggregateComplianceByConformancePacksResponse",
+}) as any as S.Schema<DescribeAggregateComplianceByConformancePacksResponse>;
 export interface DescribeAggregationAuthorizationsRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeAggregationAuthorizationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeAggregationAuthorizationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAggregationAuthorizationsRequest",
 }) as any as S.Schema<DescribeAggregationAuthorizationsRequest>;
@@ -2025,22 +1747,19 @@ export const AggregationAuthorization = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregationAuthorization",
 }) as any as S.Schema<AggregationAuthorization>;
 export type AggregationAuthorizationList = AggregationAuthorization[];
-export const AggregationAuthorizationList = /*@__PURE__*/ S.Array(
-  AggregationAuthorization,
-);
+export const AggregationAuthorizationList = /*@__PURE__*/ S.Array(AggregationAuthorization);
 export interface DescribeAggregationAuthorizationsResponse {
   AggregationAuthorizations?: AggregationAuthorization[];
   NextToken?: string;
 }
-export const DescribeAggregationAuthorizationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregationAuthorizations: S.optional(AggregationAuthorizationList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeAggregationAuthorizationsResponse",
-  }) as any as S.Schema<DescribeAggregationAuthorizationsResponse>;
+export const DescribeAggregationAuthorizationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregationAuthorizations: S.optional(AggregationAuthorizationList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeAggregationAuthorizationsResponse",
+}) as any as S.Schema<DescribeAggregationAuthorizationsResponse>;
 export type ConfigRuleNames = string[];
 export const ConfigRuleNames = /*@__PURE__*/ S.Array(S.String);
 export type ComplianceTypes = ComplianceType[];
@@ -2050,23 +1769,12 @@ export interface DescribeComplianceByConfigRuleRequest {
   ComplianceTypes?: ComplianceType[];
   NextToken?: string;
 }
-export const DescribeComplianceByConfigRuleRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigRuleNames: S.optional(ConfigRuleNames),
-      ComplianceTypes: S.optional(ComplianceTypes),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeComplianceByConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleNames: S.optional(ConfigRuleNames),
+    ComplianceTypes: S.optional(ComplianceTypes),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeComplianceByConfigRuleRequest",
 }) as any as S.Schema<DescribeComplianceByConfigRuleRequest>;
@@ -2083,19 +1791,16 @@ export const ComplianceByConfigRule = /*@__PURE__*/ S.suspend(() =>
   identifier: "ComplianceByConfigRule",
 }) as any as S.Schema<ComplianceByConfigRule>;
 export type ComplianceByConfigRules = ComplianceByConfigRule[];
-export const ComplianceByConfigRules = /*@__PURE__*/ S.Array(
-  ComplianceByConfigRule,
-);
+export const ComplianceByConfigRules = /*@__PURE__*/ S.Array(ComplianceByConfigRule);
 export interface DescribeComplianceByConfigRuleResponse {
   ComplianceByConfigRules?: ComplianceByConfigRule[];
   NextToken?: string;
 }
-export const DescribeComplianceByConfigRuleResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ComplianceByConfigRules: S.optional(ComplianceByConfigRules),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeComplianceByConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ComplianceByConfigRules: S.optional(ComplianceByConfigRules),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeComplianceByConfigRuleResponse",
 }) as any as S.Schema<DescribeComplianceByConfigRuleResponse>;
@@ -2114,17 +1819,7 @@ export const DescribeComplianceByResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ComplianceTypes: S.optional(ComplianceTypes),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeComplianceByResourceRequest",
 }) as any as S.Schema<DescribeComplianceByResourceRequest>;
@@ -2143,18 +1838,16 @@ export const ComplianceByResource = /*@__PURE__*/ S.suspend(() =>
   identifier: "ComplianceByResource",
 }) as any as S.Schema<ComplianceByResource>;
 export type ComplianceByResources = ComplianceByResource[];
-export const ComplianceByResources =
-  /*@__PURE__*/ S.Array(ComplianceByResource);
+export const ComplianceByResources = /*@__PURE__*/ S.Array(ComplianceByResource);
 export interface DescribeComplianceByResourceResponse {
   ComplianceByResources?: ComplianceByResource[];
   NextToken?: string;
 }
-export const DescribeComplianceByResourceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ComplianceByResources: S.optional(ComplianceByResources),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeComplianceByResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ComplianceByResources: S.optional(ComplianceByResources),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeComplianceByResourceResponse",
 }) as any as S.Schema<DescribeComplianceByResourceResponse>;
@@ -2164,26 +1857,15 @@ export interface DescribeConfigRuleEvaluationStatusRequest {
   NextToken?: string;
   Limit?: number;
 }
-export const DescribeConfigRuleEvaluationStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigRuleNames: S.optional(ConfigRuleNames),
-      NextToken: S.optional(S.String),
-      Limit: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeConfigRuleEvaluationStatusRequest",
-  }) as any as S.Schema<DescribeConfigRuleEvaluationStatusRequest>;
+export const DescribeConfigRuleEvaluationStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleNames: S.optional(ConfigRuleNames),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeConfigRuleEvaluationStatusRequest",
+}) as any as S.Schema<DescribeConfigRuleEvaluationStatusRequest>;
 export interface ConfigRuleEvaluationStatus {
   ConfigRuleName?: string;
   ConfigRuleArn?: string;
@@ -2206,53 +1888,36 @@ export const ConfigRuleEvaluationStatus = /*@__PURE__*/ S.suspend(() =>
     ConfigRuleName: S.optional(S.String),
     ConfigRuleArn: S.optional(S.String),
     ConfigRuleId: S.optional(S.String),
-    LastSuccessfulInvocationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastFailedInvocationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastSuccessfulEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastFailedEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    FirstActivatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LastDeactivatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastSuccessfulInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastFailedInvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastSuccessfulEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastFailedEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    FirstActivatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LastDeactivatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     LastErrorCode: S.optional(S.String),
     LastErrorMessage: S.optional(S.String),
     FirstEvaluationStarted: S.optional(S.Boolean),
     LastDebugLogDeliveryStatus: S.optional(S.String),
     LastDebugLogDeliveryStatusReason: S.optional(S.String),
-    LastDebugLogDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastDebugLogDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConfigRuleEvaluationStatus",
 }) as any as S.Schema<ConfigRuleEvaluationStatus>;
 export type ConfigRuleEvaluationStatusList = ConfigRuleEvaluationStatus[];
-export const ConfigRuleEvaluationStatusList = /*@__PURE__*/ S.Array(
-  ConfigRuleEvaluationStatus,
-);
+export const ConfigRuleEvaluationStatusList = /*@__PURE__*/ S.Array(ConfigRuleEvaluationStatus);
 export interface DescribeConfigRuleEvaluationStatusResponse {
   ConfigRulesEvaluationStatus?: ConfigRuleEvaluationStatus[];
   NextToken?: string;
 }
-export const DescribeConfigRuleEvaluationStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigRulesEvaluationStatus: S.optional(ConfigRuleEvaluationStatusList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeConfigRuleEvaluationStatusResponse",
-  }) as any as S.Schema<DescribeConfigRuleEvaluationStatusResponse>;
+export const DescribeConfigRuleEvaluationStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRulesEvaluationStatus: S.optional(ConfigRuleEvaluationStatusList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeConfigRuleEvaluationStatusResponse",
+}) as any as S.Schema<DescribeConfigRuleEvaluationStatusResponse>;
 export type EvaluationMode = "DETECTIVE" | "PROACTIVE" | (string & {});
 export const EvaluationMode = S.String;
 
@@ -2281,17 +1946,7 @@ export const DescribeConfigRulesRequest = /*@__PURE__*/ S.suspend(() =>
     ConfigRuleNames: S.optional(ConfigRuleNames),
     Filters: S.optional(DescribeConfigRulesFilters),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigRulesRequest",
 }) as any as S.Schema<DescribeConfigRulesRequest>;
@@ -2401,9 +2056,7 @@ export const EvaluationModeConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "EvaluationModeConfiguration",
 }) as any as S.Schema<EvaluationModeConfiguration>;
 export type EvaluationModes = EvaluationModeConfiguration[];
-export const EvaluationModes = /*@__PURE__*/ S.Array(
-  EvaluationModeConfiguration,
-);
+export const EvaluationModes = /*@__PURE__*/ S.Array(EvaluationModeConfiguration);
 export interface ConfigRule {
   ConfigRuleName?: string;
   ConfigRuleArn?: string;
@@ -2455,31 +2108,18 @@ export interface DescribeConfigurationAggregatorsRequest {
   NextToken?: string;
   Limit?: number;
 }
-export const DescribeConfigurationAggregatorsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationAggregatorNames: S.optional(ConfigurationAggregatorNameList),
-      NextToken: S.optional(S.String),
-      Limit: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeConfigurationAggregatorsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorNames: S.optional(ConfigurationAggregatorNameList),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigurationAggregatorsRequest",
 }) as any as S.Schema<DescribeConfigurationAggregatorsRequest>;
 export type ConfigurationAggregatorArn = string;
 export type AccountAggregationSourceAccountList = string[];
-export const AccountAggregationSourceAccountList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const AccountAggregationSourceAccountList = /*@__PURE__*/ S.Array(S.String);
 export type AggregatorRegionList = string[];
 export const AggregatorRegionList = /*@__PURE__*/ S.Array(S.String);
 export interface AccountAggregationSource {
@@ -2497,9 +2137,7 @@ export const AccountAggregationSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "AccountAggregationSource",
 }) as any as S.Schema<AccountAggregationSource>;
 export type AccountAggregationSourceList = AccountAggregationSource[];
-export const AccountAggregationSourceList = /*@__PURE__*/ S.Array(
-  AccountAggregationSource,
-);
+export const AccountAggregationSourceList = /*@__PURE__*/ S.Array(AccountAggregationSource);
 export interface OrganizationAggregationSource {
   RoleArn: string;
   AwsRegions?: string[];
@@ -2576,9 +2214,7 @@ export const ConfigurationAggregator = /*@__PURE__*/ S.suspend(() =>
     AccountAggregationSources: S.optional(AccountAggregationSourceList),
     OrganizationAggregationSource: S.optional(OrganizationAggregationSource),
     CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     AggregatorFilters: S.optional(AggregatorFilters),
   }),
@@ -2586,60 +2222,40 @@ export const ConfigurationAggregator = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationAggregator",
 }) as any as S.Schema<ConfigurationAggregator>;
 export type ConfigurationAggregatorList = ConfigurationAggregator[];
-export const ConfigurationAggregatorList = /*@__PURE__*/ S.Array(
-  ConfigurationAggregator,
-);
+export const ConfigurationAggregatorList = /*@__PURE__*/ S.Array(ConfigurationAggregator);
 export interface DescribeConfigurationAggregatorsResponse {
   ConfigurationAggregators?: ConfigurationAggregator[];
   NextToken?: string;
 }
-export const DescribeConfigurationAggregatorsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationAggregators: S.optional(ConfigurationAggregatorList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeConfigurationAggregatorsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregators: S.optional(ConfigurationAggregatorList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeConfigurationAggregatorsResponse",
 }) as any as S.Schema<DescribeConfigurationAggregatorsResponse>;
-export type AggregatedSourceStatusType =
-  | "FAILED"
-  | "SUCCEEDED"
-  | "OUTDATED"
-  | (string & {});
+export type AggregatedSourceStatusType = "FAILED" | "SUCCEEDED" | "OUTDATED" | (string & {});
 export const AggregatedSourceStatusType = S.String;
 
 export type AggregatedSourceStatusTypeList = AggregatedSourceStatusType[];
-export const AggregatedSourceStatusTypeList = /*@__PURE__*/ S.Array(
-  AggregatedSourceStatusType,
-);
+export const AggregatedSourceStatusTypeList = /*@__PURE__*/ S.Array(AggregatedSourceStatusType);
 export interface DescribeConfigurationAggregatorSourcesStatusRequest {
   ConfigurationAggregatorName: string;
   UpdateStatus?: AggregatedSourceStatusType[];
   NextToken?: string;
   Limit?: number;
 }
-export const DescribeConfigurationAggregatorSourcesStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      UpdateStatus: S.optional(AggregatedSourceStatusTypeList),
-      NextToken: S.optional(S.String),
-      Limit: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeConfigurationAggregatorSourcesStatusRequest",
-  }) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusRequest>;
+export const DescribeConfigurationAggregatorSourcesStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    UpdateStatus: S.optional(AggregatedSourceStatusTypeList),
+    NextToken: S.optional(S.String),
+    Limit: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeConfigurationAggregatorSourcesStatusRequest",
+}) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusRequest>;
 export type AggregatedSourceType = "ACCOUNT" | "ORGANIZATION" | (string & {});
 export const AggregatedSourceType = S.String;
 
@@ -2666,22 +2282,19 @@ export const AggregatedSourceStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregatedSourceStatus",
 }) as any as S.Schema<AggregatedSourceStatus>;
 export type AggregatedSourceStatusList = AggregatedSourceStatus[];
-export const AggregatedSourceStatusList = /*@__PURE__*/ S.Array(
-  AggregatedSourceStatus,
-);
+export const AggregatedSourceStatusList = /*@__PURE__*/ S.Array(AggregatedSourceStatus);
 export interface DescribeConfigurationAggregatorSourcesStatusResponse {
   AggregatedSourceStatusList?: AggregatedSourceStatus[];
   NextToken?: string;
 }
-export const DescribeConfigurationAggregatorSourcesStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregatedSourceStatusList: S.optional(AggregatedSourceStatusList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeConfigurationAggregatorSourcesStatusResponse",
-  }) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusResponse>;
+export const DescribeConfigurationAggregatorSourcesStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregatedSourceStatusList: S.optional(AggregatedSourceStatusList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeConfigurationAggregatorSourcesStatusResponse",
+}) as any as S.Schema<DescribeConfigurationAggregatorSourcesStatusResponse>;
 export type ConfigurationRecorderNameList = string[];
 export const ConfigurationRecorderNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeConfigurationRecordersRequest {
@@ -2689,38 +2302,24 @@ export interface DescribeConfigurationRecordersRequest {
   ServicePrincipal?: string;
   Arn?: string;
 }
-export const DescribeConfigurationRecordersRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
-      ServicePrincipal: S.optional(S.String),
-      Arn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeConfigurationRecordersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
+    ServicePrincipal: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConfigurationRecordersRequest",
 }) as any as S.Schema<DescribeConfigurationRecordersRequest>;
 export type ConfigurationRecorderList = ConfigurationRecorder[];
-export const ConfigurationRecorderList = /*@__PURE__*/ S.Array(
-  ConfigurationRecorder,
-);
+export const ConfigurationRecorderList = /*@__PURE__*/ S.Array(ConfigurationRecorder);
 export interface DescribeConfigurationRecordersResponse {
   ConfigurationRecorders?: ConfigurationRecorder[];
 }
-export const DescribeConfigurationRecordersResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationRecorders: S.optional(ConfigurationRecorderList),
-    }).pipe(ns),
+export const DescribeConfigurationRecordersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorders: S.optional(ConfigurationRecorderList),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeConfigurationRecordersResponse",
 }) as any as S.Schema<DescribeConfigurationRecordersResponse>;
@@ -2729,32 +2328,16 @@ export interface DescribeConfigurationRecorderStatusRequest {
   ServicePrincipal?: string;
   Arn?: string;
 }
-export const DescribeConfigurationRecorderStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
-      ServicePrincipal: S.optional(S.String),
-      Arn: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeConfigurationRecorderStatusRequest",
-  }) as any as S.Schema<DescribeConfigurationRecorderStatusRequest>;
-export type RecorderStatus =
-  | "Pending"
-  | "Success"
-  | "Failure"
-  | "NotApplicable"
-  | (string & {});
+export const DescribeConfigurationRecorderStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationRecorderNames: S.optional(ConfigurationRecorderNameList),
+    ServicePrincipal: S.optional(S.String),
+    Arn: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeConfigurationRecorderStatusRequest",
+}) as any as S.Schema<DescribeConfigurationRecorderStatusRequest>;
+export type RecorderStatus = "Pending" | "Success" | "Failure" | "NotApplicable" | (string & {});
 export const RecorderStatus = S.String;
 
 export interface ConfigurationRecorderStatus {
@@ -2779,29 +2362,24 @@ export const ConfigurationRecorderStatus = /*@__PURE__*/ S.suspend(() =>
     lastStatus: S.optional(RecorderStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
-    lastStatusChangeTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChangeTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     servicePrincipal: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ConfigurationRecorderStatus",
 }) as any as S.Schema<ConfigurationRecorderStatus>;
 export type ConfigurationRecorderStatusList = ConfigurationRecorderStatus[];
-export const ConfigurationRecorderStatusList = /*@__PURE__*/ S.Array(
-  ConfigurationRecorderStatus,
-);
+export const ConfigurationRecorderStatusList = /*@__PURE__*/ S.Array(ConfigurationRecorderStatus);
 export interface DescribeConfigurationRecorderStatusResponse {
   ConfigurationRecordersStatus?: ConfigurationRecorderStatus[];
 }
-export const DescribeConfigurationRecorderStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationRecordersStatus: S.optional(ConfigurationRecorderStatusList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeConfigurationRecorderStatusResponse",
-  }) as any as S.Schema<DescribeConfigurationRecorderStatusResponse>;
+export const DescribeConfigurationRecorderStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationRecordersStatus: S.optional(ConfigurationRecorderStatusList),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeConfigurationRecorderStatusResponse",
+}) as any as S.Schema<DescribeConfigurationRecorderStatusResponse>;
 export type ConformancePackConfigRuleNames = string[];
 export const ConformancePackConfigRuleNames = /*@__PURE__*/ S.Array(S.String);
 export interface ConformancePackComplianceFilters {
@@ -2823,24 +2401,13 @@ export interface DescribeConformancePackComplianceRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeConformancePackComplianceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConformancePackName: S.String,
-      Filters: S.optional(ConformancePackComplianceFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeConformancePackComplianceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    Filters: S.optional(ConformancePackComplianceFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConformancePackComplianceRequest",
 }) as any as S.Schema<DescribeConformancePackComplianceRequest>;
@@ -2869,16 +2436,15 @@ export interface DescribeConformancePackComplianceResponse {
   ConformancePackRuleComplianceList: ConformancePackRuleCompliance[];
   NextToken?: string;
 }
-export const DescribeConformancePackComplianceResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackName: S.String,
-      ConformancePackRuleComplianceList: ConformancePackRuleComplianceList,
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeConformancePackComplianceResponse",
-  }) as any as S.Schema<DescribeConformancePackComplianceResponse>;
+export const DescribeConformancePackComplianceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    ConformancePackRuleComplianceList: ConformancePackRuleComplianceList,
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeConformancePackComplianceResponse",
+}) as any as S.Schema<DescribeConformancePackComplianceResponse>;
 export type ConformancePackNamesList = string[];
 export const ConformancePackNamesList = /*@__PURE__*/ S.Array(S.String);
 export type PageSizeLimit = number;
@@ -2892,17 +2458,7 @@ export const DescribeConformancePacksRequest = /*@__PURE__*/ S.suspend(() =>
     ConformancePackNames: S.optional(ConformancePackNamesList),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConformancePacksRequest",
 }) as any as S.Schema<DescribeConformancePacksRequest>;
@@ -2922,9 +2478,7 @@ export const ConformancePackInputParameter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConformancePackInputParameter",
 }) as any as S.Schema<ConformancePackInputParameter>;
 export type ConformancePackInputParameters = ConformancePackInputParameter[];
-export const ConformancePackInputParameters = /*@__PURE__*/ S.Array(
-  ConformancePackInputParameter,
-);
+export const ConformancePackInputParameters = /*@__PURE__*/ S.Array(ConformancePackInputParameter);
 export type SSMDocumentName = string;
 export type SSMDocumentVersion = string;
 export interface TemplateSSMDocumentDetails {
@@ -2955,9 +2509,7 @@ export const ConformancePackDetail = /*@__PURE__*/ S.suspend(() =>
     DeliveryS3Bucket: S.optional(S.String),
     DeliveryS3KeyPrefix: S.optional(S.String),
     ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
-    LastUpdateRequestedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdateRequestedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedBy: S.optional(S.String),
     TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
   }),
@@ -2965,9 +2517,7 @@ export const ConformancePackDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConformancePackDetail",
 }) as any as S.Schema<ConformancePackDetail>;
 export type ConformancePackDetailList = ConformancePackDetail[];
-export const ConformancePackDetailList = /*@__PURE__*/ S.Array(
-  ConformancePackDetail,
-);
+export const ConformancePackDetailList = /*@__PURE__*/ S.Array(ConformancePackDetail);
 export interface DescribeConformancePacksResponse {
   ConformancePackDetails?: ConformancePackDetail[];
   NextToken?: string;
@@ -2985,23 +2535,12 @@ export interface DescribeConformancePackStatusRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeConformancePackStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConformancePackNames: S.optional(ConformancePackNamesList),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeConformancePackStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackNames: S.optional(ConformancePackNamesList),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeConformancePackStatusRequest",
 }) as any as S.Schema<DescribeConformancePackStatusRequest>;
@@ -3035,29 +2574,22 @@ export const ConformancePackStatusDetail = /*@__PURE__*/ S.suspend(() =>
     StackArn: S.String,
     ConformancePackStatusReason: S.optional(S.String),
     LastUpdateRequestedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    LastUpdateCompletedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdateCompletedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConformancePackStatusDetail",
 }) as any as S.Schema<ConformancePackStatusDetail>;
 export type ConformancePackStatusDetailsList = ConformancePackStatusDetail[];
-export const ConformancePackStatusDetailsList = /*@__PURE__*/ S.Array(
-  ConformancePackStatusDetail,
-);
+export const ConformancePackStatusDetailsList = /*@__PURE__*/ S.Array(ConformancePackStatusDetail);
 export interface DescribeConformancePackStatusResponse {
   ConformancePackStatusDetails?: ConformancePackStatusDetail[];
   NextToken?: string;
 }
-export const DescribeConformancePackStatusResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConformancePackStatusDetails: S.optional(
-        ConformancePackStatusDetailsList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeConformancePackStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackStatusDetails: S.optional(ConformancePackStatusDetailsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeConformancePackStatusResponse",
 }) as any as S.Schema<DescribeConformancePackStatusResponse>;
@@ -3068,15 +2600,7 @@ export interface DescribeDeliveryChannelsRequest {
 }
 export const DescribeDeliveryChannelsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeliveryChannelNames: S.optional(DeliveryChannelNameList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeDeliveryChannelsRequest",
@@ -3104,9 +2628,7 @@ export const DeliveryChannel = /*@__PURE__*/ S.suspend(() =>
     s3KeyPrefix: S.optional(S.String),
     s3KmsKeyArn: S.optional(S.String),
     snsTopicARN: S.optional(S.String),
-    configSnapshotDeliveryProperties: S.optional(
-      ConfigSnapshotDeliveryProperties,
-    ),
+    configSnapshotDeliveryProperties: S.optional(ConfigSnapshotDeliveryProperties),
   }),
 ).annotate({
   identifier: "DeliveryChannel",
@@ -3124,29 +2646,14 @@ export const DescribeDeliveryChannelsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDeliveryChannelStatusRequest {
   DeliveryChannelNames?: string[];
 }
-export const DescribeDeliveryChannelStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DeliveryChannelNames: S.optional(DeliveryChannelNameList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDeliveryChannelStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeliveryChannelNames: S.optional(DeliveryChannelNameList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeDeliveryChannelStatusRequest",
 }) as any as S.Schema<DescribeDeliveryChannelStatusRequest>;
-export type DeliveryStatus =
-  | "Success"
-  | "Failure"
-  | "Not_Applicable"
-  | (string & {});
+export type DeliveryStatus = "Success" | "Failure" | "Not_Applicable" | (string & {});
 export const DeliveryStatus = S.String;
 
 export interface ConfigExportDeliveryInfo {
@@ -3162,15 +2669,9 @@ export const ConfigExportDeliveryInfo = /*@__PURE__*/ S.suspend(() =>
     lastStatus: S.optional(DeliveryStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
-    lastAttemptTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    lastSuccessfulTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    nextDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastAttemptTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    lastSuccessfulTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    nextDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConfigExportDeliveryInfo",
@@ -3186,9 +2687,7 @@ export const ConfigStreamDeliveryInfo = /*@__PURE__*/ S.suspend(() =>
     lastStatus: S.optional(DeliveryStatus),
     lastErrorCode: S.optional(S.String),
     lastErrorMessage: S.optional(S.String),
-    lastStatusChangeTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChangeTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConfigStreamDeliveryInfo",
@@ -3210,17 +2709,14 @@ export const DeliveryChannelStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeliveryChannelStatus",
 }) as any as S.Schema<DeliveryChannelStatus>;
 export type DeliveryChannelStatusList = DeliveryChannelStatus[];
-export const DeliveryChannelStatusList = /*@__PURE__*/ S.Array(
-  DeliveryChannelStatus,
-);
+export const DeliveryChannelStatusList = /*@__PURE__*/ S.Array(DeliveryChannelStatus);
 export interface DescribeDeliveryChannelStatusResponse {
   DeliveryChannelsStatus?: DeliveryChannelStatus[];
 }
-export const DescribeDeliveryChannelStatusResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DeliveryChannelsStatus: S.optional(DeliveryChannelStatusList),
-    }).pipe(ns),
+export const DescribeDeliveryChannelStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DeliveryChannelsStatus: S.optional(DeliveryChannelStatusList),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeDeliveryChannelStatusResponse",
 }) as any as S.Schema<DescribeDeliveryChannelStatusResponse>;
@@ -3232,23 +2728,12 @@ export interface DescribeOrganizationConfigRulesRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeOrganizationConfigRulesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeOrganizationConfigRulesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeOrganizationConfigRulesRequest",
 }) as any as S.Schema<DescribeOrganizationConfigRulesRequest>;
@@ -3287,8 +2772,7 @@ export type OrganizationConfigRuleTriggerType =
   | (string & {});
 export const OrganizationConfigRuleTriggerType = S.String;
 
-export type OrganizationConfigRuleTriggerTypes =
-  OrganizationConfigRuleTriggerType[];
+export type OrganizationConfigRuleTriggerTypes = OrganizationConfigRuleTriggerType[];
 export const OrganizationConfigRuleTriggerTypes = /*@__PURE__*/ S.Array(
   OrganizationConfigRuleTriggerType,
 );
@@ -3326,8 +2810,7 @@ export type OrganizationConfigRuleTriggerTypeNoSN =
   | (string & {});
 export const OrganizationConfigRuleTriggerTypeNoSN = S.String;
 
-export type OrganizationConfigRuleTriggerTypeNoSNs =
-  OrganizationConfigRuleTriggerTypeNoSN[];
+export type OrganizationConfigRuleTriggerTypeNoSNs = OrganizationConfigRuleTriggerTypeNoSN[];
 export const OrganizationConfigRuleTriggerTypeNoSNs = /*@__PURE__*/ S.Array(
   OrganizationConfigRuleTriggerTypeNoSN,
 );
@@ -3345,25 +2828,22 @@ export interface OrganizationCustomPolicyRuleMetadataNoPolicy {
   PolicyRuntime?: string;
   DebugLogDeliveryAccounts?: string[];
 }
-export const OrganizationCustomPolicyRuleMetadataNoPolicy =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Description: S.optional(S.String),
-      OrganizationConfigRuleTriggerTypes: S.optional(
-        OrganizationConfigRuleTriggerTypeNoSNs,
-      ),
-      InputParameters: S.optional(S.String),
-      MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
-      ResourceTypesScope: S.optional(ResourceTypesScope),
-      ResourceIdScope: S.optional(S.String),
-      TagKeyScope: S.optional(S.String),
-      TagValueScope: S.optional(S.String),
-      PolicyRuntime: S.optional(S.String),
-      DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
-    }),
-  ).annotate({
-    identifier: "OrganizationCustomPolicyRuleMetadataNoPolicy",
-  }) as any as S.Schema<OrganizationCustomPolicyRuleMetadataNoPolicy>;
+export const OrganizationCustomPolicyRuleMetadataNoPolicy = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    OrganizationConfigRuleTriggerTypes: S.optional(OrganizationConfigRuleTriggerTypeNoSNs),
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+    PolicyRuntime: S.optional(S.String),
+    DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
+  }),
+).annotate({
+  identifier: "OrganizationCustomPolicyRuleMetadataNoPolicy",
+}) as any as S.Schema<OrganizationCustomPolicyRuleMetadataNoPolicy>;
 export interface OrganizationConfigRule {
   OrganizationConfigRuleName: string;
   OrganizationConfigRuleArn: string;
@@ -3377,33 +2857,26 @@ export const OrganizationConfigRule = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OrganizationConfigRuleName: S.String,
     OrganizationConfigRuleArn: S.String,
-    OrganizationManagedRuleMetadata: S.optional(
-      OrganizationManagedRuleMetadata,
-    ),
+    OrganizationManagedRuleMetadata: S.optional(OrganizationManagedRuleMetadata),
     OrganizationCustomRuleMetadata: S.optional(OrganizationCustomRuleMetadata),
     ExcludedAccounts: S.optional(ExcludedAccounts),
     LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    OrganizationCustomPolicyRuleMetadata: S.optional(
-      OrganizationCustomPolicyRuleMetadataNoPolicy,
-    ),
+    OrganizationCustomPolicyRuleMetadata: S.optional(OrganizationCustomPolicyRuleMetadataNoPolicy),
   }),
 ).annotate({
   identifier: "OrganizationConfigRule",
 }) as any as S.Schema<OrganizationConfigRule>;
 export type OrganizationConfigRules = OrganizationConfigRule[];
-export const OrganizationConfigRules = /*@__PURE__*/ S.Array(
-  OrganizationConfigRule,
-);
+export const OrganizationConfigRules = /*@__PURE__*/ S.Array(OrganizationConfigRule);
 export interface DescribeOrganizationConfigRulesResponse {
   OrganizationConfigRules?: OrganizationConfigRule[];
   NextToken?: string;
 }
-export const DescribeOrganizationConfigRulesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OrganizationConfigRules: S.optional(OrganizationConfigRules),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeOrganizationConfigRulesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRules: S.optional(OrganizationConfigRules),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeOrganizationConfigRulesResponse",
 }) as any as S.Schema<DescribeOrganizationConfigRulesResponse>;
@@ -3412,26 +2885,15 @@ export interface DescribeOrganizationConfigRuleStatusesRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeOrganizationConfigRuleStatusesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeOrganizationConfigRuleStatusesRequest",
-  }) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>;
+export const DescribeOrganizationConfigRuleStatusesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleNames: S.optional(OrganizationConfigRuleNames),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeOrganizationConfigRuleStatusesRequest",
+}) as any as S.Schema<DescribeOrganizationConfigRuleStatusesRequest>;
 export type OrganizationRuleStatus =
   | "CREATE_SUCCESSFUL"
   | "CREATE_IN_PROGRESS"
@@ -3464,24 +2926,19 @@ export const OrganizationConfigRuleStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrganizationConfigRuleStatus",
 }) as any as S.Schema<OrganizationConfigRuleStatus>;
 export type OrganizationConfigRuleStatuses = OrganizationConfigRuleStatus[];
-export const OrganizationConfigRuleStatuses = /*@__PURE__*/ S.Array(
-  OrganizationConfigRuleStatus,
-);
+export const OrganizationConfigRuleStatuses = /*@__PURE__*/ S.Array(OrganizationConfigRuleStatus);
 export interface DescribeOrganizationConfigRuleStatusesResponse {
   OrganizationConfigRuleStatuses?: OrganizationConfigRuleStatus[];
   NextToken?: string;
 }
-export const DescribeOrganizationConfigRuleStatusesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConfigRuleStatuses: S.optional(
-        OrganizationConfigRuleStatuses,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeOrganizationConfigRuleStatusesResponse",
-  }) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>;
+export const DescribeOrganizationConfigRuleStatusesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleStatuses: S.optional(OrganizationConfigRuleStatuses),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeOrganizationConfigRuleStatusesResponse",
+}) as any as S.Schema<DescribeOrganizationConfigRuleStatusesResponse>;
 export type OrganizationConformancePackNames = string[];
 export const OrganizationConformancePackNames = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeOrganizationConformancePacksRequest {
@@ -3489,28 +2946,15 @@ export interface DescribeOrganizationConformancePacksRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeOrganizationConformancePacksRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePackNames: S.optional(
-        OrganizationConformancePackNames,
-      ),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeOrganizationConformancePacksRequest",
-  }) as any as S.Schema<DescribeOrganizationConformancePacksRequest>;
+export const DescribeOrganizationConformancePacksRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackNames: S.optional(OrganizationConformancePackNames),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeOrganizationConformancePacksRequest",
+}) as any as S.Schema<DescribeOrganizationConformancePacksRequest>;
 export interface OrganizationConformancePack {
   OrganizationConformancePackName: string;
   OrganizationConformancePackArn: string;
@@ -3534,49 +2978,33 @@ export const OrganizationConformancePack = /*@__PURE__*/ S.suspend(() =>
   identifier: "OrganizationConformancePack",
 }) as any as S.Schema<OrganizationConformancePack>;
 export type OrganizationConformancePacks = OrganizationConformancePack[];
-export const OrganizationConformancePacks = /*@__PURE__*/ S.Array(
-  OrganizationConformancePack,
-);
+export const OrganizationConformancePacks = /*@__PURE__*/ S.Array(OrganizationConformancePack);
 export interface DescribeOrganizationConformancePacksResponse {
   OrganizationConformancePacks?: OrganizationConformancePack[];
   NextToken?: string;
 }
-export const DescribeOrganizationConformancePacksResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePacks: S.optional(OrganizationConformancePacks),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeOrganizationConformancePacksResponse",
-  }) as any as S.Schema<DescribeOrganizationConformancePacksResponse>;
+export const DescribeOrganizationConformancePacksResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePacks: S.optional(OrganizationConformancePacks),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeOrganizationConformancePacksResponse",
+}) as any as S.Schema<DescribeOrganizationConformancePacksResponse>;
 export interface DescribeOrganizationConformancePackStatusesRequest {
   OrganizationConformancePackNames?: string[];
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeOrganizationConformancePackStatusesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePackNames: S.optional(
-        OrganizationConformancePackNames,
-      ),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeOrganizationConformancePackStatusesRequest",
-  }) as any as S.Schema<DescribeOrganizationConformancePackStatusesRequest>;
+export const DescribeOrganizationConformancePackStatusesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackNames: S.optional(OrganizationConformancePackNames),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeOrganizationConformancePackStatusesRequest",
+}) as any as S.Schema<DescribeOrganizationConformancePackStatusesRequest>;
 export type OrganizationResourceStatus =
   | "CREATE_SUCCESSFUL"
   | "CREATE_IN_PROGRESS"
@@ -3608,8 +3036,7 @@ export const OrganizationConformancePackStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "OrganizationConformancePackStatus",
 }) as any as S.Schema<OrganizationConformancePackStatus>;
-export type OrganizationConformancePackStatuses =
-  OrganizationConformancePackStatus[];
+export type OrganizationConformancePackStatuses = OrganizationConformancePackStatus[];
 export const OrganizationConformancePackStatuses = /*@__PURE__*/ S.Array(
   OrganizationConformancePackStatus,
 );
@@ -3617,41 +3044,27 @@ export interface DescribeOrganizationConformancePackStatusesResponse {
   OrganizationConformancePackStatuses?: OrganizationConformancePackStatus[];
   NextToken?: string;
 }
-export const DescribeOrganizationConformancePackStatusesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePackStatuses: S.optional(
-        OrganizationConformancePackStatuses,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeOrganizationConformancePackStatusesResponse",
-  }) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>;
+export const DescribeOrganizationConformancePackStatusesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackStatuses: S.optional(OrganizationConformancePackStatuses),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeOrganizationConformancePackStatusesResponse",
+}) as any as S.Schema<DescribeOrganizationConformancePackStatusesResponse>;
 export type DescribePendingAggregationRequestsLimit = number;
 export interface DescribePendingAggregationRequestsRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribePendingAggregationRequestsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribePendingAggregationRequestsRequest",
-  }) as any as S.Schema<DescribePendingAggregationRequestsRequest>;
+export const DescribePendingAggregationRequestsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribePendingAggregationRequestsRequest",
+}) as any as S.Schema<DescribePendingAggregationRequestsRequest>;
 export interface PendingAggregationRequest {
   RequesterAccountId?: string;
   RequesterAwsRegion?: string;
@@ -3665,38 +3078,26 @@ export const PendingAggregationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PendingAggregationRequest",
 }) as any as S.Schema<PendingAggregationRequest>;
 export type PendingAggregationRequestList = PendingAggregationRequest[];
-export const PendingAggregationRequestList = /*@__PURE__*/ S.Array(
-  PendingAggregationRequest,
-);
+export const PendingAggregationRequestList = /*@__PURE__*/ S.Array(PendingAggregationRequest);
 export interface DescribePendingAggregationRequestsResponse {
   PendingAggregationRequests?: PendingAggregationRequest[];
   NextToken?: string;
 }
-export const DescribePendingAggregationRequestsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PendingAggregationRequests: S.optional(PendingAggregationRequestList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribePendingAggregationRequestsResponse",
-  }) as any as S.Schema<DescribePendingAggregationRequestsResponse>;
+export const DescribePendingAggregationRequestsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PendingAggregationRequests: S.optional(PendingAggregationRequestList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribePendingAggregationRequestsResponse",
+}) as any as S.Schema<DescribePendingAggregationRequestsResponse>;
 export interface DescribeRemediationConfigurationsRequest {
   ConfigRuleNames: string[];
 }
-export const DescribeRemediationConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ ConfigRuleNames: ConfigRuleNames }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeRemediationConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConfigRuleNames: ConfigRuleNames }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeRemediationConfigurationsRequest",
 }) as any as S.Schema<DescribeRemediationConfigurationsRequest>;
@@ -3793,44 +3194,30 @@ export const RemediationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemediationConfiguration",
 }) as any as S.Schema<RemediationConfiguration>;
 export type RemediationConfigurations = RemediationConfiguration[];
-export const RemediationConfigurations = /*@__PURE__*/ S.Array(
-  RemediationConfiguration,
-);
+export const RemediationConfigurations = /*@__PURE__*/ S.Array(RemediationConfiguration);
 export interface DescribeRemediationConfigurationsResponse {
   RemediationConfigurations?: RemediationConfiguration[];
 }
-export const DescribeRemediationConfigurationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RemediationConfigurations: S.optional(RemediationConfigurations),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeRemediationConfigurationsResponse",
-  }) as any as S.Schema<DescribeRemediationConfigurationsResponse>;
+export const DescribeRemediationConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RemediationConfigurations: S.optional(RemediationConfigurations),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeRemediationConfigurationsResponse",
+}) as any as S.Schema<DescribeRemediationConfigurationsResponse>;
 export interface DescribeRemediationExceptionsRequest {
   ConfigRuleName: string;
   ResourceKeys?: RemediationExceptionResourceKey[];
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeRemediationExceptionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigRuleName: S.String,
-      ResourceKeys: S.optional(RemediationExceptionResourceKeys),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeRemediationExceptionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceKeys: S.optional(RemediationExceptionResourceKeys),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRemediationExceptionsRequest",
 }) as any as S.Schema<DescribeRemediationExceptionsRequest>;
@@ -3853,18 +3240,16 @@ export const RemediationException = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemediationException",
 }) as any as S.Schema<RemediationException>;
 export type RemediationExceptions = RemediationException[];
-export const RemediationExceptions =
-  /*@__PURE__*/ S.Array(RemediationException);
+export const RemediationExceptions = /*@__PURE__*/ S.Array(RemediationException);
 export interface DescribeRemediationExceptionsResponse {
   RemediationExceptions?: RemediationException[];
   NextToken?: string;
 }
-export const DescribeRemediationExceptionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RemediationExceptions: S.optional(RemediationExceptions),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeRemediationExceptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RemediationExceptions: S.optional(RemediationExceptions),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeRemediationExceptionsResponse",
 }) as any as S.Schema<DescribeRemediationExceptionsResponse>;
@@ -3874,27 +3259,16 @@ export interface DescribeRemediationExecutionStatusRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const DescribeRemediationExecutionStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigRuleName: S.String,
-      ResourceKeys: S.optional(ResourceKeys),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeRemediationExecutionStatusRequest",
-  }) as any as S.Schema<DescribeRemediationExecutionStatusRequest>;
+export const DescribeRemediationExecutionStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ResourceKeys: S.optional(ResourceKeys),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DescribeRemediationExecutionStatusRequest",
+}) as any as S.Schema<DescribeRemediationExecutionStatusRequest>;
 export type RemediationExecutionState =
   | "QUEUED"
   | "IN_PROGRESS"
@@ -3933,9 +3307,7 @@ export const RemediationExecutionStep = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemediationExecutionStep",
 }) as any as S.Schema<RemediationExecutionStep>;
 export type RemediationExecutionSteps = RemediationExecutionStep[];
-export const RemediationExecutionSteps = /*@__PURE__*/ S.Array(
-  RemediationExecutionStep,
-);
+export const RemediationExecutionSteps = /*@__PURE__*/ S.Array(RemediationExecutionStep);
 export interface RemediationExecutionStatus {
   ResourceKey?: ResourceKey;
   State?: RemediationExecutionState;
@@ -3949,52 +3321,36 @@ export const RemediationExecutionStatus = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(RemediationExecutionState),
     StepDetails: S.optional(RemediationExecutionSteps),
     InvocationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "RemediationExecutionStatus",
 }) as any as S.Schema<RemediationExecutionStatus>;
 export type RemediationExecutionStatuses = RemediationExecutionStatus[];
-export const RemediationExecutionStatuses = /*@__PURE__*/ S.Array(
-  RemediationExecutionStatus,
-);
+export const RemediationExecutionStatuses = /*@__PURE__*/ S.Array(RemediationExecutionStatus);
 export interface DescribeRemediationExecutionStatusResponse {
   RemediationExecutionStatuses?: RemediationExecutionStatus[];
   NextToken?: string;
 }
-export const DescribeRemediationExecutionStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RemediationExecutionStatuses: S.optional(RemediationExecutionStatuses),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeRemediationExecutionStatusResponse",
-  }) as any as S.Schema<DescribeRemediationExecutionStatusResponse>;
+export const DescribeRemediationExecutionStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RemediationExecutionStatuses: S.optional(RemediationExecutionStatuses),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeRemediationExecutionStatusResponse",
+}) as any as S.Schema<DescribeRemediationExecutionStatusResponse>;
 export type RetentionConfigurationNameList = string[];
 export const RetentionConfigurationNameList = /*@__PURE__*/ S.Array(S.String);
 export interface DescribeRetentionConfigurationsRequest {
   RetentionConfigurationNames?: string[];
   NextToken?: string;
 }
-export const DescribeRetentionConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RetentionConfigurationNames: S.optional(RetentionConfigurationNameList),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeRetentionConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RetentionConfigurationNames: S.optional(RetentionConfigurationNameList),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeRetentionConfigurationsRequest",
 }) as any as S.Schema<DescribeRetentionConfigurationsRequest>;
@@ -4009,19 +3365,16 @@ export const RetentionConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "RetentionConfiguration",
 }) as any as S.Schema<RetentionConfiguration>;
 export type RetentionConfigurationList = RetentionConfiguration[];
-export const RetentionConfigurationList = /*@__PURE__*/ S.Array(
-  RetentionConfiguration,
-);
+export const RetentionConfigurationList = /*@__PURE__*/ S.Array(RetentionConfiguration);
 export interface DescribeRetentionConfigurationsResponse {
   RetentionConfigurations?: RetentionConfiguration[];
   NextToken?: string;
 }
-export const DescribeRetentionConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RetentionConfigurations: S.optional(RetentionConfigurationList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const DescribeRetentionConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RetentionConfigurations: S.optional(RetentionConfigurationList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeRetentionConfigurationsResponse",
 }) as any as S.Schema<DescribeRetentionConfigurationsResponse>;
@@ -4033,17 +3386,7 @@ export const DisassociateResourceTypesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigurationRecorderArn: S.String,
     ResourceTypes: ResourceTypeList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateResourceTypesRequest",
 }) as any as S.Schema<DisassociateResourceTypesRequest>;
@@ -4064,30 +3407,19 @@ export interface GetAggregateComplianceDetailsByConfigRuleRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetAggregateComplianceDetailsByConfigRuleRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      ConfigRuleName: S.String,
-      AccountId: S.String,
-      AwsRegion: S.String,
-      ComplianceType: S.optional(ComplianceType),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetAggregateComplianceDetailsByConfigRuleRequest",
-  }) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleRequest>;
+export const GetAggregateComplianceDetailsByConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    ConfigRuleName: S.String,
+    AccountId: S.String,
+    AwsRegion: S.String,
+    ComplianceType: S.optional(ComplianceType),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAggregateComplianceDetailsByConfigRuleRequest",
+}) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleRequest>;
 export interface EvaluationResultQualifier {
   ConfigRuleName?: string;
   ResourceType?: string;
@@ -4113,9 +3445,7 @@ export interface EvaluationResultIdentifier {
 export const EvaluationResultIdentifier = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EvaluationResultQualifier: S.optional(EvaluationResultQualifier),
-    OrderingTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    OrderingTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ResourceEvaluationId: S.optional(S.String),
   }),
 ).annotate({
@@ -4134,12 +3464,8 @@ export const AggregateEvaluationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
     ComplianceType: S.optional(ComplianceType),
-    ResultRecordedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ConfigRuleInvokedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ResultRecordedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ConfigRuleInvokedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Annotation: S.optional(S.String),
     AccountId: S.optional(S.String),
     AwsRegion: S.optional(S.String),
@@ -4148,22 +3474,19 @@ export const AggregateEvaluationResult = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregateEvaluationResult",
 }) as any as S.Schema<AggregateEvaluationResult>;
 export type AggregateEvaluationResultList = AggregateEvaluationResult[];
-export const AggregateEvaluationResultList = /*@__PURE__*/ S.Array(
-  AggregateEvaluationResult,
-);
+export const AggregateEvaluationResultList = /*@__PURE__*/ S.Array(AggregateEvaluationResult);
 export interface GetAggregateComplianceDetailsByConfigRuleResponse {
   AggregateEvaluationResults?: AggregateEvaluationResult[];
   NextToken?: string;
 }
-export const GetAggregateComplianceDetailsByConfigRuleResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregateEvaluationResults: S.optional(AggregateEvaluationResultList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetAggregateComplianceDetailsByConfigRuleResponse",
-  }) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleResponse>;
+export const GetAggregateComplianceDetailsByConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregateEvaluationResults: S.optional(AggregateEvaluationResultList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAggregateComplianceDetailsByConfigRuleResponse",
+}) as any as S.Schema<GetAggregateComplianceDetailsByConfigRuleResponse>;
 export interface ConfigRuleComplianceSummaryFilters {
   AccountId?: string;
   AwsRegion?: string;
@@ -4176,10 +3499,7 @@ export const ConfigRuleComplianceSummaryFilters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConfigRuleComplianceSummaryFilters",
 }) as any as S.Schema<ConfigRuleComplianceSummaryFilters>;
-export type ConfigRuleComplianceSummaryGroupKey =
-  | "ACCOUNT_ID"
-  | "AWS_REGION"
-  | (string & {});
+export type ConfigRuleComplianceSummaryGroupKey = "ACCOUNT_ID" | "AWS_REGION" | (string & {});
 export const ConfigRuleComplianceSummaryGroupKey = S.String;
 
 export interface GetAggregateConfigRuleComplianceSummaryRequest {
@@ -4189,28 +3509,17 @@ export interface GetAggregateConfigRuleComplianceSummaryRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetAggregateConfigRuleComplianceSummaryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      Filters: S.optional(ConfigRuleComplianceSummaryFilters),
-      GroupByKey: S.optional(ConfigRuleComplianceSummaryGroupKey),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetAggregateConfigRuleComplianceSummaryRequest",
-  }) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryRequest>;
+export const GetAggregateConfigRuleComplianceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    Filters: S.optional(ConfigRuleComplianceSummaryFilters),
+    GroupByKey: S.optional(ConfigRuleComplianceSummaryGroupKey),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAggregateConfigRuleComplianceSummaryRequest",
+}) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryRequest>;
 export interface ComplianceSummary {
   CompliantResourceCount?: ComplianceContributorCount;
   NonCompliantResourceCount?: ComplianceContributorCount;
@@ -4220,9 +3529,7 @@ export const ComplianceSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CompliantResourceCount: S.optional(ComplianceContributorCount),
     NonCompliantResourceCount: S.optional(ComplianceContributorCount),
-    ComplianceSummaryTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ComplianceSummaryTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ComplianceSummary",
@@ -4240,37 +3547,33 @@ export const AggregateComplianceCount = /*@__PURE__*/ S.suspend(() =>
   identifier: "AggregateComplianceCount",
 }) as any as S.Schema<AggregateComplianceCount>;
 export type AggregateComplianceCountList = AggregateComplianceCount[];
-export const AggregateComplianceCountList = /*@__PURE__*/ S.Array(
-  AggregateComplianceCount,
-);
+export const AggregateComplianceCountList = /*@__PURE__*/ S.Array(AggregateComplianceCount);
 export interface GetAggregateConfigRuleComplianceSummaryResponse {
   GroupByKey?: string;
   AggregateComplianceCounts?: AggregateComplianceCount[];
   NextToken?: string;
 }
-export const GetAggregateConfigRuleComplianceSummaryResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      GroupByKey: S.optional(S.String),
-      AggregateComplianceCounts: S.optional(AggregateComplianceCountList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetAggregateConfigRuleComplianceSummaryResponse",
-  }) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryResponse>;
+export const GetAggregateConfigRuleComplianceSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    GroupByKey: S.optional(S.String),
+    AggregateComplianceCounts: S.optional(AggregateComplianceCountList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAggregateConfigRuleComplianceSummaryResponse",
+}) as any as S.Schema<GetAggregateConfigRuleComplianceSummaryResponse>;
 export interface AggregateConformancePackComplianceSummaryFilters {
   AccountId?: string;
   AwsRegion?: string;
 }
-export const AggregateConformancePackComplianceSummaryFilters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.optional(S.String),
-      AwsRegion: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AggregateConformancePackComplianceSummaryFilters",
-  }) as any as S.Schema<AggregateConformancePackComplianceSummaryFilters>;
+export const AggregateConformancePackComplianceSummaryFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AggregateConformancePackComplianceSummaryFilters",
+}) as any as S.Schema<AggregateConformancePackComplianceSummaryFilters>;
 export type AggregateConformancePackComplianceSummaryGroupKey =
   | "ACCOUNT_ID"
   | "AWS_REGION"
@@ -4284,38 +3587,26 @@ export interface GetAggregateConformancePackComplianceSummaryRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetAggregateConformancePackComplianceSummaryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      Filters: S.optional(AggregateConformancePackComplianceSummaryFilters),
-      GroupByKey: S.optional(AggregateConformancePackComplianceSummaryGroupKey),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetAggregateConformancePackComplianceSummaryRequest",
-  }) as any as S.Schema<GetAggregateConformancePackComplianceSummaryRequest>;
+export const GetAggregateConformancePackComplianceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    Filters: S.optional(AggregateConformancePackComplianceSummaryFilters),
+    GroupByKey: S.optional(AggregateConformancePackComplianceSummaryGroupKey),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAggregateConformancePackComplianceSummaryRequest",
+}) as any as S.Schema<GetAggregateConformancePackComplianceSummaryRequest>;
 export interface AggregateConformancePackComplianceCount {
   CompliantConformancePackCount?: number;
   NonCompliantConformancePackCount?: number;
 }
-export const AggregateConformancePackComplianceCount = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      CompliantConformancePackCount: S.optional(S.Number),
-      NonCompliantConformancePackCount: S.optional(S.Number),
-    }),
+export const AggregateConformancePackComplianceCount = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    CompliantConformancePackCount: S.optional(S.Number),
+    NonCompliantConformancePackCount: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "AggregateConformancePackComplianceCount",
 }) as any as S.Schema<AggregateConformancePackComplianceCount>;
@@ -4323,36 +3614,35 @@ export interface AggregateConformancePackComplianceSummary {
   ComplianceSummary?: AggregateConformancePackComplianceCount;
   GroupName?: string;
 }
-export const AggregateConformancePackComplianceSummary =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ComplianceSummary: S.optional(AggregateConformancePackComplianceCount),
-      GroupName: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "AggregateConformancePackComplianceSummary",
-  }) as any as S.Schema<AggregateConformancePackComplianceSummary>;
+export const AggregateConformancePackComplianceSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ComplianceSummary: S.optional(AggregateConformancePackComplianceCount),
+    GroupName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "AggregateConformancePackComplianceSummary",
+}) as any as S.Schema<AggregateConformancePackComplianceSummary>;
 export type AggregateConformancePackComplianceSummaryList =
   AggregateConformancePackComplianceSummary[];
-export const AggregateConformancePackComplianceSummaryList =
-  /*@__PURE__*/ S.Array(AggregateConformancePackComplianceSummary);
+export const AggregateConformancePackComplianceSummaryList = /*@__PURE__*/ S.Array(
+  AggregateConformancePackComplianceSummary,
+);
 export interface GetAggregateConformancePackComplianceSummaryResponse {
   AggregateConformancePackComplianceSummaries?: AggregateConformancePackComplianceSummary[];
   GroupByKey?: string;
   NextToken?: string;
 }
-export const GetAggregateConformancePackComplianceSummaryResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AggregateConformancePackComplianceSummaries: S.optional(
-        AggregateConformancePackComplianceSummaryList,
-      ),
-      GroupByKey: S.optional(S.String),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetAggregateConformancePackComplianceSummaryResponse",
-  }) as any as S.Schema<GetAggregateConformancePackComplianceSummaryResponse>;
+export const GetAggregateConformancePackComplianceSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AggregateConformancePackComplianceSummaries: S.optional(
+      AggregateConformancePackComplianceSummaryList,
+    ),
+    GroupByKey: S.optional(S.String),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAggregateConformancePackComplianceSummaryResponse",
+}) as any as S.Schema<GetAggregateConformancePackComplianceSummaryResponse>;
 export interface ResourceCountFilters {
   ResourceType?: ResourceType;
   AccountId?: string;
@@ -4367,11 +3657,7 @@ export const ResourceCountFilters = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ResourceCountFilters",
 }) as any as S.Schema<ResourceCountFilters>;
-export type ResourceCountGroupKey =
-  | "RESOURCE_TYPE"
-  | "ACCOUNT_ID"
-  | "AWS_REGION"
-  | (string & {});
+export type ResourceCountGroupKey = "RESOURCE_TYPE" | "ACCOUNT_ID" | "AWS_REGION" | (string & {});
 export const ResourceCountGroupKey = S.String;
 
 export interface GetAggregateDiscoveredResourceCountsRequest {
@@ -4381,28 +3667,17 @@ export interface GetAggregateDiscoveredResourceCountsRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetAggregateDiscoveredResourceCountsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      Filters: S.optional(ResourceCountFilters),
-      GroupByKey: S.optional(ResourceCountGroupKey),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetAggregateDiscoveredResourceCountsRequest",
-  }) as any as S.Schema<GetAggregateDiscoveredResourceCountsRequest>;
+export const GetAggregateDiscoveredResourceCountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    Filters: S.optional(ResourceCountFilters),
+    GroupByKey: S.optional(ResourceCountGroupKey),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAggregateDiscoveredResourceCountsRequest",
+}) as any as S.Schema<GetAggregateDiscoveredResourceCountsRequest>;
 export interface GroupedResourceCount {
   GroupName: string;
   ResourceCount: number;
@@ -4413,25 +3688,23 @@ export const GroupedResourceCount = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroupedResourceCount",
 }) as any as S.Schema<GroupedResourceCount>;
 export type GroupedResourceCountList = GroupedResourceCount[];
-export const GroupedResourceCountList =
-  /*@__PURE__*/ S.Array(GroupedResourceCount);
+export const GroupedResourceCountList = /*@__PURE__*/ S.Array(GroupedResourceCount);
 export interface GetAggregateDiscoveredResourceCountsResponse {
   TotalDiscoveredResources: number;
   GroupByKey?: string;
   GroupedResourceCounts?: GroupedResourceCount[];
   NextToken?: string;
 }
-export const GetAggregateDiscoveredResourceCountsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TotalDiscoveredResources: S.Number,
-      GroupByKey: S.optional(S.String),
-      GroupedResourceCounts: S.optional(GroupedResourceCountList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetAggregateDiscoveredResourceCountsResponse",
-  }) as any as S.Schema<GetAggregateDiscoveredResourceCountsResponse>;
+export const GetAggregateDiscoveredResourceCountsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TotalDiscoveredResources: S.Number,
+    GroupByKey: S.optional(S.String),
+    GroupedResourceCounts: S.optional(GroupedResourceCountList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAggregateDiscoveredResourceCountsResponse",
+}) as any as S.Schema<GetAggregateDiscoveredResourceCountsResponse>;
 export interface GetAggregateResourceConfigRequest {
   ConfigurationAggregatorName: string;
   ResourceIdentifier: AggregateResourceIdentifier;
@@ -4440,17 +3713,7 @@ export const GetAggregateResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigurationAggregatorName: S.String,
     ResourceIdentifier: AggregateResourceIdentifier,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAggregateResourceConfigRequest",
 }) as any as S.Schema<GetAggregateResourceConfigRequest>;
@@ -4505,9 +3768,7 @@ export const ConfigurationItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     version: S.optional(S.String),
     accountId: S.optional(S.String),
-    configurationItemCaptureTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    configurationItemCaptureTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     configurationItemStatus: S.optional(ConfigurationItemStatus),
     configurationStateId: S.optional(S.String),
     configurationItemMD5Hash: S.optional(S.String),
@@ -4517,18 +3778,14 @@ export const ConfigurationItem = /*@__PURE__*/ S.suspend(() =>
     resourceName: S.optional(S.String),
     awsRegion: S.optional(S.String),
     availabilityZone: S.optional(S.String),
-    resourceCreationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    resourceCreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(Tags),
     relatedEvents: S.optional(RelatedEventList),
     relationships: S.optional(RelationshipList),
     configuration: S.optional(S.String),
     supplementaryConfiguration: S.optional(SupplementaryConfiguration),
     recordingFrequency: S.optional(RecordingFrequency),
-    configurationItemDeliveryTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    configurationItemDeliveryTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConfigurationItem",
@@ -4547,24 +3804,13 @@ export interface GetComplianceDetailsByConfigRuleRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetComplianceDetailsByConfigRuleRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigRuleName: S.String,
-      ComplianceTypes: S.optional(ComplianceTypes),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetComplianceDetailsByConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigRuleName: S.String,
+    ComplianceTypes: S.optional(ComplianceTypes),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetComplianceDetailsByConfigRuleRequest",
 }) as any as S.Schema<GetComplianceDetailsByConfigRuleRequest>;
@@ -4580,12 +3826,8 @@ export const EvaluationResult = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EvaluationResultIdentifier: S.optional(EvaluationResultIdentifier),
     ComplianceType: S.optional(ComplianceType),
-    ResultRecordedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    ConfigRuleInvokedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    ResultRecordedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ConfigRuleInvokedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Annotation: S.optional(S.String),
     ResultToken: S.optional(S.String),
   }),
@@ -4598,12 +3840,11 @@ export interface GetComplianceDetailsByConfigRuleResponse {
   EvaluationResults?: EvaluationResult[];
   NextToken?: string;
 }
-export const GetComplianceDetailsByConfigRuleResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EvaluationResults: S.optional(EvaluationResults),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const GetComplianceDetailsByConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EvaluationResults: S.optional(EvaluationResults),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetComplianceDetailsByConfigRuleResponse",
 }) as any as S.Schema<GetComplianceDetailsByConfigRuleResponse>;
@@ -4614,25 +3855,14 @@ export interface GetComplianceDetailsByResourceRequest {
   NextToken?: string;
   ResourceEvaluationId?: string;
 }
-export const GetComplianceDetailsByResourceRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceType: S.optional(S.String),
-      ResourceId: S.optional(S.String),
-      ComplianceTypes: S.optional(ComplianceTypes),
-      NextToken: S.optional(S.String),
-      ResourceEvaluationId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetComplianceDetailsByResourceRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceType: S.optional(S.String),
+    ResourceId: S.optional(S.String),
+    ComplianceTypes: S.optional(ComplianceTypes),
+    NextToken: S.optional(S.String),
+    ResourceEvaluationId: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetComplianceDetailsByResourceRequest",
 }) as any as S.Schema<GetComplianceDetailsByResourceRequest>;
@@ -4640,37 +3870,25 @@ export interface GetComplianceDetailsByResourceResponse {
   EvaluationResults?: EvaluationResult[];
   NextToken?: string;
 }
-export const GetComplianceDetailsByResourceResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EvaluationResults: S.optional(EvaluationResults),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const GetComplianceDetailsByResourceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EvaluationResults: S.optional(EvaluationResults),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetComplianceDetailsByResourceResponse",
 }) as any as S.Schema<GetComplianceDetailsByResourceResponse>;
 export interface GetComplianceSummaryByConfigRuleRequest {}
-export const GetComplianceSummaryByConfigRuleRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetComplianceSummaryByConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetComplianceSummaryByConfigRuleRequest",
 }) as any as S.Schema<GetComplianceSummaryByConfigRuleRequest>;
 export interface GetComplianceSummaryByConfigRuleResponse {
   ComplianceSummary?: ComplianceSummary;
 }
-export const GetComplianceSummaryByConfigRuleResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ComplianceSummary: S.optional(ComplianceSummary) }).pipe(ns),
+export const GetComplianceSummaryByConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ComplianceSummary: S.optional(ComplianceSummary) }).pipe(ns),
 ).annotate({
   identifier: "GetComplianceSummaryByConfigRuleResponse",
 }) as any as S.Schema<GetComplianceSummaryByConfigRuleResponse>;
@@ -4679,22 +3897,13 @@ export const ResourceTypes = /*@__PURE__*/ S.Array(S.String);
 export interface GetComplianceSummaryByResourceTypeRequest {
   ResourceTypes?: string[];
 }
-export const GetComplianceSummaryByResourceTypeRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ResourceTypes: S.optional(ResourceTypes) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetComplianceSummaryByResourceTypeRequest",
-  }) as any as S.Schema<GetComplianceSummaryByResourceTypeRequest>;
+export const GetComplianceSummaryByResourceTypeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ResourceTypes: S.optional(ResourceTypes) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetComplianceSummaryByResourceTypeRequest",
+}) as any as S.Schema<GetComplianceSummaryByResourceTypeRequest>;
 export interface ComplianceSummaryByResourceType {
   ResourceType?: string;
   ComplianceSummary?: ComplianceSummary;
@@ -4707,28 +3916,22 @@ export const ComplianceSummaryByResourceType = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ComplianceSummaryByResourceType",
 }) as any as S.Schema<ComplianceSummaryByResourceType>;
-export type ComplianceSummariesByResourceType =
-  ComplianceSummaryByResourceType[];
+export type ComplianceSummariesByResourceType = ComplianceSummaryByResourceType[];
 export const ComplianceSummariesByResourceType = /*@__PURE__*/ S.Array(
   ComplianceSummaryByResourceType,
 );
 export interface GetComplianceSummaryByResourceTypeResponse {
   ComplianceSummariesByResourceType?: ComplianceSummaryByResourceType[];
 }
-export const GetComplianceSummaryByResourceTypeResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ComplianceSummariesByResourceType: S.optional(
-        ComplianceSummariesByResourceType,
-      ),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetComplianceSummaryByResourceTypeResponse",
-  }) as any as S.Schema<GetComplianceSummaryByResourceTypeResponse>;
+export const GetComplianceSummaryByResourceTypeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ComplianceSummariesByResourceType: S.optional(ComplianceSummariesByResourceType),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetComplianceSummaryByResourceTypeResponse",
+}) as any as S.Schema<GetComplianceSummaryByResourceTypeResponse>;
 export type ConformancePackComplianceResourceIds = string[];
-export const ConformancePackComplianceResourceIds = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ConformancePackComplianceResourceIds = /*@__PURE__*/ S.Array(S.String);
 export interface ConformancePackEvaluationFilters {
   ConfigRuleNames?: string[];
   ComplianceType?: ConformancePackComplianceType;
@@ -4752,27 +3955,16 @@ export interface GetConformancePackComplianceDetailsRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetConformancePackComplianceDetailsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackName: S.String,
-      Filters: S.optional(ConformancePackEvaluationFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetConformancePackComplianceDetailsRequest",
-  }) as any as S.Schema<GetConformancePackComplianceDetailsRequest>;
+export const GetConformancePackComplianceDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    Filters: S.optional(ConformancePackEvaluationFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetConformancePackComplianceDetailsRequest",
+}) as any as S.Schema<GetConformancePackComplianceDetailsRequest>;
 export type Annotation = string;
 export interface ConformancePackEvaluationResult {
   ComplianceType: ConformancePackComplianceType;
@@ -4792,8 +3984,7 @@ export const ConformancePackEvaluationResult = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConformancePackEvaluationResult",
 }) as any as S.Schema<ConformancePackEvaluationResult>;
-export type ConformancePackRuleEvaluationResultsList =
-  ConformancePackEvaluationResult[];
+export type ConformancePackRuleEvaluationResultsList = ConformancePackEvaluationResult[];
 export const ConformancePackRuleEvaluationResultsList = /*@__PURE__*/ S.Array(
   ConformancePackEvaluationResult,
 );
@@ -4802,47 +3993,31 @@ export interface GetConformancePackComplianceDetailsResponse {
   ConformancePackRuleEvaluationResults?: ConformancePackEvaluationResult[];
   NextToken?: string;
 }
-export const GetConformancePackComplianceDetailsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackName: S.String,
-      ConformancePackRuleEvaluationResults: S.optional(
-        ConformancePackRuleEvaluationResultsList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetConformancePackComplianceDetailsResponse",
-  }) as any as S.Schema<GetConformancePackComplianceDetailsResponse>;
+export const GetConformancePackComplianceDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackName: S.String,
+    ConformancePackRuleEvaluationResults: S.optional(ConformancePackRuleEvaluationResultsList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetConformancePackComplianceDetailsResponse",
+}) as any as S.Schema<GetConformancePackComplianceDetailsResponse>;
 export type ConformancePackNamesToSummarizeList = string[];
-export const ConformancePackNamesToSummarizeList = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ConformancePackNamesToSummarizeList = /*@__PURE__*/ S.Array(S.String);
 export interface GetConformancePackComplianceSummaryRequest {
   ConformancePackNames: string[];
   Limit?: number;
   NextToken?: string;
 }
-export const GetConformancePackComplianceSummaryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackNames: ConformancePackNamesToSummarizeList,
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetConformancePackComplianceSummaryRequest",
-  }) as any as S.Schema<GetConformancePackComplianceSummaryRequest>;
+export const GetConformancePackComplianceSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackNames: ConformancePackNamesToSummarizeList,
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetConformancePackComplianceSummaryRequest",
+}) as any as S.Schema<GetConformancePackComplianceSummaryRequest>;
 export interface ConformancePackComplianceSummary {
   ConformancePackName: string;
   ConformancePackComplianceStatus: ConformancePackComplianceType;
@@ -4855,8 +4030,7 @@ export const ConformancePackComplianceSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ConformancePackComplianceSummary",
 }) as any as S.Schema<ConformancePackComplianceSummary>;
-export type ConformancePackComplianceSummaryList =
-  ConformancePackComplianceSummary[];
+export type ConformancePackComplianceSummaryList = ConformancePackComplianceSummary[];
 export const ConformancePackComplianceSummaryList = /*@__PURE__*/ S.Array(
   ConformancePackComplianceSummary,
 );
@@ -4864,31 +4038,20 @@ export interface GetConformancePackComplianceSummaryResponse {
   ConformancePackComplianceSummaryList?: ConformancePackComplianceSummary[];
   NextToken?: string;
 }
-export const GetConformancePackComplianceSummaryResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConformancePackComplianceSummaryList: S.optional(
-        ConformancePackComplianceSummaryList,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetConformancePackComplianceSummaryResponse",
-  }) as any as S.Schema<GetConformancePackComplianceSummaryResponse>;
+export const GetConformancePackComplianceSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConformancePackComplianceSummaryList: S.optional(ConformancePackComplianceSummaryList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetConformancePackComplianceSummaryResponse",
+}) as any as S.Schema<GetConformancePackComplianceSummaryResponse>;
 export interface GetConnectorRequest {
   Arn: string;
 }
 export const GetConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetConnectorRequest",
@@ -4940,15 +4103,7 @@ export interface GetCustomRulePolicyRequest {
 }
 export const GetCustomRulePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRuleName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetCustomRulePolicyRequest",
@@ -4971,17 +4126,7 @@ export const GetDiscoveredResourceCountsRequest = /*@__PURE__*/ S.suspend(() =>
     resourceTypes: S.optional(ResourceTypes),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetDiscoveredResourceCountsRequest",
 }) as any as S.Schema<GetDiscoveredResourceCountsRequest>;
@@ -5042,27 +4187,16 @@ export interface GetOrganizationConfigRuleDetailedStatusRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const GetOrganizationConfigRuleDetailedStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConfigRuleName: S.String,
-      Filters: S.optional(StatusDetailFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetOrganizationConfigRuleDetailedStatusRequest",
-  }) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusRequest>;
+export const GetOrganizationConfigRuleDetailedStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleName: S.String,
+    Filters: S.optional(StatusDetailFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetOrganizationConfigRuleDetailedStatusRequest",
+}) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusRequest>;
 export interface MemberAccountStatus {
   AccountId: string;
   ConfigRuleName: string;
@@ -5084,23 +4218,19 @@ export const MemberAccountStatus = /*@__PURE__*/ S.suspend(() =>
   identifier: "MemberAccountStatus",
 }) as any as S.Schema<MemberAccountStatus>;
 export type OrganizationConfigRuleDetailedStatus = MemberAccountStatus[];
-export const OrganizationConfigRuleDetailedStatus =
-  /*@__PURE__*/ S.Array(MemberAccountStatus);
+export const OrganizationConfigRuleDetailedStatus = /*@__PURE__*/ S.Array(MemberAccountStatus);
 export interface GetOrganizationConfigRuleDetailedStatusResponse {
   OrganizationConfigRuleDetailedStatus?: MemberAccountStatus[];
   NextToken?: string;
 }
-export const GetOrganizationConfigRuleDetailedStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConfigRuleDetailedStatus: S.optional(
-        OrganizationConfigRuleDetailedStatus,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetOrganizationConfigRuleDetailedStatusResponse",
-  }) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusResponse>;
+export const GetOrganizationConfigRuleDetailedStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConfigRuleDetailedStatus: S.optional(OrganizationConfigRuleDetailedStatus),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetOrganizationConfigRuleDetailedStatusResponse",
+}) as any as S.Schema<GetOrganizationConfigRuleDetailedStatusResponse>;
 export type OrganizationResourceDetailedStatus =
   | "CREATE_SUCCESSFUL"
   | "CREATE_IN_PROGRESS"
@@ -5118,42 +4248,30 @@ export interface OrganizationResourceDetailedStatusFilters {
   AccountId?: string;
   Status?: OrganizationResourceDetailedStatus;
 }
-export const OrganizationResourceDetailedStatusFilters =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.optional(S.String),
-      Status: S.optional(OrganizationResourceDetailedStatus),
-    }),
-  ).annotate({
-    identifier: "OrganizationResourceDetailedStatusFilters",
-  }) as any as S.Schema<OrganizationResourceDetailedStatusFilters>;
+export const OrganizationResourceDetailedStatusFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.optional(S.String),
+    Status: S.optional(OrganizationResourceDetailedStatus),
+  }),
+).annotate({
+  identifier: "OrganizationResourceDetailedStatusFilters",
+}) as any as S.Schema<OrganizationResourceDetailedStatusFilters>;
 export interface GetOrganizationConformancePackDetailedStatusRequest {
   OrganizationConformancePackName: string;
   Filters?: OrganizationResourceDetailedStatusFilters;
   Limit?: number;
   NextToken?: string;
 }
-export const GetOrganizationConformancePackDetailedStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePackName: S.String,
-      Filters: S.optional(OrganizationResourceDetailedStatusFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "GetOrganizationConformancePackDetailedStatusRequest",
-  }) as any as S.Schema<GetOrganizationConformancePackDetailedStatusRequest>;
+export const GetOrganizationConformancePackDetailedStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackName: S.String,
+    Filters: S.optional(OrganizationResourceDetailedStatusFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetOrganizationConformancePackDetailedStatusRequest",
+}) as any as S.Schema<GetOrganizationConformancePackDetailedStatusRequest>;
 export interface OrganizationConformancePackDetailedStatus {
   AccountId: string;
   ConformancePackName: string;
@@ -5162,64 +4280,52 @@ export interface OrganizationConformancePackDetailedStatus {
   ErrorMessage?: string;
   LastUpdateTime?: Date;
 }
-export const OrganizationConformancePackDetailedStatus =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      AccountId: S.String,
-      ConformancePackName: S.String,
-      Status: OrganizationResourceDetailedStatus,
-      ErrorCode: S.optional(S.String),
-      ErrorMessage: S.optional(S.String),
-      LastUpdateTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-    }),
-  ).annotate({
-    identifier: "OrganizationConformancePackDetailedStatus",
-  }) as any as S.Schema<OrganizationConformancePackDetailedStatus>;
+export const OrganizationConformancePackDetailedStatus = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AccountId: S.String,
+    ConformancePackName: S.String,
+    Status: OrganizationResourceDetailedStatus,
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    LastUpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
+).annotate({
+  identifier: "OrganizationConformancePackDetailedStatus",
+}) as any as S.Schema<OrganizationConformancePackDetailedStatus>;
 export type OrganizationConformancePackDetailedStatuses =
   OrganizationConformancePackDetailedStatus[];
-export const OrganizationConformancePackDetailedStatuses =
-  /*@__PURE__*/ S.Array(OrganizationConformancePackDetailedStatus);
+export const OrganizationConformancePackDetailedStatuses = /*@__PURE__*/ S.Array(
+  OrganizationConformancePackDetailedStatus,
+);
 export interface GetOrganizationConformancePackDetailedStatusResponse {
   OrganizationConformancePackDetailedStatuses?: OrganizationConformancePackDetailedStatus[];
   NextToken?: string;
 }
-export const GetOrganizationConformancePackDetailedStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      OrganizationConformancePackDetailedStatuses: S.optional(
-        OrganizationConformancePackDetailedStatuses,
-      ),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "GetOrganizationConformancePackDetailedStatusResponse",
-  }) as any as S.Schema<GetOrganizationConformancePackDetailedStatusResponse>;
+export const GetOrganizationConformancePackDetailedStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackDetailedStatuses: S.optional(
+      OrganizationConformancePackDetailedStatuses,
+    ),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetOrganizationConformancePackDetailedStatusResponse",
+}) as any as S.Schema<GetOrganizationConformancePackDetailedStatusResponse>;
 export interface GetOrganizationCustomRulePolicyRequest {
   OrganizationConfigRuleName: string;
 }
-export const GetOrganizationCustomRulePolicyRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ OrganizationConfigRuleName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const GetOrganizationCustomRulePolicyRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ OrganizationConfigRuleName: S.String }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetOrganizationCustomRulePolicyRequest",
 }) as any as S.Schema<GetOrganizationCustomRulePolicyRequest>;
 export interface GetOrganizationCustomRulePolicyResponse {
   PolicyText?: string;
 }
-export const GetOrganizationCustomRulePolicyResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ PolicyText: S.optional(S.String) }).pipe(ns),
+export const GetOrganizationCustomRulePolicyResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ PolicyText: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "GetOrganizationCustomRulePolicyResponse",
 }) as any as S.Schema<GetOrganizationCustomRulePolicyResponse>;
@@ -5246,17 +4352,7 @@ export const GetResourceConfigHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     chronologicalOrder: S.optional(ChronologicalOrder),
     limit: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetResourceConfigHistoryRequest",
 }) as any as S.Schema<GetResourceConfigHistoryRequest>;
@@ -5279,24 +4375,12 @@ export interface GetResourceEvaluationSummaryRequest {
 }
 export const GetResourceEvaluationSummaryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceEvaluationId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetResourceEvaluationSummaryRequest",
 }) as any as S.Schema<GetResourceEvaluationSummaryRequest>;
-export type ResourceEvaluationStatus =
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "SUCCEEDED"
-  | (string & {});
+export type ResourceEvaluationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
 export const ResourceEvaluationStatus = S.String;
 
 export interface EvaluationStatus {
@@ -5321,9 +4405,7 @@ export const EvaluationContext = /*@__PURE__*/ S.suspend(() =>
   identifier: "EvaluationContext",
 }) as any as S.Schema<EvaluationContext>;
 export type ResourceConfiguration = string;
-export type ResourceConfigurationSchemaType =
-  | "CFN_RESOURCE_SCHEMA"
-  | (string & {});
+export type ResourceConfigurationSchemaType = "CFN_RESOURCE_SCHEMA" | (string & {});
 export const ResourceConfigurationSchemaType = S.String;
 
 export interface ResourceDetails {
@@ -5337,9 +4419,7 @@ export const ResourceDetails = /*@__PURE__*/ S.suspend(() =>
     ResourceId: S.String,
     ResourceType: S.String,
     ResourceConfiguration: S.String,
-    ResourceConfigurationSchemaType: S.optional(
-      ResourceConfigurationSchemaType,
-    ),
+    ResourceConfigurationSchemaType: S.optional(ResourceConfigurationSchemaType),
   }),
 ).annotate({
   identifier: "ResourceDetails",
@@ -5353,19 +4433,16 @@ export interface GetResourceEvaluationSummaryResponse {
   EvaluationContext?: EvaluationContext;
   ResourceDetails?: ResourceDetails;
 }
-export const GetResourceEvaluationSummaryResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceEvaluationId: S.optional(S.String),
-      EvaluationMode: S.optional(EvaluationMode),
-      EvaluationStatus: S.optional(EvaluationStatus),
-      EvaluationStartTimestamp: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      Compliance: S.optional(ComplianceType),
-      EvaluationContext: S.optional(EvaluationContext),
-      ResourceDetails: S.optional(ResourceDetails),
-    }).pipe(ns),
+export const GetResourceEvaluationSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceEvaluationId: S.optional(S.String),
+    EvaluationMode: S.optional(EvaluationMode),
+    EvaluationStatus: S.optional(EvaluationStatus),
+    EvaluationStartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Compliance: S.optional(ComplianceType),
+    EvaluationContext: S.optional(EvaluationContext),
+    ResourceDetails: S.optional(ResourceDetails),
+  }).pipe(ns),
 ).annotate({
   identifier: "GetResourceEvaluationSummaryResponse",
 }) as any as S.Schema<GetResourceEvaluationSummaryResponse>;
@@ -5374,15 +4451,7 @@ export interface GetStoredQueryRequest {
 }
 export const GetStoredQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ QueryName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetStoredQueryRequest",
@@ -5438,42 +4507,28 @@ export interface ListAggregateDiscoveredResourcesRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const ListAggregateDiscoveredResourcesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ConfigurationAggregatorName: S.String,
-      ResourceType: ResourceType,
-      Filters: S.optional(ResourceFilters),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListAggregateDiscoveredResourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationAggregatorName: S.String,
+    ResourceType: ResourceType,
+    Filters: S.optional(ResourceFilters),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAggregateDiscoveredResourcesRequest",
 }) as any as S.Schema<ListAggregateDiscoveredResourcesRequest>;
 export type DiscoveredResourceIdentifierList = AggregateResourceIdentifier[];
-export const DiscoveredResourceIdentifierList = /*@__PURE__*/ S.Array(
-  AggregateResourceIdentifier,
-);
+export const DiscoveredResourceIdentifierList = /*@__PURE__*/ S.Array(AggregateResourceIdentifier);
 export interface ListAggregateDiscoveredResourcesResponse {
   ResourceIdentifiers?: AggregateResourceIdentifier[];
   NextToken?: string;
 }
-export const ListAggregateDiscoveredResourcesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceIdentifiers: S.optional(DiscoveredResourceIdentifierList),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListAggregateDiscoveredResourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceIdentifiers: S.optional(DiscoveredResourceIdentifierList),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListAggregateDiscoveredResourcesResponse",
 }) as any as S.Schema<ListAggregateDiscoveredResourcesResponse>;
@@ -5482,9 +4537,7 @@ export const ConfigurationRecorderFilterName = S.String;
 
 export type ConfigurationRecorderFilterValue = string;
 export type ConfigurationRecorderFilterValues = string[];
-export const ConfigurationRecorderFilterValues = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const ConfigurationRecorderFilterValues = /*@__PURE__*/ S.Array(S.String);
 export interface ConfigurationRecorderFilter {
   filterName?: ConfigurationRecorderFilterName;
   filterValue?: string[];
@@ -5498,9 +4551,7 @@ export const ConfigurationRecorderFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationRecorderFilter",
 }) as any as S.Schema<ConfigurationRecorderFilter>;
 export type ConfigurationRecorderFilterList = ConfigurationRecorderFilter[];
-export const ConfigurationRecorderFilterList = /*@__PURE__*/ S.Array(
-  ConfigurationRecorderFilter,
-);
+export const ConfigurationRecorderFilterList = /*@__PURE__*/ S.Array(ConfigurationRecorderFilter);
 export type MaxResults = number;
 export interface ListConfigurationRecordersRequest {
   Filters?: ConfigurationRecorderFilter[];
@@ -5512,17 +4563,7 @@ export const ListConfigurationRecordersRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ConfigurationRecorderFilterList),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConfigurationRecordersRequest",
 }) as any as S.Schema<ListConfigurationRecordersRequest>;
@@ -5548,9 +4589,7 @@ export const ConfigurationRecorderSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationRecorderSummary",
 }) as any as S.Schema<ConfigurationRecorderSummary>;
 export type ConfigurationRecorderSummaries = ConfigurationRecorderSummary[];
-export const ConfigurationRecorderSummaries = /*@__PURE__*/ S.Array(
-  ConfigurationRecorderSummary,
-);
+export const ConfigurationRecorderSummaries = /*@__PURE__*/ S.Array(ConfigurationRecorderSummary);
 export interface ListConfigurationRecordersResponse {
   ConfigurationRecorderSummaries: ConfigurationRecorderSummary[];
   NextToken?: string;
@@ -5568,8 +4607,8 @@ export const ConformancePackNameFilter = /*@__PURE__*/ S.Array(S.String);
 export interface ConformancePackComplianceScoresFilters {
   ConformancePackNames: string[];
 }
-export const ConformancePackComplianceScoresFilters = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ ConformancePackNames: ConformancePackNameFilter }),
+export const ConformancePackComplianceScoresFilters = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ConformancePackNames: ConformancePackNameFilter }),
 ).annotate({
   identifier: "ConformancePackComplianceScoresFilters",
 }) as any as S.Schema<ConformancePackComplianceScoresFilters>;
@@ -5586,28 +4625,17 @@ export interface ListConformancePackComplianceScoresRequest {
   Limit?: number;
   NextToken?: string;
 }
-export const ListConformancePackComplianceScoresRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Filters: S.optional(ConformancePackComplianceScoresFilters),
-      SortOrder: S.optional(SortOrder),
-      SortBy: S.optional(SortBy),
-      Limit: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "ListConformancePackComplianceScoresRequest",
-  }) as any as S.Schema<ListConformancePackComplianceScoresRequest>;
+export const ListConformancePackComplianceScoresRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Filters: S.optional(ConformancePackComplianceScoresFilters),
+    SortOrder: S.optional(SortOrder),
+    SortBy: S.optional(SortBy),
+    Limit: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListConformancePackComplianceScoresRequest",
+}) as any as S.Schema<ListConformancePackComplianceScoresRequest>;
 export type ComplianceScore = string;
 export type LastUpdatedTime = Date;
 export interface ConformancePackComplianceScore {
@@ -5619,9 +4647,7 @@ export const ConformancePackComplianceScore = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Score: S.optional(S.String),
     ConformancePackName: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConformancePackComplianceScore",
@@ -5634,15 +4660,14 @@ export interface ListConformancePackComplianceScoresResponse {
   NextToken?: string;
   ConformancePackComplianceScores: ConformancePackComplianceScore[];
 }
-export const ListConformancePackComplianceScoresResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      ConformancePackComplianceScores: ConformancePackComplianceScores,
-    }).pipe(ns),
-  ).annotate({
-    identifier: "ListConformancePackComplianceScoresResponse",
-  }) as any as S.Schema<ListConformancePackComplianceScoresResponse>;
+export const ListConformancePackComplianceScoresResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ConformancePackComplianceScores: ConformancePackComplianceScores,
+  }).pipe(ns),
+).annotate({
+  identifier: "ListConformancePackComplianceScoresResponse",
+}) as any as S.Schema<ListConformancePackComplianceScoresResponse>;
 export type ListConnectorsMaxResults = number;
 export type ConnectorFilterName = "provider" | (string & {});
 export const ConnectorFilterName = S.String;
@@ -5673,17 +4698,7 @@ export const ListConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     Filters: S.optional(ConnectorFilterList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectorsRequest",
 }) as any as S.Schema<ListConnectorsRequest>;
@@ -5737,17 +4752,7 @@ export const ListDiscoveredResourcesRequest = /*@__PURE__*/ S.suspend(() =>
     limit: S.optional(S.Number),
     includeDeletedResources: S.optional(S.Boolean),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDiscoveredResourcesRequest",
 }) as any as S.Schema<ListDiscoveredResourcesRequest>;
@@ -5763,9 +4768,7 @@ export const ResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
     resourceType: S.optional(ResourceType),
     resourceId: S.optional(S.String),
     resourceName: S.optional(S.String),
-    resourceDeletionTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    resourceDeletionTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ResourceIdentifier",
@@ -5819,17 +4822,7 @@ export const ListResourceEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(ResourceEvaluationFilters),
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceEvaluationsRequest",
 }) as any as S.Schema<ListResourceEvaluationsRequest>;
@@ -5842,9 +4835,7 @@ export const ResourceEvaluation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceEvaluationId: S.optional(S.String),
     EvaluationMode: S.optional(EvaluationMode),
-    EvaluationStartTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    EvaluationStartTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ResourceEvaluation",
@@ -5871,17 +4862,7 @@ export const ListStoredQueriesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStoredQueriesRequest",
 }) as any as S.Schema<ListStoredQueriesRequest>;
@@ -5902,8 +4883,7 @@ export const StoredQueryMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "StoredQueryMetadata",
 }) as any as S.Schema<StoredQueryMetadata>;
 export type StoredQueryMetadataList = StoredQueryMetadata[];
-export const StoredQueryMetadataList =
-  /*@__PURE__*/ S.Array(StoredQueryMetadata);
+export const StoredQueryMetadataList = /*@__PURE__*/ S.Array(StoredQueryMetadata);
 export interface ListStoredQueriesResponse {
   StoredQueryMetadata?: StoredQueryMetadata[];
   NextToken?: string;
@@ -5926,17 +4906,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
@@ -5956,9 +4926,7 @@ export interface ListTagsForResourceResponse {
   NextToken?: string;
 }
 export const ListTagsForResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForResourceResponse",
 }) as any as S.Schema<ListTagsForResourceResponse>;
@@ -5974,17 +4942,7 @@ export const PutAggregationAuthorizationRequest = /*@__PURE__*/ S.suspend(() =>
     AuthorizedAccountId: S.String,
     AuthorizedAwsRegion: S.String,
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAggregationAuthorizationRequest",
 }) as any as S.Schema<PutAggregationAuthorizationRequest>;
@@ -6004,23 +4962,13 @@ export interface PutConfigRuleRequest {
 }
 export const PutConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRule: ConfigRule, Tags: S.optional(TagsList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutConfigRuleRequest",
 }) as any as S.Schema<PutConfigRuleRequest>;
 export interface PutConfigRuleResponse {}
-export const PutConfigRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const PutConfigRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "PutConfigRuleResponse",
 }) as any as S.Schema<PutConfigRuleResponse>;
 export interface PutConfigurationAggregatorRequest {
@@ -6037,17 +4985,7 @@ export const PutConfigurationAggregatorRequest = /*@__PURE__*/ S.suspend(() =>
     OrganizationAggregationSource: S.optional(OrganizationAggregationSource),
     Tags: S.optional(TagsList),
     AggregatorFilters: S.optional(AggregatorFilters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutConfigurationAggregatorRequest",
 }) as any as S.Schema<PutConfigurationAggregatorRequest>;
@@ -6069,17 +5007,7 @@ export const PutConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigurationRecorder: ConfigurationRecorder,
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutConfigurationRecorderRequest",
 }) as any as S.Schema<PutConfigurationRecorderRequest>;
@@ -6111,17 +5039,7 @@ export const PutConformancePackRequest = /*@__PURE__*/ S.suspend(() =>
     ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
     TemplateSSMDocumentDetails: S.optional(TemplateSSMDocumentDetails),
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutConformancePackRequest",
 }) as any as S.Schema<PutConformancePackRequest>;
@@ -6141,17 +5059,7 @@ export const PutConnectorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConnectorConfiguration: ConnectorConfiguration,
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutConnectorRequest",
 }) as any as S.Schema<PutConnectorRequest>;
@@ -6168,15 +5076,7 @@ export interface PutDeliveryChannelRequest {
 }
 export const PutDeliveryChannelRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DeliveryChannel: DeliveryChannel }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutDeliveryChannelRequest",
@@ -6216,17 +5116,7 @@ export const PutEvaluationsRequest = /*@__PURE__*/ S.suspend(() =>
     Evaluations: S.optional(Evaluations),
     ResultToken: S.String,
     TestMode: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutEvaluationsRequest",
 }) as any as S.Schema<PutEvaluationsRequest>;
@@ -6264,17 +5154,7 @@ export const PutExternalEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ConfigRuleName: S.String,
     ExternalEvaluation: ExternalEvaluation,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutExternalEvaluationRequest",
 }) as any as S.Schema<PutExternalEvaluationRequest>;
@@ -6297,23 +5177,20 @@ export interface OrganizationCustomPolicyRuleMetadata {
   PolicyText: string;
   DebugLogDeliveryAccounts?: string[];
 }
-export const OrganizationCustomPolicyRuleMetadata = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Description: S.optional(S.String),
-      OrganizationConfigRuleTriggerTypes: S.optional(
-        OrganizationConfigRuleTriggerTypeNoSNs,
-      ),
-      InputParameters: S.optional(S.String),
-      MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
-      ResourceTypesScope: S.optional(ResourceTypesScope),
-      ResourceIdScope: S.optional(S.String),
-      TagKeyScope: S.optional(S.String),
-      TagValueScope: S.optional(S.String),
-      PolicyRuntime: S.String,
-      PolicyText: S.String,
-      DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
-    }),
+export const OrganizationCustomPolicyRuleMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Description: S.optional(S.String),
+    OrganizationConfigRuleTriggerTypes: S.optional(OrganizationConfigRuleTriggerTypeNoSNs),
+    InputParameters: S.optional(S.String),
+    MaximumExecutionFrequency: S.optional(MaximumExecutionFrequency),
+    ResourceTypesScope: S.optional(ResourceTypesScope),
+    ResourceIdScope: S.optional(S.String),
+    TagKeyScope: S.optional(S.String),
+    TagValueScope: S.optional(S.String),
+    PolicyRuntime: S.String,
+    PolicyText: S.String,
+    DebugLogDeliveryAccounts: S.optional(DebugLogDeliveryAccounts),
+  }),
 ).annotate({
   identifier: "OrganizationCustomPolicyRuleMetadata",
 }) as any as S.Schema<OrganizationCustomPolicyRuleMetadata>;
@@ -6328,26 +5205,12 @@ export interface PutOrganizationConfigRuleRequest {
 export const PutOrganizationConfigRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     OrganizationConfigRuleName: S.String,
-    OrganizationManagedRuleMetadata: S.optional(
-      OrganizationManagedRuleMetadata,
-    ),
+    OrganizationManagedRuleMetadata: S.optional(OrganizationManagedRuleMetadata),
     OrganizationCustomRuleMetadata: S.optional(OrganizationCustomRuleMetadata),
     ExcludedAccounts: S.optional(ExcludedAccounts),
-    OrganizationCustomPolicyRuleMetadata: S.optional(
-      OrganizationCustomPolicyRuleMetadata,
-    ),
+    OrganizationCustomPolicyRuleMetadata: S.optional(OrganizationCustomPolicyRuleMetadata),
     Tags: S.optional(TagsList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutOrganizationConfigRuleRequest",
 }) as any as S.Schema<PutOrganizationConfigRuleRequest>;
@@ -6369,39 +5232,25 @@ export interface PutOrganizationConformancePackRequest {
   ExcludedAccounts?: string[];
   Tags?: Tag[];
 }
-export const PutOrganizationConformancePackRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OrganizationConformancePackName: S.String,
-      TemplateS3Uri: S.optional(S.String),
-      TemplateBody: S.optional(S.String),
-      DeliveryS3Bucket: S.optional(S.String),
-      DeliveryS3KeyPrefix: S.optional(S.String),
-      ConformancePackInputParameters: S.optional(
-        ConformancePackInputParameters,
-      ),
-      ExcludedAccounts: S.optional(ExcludedAccounts),
-      Tags: S.optional(TagsList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const PutOrganizationConformancePackRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OrganizationConformancePackName: S.String,
+    TemplateS3Uri: S.optional(S.String),
+    TemplateBody: S.optional(S.String),
+    DeliveryS3Bucket: S.optional(S.String),
+    DeliveryS3KeyPrefix: S.optional(S.String),
+    ConformancePackInputParameters: S.optional(ConformancePackInputParameters),
+    ExcludedAccounts: S.optional(ExcludedAccounts),
+    Tags: S.optional(TagsList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutOrganizationConformancePackRequest",
 }) as any as S.Schema<PutOrganizationConformancePackRequest>;
 export interface PutOrganizationConformancePackResponse {
   OrganizationConformancePackArn?: string;
 }
-export const PutOrganizationConformancePackResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ OrganizationConformancePackArn: S.optional(S.String) }).pipe(ns),
+export const PutOrganizationConformancePackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ OrganizationConformancePackArn: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "PutOrganizationConformancePackResponse",
 }) as any as S.Schema<PutOrganizationConformancePackResponse>;
@@ -6410,15 +5259,7 @@ export interface PutRemediationConfigurationsRequest {
 }
 export const PutRemediationConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RemediationConfigurations: RemediationConfigurations }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutRemediationConfigurationsRequest",
@@ -6436,15 +5277,12 @@ export const FailedRemediationBatch = /*@__PURE__*/ S.suspend(() =>
   identifier: "FailedRemediationBatch",
 }) as any as S.Schema<FailedRemediationBatch>;
 export type FailedRemediationBatches = FailedRemediationBatch[];
-export const FailedRemediationBatches = /*@__PURE__*/ S.Array(
-  FailedRemediationBatch,
-);
+export const FailedRemediationBatches = /*@__PURE__*/ S.Array(FailedRemediationBatch);
 export interface PutRemediationConfigurationsResponse {
   FailedBatches?: FailedRemediationBatch[];
 }
-export const PutRemediationConfigurationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ FailedBatches: S.optional(FailedRemediationBatches) }).pipe(ns),
+export const PutRemediationConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ FailedBatches: S.optional(FailedRemediationBatches) }).pipe(ns),
 ).annotate({
   identifier: "PutRemediationConfigurationsResponse",
 }) as any as S.Schema<PutRemediationConfigurationsResponse>;
@@ -6460,17 +5298,7 @@ export const PutRemediationExceptionsRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceKeys: RemediationExceptionResourceKeys,
     Message: S.optional(S.String),
     ExpirationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutRemediationExceptionsRequest",
 }) as any as S.Schema<PutRemediationExceptionsRequest>;
@@ -6486,8 +5314,7 @@ export const FailedRemediationExceptionBatch = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "FailedRemediationExceptionBatch",
 }) as any as S.Schema<FailedRemediationExceptionBatch>;
-export type FailedRemediationExceptionBatches =
-  FailedRemediationExceptionBatch[];
+export type FailedRemediationExceptionBatches = FailedRemediationExceptionBatch[];
 export const FailedRemediationExceptionBatches = /*@__PURE__*/ S.Array(
   FailedRemediationExceptionBatch,
 );
@@ -6518,17 +5345,7 @@ export const PutResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceName: S.optional(S.String),
     Configuration: S.String,
     Tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutResourceConfigRequest",
 }) as any as S.Schema<PutResourceConfigRequest>;
@@ -6543,15 +5360,7 @@ export interface PutRetentionConfigurationRequest {
 }
 export const PutRetentionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RetentionPeriodInDays: S.Number }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutRetentionConfigurationRequest",
@@ -6560,9 +5369,7 @@ export interface PutRetentionConfigurationResponse {
   RetentionConfiguration?: RetentionConfiguration;
 }
 export const PutRetentionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ RetentionConfiguration: S.optional(RetentionConfiguration) }).pipe(
-    ns,
-  ),
+  S.Struct({ RetentionConfiguration: S.optional(RetentionConfiguration) }).pipe(ns),
 ).annotate({
   identifier: "PutRetentionConfigurationResponse",
 }) as any as S.Schema<PutRetentionConfigurationResponse>;
@@ -6570,49 +5377,29 @@ export interface PutServiceLinkedConfigurationRecorderRequest {
   ServicePrincipal: string;
   Tags?: Tag[];
 }
-export const PutServiceLinkedConfigurationRecorderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ ServicePrincipal: S.String, Tags: S.optional(TagsList) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutServiceLinkedConfigurationRecorderRequest",
-  }) as any as S.Schema<PutServiceLinkedConfigurationRecorderRequest>;
+export const PutServiceLinkedConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ ServicePrincipal: S.String, Tags: S.optional(TagsList) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "PutServiceLinkedConfigurationRecorderRequest",
+}) as any as S.Schema<PutServiceLinkedConfigurationRecorderRequest>;
 export interface PutServiceLinkedConfigurationRecorderResponse {
   Arn?: string;
   Name?: string;
 }
-export const PutServiceLinkedConfigurationRecorderResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(
-      ns,
-    ),
-  ).annotate({
-    identifier: "PutServiceLinkedConfigurationRecorderResponse",
-  }) as any as S.Schema<PutServiceLinkedConfigurationRecorderResponse>;
+export const PutServiceLinkedConfigurationRecorderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Arn: S.optional(S.String), Name: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "PutServiceLinkedConfigurationRecorderResponse",
+}) as any as S.Schema<PutServiceLinkedConfigurationRecorderResponse>;
 export interface PutStoredQueryRequest {
   StoredQuery: StoredQuery;
   Tags?: Tag[];
 }
 export const PutStoredQueryRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StoredQuery: StoredQuery, Tags: S.optional(TagsList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutStoredQueryRequest",
@@ -6631,37 +5418,25 @@ export interface PutThirdPartyServiceLinkedConfigurationRecorderRequest {
   ScopeConfiguration: ScopeConfiguration;
   Tags?: Tag[];
 }
-export const PutThirdPartyServiceLinkedConfigurationRecorderRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServicePrincipal: S.String,
-      ConnectorArn: S.String,
-      ScopeConfiguration: ScopeConfiguration,
-      Tags: S.optional(TagsList),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutThirdPartyServiceLinkedConfigurationRecorderRequest",
-  }) as any as S.Schema<PutThirdPartyServiceLinkedConfigurationRecorderRequest>;
+export const PutThirdPartyServiceLinkedConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServicePrincipal: S.String,
+    ConnectorArn: S.String,
+    ScopeConfiguration: ScopeConfiguration,
+    Tags: S.optional(TagsList),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "PutThirdPartyServiceLinkedConfigurationRecorderRequest",
+}) as any as S.Schema<PutThirdPartyServiceLinkedConfigurationRecorderRequest>;
 export interface PutThirdPartyServiceLinkedConfigurationRecorderResponse {
   Arn: string;
   Name: string;
 }
-export const PutThirdPartyServiceLinkedConfigurationRecorderResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Arn: S.String, Name: S.String }).pipe(ns),
-  ).annotate({
-    identifier: "PutThirdPartyServiceLinkedConfigurationRecorderResponse",
-  }) as any as S.Schema<PutThirdPartyServiceLinkedConfigurationRecorderResponse>;
+export const PutThirdPartyServiceLinkedConfigurationRecorderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Arn: S.String, Name: S.String }).pipe(ns),
+).annotate({
+  identifier: "PutThirdPartyServiceLinkedConfigurationRecorderResponse",
+}) as any as S.Schema<PutThirdPartyServiceLinkedConfigurationRecorderResponse>;
 export type Expression = string;
 export interface SelectAggregateResourceConfigRequest {
   Expression: string;
@@ -6670,25 +5445,14 @@ export interface SelectAggregateResourceConfigRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const SelectAggregateResourceConfigRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Expression: S.String,
-      ConfigurationAggregatorName: S.String,
-      Limit: S.optional(S.Number),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const SelectAggregateResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Expression: S.String,
+    ConfigurationAggregatorName: S.String,
+    Limit: S.optional(S.Number),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SelectAggregateResourceConfigRequest",
 }) as any as S.Schema<SelectAggregateResourceConfigRequest>;
@@ -6714,13 +5478,12 @@ export interface SelectAggregateResourceConfigResponse {
   QueryInfo?: QueryInfo;
   NextToken?: string;
 }
-export const SelectAggregateResourceConfigResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Results: S.optional(Results),
-      QueryInfo: S.optional(QueryInfo),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const SelectAggregateResourceConfigResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Results: S.optional(Results),
+    QueryInfo: S.optional(QueryInfo),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "SelectAggregateResourceConfigResponse",
 }) as any as S.Schema<SelectAggregateResourceConfigResponse>;
@@ -6734,17 +5497,7 @@ export const SelectResourceConfigRequest = /*@__PURE__*/ S.suspend(() =>
     Expression: S.String,
     Limit: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SelectResourceConfigRequest",
 }) as any as S.Schema<SelectResourceConfigRequest>;
@@ -6769,15 +5522,7 @@ export interface StartConfigRulesEvaluationRequest {
 }
 export const StartConfigRulesEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRuleNames: S.optional(ReevaluateConfigRuleNames) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartConfigRulesEvaluationRequest",
@@ -6793,15 +5538,7 @@ export interface StartConfigurationRecorderRequest {
 }
 export const StartConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigurationRecorderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartConfigurationRecorderRequest",
@@ -6818,15 +5555,7 @@ export interface StartRemediationExecutionRequest {
 }
 export const StartRemediationExecutionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigRuleName: S.String, ResourceKeys: ResourceKeys }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartRemediationExecutionRequest",
@@ -6859,17 +5588,7 @@ export const StartResourceEvaluationRequest = /*@__PURE__*/ S.suspend(() =>
     EvaluationMode: EvaluationMode,
     EvaluationTimeout: S.optional(S.Number),
     ClientToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartResourceEvaluationRequest",
 }) as any as S.Schema<StartResourceEvaluationRequest>;
@@ -6886,15 +5605,7 @@ export interface StopConfigurationRecorderRequest {
 }
 export const StopConfigurationRecorderRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ConfigurationRecorderName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StopConfigurationRecorderRequest",
@@ -6911,23 +5622,13 @@ export interface TagResourceRequest {
 }
 export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -6938,23 +5639,13 @@ export interface UntagResourceRequest {
 }
 export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -6976,11 +5667,7 @@ export const associateResourceTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AssociateResourceTypesRequest,
   output: AssociateResourceTypesResponse,
-  errors: [
-    ConflictException,
-    NoSuchConfigurationRecorderException,
-    ValidationException,
-  ],
+  errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceTypes",
@@ -7045,9 +5732,7 @@ export const batchGetResourceConfig: API.OperationMethod<
   operationName: "BatchGetResourceConfig",
 }));
 
-export type DeleteAggregationAuthorizationError =
-  | InvalidParameterValueException
-  | CommonErrors;
+export type DeleteAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
 /**
  * Deletes the authorization granted to the specified
  * configuration aggregator account in a specified region.
@@ -7195,10 +5880,7 @@ export const deleteConformancePack: API.OperationMethod<
   operationName: "DeleteConformancePack",
 }));
 
-export type DeleteConnectorError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type DeleteConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Deletes the specified connector.
  */
@@ -7233,10 +5915,7 @@ export const deleteDeliveryChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDeliveryChannelRequest,
   output: DeleteDeliveryChannelResponse,
-  errors: [
-    LastDeliveryChannelDeleteFailedException,
-    NoSuchDeliveryChannelException,
-  ],
+  errors: [LastDeliveryChannelDeleteFailedException, NoSuchDeliveryChannelException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryChannel",
@@ -7357,9 +6036,7 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
   operationName: "DeleteOrganizationConformancePack",
 }));
 
-export type DeletePendingAggregationRequestError =
-  | InvalidParameterValueException
-  | CommonErrors;
+export type DeletePendingAggregationRequestError = InvalidParameterValueException | CommonErrors;
 /**
  * Deletes pending authorization requests for a specified
  * aggregator account in a specified region.
@@ -7406,9 +6083,7 @@ export const deleteRemediationConfiguration: API.OperationMethod<
   operationName: "DeleteRemediationConfiguration",
 }));
 
-export type DeleteRemediationExceptionsError =
-  | NoSuchRemediationExceptionException
-  | CommonErrors;
+export type DeleteRemediationExceptionsError = NoSuchRemediationExceptionException | CommonErrors;
 /**
  * Deletes one or more remediation exceptions mentioned in the resource keys.
  *
@@ -7465,10 +6140,7 @@ export const deleteRetentionConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRetentionConfigurationRequest,
   output: DeleteRetentionConfigurationResponse,
-  errors: [
-    InvalidParameterValueException,
-    NoSuchRetentionConfigurationException,
-  ],
+  errors: [InvalidParameterValueException, NoSuchRetentionConfigurationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionConfiguration",
@@ -7500,20 +6172,13 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteServiceLinkedConfigurationRecorderRequest,
   output: DeleteServiceLinkedConfigurationRecorderResponse,
-  errors: [
-    ConflictException,
-    NoSuchConfigurationRecorderException,
-    ValidationException,
-  ],
+  errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedConfigurationRecorder",
 }));
 
-export type DeleteStoredQueryError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type DeleteStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
@@ -7663,11 +6328,7 @@ export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeAggregationAuthorizationsRequest,
   output: DescribeAggregationAuthorizationsResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAggregationAuthorizations",
@@ -7725,11 +6386,7 @@ export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeComplianceByConfigRuleRequest,
   output: DescribeComplianceByConfigRuleResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchConfigRuleException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComplianceByConfigRule",
@@ -7815,11 +6472,7 @@ export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeConfigRuleEvaluationStatusRequest,
   output: DescribeConfigRuleEvaluationStatusResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchConfigRuleException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigRuleEvaluationStatus",
@@ -7848,11 +6501,7 @@ export const describeConfigRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeConfigRulesRequest,
   output: DescribeConfigRulesResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchConfigRuleException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigRules",
@@ -8085,11 +6734,7 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeConformancePackStatusRequest,
   output: DescribeConformancePackStatusResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConformancePackStatus",
@@ -8101,9 +6746,7 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeDeliveryChannelsError =
-  | NoSuchDeliveryChannelException
-  | CommonErrors;
+export type DescribeDeliveryChannelsError = NoSuchDeliveryChannelException | CommonErrors;
 /**
  * Returns details about the specified delivery channel. If a
  * delivery channel is not specified, this operation returns the details
@@ -8126,9 +6769,7 @@ export const describeDeliveryChannels: API.OperationMethod<
   operationName: "DescribeDeliveryChannels",
 }));
 
-export type DescribeDeliveryChannelStatusError =
-  | NoSuchDeliveryChannelException
-  | CommonErrors;
+export type DescribeDeliveryChannelStatusError = NoSuchDeliveryChannelException | CommonErrors;
 /**
  * Returns the current status of the specified delivery channel.
  * If a delivery channel is not specified, this operation returns the
@@ -8359,11 +7000,7 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribePendingAggregationRequestsRequest,
   output: DescribePendingAggregationRequestsResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePendingAggregationRequests",
@@ -8518,11 +7155,7 @@ export const disassociateResourceTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisassociateResourceTypesRequest,
   output: DisassociateResourceTypesResponse,
-  errors: [
-    ConflictException,
-    NoSuchConfigurationRecorderException,
-    ValidationException,
-  ],
+  errors: [ConflictException, NoSuchConfigurationRecorderException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceTypes",
@@ -8732,11 +7365,7 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetComplianceDetailsByConfigRuleRequest,
   output: GetComplianceDetailsByConfigRuleResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    NoSuchConfigRuleException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, NoSuchConfigRuleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceDetailsByConfigRule",
@@ -8748,9 +7377,7 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type GetComplianceDetailsByResourceError =
-  | InvalidParameterValueException
-  | CommonErrors;
+export type GetComplianceDetailsByResourceError = InvalidParameterValueException | CommonErrors;
 /**
  * Returns the evaluation results for the specified Amazon Web Services resource.
  * The results indicate which Config rules were used to evaluate
@@ -8796,9 +7423,7 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
   operationName: "GetComplianceSummaryByConfigRule",
 }));
 
-export type GetComplianceSummaryByResourceTypeError =
-  | InvalidParameterValueException
-  | CommonErrors;
+export type GetComplianceSummaryByResourceTypeError = InvalidParameterValueException | CommonErrors;
 /**
  * Returns the number of resources that are compliant and the
  * number that are noncompliant. You can specify one or more resource
@@ -8872,11 +7497,7 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetConformancePackComplianceSummaryRequest,
   output: GetConformancePackComplianceSummaryResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    NoSuchConformancePackException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, NoSuchConformancePackException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConformancePackComplianceSummary",
@@ -8888,10 +7509,7 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type GetConnectorError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetConnectorError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns the details of the specified connector.
  */
@@ -8986,11 +7604,7 @@ export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetDiscoveredResourceCountsRequest,
   output: GetDiscoveredResourceCountsResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    ValidationException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDiscoveredResourceCounts",
@@ -9086,10 +7700,7 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetOrganizationCustomRulePolicyRequest,
   output: GetOrganizationCustomRulePolicyResponse,
-  errors: [
-    NoSuchOrganizationConfigRuleException,
-    OrganizationAccessDeniedException,
-  ],
+  errors: [NoSuchOrganizationConfigRuleException, OrganizationAccessDeniedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationCustomRulePolicy",
@@ -9162,9 +7773,7 @@ export const getResourceConfigHistory: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type GetResourceEvaluationSummaryError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetResourceEvaluationSummaryError = ResourceNotFoundException | CommonErrors;
 /**
  * Returns a summary of resource evaluation for the specified resource evaluation ID from the proactive rules that were run.
  * The results indicate which evaluation context was used to evaluate the rules, which resource details were evaluated,
@@ -9187,10 +7796,7 @@ export const getResourceEvaluationSummary: API.OperationMethod<
   operationName: "GetResourceEvaluationSummary",
 }));
 
-export type GetStoredQueryError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetStoredQueryError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns the details of a specific stored query.
  */
@@ -9247,9 +7853,7 @@ export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListConfigurationRecordersError =
-  | ValidationException
-  | CommonErrors;
+export type ListConfigurationRecordersError = ValidationException | CommonErrors;
 /**
  * Returns a list of configuration recorders depending on the filters you specify.
  */
@@ -9296,11 +7900,7 @@ export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConformancePackComplianceScoresRequest,
   output: ListConformancePackComplianceScoresResponse,
-  errors: [
-    InvalidLimitException,
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-  ],
+  errors: [InvalidLimitException, InvalidNextTokenException, InvalidParameterValueException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConformancePackComplianceScores",
@@ -9421,11 +8021,7 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListResourceEvaluationsRequest,
   output: ListResourceEvaluationsResponse,
-  errors: [
-    InvalidNextTokenException,
-    InvalidParameterValueException,
-    InvalidTimeRangeException,
-  ],
+  errors: [InvalidNextTokenException, InvalidParameterValueException, InvalidTimeRangeException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceEvaluations",
@@ -9437,10 +8033,7 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListStoredQueriesError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListStoredQueriesError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
@@ -9499,9 +8092,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PutAggregationAuthorizationError =
-  | InvalidParameterValueException
-  | CommonErrors;
+export type PutAggregationAuthorizationError = InvalidParameterValueException | CommonErrors;
 /**
  * Authorizes the aggregator account and region to collect data
  * from the source account and region.
@@ -9881,11 +8472,7 @@ export const putEvaluations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutEvaluationsRequest,
   output: PutEvaluationsResponse,
-  errors: [
-    InvalidParameterValueException,
-    InvalidResultTokenException,
-    NoSuchConfigRuleException,
-  ],
+  errors: [InvalidParameterValueException, InvalidResultTokenException, NoSuchConfigRuleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvaluations",
@@ -10223,10 +8810,7 @@ export const putRetentionConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutRetentionConfigurationRequest,
   output: PutRetentionConfigurationResponse,
-  errors: [
-    InvalidParameterValueException,
-    MaxNumberOfRetentionConfigurationsExceededException,
-  ],
+  errors: [InvalidParameterValueException, MaxNumberOfRetentionConfigurationsExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionConfiguration",
@@ -10298,11 +8882,7 @@ export const putStoredQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutStoredQueryRequest,
   output: PutStoredQueryResponse,
-  errors: [
-    ResourceConcurrentModificationException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  errors: [ResourceConcurrentModificationException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStoredQuery",
@@ -10336,11 +8916,7 @@ export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMetho
 > = /*@__PURE__*/ API.make(() => ({
   input: PutThirdPartyServiceLinkedConfigurationRecorderRequest,
   output: PutThirdPartyServiceLinkedConfigurationRecorderResponse,
-  errors: [
-    ConflictException,
-    InsufficientPermissionsException,
-    ValidationException,
-  ],
+  errors: [ConflictException, InsufficientPermissionsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyServiceLinkedConfigurationRecorder",
@@ -10415,11 +8991,7 @@ export const selectResourceConfig: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SelectResourceConfigRequest,
   output: SelectResourceConfigResponse,
-  errors: [
-    InvalidExpressionException,
-    InvalidLimitException,
-    InvalidNextTokenException,
-  ],
+  errors: [InvalidExpressionException, InvalidLimitException, InvalidNextTokenException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectResourceConfig",
@@ -10625,20 +9197,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  errors: [ResourceNotFoundException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Deletes specified tags from a resource.
  */

@@ -1,3 +1,7 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * WhopProtocol — the shared bearer-REST protocol instantiated for Whop.
  *
@@ -29,19 +33,8 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
-import {
-  PaymentRequired,
-  UnknownWhopError,
-  type DefaultErrors,
-} from "./errors.ts";
+import { PaymentRequired, UnknownWhopError, type DefaultErrors } from "./errors.ts";
 
 /**
  * Error channel shared by every generated Whop operation. Generated service
@@ -49,10 +42,7 @@ import {
  * WhopOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type WhopOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type WhopOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Whop operation. */
 export type WhopOpContext = Credentials | HttpClient.HttpClient;
@@ -83,32 +73,25 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
  */
 const statusMap = { ...HTTP_STATUS_MAP, 402: PaymentRequired };
 
-export const WhopProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>(
-  {
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect, so a key rotated
-    // between calls is picked up without rebuilding the layer.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const WhopProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect, so a key rotated
+  // between calls is picked up without rebuilding the layer.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    "Api-Version-Date": creds.apiVersionDate,
+  }),
+  errorEnvelope,
+  statusMap,
+  unknownError: ({ code, message, body }) =>
+    new UnknownWhopError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-      "Api-Version-Date": creds.apiVersionDate,
-    }),
-    errorEnvelope,
-    statusMap,
-    unknownError: ({ code, message, body }) =>
-      new UnknownWhopError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  },
-);
+});

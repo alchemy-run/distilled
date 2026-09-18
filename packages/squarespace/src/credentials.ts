@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Squarespace credentials — hand-written.
  *
@@ -13,7 +14,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.squarespace.com";
 
@@ -29,10 +29,9 @@ export interface Config {
   readonly userAgent: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("SquarespaceCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "SquarespaceCredentials",
+) {}
 
 /** Layer from a plain API key + optional base URL / User-Agent. */
 export const fromApiKey = (config: {

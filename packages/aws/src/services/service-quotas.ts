@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Service Quotas",
   serviceShapeName: "ServiceQuotasV20190624",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://servicequotas-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://servicequotas.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://servicequotas.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://servicequotas.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -189,17 +179,14 @@ export class TooManyTagsException
     T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export interface AssociateServiceQuotaTemplateRequest {}
-export const AssociateServiceQuotaTemplateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const AssociateServiceQuotaTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateServiceQuotaTemplateRequest",
 }) as any as S.Schema<AssociateServiceQuotaTemplateRequest>;
 export interface AssociateServiceQuotaTemplateResponse {}
-export const AssociateServiceQuotaTemplateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const AssociateServiceQuotaTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "AssociateServiceQuotaTemplateResponse",
 }) as any as S.Schema<AssociateServiceQuotaTemplateResponse>;
@@ -215,9 +202,7 @@ export const CreateSupportCaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSupportCaseRequest",
 }) as any as S.Schema<CreateSupportCaseRequest>;
 export interface CreateSupportCaseResponse {}
-export const CreateSupportCaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateSupportCaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateSupportCaseResponse",
 }) as any as S.Schema<CreateSupportCaseResponse>;
 export type ServiceCode = string;
@@ -228,72 +213,55 @@ export interface DeleteServiceQuotaIncreaseRequestFromTemplateRequest {
   QuotaCode: string;
   AwsRegion: string;
 }
-export const DeleteServiceQuotaIncreaseRequestFromTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceCode: S.String,
-      QuotaCode: S.String,
-      AwsRegion: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateRequest",
-  }) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateRequest>;
+export const DeleteServiceQuotaIncreaseRequestFromTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    QuotaCode: S.String,
+    AwsRegion: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateRequest",
+}) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateRequest>;
 export interface DeleteServiceQuotaIncreaseRequestFromTemplateResponse {}
-export const DeleteServiceQuotaIncreaseRequestFromTemplateResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateResponse",
-  }) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateResponse>;
+export const DeleteServiceQuotaIncreaseRequestFromTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteServiceQuotaIncreaseRequestFromTemplateResponse",
+}) as any as S.Schema<DeleteServiceQuotaIncreaseRequestFromTemplateResponse>;
 export interface DisassociateServiceQuotaTemplateRequest {}
-export const DisassociateServiceQuotaTemplateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const DisassociateServiceQuotaTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateServiceQuotaTemplateRequest",
 }) as any as S.Schema<DisassociateServiceQuotaTemplateRequest>;
 export interface DisassociateServiceQuotaTemplateResponse {}
-export const DisassociateServiceQuotaTemplateResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DisassociateServiceQuotaTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DisassociateServiceQuotaTemplateResponse",
 }) as any as S.Schema<DisassociateServiceQuotaTemplateResponse>;
 export interface GetAssociationForServiceQuotaTemplateRequest {}
-export const GetAssociationForServiceQuotaTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetAssociationForServiceQuotaTemplateRequest",
-  }) as any as S.Schema<GetAssociationForServiceQuotaTemplateRequest>;
-export type ServiceQuotaTemplateAssociationStatus =
-  | "ASSOCIATED"
-  | "DISASSOCIATED"
-  | (string & {});
+export const GetAssociationForServiceQuotaTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetAssociationForServiceQuotaTemplateRequest",
+}) as any as S.Schema<GetAssociationForServiceQuotaTemplateRequest>;
+export type ServiceQuotaTemplateAssociationStatus = "ASSOCIATED" | "DISASSOCIATED" | (string & {});
 export const ServiceQuotaTemplateAssociationStatus = S.String;
 
 export interface GetAssociationForServiceQuotaTemplateResponse {
   ServiceQuotaTemplateAssociationStatus?: ServiceQuotaTemplateAssociationStatus;
 }
-export const GetAssociationForServiceQuotaTemplateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceQuotaTemplateAssociationStatus: S.optional(
-        ServiceQuotaTemplateAssociationStatus,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetAssociationForServiceQuotaTemplateResponse",
-  }) as any as S.Schema<GetAssociationForServiceQuotaTemplateResponse>;
+export const GetAssociationForServiceQuotaTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceQuotaTemplateAssociationStatus: S.optional(ServiceQuotaTemplateAssociationStatus),
+  }),
+).annotate({
+  identifier: "GetAssociationForServiceQuotaTemplateResponse",
+}) as any as S.Schema<GetAssociationForServiceQuotaTemplateResponse>;
 export interface GetAutoManagementConfigurationRequest {}
-export const GetAutoManagementConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetAutoManagementConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetAutoManagementConfigurationRequest",
 }) as any as S.Schema<GetAutoManagementConfigurationRequest>;
@@ -322,10 +290,7 @@ export const QuotaInfo = /*@__PURE__*/ S.suspend(() =>
 export type QuotaInfoList = QuotaInfo[];
 export const QuotaInfoList = /*@__PURE__*/ S.Array(QuotaInfo);
 export type ExclusionQuotaList = { [key: string]: QuotaInfo[] | undefined };
-export const ExclusionQuotaList = /*@__PURE__*/ S.Record(
-  S.String,
-  QuotaInfoList.pipe(S.optional),
-);
+export const ExclusionQuotaList = /*@__PURE__*/ S.Record(S.String, QuotaInfoList.pipe(S.optional));
 export interface GetAutoManagementConfigurationResponse {
   OptInLevel?: OptInLevel;
   OptInType?: OptInType;
@@ -333,15 +298,14 @@ export interface GetAutoManagementConfigurationResponse {
   OptInStatus?: OptInStatus;
   ExclusionList?: { [key: string]: QuotaInfo[] | undefined };
 }
-export const GetAutoManagementConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      OptInLevel: S.optional(OptInLevel),
-      OptInType: S.optional(OptInType),
-      NotificationArn: S.optional(S.String),
-      OptInStatus: S.optional(OptInStatus),
-      ExclusionList: S.optional(ExclusionQuotaList),
-    }),
+export const GetAutoManagementConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    OptInLevel: S.optional(OptInLevel),
+    OptInType: S.optional(OptInType),
+    NotificationArn: S.optional(S.String),
+    OptInStatus: S.optional(OptInStatus),
+    ExclusionList: S.optional(ExclusionQuotaList),
+  }),
 ).annotate({
   identifier: "GetAutoManagementConfigurationResponse",
 }) as any as S.Schema<GetAutoManagementConfigurationResponse>;
@@ -509,18 +473,11 @@ export const GetQuotaUtilizationReportRequest = /*@__PURE__*/ S.suspend(() =>
     ReportId: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetQuotaUtilizationReportRequest",
 }) as any as S.Schema<GetQuotaUtilizationReportRequest>;
-export type ReportStatus =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
+export type ReportStatus = "PENDING" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export const ReportStatus = S.String;
 
 export type TotalCount = number;
@@ -554,8 +511,7 @@ export const QuotaUtilizationInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuotaUtilizationInfo",
 }) as any as S.Schema<QuotaUtilizationInfo>;
 export type QuotaUtilizationInfoList = QuotaUtilizationInfo[];
-export const QuotaUtilizationInfoList =
-  /*@__PURE__*/ S.Array(QuotaUtilizationInfo);
+export const QuotaUtilizationInfoList = /*@__PURE__*/ S.Array(QuotaUtilizationInfo);
 export type ReportErrorCode = string;
 export type ReportErrorMessage = string;
 export interface GetQuotaUtilizationReportResponse {
@@ -585,11 +541,10 @@ export const GetQuotaUtilizationReportResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetRequestedServiceQuotaChangeRequest {
   RequestId: string;
 }
-export const GetRequestedServiceQuotaChangeRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ RequestId: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetRequestedServiceQuotaChangeRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RequestId: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetRequestedServiceQuotaChangeRequest",
 }) as any as S.Schema<GetRequestedServiceQuotaChangeRequest>;
@@ -654,8 +609,8 @@ export const RequestedServiceQuotaChange = /*@__PURE__*/ S.suspend(() =>
 export interface GetRequestedServiceQuotaChangeResponse {
   RequestedQuota?: RequestedServiceQuotaChange;
 }
-export const GetRequestedServiceQuotaChangeResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }),
+export const GetRequestedServiceQuotaChangeResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ RequestedQuota: S.optional(RequestedServiceQuotaChange) }),
 ).annotate({
   identifier: "GetRequestedServiceQuotaChangeResponse",
 }) as any as S.Schema<GetRequestedServiceQuotaChangeResponse>;
@@ -669,9 +624,7 @@ export const GetServiceQuotaRequest = /*@__PURE__*/ S.suspend(() =>
     ServiceCode: S.String,
     QuotaCode: S.String,
     ContextId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetServiceQuotaRequest",
 }) as any as S.Schema<GetServiceQuotaRequest>;
@@ -688,18 +641,15 @@ export interface GetServiceQuotaIncreaseRequestFromTemplateRequest {
   QuotaCode: string;
   AwsRegion: string;
 }
-export const GetServiceQuotaIncreaseRequestFromTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceCode: S.String,
-      QuotaCode: S.String,
-      AwsRegion: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetServiceQuotaIncreaseRequestFromTemplateRequest",
-  }) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateRequest>;
+export const GetServiceQuotaIncreaseRequestFromTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    QuotaCode: S.String,
+    AwsRegion: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "GetServiceQuotaIncreaseRequestFromTemplateRequest",
+}) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateRequest>;
 export interface ServiceQuotaIncreaseRequestInTemplate {
   ServiceCode?: string;
   ServiceName?: string;
@@ -710,34 +660,30 @@ export interface ServiceQuotaIncreaseRequestInTemplate {
   Unit?: string;
   GlobalQuota?: boolean;
 }
-export const ServiceQuotaIncreaseRequestInTemplate = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ServiceCode: S.optional(S.String),
-      ServiceName: S.optional(S.String),
-      QuotaCode: S.optional(S.String),
-      QuotaName: S.optional(S.String),
-      DesiredValue: S.optional(S.Number),
-      AwsRegion: S.optional(S.String),
-      Unit: S.optional(S.String),
-      GlobalQuota: S.optional(S.Boolean),
-    }),
+export const ServiceQuotaIncreaseRequestInTemplate = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    ServiceName: S.optional(S.String),
+    QuotaCode: S.optional(S.String),
+    QuotaName: S.optional(S.String),
+    DesiredValue: S.optional(S.Number),
+    AwsRegion: S.optional(S.String),
+    Unit: S.optional(S.String),
+    GlobalQuota: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "ServiceQuotaIncreaseRequestInTemplate",
 }) as any as S.Schema<ServiceQuotaIncreaseRequestInTemplate>;
 export interface GetServiceQuotaIncreaseRequestFromTemplateResponse {
   ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
 }
-export const GetServiceQuotaIncreaseRequestFromTemplateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceQuotaIncreaseRequestInTemplate: S.optional(
-        ServiceQuotaIncreaseRequestInTemplate,
-      ),
-    }),
-  ).annotate({
-    identifier: "GetServiceQuotaIncreaseRequestFromTemplateResponse",
-  }) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateResponse>;
+export const GetServiceQuotaIncreaseRequestFromTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceQuotaIncreaseRequestInTemplate: S.optional(ServiceQuotaIncreaseRequestInTemplate),
+  }),
+).annotate({
+  identifier: "GetServiceQuotaIncreaseRequestFromTemplateResponse",
+}) as any as S.Schema<GetServiceQuotaIncreaseRequestFromTemplateResponse>;
 export type MaxResults = number;
 export interface ListAWSDefaultServiceQuotasRequest {
   ServiceCode: string;
@@ -749,9 +695,7 @@ export const ListAWSDefaultServiceQuotasRequest = /*@__PURE__*/ S.suspend(() =>
     ServiceCode: S.String,
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAWSDefaultServiceQuotasRequest",
 }) as any as S.Schema<ListAWSDefaultServiceQuotasRequest>;
@@ -776,39 +720,33 @@ export interface ListRequestedServiceQuotaChangeHistoryRequest {
   MaxResults?: number;
   QuotaRequestedAtLevel?: AppliedLevelEnum;
 }
-export const ListRequestedServiceQuotaChangeHistoryRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceCode: S.optional(S.String),
-      Status: S.optional(RequestStatus),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListRequestedServiceQuotaChangeHistoryRequest",
-  }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryRequest>;
-export type RequestedServiceQuotaChangeHistoryListDefinition =
-  RequestedServiceQuotaChange[];
-export const RequestedServiceQuotaChangeHistoryListDefinition =
-  /*@__PURE__*/ S.Array(RequestedServiceQuotaChange);
+export const ListRequestedServiceQuotaChangeHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    Status: S.optional(RequestStatus),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListRequestedServiceQuotaChangeHistoryRequest",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryRequest>;
+export type RequestedServiceQuotaChangeHistoryListDefinition = RequestedServiceQuotaChange[];
+export const RequestedServiceQuotaChangeHistoryListDefinition = /*@__PURE__*/ S.Array(
+  RequestedServiceQuotaChange,
+);
 export interface ListRequestedServiceQuotaChangeHistoryResponse {
   NextToken?: string;
   RequestedQuotas?: RequestedServiceQuotaChange[];
 }
-export const ListRequestedServiceQuotaChangeHistoryResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      RequestedQuotas: S.optional(
-        RequestedServiceQuotaChangeHistoryListDefinition,
-      ),
-    }),
-  ).annotate({
-    identifier: "ListRequestedServiceQuotaChangeHistoryResponse",
-  }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryResponse>;
+export const ListRequestedServiceQuotaChangeHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RequestedQuotas: S.optional(RequestedServiceQuotaChangeHistoryListDefinition),
+  }),
+).annotate({
+  identifier: "ListRequestedServiceQuotaChangeHistoryResponse",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryResponse>;
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
   ServiceCode: string;
   QuotaCode: string;
@@ -817,57 +755,47 @@ export interface ListRequestedServiceQuotaChangeHistoryByQuotaRequest {
   MaxResults?: number;
   QuotaRequestedAtLevel?: AppliedLevelEnum;
 }
-export const ListRequestedServiceQuotaChangeHistoryByQuotaRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceCode: S.String,
-      QuotaCode: S.String,
-      Status: S.optional(RequestStatus),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaRequest",
-  }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaRequest>;
+export const ListRequestedServiceQuotaChangeHistoryByQuotaRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.String,
+    QuotaCode: S.String,
+    Status: S.optional(RequestStatus),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    QuotaRequestedAtLevel: S.optional(AppliedLevelEnum),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaRequest",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaRequest>;
 export interface ListRequestedServiceQuotaChangeHistoryByQuotaResponse {
   NextToken?: string;
   RequestedQuotas?: RequestedServiceQuotaChange[];
 }
-export const ListRequestedServiceQuotaChangeHistoryByQuotaResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      RequestedQuotas: S.optional(
-        RequestedServiceQuotaChangeHistoryListDefinition,
-      ),
-    }),
-  ).annotate({
-    identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaResponse",
-  }) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>;
+export const ListRequestedServiceQuotaChangeHistoryByQuotaResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    RequestedQuotas: S.optional(RequestedServiceQuotaChangeHistoryListDefinition),
+  }),
+).annotate({
+  identifier: "ListRequestedServiceQuotaChangeHistoryByQuotaResponse",
+}) as any as S.Schema<ListRequestedServiceQuotaChangeHistoryByQuotaResponse>;
 export interface ListServiceQuotaIncreaseRequestsInTemplateRequest {
   ServiceCode?: string;
   AwsRegion?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListServiceQuotaIncreaseRequestsInTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceCode: S.optional(S.String),
-      AwsRegion: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListServiceQuotaIncreaseRequestsInTemplateRequest",
-  }) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateRequest>;
-export type ServiceQuotaIncreaseRequestInTemplateList =
-  ServiceQuotaIncreaseRequestInTemplate[];
+export const ListServiceQuotaIncreaseRequestsInTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceCode: S.optional(S.String),
+    AwsRegion: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListServiceQuotaIncreaseRequestsInTemplateRequest",
+}) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateRequest>;
+export type ServiceQuotaIncreaseRequestInTemplateList = ServiceQuotaIncreaseRequestInTemplate[];
 export const ServiceQuotaIncreaseRequestInTemplateList = /*@__PURE__*/ S.Array(
   ServiceQuotaIncreaseRequestInTemplate,
 );
@@ -875,17 +803,16 @@ export interface ListServiceQuotaIncreaseRequestsInTemplateResponse {
   ServiceQuotaIncreaseRequestInTemplateList?: ServiceQuotaIncreaseRequestInTemplate[];
   NextToken?: string;
 }
-export const ListServiceQuotaIncreaseRequestsInTemplateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceQuotaIncreaseRequestInTemplateList: S.optional(
-        ServiceQuotaIncreaseRequestInTemplateList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListServiceQuotaIncreaseRequestsInTemplateResponse",
-  }) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateResponse>;
+export const ListServiceQuotaIncreaseRequestsInTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceQuotaIncreaseRequestInTemplateList: S.optional(
+      ServiceQuotaIncreaseRequestInTemplateList,
+    ),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListServiceQuotaIncreaseRequestsInTemplateResponse",
+}) as any as S.Schema<ListServiceQuotaIncreaseRequestsInTemplateResponse>;
 export interface ListServiceQuotasRequest {
   ServiceCode: string;
   NextToken?: string;
@@ -900,9 +827,7 @@ export const ListServiceQuotasRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     QuotaCode: S.optional(S.String),
     QuotaAppliedAtLevel: S.optional(AppliedLevelEnum),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListServiceQuotasRequest",
 }) as any as S.Schema<ListServiceQuotasRequest>;
@@ -926,9 +851,7 @@ export const ListServicesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListServicesRequest",
 }) as any as S.Schema<ListServicesRequest>;
@@ -991,32 +914,26 @@ export interface PutServiceQuotaIncreaseRequestIntoTemplateRequest {
   AwsRegion: string;
   DesiredValue: number;
 }
-export const PutServiceQuotaIncreaseRequestIntoTemplateRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      QuotaCode: S.String,
-      ServiceCode: S.String,
-      AwsRegion: S.String,
-      DesiredValue: S.Number,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "PutServiceQuotaIncreaseRequestIntoTemplateRequest",
-  }) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateRequest>;
+export const PutServiceQuotaIncreaseRequestIntoTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    QuotaCode: S.String,
+    ServiceCode: S.String,
+    AwsRegion: S.String,
+    DesiredValue: S.Number,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "PutServiceQuotaIncreaseRequestIntoTemplateRequest",
+}) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateRequest>;
 export interface PutServiceQuotaIncreaseRequestIntoTemplateResponse {
   ServiceQuotaIncreaseRequestInTemplate?: ServiceQuotaIncreaseRequestInTemplate;
 }
-export const PutServiceQuotaIncreaseRequestIntoTemplateResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ServiceQuotaIncreaseRequestInTemplate: S.optional(
-        ServiceQuotaIncreaseRequestInTemplate,
-      ),
-    }),
-  ).annotate({
-    identifier: "PutServiceQuotaIncreaseRequestIntoTemplateResponse",
-  }) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateResponse>;
+export const PutServiceQuotaIncreaseRequestIntoTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ServiceQuotaIncreaseRequestInTemplate: S.optional(ServiceQuotaIncreaseRequestInTemplate),
+  }),
+).annotate({
+  identifier: "PutServiceQuotaIncreaseRequestIntoTemplateResponse",
+}) as any as S.Schema<PutServiceQuotaIncreaseRequestIntoTemplateResponse>;
 export type SupportCaseAllowed = boolean;
 export interface RequestServiceQuotaIncreaseRequest {
   ServiceCode: string;
@@ -1032,9 +949,7 @@ export const RequestServiceQuotaIncreaseRequest = /*@__PURE__*/ S.suspend(() =>
     DesiredValue: S.Number,
     ContextId: S.optional(S.String),
     SupportCaseAllowed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RequestServiceQuotaIncreaseRequest",
 }) as any as S.Schema<RequestServiceQuotaIncreaseRequest>;
@@ -1050,10 +965,7 @@ export type ExcludedLimit = string;
 export type ExcludedQuotaList = string[];
 export const ExcludedQuotaList = /*@__PURE__*/ S.Array(S.String);
 export type ExclusionList = { [key: string]: string[] | undefined };
-export const ExclusionList = /*@__PURE__*/ S.Record(
-  S.String,
-  ExcludedQuotaList.pipe(S.optional),
-);
+export const ExclusionList = /*@__PURE__*/ S.Record(S.String, ExcludedQuotaList.pipe(S.optional));
 export interface StartAutoManagementRequest {
   OptInLevel: OptInLevel;
   OptInType: OptInType;
@@ -1066,23 +978,17 @@ export const StartAutoManagementRequest = /*@__PURE__*/ S.suspend(() =>
     OptInType: OptInType,
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartAutoManagementRequest",
 }) as any as S.Schema<StartAutoManagementRequest>;
 export interface StartAutoManagementResponse {}
-export const StartAutoManagementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartAutoManagementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartAutoManagementResponse",
 }) as any as S.Schema<StartAutoManagementResponse>;
 export interface StartQuotaUtilizationReportRequest {}
 export const StartQuotaUtilizationReportRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartQuotaUtilizationReportRequest",
 }) as any as S.Schema<StartQuotaUtilizationReportRequest>;
@@ -1103,16 +1009,12 @@ export const StartQuotaUtilizationReportResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StartQuotaUtilizationReportResponse>;
 export interface StopAutoManagementRequest {}
 export const StopAutoManagementRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StopAutoManagementRequest",
 }) as any as S.Schema<StopAutoManagementRequest>;
 export interface StopAutoManagementResponse {}
-export const StopAutoManagementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopAutoManagementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopAutoManagementResponse",
 }) as any as S.Schema<StopAutoManagementResponse>;
 export type InputTags = Tag[];
@@ -1129,9 +1031,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type InputTagKeys = string[];
@@ -1148,9 +1048,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAutoManagementRequest {
@@ -1163,16 +1061,12 @@ export const UpdateAutoManagementRequest = /*@__PURE__*/ S.suspend(() =>
     OptInType: S.optional(OptInType),
     NotificationArn: S.optional(S.String),
     ExclusionList: S.optional(ExclusionList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateAutoManagementRequest",
 }) as any as S.Schema<UpdateAutoManagementRequest>;
 export interface UpdateAutoManagementResponse {}
-export const UpdateAutoManagementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateAutoManagementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateAutoManagementResponse",
 }) as any as S.Schema<UpdateAutoManagementResponse>;
 export type ExceptionMessage = string;

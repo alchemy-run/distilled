@@ -58,21 +58,14 @@ export interface GraphQLOpTrait {
 export const graphqlOpSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-op");
 
 /** Marks an operation input with its GraphQL document (`com.flyio.graphql#operation`). */
-export const GraphQLOp = (op: GraphQLOpTrait) =>
-  makeAnnotation(graphqlOpSymbol, op);
+export const GraphQLOp = (op: GraphQLOpTrait) => makeAnnotation(graphqlOpSymbol, op);
 
-export const responsePathSymbol = Symbol.for(
-  "@distilled.cloud/fly-io/graphql-response-path",
-);
+export const responsePathSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-response-path");
 
 /** Dotted path under GraphQL `data` (`com.flyio.graphql#responsePath`). */
-export const ResponsePath = (path: string) =>
-  makeAnnotation(responsePathSymbol, path);
+export const ResponsePath = (path: string) => makeAnnotation(responsePathSymbol, path);
 
-export const graphqlPayloadRootSymbol = Symbol.for(
-  "@distilled.cloud/fly-io/graphql-payload-root",
-);
+export const graphqlPayloadRootSymbol = Symbol.for("@distilled.cloud/fly-io/graphql-payload-root");
 
 /** Marks a response whose entire value is `data.<responsePath>`. */
-export const GraphQLPayloadRoot = () =>
-  makeAnnotation(graphqlPayloadRootSymbol, true);
+export const GraphQLPayloadRoot = () => makeAnnotation(graphqlPayloadRootSymbol, true);

@@ -5,9 +5,9 @@
  * when the user doesn't provide a value. This ensures request retry safety.
  */
 
+import * as crypto from "node:crypto";
 import * as S from "effect/Schema";
 import * as AST from "effect/SchemaAST";
-import * as crypto from "node:crypto";
 import { hasIdempotencyToken } from "../traits.ts";
 
 /**
@@ -49,10 +49,7 @@ export const findIdempotencyTokenProps = (schema: S.Top): string[] => {
  * Fill in undefined idempotency tokens with generated UUIDs.
  * Uses pre-computed property names for efficiency.
  */
-export const fillIdempotencyTokens = (
-  input: unknown,
-  idempotencyTokenProps: string[],
-): unknown => {
+export const fillIdempotencyTokens = (input: unknown, idempotencyTokenProps: string[]): unknown => {
   // Fast path: no idempotency tokens to fill
   if (idempotencyTokenProps.length === 0) {
     return input;

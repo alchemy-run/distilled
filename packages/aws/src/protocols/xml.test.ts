@@ -3,20 +3,20 @@ import { describe, it } from "node:test";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import * as S from "effect/Schema";
+import * as Stream from "effect/Stream";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
+import type { Response } from "../client/response.ts";
 import * as Credentials from "../credentials.browser.ts";
 import * as Endpoint from "../endpoint.ts";
+import { ParseError } from "../errors.ts";
+import { encodeMessage, stringHeader } from "../eventstream/codec.ts";
 import type * as Region from "../region.ts";
 import * as S3Control from "../services/s3-control.ts";
 import * as S3 from "../services/s3.ts";
 import * as SigV4 from "../sigv4.ts";
-import * as S from "effect/Schema";
-import * as Stream from "effect/Stream";
-import { encodeMessage, stringHeader } from "../eventstream/codec.ts";
-import type { Response } from "../client/response.ts";
-import { ParseError } from "../errors.ts";
 import * as T from "../traits.ts";
 import { awsQueryProtocol } from "./aws-query.ts";
 import { ec2QueryProtocol } from "./ec2-query.ts";
@@ -52,15 +52,12 @@ for (const [name, protocol] of Object.entries({
         : `<ListResponse xmlns="urn:test">${members}</ListResponse>`;
 
     it("decodes response wrappers and schema-directed primitives/lists", () => {
-      assert.deepEqual(
-        Effect.runSync(handler.deserializeResponse(response(body))),
-        {
-          name: " a&b😀 ",
-          count: 2,
-          enabled: true,
-          items: ["x", "y"],
-        },
-      );
+      assert.deepEqual(Effect.runSync(handler.deserializeResponse(response(body))), {
+        name: " a&b😀 ",
+        count: 2,
+        enabled: true,
+        items: ["x", "y"],
+      });
     });
 
     it("reads UTF-8 XML split across HTTP chunks", async () => {
@@ -73,9 +70,7 @@ for (const [name, protocol] of Object.entries({
         },
       });
       assert.deepEqual(
-        await Effect.runPromise(
-          handler.deserializeResponse({ ...response(""), body: stream }),
-        ),
+        await Effect.runPromise(handler.deserializeResponse({ ...response(""), body: stream })),
         {
           name: " a&b😀 ",
           count: 2,
@@ -86,10 +81,7 @@ for (const [name, protocol] of Object.entries({
     });
 
     it("accepts empty successful response bodies", () => {
-      assert.deepEqual(
-        Effect.runSync(handler.deserializeResponse(response(""))),
-        {},
-      );
+      assert.deepEqual(Effect.runSync(handler.deserializeResponse(response(""))), {});
     });
 
     for (const method of ["deserializeResponse", "deserializeError"] as const) {
@@ -109,28 +101,24 @@ for (const [name, protocol] of Object.entries({
     }
 
     it("decodes the protocol's error envelope", () => {
-      const error =
-        "<Error><Code>Denied</Code><Message>A &amp; B &#65;</Message></Error>";
+      const error = "<Error><Code>Denied</Code><Message>A &amp; B &#65;</Message></Error>";
       const body =
         name === "ec2QueryProtocol"
           ? `<Response><Errors>${error}</Errors><RequestID>req</RequestID></Response>`
           : name === "awsQueryProtocol"
             ? `<ErrorResponse>${error}<RequestId>req</RequestId></ErrorResponse>`
             : error;
-      assert.deepEqual(
-        Effect.runSync(handler.deserializeError(response(body, 400))),
-        {
-          errorCode: "Denied",
-          data: {
-            Message: "A & B A",
-            ...(name === "ec2QueryProtocol"
-              ? { RequestID: "req" }
-              : name === "awsQueryProtocol"
-                ? { RequestId: "req" }
-                : {}),
-          },
+      assert.deepEqual(Effect.runSync(handler.deserializeError(response(body, 400))), {
+        errorCode: "Denied",
+        data: {
+          Message: "A & B A",
+          ...(name === "ec2QueryProtocol"
+            ? { RequestID: "req" }
+            : name === "awsQueryProtocol"
+              ? { RequestId: "req" }
+              : {}),
         },
-      );
+      });
     });
   });
 }
@@ -147,9 +135,7 @@ describe("REST XML bindings", () => {
     assert.deepEqual(
       Effect.runSync(
         handler.deserializeResponse(
-          response(
-            '<R id="001"><Key> key </Key><item>a</item><item>b</item><empty/></R>',
-          ),
+          response('<R id="001"><Key> key </Key><item>a</item><item>b</item><empty/></R>'),
         ),
       ),
       {
@@ -163,17 +149,11 @@ describe("REST XML bindings", () => {
 
   it("decodes structured HTTP payloads", () => {
     const output = S.Struct({
-      payload: S.Struct({ Key: S.String })
-        .annotate({ identifier: "Data" })
-        .pipe(T.HttpPayload()),
+      payload: S.Struct({ Key: S.String }).annotate({ identifier: "Data" }).pipe(T.HttpPayload()),
     });
     const handler = restXmlProtocol({ input, output, errors: [] });
     assert.deepEqual(
-      Effect.runSync(
-        handler.deserializeResponse(
-          response("<Data><Key>a&amp;b</Key></Data>"),
-        ),
-      ),
+      Effect.runSync(handler.deserializeResponse(response("<Data><Key>a&amp;b</Key></Data>"))),
       { payload: { Key: "a&b" } },
     );
   });
@@ -186,36 +166,27 @@ describe("REST XML bindings", () => {
     assert.deepEqual(
       Effect.runSync(
         handler.deserializeResponse(
-          response(
-            '<LocationConstraint xmlns="urn:s3">eu-west-1</LocationConstraint>',
-          ),
+          response('<LocationConstraint xmlns="urn:s3">eu-west-1</LocationConstraint>'),
         ),
       ),
       { LocationConstraint: "eu-west-1" },
     );
     assert.deepEqual(
-      Effect.runSync(
-        handler.deserializeResponse(
-          response('<LocationConstraint xmlns="urn:s3"/>'),
-        ),
-      ),
+      Effect.runSync(handler.deserializeResponse(response('<LocationConstraint xmlns="urn:s3"/>'))),
       {},
     );
   });
 
   it("retains S3 empty-body and HTML error handling", () => {
     const handler = restXmlProtocol(operation);
-    assert.deepEqual(
-      Effect.runSync(handler.deserializeError(response("", 404))),
-      { errorCode: "NotFound", data: {} },
-    );
+    assert.deepEqual(Effect.runSync(handler.deserializeError(response("", 404))), {
+      errorCode: "NotFound",
+      data: {},
+    });
     assert.deepEqual(
       Effect.runSync(
         handler.deserializeError(
-          response(
-            "<html><li>Code: SlowDown</li><li>Message: retry</li></html>",
-            503,
-          ),
+          response("<html><li>Code: SlowDown</li><li>Message: retry</li></html>", 503),
         ),
       ),
       { errorCode: "SlowDown", data: { Message: "retry" } },
@@ -265,9 +236,7 @@ it("REST XML event payloads retain the synchronous raw-text fallback", async () 
       controller.close();
     },
   });
-  const result = Effect.runSync(
-    handler.deserializeResponse({ ...response(""), body }),
-  ) as {
+  const result = Effect.runSync(handler.deserializeResponse({ ...response(""), body })) as {
     events: Stream.Stream<unknown, Error>;
   };
   const events = await Effect.runPromise(Stream.runCollect(result.events));
@@ -287,11 +256,7 @@ const credentials = {
 };
 
 const capture = <A, E>(
-  operation: Effect.Effect<
-    A,
-    E,
-    Credentials.Credentials | HttpClient.HttpClient
-  >,
+  operation: Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
   body?: string,
 ) =>
   Effect.gen(function* () {
@@ -330,11 +295,7 @@ const capture = <A, E>(
   });
 
 const captureSigned = <A, E>(
-  operation: Effect.Effect<
-    A,
-    E,
-    Credentials.Credentials | HttpClient.HttpClient
-  >,
+  operation: Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
 ) =>
   Effect.gen(function* () {
     const { request } = yield* capture(operation);
@@ -348,9 +309,7 @@ const captureSigned = <A, E>(
     const signed = yield* SigV4.sign({
       method: request.method,
       url: request.url,
-      headers: Object.fromEntries(
-        signedHeaderNames.map((name) => [name, request.headers[name]]),
-      ),
+      headers: Object.fromEntries(signedHeaderNames.map((name) => [name, request.headers[name]])),
       accessKeyId: Redacted.value(credentials.accessKeyId),
       secretAccessKey: credentials.secretAccessKey,
       sessionToken: credentials.sessionToken,
@@ -383,9 +342,7 @@ describe("AwsProtocol REST-XML empty values", () => {
     `<EventBridgeConfiguration xmlns="${xmlns}"/>`,
   ]) {
     it(`preserves the modeled empty structure in ${element}`, async () => {
-      const { output } = await Effect.runPromise(
-        getNotifications(notificationXml(element)),
-      );
+      const { output } = await Effect.runPromise(getNotifications(notificationXml(element)));
       assert.deepEqual(output.EventBridgeConfiguration, {});
       assert.equal(output.QueueConfigurations, undefined);
       assert.equal(output.TopicConfigurations, undefined);
@@ -393,10 +350,7 @@ describe("AwsProtocol REST-XML empty values", () => {
     });
   }
 
-  for (const body of [
-    notificationXml(""),
-    `<NotificationConfiguration xmlns="${xmlns}"/>`,
-  ]) {
+  for (const body of [notificationXml(""), `<NotificationConfiguration xmlns="${xmlns}"/>`]) {
     it(`does not invent EventBridgeConfiguration in ${body}`, async () => {
       const { output } = await Effect.runPromise(getNotifications(body));
       assert.equal(output.EventBridgeConfiguration, undefined);
@@ -424,10 +378,7 @@ describe("AwsProtocol REST-XML empty values", () => {
     assert.equal(request.headers["content-type"], "application/xml");
     const web = await Effect.runPromise(HttpClientRequest.toWeb(request));
     const body = await web.text();
-    assert.equal(
-      body,
-      notificationXml("<EventBridgeConfiguration></EventBridgeConfiguration>"),
-    );
+    assert.equal(body, notificationXml("<EventBridgeConfiguration></EventBridgeConfiguration>"));
     const { output } = await Effect.runPromise(getNotifications(body));
     assert.deepEqual(output.EventBridgeConfiguration, {});
   });
@@ -462,11 +413,7 @@ describe("AwsProtocol REST-XML empty values", () => {
     assert.equal(output.Contents, undefined);
   });
 
-  for (const content of [
-    "<RoutingRules/>",
-    "<RoutingRules></RoutingRules>",
-    "",
-  ]) {
+  for (const content of ["<RoutingRules/>", "<RoutingRules></RoutingRules>", ""]) {
     it(`keeps an empty or absent wrapped list undefined: ${content}`, async () => {
       const { output } = await Effect.runPromise(
         capture(
@@ -511,9 +458,7 @@ const object = { Bucket: "examplebucket", Key: "reports/part.md" };
 describe("AwsProtocol Content-Type serialization", () => {
   it("preserves CreateMultipartUpload ContentType with an empty body", async () => {
     const request = await Effect.runPromise(
-      captureSigned(
-        S3.createMultipartUpload({ ...object, ContentType: "text/markdown" }),
-      ),
+      captureSigned(S3.createMultipartUpload({ ...object, ContentType: "text/markdown" })),
     );
     assert.equal(request.method, "POST");
     assert.equal(new URL(request.url).searchParams.has("uploads"), true);
@@ -523,17 +468,12 @@ describe("AwsProtocol Content-Type serialization", () => {
 
     const web = await Effect.runPromise(HttpClientRequest.toWeb(request));
     assert.equal(web.headers.get("content-type"), "text/markdown");
-    assert.equal(
-      web.headers.get("authorization"),
-      request.headers.authorization,
-    );
+    assert.equal(web.headers.get("authorization"), request.headers.authorization);
     assert.equal(await web.text(), "");
   });
 
   it("does not add Content-Type when CreateMultipartUpload omits it", async () => {
-    const request = await Effect.runPromise(
-      captureSigned(S3.createMultipartUpload(object)),
-    );
+    const request = await Effect.runPromise(captureSigned(S3.createMultipartUpload(object)));
     assert.equal(request.body._tag, "Empty");
     assert.equal(request.headers["content-type"], undefined);
     assert.equal(request.headers["content-length"], undefined);
@@ -550,9 +490,7 @@ describe("AwsProtocol Content-Type serialization", () => {
   ] as const) {
     it(`preserves modeled Content-Type and ${name} in a regular PutObject body`, async () => {
       const request = await Effect.runPromise(
-        captureSigned(
-          S3.putObject({ ...object, Body, ContentType: "text/markdown" }),
-        ),
+        captureSigned(S3.putObject({ ...object, Body, ContentType: "text/markdown" })),
       );
       assert.equal(request.method, "PUT");
       assert.equal(request.body._tag, "Uint8Array");
@@ -561,19 +499,14 @@ describe("AwsProtocol Content-Type serialization", () => {
 
       const web = await Effect.runPromise(HttpClientRequest.toWeb(request));
       assert.equal(web.headers.get("content-type"), "text/markdown");
-      assert.equal(
-        web.headers.get("authorization"),
-        request.headers.authorization,
-      );
+      assert.equal(web.headers.get("authorization"), request.headers.authorization);
       assert.equal(await web.text(), content);
     });
   }
 
   it("retains the default content type for a regular byte body", async () => {
     const request = await Effect.runPromise(
-      captureSigned(
-        S3.putObject({ ...object, Body: new TextEncoder().encode(content) }),
-      ),
+      captureSigned(S3.putObject({ ...object, Body: new TextEncoder().encode(content) })),
     );
     assert.equal(request.body._tag, "Uint8Array");
     assert.equal(request.headers["content-type"], "application/octet-stream");

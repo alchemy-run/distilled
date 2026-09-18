@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Sentry error — returned when nothing else matches the failure. */
 export class UnknownSentryError extends Schema.TaggedError<UnknownSentryError>()(
@@ -41,10 +41,7 @@ export class UnknownSentryError extends Schema.TaggedError<UnknownSentryError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
-export class SentryParseError extends Schema.TaggedError<SentryParseError>()(
-  "SentryParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class SentryParseError extends Schema.TaggedError<SentryParseError>()("SentryParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

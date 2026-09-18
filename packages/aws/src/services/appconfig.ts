@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "AppConfig",
   serviceShapeName: "AmazonAppConfig",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -64,13 +60,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (Region === "us-gov-west-1") {
               return e("https://appconfig.us-gov-west-1.amazonaws.com");
             }
-            return e(
-              `https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://appconfig-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,13 +70,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://appconfig.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://appconfig.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -126,9 +114,7 @@ export class PayloadTooLargeException
     "PayloadTooLargeException",
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Measure: S.optional(
-        S.suspend(() => BytesMeasure).annotate({ identifier: "BytesMeasure" }),
-      ),
+      Measure: S.optional(S.suspend(() => BytesMeasure).annotate({ identifier: "BytesMeasure" })),
       Limit: S.optional(S.Number),
       Size: S.optional(S.Number),
     },
@@ -154,10 +140,7 @@ export type Description = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateApplicationRequest {
   Name: string;
   Description?: string;
@@ -168,16 +151,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     Name: S.String,
     Description: S.optional(S.String),
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -200,9 +174,7 @@ export type RoleArn = string;
 export type ValidatorType = "JSON_SCHEMA" | "LAMBDA" | (string & {});
 export const ValidatorType = S.String;
 
-export type StringWithLengthBetween0And32768 =
-  | string
-  | redacted.Redacted<string>;
+export type StringWithLengthBetween0And32768 = string | redacted.Redacted<string>;
 export interface Validator {
   Type: ValidatorType;
   Content: string | redacted.Redacted<string>;
@@ -310,14 +282,7 @@ export const CreateDeploymentStrategyRequest = /*@__PURE__*/ S.suspend(() =>
     ReplicateTo: S.optional(ReplicateTo),
     Tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/deploymentstrategies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/deploymentstrategies" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDeploymentStrategyRequest",
@@ -468,10 +433,7 @@ export const AttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ NumberArray: NumberList }),
 ]);
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
-export const AttributeValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  AttributeValue.pipe(S.optional),
-);
+export const AttributeValueMap = /*@__PURE__*/ S.Record(S.String, AttributeValue.pipe(S.optional));
 export interface FlagValue {
   Enabled: boolean;
   AttributeValues?: { [key: string]: AttributeValue | undefined };
@@ -541,11 +503,7 @@ export const CreateExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateExperimentDefinitionRequest",
 }) as any as S.Schema<CreateExperimentDefinitionRequest>;
-export type ExperimentDefinitionStatus =
-  | "ACTIVE"
-  | "IDLE"
-  | "ARCHIVED"
-  | (string & {});
+export type ExperimentDefinitionStatus = "ACTIVE" | "IDLE" | "ARCHIVED" | (string & {});
 export const ExperimentDefinitionStatus = S.String;
 
 export type TreatmentKey = string;
@@ -599,12 +557,8 @@ export const ExperimentDefinition = /*@__PURE__*/ S.suspend(() =>
     LaunchCriteria: S.optional(S.String),
     Treatments: S.optional(TreatmentList),
     Control: S.optional(Treatment),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     KmsKeyIdentifier: S.optional(S.String),
   }),
 ).annotate({
@@ -640,10 +594,7 @@ export const Action = /*@__PURE__*/ S.suspend(() =>
 export type ActionList = Action[];
 export const ActionList = /*@__PURE__*/ S.Array(Action);
 export type ActionsMap = { [key in ActionPoint]?: Action[] };
-export const ActionsMap = /*@__PURE__*/ S.Record(
-  ActionPoint,
-  ActionList.pipe(S.optional),
-);
+export const ActionsMap = /*@__PURE__*/ S.Record(ActionPoint, ActionList.pipe(S.optional));
 export interface Parameter {
   Description?: string;
   Required?: boolean;
@@ -657,10 +608,7 @@ export const Parameter = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Parameter" }) as any as S.Schema<Parameter>;
 export type ParameterMap = { [key: string]: Parameter | undefined };
-export const ParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  Parameter.pipe(S.optional),
-);
+export const ParameterMap = /*@__PURE__*/ S.Record(S.String, Parameter.pipe(S.optional));
 export interface CreateExtensionRequest {
   Name: string;
   Description?: string;
@@ -676,19 +624,8 @@ export const CreateExtensionRequest = /*@__PURE__*/ S.suspend(() =>
     Actions: ActionsMap,
     Parameters: S.optional(ParameterMap),
     Tags: S.optional(TagMap),
-    LatestVersionNumber: S.optional(S.Number).pipe(
-      T.HttpHeader("Latest-Version-Number"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/extensions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    LatestVersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Latest-Version-Number")),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/extensions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateExtensionRequest",
 }) as any as S.Schema<CreateExtensionRequest>;
@@ -713,10 +650,7 @@ export const Extension = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Extension" }) as any as S.Schema<Extension>;
 export type ParameterValueMap = { [key: string]: string | undefined };
-export const ParameterValueMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ParameterValueMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateExtensionAssociationRequest {
   ExtensionIdentifier: string;
   ExtensionVersionNumber?: number;
@@ -732,14 +666,7 @@ export const CreateExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
     Parameters: S.optional(ParameterValueMap),
     Tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/extensionassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/extensionassociations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateExtensionAssociationRequest",
@@ -775,33 +702,28 @@ export interface CreateHostedConfigurationVersionRequest {
   LatestVersionNumber?: number;
   VersionLabel?: string;
 }
-export const CreateHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
-      Content: T.StreamingInput.pipe(T.HttpPayload()),
-      ContentType: S.String.pipe(T.HttpHeader("Content-Type")),
-      LatestVersionNumber: S.optional(S.Number).pipe(
-        T.HttpHeader("Latest-Version-Number"),
-      ),
-      VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
+    Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
+    Content: T.StreamingInput.pipe(T.HttpPayload()),
+    ContentType: S.String.pipe(T.HttpHeader("Content-Type")),
+    LatestVersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Latest-Version-Number")),
+    VersionLabel: S.optional(S.String).pipe(T.HttpHeader("VersionLabel")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateHostedConfigurationVersionRequest",
 }) as any as S.Schema<CreateHostedConfigurationVersionRequest>;
@@ -818,9 +740,7 @@ export interface HostedConfigurationVersion {
 export const HostedConfigurationVersion = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.optional(S.String).pipe(T.HttpHeader("Application-Id")),
-    ConfigurationProfileId: S.optional(S.String).pipe(
-      T.HttpHeader("Configuration-Profile-Id"),
-    ),
+    ConfigurationProfileId: S.optional(S.String).pipe(T.HttpHeader("Configuration-Profile-Id")),
     VersionNumber: S.optional(S.Number).pipe(T.HttpHeader("Version-Number")),
     Description: S.optional(S.String).pipe(T.HttpHeader("Description")),
     Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
@@ -849,16 +769,10 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
-export type DeletionProtectionCheck =
-  | "ACCOUNT_DEFAULT"
-  | "APPLY"
-  | "BYPASS"
-  | (string & {});
+export type DeletionProtectionCheck = "ACCOUNT_DEFAULT" | "APPLY" | "BYPASS" | (string & {});
 export const DeletionProtectionCheck = S.String;
 
 export interface DeleteConfigurationProfileRequest {
@@ -869,9 +783,7 @@ export interface DeleteConfigurationProfileRequest {
 export const DeleteConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
     DeletionProtectionCheck: S.optional(DeletionProtectionCheck).pipe(
       T.HttpHeader("x-amzn-deletion-protection-check"),
     ),
@@ -955,9 +867,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
 export interface DeleteEnvironmentResponse {}
-export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEnvironmentResponse",
 }) as any as S.Schema<DeleteEnvironmentResponse>;
 export type DeleteType = "ARCHIVE" | "DESTROY" | (string & {});
@@ -971,9 +881,7 @@ export interface DeleteExperimentDefinitionRequest {
 export const DeleteExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     DeleteType: S.optional(DeleteType).pipe(T.HttpQuery("delete_type")),
   }).pipe(
     T.all(
@@ -1019,9 +927,7 @@ export const DeleteExtensionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteExtensionRequest",
 }) as any as S.Schema<DeleteExtensionRequest>;
 export interface DeleteExtensionResponse {}
-export const DeleteExtensionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteExtensionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteExtensionResponse",
 }) as any as S.Schema<DeleteExtensionResponse>;
 export interface DeleteExtensionAssociationRequest {
@@ -1029,9 +935,7 @@ export interface DeleteExtensionAssociationRequest {
 }
 export const DeleteExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
+    ExtensionAssociationId: S.String.pipe(T.HttpLabel("ExtensionAssociationId")),
   }).pipe(
     T.all(
       T.Http({
@@ -1059,47 +963,37 @@ export interface DeleteHostedConfigurationVersionRequest {
   ConfigurationProfileId: string;
   VersionNumber: number;
 }
-export const DeleteHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DeleteHostedConfigurationVersionRequest",
-}) as any as S.Schema<DeleteHostedConfigurationVersionRequest>;
-export interface DeleteHostedConfigurationVersionResponse {}
-export const DeleteHostedConfigurationVersionResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DeleteHostedConfigurationVersionResponse",
-}) as any as S.Schema<DeleteHostedConfigurationVersionResponse>;
-export interface GetAccountSettingsRequest {}
-export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
+export const DeleteHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
+  }).pipe(
     T.all(
-      T.Http({ method: "GET", uri: "/settings" }),
+      T.Http({
+        method: "DELETE",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+      }),
       svc,
       auth,
       proto,
       ver,
       rules,
     ),
+  ),
+).annotate({
+  identifier: "DeleteHostedConfigurationVersionRequest",
+}) as any as S.Schema<DeleteHostedConfigurationVersionRequest>;
+export interface DeleteHostedConfigurationVersionResponse {}
+export const DeleteHostedConfigurationVersionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteHostedConfigurationVersionResponse",
+}) as any as S.Schema<DeleteHostedConfigurationVersionResponse>;
+export interface GetAccountSettingsRequest {}
+export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(T.Http({ method: "GET", uri: "/settings" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAccountSettingsRequest",
@@ -1196,9 +1090,7 @@ export interface Configuration {
 export const Configuration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Content: S.optional(T.StreamingOutput).pipe(T.HttpPayload()),
-    ConfigurationVersion: S.optional(S.String).pipe(
-      T.HttpHeader("Configuration-Version"),
-    ),
+    ConfigurationVersion: S.optional(S.String).pipe(T.HttpHeader("Configuration-Version")),
     ContentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
   }),
 ).annotate({ identifier: "Configuration" }) as any as S.Schema<Configuration>;
@@ -1209,9 +1101,7 @@ export interface GetConfigurationProfileRequest {
 export const GetConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
   }).pipe(
     T.all(
       T.Http({
@@ -1321,9 +1211,7 @@ export const DeploymentEvent = /*@__PURE__*/ S.suspend(() =>
     TriggeredBy: S.optional(TriggeredBy),
     Description: S.optional(S.String),
     ActionInvocations: S.optional(ActionInvocations),
-    OccurredAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    OccurredAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DeploymentEvent",
@@ -1390,12 +1278,8 @@ export const Deployment = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(DeploymentState),
     EventLog: S.optional(DeploymentEvents),
     PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     AppliedExtensions: S.optional(AppliedExtensions),
     KmsKeyArn: S.optional(S.String),
     KmsKeyIdentifier: S.optional(S.String),
@@ -1455,9 +1339,7 @@ export interface GetExperimentDefinitionRequest {
 export const GetExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -1483,9 +1365,7 @@ export interface GetExperimentRunRequest {
 export const GetExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Run: S.Number.pipe(T.HttpLabel("Run")),
   }).pipe(
     T.all(
@@ -1509,10 +1389,7 @@ export const ExperimentRunStatus = S.String;
 export type NullablePercentage = number;
 export type EntityId = string;
 export type TreatmentOverrideMap = { [key: string]: string | undefined };
-export const TreatmentOverrideMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TreatmentOverrideMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type TreatmentOverrides = {
   Inline: { [key: string]: string | undefined };
 };
@@ -1589,12 +1466,8 @@ export const ExperimentRun = /*@__PURE__*/ S.suspend(() =>
     ExposurePercentage: S.optional(S.Number),
     TreatmentOverrides: S.optional(TreatmentOverrides),
     Result: S.optional(ExperimentRunResult),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ExperimentDefinitionSnapshot: S.optional(ExperimentDefinitionSnapshot),
   }),
@@ -1625,9 +1498,7 @@ export interface GetExtensionAssociationRequest {
 }
 export const GetExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
+    ExtensionAssociationId: S.String.pipe(T.HttpLabel("ExtensionAssociationId")),
   }).pipe(
     T.all(
       T.Http({
@@ -1649,27 +1520,24 @@ export interface GetHostedConfigurationVersionRequest {
   ConfigurationProfileId: string;
   VersionNumber: number;
 }
-export const GetHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetHostedConfigurationVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
+    VersionNumber: S.Number.pipe(T.HttpLabel("VersionNumber")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions/{VersionNumber}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetHostedConfigurationVersionRequest",
 }) as any as S.Schema<GetHostedConfigurationVersionRequest>;
@@ -1683,16 +1551,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -1759,9 +1618,7 @@ export const ConfigurationProfileSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigurationProfileSummary",
 }) as any as S.Schema<ConfigurationProfileSummary>;
 export type ConfigurationProfileSummaryList = ConfigurationProfileSummary[];
-export const ConfigurationProfileSummaryList = /*@__PURE__*/ S.Array(
-  ConfigurationProfileSummary,
-);
+export const ConfigurationProfileSummaryList = /*@__PURE__*/ S.Array(ConfigurationProfileSummary);
 export interface ConfigurationProfiles {
   Items?: ConfigurationProfileSummary[];
   NextToken?: string;
@@ -1833,12 +1690,8 @@ export const DeploymentSummary = /*@__PURE__*/ S.suspend(() =>
     FinalBakeTimeInMinutes: S.optional(S.Number),
     State: S.optional(DeploymentState),
     PercentageComplete: S.optional(S.Number),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     VersionLabel: S.optional(S.String),
     Type: S.optional(DeploymentType),
   }),
@@ -1866,14 +1719,7 @@ export const ListDeploymentStrategiesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/deploymentstrategies" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/deploymentstrategies" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDeploymentStrategiesRequest",
@@ -1940,27 +1786,16 @@ export interface ListExperimentDefinitionsRequest {
 }
 export const ListExperimentDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ApplicationIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("application_identifier"),
-    ),
+    ApplicationIdentifier: S.optional(S.String).pipe(T.HttpQuery("application_identifier")),
     ConfigurationProfileIdentifier: S.optional(S.String).pipe(
       T.HttpQuery("configuration_profile_identifier"),
     ),
-    EnvironmentIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("environment_identifier"),
-    ),
+    EnvironmentIdentifier: S.optional(S.String).pipe(T.HttpQuery("environment_identifier")),
     Status: S.optional(ExperimentDefinitionStatus).pipe(T.HttpQuery("status")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/experimentdefinitions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/experimentdefinitions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListExperimentDefinitionsRequest",
@@ -1987,20 +1822,14 @@ export const ExperimentDefinitionSummary = /*@__PURE__*/ S.suspend(() =>
     ConfigurationProfileId: S.optional(S.String),
     EnvironmentId: S.optional(S.String),
     FlagKey: S.optional(S.String),
-    CreatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ExperimentDefinitionSummary",
 }) as any as S.Schema<ExperimentDefinitionSummary>;
 export type ExperimentDefinitionList = ExperimentDefinitionSummary[];
-export const ExperimentDefinitionList = /*@__PURE__*/ S.Array(
-  ExperimentDefinitionSummary,
-);
+export const ExperimentDefinitionList = /*@__PURE__*/ S.Array(ExperimentDefinitionSummary);
 export interface ExperimentDefinitions {
   Items?: ExperimentDefinitionSummary[];
   NextToken?: string;
@@ -2023,9 +1852,7 @@ export interface ListExperimentRunEventsRequest {
 export const ListExperimentRunEventsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Run: S.Number.pipe(T.HttpLabel("Run")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
@@ -2067,9 +1894,7 @@ export const ExperimentRunEvent = /*@__PURE__*/ S.suspend(() =>
     Description: S.optional(S.String),
     AssociatedDeployment: S.optional(S.String),
     EventType: S.optional(ExperimentRunEventType),
-    OccurredAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    OccurredAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TriggeredBy: S.optional(TriggeredBy),
     ExposurePercentage: S.optional(S.Number),
     TreatmentOverrides: S.optional(TreatmentOverrides),
@@ -2101,9 +1926,7 @@ export interface ListExperimentRunsRequest {
 export const ListExperimentRunsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     Status: S.optional(ExperimentRunStatus).pipe(T.HttpQuery("status")),
@@ -2138,20 +1961,15 @@ export const ExperimentRunSummary = /*@__PURE__*/ S.suspend(() =>
     Run: S.optional(S.Number),
     Description: S.optional(S.String),
     Status: S.optional(ExperimentRunStatus),
-    StartedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "ExperimentRunSummary",
 }) as any as S.Schema<ExperimentRunSummary>;
 export type ExperimentRunSummaryList = ExperimentRunSummary[];
-export const ExperimentRunSummaryList =
-  /*@__PURE__*/ S.Array(ExperimentRunSummary);
+export const ExperimentRunSummaryList = /*@__PURE__*/ S.Array(ExperimentRunSummary);
 export interface ExperimentRuns {
   Items?: ExperimentRunSummary[];
   NextToken?: string;
@@ -2171,26 +1989,13 @@ export interface ListExtensionAssociationsRequest {
 }
 export const ListExtensionAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ResourceIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("resource_identifier"),
-    ),
-    ExtensionIdentifier: S.optional(S.String).pipe(
-      T.HttpQuery("extension_identifier"),
-    ),
-    ExtensionVersionNumber: S.optional(S.Number).pipe(
-      T.HttpQuery("extension_version_number"),
-    ),
+    ResourceIdentifier: S.optional(S.String).pipe(T.HttpQuery("resource_identifier")),
+    ExtensionIdentifier: S.optional(S.String).pipe(T.HttpQuery("extension_identifier")),
+    ExtensionVersionNumber: S.optional(S.Number).pipe(T.HttpQuery("extension_version_number")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/extensionassociations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/extensionassociations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListExtensionAssociationsRequest",
@@ -2210,9 +2015,7 @@ export const ExtensionAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExtensionAssociationSummary",
 }) as any as S.Schema<ExtensionAssociationSummary>;
 export type ExtensionAssociationSummaries = ExtensionAssociationSummary[];
-export const ExtensionAssociationSummaries = /*@__PURE__*/ S.Array(
-  ExtensionAssociationSummary,
-);
+export const ExtensionAssociationSummaries = /*@__PURE__*/ S.Array(ExtensionAssociationSummary);
 export interface ExtensionAssociations {
   Items?: ExtensionAssociationSummary[];
   NextToken?: string;
@@ -2236,16 +2039,7 @@ export const ListExtensionsRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
     Name: S.optional(S.String).pipe(T.HttpQuery("name")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/extensions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/extensions" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListExtensionsRequest",
 }) as any as S.Schema<ListExtensionsRequest>;
@@ -2286,29 +2080,26 @@ export interface ListHostedConfigurationVersionsRequest {
   NextToken?: string;
   VersionLabel?: string;
 }
-export const ListHostedConfigurationVersionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-      ConfigurationProfileId: S.String.pipe(
-        T.HttpLabel("ConfigurationProfileId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
-      VersionLabel: S.optional(S.String).pipe(T.HttpQuery("version_label")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListHostedConfigurationVersionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max_results")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("next_token")),
+    VersionLabel: S.optional(S.String).pipe(T.HttpQuery("version_label")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/applications/{ApplicationId}/configurationprofiles/{ConfigurationProfileId}/hostedconfigurationversions",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListHostedConfigurationVersionsRequest",
 }) as any as S.Schema<ListHostedConfigurationVersionsRequest>;
@@ -2334,8 +2125,7 @@ export const HostedConfigurationVersionSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "HostedConfigurationVersionSummary",
 }) as any as S.Schema<HostedConfigurationVersionSummary>;
-export type HostedConfigurationVersionSummaryList =
-  HostedConfigurationVersionSummary[];
+export type HostedConfigurationVersionSummaryList = HostedConfigurationVersionSummary[];
 export const HostedConfigurationVersionSummaryList = /*@__PURE__*/ S.Array(
   HostedConfigurationVersionSummary,
 );
@@ -2356,14 +2146,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2376,10 +2159,7 @@ export const ResourceTags = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ResourceTags" }) as any as S.Schema<ResourceTags>;
 export type DynamicParameterKey = string;
 export type DynamicParameterMap = { [key: string]: string | undefined };
-export const DynamicParameterMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const DynamicParameterMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StartDeploymentRequest {
   ApplicationId: string;
   EnvironmentId: string;
@@ -2444,9 +2224,7 @@ export interface StartExperimentRunRequest {
 export const StartExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Description: S.optional(S.String),
     ExposurePercentage: S.optional(S.Number),
     TreatmentOverrides: S.optional(TreatmentOverrides),
@@ -2506,9 +2284,7 @@ export interface StopExperimentRunRequest {
 export const StopExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Run: S.Number.pipe(T.HttpLabel("Run")),
     Result: S.optional(ExperimentRunResult),
     DeploymentParameters: S.optional(DeploymentParameters),
@@ -2537,22 +2313,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2566,22 +2333,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAccountSettingsRequest {
@@ -2592,16 +2350,7 @@ export const UpdateAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DeletionProtection: S.optional(DeletionProtectionSettings),
     VendedMetrics: S.optional(VendedMetricsSettings),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/settings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PATCH", uri: "/settings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateAccountSettingsRequest",
 }) as any as S.Schema<UpdateAccountSettingsRequest>;
@@ -2641,9 +2390,7 @@ export interface UpdateConfigurationProfileRequest {
 export const UpdateConfigurationProfileRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
     Name: S.optional(S.String),
     Description: S.optional(S.String),
     RetrievalRoleArn: S.optional(S.String),
@@ -2740,9 +2487,7 @@ export interface UpdateExperimentDefinitionRequest {
 export const UpdateExperimentDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Treatments: S.optional(TreatmentInputList),
     Control: S.optional(TreatmentInput),
     Hypothesis: S.optional(S.String),
@@ -2777,9 +2522,7 @@ export interface UpdateExperimentRunRequest {
 export const UpdateExperimentRunRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationIdentifier: S.String.pipe(T.HttpLabel("ApplicationIdentifier")),
-    ExperimentDefinitionIdentifier: S.String.pipe(
-      T.HttpLabel("ExperimentDefinitionIdentifier"),
-    ),
+    ExperimentDefinitionIdentifier: S.String.pipe(T.HttpLabel("ExperimentDefinitionIdentifier")),
     Run: S.Number.pipe(T.HttpLabel("Run")),
     Description: S.optional(S.String),
     ExposurePercentage: S.optional(S.Number),
@@ -2834,9 +2577,7 @@ export interface UpdateExtensionAssociationRequest {
 }
 export const UpdateExtensionAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    ExtensionAssociationId: S.String.pipe(
-      T.HttpLabel("ExtensionAssociationId"),
-    ),
+    ExtensionAssociationId: S.String.pipe(T.HttpLabel("ExtensionAssociationId")),
     Parameters: S.optional(ParameterValueMap),
   }).pipe(
     T.all(
@@ -2862,9 +2603,7 @@ export interface ValidateConfigurationRequest {
 export const ValidateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ApplicationId: S.String.pipe(T.HttpLabel("ApplicationId")),
-    ConfigurationProfileId: S.String.pipe(
-      T.HttpLabel("ConfigurationProfileId"),
-    ),
+    ConfigurationProfileId: S.String.pipe(T.HttpLabel("ConfigurationProfileId")),
     ConfigurationVersion: S.String.pipe(T.HttpQuery("configuration_version")),
   }).pipe(
     T.all(
@@ -2883,9 +2622,7 @@ export const ValidateConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidateConfigurationRequest",
 }) as any as S.Schema<ValidateConfigurationRequest>;
 export interface ValidateConfigurationResponse {}
-export const ValidateConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const ValidateConfigurationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "ValidateConfigurationResponse",
 }) as any as S.Schema<ValidateConfigurationResponse>;
 export type BadRequestReason = "InvalidConfiguration" | (string & {});
@@ -2910,9 +2647,7 @@ export const InvalidConfigurationDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvalidConfigurationDetail",
 }) as any as S.Schema<InvalidConfigurationDetail>;
 export type InvalidConfigurationDetailList = InvalidConfigurationDetail[];
-export const InvalidConfigurationDetailList = /*@__PURE__*/ S.Array(
-  InvalidConfigurationDetail,
-);
+export const InvalidConfigurationDetailList = /*@__PURE__*/ S.Array(InvalidConfigurationDetail);
 export type BadRequestDetails = {
   InvalidConfiguration: InvalidConfigurationDetail[];
 };
@@ -2942,11 +2677,7 @@ export const createApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateApplicationRequest,
   output: Application,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [BadRequestException, InternalServerException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
@@ -3027,11 +2758,7 @@ export const createDeploymentStrategy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDeploymentStrategyRequest,
   output: DeploymentStrategy,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ServiceQuotaExceededException,
-  ],
+  errors: [BadRequestException, InternalServerException, ServiceQuotaExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentStrategy",
@@ -3240,11 +2967,7 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -3298,11 +3021,7 @@ export const deleteDeploymentStrategy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDeploymentStrategyRequest,
   output: DeleteDeploymentStrategyResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentStrategy",
@@ -3384,11 +3103,7 @@ export const deleteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteExtensionRequest,
   output: DeleteExtensionResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtension",
@@ -3411,11 +3126,7 @@ export const deleteExtensionAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteExtensionAssociationRequest,
   output: DeleteExtensionAssociationResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtensionAssociation",
@@ -3438,20 +3149,13 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteHostedConfigurationVersionRequest,
   output: DeleteHostedConfigurationVersionResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedConfigurationVersion",
 }));
 
-export type GetAccountSettingsError =
-  | BadRequestException
-  | InternalServerException
-  | CommonErrors;
+export type GetAccountSettingsError = BadRequestException | InternalServerException | CommonErrors;
 /**
  * Returns information about the status of the `DeletionProtection`
  * parameter.
@@ -3486,11 +3190,7 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: Application,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
@@ -3520,11 +3220,7 @@ export const getConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigurationRequest,
   output: Configuration,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
@@ -3546,11 +3242,7 @@ export const getConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigurationProfileRequest,
   output: ConfigurationProfile,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationProfile",
@@ -3572,11 +3264,7 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentRequest,
   output: Deployment,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
@@ -3602,11 +3290,7 @@ export const getDeploymentStrategy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDeploymentStrategyRequest,
   output: DeploymentStrategy,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStrategy",
@@ -3633,11 +3317,7 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: Environment,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
@@ -3659,11 +3339,7 @@ export const getExperimentDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExperimentDefinitionRequest,
   output: ExperimentDefinition,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentDefinition",
@@ -3685,11 +3361,7 @@ export const getExperimentRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExperimentRunRequest,
   output: ExperimentRun,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentRun",
@@ -3711,11 +3383,7 @@ export const getExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExtensionRequest,
   output: Extension,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtension",
@@ -3739,11 +3407,7 @@ export const getExtensionAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetExtensionAssociationRequest,
   output: ExtensionAssociation,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtensionAssociation",
@@ -3765,20 +3429,13 @@ export const getHostedConfigurationVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetHostedConfigurationVersionRequest,
   output: HostedConfigurationVersion,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedConfigurationVersion",
 }));
 
-export type ListApplicationsError =
-  | BadRequestException
-  | InternalServerException
-  | CommonErrors;
+export type ListApplicationsError = BadRequestException | InternalServerException | CommonErrors;
 /**
  * Lists all applications in your Amazon Web Services account.
  */
@@ -3820,11 +3477,7 @@ export const listConfigurationProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConfigurationProfilesRequest,
   output: ConfigurationProfiles,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationProfiles",
@@ -3853,11 +3506,7 @@ export const listDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentsRequest,
   output: Deployments,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
@@ -3914,11 +3563,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnvironmentsRequest,
   output: Environments,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
@@ -3947,11 +3592,7 @@ export const listExperimentDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListExperimentDefinitionsRequest,
   output: ExperimentDefinitions,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentDefinitions",
@@ -3980,11 +3621,7 @@ export const listExperimentRunEvents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListExperimentRunEventsRequest,
   output: ExperimentRunEvents,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentRunEvents",
@@ -4013,11 +3650,7 @@ export const listExperimentRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListExperimentRunsRequest,
   output: ExperimentRuns,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExperimentRuns",
@@ -4059,10 +3692,7 @@ export const listExtensionAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListExtensionsError =
-  | BadRequestException
-  | InternalServerException
-  | CommonErrors;
+export type ListExtensionsError = BadRequestException | InternalServerException | CommonErrors;
 /**
  * Lists all custom and Amazon Web Services authored AppConfig extensions in the
  * account. For more information about extensions, see Extending
@@ -4107,11 +3737,7 @@ export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListHostedConfigurationVersionsRequest,
   output: HostedConfigurationVersions,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostedConfigurationVersions",
@@ -4139,11 +3765,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ResourceTags,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -4230,11 +3852,7 @@ export const stopDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopDeploymentRequest,
   output: Deployment,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
@@ -4286,11 +3904,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -4312,11 +3926,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4359,11 +3969,7 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: Application,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
@@ -4385,11 +3991,7 @@ export const updateConfigurationProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateConfigurationProfileRequest,
   output: ConfigurationProfile,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationProfile",
@@ -4411,11 +4013,7 @@ export const updateDeploymentStrategy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateDeploymentStrategyRequest,
   output: DeploymentStrategy,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentStrategy",
@@ -4437,11 +4035,7 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEnvironmentRequest,
   output: Environment,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
@@ -4551,11 +4145,7 @@ export const updateExtensionAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateExtensionAssociationRequest,
   output: ExtensionAssociation,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtensionAssociation",
@@ -4577,11 +4167,7 @@ export const validateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ValidateConfigurationRequest,
   output: ValidateConfigurationResponse,
-  errors: [
-    BadRequestException,
-    InternalServerException,
-    ResourceNotFoundException,
-  ],
+  errors: [BadRequestException, InternalServerException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfiguration",

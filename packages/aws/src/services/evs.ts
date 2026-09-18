@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "evs",
   serviceShapeName: "AmazonElasticVMwareService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,27 +54,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://evs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://evs-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://evs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://evs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://evs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://evs.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -159,9 +145,7 @@ export const AssociateEipToVlanRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     vlanName: S.String,
     allocationId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AssociateEipToVlanRequest",
 }) as any as S.Schema<AssociateEipToVlanRequest>;
@@ -254,9 +238,7 @@ export const CreateEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
     connectorId: S.String,
     entitlementType: EntitlementType,
     vmIds: VmIdList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEntitlementRequest",
 }) as any as S.Schema<CreateEntitlementRequest>;
@@ -318,10 +300,7 @@ export type EnvironmentName = string;
 export type TagKey = string;
 export type TagValue = string;
 export type RequestTagMap = { [key: string]: string | undefined };
-export const RequestTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RequestTagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type SecurityGroupId = string;
 export type SecurityGroups = string[];
 export const SecurityGroups = /*@__PURE__*/ S.Array(S.String);
@@ -334,21 +313,17 @@ export const ServiceAccessSecurityGroups = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceAccessSecurityGroups",
 }) as any as S.Schema<ServiceAccessSecurityGroups>;
 export type VpcId = string;
-export type VcfVersion =
-  | "VCF-5.2.1"
-  | "VCF-5.2.2"
-  | "SELF_DEPLOYED"
-  | (string & {});
+export type VcfVersion = "VCF-5.2.1" | "VCF-5.2.2" | "SELF_DEPLOYED" | (string & {});
 export const VcfVersion = S.String;
 
 export interface InitialVlanInfo {
   cidr: string;
 }
-export const InitialVlanInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ cidr: S.String }),
-).annotate({
-  identifier: "InitialVlanInfo",
-}) as any as S.Schema<InitialVlanInfo>;
+export const InitialVlanInfo = /*@__PURE__*/ S.suspend(() => S.Struct({ cidr: S.String })).annotate(
+  {
+    identifier: "InitialVlanInfo",
+  },
+) as any as S.Schema<InitialVlanInfo>;
 export interface InitialVlans {
   vmkManagement: InitialVlanInfo;
   vmManagement: InitialVlanInfo;
@@ -403,11 +378,7 @@ export type LicenseInfoList = LicenseInfo[];
 export const LicenseInfoList = /*@__PURE__*/ S.Array(LicenseInfo);
 export type HostName = string;
 export type KeyName = string;
-export type InstanceType =
-  | "i4i.metal"
-  | "i7i.metal-24xl"
-  | "i7i.metal-48xl"
-  | (string & {});
+export type InstanceType = "i4i.metal" | "i7i.metal-24xl" | "i7i.metal-48xl" | (string & {});
 export const InstanceType = S.String;
 
 export type PlacementGroupId = string;
@@ -490,9 +461,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     hosts: S.optional(HostInfoForCreateList),
     vcfHostnames: S.optional(VcfHostnames),
     siteId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
@@ -604,11 +573,7 @@ export const CreateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateEnvironmentResponse",
 }) as any as S.Schema<CreateEnvironmentResponse>;
-export type ConnectorType =
-  | "OPERATIONS_MANAGER"
-  | "SDDC_MANAGER"
-  | "VCENTER"
-  | (string & {});
+export type ConnectorType = "OPERATIONS_MANAGER" | "SDDC_MANAGER" | "VCENTER" | (string & {});
 export const ConnectorType = S.String;
 
 export type ApplianceFqdn = string;
@@ -627,9 +592,7 @@ export const CreateEnvironmentConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     type: ConnectorType,
     applianceFqdn: S.String,
     secretIdentifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentConnectorRequest",
 }) as any as S.Schema<CreateEnvironmentConnectorRequest>;
@@ -654,9 +617,7 @@ export const ConnectorCheck = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(CheckType),
     result: S.optional(CheckResult),
-    lastCheckAttempt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastCheckAttempt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     impairedSince: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ConnectorCheck" }) as any as S.Schema<ConnectorCheck>;
@@ -711,9 +672,7 @@ export const CreateEnvironmentHostRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     host: HostInfoForCreate,
     esxVersion: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentHostRequest",
 }) as any as S.Schema<CreateEnvironmentHostRequest>;
@@ -819,9 +778,7 @@ export const DeleteEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
     connectorId: S.String,
     entitlementType: EntitlementType,
     vmIds: VmIdList,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteEntitlementRequest",
 }) as any as S.Schema<DeleteEntitlementRequest>;
@@ -841,9 +798,7 @@ export const DeleteEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteEnvironmentRequest",
 }) as any as S.Schema<DeleteEnvironmentRequest>;
@@ -865,9 +820,7 @@ export const DeleteEnvironmentConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     connectorId: S.String.pipe(T.HttpLabel("connectorId")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteEnvironmentConnectorRequest",
 }) as any as S.Schema<DeleteEnvironmentConnectorRequest>;
@@ -893,9 +846,7 @@ export const DeleteEnvironmentHostRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     environmentId: S.String,
     hostName: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteEnvironmentHostRequest",
 }) as any as S.Schema<DeleteEnvironmentHostRequest>;
@@ -923,9 +874,7 @@ export const DisassociateEipFromVlanRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     vlanName: S.String,
     associationId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisassociateEipFromVlanRequest",
 }) as any as S.Schema<DisassociateEipFromVlanRequest>;
@@ -945,9 +894,7 @@ export const GetDepotUrlRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
     rotate: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetDepotUrlRequest",
 }) as any as S.Schema<GetDepotUrlRequest>;
@@ -980,9 +927,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetEnvironmentResponse>;
 export interface GetVersionsRequest {}
 export const GetVersionsRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetVersionsRequest",
 }) as any as S.Schema<GetVersionsRequest>;
@@ -1016,9 +961,7 @@ export const InstanceTypeEsxVersionsInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceTypeEsxVersionsInfo",
 }) as any as S.Schema<InstanceTypeEsxVersionsInfo>;
 export type InstanceTypeEsxVersionsList = InstanceTypeEsxVersionsInfo[];
-export const InstanceTypeEsxVersionsList = /*@__PURE__*/ S.Array(
-  InstanceTypeEsxVersionsInfo,
-);
+export const InstanceTypeEsxVersionsList = /*@__PURE__*/ S.Array(InstanceTypeEsxVersionsInfo);
 export interface GetVersionsResponse {
   vcfVersions: VcfVersionInfo[];
   instanceTypeEsxVersions: InstanceTypeEsxVersionsInfo[];
@@ -1043,9 +986,7 @@ export const ListEnvironmentConnectorsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentConnectorsRequest",
 }) as any as S.Schema<ListEnvironmentConnectorsRequest>;
@@ -1073,9 +1014,7 @@ export const ListEnvironmentHostsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentHostsRequest",
 }) as any as S.Schema<ListEnvironmentHostsRequest>;
@@ -1105,9 +1044,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     state: S.optional(EnvironmentStateList).pipe(T.HttpQuery("state")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -1135,9 +1072,7 @@ export const ListEnvironmentVlansRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     environmentId: S.String.pipe(T.HttpLabel("environmentId")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentVlansRequest",
 }) as any as S.Schema<ListEnvironmentVlansRequest>;
@@ -1166,10 +1101,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type ResponseTagMap = { [key: string]: string | undefined };
-export const ResponseTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ResponseTagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
@@ -1192,9 +1124,7 @@ export const ListVmEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     connectorId: S.String,
     entitlementType: EntitlementType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListVmEntitlementsRequest",
 }) as any as S.Schema<ListVmEntitlementsRequest>;
@@ -1222,9 +1152,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1241,9 +1169,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateEnvironmentConnectorRequest {
@@ -1260,9 +1186,7 @@ export const UpdateEnvironmentConnectorRequest = /*@__PURE__*/ S.suspend(() =>
     connectorId: S.String.pipe(T.HttpLabel("connectorId")),
     applianceFqdn: S.optional(S.String),
     secretIdentifier: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateEnvironmentConnectorRequest",
 }) as any as S.Schema<UpdateEnvironmentConnectorRequest>;
@@ -1292,9 +1216,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateEipToVlanError =
   | ResourceNotFoundException
   | ThrottlingException
@@ -1391,10 +1313,7 @@ export const createEnvironmentConnector: API.OperationMethod<
   operationName: "CreateEnvironmentConnector",
 }));
 
-export type CreateEnvironmentHostError =
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors;
+export type CreateEnvironmentHostError = ThrottlingException | ValidationException | CommonErrors;
 /**
  * Creates an ESX host and adds it to an Amazon EVS environment.
  *
@@ -1444,10 +1363,7 @@ export const deleteEntitlement: API.OperationMethod<
   operationName: "DeleteEntitlement",
 }));
 
-export type DeleteEnvironmentError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type DeleteEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Deletes an Amazon EVS environment.
  *
@@ -1562,10 +1478,7 @@ export const getDepotUrl: API.OperationMethod<
   operationName: "GetDepotUrl",
 }));
 
-export type GetEnvironmentError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetEnvironmentError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns a description of the specified environment.
  */
@@ -1583,10 +1496,7 @@ export const getEnvironment: API.OperationMethod<
   operationName: "GetEnvironment",
 }));
 
-export type GetVersionsError =
-  | InternalServerException
-  | ThrottlingException
-  | CommonErrors;
+export type GetVersionsError = InternalServerException | ThrottlingException | CommonErrors;
 /**
  * Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
  */
@@ -1787,10 +1697,7 @@ export const tagResource: API.OperationMethod<
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | TagPolicyException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | TagPolicyException | CommonErrors;
 /**
  * Deletes specified tags from an Amazon EVS resource.
  */

@@ -25,25 +25,22 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /**
  * Payment error — returned when a payment request fails (HTTP 402).
  * The parameters were valid but the request failed (e.g., card declined).
  */
-export class PaymentError extends Schema.TaggedError<PaymentError>()(
-  "PaymentError",
-  {
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    decline_code: Schema.optional(Schema.String),
-    charge: Schema.optional(Schema.String),
-    param: Schema.optional(Schema.String),
-    doc_url: Schema.optional(Schema.String),
-    request_log_url: Schema.optional(Schema.String),
-  },
-).pipe(Category.withBadRequestError) {}
+export class PaymentError extends Schema.TaggedError<PaymentError>()("PaymentError", {
+  message: Schema.optional(Schema.String),
+  code: Schema.optional(Schema.String),
+  decline_code: Schema.optional(Schema.String),
+  charge: Schema.optional(Schema.String),
+  param: Schema.optional(Schema.String),
+  doc_url: Schema.optional(Schema.String),
+  request_log_url: Schema.optional(Schema.String),
+}).pipe(Category.withBadRequestError) {}
 
 /**
  * Card error — returned when a card cannot be charged.
@@ -68,15 +65,12 @@ export class CardError extends Schema.TaggedError<CardError>()("CardError", {
  * on a request that does not match the first request's API endpoint and parameters.
  * Stripe error type: "idempotency_error"
  */
-export class IdempotencyError extends Schema.TaggedError<IdempotencyError>()(
-  "IdempotencyError",
-  {
-    message: Schema.optional(Schema.String),
-    code: Schema.optional(Schema.String),
-    doc_url: Schema.optional(Schema.String),
-    request_log_url: Schema.optional(Schema.String),
-  },
-).pipe(Category.withConflictError) {}
+export class IdempotencyError extends Schema.TaggedError<IdempotencyError>()("IdempotencyError", {
+  message: Schema.optional(Schema.String),
+  code: Schema.optional(Schema.String),
+  doc_url: Schema.optional(Schema.String),
+  request_log_url: Schema.optional(Schema.String),
+}).pipe(Category.withConflictError) {}
 
 /**
  * Invalid request error — returned when the request has invalid parameters.
@@ -139,13 +133,10 @@ export class UnknownStripeError extends Schema.TaggedError<UnknownStripeError>()
 ).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class StripeParseError extends Schema.TaggedError<StripeParseError>()(
-  "StripeParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class StripeParseError extends Schema.TaggedError<StripeParseError>()("StripeParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Stripe webhook signature verification failed.

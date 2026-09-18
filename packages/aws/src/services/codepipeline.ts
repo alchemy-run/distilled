@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://codepipeline.amazonaws.com/doc/2015-07-09/");
 const svc = T.AwsApiService({
   sdkId: "CodePipeline",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -63,9 +59,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codepipeline-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -73,13 +67,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codepipeline.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://codepipeline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://codepipeline.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -92,10 +82,9 @@ export class ActionExecutionNotFoundException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ActionNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ActionNotFoundException>()(
-    "ActionNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ActionNotFoundException>()("ActionNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ActionTypeNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ActionTypeNotFoundException>()(
     "ActionTypeNotFoundException",
@@ -143,10 +132,9 @@ export class InvalidApprovalTokenException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArnException>()(
-    "InvalidArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArnException>()("InvalidArnException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidBlockerDeclarationException
   extends /*@__PURE__*/ S.TaggedError<InvalidBlockerDeclarationException>()(
     "InvalidBlockerDeclarationException",
@@ -158,40 +146,34 @@ export class InvalidClientTokenException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidJobException
-  extends /*@__PURE__*/ S.TaggedError<InvalidJobException>()(
-    "InvalidJobException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidJobException>()("InvalidJobException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidJobStateException
-  extends /*@__PURE__*/ S.TaggedError<InvalidJobStateException>()(
-    "InvalidJobStateException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidJobStateException>()("InvalidJobStateException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidNonceException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNonceException>()(
-    "InvalidNonceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNonceException>()("InvalidNonceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidStageDeclarationException
   extends /*@__PURE__*/ S.TaggedError<InvalidStageDeclarationException>()(
     "InvalidStageDeclarationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidStructureException
-  extends /*@__PURE__*/ S.TaggedError<InvalidStructureException>()(
-    "InvalidStructureException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidStructureException>()("InvalidStructureException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTagsException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagsException>()(
-    "InvalidTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagsException>()("InvalidTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidWebhookAuthenticationParametersException
   extends /*@__PURE__*/ S.TaggedError<InvalidWebhookAuthenticationParametersException>()(
     "InvalidWebhookAuthenticationParametersException",
@@ -203,15 +185,13 @@ export class InvalidWebhookFilterPatternException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class JobNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<JobNotFoundException>()(
-    "JobNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<JobNotFoundException>()("JobNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class LimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
-    "LimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()("LimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class NotLatestPipelineExecutionException
   extends /*@__PURE__*/ S.TaggedError<NotLatestPipelineExecutionException>()(
     "NotLatestPipelineExecutionException",
@@ -238,60 +218,51 @@ export class PipelineExecutionOutdatedException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class PipelineNameInUseException
-  extends /*@__PURE__*/ S.TaggedError<PipelineNameInUseException>()(
-    "PipelineNameInUseException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<PipelineNameInUseException>()("PipelineNameInUseException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class PipelineNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<PipelineNotFoundException>()(
-    "PipelineNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<PipelineNotFoundException>()("PipelineNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class PipelineVersionNotFoundException
   extends /*@__PURE__*/ S.TaggedError<PipelineVersionNotFoundException>()(
     "PipelineVersionNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class RequestFailedException
-  extends /*@__PURE__*/ S.TaggedError<RequestFailedException>()(
-    "RequestFailedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<RequestFailedException>()("RequestFailedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class StageNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<StageNotFoundException>()(
-    "StageNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<StageNotFoundException>()("StageNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class StageNotRetryableException
-  extends /*@__PURE__*/ S.TaggedError<StageNotRetryableException>()(
-    "StageNotRetryableException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<StageNotRetryableException>()("StageNotRetryableException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TooManyTagsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
-    "TooManyTagsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()("TooManyTagsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class UnableToRollbackStageException
   extends /*@__PURE__*/ S.TaggedError<UnableToRollbackStageException>()(
     "UnableToRollbackStageException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class WebhookNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<WebhookNotFoundException>()(
-    "WebhookNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<WebhookNotFoundException>()("WebhookNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type JobId = string;
 export type Nonce = string;
 export interface AcknowledgeJobInput {
@@ -300,15 +271,7 @@ export interface AcknowledgeJobInput {
 }
 export const AcknowledgeJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, nonce: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AcknowledgeJobInput",
@@ -341,15 +304,7 @@ export interface AcknowledgeThirdPartyJobInput {
 }
 export const AcknowledgeThirdPartyJobInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, nonce: S.String, clientToken: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AcknowledgeThirdPartyJobInput",
@@ -395,11 +350,7 @@ export const ActionTypeSettings = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ActionTypeSettings>;
 export type ActionConfigurationKey = string;
 export type Description = string;
-export type ActionConfigurationPropertyType =
-  | "String"
-  | "Number"
-  | "Boolean"
-  | (string & {});
+export type ActionConfigurationPropertyType = "String" | "Number" | "Boolean" | (string & {});
 export const ActionConfigurationPropertyType = S.String;
 
 export interface ActionConfigurationProperty {
@@ -425,9 +376,7 @@ export const ActionConfigurationProperty = /*@__PURE__*/ S.suspend(() =>
   identifier: "ActionConfigurationProperty",
 }) as any as S.Schema<ActionConfigurationProperty>;
 export type ActionConfigurationPropertyList = ActionConfigurationProperty[];
-export const ActionConfigurationPropertyList = /*@__PURE__*/ S.Array(
-  ActionConfigurationProperty,
-);
+export const ActionConfigurationPropertyList = /*@__PURE__*/ S.Array(ActionConfigurationProperty);
 export type MinimumArtifactCount = number;
 export type MaximumArtifactCount = number;
 export interface ArtifactDetails {
@@ -470,17 +419,7 @@ export const CreateCustomActionTypeInput = /*@__PURE__*/ S.suspend(() =>
     inputArtifactDetails: ArtifactDetails,
     outputArtifactDetails: ArtifactDetails,
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateCustomActionTypeInput",
 }) as any as S.Schema<CreateCustomActionTypeInput>;
@@ -557,10 +496,7 @@ export const ArtifactStore = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ArtifactStore" }) as any as S.Schema<ArtifactStore>;
 export type AWSRegionName = string;
 export type ArtifactStoreMap = { [key: string]: ArtifactStore | undefined };
-export const ArtifactStoreMap = /*@__PURE__*/ S.Record(
-  S.String,
-  ArtifactStore.pipe(S.optional),
-);
+export const ArtifactStoreMap = /*@__PURE__*/ S.Record(S.String, ArtifactStore.pipe(S.optional));
 export type StageName = string;
 export type BlockerName = string;
 export type BlockerType = "Schedule" | (string & {});
@@ -576,16 +512,12 @@ export const BlockerDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "BlockerDeclaration",
 }) as any as S.Schema<BlockerDeclaration>;
 export type StageBlockerDeclarationList = BlockerDeclaration[];
-export const StageBlockerDeclarationList =
-  /*@__PURE__*/ S.Array(BlockerDeclaration);
+export const StageBlockerDeclarationList = /*@__PURE__*/ S.Array(BlockerDeclaration);
 export type ActionName = string;
 export type ActionRunOrder = number;
 export type ActionConfigurationValue = string;
 export type ActionConfigurationMap = { [key: string]: string | undefined };
-export const ActionConfigurationMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ActionConfigurationMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Command = string;
 export type CommandList = string[];
 export const CommandList = /*@__PURE__*/ S.Array(S.String);
@@ -605,9 +537,9 @@ export const OutputArtifactList = /*@__PURE__*/ S.Array(OutputArtifact);
 export interface InputArtifact {
   name: string;
 }
-export const InputArtifact = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ name: S.String }),
-).annotate({ identifier: "InputArtifact" }) as any as S.Schema<InputArtifact>;
+export const InputArtifact = /*@__PURE__*/ S.suspend(() => S.Struct({ name: S.String })).annotate({
+  identifier: "InputArtifact",
+}) as any as S.Schema<InputArtifact>;
 export type InputArtifactList = InputArtifact[];
 export const InputArtifactList = /*@__PURE__*/ S.Array(InputArtifact);
 export type OutputVariable = string;
@@ -617,10 +549,7 @@ export type ActionNamespace = string;
 export type ActionTimeout = number;
 export type EnvironmentVariableName = string;
 export type EnvironmentVariableValue = string;
-export type EnvironmentVariableType =
-  | "PLAINTEXT"
-  | "SECRETS_MANAGER"
-  | (string & {});
+export type EnvironmentVariableType = "PLAINTEXT" | "SECRETS_MANAGER" | (string & {});
 export const EnvironmentVariableType = S.String;
 
 export interface EnvironmentVariable {
@@ -638,8 +567,7 @@ export const EnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnvironmentVariable",
 }) as any as S.Schema<EnvironmentVariable>;
 export type EnvironmentVariableList = EnvironmentVariable[];
-export const EnvironmentVariableList =
-  /*@__PURE__*/ S.Array(EnvironmentVariable);
+export const EnvironmentVariableList = /*@__PURE__*/ S.Array(EnvironmentVariable);
 export interface ActionDeclaration {
   name: string;
   actionTypeId: ActionTypeId;
@@ -675,8 +603,7 @@ export const ActionDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ActionDeclaration",
 }) as any as S.Schema<ActionDeclaration>;
 export type StageActionDeclarationList = ActionDeclaration[];
-export const StageActionDeclarationList =
-  /*@__PURE__*/ S.Array(ActionDeclaration);
+export const StageActionDeclarationList = /*@__PURE__*/ S.Array(ActionDeclaration);
 export type Result = "ROLLBACK" | "FAIL" | "RETRY" | "SKIP" | (string & {});
 export const Result = S.String;
 
@@ -716,10 +643,7 @@ export const RuleTypeId = /*@__PURE__*/ S.suspend(() =>
 export type RuleConfigurationKey = string;
 export type RuleConfigurationValue = string;
 export type RuleConfigurationMap = { [key: string]: string | undefined };
-export const RuleConfigurationMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RuleConfigurationMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type RuleTimeout = number;
 export interface RuleDeclaration {
   name: string;
@@ -810,14 +734,9 @@ export const StageDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "StageDeclaration",
 }) as any as S.Schema<StageDeclaration>;
 export type PipelineStageDeclarationList = StageDeclaration[];
-export const PipelineStageDeclarationList =
-  /*@__PURE__*/ S.Array(StageDeclaration);
+export const PipelineStageDeclarationList = /*@__PURE__*/ S.Array(StageDeclaration);
 export type PipelineVersion = number;
-export type ExecutionMode =
-  | "QUEUED"
-  | "SUPERSEDED"
-  | "PARALLEL"
-  | (string & {});
+export type ExecutionMode = "QUEUED" | "SUPERSEDED" | "PARALLEL" | (string & {});
 export const ExecutionMode = S.String;
 
 export type PipelineType = "V1" | "V2" | (string & {});
@@ -841,12 +760,8 @@ export const PipelineVariableDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "PipelineVariableDeclaration",
 }) as any as S.Schema<PipelineVariableDeclaration>;
 export type PipelineVariableDeclarationList = PipelineVariableDeclaration[];
-export const PipelineVariableDeclarationList = /*@__PURE__*/ S.Array(
-  PipelineVariableDeclaration,
-);
-export type PipelineTriggerProviderType =
-  | "CodeStarSourceConnection"
-  | (string & {});
+export const PipelineVariableDeclarationList = /*@__PURE__*/ S.Array(PipelineVariableDeclaration);
+export type PipelineTriggerProviderType = "CodeStarSourceConnection" | (string & {});
 export const PipelineTriggerProviderType = S.String;
 
 export type GitTagNamePattern = string;
@@ -908,17 +823,11 @@ export const GitPushFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "GitPushFilter" }) as any as S.Schema<GitPushFilter>;
 export type GitPushFilterList = GitPushFilter[];
 export const GitPushFilterList = /*@__PURE__*/ S.Array(GitPushFilter);
-export type GitPullRequestEventType =
-  | "OPEN"
-  | "UPDATED"
-  | "CLOSED"
-  | (string & {});
+export type GitPullRequestEventType = "OPEN" | "UPDATED" | "CLOSED" | (string & {});
 export const GitPullRequestEventType = S.String;
 
 export type GitPullRequestEventTypeList = GitPullRequestEventType[];
-export const GitPullRequestEventTypeList = /*@__PURE__*/ S.Array(
-  GitPullRequestEventType,
-);
+export const GitPullRequestEventTypeList = /*@__PURE__*/ S.Array(GitPullRequestEventType);
 export interface GitPullRequestFilter {
   events?: GitPullRequestEventType[];
   branches?: GitBranchFilterCriteria;
@@ -934,8 +843,7 @@ export const GitPullRequestFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "GitPullRequestFilter",
 }) as any as S.Schema<GitPullRequestFilter>;
 export type GitPullRequestFilterList = GitPullRequestFilter[];
-export const GitPullRequestFilterList =
-  /*@__PURE__*/ S.Array(GitPullRequestFilter);
+export const GitPullRequestFilterList = /*@__PURE__*/ S.Array(GitPullRequestFilter);
 export interface GitConfiguration {
   sourceActionName: string;
   push?: GitPushFilter[];
@@ -963,9 +871,7 @@ export const PipelineTriggerDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "PipelineTriggerDeclaration",
 }) as any as S.Schema<PipelineTriggerDeclaration>;
 export type PipelineTriggerDeclarationList = PipelineTriggerDeclaration[];
-export const PipelineTriggerDeclarationList = /*@__PURE__*/ S.Array(
-  PipelineTriggerDeclaration,
-);
+export const PipelineTriggerDeclarationList = /*@__PURE__*/ S.Array(PipelineTriggerDeclaration);
 export interface PipelineDeclaration {
   name: string;
   roleArn: string;
@@ -1000,15 +906,7 @@ export interface CreatePipelineInput {
 }
 export const CreatePipelineInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ pipeline: PipelineDeclaration, tags: S.optional(TagList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreatePipelineInput",
@@ -1035,17 +933,7 @@ export const DeleteCustomActionTypeInput = /*@__PURE__*/ S.suspend(() =>
     category: ActionCategory,
     provider: S.String,
     version: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteCustomActionTypeInput",
 }) as any as S.Schema<DeleteCustomActionTypeInput>;
@@ -1060,72 +948,45 @@ export interface DeletePipelineInput {
 }
 export const DeletePipelineInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeletePipelineInput",
 }) as any as S.Schema<DeletePipelineInput>;
 export interface DeletePipelineResponse {}
-export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "DeletePipelineResponse",
-}) as any as S.Schema<DeletePipelineResponse>;
+export const DeletePipelineResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "DeletePipelineResponse",
+  },
+) as any as S.Schema<DeletePipelineResponse>;
 export type WebhookName = string;
 export interface DeleteWebhookInput {
   name: string;
 }
 export const DeleteWebhookInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteWebhookInput",
 }) as any as S.Schema<DeleteWebhookInput>;
 export interface DeleteWebhookOutput {}
-export const DeleteWebhookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteWebhookOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteWebhookOutput",
 }) as any as S.Schema<DeleteWebhookOutput>;
 export interface DeregisterWebhookWithThirdPartyInput {
   webhookName?: string;
 }
-export const DeregisterWebhookWithThirdPartyInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ webhookName: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DeregisterWebhookWithThirdPartyInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ webhookName: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DeregisterWebhookWithThirdPartyInput",
 }) as any as S.Schema<DeregisterWebhookWithThirdPartyInput>;
 export interface DeregisterWebhookWithThirdPartyOutput {}
-export const DeregisterWebhookWithThirdPartyOutput = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeregisterWebhookWithThirdPartyOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeregisterWebhookWithThirdPartyOutput",
 }) as any as S.Schema<DeregisterWebhookWithThirdPartyOutput>;
@@ -1145,17 +1006,7 @@ export const DisableStageTransitionInput = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String,
     transitionType: StageTransitionType,
     reason: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DisableStageTransitionInput",
 }) as any as S.Schema<DisableStageTransitionInput>;
@@ -1175,17 +1026,7 @@ export const EnableStageTransitionInput = /*@__PURE__*/ S.suspend(() =>
     pipelineName: S.String,
     stageName: S.String,
     transitionType: StageTransitionType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "EnableStageTransitionInput",
 }) as any as S.Schema<EnableStageTransitionInput>;
@@ -1208,17 +1049,7 @@ export const GetActionTypeInput = /*@__PURE__*/ S.suspend(() =>
     owner: S.String,
     provider: S.String,
     version: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetActionTypeInput",
 }) as any as S.Schema<GetActionTypeInput>;
@@ -1395,15 +1226,7 @@ export interface GetJobDetailsInput {
 }
 export const GetJobDetailsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetJobDetailsInput",
@@ -1560,15 +1383,7 @@ export interface GetPipelineInput {
 }
 export const GetPipelineInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String, version: S.optional(S.Number) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPipelineInput",
@@ -1584,9 +1399,7 @@ export const PipelineMetadata = /*@__PURE__*/ S.suspend(() =>
     pipelineArn: S.optional(S.String),
     created: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     updated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    pollingDisabledAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    pollingDisabledAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "PipelineMetadata",
@@ -1609,15 +1422,7 @@ export interface GetPipelineExecutionInput {
 }
 export const GetPipelineExecutionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ pipelineName: S.String, pipelineExecutionId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPipelineExecutionInput",
@@ -1668,9 +1473,7 @@ export const ResolvedPipelineVariable = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResolvedPipelineVariable",
 }) as any as S.Schema<ResolvedPipelineVariable>;
 export type ResolvedPipelineVariableList = ResolvedPipelineVariable[];
-export const ResolvedPipelineVariableList = /*@__PURE__*/ S.Array(
-  ResolvedPipelineVariable,
-);
+export const ResolvedPipelineVariableList = /*@__PURE__*/ S.Array(ResolvedPipelineVariable);
 export type TriggerType =
   | "CreatePipeline"
   | "StartPipelineExecution"
@@ -1751,15 +1554,7 @@ export interface GetPipelineStateInput {
 }
 export const GetPipelineStateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPipelineStateInput",
@@ -1861,9 +1656,7 @@ export const ActionExecution = /*@__PURE__*/ S.suspend(() =>
     actionExecutionId: S.optional(S.String),
     status: S.optional(ActionExecutionStatus),
     summary: S.optional(S.String),
-    lastStatusChange: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     token: S.optional(S.String),
     lastUpdatedBy: S.optional(S.String),
     externalExecutionId: S.optional(S.String),
@@ -1925,9 +1718,7 @@ export const ConditionExecution = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     status: S.optional(ConditionExecutionStatus),
     summary: S.optional(S.String),
-    lastStatusChange: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ConditionExecution",
@@ -1970,9 +1761,7 @@ export const RuleExecution = /*@__PURE__*/ S.suspend(() =>
     ruleExecutionId: S.optional(S.String),
     status: S.optional(RuleExecutionStatus),
     summary: S.optional(S.String),
-    lastStatusChange: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastStatusChange: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     token: S.optional(S.String),
     lastUpdatedBy: S.optional(S.String),
     externalExecutionId: S.optional(S.String),
@@ -2023,10 +1812,7 @@ export const StageConditionState = /*@__PURE__*/ S.suspend(() =>
   identifier: "StageConditionState",
 }) as any as S.Schema<StageConditionState>;
 export type RetryAttempt = number;
-export type RetryTrigger =
-  | "AutomatedStageRetry"
-  | "ManualStageRetry"
-  | (string & {});
+export type RetryTrigger = "AutomatedStageRetry" | "ManualStageRetry" | (string & {});
 export const RetryTrigger = S.String;
 
 export interface RetryStageMetadata {
@@ -2095,15 +1881,7 @@ export interface GetThirdPartyJobDetailsInput {
 }
 export const GetThirdPartyJobDetailsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, clientToken: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetThirdPartyJobDetailsInput",
@@ -2192,17 +1970,7 @@ export const ListActionExecutionsInput = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(ActionExecutionFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListActionExecutionsInput",
 }) as any as S.Schema<ListActionExecutionsInput>;
@@ -2276,10 +2044,7 @@ export const ActionExecutionResult = /*@__PURE__*/ S.suspend(() =>
 export type OutputVariablesKey = string;
 export type OutputVariablesValue = string;
 export type OutputVariablesMap = { [key: string]: string | undefined };
-export const OutputVariablesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const OutputVariablesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ActionExecutionOutput {
   outputArtifacts?: ArtifactDetail[];
   executionResult?: ActionExecutionResult;
@@ -2325,9 +2090,7 @@ export const ActionExecutionDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "ActionExecutionDetail",
 }) as any as S.Schema<ActionExecutionDetail>;
 export type ActionExecutionDetailList = ActionExecutionDetail[];
-export const ActionExecutionDetailList = /*@__PURE__*/ S.Array(
-  ActionExecutionDetail,
-);
+export const ActionExecutionDetailList = /*@__PURE__*/ S.Array(ActionExecutionDetail);
 export interface ListActionExecutionsOutput {
   actionExecutionDetails?: ActionExecutionDetail[];
   nextToken?: string;
@@ -2350,17 +2113,7 @@ export const ListActionTypesInput = /*@__PURE__*/ S.suspend(() =>
     actionOwnerFilter: S.optional(ActionOwner),
     nextToken: S.optional(S.String),
     regionFilter: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListActionTypesInput",
 }) as any as S.Schema<ListActionTypesInput>;
@@ -2403,25 +2156,14 @@ export interface ListDeployActionExecutionTargetsInput {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListDeployActionExecutionTargetsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      pipelineName: S.optional(S.String),
-      actionExecutionId: S.String,
-      filters: S.optional(TargetFilterList),
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListDeployActionExecutionTargetsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    pipelineName: S.optional(S.String),
+    actionExecutionId: S.String,
+    filters: S.optional(TargetFilterList),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDeployActionExecutionTargetsInput",
 }) as any as S.Schema<ListDeployActionExecutionTargetsInput>;
@@ -2478,19 +2220,16 @@ export const DeployActionExecutionTarget = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeployActionExecutionTarget",
 }) as any as S.Schema<DeployActionExecutionTarget>;
 export type DeployActionExecutionTargetList = DeployActionExecutionTarget[];
-export const DeployActionExecutionTargetList = /*@__PURE__*/ S.Array(
-  DeployActionExecutionTarget,
-);
+export const DeployActionExecutionTargetList = /*@__PURE__*/ S.Array(DeployActionExecutionTarget);
 export interface ListDeployActionExecutionTargetsOutput {
   targets?: DeployActionExecutionTarget[];
   nextToken?: string;
 }
-export const ListDeployActionExecutionTargetsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      targets: S.optional(DeployActionExecutionTargetList),
-      nextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListDeployActionExecutionTargetsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    targets: S.optional(DeployActionExecutionTargetList),
+    nextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListDeployActionExecutionTargetsOutput",
 }) as any as S.Schema<ListDeployActionExecutionTargetsOutput>;
@@ -2522,17 +2261,7 @@ export const ListPipelineExecutionsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     filter: S.optional(PipelineExecutionFilter),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPipelineExecutionsInput",
 }) as any as S.Schema<ListPipelineExecutionsInput>;
@@ -2592,9 +2321,7 @@ export const PipelineExecutionSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "PipelineExecutionSummary",
 }) as any as S.Schema<PipelineExecutionSummary>;
 export type PipelineExecutionSummaryList = PipelineExecutionSummary[];
-export const PipelineExecutionSummaryList = /*@__PURE__*/ S.Array(
-  PipelineExecutionSummary,
-);
+export const PipelineExecutionSummaryList = /*@__PURE__*/ S.Array(PipelineExecutionSummary);
 export interface ListPipelineExecutionsOutput {
   pipelineExecutionSummaries?: PipelineExecutionSummary[];
   nextToken?: string;
@@ -2616,17 +2343,7 @@ export const ListPipelinesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListPipelinesInput",
 }) as any as S.Schema<ListPipelinesInput>;
@@ -2688,17 +2405,7 @@ export const ListRuleExecutionsInput = /*@__PURE__*/ S.suspend(() =>
     filter: S.optional(RuleExecutionFilter),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRuleExecutionsInput",
 }) as any as S.Schema<ListRuleExecutionsInput>;
@@ -2784,8 +2491,7 @@ export const RuleExecutionDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "RuleExecutionDetail",
 }) as any as S.Schema<RuleExecutionDetail>;
 export type RuleExecutionDetailList = RuleExecutionDetail[];
-export const RuleExecutionDetailList =
-  /*@__PURE__*/ S.Array(RuleExecutionDetail);
+export const RuleExecutionDetailList = /*@__PURE__*/ S.Array(RuleExecutionDetail);
 export interface ListRuleExecutionsOutput {
   ruleExecutionDetails?: RuleExecutionDetail[];
   nextToken?: string;
@@ -2806,17 +2512,7 @@ export const ListRuleTypesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ruleOwnerFilter: S.optional(RuleOwner),
     regionFilter: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRuleTypesInput",
 }) as any as S.Schema<ListRuleTypesInput>;
@@ -2836,11 +2532,7 @@ export const RuleTypeSettings = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RuleTypeSettings",
 }) as any as S.Schema<RuleTypeSettings>;
-export type RuleConfigurationPropertyType =
-  | "String"
-  | "Number"
-  | "Boolean"
-  | (string & {});
+export type RuleConfigurationPropertyType = "String" | "Number" | "Boolean" | (string & {});
 export const RuleConfigurationPropertyType = S.String;
 
 export interface RuleConfigurationProperty {
@@ -2866,9 +2558,7 @@ export const RuleConfigurationProperty = /*@__PURE__*/ S.suspend(() =>
   identifier: "RuleConfigurationProperty",
 }) as any as S.Schema<RuleConfigurationProperty>;
 export type RuleConfigurationPropertyList = RuleConfigurationProperty[];
-export const RuleConfigurationPropertyList = /*@__PURE__*/ S.Array(
-  RuleConfigurationProperty,
-);
+export const RuleConfigurationPropertyList = /*@__PURE__*/ S.Array(RuleConfigurationProperty);
 export interface RuleType {
   id: RuleTypeId;
   settings?: RuleTypeSettings;
@@ -2904,17 +2594,7 @@ export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTagsForResourceInput",
 }) as any as S.Schema<ListTagsForResourceInput>;
@@ -2923,9 +2603,7 @@ export interface ListTagsForResourceOutput {
   nextToken?: string;
 }
 export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ tags: S.optional(TagList), nextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ tags: S.optional(TagList), nextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
@@ -2937,17 +2615,7 @@ export const ListWebhooksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListWebhooksInput",
 }) as any as S.Schema<ListWebhooksInput>;
@@ -2964,11 +2632,7 @@ export const WebhookFilterRule = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WebhookFilterRule>;
 export type WebhookFilters = WebhookFilterRule[];
 export const WebhookFilters = /*@__PURE__*/ S.Array(WebhookFilterRule);
-export type WebhookAuthenticationType =
-  | "GITHUB_HMAC"
-  | "IP"
-  | "UNAUTHENTICATED"
-  | (string & {});
+export type WebhookAuthenticationType = "GITHUB_HMAC" | "IP" | "UNAUTHENTICATED" | (string & {});
 export const WebhookAuthenticationType = S.String;
 
 export type WebhookAuthConfigurationAllowedIPRange = string;
@@ -3061,17 +2725,7 @@ export const OverrideStageConditionInput = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String,
     pipelineExecutionId: S.String,
     conditionType: ConditionType,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "OverrideStageConditionInput",
 }) as any as S.Schema<OverrideStageConditionInput>;
@@ -3084,10 +2738,7 @@ export const OverrideStageConditionResponse = /*@__PURE__*/ S.suspend(() =>
 export type MaxBatchSize = number;
 export type ActionConfigurationQueryableValue = string;
 export type QueryParamMap = { [key: string]: string | undefined };
-export const QueryParamMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const QueryParamMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface PollForJobsInput {
   actionTypeId: ActionTypeId;
   maxBatchSize?: number;
@@ -3098,17 +2749,7 @@ export const PollForJobsInput = /*@__PURE__*/ S.suspend(() =>
     actionTypeId: ActionTypeId,
     maxBatchSize: S.optional(S.Number),
     queryParam: S.optional(QueryParamMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PollForJobsInput",
 }) as any as S.Schema<PollForJobsInput>;
@@ -3144,17 +2785,7 @@ export const PollForThirdPartyJobsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     actionTypeId: ActionTypeId,
     maxBatchSize: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PollForThirdPartyJobsInput",
 }) as any as S.Schema<PollForThirdPartyJobsInput>;
@@ -3188,17 +2819,7 @@ export const PutActionRevisionInput = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String,
     actionName: S.String,
     actionRevision: ActionRevision,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutActionRevisionInput",
 }) as any as S.Schema<PutActionRevisionInput>;
@@ -3240,17 +2861,7 @@ export const PutApprovalResultInput = /*@__PURE__*/ S.suspend(() =>
     actionName: S.String,
     result: ApprovalResult,
     token: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutApprovalResultInput",
 }) as any as S.Schema<PutApprovalResultInput>;
@@ -3292,15 +2903,7 @@ export interface PutJobFailureResultInput {
 }
 export const PutJobFailureResultInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ jobId: S.String, failureDetails: FailureDetails }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutJobFailureResultInput",
@@ -3355,17 +2958,7 @@ export const PutJobSuccessResultInput = /*@__PURE__*/ S.suspend(() =>
     continuationToken: S.optional(S.String),
     executionDetails: S.optional(ExecutionDetails),
     outputVariables: S.optional(OutputVariablesMap),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutJobSuccessResultInput",
 }) as any as S.Schema<PutJobSuccessResultInput>;
@@ -3385,23 +2978,13 @@ export const PutThirdPartyJobFailureResultInput = /*@__PURE__*/ S.suspend(() =>
     jobId: S.String,
     clientToken: S.String,
     failureDetails: FailureDetails,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutThirdPartyJobFailureResultInput",
 }) as any as S.Schema<PutThirdPartyJobFailureResultInput>;
 export interface PutThirdPartyJobFailureResultResponse {}
-export const PutThirdPartyJobFailureResultResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const PutThirdPartyJobFailureResultResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "PutThirdPartyJobFailureResultResponse",
 }) as any as S.Schema<PutThirdPartyJobFailureResultResponse>;
@@ -3419,23 +3002,13 @@ export const PutThirdPartyJobSuccessResultInput = /*@__PURE__*/ S.suspend(() =>
     currentRevision: S.optional(CurrentRevision),
     continuationToken: S.optional(S.String),
     executionDetails: S.optional(ExecutionDetails),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutThirdPartyJobSuccessResultInput",
 }) as any as S.Schema<PutThirdPartyJobSuccessResultInput>;
 export interface PutThirdPartyJobSuccessResultResponse {}
-export const PutThirdPartyJobSuccessResultResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const PutThirdPartyJobSuccessResultResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "PutThirdPartyJobSuccessResultResponse",
 }) as any as S.Schema<PutThirdPartyJobSuccessResultResponse>;
@@ -3445,15 +3018,7 @@ export interface PutWebhookInput {
 }
 export const PutWebhookInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhook: WebhookDefinition, tags: S.optional(TagList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutWebhookInput",
@@ -3471,15 +3036,7 @@ export interface RegisterWebhookWithThirdPartyInput {
 }
 export const RegisterWebhookWithThirdPartyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ webhookName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RegisterWebhookWithThirdPartyInput",
@@ -3502,17 +3059,7 @@ export const RetryStageExecutionInput = /*@__PURE__*/ S.suspend(() =>
     stageName: S.String,
     pipelineExecutionId: S.String,
     retryMode: StageRetryMode,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RetryStageExecutionInput",
 }) as any as S.Schema<RetryStageExecutionInput>;
@@ -3534,17 +3081,7 @@ export const RollbackStageInput = /*@__PURE__*/ S.suspend(() =>
     pipelineName: S.String,
     stageName: S.String,
     targetPipelineExecutionId: S.String,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RollbackStageInput",
 }) as any as S.Schema<RollbackStageInput>;
@@ -3591,9 +3128,7 @@ export const SourceRevisionOverride = /*@__PURE__*/ S.suspend(() =>
   identifier: "SourceRevisionOverride",
 }) as any as S.Schema<SourceRevisionOverride>;
 export type SourceRevisionOverrideList = SourceRevisionOverride[];
-export const SourceRevisionOverrideList = /*@__PURE__*/ S.Array(
-  SourceRevisionOverride,
-);
+export const SourceRevisionOverrideList = /*@__PURE__*/ S.Array(SourceRevisionOverride);
 export interface StartPipelineExecutionInput {
   name: string;
   variables?: PipelineVariable[];
@@ -3606,17 +3141,7 @@ export const StartPipelineExecutionInput = /*@__PURE__*/ S.suspend(() =>
     variables: S.optional(PipelineVariableList),
     clientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     sourceRevisions: S.optional(SourceRevisionOverrideList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartPipelineExecutionInput",
 }) as any as S.Schema<StartPipelineExecutionInput>;
@@ -3640,17 +3165,7 @@ export const StopPipelineExecutionInput = /*@__PURE__*/ S.suspend(() =>
     pipelineExecutionId: S.String,
     abandon: S.optional(S.Boolean),
     reason: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StopPipelineExecutionInput",
 }) as any as S.Schema<StopPipelineExecutionInput>;
@@ -3668,23 +3183,13 @@ export interface TagResourceInput {
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -3695,23 +3200,13 @@ export interface UntagResourceInput {
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String, tagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateActionTypeInput {
@@ -3719,15 +3214,7 @@ export interface UpdateActionTypeInput {
 }
 export const UpdateActionTypeInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ actionType: ActionTypeDeclaration }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateActionTypeInput",
@@ -3743,15 +3230,7 @@ export interface UpdatePipelineInput {
 }
 export const UpdatePipelineInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ pipeline: PipelineDeclaration }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdatePipelineInput",
@@ -4005,11 +3484,7 @@ export const disableStageTransition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableStageTransitionInput,
   output: DisableStageTransitionResponse,
-  errors: [
-    PipelineNotFoundException,
-    StageNotFoundException,
-    ValidationException,
-  ],
+  errors: [PipelineNotFoundException, StageNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableStageTransition",
@@ -4031,20 +3506,13 @@ export const enableStageTransition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableStageTransitionInput,
   output: EnableStageTransitionResponse,
-  errors: [
-    PipelineNotFoundException,
-    StageNotFoundException,
-    ValidationException,
-  ],
+  errors: [PipelineNotFoundException, StageNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableStageTransition",
 }));
 
-export type GetActionTypeError =
-  | ActionTypeNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetActionTypeError = ActionTypeNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns information about an action type created for an external provider, where the
  * action is to be used by customers of the external provider. The action can be created
@@ -4064,10 +3532,7 @@ export const getActionType: API.OperationMethod<
   operationName: "GetActionType",
 }));
 
-export type GetJobDetailsError =
-  | JobNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetJobDetailsError = JobNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns information about a job. Used for custom actions only.
  *
@@ -4108,11 +3573,7 @@ export const getPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPipelineInput,
   output: GetPipelineOutput,
-  errors: [
-    PipelineNotFoundException,
-    PipelineVersionNotFoundException,
-    ValidationException,
-  ],
+  errors: [PipelineNotFoundException, PipelineVersionNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
@@ -4136,20 +3597,13 @@ export const getPipelineExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPipelineExecutionInput,
   output: GetPipelineExecutionOutput,
-  errors: [
-    PipelineExecutionNotFoundException,
-    PipelineNotFoundException,
-    ValidationException,
-  ],
+  errors: [PipelineExecutionNotFoundException, PipelineNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineExecution",
 }));
 
-export type GetPipelineStateError =
-  | PipelineNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type GetPipelineStateError = PipelineNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns information about the state of a pipeline, including the stages and
  * actions.
@@ -4241,10 +3695,7 @@ export const listActionExecutions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListActionTypesError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListActionTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Gets a summary of all CodePipeline action types associated with your
  * account.
@@ -4325,11 +3776,7 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPipelineExecutionsInput,
   output: ListPipelineExecutionsOutput,
-  errors: [
-    InvalidNextTokenException,
-    PipelineNotFoundException,
-    ValidationException,
-  ],
+  errors: [InvalidNextTokenException, PipelineNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPipelineExecutions",
@@ -4341,10 +3788,7 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListPipelinesError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListPipelinesError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Gets a summary of all of the pipelines associated with your account.
  */
@@ -4405,10 +3849,7 @@ export const listRuleExecutions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListRuleTypesError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListRuleTypesError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
@@ -4464,10 +3905,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListWebhooksError =
-  | InvalidNextTokenException
-  | ValidationException
-  | CommonErrors;
+export type ListWebhooksError = InvalidNextTokenException | ValidationException | CommonErrors;
 /**
  * Gets a listing of all the webhooks in this Amazon Web Services Region for this
  * account. The output lists all webhooks and includes the webhook URL and ARN and the
@@ -4532,10 +3970,7 @@ export const overrideStageCondition: API.OperationMethod<
   operationName: "OverrideStageCondition",
 }));
 
-export type PollForJobsError =
-  | ActionTypeNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type PollForJobsError = ActionTypeNotFoundException | ValidationException | CommonErrors;
 /**
  * Returns information about any jobs for CodePipeline to act on.
  * `PollForJobs` is valid only for action types with "Custom" in the owner
@@ -5057,11 +4492,7 @@ export const updateActionType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateActionTypeInput,
   output: UpdateActionTypeResponse,
-  errors: [
-    ActionTypeNotFoundException,
-    RequestFailedException,
-    ValidationException,
-  ],
+  errors: [ActionTypeNotFoundException, RequestFailedException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionType",

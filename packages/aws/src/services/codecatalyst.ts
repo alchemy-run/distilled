@@ -1,13 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeCatalyst",
   serviceShapeName: "CodeCatalyst",
@@ -30,11 +30,7 @@ const rules = T.EndpointResolver((p, _) => {
   }
   {
     const PartitionResult = _.partition("us-west-2");
-    if (
-      !(Region != null) &&
-      PartitionResult != null &&
-      PartitionResult !== false
-    ) {
+    if (!(Region != null) && PartitionResult != null && PartitionResult !== false) {
       if (UseFIPS === true) {
         if (_.getAttr(PartitionResult, "supportsFIPS") === false) {
           return err("Partition does not support FIPS.");
@@ -43,18 +39,12 @@ const rules = T.EndpointResolver((p, _) => {
           `https://codecatalyst-fips.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
         );
       }
-      return e(
-        `https://codecatalyst.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-      );
+      return e(`https://codecatalyst.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
     }
   }
   {
     const PartitionResult = _.partition(Region);
-    if (
-      Region != null &&
-      PartitionResult != null &&
-      PartitionResult !== false
-    ) {
+    if (Region != null && PartitionResult != null && PartitionResult !== false) {
       if (UseFIPS === true) {
         if (_.getAttr(PartitionResult, "supportsFIPS") === false) {
           return err("Partition does not support FIPS.");
@@ -63,9 +53,7 @@ const rules = T.EndpointResolver((p, _) => {
           `https://codecatalyst-fips.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
         );
       }
-      return e(
-        `https://codecatalyst.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-      );
+      return e(`https://codecatalyst.global.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
     }
   }
   return err("No matching endpoint rule");
@@ -79,19 +67,8 @@ export interface CreateAccessTokenRequest {
 export const CreateAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
-    expiresTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/accessTokens" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    expiresTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/v1/accessTokens" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAccessTokenRequest",
 }) as any as S.Schema<CreateAccessTokenRequest>;
@@ -329,16 +306,13 @@ export interface CreateSourceRepositoryBranchResponse {
   lastUpdatedTime?: Date;
   headCommitId?: string;
 }
-export const CreateSourceRepositoryBranchResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ref: S.optional(S.String),
-      name: S.optional(S.String),
-      lastUpdatedTime: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-      headCommitId: S.optional(S.String),
-    }),
+export const CreateSourceRepositoryBranchResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ref: S.optional(S.String),
+    name: S.optional(S.String),
+    lastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    headCommitId: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CreateSourceRepositoryBranchResponse",
 }) as any as S.Schema<CreateSourceRepositoryBranchResponse>;
@@ -347,22 +321,13 @@ export interface DeleteAccessTokenRequest {
 }
 export const DeleteAccessTokenRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ id: S.String.pipe(T.HttpLabel("id")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/accessTokens/{id}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAccessTokenRequest",
 }) as any as S.Schema<DeleteAccessTokenRequest>;
 export interface DeleteAccessTokenResponse {}
-export const DeleteAccessTokenResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAccessTokenResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccessTokenResponse",
 }) as any as S.Schema<DeleteAccessTokenResponse>;
 export interface DeleteDevEnvironmentRequest {
@@ -480,14 +445,7 @@ export interface DeleteSpaceRequest {
 }
 export const DeleteSpaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/v1/spaces/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSpaceRequest",
@@ -538,8 +496,7 @@ export const DevEnvironmentRepositorySummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DevEnvironmentRepositorySummary",
 }) as any as S.Schema<DevEnvironmentRepositorySummary>;
-export type DevEnvironmentRepositorySummaries =
-  DevEnvironmentRepositorySummary[];
+export type DevEnvironmentRepositorySummaries = DevEnvironmentRepositorySummary[];
 export const DevEnvironmentRepositorySummaries = /*@__PURE__*/ S.Array(
   DevEnvironmentRepositorySummary,
 );
@@ -708,8 +665,8 @@ export const GetSourceRepositoryCloneUrlsRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetSourceRepositoryCloneUrlsResponse {
   https: string;
 }
-export const GetSourceRepositoryCloneUrlsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ https: S.String }),
+export const GetSourceRepositoryCloneUrlsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ https: S.String }),
 ).annotate({
   identifier: "GetSourceRepositoryCloneUrlsResponse",
 }) as any as S.Schema<GetSourceRepositoryCloneUrlsResponse>;
@@ -718,14 +675,7 @@ export interface GetSpaceRequest {
 }
 export const GetSpaceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/spaces/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/spaces/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetSpaceRequest",
@@ -775,9 +725,7 @@ export const GetSubscriptionResponse = /*@__PURE__*/ S.suspend(() =>
     subscriptionType: S.optional(S.String),
     awsAccountName: S.optional(S.String),
     pendingSubscriptionType: S.optional(S.String),
-    pendingSubscriptionStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    pendingSubscriptionStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetSubscriptionResponse",
@@ -790,16 +738,7 @@ export const GetUserDetailsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String).pipe(T.HttpQuery("id")),
     userName: S.optional(S.String).pipe(T.HttpQuery("userName")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/userDetails" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/userDetails" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetUserDetailsRequest",
 }) as any as S.Schema<GetUserDetailsRequest>;
@@ -922,15 +861,11 @@ export const GetWorkflowRunRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetWorkflowRunRequest>;
 export type WorkflowRunStatus = string;
 export interface WorkflowRunStatusReason {}
-export const WorkflowRunStatusReason = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const WorkflowRunStatusReason = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "WorkflowRunStatusReason",
 }) as any as S.Schema<WorkflowRunStatusReason>;
 export type WorkflowRunStatusReasons = WorkflowRunStatusReason[];
-export const WorkflowRunStatusReasons = /*@__PURE__*/ S.Array(
-  WorkflowRunStatusReason,
-);
+export const WorkflowRunStatusReasons = /*@__PURE__*/ S.Array(WorkflowRunStatusReason);
 export interface GetWorkflowRunResponse {
   spaceName: string;
   projectName: string;
@@ -965,16 +900,7 @@ export const ListAccessTokensRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/accessTokens" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/accessTokens" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAccessTokensRequest",
 }) as any as S.Schema<ListAccessTokensRequest>;
@@ -987,9 +913,7 @@ export const AccessTokenSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
     name: S.String,
-    expiresTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    expiresTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "AccessTokenSummary",
@@ -1085,9 +1009,7 @@ export const DevEnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DevEnvironmentSummary",
 }) as any as S.Schema<DevEnvironmentSummary>;
 export type DevEnvironmentSummaryList = DevEnvironmentSummary[];
-export const DevEnvironmentSummaryList = /*@__PURE__*/ S.Array(
-  DevEnvironmentSummary,
-);
+export const DevEnvironmentSummaryList = /*@__PURE__*/ S.Array(DevEnvironmentSummary);
 export interface ListDevEnvironmentsResponse {
   items: DevEnvironmentSummary[];
   nextToken?: string;
@@ -1389,9 +1311,7 @@ export const ListSourceRepositoriesItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSourceRepositoriesItem",
 }) as any as S.Schema<ListSourceRepositoriesItem>;
 export type ListSourceRepositoriesItems = ListSourceRepositoriesItem[];
-export const ListSourceRepositoriesItems = /*@__PURE__*/ S.Array(
-  ListSourceRepositoriesItem,
-);
+export const ListSourceRepositoriesItems = /*@__PURE__*/ S.Array(ListSourceRepositoriesItem);
 export interface ListSourceRepositoriesResponse {
   items?: ListSourceRepositoriesItem[];
   nextToken?: string;
@@ -1444,16 +1364,13 @@ export const ListSourceRepositoryBranchesItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ref: S.optional(S.String),
     name: S.optional(S.String),
-    lastUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     headCommitId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "ListSourceRepositoryBranchesItem",
 }) as any as S.Schema<ListSourceRepositoryBranchesItem>;
-export type ListSourceRepositoryBranchesItems =
-  ListSourceRepositoryBranchesItem[];
+export type ListSourceRepositoryBranchesItems = ListSourceRepositoryBranchesItem[];
 export const ListSourceRepositoryBranchesItems = /*@__PURE__*/ S.Array(
   ListSourceRepositoryBranchesItem,
 );
@@ -1461,12 +1378,11 @@ export interface ListSourceRepositoryBranchesResponse {
   nextToken?: string;
   items: ListSourceRepositoryBranchesItem[];
 }
-export const ListSourceRepositoryBranchesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String),
-      items: ListSourceRepositoryBranchesItems,
-    }),
+export const ListSourceRepositoryBranchesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String),
+    items: ListSourceRepositoryBranchesItems,
+  }),
 ).annotate({
   identifier: "ListSourceRepositoryBranchesResponse",
 }) as any as S.Schema<ListSourceRepositoryBranchesResponse>;
@@ -1475,14 +1391,7 @@ export interface ListSpacesRequest {
 }
 export const ListSpacesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v1/spaces" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v1/spaces" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListSpacesRequest",
@@ -1516,15 +1425,11 @@ export const ListSpacesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSpacesResponse",
 }) as any as S.Schema<ListSpacesResponse>;
 export interface WorkflowRunSortCriteria {}
-export const WorkflowRunSortCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const WorkflowRunSortCriteria = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "WorkflowRunSortCriteria",
 }) as any as S.Schema<WorkflowRunSortCriteria>;
 export type WorkflowRunSortCriteriaList = WorkflowRunSortCriteria[];
-export const WorkflowRunSortCriteriaList = /*@__PURE__*/ S.Array(
-  WorkflowRunSortCriteria,
-);
+export const WorkflowRunSortCriteriaList = /*@__PURE__*/ S.Array(WorkflowRunSortCriteria);
 export interface ListWorkflowRunsRequest {
   spaceName: string;
   workflowId?: string;
@@ -1596,14 +1501,11 @@ export const ListWorkflowRunsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListWorkflowRunsResponse",
 }) as any as S.Schema<ListWorkflowRunsResponse>;
 export interface WorkflowSortCriteria {}
-export const WorkflowSortCriteria = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const WorkflowSortCriteria = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "WorkflowSortCriteria",
 }) as any as S.Schema<WorkflowSortCriteria>;
 export type WorkflowSortCriteriaList = WorkflowSortCriteria[];
-export const WorkflowSortCriteriaList =
-  /*@__PURE__*/ S.Array(WorkflowSortCriteria);
+export const WorkflowSortCriteriaList = /*@__PURE__*/ S.Array(WorkflowSortCriteria);
 export interface ListWorkflowsRequest {
   spaceName: string;
   projectName: string;
@@ -1732,8 +1634,7 @@ export const StartDevEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<StartDevEnvironmentResponse>;
 export type DevEnvironmentSessionType = string;
 export type ExecuteCommandSessionConfigurationArguments = string[];
-export const ExecuteCommandSessionConfigurationArguments =
-  /*@__PURE__*/ S.Array(S.String);
+export const ExecuteCommandSessionConfigurationArguments = /*@__PURE__*/ S.Array(S.String);
 export interface ExecuteCommandSessionConfiguration {
   command: string;
   arguments?: string[];
@@ -1753,9 +1654,7 @@ export interface DevEnvironmentSessionConfiguration {
 export const DevEnvironmentSessionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionType: S.String,
-    executeCommandSessionConfiguration: S.optional(
-      ExecuteCommandSessionConfiguration,
-    ),
+    executeCommandSessionConfiguration: S.optional(ExecuteCommandSessionConfiguration),
   }),
 ).annotate({
   identifier: "DevEnvironmentSessionConfiguration",
@@ -2058,14 +1957,7 @@ export const UpdateSpaceRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.HttpLabel("name")),
     description: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/v1/spaces/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/v1/spaces/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateSpaceRequest",
@@ -2087,14 +1979,7 @@ export const UpdateSpaceResponse = /*@__PURE__*/ S.suspend(() =>
 export interface VerifySessionRequest {}
 export const VerifySessionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/session" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/session" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "VerifySessionRequest",

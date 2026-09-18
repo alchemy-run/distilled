@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Signer Data",
   serviceShapeName: "SignerDataPlane",
@@ -36,18 +36,14 @@ const rules = T.EndpointResolver((p, _) => {
         );
       }
       if (UseFIPS === true) {
-        return e(
-          `https://data-signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://data-signer-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
       if (UseDualStack === true) {
         return e(
           `https://data-signer.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
         );
       }
-      return e(
-        `https://data-signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-      );
+      return e(`https://data-signer.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
     }
   }
   return err("No matching endpoint rule");
@@ -110,16 +106,7 @@ export const GetRevocationStatusRequest = /*@__PURE__*/ S.suspend(() =>
     profileVersionArn: S.String.pipe(T.HttpQuery("profileVersionArn")),
     jobArn: S.String.pipe(T.HttpQuery("jobArn")),
     certificateHashes: CertificateHashes.pipe(T.HttpQuery("certificateHashes")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/revocations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/revocations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRevocationStatusRequest",
 }) as any as S.Schema<GetRevocationStatusRequest>;

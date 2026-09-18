@@ -3562,9 +3562,7 @@
                   "SupplierDomain": "NetworkID",
                   "SupplierIdentifier": "SupplierId_1",
                   "Selector": {
-                    "InvoiceUnitArns": [
-                      "arn:aws:invoicing::111111111111:invoice-unit/12345679"
-                    ],
+                    "InvoiceUnitArns": ["arn:aws:invoicing::111111111111:invoice-unit/12345679"],
                     "SellerOfRecords": ["AWS_INC"]
                   },
                   "Version": 1
@@ -3584,9 +3582,7 @@
                   "SupplierDomain": "NetworkID",
                   "SupplierIdentifier": "SupplierId_1",
                   "Selector": {
-                    "InvoiceUnitArns": [
-                      "arn:aws:invoicing::111111111111:invoice-unit/12345678"
-                    ],
+                    "InvoiceUnitArns": ["arn:aws:invoicing::111111111111:invoice-unit/12345678"],
                     "SellerOfRecords": ["AWS_INC"]
                   },
                   "Version": 1
@@ -3619,9 +3615,7 @@
                   "SupplierDomain": "NetworkID",
                   "SupplierIdentifier": "SupplierId_1",
                   "Selector": {
-                    "InvoiceUnitArns": [
-                      "arn:aws:invoicing::111111111111:invoice-unit/12345678"
-                    ],
+                    "InvoiceUnitArns": ["arn:aws:invoicing::111111111111:invoice-unit/12345678"],
                     "SellerOfRecords": ["AWS_INC"]
                   },
                   "Version": 3
@@ -4267,9 +4261,7 @@
               "ProcurementPortalSharedSecret": "Coupa_Secret_2",
               "ProcurementPortalInstanceEndpoint": "https://www.placeholder-domain.test",
               "Selector": {
-                "InvoiceUnitArns": [
-                  "arn:aws:invoicing::111111111111:invoice-unit/12345679"
-                ],
+                "InvoiceUnitArns": ["arn:aws:invoicing::111111111111:invoice-unit/12345679"],
                 "SellerOfRecords": ["AWS_INC"]
               },
               "TestEnvPreference": {

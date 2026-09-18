@@ -21,7 +21,5 @@ const program = s3
 
 export default {
   fetch: () =>
-    Effect.runPromise(program).then(
-      (out) => new Response(String(out.ContentLength ?? 0)),
-    ),
+    Effect.runPromise(program).then((out) => new Response(String(out.ContentLength ?? 0))),
 };
