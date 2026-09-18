@@ -59,7 +59,7 @@ describe("REST-XML unstructured server errors", () => {
           }).pipe(Effect.flip),
         );
         if (status === 503 && !body) {
-          expect(error._tag).toBe("ServiceUnavailable");
+          expect(error).toMatchObject({ _tag: "ServiceUnavailable" });
         } else {
           expect(error).toBeInstanceOf(InternalError);
         }
@@ -100,7 +100,7 @@ describe("REST-XML unstructured server errors", () => {
         }).pipe(Effect.flip),
       );
       expect(error).toBeInstanceOf(SlowDown);
-      expect(error.message).toBe("Try later");
+      expect(error).toMatchObject({ message: "Try later" });
       expect(isTransientError(error)).toBe(true);
     });
   }
