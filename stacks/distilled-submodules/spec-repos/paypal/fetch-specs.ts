@@ -94,9 +94,7 @@ async function fetchOk(url: string): Promise<Response> {
     headers: { "user-agent": USER_AGENT, accept: "*/*" },
   });
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
   return response;
 }

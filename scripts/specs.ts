@@ -35,14 +35,7 @@
  * — and `specs:check` fails the build if one is ever written by hand.
  */
 import { spawnSync } from "node:child_process";
-import {
-  cpSync,
-  existsSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from "node:fs";
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 const ROOT = join(import.meta.dir, "..");
@@ -202,17 +195,7 @@ const link = (pkg: string) => {
       ["path", path],
       ["url", url],
     ] as const) {
-      run(
-        [
-          "git",
-          "config",
-          "-f",
-          ".gitmodules",
-          `submodule.${path}.${key}`,
-          value,
-        ],
-        ROOT,
-      );
+      run(["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value], ROOT);
     }
   }
   // Spec submodules are read-only inputs and several fetch scripts leave the
@@ -223,10 +206,7 @@ const link = (pkg: string) => {
     ["ignore", "dirty"],
     ["shallow", "true"],
   ] as const) {
-    run(
-      ["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value],
-      ROOT,
-    );
+    run(["git", "config", "-f", ".gitmodules", `submodule.${path}.${key}`, value], ROOT);
   }
 
   if (!remoteExists) {
@@ -277,9 +257,7 @@ const check = () => {
   }
   for (const entry of readdirSync(join(STACK, "spec-repos")).sort()) {
     if (!covered.has(entry)) {
-      errors.push(
-        `spec-repos/${entry}/ has no SPEC_REPOS entry — the stack will not deploy it`,
-      );
+      errors.push(`spec-repos/${entry}/ has no SPEC_REPOS entry — the stack will not deploy it`);
     }
   }
 
@@ -288,9 +266,7 @@ const check = () => {
   for (const entry of readdirSync(PACKAGES).sort()) {
     if (covered.has(entry)) continue;
     if (existsSync(join(PACKAGES, entry, "specs"))) {
-      errors.push(
-        `packages/${entry} consumes specs but has no SPEC_REPOS entry`,
-      );
+      errors.push(`packages/${entry} consumes specs but has no SPEC_REPOS entry`);
     }
   }
 
@@ -309,11 +285,10 @@ const check = () => {
       errors.push(`.gitmodules has no entry for ${path}`);
       continue;
     }
-    const shallow = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${path}.shallow`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const shallow = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${path}.shallow`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (shallow !== "true") {
       errors.push(
         `.gitmodules: ${path} is not \`shallow = true\` — a full-history ` +
@@ -329,25 +304,19 @@ const check = () => {
       errors.push(`.gitmodules: ${name} has no SPEC_REPOS entry`);
       continue;
     }
-    const path = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${name}.path`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const path = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${name}.path`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (path !== submodulePath(specRepo)) {
-      errors.push(
-        `.gitmodules: ${name} path is ${path}, expected ${submodulePath(specRepo)}`,
-      );
+      errors.push(`.gitmodules: ${name} path is ${path}, expected ${submodulePath(specRepo)}`);
     }
-    const url = spawnSync(
-      "git",
-      ["config", "-f", ".gitmodules", `submodule.${name}.url`],
-      { cwd: ROOT, encoding: "utf8" },
-    ).stdout?.trim();
+    const url = spawnSync("git", ["config", "-f", ".gitmodules", `submodule.${name}.url`], {
+      cwd: ROOT,
+      encoding: "utf8",
+    }).stdout?.trim();
     if (url !== mirrorUrl(specRepo)) {
-      errors.push(
-        `.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(specRepo)}`,
-      );
+      errors.push(`.gitmodules: ${name} url is ${url}, expected ${mirrorUrl(specRepo)}`);
     }
   }
 
@@ -375,19 +344,12 @@ const check = () => {
     // Prose, not a path. The workflow is documented in several files and the
     // documentation quotes the directory; only code can actually read from it.
     const code = rest.join(":").trim();
-    if (
-      code.startsWith("*") ||
-      code.startsWith("//") ||
-      code.startsWith("/*")
-    ) {
+    if (code.startsWith("*") || code.startsWith("//") || code.startsWith("/*")) {
       continue;
     }
     // The resolver and this script are where the string is defined; every
     // other mention is a package reading specs from a gitignored directory.
-    if (
-      file === "packages/core/src/codegen/spec-path.ts" ||
-      file === "scripts/specs.ts"
-    ) {
+    if (file === "packages/core/src/codegen/spec-path.ts" || file === "scripts/specs.ts") {
       continue;
     }
     errors.push(
@@ -411,8 +373,7 @@ const check = () => {
 // ---------------------------------------------------------------------------
 
 const [command, ...args] = process.argv.slice(2);
-const packages = () =>
-  args.length > 0 ? args : die("usage: specs.ts <local|link> <package>...");
+const packages = () => (args.length > 0 ? args : die("usage: specs.ts <local|link> <package>..."));
 
 switch (command) {
   case "local":

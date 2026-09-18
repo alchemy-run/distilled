@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn Smithy JSON models in .generated-specs into Effect SDKs.
  *
@@ -11,7 +12,6 @@
  * compiles the already-patched Smithy models.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -48,9 +48,7 @@ const namespaceOf = (model: any): string => {
 const pruneCoreErrorImport = (code: string): string => {
   const importLine = `import { ${CORE_ERROR_CLASSES.join(", ")} } from "../errors.ts";`;
   const rest = code.replace(importLine, "");
-  const used = CORE_ERROR_CLASSES.filter((n) =>
-    new RegExp(`\\b${n}\\b`).test(rest),
-  );
+  const used = CORE_ERROR_CLASSES.filter((n) => new RegExp(`\\b${n}\\b`).test(rest));
   return code.replace(
     importLine,
     used.length
@@ -86,10 +84,7 @@ const restSpec = (opts: {
   },
   ...(opts.sensitiveTs || opts.blobBody
     ? {
-        memberTsType: (m: {
-          traits?: Record<string, unknown>;
-          nullable?: boolean;
-        }) => {
+        memberTsType: (m: { traits?: Record<string, unknown>; nullable?: boolean }) => {
           if (opts.sensitiveTs && "smithy.api#sensitive" in (m.traits ?? {})) {
             return `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`;
           }
@@ -101,8 +96,7 @@ const restSpec = (opts: {
       }
     : {}),
   errors: {
-    override: ({ name }) =>
-      CORE_ERROR_CLASSES.includes(name) ? [] : undefined,
+    override: ({ name }) => (CORE_ERROR_CLASSES.includes(name) ? [] : undefined),
   },
   ...(opts.pagination
     ? {
@@ -139,10 +133,7 @@ const restSpec = (opts: {
     `export type { ${opts.errorType}, ${opts.contextType} };\n\n`,
   postProcess: (code) => {
     let next = pruneCoreErrorImport(code);
-    if (
-      next.includes("Redacted.Redacted<") &&
-      !next.includes('from "effect/Redacted"')
-    ) {
+    if (next.includes("Redacted.Redacted<") && !next.includes('from "effect/Redacted"')) {
       next = next.replace(
         `import * as S from "@distilled.cloud/core/schema";\n`,
         `import * as S from "@distilled.cloud/core/schema";\n` +
@@ -166,17 +157,12 @@ const addonsSpec = (model: any): SdkSpec => ({
       pipes.push(`T.GraphQLOp(${JSON.stringify(traits[GQL_OP])})`);
     }
     if (traits[GQL_RESPONSE_PATH] !== undefined) {
-      pipes.push(
-        `T.ResponsePath(${JSON.stringify(traits[GQL_RESPONSE_PATH])})`,
-      );
+      pipes.push(`T.ResponsePath(${JSON.stringify(traits[GQL_RESPONSE_PATH])})`);
     }
     return pipes;
   },
   shapeOverride: (ctx) => {
-    if (
-      ctx.def.type === "list" &&
-      ctx.def.traits?.[GQL_NULLABLE_ITEMS] !== undefined
-    ) {
+    if (ctx.def.type === "list" && ctx.def.traits?.[GQL_NULLABLE_ITEMS] !== undefined) {
       const t = ctx.def.member.target;
       return [
         `export type ${ctx.name} = (${ctx.tsRef(t)} | null)[];`,
@@ -196,9 +182,7 @@ const addonsSpec = (model: any): SdkSpec => ({
             : ctx.ref(m.target, ctx.selfIdx);
           const pipes = [
             "T.GraphQLPayloadRoot()",
-            ...(rp !== undefined
-              ? [`T.ResponsePath(${JSON.stringify(rp)})`]
-              : []),
+            ...(rp !== undefined ? [`T.ResponsePath(${JSON.stringify(rp)})`] : []),
           ];
           return [
             `export type ${ctx.name} = ${ctx.tsRef(m.target)}${nullable ? " | null" : ""};`,
@@ -218,8 +202,7 @@ const addonsSpec = (model: any): SdkSpec => ({
       : undefined,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   errors: {
-    override: ({ name }) =>
-      CORE_ERROR_CLASSES.includes(name) ? [] : undefined,
+    override: ({ name }) => (CORE_ERROR_CLASSES.includes(name) ? [] : undefined),
   },
   paginationProfiles: {
     relay: {
@@ -236,10 +219,7 @@ const addonsSpec = (model: any): SdkSpec => ({
   },
   postProcess: (code) => {
     let next = code;
-    if (
-      next.includes("Redacted.Redacted<") &&
-      !next.includes('from "effect/Redacted"')
-    ) {
+    if (next.includes("Redacted.Redacted<") && !next.includes('from "effect/Redacted"')) {
       next = next.replace(
         `import * as S from "@distilled.cloud/core/schema";\n`,
         `import * as S from "@distilled.cloud/core/schema";\n` +
@@ -248,9 +228,7 @@ const addonsSpec = (model: any): SdkSpec => ({
     }
     if (
       next.includes("CreateExtensionTosAgreementNotAuthorized") &&
-      !next.includes(
-        "CreateExtensionTosAgreementNotAuthorized, FlyIoParseError",
-      )
+      !next.includes("CreateExtensionTosAgreementNotAuthorized, FlyIoParseError")
     ) {
       next = next.replace(
         `import { FlyIoParseError, UnknownFlyIoError } from "../errors.ts";`,

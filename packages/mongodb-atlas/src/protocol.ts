@@ -1,3 +1,19 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  type API_ERRORS,
+  type ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * MongodbAtlasProtocol — hand-written.
  *
@@ -30,25 +46,6 @@ import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
-import {
-  buildRequest,
-  getAnn,
-  mapKeys,
-  matchTypedError,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  type API_ERRORS,
-  type ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import { PaymentRequired, UnknownMongodbAtlasError } from "./errors.ts";
 
@@ -69,9 +66,7 @@ export type MongodbAtlasOpError =
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
 
 /** The v0 Atlas status map: core's HTTP classes plus 402 → PaymentRequired. */
-const STATUS_MAP: Readonly<
-  Record<number, (new (args: any) => any) | undefined>
-> = {
+const STATUS_MAP: Readonly<Record<number, (new (args: any) => any) | undefined>> = {
   ...HTTP_STATUS_MAP,
   402: PaymentRequired,
 };
@@ -80,8 +75,7 @@ const STATUS_MAP: Readonly<
 // but Atlas failures are real typed errors that operations re-surface via
 // their `errors: [...]` lists. Fail with the instance and erase the type
 // here; the generated operation annotations reintroduce it for callers.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 /** The Atlas ApiError envelope: `{ error, errorCode, reason?, detail? }`. */
 interface AtlasErrorEnvelope {
@@ -106,13 +100,7 @@ const errorEnvelope = (body: unknown): AtlasErrorEnvelope => {
 // cached-token refresh in credentials.ts). The service's ConfigError channel
 // is erased at this boundary (Protocol effects carry none) and reintroduced
 // for callers by the generated `MongodbAtlasOpError` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolve = yield* Credentials;
     const creds = yield* resolve as Effect.Effect<Config>;
@@ -162,9 +150,7 @@ const decode = ({
       const env = nonJson ? {} : errorEnvelope(json);
       // v0 parity: `detail` first, then `reason`.
       const message =
-        env.detail ??
-        env.reason ??
-        (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        env.detail ?? env.reason ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(errorClasses, status, [{ message }]);
@@ -216,8 +202,7 @@ export const MongodbAtlasProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol.of({
     // Erase encode's Credentials requirement (resolved on the calling
     // fiber; see the comment above `encode`).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

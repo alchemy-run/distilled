@@ -190,14 +190,11 @@ export const errorUnionAlias = (
   opName: string,
   errorNames: readonly string[],
   commonRef: string,
-): string =>
-  `export type ${opName}Error = ${[...errorNames, commonRef].join(" | ")};`;
+): string => `export type ${opName}Error = ${[...errorNames, commonRef].join(" | ")};`;
 
 /** Namespaced barrel: `export * as name from "./file.ts";` per entry. */
 export const barrel = (
   header: string,
   entries: ReadonlyArray<{ name: string; path: string }>,
 ): string =>
-  header +
-  entries.map((e) => `export * as ${e.name} from ${q(e.path)};`).join("\n") +
-  "\n";
+  header + entries.map((e) => `export * as ${e.name} from ${q(e.path)};`).join("\n") + "\n";

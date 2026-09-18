@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "AppIntegrations",
   serviceShapeName: "AmazonAppIntegrationService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://app-integrations-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://app-integrations.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://app-integrations.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://app-integrations.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -126,10 +116,9 @@ export class ThrottlingException
     T.HttpError(429),
   ).pipe(C.withThrottlingError) {}
 export class TooManyRequestsException
-  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()(
-    "TooManyRequestsException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withThrottlingError, C.withRetryableError) {}
+  extends /*@__PURE__*/ S.TaggedError<TooManyRequestsException>()("TooManyRequestsException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class UnsupportedOperationException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()(
     "UnsupportedOperationException",
@@ -192,18 +181,12 @@ export type IdempotencyToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type Permission = string;
 export type PermissionList = string[];
 export const PermissionList = /*@__PURE__*/ S.Array(S.String);
 export type InitializationTimeout = number;
-export type ContactHandlingScope =
-  | "CROSS_CONTACTS"
-  | "PER_CONTACT"
-  | (string & {});
+export type ContactHandlingScope = "CROSS_CONTACTS" | "PER_CONTACT" | (string & {});
 export const ContactHandlingScope = S.String;
 
 export interface ContactHandling {
@@ -235,11 +218,7 @@ export const IframeConfig = /*@__PURE__*/ S.suspend(() =>
     Sandbox: S.optional(IframePermissionList),
   }),
 ).annotate({ identifier: "IframeConfig" }) as any as S.Schema<IframeConfig>;
-export type ApplicationType =
-  | "STANDARD"
-  | "SERVICE"
-  | "MCP_SERVER"
-  | (string & {});
+export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | (string & {});
 export const ApplicationType = S.String;
 
 export interface CreateApplicationRequest {
@@ -274,16 +253,7 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     ApplicationConfig: S.optional(ApplicationConfig),
     IframeConfig: S.optional(IframeConfig),
     ApplicationType: S.optional(ApplicationType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -322,10 +292,7 @@ export type Fields = string;
 export type FieldsList = string[];
 export const FieldsList = /*@__PURE__*/ S.Array(S.String);
 export type FieldsMap = { [key: string]: string[] | undefined };
-export const FieldsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldsList.pipe(S.optional),
-);
+export const FieldsMap = /*@__PURE__*/ S.Record(S.String, FieldsList.pipe(S.optional));
 export interface FileConfiguration {
   Folders: string[];
   Filters?: { [key: string]: string[] | undefined };
@@ -338,10 +305,7 @@ export const FileConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type ObjectConfiguration = {
   [key: string]: { [key: string]: string[] | undefined } | undefined;
 };
-export const ObjectConfiguration = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldsMap.pipe(S.optional),
-);
+export const ObjectConfiguration = /*@__PURE__*/ S.Record(S.String, FieldsMap.pipe(S.optional));
 export interface CreateDataIntegrationRequest {
   Name: string;
   Description?: string;
@@ -367,14 +331,7 @@ export const CreateDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     FileConfiguration: S.optional(FileConfiguration),
     ObjectConfiguration: S.optional(ObjectConfiguration),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/dataIntegrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/dataIntegrations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDataIntegrationRequest",
@@ -456,31 +413,28 @@ export interface CreateDataIntegrationAssociationRequest {
   ClientToken?: string;
   ExecutionConfiguration?: ExecutionConfiguration;
 }
-export const CreateDataIntegrationAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataIntegrationIdentifier: S.String.pipe(
-        T.HttpLabel("DataIntegrationIdentifier"),
-      ),
-      ClientId: S.optional(S.String),
-      ObjectConfiguration: S.optional(ObjectConfiguration),
-      DestinationURI: S.optional(S.String),
-      ClientAssociationMetadata: S.optional(ClientAssociationMetadata),
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      ExecutionConfiguration: S.optional(ExecutionConfiguration),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateDataIntegrationAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataIntegrationIdentifier: S.String.pipe(T.HttpLabel("DataIntegrationIdentifier")),
+    ClientId: S.optional(S.String),
+    ObjectConfiguration: S.optional(ObjectConfiguration),
+    DestinationURI: S.optional(S.String),
+    ClientAssociationMetadata: S.optional(ClientAssociationMetadata),
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    ExecutionConfiguration: S.optional(ExecutionConfiguration),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateDataIntegrationAssociationRequest",
 }) as any as S.Schema<CreateDataIntegrationAssociationRequest>;
@@ -488,12 +442,11 @@ export interface CreateDataIntegrationAssociationResponse {
   DataIntegrationAssociationId?: string;
   DataIntegrationArn?: string;
 }
-export const CreateDataIntegrationAssociationResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataIntegrationAssociationId: S.optional(S.String),
-      DataIntegrationArn: S.optional(S.String),
-    }),
+export const CreateDataIntegrationAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataIntegrationAssociationId: S.optional(S.String),
+    DataIntegrationArn: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "CreateDataIntegrationAssociationResponse",
 }) as any as S.Schema<CreateDataIntegrationAssociationResponse>;
@@ -501,9 +454,9 @@ export type Source = string;
 export interface EventFilter {
   Source: string;
 }
-export const EventFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Source: S.String }),
-).annotate({ identifier: "EventFilter" }) as any as S.Schema<EventFilter>;
+export const EventFilter = /*@__PURE__*/ S.suspend(() => S.Struct({ Source: S.String })).annotate({
+  identifier: "EventFilter",
+}) as any as S.Schema<EventFilter>;
 export type EventBridgeBus = string;
 export interface CreateEventIntegrationRequest {
   Name: string;
@@ -522,14 +475,7 @@ export const CreateEventIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     Tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/eventIntegrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/eventIntegrations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateEventIntegrationRequest",
@@ -548,22 +494,13 @@ export interface DeleteApplicationRequest {
 }
 export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/applications/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteDataIntegrationRequest {
@@ -571,9 +508,7 @@ export interface DeleteDataIntegrationRequest {
 }
 export const DeleteDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    DataIntegrationIdentifier: S.String.pipe(
-      T.HttpLabel("DataIntegrationIdentifier"),
-    ),
+    DataIntegrationIdentifier: S.String.pipe(T.HttpLabel("DataIntegrationIdentifier")),
   }).pipe(
     T.all(
       T.Http({
@@ -591,9 +526,7 @@ export const DeleteDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteDataIntegrationRequest",
 }) as any as S.Schema<DeleteDataIntegrationRequest>;
 export interface DeleteDataIntegrationResponse {}
-export const DeleteDataIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteDataIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteDataIntegrationResponse",
 }) as any as S.Schema<DeleteDataIntegrationResponse>;
 export interface DeleteEventIntegrationRequest {
@@ -614,9 +547,7 @@ export const DeleteEventIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEventIntegrationRequest",
 }) as any as S.Schema<DeleteEventIntegrationRequest>;
 export interface DeleteEventIntegrationResponse {}
-export const DeleteEventIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEventIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEventIntegrationResponse",
 }) as any as S.Schema<DeleteEventIntegrationResponse>;
 export interface GetApplicationRequest {
@@ -624,14 +555,7 @@ export interface GetApplicationRequest {
 }
 export const GetApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Arn: S.String.pipe(T.HttpLabel("Arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetApplicationRequest",
@@ -666,9 +590,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     Subscriptions: S.optional(SubscriptionList),
     Publications: S.optional(PublicationList),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     Tags: S.optional(TagMap),
     Permissions: S.optional(PermissionList),
     IsService: S.optional(S.Boolean),
@@ -807,9 +729,7 @@ export const ApplicationAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApplicationAssociationSummary",
 }) as any as S.Schema<ApplicationAssociationSummary>;
 export type ApplicationAssociationsList = ApplicationAssociationSummary[];
-export const ApplicationAssociationsList = /*@__PURE__*/ S.Array(
-  ApplicationAssociationSummary,
-);
+export const ApplicationAssociationsList = /*@__PURE__*/ S.Array(ApplicationAssociationSummary);
 export interface ListApplicationAssociationsResponse {
   ApplicationAssociations?: ApplicationAssociationSummary[];
   NextToken?: string;
@@ -831,19 +751,8 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    ApplicationType: S.optional(ApplicationType).pipe(
-      T.HttpQuery("applicationType"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    ApplicationType: S.optional(ApplicationType).pipe(T.HttpQuery("applicationType")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -864,9 +773,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     Name: S.optional(S.String),
     Namespace: S.optional(S.String),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastModifiedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastModifiedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     IsService: S.optional(S.Boolean),
     ApplicationType: S.optional(ApplicationType),
   }),
@@ -892,35 +799,28 @@ export interface ListDataIntegrationAssociationsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListDataIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataIntegrationIdentifier: S.String.pipe(
-        T.HttpLabel("DataIntegrationIdentifier"),
-      ),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDataIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataIntegrationIdentifier: S.String.pipe(T.HttpLabel("DataIntegrationIdentifier")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListDataIntegrationAssociationsRequest",
 }) as any as S.Schema<ListDataIntegrationAssociationsRequest>;
-export type ExecutionStatus =
-  | "COMPLETED"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
+export type ExecutionStatus = "COMPLETED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export const ExecutionStatus = S.String;
 
 export interface LastExecutionStatus {
@@ -955,8 +855,7 @@ export const DataIntegrationAssociationSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DataIntegrationAssociationSummary",
 }) as any as S.Schema<DataIntegrationAssociationSummary>;
-export type DataIntegrationAssociationsList =
-  DataIntegrationAssociationSummary[];
+export type DataIntegrationAssociationsList = DataIntegrationAssociationSummary[];
 export const DataIntegrationAssociationsList = /*@__PURE__*/ S.Array(
   DataIntegrationAssociationSummary,
 );
@@ -964,12 +863,11 @@ export interface ListDataIntegrationAssociationsResponse {
   DataIntegrationAssociations?: DataIntegrationAssociationSummary[];
   NextToken?: string;
 }
-export const ListDataIntegrationAssociationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataIntegrationAssociations: S.optional(DataIntegrationAssociationsList),
-      NextToken: S.optional(S.String),
-    }),
+export const ListDataIntegrationAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataIntegrationAssociations: S.optional(DataIntegrationAssociationsList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListDataIntegrationAssociationsResponse",
 }) as any as S.Schema<ListDataIntegrationAssociationsResponse>;
@@ -981,16 +879,7 @@ export const ListDataIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/dataIntegrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/dataIntegrations" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDataIntegrationsRequest",
 }) as any as S.Schema<ListDataIntegrationsRequest>;
@@ -1009,9 +898,7 @@ export const DataIntegrationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataIntegrationSummary",
 }) as any as S.Schema<DataIntegrationSummary>;
 export type DataIntegrationsList = DataIntegrationSummary[];
-export const DataIntegrationsList = /*@__PURE__*/ S.Array(
-  DataIntegrationSummary,
-);
+export const DataIntegrationsList = /*@__PURE__*/ S.Array(DataIntegrationSummary);
 export interface ListDataIntegrationsResponse {
   DataIntegrations?: DataIntegrationSummary[];
   NextToken?: string;
@@ -1029,25 +916,24 @@ export interface ListEventIntegrationAssociationsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListEventIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EventIntegrationName: S.String.pipe(T.HttpLabel("EventIntegrationName")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/eventIntegrations/{EventIntegrationName}/associations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListEventIntegrationAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EventIntegrationName: S.String.pipe(T.HttpLabel("EventIntegrationName")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/eventIntegrations/{EventIntegrationName}/associations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListEventIntegrationAssociationsRequest",
 }) as any as S.Schema<ListEventIntegrationAssociationsRequest>;
@@ -1073,21 +959,16 @@ export const EventIntegrationAssociation = /*@__PURE__*/ S.suspend(() =>
   identifier: "EventIntegrationAssociation",
 }) as any as S.Schema<EventIntegrationAssociation>;
 export type EventIntegrationAssociationsList = EventIntegrationAssociation[];
-export const EventIntegrationAssociationsList = /*@__PURE__*/ S.Array(
-  EventIntegrationAssociation,
-);
+export const EventIntegrationAssociationsList = /*@__PURE__*/ S.Array(EventIntegrationAssociation);
 export interface ListEventIntegrationAssociationsResponse {
   EventIntegrationAssociations?: EventIntegrationAssociation[];
   NextToken?: string;
 }
-export const ListEventIntegrationAssociationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      EventIntegrationAssociations: S.optional(
-        EventIntegrationAssociationsList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
+export const ListEventIntegrationAssociationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    EventIntegrationAssociations: S.optional(EventIntegrationAssociationsList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListEventIntegrationAssociationsResponse",
 }) as any as S.Schema<ListEventIntegrationAssociationsResponse>;
@@ -1100,14 +981,7 @@ export const ListEventIntegrationsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/eventIntegrations" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/eventIntegrations" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListEventIntegrationsRequest",
@@ -1151,14 +1025,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1180,22 +1047,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1209,22 +1067,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
@@ -1256,22 +1105,13 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     IframeConfig: S.optional(IframeConfig),
     ApplicationType: S.optional(ApplicationType),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/applications/{Arn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/applications/{Arn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateApplicationRequest",
 }) as any as S.Schema<UpdateApplicationRequest>;
 export interface UpdateApplicationResponse {}
-export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateApplicationResponse",
 }) as any as S.Schema<UpdateApplicationResponse>;
 export interface UpdateDataIntegrationRequest {
@@ -1298,9 +1138,7 @@ export const UpdateDataIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateDataIntegrationRequest",
 }) as any as S.Schema<UpdateDataIntegrationRequest>;
 export interface UpdateDataIntegrationResponse {}
-export const UpdateDataIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateDataIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateDataIntegrationResponse",
 }) as any as S.Schema<UpdateDataIntegrationResponse>;
 export interface UpdateDataIntegrationAssociationRequest {
@@ -1308,35 +1146,32 @@ export interface UpdateDataIntegrationAssociationRequest {
   DataIntegrationAssociationIdentifier: string;
   ExecutionConfiguration: ExecutionConfiguration;
 }
-export const UpdateDataIntegrationAssociationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DataIntegrationIdentifier: S.String.pipe(
-        T.HttpLabel("DataIntegrationIdentifier"),
-      ),
-      DataIntegrationAssociationIdentifier: S.String.pipe(
-        T.HttpLabel("DataIntegrationAssociationIdentifier"),
-      ),
-      ExecutionConfiguration: ExecutionConfiguration,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PATCH",
-          uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations/{DataIntegrationAssociationIdentifier}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateDataIntegrationAssociationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DataIntegrationIdentifier: S.String.pipe(T.HttpLabel("DataIntegrationIdentifier")),
+    DataIntegrationAssociationIdentifier: S.String.pipe(
+      T.HttpLabel("DataIntegrationAssociationIdentifier"),
     ),
+    ExecutionConfiguration: ExecutionConfiguration,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PATCH",
+        uri: "/dataIntegrations/{DataIntegrationIdentifier}/associations/{DataIntegrationAssociationIdentifier}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
 ).annotate({
   identifier: "UpdateDataIntegrationAssociationRequest",
 }) as any as S.Schema<UpdateDataIntegrationAssociationRequest>;
 export interface UpdateDataIntegrationAssociationResponse {}
-export const UpdateDataIntegrationAssociationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateDataIntegrationAssociationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateDataIntegrationAssociationResponse",
 }) as any as S.Schema<UpdateDataIntegrationAssociationResponse>;
@@ -1362,9 +1197,7 @@ export const UpdateEventIntegrationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateEventIntegrationRequest",
 }) as any as S.Schema<UpdateEventIntegrationRequest>;
 export interface UpdateEventIntegrationResponse {}
-export const UpdateEventIntegrationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateEventIntegrationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateEventIntegrationResponse",
 }) as any as S.Schema<UpdateEventIntegrationResponse>;
 export type Message = string;

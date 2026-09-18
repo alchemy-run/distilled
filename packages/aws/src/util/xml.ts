@@ -50,8 +50,7 @@ const xmlEscapes: Record<string, string> = {
 /**
  * Escape special XML characters in a string.
  */
-export const escapeXml = (s: string): string =>
-  s.replace(/[&<>"']/g, (c) => xmlEscapes[c]);
+export const escapeXml = (s: string): string => s.replace(/[&<>"']/g, (c) => xmlEscapes[c]);
 
 // =============================================================================
 // XML Tag Helpers
@@ -72,9 +71,7 @@ export const wrapTag = (tag: string, content: string, xmlns?: string): string =>
  * Filters out processing instructions (keys starting with "?").
  * Used by aws-query and ec2-query protocols.
  */
-export function extractXmlRoot(
-  parsed: Record<string, unknown>,
-): Record<string, unknown> {
+export function extractXmlRoot(parsed: Record<string, unknown>): Record<string, unknown> {
   const rootKeys = Object.keys(parsed).filter((k) => !k.startsWith("?"));
   const responseKey = rootKeys[0];
   return responseKey

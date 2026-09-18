@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "PartnerCentral Account",
   serviceShapeName: "PartnerCentralAccount",
@@ -28,9 +28,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -141,19 +139,14 @@ export const AcceptConnectionInvitationRequest = /*@__PURE__*/ S.suspend(() =>
     Catalog: S.String,
     Identifier: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptConnectionInvitationRequest",
 }) as any as S.Schema<AcceptConnectionInvitationRequest>;
 export type ConnectionId = string;
 export type ConnectionArn = string;
 export type AwsAccountId = string;
-export type ConnectionType =
-  | "OPPORTUNITY_COLLABORATION"
-  | "SUBSIDIARY"
-  | (string & {});
+export type ConnectionType = "OPPORTUNITY_COLLABORATION" | "SUBSIDIARY" | (string & {});
 export const ConnectionType = S.String;
 
 export type Email = string;
@@ -185,9 +178,9 @@ export const SellerProfileSummary = /*@__PURE__*/ S.suspend(() =>
 export interface AccountSummary {
   Name: string;
 }
-export const AccountSummary = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Name: S.String }),
-).annotate({ identifier: "AccountSummary" }) as any as S.Schema<AccountSummary>;
+export const AccountSummary = /*@__PURE__*/ S.suspend(() => S.Struct({ Name: S.String })).annotate({
+  identifier: "AccountSummary",
+}) as any as S.Schema<AccountSummary>;
 export type Participant =
   | {
       PartnerProfile: PartnerProfileSummary;
@@ -220,9 +213,7 @@ export const ConnectionTypeDetail = /*@__PURE__*/ S.suspend(() =>
     InviterEmail: S.String,
     InviterName: SensitiveString,
     Status: ConnectionTypeStatus,
-    CanceledAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CanceledAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     CanceledBy: S.optional(S.String),
     OtherParticipant: Participant,
   }),
@@ -271,25 +262,23 @@ export interface AssociateAwsTrainingCertificationEmailDomainRequest {
   Email: string;
   EmailVerificationCode: string | redacted.Redacted<string>;
 }
-export const AssociateAwsTrainingCertificationEmailDomainRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Identifier: S.String,
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      Email: S.String,
-      EmailVerificationCode: SensitiveString,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "AssociateAwsTrainingCertificationEmailDomainRequest",
-  }) as any as S.Schema<AssociateAwsTrainingCertificationEmailDomainRequest>;
+export const AssociateAwsTrainingCertificationEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Identifier: S.String,
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    Email: S.String,
+    EmailVerificationCode: SensitiveString,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "AssociateAwsTrainingCertificationEmailDomainRequest",
+}) as any as S.Schema<AssociateAwsTrainingCertificationEmailDomainRequest>;
 export interface AssociateAwsTrainingCertificationEmailDomainResponse {}
-export const AssociateAwsTrainingCertificationEmailDomainResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "AssociateAwsTrainingCertificationEmailDomainResponse",
-  }) as any as S.Schema<AssociateAwsTrainingCertificationEmailDomainResponse>;
+export const AssociateAwsTrainingCertificationEmailDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "AssociateAwsTrainingCertificationEmailDomainResponse",
+}) as any as S.Schema<AssociateAwsTrainingCertificationEmailDomainResponse>;
 export interface CancelConnectionRequest {
   Catalog: string;
   Identifier: string;
@@ -304,9 +293,7 @@ export const CancelConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     Reason: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelConnectionRequest",
 }) as any as S.Schema<CancelConnectionRequest>;
@@ -340,9 +327,7 @@ export const CancelConnectionInvitationRequest = /*@__PURE__*/ S.suspend(() =>
     Catalog: S.String,
     Identifier: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelConnectionInvitationRequest",
 }) as any as S.Schema<CancelConnectionInvitationRequest>;
@@ -386,9 +371,7 @@ export const CancelConnectionInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -412,9 +395,7 @@ export const CancelProfileUpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
     Identifier: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     TaskId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelProfileUpdateTaskRequest",
 }) as any as S.Schema<CancelProfileUpdateTaskRequest>;
@@ -530,12 +511,7 @@ export const TaskDetails = /*@__PURE__*/ S.suspend(() =>
     Headquarters: S.optional(Headquarters),
   }),
 ).annotate({ identifier: "TaskDetails" }) as any as S.Schema<TaskDetails>;
-export type ProfileTaskStatus =
-  | "IN_PROGRESS"
-  | "CANCELED"
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
+export type ProfileTaskStatus = "IN_PROGRESS" | "CANCELED" | "SUCCEEDED" | "FAILED" | (string & {});
 export const ProfileTaskStatus = S.String;
 
 export type ProfileValidationErrorReason =
@@ -607,9 +583,7 @@ export const CreateConnectionInvitationRequest = /*@__PURE__*/ S.suspend(() =>
     Message: S.String,
     Name: SensitiveString,
     ReceiverIdentifier: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConnectionInvitationRequest",
 }) as any as S.Schema<CreateConnectionInvitationRequest>;
@@ -638,9 +612,7 @@ export const CreateConnectionInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -696,9 +668,7 @@ export const CreatePartnerRequest = /*@__PURE__*/ S.suspend(() =>
     AllianceLeadContact: AllianceLeadContact,
     EmailVerificationCode: SensitiveString,
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreatePartnerRequest",
 }) as any as S.Schema<CreatePartnerRequest>;
@@ -771,24 +741,22 @@ export interface DisassociateAwsTrainingCertificationEmailDomainRequest {
   ClientToken?: string;
   DomainName: string;
 }
-export const DisassociateAwsTrainingCertificationEmailDomainRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Identifier: S.String,
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      DomainName: S.String,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "DisassociateAwsTrainingCertificationEmailDomainRequest",
-  }) as any as S.Schema<DisassociateAwsTrainingCertificationEmailDomainRequest>;
+export const DisassociateAwsTrainingCertificationEmailDomainRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Identifier: S.String,
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    DomainName: S.String,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "DisassociateAwsTrainingCertificationEmailDomainRequest",
+}) as any as S.Schema<DisassociateAwsTrainingCertificationEmailDomainRequest>;
 export interface DisassociateAwsTrainingCertificationEmailDomainResponse {}
-export const DisassociateAwsTrainingCertificationEmailDomainResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DisassociateAwsTrainingCertificationEmailDomainResponse",
-  }) as any as S.Schema<DisassociateAwsTrainingCertificationEmailDomainResponse>;
+export const DisassociateAwsTrainingCertificationEmailDomainResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisassociateAwsTrainingCertificationEmailDomainResponse",
+}) as any as S.Schema<DisassociateAwsTrainingCertificationEmailDomainResponse>;
 export interface GetAllianceLeadContactRequest {
   Catalog: string;
   Identifier: string;
@@ -883,9 +851,7 @@ export const GetConnectionInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -907,11 +873,7 @@ export const GetConnectionPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConnectionPreferencesRequest",
 }) as any as S.Schema<GetConnectionPreferencesRequest>;
 export type ConnectionPreferencesArn = string;
-export type AccessType =
-  | "ALLOW_ALL"
-  | "DENY_ALL"
-  | "ALLOW_BY_DEFAULT_DENY_SOME"
-  | (string & {});
+export type AccessType = "ALLOW_ALL" | "DENY_ALL" | "ALLOW_BY_DEFAULT_DENY_SOME" | (string & {});
 export const AccessType = S.String;
 
 export type ParticipantIdentifierList = string[];
@@ -1043,18 +1005,14 @@ export interface GetQualificationsAssociationDetailsRequest {
   Catalog: string;
   Identifier: string;
 }
-export const GetQualificationsAssociationDetailsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetQualificationsAssociationDetailsRequest",
-  }) as any as S.Schema<GetQualificationsAssociationDetailsRequest>;
-export type QualificationsAssociationStatus =
-  | "ASSOCIATED"
-  | "NOT_ASSOCIATED"
-  | (string & {});
+export const GetQualificationsAssociationDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetQualificationsAssociationDetailsRequest",
+}) as any as S.Schema<GetQualificationsAssociationDetailsRequest>;
+export type QualificationsAssociationStatus = "ASSOCIATED" | "NOT_ASSOCIATED" | (string & {});
 export const QualificationsAssociationStatus = S.String;
 
 export interface QualificationsAssociationPartner {
@@ -1070,9 +1028,7 @@ export const QualificationsAssociationPartner = /*@__PURE__*/ S.suspend(() =>
   identifier: "QualificationsAssociationPartner",
 }) as any as S.Schema<QualificationsAssociationPartner>;
 export type AssociatedPartnerList = QualificationsAssociationPartner[];
-export const AssociatedPartnerList = /*@__PURE__*/ S.Array(
-  QualificationsAssociationPartner,
-);
+export const AssociatedPartnerList = /*@__PURE__*/ S.Array(QualificationsAssociationPartner);
 export interface GetQualificationsAssociationDetailsResponse {
   Catalog: string;
   Arn: string;
@@ -1082,39 +1038,32 @@ export interface GetQualificationsAssociationDetailsResponse {
   AssociatedPartners?: QualificationsAssociationPartner[];
   UpdatedAt?: Date;
 }
-export const GetQualificationsAssociationDetailsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Arn: S.String,
-      Id: S.String,
-      Status: QualificationsAssociationStatus,
-      PrimaryPartner: S.optional(QualificationsAssociationPartner),
-      AssociatedPartners: S.optional(AssociatedPartnerList),
-      UpdatedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetQualificationsAssociationDetailsResponse",
-  }) as any as S.Schema<GetQualificationsAssociationDetailsResponse>;
+export const GetQualificationsAssociationDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Arn: S.String,
+    Id: S.String,
+    Status: QualificationsAssociationStatus,
+    PrimaryPartner: S.optional(QualificationsAssociationPartner),
+    AssociatedPartners: S.optional(AssociatedPartnerList),
+    UpdatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotate({
+  identifier: "GetQualificationsAssociationDetailsResponse",
+}) as any as S.Schema<GetQualificationsAssociationDetailsResponse>;
 export interface GetQualificationsAssociationTaskRequest {
   Catalog: string;
   Identifier: string;
 }
-export const GetQualificationsAssociationTaskRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetQualificationsAssociationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetQualificationsAssociationTaskRequest",
 }) as any as S.Schema<GetQualificationsAssociationTaskRequest>;
 export type QualificationsAssociationTaskId = string;
-export type QualificationsAssociationTaskStatus =
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | (string & {});
+export type QualificationsAssociationTaskStatus = "IN_PROGRESS" | "SUCCEEDED" | (string & {});
 export const QualificationsAssociationTaskStatus = S.String;
 
 export interface GetQualificationsAssociationTaskResponse {
@@ -1127,20 +1076,17 @@ export interface GetQualificationsAssociationTaskResponse {
   StartedAt: Date;
   EndedAt?: Date;
 }
-export const GetQualificationsAssociationTaskResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Catalog: S.String,
-      Arn: S.String,
-      Id: S.String,
-      TaskId: S.String,
-      Status: QualificationsAssociationTaskStatus,
-      PrimaryPartner: QualificationsAssociationPartner,
-      StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      EndedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const GetQualificationsAssociationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Arn: S.String,
+    Id: S.String,
+    TaskId: S.String,
+    Status: QualificationsAssociationTaskStatus,
+    PrimaryPartner: QualificationsAssociationPartner,
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
 ).annotate({
   identifier: "GetQualificationsAssociationTaskResponse",
 }) as any as S.Schema<GetQualificationsAssociationTaskResponse>;
@@ -1148,19 +1094,15 @@ export interface GetQualificationsDisassociationTaskRequest {
   Catalog: string;
   Identifier: string;
 }
-export const GetQualificationsDisassociationTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetQualificationsDisassociationTaskRequest",
-  }) as any as S.Schema<GetQualificationsDisassociationTaskRequest>;
+export const GetQualificationsDisassociationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Catalog: S.String, Identifier: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetQualificationsDisassociationTaskRequest",
+}) as any as S.Schema<GetQualificationsDisassociationTaskRequest>;
 export type QualificationsDisassociationTaskId = string;
-export type QualificationsDisassociationTaskStatus =
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | (string & {});
+export type QualificationsDisassociationTaskStatus = "IN_PROGRESS" | "SUCCEEDED" | (string & {});
 export const QualificationsDisassociationTaskStatus = S.String;
 
 export interface GetQualificationsDisassociationTaskResponse {
@@ -1173,27 +1115,21 @@ export interface GetQualificationsDisassociationTaskResponse {
   StartedAt: Date;
   EndedAt?: Date;
 }
-export const GetQualificationsDisassociationTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Arn: S.String,
-      Id: S.String,
-      TaskId: S.String,
-      Status: QualificationsDisassociationTaskStatus,
-      AssociatedPartner: QualificationsAssociationPartner,
-      StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      EndedAt: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
-  ).annotate({
-    identifier: "GetQualificationsDisassociationTaskResponse",
-  }) as any as S.Schema<GetQualificationsDisassociationTaskResponse>;
-export type VerificationType =
-  | "BUSINESS_VERIFICATION"
-  | "REGISTRANT_VERIFICATION"
-  | (string & {});
+export const GetQualificationsDisassociationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Arn: S.String,
+    Id: S.String,
+    TaskId: S.String,
+    Status: QualificationsDisassociationTaskStatus,
+    AssociatedPartner: QualificationsAssociationPartner,
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+    EndedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
+).annotate({
+  identifier: "GetQualificationsDisassociationTaskResponse",
+}) as any as S.Schema<GetQualificationsDisassociationTaskResponse>;
+export type VerificationType = "BUSINESS_VERIFICATION" | "REGISTRANT_VERIFICATION" | (string & {});
 export const VerificationType = S.String;
 
 export interface GetVerificationRequest {
@@ -1245,9 +1181,7 @@ export const BusinessVerificationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     BusinessVerificationDetails: BusinessVerificationDetails,
     CompletionUrl: S.optional(S.String),
-    CompletionUrlExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CompletionUrlExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "BusinessVerificationResponse",
@@ -1259,9 +1193,7 @@ export interface RegistrantVerificationResponse {
 export const RegistrantVerificationResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     CompletionUrl: S.String,
-    CompletionUrlExpiresAt: T.DateFromString.pipe(
-      T.TimestampFormat("date-time"),
-    ),
+    CompletionUrlExpiresAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
   }),
 ).annotate({
   identifier: "RegistrantVerificationResponse",
@@ -1294,9 +1226,7 @@ export const GetVerificationResponse = /*@__PURE__*/ S.suspend(() =>
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
     StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetVerificationResponse",
@@ -1321,9 +1251,7 @@ export const ListConnectionInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
     OtherParticipantIdentifiers: S.optional(ParticipantIdentifierList),
     ParticipantType: S.optional(ParticipantType),
     Status: S.optional(InvitationStatus),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectionInvitationsRequest",
 }) as any as S.Schema<ListConnectionInvitationsRequest>;
@@ -1349,9 +1277,7 @@ export const ConnectionInvitationSummary = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -1360,9 +1286,7 @@ export const ConnectionInvitationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConnectionInvitationSummary",
 }) as any as S.Schema<ConnectionInvitationSummary>;
 export type ConnectionInvitationSummaryList = ConnectionInvitationSummary[];
-export const ConnectionInvitationSummaryList = /*@__PURE__*/ S.Array(
-  ConnectionInvitationSummary,
-);
+export const ConnectionInvitationSummaryList = /*@__PURE__*/ S.Array(ConnectionInvitationSummary);
 export interface ListConnectionInvitationsResponse {
   ConnectionInvitationSummaries: ConnectionInvitationSummary[];
   NextToken?: string;
@@ -1390,9 +1314,7 @@ export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     OtherParticipantIdentifiers: S.optional(ParticipantIdentifierList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectionsRequest",
 }) as any as S.Schema<ListConnectionsRequest>;
@@ -1519,9 +1441,7 @@ export const PutAllianceLeadContactRequest = /*@__PURE__*/ S.suspend(() =>
     Identifier: S.String,
     AllianceLeadContact: AllianceLeadContact,
     EmailVerificationCode: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutAllianceLeadContactRequest",
 }) as any as S.Schema<PutAllianceLeadContactRequest>;
@@ -1551,9 +1471,7 @@ export const PutProfileVisibilityRequest = /*@__PURE__*/ S.suspend(() =>
     Catalog: S.String,
     Identifier: S.String,
     Visibility: ProfileVisibility,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutProfileVisibilityRequest",
 }) as any as S.Schema<PutProfileVisibilityRequest>;
@@ -1587,9 +1505,7 @@ export const RejectConnectionInvitationRequest = /*@__PURE__*/ S.suspend(() =>
     Identifier: S.String,
     ClientToken: S.String.pipe(T.IdempotencyToken()),
     Reason: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RejectConnectionInvitationRequest",
 }) as any as S.Schema<RejectConnectionInvitationRequest>;
@@ -1618,9 +1534,7 @@ export const RejectConnectionInvitationResponse = /*@__PURE__*/ S.suspend(() =>
     ConnectionType: ConnectionType,
     CreatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
     UpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ExpiresAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    ExpiresAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     OtherParticipantIdentifier: S.String,
     ParticipantType: ParticipantType,
     Status: InvitationStatus,
@@ -1660,9 +1574,7 @@ export const StartProfileUpdateTaskRequest = /*@__PURE__*/ S.suspend(() =>
     Identifier: S.String,
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     TaskDetails: TaskDetails,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartProfileUpdateTaskRequest",
 }) as any as S.Schema<StartProfileUpdateTaskRequest>;
@@ -1698,19 +1610,16 @@ export interface StartQualificationsAssociationTaskRequest {
   ClientToken?: string;
   PrimaryPartner: QualificationsAssociationPartner;
 }
-export const StartQualificationsAssociationTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Identifier: S.String,
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      PrimaryPartner: QualificationsAssociationPartner,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "StartQualificationsAssociationTaskRequest",
-  }) as any as S.Schema<StartQualificationsAssociationTaskRequest>;
+export const StartQualificationsAssociationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Identifier: S.String,
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    PrimaryPartner: QualificationsAssociationPartner,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "StartQualificationsAssociationTaskRequest",
+}) as any as S.Schema<StartQualificationsAssociationTaskRequest>;
 export interface StartQualificationsAssociationTaskResponse {
   Catalog: string;
   Arn: string;
@@ -1720,39 +1629,35 @@ export interface StartQualificationsAssociationTaskResponse {
   PrimaryPartner: QualificationsAssociationPartner;
   StartedAt: Date;
 }
-export const StartQualificationsAssociationTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Arn: S.String,
-      Id: S.String,
-      TaskId: S.String,
-      Status: QualificationsAssociationTaskStatus,
-      PrimaryPartner: QualificationsAssociationPartner,
-      StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    }),
-  ).annotate({
-    identifier: "StartQualificationsAssociationTaskResponse",
-  }) as any as S.Schema<StartQualificationsAssociationTaskResponse>;
+export const StartQualificationsAssociationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Arn: S.String,
+    Id: S.String,
+    TaskId: S.String,
+    Status: QualificationsAssociationTaskStatus,
+    PrimaryPartner: QualificationsAssociationPartner,
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
+).annotate({
+  identifier: "StartQualificationsAssociationTaskResponse",
+}) as any as S.Schema<StartQualificationsAssociationTaskResponse>;
 export interface StartQualificationsDisassociationTaskRequest {
   Catalog: string;
   Identifier: string;
   ClientToken?: string;
   AssociatedPartner: QualificationsAssociationPartner;
 }
-export const StartQualificationsDisassociationTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Identifier: S.String,
-      ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-      AssociatedPartner: QualificationsAssociationPartner,
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "StartQualificationsDisassociationTaskRequest",
-  }) as any as S.Schema<StartQualificationsDisassociationTaskRequest>;
+export const StartQualificationsDisassociationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Identifier: S.String,
+    ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+    AssociatedPartner: QualificationsAssociationPartner,
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "StartQualificationsDisassociationTaskRequest",
+}) as any as S.Schema<StartQualificationsDisassociationTaskRequest>;
 export interface StartQualificationsDisassociationTaskResponse {
   Catalog: string;
   Arn: string;
@@ -1762,24 +1667,21 @@ export interface StartQualificationsDisassociationTaskResponse {
   AssociatedPartner: QualificationsAssociationPartner;
   StartedAt: Date;
 }
-export const StartQualificationsDisassociationTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Catalog: S.String,
-      Arn: S.String,
-      Id: S.String,
-      TaskId: S.String,
-      Status: QualificationsDisassociationTaskStatus,
-      AssociatedPartner: QualificationsAssociationPartner,
-      StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    }),
-  ).annotate({
-    identifier: "StartQualificationsDisassociationTaskResponse",
-  }) as any as S.Schema<StartQualificationsDisassociationTaskResponse>;
-export interface RegistrantVerificationDetails {}
-export const RegistrantVerificationDetails = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
+export const StartQualificationsDisassociationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Catalog: S.String,
+    Arn: S.String,
+    Id: S.String,
+    TaskId: S.String,
+    Status: QualificationsDisassociationTaskStatus,
+    AssociatedPartner: QualificationsAssociationPartner,
+    StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
 ).annotate({
+  identifier: "StartQualificationsDisassociationTaskResponse",
+}) as any as S.Schema<StartQualificationsDisassociationTaskResponse>;
+export interface RegistrantVerificationDetails {}
+export const RegistrantVerificationDetails = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RegistrantVerificationDetails",
 }) as any as S.Schema<RegistrantVerificationDetails>;
 export type VerificationDetails =
@@ -1803,9 +1705,7 @@ export const StartVerificationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     VerificationDetails: S.optional(VerificationDetails),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartVerificationRequest",
 }) as any as S.Schema<StartVerificationRequest>;
@@ -1824,9 +1724,7 @@ export const StartVerificationResponse = /*@__PURE__*/ S.suspend(() =>
     VerificationStatusReason: S.optional(S.String),
     VerificationResponseDetails: VerificationResponseDetails,
     StartedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    CompletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CompletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StartVerificationResponse",
@@ -1843,9 +1741,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1862,9 +1758,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateConnectionPreferencesRequest {
@@ -1879,9 +1773,7 @@ export const UpdateConnectionPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     Revision: S.Number,
     AccessType: AccessType,
     ExcludedParticipantIdentifiers: S.optional(ParticipantIdentifierList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateConnectionPreferencesRequest",
 }) as any as S.Schema<UpdateConnectionPreferencesRequest>;

@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Plaid credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://sandbox.plaid.com";
 export const DEFAULT_PLAID_VERSION = "2020-09-14";
@@ -28,10 +28,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("PlaidCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "PlaidCredentials",
+) {}
 
 const resolveBaseUrl = (config: {
   readonly apiBaseUrl?: string;
@@ -71,8 +70,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!clientId || !secret) {
       return yield* new ConfigError({
-        message:
-          "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
+        message: "PLAID_CLIENT_ID and PLAID_SECRET environment variables are required",
       });
     }
 

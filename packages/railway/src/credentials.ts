@@ -55,10 +55,9 @@ export const toConfig = (config: {
   apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
 });
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("RailwayCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "RailwayCredentials",
+) {}
 
 /** Build {@link Credentials} from an explicit token. */
 export const CredentialsFromToken = (config: {
@@ -71,9 +70,7 @@ export const CredentialsFromToken = (config: {
     Credentials,
     Effect.succeed(
       toConfig({
-        token: Redacted.isRedacted(config.token)
-          ? Redacted.value(config.token)
-          : config.token,
+        token: Redacted.isRedacted(config.token) ? Redacted.value(config.token) : config.token,
         tokenKind: config.tokenKind,
         apiBaseUrl: config.apiBaseUrl,
       }),
@@ -83,9 +80,7 @@ export const CredentialsFromToken = (config: {
 const envConfig = EffectConfig.all({
   apiToken: EffectConfig.option(EffectConfig.String("RAILWAY_API_TOKEN")),
   railwayToken: EffectConfig.option(EffectConfig.String("RAILWAY_TOKEN")),
-  projectToken: EffectConfig.option(
-    EffectConfig.String("RAILWAY_PROJECT_TOKEN"),
-  ),
+  projectToken: EffectConfig.option(EffectConfig.String("RAILWAY_PROJECT_TOKEN")),
   apiBaseUrl: EffectConfig.String("RAILWAY_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
@@ -117,8 +112,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
     );
 
     const account =
-      Option.getOrUndefined(config.apiToken) ??
-      Option.getOrUndefined(config.railwayToken);
+      Option.getOrUndefined(config.apiToken) ?? Option.getOrUndefined(config.railwayToken);
     const project = Option.getOrUndefined(config.projectToken);
     const token = account ?? project;
 

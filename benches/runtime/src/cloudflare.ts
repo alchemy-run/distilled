@@ -1,3 +1,23 @@
+import * as Credentials from "@distilled.cloud/cloudflare/Credentials";
+import * as D1 from "@distilled.cloud/cloudflare/d1";
+import * as KV from "@distilled.cloud/cloudflare/kv";
+import * as R2 from "@distilled.cloud/cloudflare/r2";
+import {
+  envelopePayloadRootSymbol,
+  envelopePayloadSymbol,
+  resultInfoSymbol,
+} from "@distilled.cloud/cloudflare/Traits";
+import * as Workers from "@distilled.cloud/cloudflare/workers";
+import * as Zones from "@distilled.cloud/cloudflare/zones";
+import {
+  buildRequest,
+  getAnn,
+  getProps,
+  hasPropAnn,
+  mapKeys,
+  nameOf,
+} from "@distilled.cloud/core/protocol-http";
+import { bodySymbol, keyDictionarySymbol } from "@distilled.cloud/core/trait";
 /**
  * Cloudflare runtime cases — the alchemy-hot services, one list-style GET and
  * one write-style op each:
@@ -27,38 +47,9 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as Schema from "effect/Schema";
-
-import {
-  buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
-  mapKeys,
-  nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import { bodySymbol, keyDictionarySymbol } from "@distilled.cloud/core/trait";
-import {
-  envelopePayloadRootSymbol,
-  envelopePayloadSymbol,
-  resultInfoSymbol,
-} from "@distilled.cloud/cloudflare/Traits";
-import * as Credentials from "@distilled.cloud/cloudflare/Credentials";
-import * as D1 from "@distilled.cloud/cloudflare/d1";
-import * as KV from "@distilled.cloud/cloudflare/kv";
-import * as R2 from "@distilled.cloud/cloudflare/r2";
-import * as Workers from "@distilled.cloud/cloudflare/workers";
-import * as Zones from "@distilled.cloud/cloudflare/zones";
-
-import {
-  type Case,
-  buildLayer,
-  decoder,
-  encoder,
-  mockHttpLayer,
-  runPromise,
-} from "./harness.ts";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import { type Case, buildLayer, decoder, encoder, mockHttpLayer, runPromise } from "./harness.ts";
 
 //#region Fixtures
 
@@ -326,11 +317,7 @@ const build = (schema: Schema.Top) => {
 const call =
   <A, E>(
     ctx: Ctx,
-    effect: () => Effect.Effect<
-      A,
-      E,
-      Credentials.Credentials | HttpClient.HttpClient
-    >,
+    effect: () => Effect.Effect<A, E, Credentials.Credentials | HttpClient.HttpClient>,
   ) =>
   () =>
     runPromise(Effect.provideContext(effect(), ctx));
@@ -344,9 +331,7 @@ const call =
  */
 const wireDecode = (schema: Schema.Top, body: string) => {
   const ast = schema.ast;
-  const dict = getAnn(ast, keyDictionarySymbol) as
-    | Record<string, string>
-    | undefined;
+  const dict = getAnn(ast, keyDictionarySymbol) as Record<string, string> | undefined;
   const root = getAnn(ast, envelopePayloadRootSymbol) !== undefined;
   const props = getProps(ast);
   return () => {
@@ -377,9 +362,7 @@ const wireDecode = (schema: Schema.Top, body: string) => {
  */
 const camelized = (schema: Schema.Top, body: string, wrap = false) => {
   const ast = schema.ast;
-  const dict = getAnn(ast, keyDictionarySymbol) as
-    | Record<string, string>
-    | undefined;
+  const dict = getAnn(ast, keyDictionarySymbol) as Record<string, string> | undefined;
   const result = JSON.parse(body).result;
   return mapKeys(ast, wrap ? { result } : result, "decode", dict);
 };
@@ -396,11 +379,7 @@ export const cloudflareCases = async (): Promise<Case[]> => {
     const encList = encoder(Workers.ListScriptsRequest);
     const encPut = encoder(Workers.PutScriptSecretRequest);
     const decList = decoder(Workers.ListScriptsResponse);
-    const listDecodedInput = camelized(
-      Workers.ListScriptsResponse,
-      listScriptsBody,
-      true,
-    );
+    const listDecodedInput = camelized(Workers.ListScriptsResponse, listScriptsBody, true);
     const buildList = build(Workers.ListScriptsRequest);
     const buildPut = build(Workers.PutScriptSecretRequest);
     cases.push(
@@ -480,15 +459,8 @@ export const cloudflareCases = async (): Promise<Case[]> => {
     const encCreate = encoder(KV.CreateNamespaceRequest);
     const decList = decoder(KV.ListNamespacesResponse);
     const decCreate = decoder(KV.CreateNamespaceResponse);
-    const listDecodedInput = camelized(
-      KV.ListNamespacesResponse,
-      listNamespacesBody,
-      true,
-    );
-    const createDecodedInput = camelized(
-      KV.CreateNamespaceResponse,
-      createNamespaceBody,
-    );
+    const listDecodedInput = camelized(KV.ListNamespacesResponse, listNamespacesBody, true);
+    const createDecodedInput = camelized(KV.CreateNamespaceResponse, createNamespaceBody);
     const buildList = build(KV.ListNamespacesRequest);
     const buildCreate = build(KV.CreateNamespaceRequest);
     cases.push(
@@ -570,9 +542,7 @@ export const cloudflareCases = async (): Promise<Case[]> => {
         op: "getNamespace",
         stage: "call-error",
         note: "404 code 10013 → NamespaceNotFound",
-        fn: call(errCtx, () =>
-          KV.getNamespace(getNamespaceInput).pipe(Effect.flip),
-        ),
+        fn: call(errCtx, () => KV.getNamespace(getNamespaceInput).pipe(Effect.flip)),
       },
     );
   }
@@ -585,15 +555,8 @@ export const cloudflareCases = async (): Promise<Case[]> => {
     const encCreate = encoder(D1.CreateDatabaseRequest);
     const decList = decoder(D1.ListDatabasesResponse);
     const decCreate = decoder(D1.CreateDatabaseResponse);
-    const listDecodedInput = camelized(
-      D1.ListDatabasesResponse,
-      listDatabasesBody,
-      true,
-    );
-    const createDecodedInput = camelized(
-      D1.CreateDatabaseResponse,
-      createDatabaseBody,
-    );
+    const listDecodedInput = camelized(D1.ListDatabasesResponse, listDatabasesBody, true);
+    const createDecodedInput = camelized(D1.CreateDatabaseResponse, createDatabaseBody);
     const buildList = build(D1.ListDatabasesRequest);
     const buildCreate = build(D1.CreateDatabaseRequest);
     cases.push(
@@ -681,10 +644,7 @@ export const cloudflareCases = async (): Promise<Case[]> => {
     const decList = decoder(R2.ListBucketsResponse);
     const decCreate = decoder(R2.CreateBucketResponse);
     const listDecodedInput = camelized(R2.ListBucketsResponse, listBucketsBody);
-    const createDecodedInput = camelized(
-      R2.CreateBucketResponse,
-      createBucketBody,
-    );
+    const createDecodedInput = camelized(R2.CreateBucketResponse, createBucketBody);
     const buildList = build(R2.ListBucketsRequest);
     const buildCreate = build(R2.CreateBucketRequest);
     cases.push(
@@ -771,15 +731,8 @@ export const cloudflareCases = async (): Promise<Case[]> => {
     const encCreate = encoder(Zones.CreateZoneRequest);
     const decList = decoder(Zones.ListZonesResponse);
     const decCreate = decoder(Zones.CreateZoneResponse);
-    const listDecodedInput = camelized(
-      Zones.ListZonesResponse,
-      listZonesBody,
-      true,
-    );
-    const createDecodedInput = camelized(
-      Zones.CreateZoneResponse,
-      createZoneBody,
-    );
+    const listDecodedInput = camelized(Zones.ListZonesResponse, listZonesBody, true);
+    const createDecodedInput = camelized(Zones.CreateZoneResponse, createZoneBody);
     const buildList = build(Zones.ListZonesRequest);
     const buildCreate = build(Zones.CreateZoneRequest);
     cases.push(

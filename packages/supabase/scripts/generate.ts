@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into an Effect
  * SDK.
@@ -13,7 +14,6 @@
  * is plain JSON with no envelope and no pagination, so the spec stays small.
  */
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -45,9 +45,7 @@ const spec: SdkSpec = {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
   memberTsType: (m) =>
-    SENSITIVE_TRAIT in m.traits
-      ? `T.Sensitive${m.nullable ? " | null" : ""}`
-      : undefined,
+    SENSITIVE_TRAIT in m.traits ? `T.Sensitive${m.nullable ? " | null" : ""}` : undefined,
 
   // oneOf/anyOf unions: the TS type is the case union; the schema is
   // `S.Unknown.pipe(T.UnionCases([...]))`. Supabase does NOT return merged

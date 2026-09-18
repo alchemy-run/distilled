@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "WorkMailMessageFlow",
   serviceShapeName: "GiraffeMessageInTransitService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://workmailmessageflow-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://workmailmessageflow.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -84,10 +76,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class InvalidContentLocation
-  extends /*@__PURE__*/ S.TaggedError<InvalidContentLocation>()(
-    "InvalidContentLocation",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidContentLocation>()("InvalidContentLocation", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class MessageFrozen
   extends /*@__PURE__*/ S.TaggedError<MessageFrozen>()("MessageFrozen", {
     message: S.optional(S.String).pipe(T.ErrorMessage()),
@@ -108,14 +99,7 @@ export interface GetRawMessageContentRequest {
 }
 export const GetRawMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ messageId: S.String.pipe(T.HttpLabel("messageId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/messages/{messageId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/messages/{messageId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetRawMessageContentRequest",
@@ -160,28 +144,17 @@ export const PutRawMessageContentRequest = /*@__PURE__*/ S.suspend(() =>
     messageId: S.String.pipe(T.HttpLabel("messageId")),
     content: RawMessageContent,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/messages/{messageId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/messages/{messageId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutRawMessageContentRequest",
 }) as any as S.Schema<PutRawMessageContentRequest>;
 export interface PutRawMessageContentResponse {}
-export const PutRawMessageContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutRawMessageContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutRawMessageContentResponse",
 }) as any as S.Schema<PutRawMessageContentResponse>;
 export type ErrorMessage = string;
-export type GetRawMessageContentError =
-  | ResourceNotFoundException
-  | CommonErrors;
+export type GetRawMessageContentError = ResourceNotFoundException | CommonErrors;
 /**
  * Retrieves the raw content of an in-transit email message, in MIME format.
  */
@@ -226,12 +199,7 @@ export const putRawMessageContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutRawMessageContentRequest,
   output: PutRawMessageContentResponse,
-  errors: [
-    InvalidContentLocation,
-    MessageFrozen,
-    MessageRejected,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidContentLocation, MessageFrozen, MessageRejected, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRawMessageContent",

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Account Access",
   serviceShapeName: "AWSAccountAccess",
@@ -26,9 +26,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,10 +55,9 @@ export class AccessDeniedException
     T.HttpError(403),
   ).pipe(C.withAuthError) {}
 export class AlreadyCreatedException
-  extends /*@__PURE__*/ S.TaggedError<AlreadyCreatedException>()(
-    "AlreadyCreatedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<AlreadyCreatedException>()("AlreadyCreatedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ConflictException
   extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
     "ConflictException",
@@ -105,28 +102,16 @@ export const IdentityCenter = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceArn: S.String }),
 ).annotate({ identifier: "IdentityCenter" }) as any as S.Schema<IdentityCenter>;
 export type IdentitySource = { identityCenter: IdentityCenter };
-export const IdentitySource = /*@__PURE__*/ S.Union([
-  S.Struct({ identityCenter: IdentityCenter }),
-]);
+export const IdentitySource = /*@__PURE__*/ S.Union([S.Struct({ identityCenter: IdentityCenter })]);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateApplicationRequest {
   identitySource: IdentitySource;
   tags?: { [key: string]: string | undefined };
 }
 export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ identitySource: IdentitySource, tags: S.optional(TagsMap) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateApplicationRequest",
@@ -173,14 +158,7 @@ export interface CreateEntitlementRequest {
 }
 export const CreateEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationArn: S.String, entitlement: Entitlement }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/entitlements" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/entitlements" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateEntitlementRequest",
@@ -213,9 +191,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
 export interface DeleteEntitlementRequest {
@@ -240,9 +216,7 @@ export const DeleteEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteEntitlementRequest",
 }) as any as S.Schema<DeleteEntitlementRequest>;
 export interface DeleteEntitlementResponse {}
-export const DeleteEntitlementResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteEntitlementResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteEntitlementResponse",
 }) as any as S.Schema<DeleteEntitlementResponse>;
 export interface GetApplicationRequest {
@@ -393,14 +367,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/applications-list" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListApplicationsRequest",
@@ -478,14 +445,7 @@ export const ListEntitlementsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/entitlements-list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/entitlements-list" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListEntitlementsRequest",
@@ -542,14 +502,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -571,22 +524,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -600,22 +544,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type CreateApplicationError =

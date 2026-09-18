@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://glacier.amazonaws.com/doc/2012-06-01/");
 const svc = T.AwsApiService({ sdkId: "Glacier", serviceShapeName: "Glacier" });
 const auth = T.AwsAuthSigv4({ name: "glacier" });
@@ -24,14 +24,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,13 +53,9 @@ const rules = T.EndpointResolver((p, _) => {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
               return e(`https://glacier.${Region}.amazonaws.com`);
             }
-            return e(
-              `https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://glacier-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -71,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://glacier.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://glacier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://glacier.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -233,18 +221,15 @@ export const AbortVaultLockInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AbortVaultLockInput",
 }) as any as S.Schema<AbortVaultLockInput>;
 export interface AbortVaultLockResponse {}
-export const AbortVaultLockResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AbortVaultLockResponse",
-}) as any as S.Schema<AbortVaultLockResponse>;
+export const AbortVaultLockResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "AbortVaultLockResponse",
+  },
+) as any as S.Schema<AbortVaultLockResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface AddTagsToVaultInput {
   accountId: string;
   vaultName: string;
@@ -273,11 +258,11 @@ export const AddTagsToVaultInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AddTagsToVaultInput",
 }) as any as S.Schema<AddTagsToVaultInput>;
 export interface AddTagsToVaultResponse {}
-export const AddTagsToVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "AddTagsToVaultResponse",
-}) as any as S.Schema<AddTagsToVaultResponse>;
+export const AddTagsToVaultResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "AddTagsToVaultResponse",
+  },
+) as any as S.Schema<AddTagsToVaultResponse>;
 export interface CompleteMultipartUploadInput {
   accountId: string;
   vaultName: string;
@@ -416,9 +401,7 @@ export const DeleteArchiveInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteArchiveInput",
 }) as any as S.Schema<DeleteArchiveInput>;
 export interface DeleteArchiveResponse {}
-export const DeleteArchiveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteArchiveResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteArchiveResponse",
 }) as any as S.Schema<DeleteArchiveResponse>;
 export interface DeleteVaultInput {
@@ -444,9 +427,7 @@ export const DeleteVaultInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVaultInput",
 }) as any as S.Schema<DeleteVaultInput>;
 export interface DeleteVaultResponse {}
-export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteVaultResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteVaultResponse",
 }) as any as S.Schema<DeleteVaultResponse>;
 export interface DeleteVaultAccessPolicyInput {
@@ -538,11 +519,7 @@ export const DescribeJobInput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeJobInput",
 }) as any as S.Schema<DescribeJobInput>;
-export type ActionCode =
-  | "ArchiveRetrieval"
-  | "InventoryRetrieval"
-  | "Select"
-  | (string & {});
+export type ActionCode = "ArchiveRetrieval" | "InventoryRetrieval" | "Select" | (string & {});
 export const ActionCode = S.String;
 
 export type StatusCode = "InProgress" | "Succeeded" | "Failed" | (string & {});
@@ -668,11 +645,7 @@ export type CannedACL =
   | (string & {});
 export const CannedACL = S.String;
 
-export type Type =
-  | "AmazonCustomerByEmail"
-  | "CanonicalUser"
-  | "Group"
-  | (string & {});
+export type Type = "AmazonCustomerByEmail" | "CanonicalUser" | "Group" | (string & {});
 export const Type = S.String;
 
 export interface Grantee {
@@ -713,15 +686,8 @@ export const Grant = /*@__PURE__*/ S.suspend(() =>
 export type AccessControlPolicyList = Grant[];
 export const AccessControlPolicyList = /*@__PURE__*/ S.Array(Grant);
 export type Hashmap = { [key: string]: string | undefined };
-export const Hashmap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
-export type StorageClass =
-  | "STANDARD"
-  | "REDUCED_REDUNDANCY"
-  | "STANDARD_IA"
-  | (string & {});
+export const Hashmap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
+export type StorageClass = "STANDARD" | "REDUCED_REDUNDANCY" | "STANDARD_IA" | (string & {});
 export const StorageClass = S.String;
 
 export interface S3Location {
@@ -939,9 +905,7 @@ export const GetJobOutputOutput = /*@__PURE__*/ S.suspend(() =>
     contentRange: S.optional(S.String).pipe(T.HttpHeader("Content-Range")),
     acceptRanges: S.optional(S.String).pipe(T.HttpHeader("Accept-Ranges")),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
+    archiveDescription: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-description")),
   }).pipe(ns),
 ).annotate({
   identifier: "GetJobOutputOutput",
@@ -1160,9 +1124,7 @@ export const InitiateJobOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(S.String).pipe(T.HttpHeader("Location")),
     jobId: S.optional(S.String).pipe(T.HttpHeader("x-amz-job-id")),
-    jobOutputPath: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-job-output-path"),
-    ),
+    jobOutputPath: S.optional(S.String).pipe(T.HttpHeader("x-amz-job-output-path")),
   }).pipe(ns),
 ).annotate({
   identifier: "InitiateJobOutput",
@@ -1177,9 +1139,7 @@ export const InitiateMultipartUploadInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     accountId: S.String.pipe(T.HttpLabel("accountId")),
     vaultName: S.String.pipe(T.HttpLabel("vaultName")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
+    archiveDescription: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-description")),
     partSize: S.optional(S.String).pipe(T.HttpHeader("x-amz-part-size")),
   }).pipe(
     T.all(
@@ -1205,9 +1165,7 @@ export interface InitiateMultipartUploadOutput {
 export const InitiateMultipartUploadOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     location: S.optional(S.String).pipe(T.HttpHeader("Location")),
-    uploadId: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-multipart-upload-id"),
-    ),
+    uploadId: S.optional(S.String).pipe(T.HttpHeader("x-amz-multipart-upload-id")),
   }).pipe(ns),
 ).annotate({
   identifier: "InitiateMultipartUploadOutput",
@@ -1294,9 +1252,7 @@ export interface ListJobsOutput {
   Marker?: string;
 }
 export const ListJobsOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ JobList: S.optional(JobList), Marker: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ JobList: S.optional(JobList), Marker: S.optional(S.String) }).pipe(ns),
 ).annotate({ identifier: "ListJobsOutput" }) as any as S.Schema<ListJobsOutput>;
 export interface ListMultipartUploadsInput {
   accountId: string;
@@ -1457,9 +1413,7 @@ export const ProvisionedCapacityDescription = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProvisionedCapacityDescription",
 }) as any as S.Schema<ProvisionedCapacityDescription>;
 export type ProvisionedCapacityList = ProvisionedCapacityDescription[];
-export const ProvisionedCapacityList = /*@__PURE__*/ S.Array(
-  ProvisionedCapacityDescription,
-);
+export const ProvisionedCapacityList = /*@__PURE__*/ S.Array(ProvisionedCapacityDescription);
 export interface ListProvisionedCapacityOutput {
   ProvisionedCapacityList?: ProvisionedCapacityDescription[];
 }
@@ -1511,15 +1465,7 @@ export const ListVaultsInput = /*@__PURE__*/ S.suspend(() =>
     marker: S.optional(S.String).pipe(T.HttpQuery("marker")),
     limit: S.optional(S.Number).pipe(T.HttpQuery("limit")),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/{accountId}/vaults" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/{accountId}/vaults" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListVaultsInput",
@@ -1710,9 +1656,7 @@ export const UploadArchiveInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vaultName: S.String.pipe(T.HttpLabel("vaultName")),
     accountId: S.String.pipe(T.HttpLabel("accountId")),
-    archiveDescription: S.optional(S.String).pipe(
-      T.HttpHeader("x-amz-archive-description"),
-    ),
+    archiveDescription: S.optional(S.String).pipe(T.HttpHeader("x-amz-archive-description")),
     checksum: S.optional(S.String).pipe(T.HttpHeader("x-amz-sha256-tree-hash")),
     body: S.optional(T.StreamingInput).pipe(T.HttpPayload()),
   }).pipe(

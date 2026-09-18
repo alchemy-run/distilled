@@ -72,9 +72,7 @@ export interface SignedRequest {
 }
 
 /** `options.url` is not an absolute URL the `URL` constructor accepts. */
-export class InvalidSigningUrl extends Data.TaggedError(
-  "AWS::SigV4::InvalidSigningUrl",
-)<{
+export class InvalidSigningUrl extends Data.TaggedError("AWS::SigV4::InvalidSigningUrl")<{
   readonly url: string;
   readonly cause: unknown;
 }> {}
@@ -83,9 +81,7 @@ export class InvalidSigningUrl extends Data.TaggedError(
  * A header name or value is not valid HTTP (the `Headers` constructor
  * rejected it), so it cannot be canonicalised.
  */
-export class InvalidSigningHeaders extends Data.TaggedError(
-  "AWS::SigV4::InvalidSigningHeaders",
-)<{
+export class InvalidSigningHeaders extends Data.TaggedError("AWS::SigV4::InvalidSigningHeaders")<{
   readonly cause: unknown;
 }> {}
 
@@ -95,10 +91,7 @@ export class CryptoError extends Data.TaggedError("AWS::SigV4::CryptoError")<{
   readonly cause: unknown;
 }> {}
 
-export type SigningError =
-  | InvalidSigningUrl
-  | InvalidSigningHeaders
-  | CryptoError;
+export type SigningError = InvalidSigningUrl | InvalidSigningHeaders | CryptoError;
 
 const encoder = new TextEncoder();
 
@@ -110,10 +103,7 @@ const toBytes = (data: SignableBody): Uint8Array<ArrayBuffer> =>
         new Uint8Array(data.buffer, data.byteOffset, data.byteLength).slice()
       : new Uint8Array(data);
 
-const hmac = (
-  key: string | ArrayBuffer,
-  data: string,
-): Effect.Effect<ArrayBuffer, CryptoError> =>
+const hmac = (key: string | ArrayBuffer, data: string): Effect.Effect<ArrayBuffer, CryptoError> =>
   Effect.tryPromise({
     try: async () =>
       crypto.subtle.sign(
@@ -130,23 +120,17 @@ const hmac = (
     catch: (cause) => new CryptoError({ operation: "hmac", cause }),
   });
 
-const sha256 = (
-  content: SignableBody,
-): Effect.Effect<ArrayBuffer, CryptoError> =>
+const sha256 = (content: SignableBody): Effect.Effect<ArrayBuffer, CryptoError> =>
   Effect.tryPromise({
     try: () => crypto.subtle.digest("SHA-256", toBytes(content)),
     catch: (cause) => new CryptoError({ operation: "sha256", cause }),
   });
 
-const hex = (buffer: ArrayBuffer): string =>
-  Encoding.encodeHex(new Uint8Array(buffer));
+const hex = (buffer: ArrayBuffer): string => Encoding.encodeHex(new Uint8Array(buffer));
 
 /** Percent-encode the characters `encodeURIComponent` leaves alone but RFC 3986 reserves. */
 const encodeRfc3986 = (encoded: string): string =>
-  encoded.replace(
-    /[!'()*]/g,
-    (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase(),
-  );
+  encoded.replace(/[!'()*]/g, (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase());
 
 /**
  * Scope of a derived signing key. `Redacted` hashes and compares by its
@@ -186,8 +170,7 @@ export const SigningKeyCache = Context.Reference<
     Effect.runSync(
       Cache.makeWith(deriveSigningKey, {
         capacity: 64,
-        timeToLive: (exit) =>
-          Exit.isSuccess(exit) ? Duration.infinity : Duration.zero,
+        timeToLive: (exit) => (Exit.isSuccess(exit) ? Duration.infinity : Duration.zero),
       }),
     ),
 });
@@ -196,152 +179,132 @@ export const SigningKeyCache = Context.Reference<
  * Sign a request with SigV4. Fails with a {@link SigningError} when the URL
  * or headers cannot be canonicalised or WebCrypto rejects an operation.
  */
-export const sign: (
-  options: SignOptions,
-) => Effect.Effect<SignedRequest, SigningError> = Effect.fnUntraced(function* (
-  options: SignOptions,
-) {
-  const { accessKeyId, service, region, signQuery, allHeaders, body } = options;
-  const sessionToken = options.sessionToken
-    ? Redacted.value(options.sessionToken)
-    : undefined;
-  const method = options.method ?? (body ? "POST" : "GET");
-  const url = yield* Effect.try({
-    try: () => new URL(options.url),
-    catch: (cause) => new InvalidSigningUrl({ url: options.url, cause }),
-  });
-  const headers = yield* Effect.try({
-    try: () => new Headers(options.headers),
-    catch: (cause) => new InvalidSigningHeaders({ cause }),
-  });
-  headers.delete("host");
-  const datetime =
-    options.datetime ?? new Date().toISOString().replace(/[:-]|\.\d{3}/g, "");
-  const appendSessionToken = service === "iotdevicegateway";
+export const sign: (options: SignOptions) => Effect.Effect<SignedRequest, SigningError> =
+  Effect.fnUntraced(function* (options: SignOptions) {
+    const { accessKeyId, service, region, signQuery, allHeaders, body } = options;
+    const sessionToken = options.sessionToken ? Redacted.value(options.sessionToken) : undefined;
+    const method = options.method ?? (body ? "POST" : "GET");
+    const url = yield* Effect.try({
+      try: () => new URL(options.url),
+      catch: (cause) => new InvalidSigningUrl({ url: options.url, cause }),
+    });
+    const headers = yield* Effect.try({
+      try: () => new Headers(options.headers),
+      catch: (cause) => new InvalidSigningHeaders({ cause }),
+    });
+    headers.delete("host");
+    const datetime = options.datetime ?? new Date().toISOString().replace(/[:-]|\.\d{3}/g, "");
+    const appendSessionToken = service === "iotdevicegateway";
 
-  if (service === "s3" && !signQuery && !headers.has("x-amz-content-sha256")) {
-    headers.set("x-amz-content-sha256", "UNSIGNED-PAYLOAD");
-  }
-
-  const params = signQuery ? url.searchParams : headers;
-  params.set("X-Amz-Date", datetime);
-  if (sessionToken && !appendSessionToken) {
-    params.set("X-Amz-Security-Token", sessionToken);
-  }
-
-  const signableHeaders = ["host", ...headers.keys()]
-    .filter((header) => allHeaders || !UNSIGNABLE_HEADERS.has(header))
-    .sort();
-  const signedHeaders = signableHeaders.join(";");
-  const canonicalHeaders = signableHeaders
-    .map(
-      (header) =>
-        header +
-        ":" +
-        (header === "host"
-          ? url.host
-          : (headers.get(header) ?? "").replace(/\s+/g, " ")),
-    )
-    .join("\n");
-  const date = datetime.slice(0, 8);
-  const credentialString = [date, region, service, "aws4_request"].join("/");
-
-  if (signQuery) {
-    if (service === "s3" && !url.searchParams.has("X-Amz-Expires")) {
-      url.searchParams.set("X-Amz-Expires", "86400");
+    if (service === "s3" && !signQuery && !headers.has("x-amz-content-sha256")) {
+      headers.set("x-amz-content-sha256", "UNSIGNED-PAYLOAD");
     }
-    url.searchParams.set("X-Amz-Algorithm", "AWS4-HMAC-SHA256");
-    url.searchParams.set(
-      "X-Amz-Credential",
-      accessKeyId + "/" + credentialString,
-    );
-    url.searchParams.set("X-Amz-SignedHeaders", signedHeaders);
-  }
 
-  let encodedPath: string;
-  if (service === "s3") {
-    try {
-      encodedPath = decodeURIComponent(url.pathname.replace(/\+/g, " "));
-    } catch {
-      encodedPath = url.pathname;
+    const params = signQuery ? url.searchParams : headers;
+    params.set("X-Amz-Date", datetime);
+    if (sessionToken && !appendSessionToken) {
+      params.set("X-Amz-Security-Token", sessionToken);
     }
-  } else {
-    encodedPath = url.pathname.replace(/\/+/g, "/");
-  }
-  encodedPath = encodeRfc3986(
-    encodeURIComponent(encodedPath).replace(/%2F/g, "/"),
-  );
 
-  const seenKeys = new Set<string>();
-  const encodedSearch = [...url.searchParams]
-    .filter(([k]) => {
-      if (!k) return false;
-      if (service === "s3") {
-        if (seenKeys.has(k)) return false;
-        seenKeys.add(k);
+    const signableHeaders = ["host", ...headers.keys()]
+      .filter((header) => allHeaders || !UNSIGNABLE_HEADERS.has(header))
+      .sort();
+    const signedHeaders = signableHeaders.join(";");
+    const canonicalHeaders = signableHeaders
+      .map(
+        (header) =>
+          header +
+          ":" +
+          (header === "host" ? url.host : (headers.get(header) ?? "").replace(/\s+/g, " ")),
+      )
+      .join("\n");
+    const date = datetime.slice(0, 8);
+    const credentialString = [date, region, service, "aws4_request"].join("/");
+
+    if (signQuery) {
+      if (service === "s3" && !url.searchParams.has("X-Amz-Expires")) {
+        url.searchParams.set("X-Amz-Expires", "86400");
       }
-      return true;
-    })
-    .map(
-      ([k, v]) =>
-        [
-          encodeRfc3986(encodeURIComponent(k)),
-          encodeRfc3986(encodeURIComponent(v)),
-        ] as const,
-    )
-    .sort(([k1, v1], [k2, v2]) =>
-      k1 < k2 ? -1 : k1 > k2 ? 1 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0,
-    )
-    .map((pair) => pair.join("="))
-    .join("&");
-
-  const payloadHash =
-    headers.get("x-amz-content-sha256") ??
-    (service === "s3" && signQuery
-      ? "UNSIGNED-PAYLOAD"
-      : hex(yield* sha256(body || "")));
-
-  const canonicalRequest = [
-    method.toUpperCase(),
-    encodedPath,
-    encodedSearch,
-    canonicalHeaders + "\n",
-    signedHeaders,
-    payloadHash,
-  ].join("\n");
-  const stringToSign = [
-    "AWS4-HMAC-SHA256",
-    datetime,
-    credentialString,
-    hex(yield* sha256(canonicalRequest)),
-  ].join("\n");
-  const signingKey = yield* Cache.get(yield* SigningKeyCache, {
-    secretAccessKey: options.secretAccessKey,
-    date,
-    region,
-    service,
-  });
-  const signature = hex(yield* hmac(signingKey, stringToSign));
-
-  if (signQuery) {
-    url.searchParams.set("X-Amz-Signature", signature);
-    if (sessionToken && appendSessionToken) {
-      url.searchParams.set("X-Amz-Security-Token", sessionToken);
+      url.searchParams.set("X-Amz-Algorithm", "AWS4-HMAC-SHA256");
+      url.searchParams.set("X-Amz-Credential", accessKeyId + "/" + credentialString);
+      url.searchParams.set("X-Amz-SignedHeaders", signedHeaders);
     }
-  } else {
-    headers.set(
-      "authorization",
-      [
-        "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/" + credentialString,
-        "SignedHeaders=" + signedHeaders,
-        "Signature=" + signature,
-      ].join(", "),
-    );
-  }
 
-  return {
-    method,
-    url: url.toString(),
-    headers: Object.fromEntries(headers),
-  };
-});
+    let encodedPath: string;
+    if (service === "s3") {
+      try {
+        encodedPath = decodeURIComponent(url.pathname.replace(/\+/g, " "));
+      } catch {
+        encodedPath = url.pathname;
+      }
+    } else {
+      encodedPath = url.pathname.replace(/\/+/g, "/");
+    }
+    encodedPath = encodeRfc3986(encodeURIComponent(encodedPath).replace(/%2F/g, "/"));
+
+    const seenKeys = new Set<string>();
+    const encodedSearch = [...url.searchParams]
+      .filter(([k]) => {
+        if (!k) return false;
+        if (service === "s3") {
+          if (seenKeys.has(k)) return false;
+          seenKeys.add(k);
+        }
+        return true;
+      })
+      .map(
+        ([k, v]) =>
+          [encodeRfc3986(encodeURIComponent(k)), encodeRfc3986(encodeURIComponent(v))] as const,
+      )
+      .sort(([k1, v1], [k2, v2]) => (k1 < k2 ? -1 : k1 > k2 ? 1 : v1 < v2 ? -1 : v1 > v2 ? 1 : 0))
+      .map((pair) => pair.join("="))
+      .join("&");
+
+    const payloadHash =
+      headers.get("x-amz-content-sha256") ??
+      (service === "s3" && signQuery ? "UNSIGNED-PAYLOAD" : hex(yield* sha256(body || "")));
+
+    const canonicalRequest = [
+      method.toUpperCase(),
+      encodedPath,
+      encodedSearch,
+      canonicalHeaders + "\n",
+      signedHeaders,
+      payloadHash,
+    ].join("\n");
+    const stringToSign = [
+      "AWS4-HMAC-SHA256",
+      datetime,
+      credentialString,
+      hex(yield* sha256(canonicalRequest)),
+    ].join("\n");
+    const signingKey = yield* Cache.get(yield* SigningKeyCache, {
+      secretAccessKey: options.secretAccessKey,
+      date,
+      region,
+      service,
+    });
+    const signature = hex(yield* hmac(signingKey, stringToSign));
+
+    if (signQuery) {
+      url.searchParams.set("X-Amz-Signature", signature);
+      if (sessionToken && appendSessionToken) {
+        url.searchParams.set("X-Amz-Security-Token", sessionToken);
+      }
+    } else {
+      headers.set(
+        "authorization",
+        [
+          "AWS4-HMAC-SHA256 Credential=" + accessKeyId + "/" + credentialString,
+          "SignedHeaders=" + signedHeaders,
+          "Signature=" + signature,
+        ].join(", "),
+      );
+    }
+
+    return {
+      method,
+      url: url.toString(),
+      headers: Object.fromEntries(headers),
+    };
+  });

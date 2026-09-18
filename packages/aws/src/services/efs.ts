@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "EFS",
   serviceShapeName: "MagnolioAPIService_v20150201",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -46,9 +42,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === true
         ) {
-          return e(
-            `https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
+          return e(`https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws" &&
@@ -64,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === true
         ) {
-          return e(
-            `https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
+          return e(`https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-cn" &&
@@ -82,9 +74,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === true
         ) {
-          return e(
-            `https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-          );
+          return e(`https://efs.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -114,9 +104,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticfilesystem-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -124,13 +112,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://elasticfilesystem.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://elasticfilesystem.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://elasticfilesystem.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -553,11 +537,7 @@ export const PerformanceMode = S.String;
 
 export type Encrypted = boolean;
 export type KmsKeyId = string;
-export type ThroughputMode =
-  | "bursting"
-  | "provisioned"
-  | "elastic"
-  | (string & {});
+export type ThroughputMode = "bursting" | "provisioned" | "elastic" | (string & {});
 export const ThroughputMode = S.String;
 
 export type ProvisionedThroughputInMibps = number;
@@ -619,11 +599,7 @@ export const FileSystemSize = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FileSystemSize" }) as any as S.Schema<FileSystemSize>;
 export type AvailabilityZoneId = string;
-export type ReplicationOverwriteProtection =
-  | "ENABLED"
-  | "DISABLED"
-  | "REPLICATING"
-  | (string & {});
+export type ReplicationOverwriteProtection = "ENABLED" | "DISABLED" | "REPLICATING" | (string & {});
 export const ReplicationOverwriteProtection = S.String;
 
 export interface FileSystemProtectionDescription {
@@ -683,11 +659,7 @@ export const FileSystemDescription = /*@__PURE__*/ S.suspend(() =>
 export type SubnetId = string;
 export type IpAddress = string;
 export type Ipv6Address = string;
-export type IpAddressType =
-  | "IPV4_ONLY"
-  | "IPV6_ONLY"
-  | "DUAL_STACK"
-  | (string & {});
+export type IpAddressType = "IPV4_ONLY" | "IPV6_ONLY" | "DUAL_STACK" | (string & {});
 export const IpAddressType = S.String;
 
 export type SecurityGroup = string;
@@ -781,24 +753,23 @@ export interface CreateReplicationConfigurationRequest {
   SourceFileSystemId: string;
   Destinations: DestinationToCreate[];
 }
-export const CreateReplicationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
-      Destinations: DestinationsToCreate,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/2015-02-01/file-systems/{SourceFileSystemId}/replication-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateReplicationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
+    Destinations: DestinationsToCreate,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/2015-02-01/file-systems/{SourceFileSystemId}/replication-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateReplicationConfigurationRequest",
 }) as any as S.Schema<CreateReplicationConfigurationRequest>;
@@ -827,9 +798,7 @@ export const Destination = /*@__PURE__*/ S.suspend(() =>
     Status: ReplicationStatus,
     FileSystemId: S.String,
     Region: S.String,
-    LastReplicatedTimestamp: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastReplicatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     OwnerId: S.optional(S.String),
     StatusMessage: S.optional(S.String),
     RoleArn: S.optional(S.String),
@@ -881,9 +850,7 @@ export const CreateTagsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateTagsRequest",
 }) as any as S.Schema<CreateTagsRequest>;
 export interface CreateTagsResponse {}
-export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateTagsResponse",
 }) as any as S.Schema<CreateTagsResponse>;
 export interface DeleteAccessPointRequest {
@@ -907,9 +874,7 @@ export const DeleteAccessPointRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAccessPointRequest",
 }) as any as S.Schema<DeleteAccessPointRequest>;
 export interface DeleteAccessPointResponse {}
-export const DeleteAccessPointResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAccessPointResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAccessPointResponse",
 }) as any as S.Schema<DeleteAccessPointResponse>;
 export interface DeleteFileSystemRequest {
@@ -933,9 +898,7 @@ export const DeleteFileSystemRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFileSystemRequest",
 }) as any as S.Schema<DeleteFileSystemRequest>;
 export interface DeleteFileSystemResponse {}
-export const DeleteFileSystemResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFileSystemResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFileSystemResponse",
 }) as any as S.Schema<DeleteFileSystemResponse>;
 export interface DeleteFileSystemPolicyRequest {
@@ -959,9 +922,7 @@ export const DeleteFileSystemPolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFileSystemPolicyRequest",
 }) as any as S.Schema<DeleteFileSystemPolicyRequest>;
 export interface DeleteFileSystemPolicyResponse {}
-export const DeleteFileSystemPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFileSystemPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFileSystemPolicyResponse",
 }) as any as S.Schema<DeleteFileSystemPolicyResponse>;
 export interface DeleteMountTargetRequest {
@@ -985,45 +946,39 @@ export const DeleteMountTargetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteMountTargetRequest",
 }) as any as S.Schema<DeleteMountTargetRequest>;
 export interface DeleteMountTargetResponse {}
-export const DeleteMountTargetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMountTargetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMountTargetResponse",
 }) as any as S.Schema<DeleteMountTargetResponse>;
-export type DeletionMode =
-  | "ALL_CONFIGURATIONS"
-  | "LOCAL_CONFIGURATION_ONLY"
-  | (string & {});
+export type DeletionMode = "ALL_CONFIGURATIONS" | "LOCAL_CONFIGURATION_ONLY" | (string & {});
 export const DeletionMode = S.String;
 
 export interface DeleteReplicationConfigurationRequest {
   SourceFileSystemId: string;
   DeletionMode?: DeletionMode;
 }
-export const DeleteReplicationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
-      DeletionMode: S.optional(DeletionMode).pipe(T.HttpQuery("deletionMode")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/2015-02-01/file-systems/{SourceFileSystemId}/replication-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteReplicationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SourceFileSystemId: S.String.pipe(T.HttpLabel("SourceFileSystemId")),
+    DeletionMode: S.optional(DeletionMode).pipe(T.HttpQuery("deletionMode")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/2015-02-01/file-systems/{SourceFileSystemId}/replication-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeleteReplicationConfigurationRequest",
 }) as any as S.Schema<DeleteReplicationConfigurationRequest>;
 export interface DeleteReplicationConfigurationResponse {}
-export const DeleteReplicationConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeleteReplicationConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeleteReplicationConfigurationResponse",
 }) as any as S.Schema<DeleteReplicationConfigurationResponse>;
@@ -1051,9 +1006,7 @@ export const DeleteTagsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteTagsRequest",
 }) as any as S.Schema<DeleteTagsRequest>;
 export interface DeleteTagsResponse {}
-export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteTagsResponse",
 }) as any as S.Schema<DeleteTagsResponse>;
 export type MaxResults = number;
@@ -1084,9 +1037,7 @@ export const DescribeAccessPointsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeAccessPointsRequest",
 }) as any as S.Schema<DescribeAccessPointsRequest>;
 export type AccessPointDescriptions = AccessPointDescription[];
-export const AccessPointDescriptions = /*@__PURE__*/ S.Array(
-  AccessPointDescription,
-);
+export const AccessPointDescriptions = /*@__PURE__*/ S.Array(AccessPointDescription);
 export interface DescribeAccessPointsResponse {
   AccessPoints?: AccessPointDescription[];
   NextToken?: string;
@@ -1172,20 +1123,15 @@ export const DescribeBackupPolicyRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeBackupPolicyRequest",
 }) as any as S.Schema<DescribeBackupPolicyRequest>;
-export type Status =
-  | "ENABLED"
-  | "ENABLING"
-  | "DISABLED"
-  | "DISABLING"
-  | (string & {});
+export type Status = "ENABLED" | "ENABLING" | "DISABLED" | "DISABLING" | (string & {});
 export const Status = S.String;
 
 export interface BackupPolicy {
   Status: Status;
 }
-export const BackupPolicy = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Status: Status }),
-).annotate({ identifier: "BackupPolicy" }) as any as S.Schema<BackupPolicy>;
+export const BackupPolicy = /*@__PURE__*/ S.suspend(() => S.Struct({ Status: Status })).annotate({
+  identifier: "BackupPolicy",
+}) as any as S.Schema<BackupPolicy>;
 export interface BackupPolicyDescription {
   BackupPolicy?: BackupPolicy;
 }
@@ -1242,22 +1188,13 @@ export const DescribeFileSystemsRequest = /*@__PURE__*/ S.suspend(() =>
     CreationToken: S.optional(S.String).pipe(T.HttpQuery("CreationToken")),
     FileSystemId: S.optional(S.String).pipe(T.HttpQuery("FileSystemId")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/2015-02-01/file-systems" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/2015-02-01/file-systems" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeFileSystemsRequest",
 }) as any as S.Schema<DescribeFileSystemsRequest>;
 export type FileSystemDescriptions = FileSystemDescription[];
-export const FileSystemDescriptions = /*@__PURE__*/ S.Array(
-  FileSystemDescription,
-);
+export const FileSystemDescriptions = /*@__PURE__*/ S.Array(FileSystemDescription);
 export interface DescribeFileSystemsResponse {
   Marker?: string;
   FileSystems?: FileSystemDescription[];
@@ -1275,21 +1212,20 @@ export const DescribeFileSystemsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeLifecycleConfigurationRequest {
   FileSystemId: string;
 }
-export const DescribeLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2015-02-01/file-systems/{FileSystemId}/lifecycle-configuration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeLifecycleConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ FileSystemId: S.String.pipe(T.HttpLabel("FileSystemId")) }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/2015-02-01/file-systems/{FileSystemId}/lifecycle-configuration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeLifecycleConfigurationRequest",
 }) as any as S.Schema<DescribeLifecycleConfigurationRequest>;
@@ -1306,9 +1242,7 @@ export type TransitionToIARules =
   | (string & {});
 export const TransitionToIARules = S.String;
 
-export type TransitionToPrimaryStorageClassRules =
-  | "AFTER_1_ACCESS"
-  | (string & {});
+export type TransitionToPrimaryStorageClassRules = "AFTER_1_ACCESS" | (string & {});
 export const TransitionToPrimaryStorageClassRules = S.String;
 
 export type TransitionToArchiveRules =
@@ -1332,9 +1266,7 @@ export interface LifecyclePolicy {
 export const LifecyclePolicy = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TransitionToIA: S.optional(TransitionToIARules),
-    TransitionToPrimaryStorageClass: S.optional(
-      TransitionToPrimaryStorageClassRules,
-    ),
+    TransitionToPrimaryStorageClass: S.optional(TransitionToPrimaryStorageClassRules),
     TransitionToArchive: S.optional(TransitionToArchiveRules),
   }),
 ).annotate({
@@ -1378,9 +1310,7 @@ export const DescribeMountTargetsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeMountTargetsRequest",
 }) as any as S.Schema<DescribeMountTargetsRequest>;
 export type MountTargetDescriptions = MountTargetDescription[];
-export const MountTargetDescriptions = /*@__PURE__*/ S.Array(
-  MountTargetDescription,
-);
+export const MountTargetDescriptions = /*@__PURE__*/ S.Array(MountTargetDescription);
 export interface DescribeMountTargetsResponse {
   Marker?: string;
   MountTargets?: MountTargetDescription[];
@@ -1398,64 +1328,60 @@ export const DescribeMountTargetsResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeMountTargetSecurityGroupsRequest {
   MountTargetId: string;
 }
-export const DescribeMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeMountTargetSecurityGroupsRequest",
 }) as any as S.Schema<DescribeMountTargetSecurityGroupsRequest>;
 export interface DescribeMountTargetSecurityGroupsResponse {
   SecurityGroups: string[];
 }
-export const DescribeMountTargetSecurityGroupsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ SecurityGroups: SecurityGroups }),
-  ).annotate({
-    identifier: "DescribeMountTargetSecurityGroupsResponse",
-  }) as any as S.Schema<DescribeMountTargetSecurityGroupsResponse>;
+export const DescribeMountTargetSecurityGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SecurityGroups: SecurityGroups }),
+).annotate({
+  identifier: "DescribeMountTargetSecurityGroupsResponse",
+}) as any as S.Schema<DescribeMountTargetSecurityGroupsResponse>;
 export interface DescribeReplicationConfigurationsRequest {
   FileSystemId?: string;
   NextToken?: string;
   MaxResults?: number;
 }
-export const DescribeReplicationConfigurationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      FileSystemId: S.optional(S.String).pipe(T.HttpQuery("FileSystemId")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/2015-02-01/file-systems/replication-configurations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeReplicationConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    FileSystemId: S.optional(S.String).pipe(T.HttpQuery("FileSystemId")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("NextToken")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("MaxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/2015-02-01/file-systems/replication-configurations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeReplicationConfigurationsRequest",
 }) as any as S.Schema<DescribeReplicationConfigurationsRequest>;
-export type ReplicationConfigurationDescriptions =
-  ReplicationConfigurationDescription[];
+export type ReplicationConfigurationDescriptions = ReplicationConfigurationDescription[];
 export const ReplicationConfigurationDescriptions = /*@__PURE__*/ S.Array(
   ReplicationConfigurationDescription,
 );
@@ -1463,15 +1389,14 @@ export interface DescribeReplicationConfigurationsResponse {
   Replications?: ReplicationConfigurationDescription[];
   NextToken?: string;
 }
-export const DescribeReplicationConfigurationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      Replications: S.optional(ReplicationConfigurationDescriptions),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeReplicationConfigurationsResponse",
-  }) as any as S.Schema<DescribeReplicationConfigurationsResponse>;
+export const DescribeReplicationConfigurationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Replications: S.optional(ReplicationConfigurationDescriptions),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeReplicationConfigurationsResponse",
+}) as any as S.Schema<DescribeReplicationConfigurationsResponse>;
 export interface DescribeTagsRequest {
   MaxItems?: number;
   Marker?: string;
@@ -1546,30 +1471,29 @@ export interface ModifyMountTargetSecurityGroupsRequest {
   MountTargetId: string;
   SecurityGroups?: string[];
 }
-export const ModifyMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
-      SecurityGroups: S.optional(SecurityGroups),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ModifyMountTargetSecurityGroupsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MountTargetId: S.String.pipe(T.HttpLabel("MountTargetId")),
+    SecurityGroups: S.optional(SecurityGroups),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/2015-02-01/mount-targets/{MountTargetId}/security-groups",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ModifyMountTargetSecurityGroupsRequest",
 }) as any as S.Schema<ModifyMountTargetSecurityGroupsRequest>;
 export interface ModifyMountTargetSecurityGroupsResponse {}
-export const ModifyMountTargetSecurityGroupsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const ModifyMountTargetSecurityGroupsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "ModifyMountTargetSecurityGroupsResponse",
 }) as any as S.Schema<ModifyMountTargetSecurityGroupsResponse>;
@@ -1695,9 +1619,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UntagResourceRequest {
@@ -1725,9 +1647,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateFileSystemRequest {
@@ -2149,11 +2069,7 @@ export const createReplicationConfiguration: API.OperationMethod<
   operationName: "CreateReplicationConfiguration",
 }));
 
-export type CreateTagsError =
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors;
+export type CreateTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
 /**
  * DEPRECATED - `CreateTags` is deprecated and not maintained. To create tags for EFS
  * resources, use the API action.
@@ -2243,12 +2159,7 @@ export const deleteFileSystem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFileSystemRequest,
   output: DeleteFileSystemResponse,
-  errors: [
-    BadRequest,
-    FileSystemInUse,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
+  errors: [BadRequest, FileSystemInUse, FileSystemNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
@@ -2275,12 +2186,7 @@ export const deleteFileSystemPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFileSystemPolicyRequest,
   output: DeleteFileSystemPolicyResponse,
-  errors: [
-    BadRequest,
-    FileSystemNotFound,
-    IncorrectFileSystemLifeCycleState,
-    InternalServerError,
-  ],
+  errors: [BadRequest, FileSystemNotFound, IncorrectFileSystemLifeCycleState, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
@@ -2325,12 +2231,7 @@ export const deleteMountTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMountTargetRequest,
   output: DeleteMountTargetResponse,
-  errors: [
-    BadRequest,
-    DependencyTimeout,
-    InternalServerError,
-    MountTargetNotFound,
-  ],
+  errors: [BadRequest, DependencyTimeout, InternalServerError, MountTargetNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
@@ -2359,22 +2260,13 @@ export const deleteReplicationConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteReplicationConfigurationRequest,
   output: DeleteReplicationConfigurationResponse,
-  errors: [
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-    ReplicationNotFound,
-  ],
+  errors: [BadRequest, FileSystemNotFound, InternalServerError, ReplicationNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfiguration",
 }));
 
-export type DeleteTagsError =
-  | BadRequest
-  | FileSystemNotFound
-  | InternalServerError
-  | CommonErrors;
+export type DeleteTagsError = BadRequest | FileSystemNotFound | InternalServerError | CommonErrors;
 /**
  * DEPRECATED - `DeleteTags` is deprecated and not maintained. To remove tags from EFS
  * resources, use the API action.
@@ -2425,12 +2317,7 @@ export const describeAccessPoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeAccessPointsRequest,
   output: DescribeAccessPointsResponse,
-  errors: [
-    AccessPointNotFound,
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
+  errors: [AccessPointNotFound, BadRequest, FileSystemNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccessPoints",
@@ -2442,9 +2329,7 @@ export const describeAccessPoints: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeAccountPreferencesError =
-  | InternalServerError
-  | CommonErrors;
+export type DescribeAccountPreferencesError = InternalServerError | CommonErrors;
 /**
  * Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
  */
@@ -2670,12 +2555,7 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeMountTargetSecurityGroupsRequest,
   output: DescribeMountTargetSecurityGroupsResponse,
-  errors: [
-    BadRequest,
-    IncorrectMountTargetState,
-    InternalServerError,
-    MountTargetNotFound,
-  ],
+  errors: [BadRequest, IncorrectMountTargetState, InternalServerError, MountTargetNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMountTargetSecurityGroups",
@@ -2779,12 +2659,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    AccessPointNotFound,
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
+  errors: [AccessPointNotFound, BadRequest, FileSystemNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2842,10 +2717,7 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
   operationName: "ModifyMountTargetSecurityGroups",
 }));
 
-export type PutAccountPreferencesError =
-  | BadRequest
-  | InternalServerError
-  | CommonErrors;
+export type PutAccountPreferencesError = BadRequest | InternalServerError | CommonErrors;
 /**
  * Use this operation to set the account preference in the current Amazon Web Services Region
  * to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new
@@ -3011,12 +2883,7 @@ export const putLifecycleConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutLifecycleConfigurationRequest,
   output: LifecycleConfigurationDescription,
-  errors: [
-    BadRequest,
-    FileSystemNotFound,
-    IncorrectFileSystemLifeCycleState,
-    InternalServerError,
-  ],
+  errors: [BadRequest, FileSystemNotFound, IncorrectFileSystemLifeCycleState, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleConfiguration",
@@ -3042,12 +2909,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    AccessPointNotFound,
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
+  errors: [AccessPointNotFound, BadRequest, FileSystemNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3073,12 +2935,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    AccessPointNotFound,
-    BadRequest,
-    FileSystemNotFound,
-    InternalServerError,
-  ],
+  errors: [AccessPointNotFound, BadRequest, FileSystemNotFound, InternalServerError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Billing",
   serviceShapeName: "AWSBilling",
@@ -39,14 +39,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -91,9 +87,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -103,9 +97,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://billing.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -141,10 +133,7 @@ export class ConflictException
       resourceId: S.String,
       resourceType: S.String,
     },
-    T.all(
-      T.AwsQueryError({ code: "BillingConflict", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "BillingConflict", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
@@ -193,10 +182,7 @@ export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: S.String.pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "BillingThrottling", httpResponseCode: 429 }),
-      T.HttpError(429),
-    ),
+    T.all(T.AwsQueryError({ code: "BillingThrottling", httpResponseCode: 429 }), T.HttpError(429)),
   ).pipe(C.withThrottlingError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
@@ -212,10 +198,7 @@ export class ValidationException
         }),
       ),
     },
-    T.all(
-      T.AwsQueryError({ code: "BillingValidation", httpResponseCode: 400 }),
-      T.HttpError(400),
-    ),
+    T.all(T.AwsQueryError({ code: "BillingValidation", httpResponseCode: 400 }), T.HttpError(400)),
   ).pipe(C.withBadRequestError) {}
 export type BillingViewArn = string;
 export type BillingViewSourceViewsList = string[];
@@ -280,12 +263,8 @@ export interface TimeRange {
 }
 export const TimeRange = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    beginDateInclusive: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    endDateInclusive: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    beginDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    endDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "TimeRange" }) as any as S.Schema<TimeRange>;
 export interface Expression {
@@ -333,9 +312,7 @@ export const CreateBillingViewRequest = /*@__PURE__*/ S.suspend(() =>
       T.IdempotencyToken(),
     ),
     resourceTags: S.optional(ResourceTagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateBillingViewRequest",
 }) as any as S.Schema<CreateBillingViewRequest>;
@@ -422,8 +399,7 @@ export const BillingFeatureFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillingFeatureFilter",
 }) as any as S.Schema<BillingFeatureFilter>;
 export type BillingFeatureFilters = BillingFeatureFilter[];
-export const BillingFeatureFilters =
-  /*@__PURE__*/ S.Array(BillingFeatureFilter);
+export const BillingFeatureFilters = /*@__PURE__*/ S.Array(BillingFeatureFilter);
 export interface GetBillingPreferencesRequest {
   nextToken?: string;
   maxResults?: number;
@@ -436,9 +412,7 @@ export const GetBillingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     features: BillingFeatures,
     filters: S.optional(BillingFeatureFilters),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetBillingPreferencesRequest",
 }) as any as S.Schema<GetBillingPreferencesRequest>;
@@ -478,9 +452,7 @@ export const BillingPreferenceSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillingPreferenceSummary",
 }) as any as S.Schema<BillingPreferenceSummary>;
 export type BillingPreferences = BillingPreferenceSummary[];
-export const BillingPreferences = /*@__PURE__*/ S.Array(
-  BillingPreferenceSummary,
-);
+export const BillingPreferences = /*@__PURE__*/ S.Array(BillingPreferenceSummary);
 export interface GetBillingPreferencesResponse {
   billingPreferences: BillingPreferenceSummary[];
   nextToken?: string;
@@ -512,12 +484,7 @@ export type BillingViewType =
   | (string & {});
 export const BillingViewType = S.String;
 
-export type BillingViewStatus =
-  | "HEALTHY"
-  | "UNHEALTHY"
-  | "CREATING"
-  | "UPDATING"
-  | (string & {});
+export type BillingViewStatus = "HEALTHY" | "UNHEALTHY" | "CREATING" | "UPDATING" | (string & {});
 export const BillingViewStatus = S.String;
 
 export type BillingViewStatusReason =
@@ -533,9 +500,7 @@ export type BillingViewStatusReason =
 export const BillingViewStatusReason = S.String;
 
 export type BillingViewStatusReasons = BillingViewStatusReason[];
-export const BillingViewStatusReasons = /*@__PURE__*/ S.Array(
-  BillingViewStatusReason,
-);
+export const BillingViewStatusReasons = /*@__PURE__*/ S.Array(BillingViewStatusReason);
 export interface BillingViewHealthStatus {
   statusCode?: BillingViewStatus;
   statusReasons?: BillingViewStatusReason[];
@@ -576,9 +541,7 @@ export const BillingViewElement = /*@__PURE__*/ S.suspend(() =>
     updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     derivedViewCount: S.optional(S.Number),
     sourceViewCount: S.optional(S.Number),
-    viewDefinitionLastUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    viewDefinitionLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     healthStatus: S.optional(BillingViewHealthStatus),
   }),
 ).annotate({
@@ -608,9 +571,7 @@ export const GetCreditAllocationHistoryRequest = /*@__PURE__*/ S.suspend(() =>
     endDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetCreditAllocationHistoryRequest",
 }) as any as S.Schema<GetCreditAllocationHistoryRequest>;
@@ -648,9 +609,7 @@ export const CreditAllocationHistoryEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreditAllocationHistoryEntry",
 }) as any as S.Schema<CreditAllocationHistoryEntry>;
 export type CreditAllocationHistoryList = CreditAllocationHistoryEntry[];
-export const CreditAllocationHistoryList = /*@__PURE__*/ S.Array(
-  CreditAllocationHistoryEntry,
-);
+export const CreditAllocationHistoryList = /*@__PURE__*/ S.Array(CreditAllocationHistoryEntry);
 export type FailedMonthsList = string[];
 export const FailedMonthsList = /*@__PURE__*/ S.Array(S.String);
 export interface GetCreditAllocationHistoryResponse {
@@ -681,19 +640,14 @@ export const GetCreditsRequest = /*@__PURE__*/ S.suspend(() =>
     startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     payerAccountFlag: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetCreditsRequest",
 }) as any as S.Schema<GetCreditsRequest>;
 export type ProductName = string;
 export type ProductNames = string[];
 export const ProductNames = /*@__PURE__*/ S.Array(S.String);
-export type ApplicationType =
-  | "BEFORE_CROSS_SERVICE_DISCOUNTS"
-  | "AFTER_DISCOUNTS"
-  | (string & {});
+export type ApplicationType = "BEFORE_CROSS_SERVICE_DISCOUNTS" | "AFTER_DISCOUNTS" | (string & {});
 export const ApplicationType = S.String;
 
 export type ShareableAccountIds = string[];
@@ -772,11 +726,10 @@ export type EnterpriseSupportBillingMonth = string;
 export interface GetEnterpriseSupportChargeSummaryRequest {
   billingMonth: string;
 }
-export const GetEnterpriseSupportChargeSummaryRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ billingMonth: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const GetEnterpriseSupportChargeSummaryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ billingMonth: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "GetEnterpriseSupportChargeSummaryRequest",
 }) as any as S.Schema<GetEnterpriseSupportChargeSummaryRequest>;
@@ -849,39 +802,37 @@ export interface GetEnterpriseSupportChargeSummaryResponse {
   supportChargePercentage: string;
   supportEffectivePricingPlan: PricingPlan;
 }
-export const GetEnterpriseSupportChargeSummaryResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      payerAccountId: S.String,
-      billingMonth: S.String,
-      billingPeriodStartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      billingPeriodEndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      isEstimated: S.Boolean,
-      billDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      supportCharge: S.String,
-      totalSupportCharge: S.String,
-      supportDiscount: S.String,
-      totalSupportEligibleSpend: S.String,
-      totalSupportEligibleUsageSpend: S.String,
-      totalSupportEligibleReservedInstanceSpend: S.String,
-      totalSupportEligibleSavingsPlanSpend: S.String,
-      supportChargePercentage: S.String,
-      supportEffectivePricingPlan: PricingPlan,
-    }),
-  ).annotate({
-    identifier: "GetEnterpriseSupportChargeSummaryResponse",
-  }) as any as S.Schema<GetEnterpriseSupportChargeSummaryResponse>;
+export const GetEnterpriseSupportChargeSummaryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    payerAccountId: S.String,
+    billingMonth: S.String,
+    billingPeriodStartDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    billingPeriodEndDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    isEstimated: S.Boolean,
+    billDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    supportCharge: S.String,
+    totalSupportCharge: S.String,
+    supportDiscount: S.String,
+    totalSupportEligibleSpend: S.String,
+    totalSupportEligibleUsageSpend: S.String,
+    totalSupportEligibleReservedInstanceSpend: S.String,
+    totalSupportEligibleSavingsPlanSpend: S.String,
+    supportChargePercentage: S.String,
+    supportEffectivePricingPlan: PricingPlan,
+  }),
+).annotate({
+  identifier: "GetEnterpriseSupportChargeSummaryResponse",
+}) as any as S.Schema<GetEnterpriseSupportChargeSummaryResponse>;
 export interface GetEnterpriseSupportContractDetailsRequest {
   billingMonth: string;
 }
-export const GetEnterpriseSupportContractDetailsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ billingMonth: S.String }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "GetEnterpriseSupportContractDetailsRequest",
-  }) as any as S.Schema<GetEnterpriseSupportContractDetailsRequest>;
+export const GetEnterpriseSupportContractDetailsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ billingMonth: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
+  identifier: "GetEnterpriseSupportContractDetailsRequest",
+}) as any as S.Schema<GetEnterpriseSupportContractDetailsRequest>;
 export interface ContractAccount {
   accountId: string;
   isGdn: boolean;
@@ -934,31 +885,28 @@ export interface GetEnterpriseSupportContractDetailsResponse {
   additionalSupportEligibleUsageSpend?: AdditionalCharge[];
   pricingPlans: PricingPlan[];
 }
-export const GetEnterpriseSupportContractDetailsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      isContractActive: S.optional(S.Boolean),
-      supportAllocationMethod: S.String,
-      supportReservedInstanceAmortizationStartDate: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      supportReservedInstanceTreatmentMethod: S.optional(S.String),
-      supportSavingsPlansAmortizationStartDate: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      supportSavingsPlansTreatmentMethod: S.optional(S.String),
-      supportProrateStartDate: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      contractPayerAccountIds: ContractAccountList,
-      chargedPayerAccountIds: ChargeAccountList,
-      additionalSupportCharge: S.optional(AdditionalChargeList),
-      additionalSupportEligibleUsageSpend: S.optional(AdditionalChargeList),
-      pricingPlans: PricingPlanList,
-    }),
-  ).annotate({
-    identifier: "GetEnterpriseSupportContractDetailsResponse",
-  }) as any as S.Schema<GetEnterpriseSupportContractDetailsResponse>;
+export const GetEnterpriseSupportContractDetailsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    isContractActive: S.optional(S.Boolean),
+    supportAllocationMethod: S.String,
+    supportReservedInstanceAmortizationStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    supportReservedInstanceTreatmentMethod: S.optional(S.String),
+    supportSavingsPlansAmortizationStartDate: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    supportSavingsPlansTreatmentMethod: S.optional(S.String),
+    supportProrateStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    contractPayerAccountIds: ContractAccountList,
+    chargedPayerAccountIds: ChargeAccountList,
+    additionalSupportCharge: S.optional(AdditionalChargeList),
+    additionalSupportEligibleUsageSpend: S.optional(AdditionalChargeList),
+    pricingPlans: PricingPlanList,
+  }),
+).annotate({
+  identifier: "GetEnterpriseSupportContractDetailsResponse",
+}) as any as S.Schema<GetEnterpriseSupportContractDetailsResponse>;
 export type ResourceArn = string;
 export interface GetResourcePolicyRequest {
   resourceArn: string;
@@ -1030,9 +978,7 @@ export const ListBillingViewsRequest = /*@__PURE__*/ S.suspend(() =>
     sourceAccountId: S.optional(S.String),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBillingViewsRequest",
 }) as any as S.Schema<ListBillingViewsRequest>;
@@ -1075,19 +1021,16 @@ export interface ListEnterpriseSupportLinkedAccountChargesRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListEnterpriseSupportLinkedAccountChargesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      billingMonth: S.String,
-      accountId: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
-  ).annotate({
-    identifier: "ListEnterpriseSupportLinkedAccountChargesRequest",
-  }) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesRequest>;
+export const ListEnterpriseSupportLinkedAccountChargesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    billingMonth: S.String,
+    accountId: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "ListEnterpriseSupportLinkedAccountChargesRequest",
+}) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesRequest>;
 export interface EnterpriseSupportTimePeriod {
   beginDate: Date;
   endDate?: Date;
@@ -1101,9 +1044,7 @@ export const EnterpriseSupportTimePeriod = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnterpriseSupportTimePeriod",
 }) as any as S.Schema<EnterpriseSupportTimePeriod>;
 export type TimePeriodList = EnterpriseSupportTimePeriod[];
-export const TimePeriodList = /*@__PURE__*/ S.Array(
-  EnterpriseSupportTimePeriod,
-);
+export const TimePeriodList = /*@__PURE__*/ S.Array(EnterpriseSupportTimePeriod);
 export interface ServiceLevelAccountUsage {
   serviceCode?: string;
   totalSupportEligibleSpend?: string;
@@ -1117,9 +1058,7 @@ export const ServiceLevelAccountUsage = /*@__PURE__*/ S.suspend(() =>
   identifier: "ServiceLevelAccountUsage",
 }) as any as S.Schema<ServiceLevelAccountUsage>;
 export type ServiceLevelAccountUsageList = ServiceLevelAccountUsage[];
-export const ServiceLevelAccountUsageList = /*@__PURE__*/ S.Array(
-  ServiceLevelAccountUsage,
-);
+export const ServiceLevelAccountUsageList = /*@__PURE__*/ S.Array(ServiceLevelAccountUsage);
 export interface LinkedAccountCharge {
   accountId: string;
   payerAccountId: string;
@@ -1153,35 +1092,30 @@ export const LinkedAccountCharge = /*@__PURE__*/ S.suspend(() =>
   identifier: "LinkedAccountCharge",
 }) as any as S.Schema<LinkedAccountCharge>;
 export type LinkedAccountChargeList = LinkedAccountCharge[];
-export const LinkedAccountChargeList =
-  /*@__PURE__*/ S.Array(LinkedAccountCharge);
+export const LinkedAccountChargeList = /*@__PURE__*/ S.Array(LinkedAccountCharge);
 export interface ListEnterpriseSupportLinkedAccountChargesResponse {
   linkedAccount: LinkedAccountCharge[];
   nextToken?: string;
 }
-export const ListEnterpriseSupportLinkedAccountChargesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      linkedAccount: LinkedAccountChargeList,
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListEnterpriseSupportLinkedAccountChargesResponse",
-  }) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesResponse>;
+export const ListEnterpriseSupportLinkedAccountChargesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    linkedAccount: LinkedAccountChargeList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListEnterpriseSupportLinkedAccountChargesResponse",
+}) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesResponse>;
 export interface ListSourceViewsForBillingViewRequest {
   arn: string;
   maxResults?: number;
   nextToken?: string;
 }
-export const ListSourceViewsForBillingViewRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      arn: S.String,
-      maxResults: S.optional(S.Number),
-      nextToken: S.optional(S.String),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListSourceViewsForBillingViewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    arn: S.String,
+    maxResults: S.optional(S.Number),
+    nextToken: S.optional(S.String),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSourceViewsForBillingViewRequest",
 }) as any as S.Schema<ListSourceViewsForBillingViewRequest>;
@@ -1189,12 +1123,11 @@ export interface ListSourceViewsForBillingViewResponse {
   sourceViews: string[];
   nextToken?: string;
 }
-export const ListSourceViewsForBillingViewResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sourceViews: BillingViewSourceViewsList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListSourceViewsForBillingViewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sourceViews: BillingViewSourceViewsList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListSourceViewsForBillingViewResponse",
 }) as any as S.Schema<ListSourceViewsForBillingViewResponse>;
@@ -1228,9 +1161,7 @@ export const RedeemCreditsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RedeemCreditsRequest",
 }) as any as S.Schema<RedeemCreditsRequest>;
 export interface RedeemCreditsResponse {}
-export const RedeemCreditsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RedeemCreditsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RedeemCreditsResponse",
 }) as any as S.Schema<RedeemCreditsResponse>;
 export interface TagResourceRequest {
@@ -1245,9 +1176,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type ResourceTagKeyList = string[];
@@ -1264,9 +1193,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface BillingPreferenceForKey {
@@ -1279,9 +1206,7 @@ export const BillingPreferenceForKey = /*@__PURE__*/ S.suspend(() =>
   identifier: "BillingPreferenceForKey",
 }) as any as S.Schema<BillingPreferenceForKey>;
 export type BillingPreferencesPerKey = BillingPreferenceForKey[];
-export const BillingPreferencesPerKey = /*@__PURE__*/ S.Array(
-  BillingPreferenceForKey,
-);
+export const BillingPreferencesPerKey = /*@__PURE__*/ S.Array(BillingPreferenceForKey);
 export interface UpdateBillingPreferencesRequest {
   feature: BillingFeature;
   billingPreferencesPerKey: BillingPreferenceForKey[];
@@ -1290,9 +1215,7 @@ export const UpdateBillingPreferencesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     feature: BillingFeature,
     billingPreferencesPerKey: BillingPreferencesPerKey,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateBillingPreferencesRequest",
 }) as any as S.Schema<UpdateBillingPreferencesRequest>;
@@ -1314,9 +1237,7 @@ export const UpdateBillingViewRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(SensitiveString),
     description: S.optional(SensitiveString),
     dataFilterExpression: S.optional(Expression),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateBillingViewRequest",
 }) as any as S.Schema<UpdateBillingViewRequest>;
@@ -1356,9 +1277,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AssociateSourceViewsError =
   | AccessDeniedException
   | BillingViewHealthStatusException

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Timestream InfluxDB",
   serviceShapeName: "AmazonTimestreamInfluxDB",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://timestream-influxdb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,9 +66,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://timestream-influxdb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://timestream-influxdb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -149,10 +141,7 @@ export type RetentionDays = number;
 export type TagKey = string;
 export type TagValue = string;
 export type RequestTagMap = { [key: string]: string | undefined };
-export const RequestTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const RequestTagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateDbBackupInput {
   name: string;
   dbResourceId: string;
@@ -165,9 +154,7 @@ export const CreateDbBackupInput = /*@__PURE__*/ S.suspend(() =>
     dbResourceId: S.String,
     retentionDays: S.optional(S.Number),
     tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDbBackupInput",
 }) as any as S.Schema<CreateDbBackupInput>;
@@ -317,9 +304,7 @@ export const CreateDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     arn: S.String,
     status: S.optional(DbBackupStatus),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     expiresAfter: S.optional(S.String),
     dbResourceId: S.optional(S.String),
     type: S.optional(DbBackupType),
@@ -383,9 +368,7 @@ export const DbBackupConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "DbBackupConfiguration",
 }) as any as S.Schema<DbBackupConfiguration>;
 export type DbBackupConfigurationInputList = DbBackupConfiguration[];
-export const DbBackupConfigurationInputList = /*@__PURE__*/ S.Array(
-  DbBackupConfiguration,
-);
+export const DbBackupConfigurationInputList = /*@__PURE__*/ S.Array(DbBackupConfiguration);
 export interface CreateDbClusterInput {
   name: string;
   username?: string | redacted.Redacted<string>;
@@ -432,9 +415,7 @@ export const CreateDbClusterInput = /*@__PURE__*/ S.suspend(() =>
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
     kmsKeyId: S.optional(S.String),
     tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDbClusterInput",
 }) as any as S.Schema<CreateDbClusterInput>;
@@ -469,10 +450,7 @@ export const CreateDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateDbClusterOutput",
 }) as any as S.Schema<CreateDbClusterOutput>;
 export type DbInstanceName = string;
-export type DeploymentType =
-  | "SINGLE_AZ"
-  | "WITH_MULTIAZ_STANDBY"
-  | (string & {});
+export type DeploymentType = "SINGLE_AZ" | "WITH_MULTIAZ_STANDBY" | (string & {});
 export const DeploymentType = S.String;
 
 export interface CreateDbInstanceInput {
@@ -519,9 +497,7 @@ export const CreateDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
     networkType: S.optional(NetworkType),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
     kmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDbInstanceInput",
 }) as any as S.Schema<CreateDbInstanceInput>;
@@ -570,17 +546,13 @@ export const DbBackupConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
     retentionDays: S.Number,
     enabled: S.Boolean,
     customSchedule: S.optional(S.String),
-    nextAutomatedBackupTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    nextAutomatedBackupTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DbBackupConfigurationOutput",
 }) as any as S.Schema<DbBackupConfigurationOutput>;
 export type DbBackupConfigurationOutputList = DbBackupConfigurationOutput[];
-export const DbBackupConfigurationOutputList = /*@__PURE__*/ S.Array(
-  DbBackupConfigurationOutput,
-);
+export const DbBackupConfigurationOutputList = /*@__PURE__*/ S.Array(DbBackupConfigurationOutput);
 export interface CreateDbInstanceOutput {
   id: string;
   name: string;
@@ -635,12 +607,8 @@ export const CreateDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
@@ -749,10 +717,7 @@ export const InfluxDBv2Parameters = /*@__PURE__*/ S.suspend(() =>
 export type LogFormats = "full" | (string & {});
 export const LogFormats = S.String;
 
-export type DataFusionRuntimeType =
-  | "multi-thread"
-  | "multi-thread-alt"
-  | (string & {});
+export type DataFusionRuntimeType = "multi-thread" | "multi-thread-alt" | (string & {});
 export const DataFusionRuntimeType = S.String;
 
 export type PercentOrAbsoluteLong =
@@ -1002,9 +967,7 @@ export const CreateDbParameterGroupInput = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     parameters: S.optional(Parameters),
     tags: S.optional(RequestTagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDbParameterGroupInput",
 }) as any as S.Schema<CreateDbParameterGroupInput>;
@@ -1069,9 +1032,7 @@ export const DeleteDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     arn: S.String,
     status: S.optional(DbBackupStatus),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     expiresAfter: S.optional(S.String),
     dbResourceId: S.optional(S.String),
     type: S.optional(DbBackupType),
@@ -1104,9 +1065,7 @@ export const DeleteDbClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dbClusterId: S.String,
     retainAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteDbClusterInput",
 }) as any as S.Schema<DeleteDbClusterInput>;
@@ -1127,9 +1086,7 @@ export const DeleteDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identifier: S.String,
     retainAutomatedBackups: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteDbInstanceInput",
 }) as any as S.Schema<DeleteDbInstanceInput>;
@@ -1187,12 +1144,8 @@ export const DeleteDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
@@ -1242,9 +1195,7 @@ export const GetDbBackupOutput = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     arn: S.String,
     status: S.optional(DbBackupStatus),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     expiresAfter: S.optional(S.String),
     dbResourceId: S.optional(S.String),
     type: S.optional(DbBackupType),
@@ -1328,12 +1279,8 @@ export const GetDbClusterOutput = /*@__PURE__*/ S.suspend(() =>
     effectiveDbParameterGroupIdentifier: S.optional(S.String),
     logDeliveryConfiguration: S.optional(LogDeliveryConfiguration),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     influxAuthParametersSecretArn: S.optional(S.String),
     vpcSubnetIds: S.optional(VpcSubnetIdList),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -1409,12 +1356,8 @@ export const GetDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
@@ -1461,9 +1404,7 @@ export const ListDbBackupsInput = /*@__PURE__*/ S.suspend(() =>
     dbResourceId: S.optional(S.String),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDbBackupsInput",
 }) as any as S.Schema<ListDbBackupsInput>;
@@ -1486,9 +1427,7 @@ export const DbBackupSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     arn: S.String,
     status: S.optional(DbBackupStatus),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     expiresAfter: S.optional(S.String),
     dbResourceId: S.optional(S.String),
     type: S.optional(DbBackupType),
@@ -1518,9 +1457,7 @@ export const ListDbClustersInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDbClustersInput",
 }) as any as S.Schema<ListDbClustersInput>;
@@ -1577,9 +1514,7 @@ export const ListDbInstancesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDbInstancesInput",
 }) as any as S.Schema<ListDbInstancesInput>;
@@ -1634,9 +1569,7 @@ export const ListDbInstancesForClusterInput = /*@__PURE__*/ S.suspend(() =>
     dbClusterId: S.String,
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDbInstancesForClusterInput",
 }) as any as S.Schema<ListDbInstancesForClusterInput>;
@@ -1675,9 +1608,7 @@ export const DbInstanceForClusterSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DbInstanceForClusterSummary",
 }) as any as S.Schema<DbInstanceForClusterSummary>;
 export type DbInstanceForClusterSummaryList = DbInstanceForClusterSummary[];
-export const DbInstanceForClusterSummaryList = /*@__PURE__*/ S.Array(
-  DbInstanceForClusterSummary,
-);
+export const DbInstanceForClusterSummaryList = /*@__PURE__*/ S.Array(DbInstanceForClusterSummary);
 export interface ListDbInstancesForClusterOutput {
   items: DbInstanceForClusterSummary[];
   nextToken?: string;
@@ -1698,9 +1629,7 @@ export const ListDbParameterGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDbParameterGroupsInput",
 }) as any as S.Schema<ListDbParameterGroupsInput>;
@@ -1721,9 +1650,7 @@ export const DbParameterGroupSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DbParameterGroupSummary",
 }) as any as S.Schema<DbParameterGroupSummary>;
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
-export const DbParameterGroupSummaryList = /*@__PURE__*/ S.Array(
-  DbParameterGroupSummary,
-);
+export const DbParameterGroupSummaryList = /*@__PURE__*/ S.Array(DbParameterGroupSummary);
 export interface ListDbParameterGroupsOutput {
   items: DbParameterGroupSummary[];
   nextToken?: string;
@@ -1747,10 +1674,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListTagsForResourceRequest",
 }) as any as S.Schema<ListTagsForResourceRequest>;
 export type ResponseTagMap = { [key: string]: string | undefined };
-export const ResponseTagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ResponseTagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   tags?: { [key: string]: string | undefined };
 }
@@ -1769,9 +1693,7 @@ export const RebootDbClusterInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     dbClusterId: S.String,
     instanceIds: S.optional(DbInstanceIdList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RebootDbClusterInput",
 }) as any as S.Schema<RebootDbClusterInput>;
@@ -1847,12 +1769,8 @@ export const RebootDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
@@ -1884,9 +1802,7 @@ export const RestoreFromDbBackupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     name: S.String,
     dbBackupId: S.String,
-    restoreToTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    restoreToTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     restoreMode: S.optional(RestoreMode),
     vpcSubnetIds: S.optional(VpcSubnetIdList),
     vpcSecurityGroupIds: S.optional(VpcSecurityGroupIdList),
@@ -1899,9 +1815,7 @@ export const RestoreFromDbBackupInput = /*@__PURE__*/ S.suspend(() =>
     deploymentType: S.optional(ResourceDeploymentType),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
     kmsKeyId: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RestoreFromDbBackupInput",
 }) as any as S.Schema<RestoreFromDbBackupInput>;
@@ -1941,9 +1855,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1956,16 +1868,12 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateDbClusterInput {
@@ -1988,9 +1896,7 @@ export const UpdateDbClusterInput = /*@__PURE__*/ S.suspend(() =>
     failoverMode: S.optional(FailoverMode),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDbClusterInput",
 }) as any as S.Schema<UpdateDbClusterInput>;
@@ -2026,9 +1932,7 @@ export const UpdateDbInstanceInput = /*@__PURE__*/ S.suspend(() =>
     allocatedStorage: S.optional(S.Number),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
     dbBackupConfigurations: S.optional(DbBackupConfigurationInputList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDbInstanceInput",
 }) as any as S.Schema<UpdateDbInstanceInput>;
@@ -2086,22 +1990,15 @@ export const UpdateDbInstanceOutput = /*@__PURE__*/ S.suspend(() =>
     instanceMode: S.optional(InstanceMode),
     instanceModes: S.optional(InstanceModeList),
     maintenanceSchedule: S.optional(MaintenanceSchedule),
-    lastMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    nextMaintenanceTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    lastMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    nextMaintenanceTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dbBackupConfigurations: S.optional(DbBackupConfigurationOutputList),
     kmsKeyId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "UpdateDbInstanceOutput",
 }) as any as S.Schema<UpdateDbInstanceOutput>;
-export type ValidationExceptionReason =
-  | "FIELD_VALIDATION_FAILED"
-  | "OTHER"
-  | (string & {});
+export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER" | (string & {});
 export const ValidationExceptionReason = S.String;
 
 export type CreateDbBackupError =

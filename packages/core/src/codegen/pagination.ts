@@ -54,18 +54,11 @@ export interface ValidatedPagination {
  * yield nothing. Returns the items-path root for emitters that promote it
  * to required.
  */
-export const validatePaginated = (
-  o: ValidatePaginatedOptions,
-): ValidatedPagination => {
-  const itemsRoot = String(o.trait.items ?? o.itemsFallback ?? "").split(
-    ".",
-  )[0];
+export const validatePaginated = (o: ValidatePaginatedOptions): ValidatedPagination => {
+  const itemsRoot = String(o.trait.items ?? o.itemsFallback ?? "").split(".")[0];
   const tokenOk =
     o.trait.mode === "single" ||
-    (typeof o.trait.inputToken === "string" &&
-      o.inputNames.has(o.trait.inputToken));
-  const itemsOk =
-    o.outputNames.has(itemsRoot) ||
-    (o.syntheticOutputs?.has(itemsRoot) ?? false);
+    (typeof o.trait.inputToken === "string" && o.inputNames.has(o.trait.inputToken));
+  const itemsOk = o.outputNames.has(itemsRoot) || (o.syntheticOutputs?.has(itemsRoot) ?? false);
   return { ok: tokenOk && itemsOk, itemsRoot };
 };

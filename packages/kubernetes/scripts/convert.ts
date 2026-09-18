@@ -36,19 +36,16 @@
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
+import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import {
   applyOperation,
   isStaleTargetError,
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
-import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 
 const root = path.resolve(import.meta.dir, "..");
-const specPath = path.join(
-  root,
-  "specs/spec-mirror-kubernetes/specs/swagger.json",
-);
+const specPath = path.join(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
 const patchesDir = path.join(root, "patches");
 const outDir = path.join(root, ".generated-specs");
 
@@ -91,9 +88,7 @@ const API_GROUP_MAP: Record<string, string> = {
 };
 
 // Sorted list of group prefixes (longer first for correct matching).
-const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort(
-  (a, b) => b.length - a.length,
-);
+const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort((a, b) => b.length - a.length);
 
 // Verbs that prefix operation ids.
 const VERBS = /^(connect|create|delete|get|list|log|patch|read|replace|watch)/;
@@ -144,9 +139,7 @@ const patchFiles = (await fs.readdir(patchesDir))
   .filter((f) => f.endsWith(".patch.json"))
   .sort((a, b) => a.localeCompare(b));
 for (const pf of patchFiles) {
-  const parsed = JSON.parse(
-    await fs.readFile(path.join(patchesDir, pf), "utf8"),
-  ) as PatchFile;
+  const parsed = JSON.parse(await fs.readFile(path.join(patchesDir, pf), "utf8")) as PatchFile;
   for (const patchOp of parsed.patches ?? []) {
     try {
       applyOperation(spec, patchOp);
@@ -165,9 +158,7 @@ for (const pf of patchFiles) {
 }
 if (badPatches.length) {
   for (const b of badPatches) console.error(`❌ bad patch: ${b}`);
-  throw new Error(
-    `${badPatches.length} malformed patch operation(s) — fix or remove them`,
-  );
+  throw new Error(`${badPatches.length} malformed patch operation(s) — fix or remove them`);
 }
 console.log(
   `   Patches: ${patchFileCount} file(s) applied` +
@@ -203,9 +194,7 @@ const paramTo3 = (p: any): any => {
       ...(p.items !== undefined ? { items: p.items } : {}),
       ...(p.format !== undefined ? { format: p.format } : {}),
       ...(p.uniqueItems !== undefined ? { uniqueItems: p.uniqueItems } : {}),
-      ...(p["x-nullable"] !== undefined
-        ? { "x-nullable": p["x-nullable"] }
-        : {}),
+      ...(p["x-nullable"] !== undefined ? { "x-nullable": p["x-nullable"] } : {}),
     },
   };
 };
@@ -229,9 +218,7 @@ for (const pathItem of Object.values<any>(spec.paths ?? {})) {
       const resolved = raw?.$ref ? resolveRef(raw.$ref) : raw;
       if (resolved?.in === "body") {
         op.requestBody = {
-          ...(resolved.required !== undefined
-            ? { required: resolved.required }
-            : {}),
+          ...(resolved.required !== undefined ? { required: resolved.required } : {}),
           content: { "application/json": { schema: resolved.schema } },
         };
       } else {
@@ -262,9 +249,7 @@ for (const [rawPath, pathItem] of Object.entries<any>(spec.paths ?? {})) {
   for (const method of HTTP_METHODS) {
     const op = pathItem[method];
     if (!op || typeof op !== "object") continue;
-    const group = getApiGroup(
-      typeof op.operationId === "string" ? op.operationId : "",
-    );
+    const group = getApiGroup(typeof op.operationId === "string" ? op.operationId : "");
     let paths = groupPaths.get(group);
     if (!paths) {
       paths = {};
@@ -299,15 +284,11 @@ for (const group of [...groupPaths.keys()].sort()) {
     // deprecated operations (most watch paths) skipped.
     skipDeprecated: true,
   });
-  const opCount = Object.values(model.shapes).filter(
-    (s: any) => s.type === "operation",
-  ).length;
+  const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   totalOps += opCount;
   const outPath = path.join(outDir, `${group}.json`);
   await fs.writeFile(outPath, JSON.stringify(model, null, 2) + "\n");
-  console.log(
-    `   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`,
-  );
+  console.log(`   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`);
 }
 
 console.log(`\n✅ ${totalOps} operations across ${groupPaths.size} models`);

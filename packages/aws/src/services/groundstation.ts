@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "GroundStation",
   serviceShapeName: "GroundStation",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://groundstation-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://groundstation.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://groundstation.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://groundstation.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -137,14 +127,7 @@ export interface CancelContactRequest {
 }
 export const CancelContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contactId: S.String.pipe(T.HttpLabel("contactId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/contact/{contactId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/contact/{contactId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CancelContactRequest",
@@ -446,10 +429,7 @@ export const ConfigTypeData = /*@__PURE__*/ S.Union([
   S.Struct({ telemetrySinkConfig: TelemetrySinkConfig }),
 ]);
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateConfigRequest {
   name: string;
   configData: ConfigTypeData;
@@ -460,16 +440,7 @@ export const CreateConfigRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     configData: ConfigTypeData,
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/config" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConfigRequest",
 }) as any as S.Schema<CreateConfigRequest>;
@@ -584,12 +555,7 @@ export const RangedConnectionDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RangedConnectionDetails",
 }) as any as S.Schema<RangedConnectionDetails>;
-export type AgentStatus =
-  | "SUCCESS"
-  | "FAILED"
-  | "ACTIVE"
-  | "INACTIVE"
-  | (string & {});
+export type AgentStatus = "SUCCESS" | "FAILED" | "ACTIVE" | "INACTIVE" | (string & {});
 export const AgentStatus = S.String;
 
 export type AuditResults = "HEALTHY" | "UNHEALTHY" | (string & {});
@@ -637,17 +603,16 @@ export interface UplinkAwsGroundStationAgentEndpointDetails {
   agentStatus?: AgentStatus;
   auditResults?: AuditResults;
 }
-export const UplinkAwsGroundStationAgentEndpointDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      dataflowDetails: UplinkDataflowDetails,
-      agentStatus: S.optional(AgentStatus),
-      auditResults: S.optional(AuditResults),
-    }),
-  ).annotate({
-    identifier: "UplinkAwsGroundStationAgentEndpointDetails",
-  }) as any as S.Schema<UplinkAwsGroundStationAgentEndpointDetails>;
+export const UplinkAwsGroundStationAgentEndpointDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    dataflowDetails: UplinkDataflowDetails,
+    agentStatus: S.optional(AgentStatus),
+    auditResults: S.optional(AuditResults),
+  }),
+).annotate({
+  identifier: "UplinkAwsGroundStationAgentEndpointDetails",
+}) as any as S.Schema<UplinkAwsGroundStationAgentEndpointDetails>;
 export interface DownlinkConnectionDetails {
   agentIpAndPortAddress: RangedConnectionDetails;
   egressAddressAndPort: ConnectionDetails;
@@ -672,17 +637,16 @@ export interface DownlinkAwsGroundStationAgentEndpointDetails {
   agentStatus?: AgentStatus;
   auditResults?: AuditResults;
 }
-export const DownlinkAwsGroundStationAgentEndpointDetails =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      dataflowDetails: DownlinkDataflowDetails,
-      agentStatus: S.optional(AgentStatus),
-      auditResults: S.optional(AuditResults),
-    }),
-  ).annotate({
-    identifier: "DownlinkAwsGroundStationAgentEndpointDetails",
-  }) as any as S.Schema<DownlinkAwsGroundStationAgentEndpointDetails>;
+export const DownlinkAwsGroundStationAgentEndpointDetails = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    dataflowDetails: DownlinkDataflowDetails,
+    agentStatus: S.optional(AgentStatus),
+    auditResults: S.optional(AuditResults),
+  }),
+).annotate({
+  identifier: "DownlinkAwsGroundStationAgentEndpointDetails",
+}) as any as S.Schema<DownlinkAwsGroundStationAgentEndpointDetails>;
 export type CapabilityHealth = "HEALTHY" | "UNHEALTHY" | (string & {});
 export const CapabilityHealth = S.String;
 
@@ -698,9 +662,7 @@ export type CapabilityHealthReason =
 export const CapabilityHealthReason = S.String;
 
 export type CapabilityHealthReasonList = CapabilityHealthReason[];
-export const CapabilityHealthReasonList = /*@__PURE__*/ S.Array(
-  CapabilityHealthReason,
-);
+export const CapabilityHealthReasonList = /*@__PURE__*/ S.Array(CapabilityHealthReason);
 export interface EndpointDetails {
   securityDetails?: SecurityDetails;
   endpoint?: DataflowEndpoint;
@@ -715,12 +677,8 @@ export const EndpointDetails = /*@__PURE__*/ S.suspend(() =>
     securityDetails: S.optional(SecurityDetails),
     endpoint: S.optional(DataflowEndpoint),
     awsGroundStationAgentEndpoint: S.optional(AwsGroundStationAgentEndpoint),
-    uplinkAwsGroundStationAgentEndpoint: S.optional(
-      UplinkAwsGroundStationAgentEndpointDetails,
-    ),
-    downlinkAwsGroundStationAgentEndpoint: S.optional(
-      DownlinkAwsGroundStationAgentEndpointDetails,
-    ),
+    uplinkAwsGroundStationAgentEndpoint: S.optional(UplinkAwsGroundStationAgentEndpointDetails),
+    downlinkAwsGroundStationAgentEndpoint: S.optional(DownlinkAwsGroundStationAgentEndpointDetails),
     healthStatus: S.optional(CapabilityHealth),
     healthReasons: S.optional(CapabilityHealthReasonList),
   }),
@@ -743,14 +701,7 @@ export const CreateDataflowEndpointGroupRequest = /*@__PURE__*/ S.suspend(() =>
     contactPrePassDurationSeconds: S.optional(S.Number),
     contactPostPassDurationSeconds: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/dataflowEndpointGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/dataflowEndpointGroup" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDataflowEndpointGroupRequest",
@@ -776,8 +727,8 @@ export interface DownlinkAwsGroundStationAgentEndpoint {
   name: string;
   dataflowDetails: DownlinkDataflowDetails;
 }
-export const DownlinkAwsGroundStationAgentEndpoint = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ name: S.String, dataflowDetails: DownlinkDataflowDetails }),
+export const DownlinkAwsGroundStationAgentEndpoint = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ name: S.String, dataflowDetails: DownlinkDataflowDetails }),
 ).annotate({
   identifier: "DownlinkAwsGroundStationAgentEndpoint",
 }) as any as S.Schema<DownlinkAwsGroundStationAgentEndpoint>;
@@ -795,45 +746,41 @@ export const CreateEndpointDetails = /*@__PURE__*/ S.Union([
     uplinkAwsGroundStationAgentEndpoint: UplinkAwsGroundStationAgentEndpoint,
   }),
   S.Struct({
-    downlinkAwsGroundStationAgentEndpoint:
-      DownlinkAwsGroundStationAgentEndpoint,
+    downlinkAwsGroundStationAgentEndpoint: DownlinkAwsGroundStationAgentEndpoint,
   }),
 ]);
 export type CreateEndpointDetailsList = CreateEndpointDetails[];
-export const CreateEndpointDetailsList = /*@__PURE__*/ S.Array(
-  CreateEndpointDetails,
-);
+export const CreateEndpointDetailsList = /*@__PURE__*/ S.Array(CreateEndpointDetails);
 export interface CreateDataflowEndpointGroupV2Request {
   endpoints: CreateEndpointDetails[];
   contactPrePassDurationSeconds?: number;
   contactPostPassDurationSeconds?: number;
   tags?: { [key: string]: string | undefined };
 }
-export const CreateDataflowEndpointGroupV2Request = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      endpoints: CreateEndpointDetailsList,
-      contactPrePassDurationSeconds: S.optional(S.Number),
-      contactPostPassDurationSeconds: S.optional(S.Number),
-      tags: S.optional(TagsMap),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/dataflowEndpointGroupV2" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateDataflowEndpointGroupV2Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endpoints: CreateEndpointDetailsList,
+    contactPrePassDurationSeconds: S.optional(S.Number),
+    contactPostPassDurationSeconds: S.optional(S.Number),
+    tags: S.optional(TagsMap),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/dataflowEndpointGroupV2" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "CreateDataflowEndpointGroupV2Request",
 }) as any as S.Schema<CreateDataflowEndpointGroupV2Request>;
 export interface CreateDataflowEndpointGroupV2Response {
   dataflowEndpointGroupId?: string;
 }
-export const CreateDataflowEndpointGroupV2Response = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dataflowEndpointGroupId: S.optional(S.String) }),
+export const CreateDataflowEndpointGroupV2Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ dataflowEndpointGroupId: S.optional(S.String) }),
 ).annotate({
   identifier: "CreateDataflowEndpointGroupV2Response",
 }) as any as S.Schema<CreateDataflowEndpointGroupV2Response>;
@@ -988,16 +935,7 @@ export const CreateEphemerisRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     ephemeris: S.optional(EphemerisData),
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ephemeris" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/ephemeris" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEphemerisRequest",
 }) as any as S.Schema<CreateEphemerisRequest>;
@@ -1050,16 +988,7 @@ export const CreateMissionProfileRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagsMap),
     streamsKmsKey: S.optional(KmsKey),
     streamsKmsRole: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/missionprofile" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/missionprofile" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMissionProfileRequest",
 }) as any as S.Schema<CreateMissionProfileRequest>;
@@ -1097,9 +1026,7 @@ export interface DeleteDataflowEndpointGroupRequest {
 }
 export const DeleteDataflowEndpointGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataflowEndpointGroupId: S.String.pipe(
-      T.HttpLabel("dataflowEndpointGroupId"),
-    ),
+    dataflowEndpointGroupId: S.String.pipe(T.HttpLabel("dataflowEndpointGroupId")),
   }).pipe(
     T.all(
       T.Http({
@@ -1157,14 +1084,7 @@ export interface DescribeContactRequest {
 }
 export const DescribeContactRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ contactId: S.String.pipe(T.HttpLabel("contactId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/contact/{contactId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/contact/{contactId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeContactRequest",
@@ -1319,12 +1239,7 @@ export const TrackingOverrides = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TrackingOverrides",
 }) as any as S.Schema<TrackingOverrides>;
-export type EphemerisType =
-  | "TLE"
-  | "OEM"
-  | "AZ_EL"
-  | "SERVICE_MANAGED"
-  | (string & {});
+export type EphemerisType = "TLE" | "OEM" | "AZ_EL" | "SERVICE_MANAGED" | (string & {});
 export const EphemerisType = S.String;
 
 export interface EphemerisResponseData {
@@ -1361,9 +1276,7 @@ export type VersionFailureReasonCode =
 export const VersionFailureReasonCode = S.String;
 
 export type VersionFailureReasonCodes = VersionFailureReasonCode[];
-export const VersionFailureReasonCodes = /*@__PURE__*/ S.Array(
-  VersionFailureReasonCode,
-);
+export const VersionFailureReasonCodes = /*@__PURE__*/ S.Array(VersionFailureReasonCode);
 export interface ContactVersion {
   versionId?: number;
   created?: Date;
@@ -1414,12 +1327,8 @@ export const DescribeContactResponse = /*@__PURE__*/ S.suspend(() =>
     satelliteArn: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    prePassStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    postPassEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    prePassStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    postPassEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     groundStation: S.optional(S.String),
     contactStatus: S.optional(ContactStatus),
     errorMessage: S.optional(S.String),
@@ -1427,12 +1336,8 @@ export const DescribeContactResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagsMap),
     region: S.optional(S.String),
     dataflowList: S.optional(DataflowList),
-    visibilityStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    visibilityEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    visibilityStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    visibilityEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     trackingOverrides: S.optional(TrackingOverrides),
     ephemeris: S.optional(EphemerisResponseData),
     version: S.optional(ContactVersion),
@@ -1492,12 +1397,8 @@ export const DescribeContactVersionResponse = /*@__PURE__*/ S.suspend(() =>
     satelliteArn: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    prePassStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    postPassEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    prePassStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    postPassEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     groundStation: S.optional(S.String),
     contactStatus: S.optional(ContactStatus),
     errorMessage: S.optional(S.String),
@@ -1505,12 +1406,8 @@ export const DescribeContactVersionResponse = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagsMap),
     region: S.optional(S.String),
     dataflowList: S.optional(DataflowList),
-    visibilityStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    visibilityEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    visibilityStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    visibilityEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     trackingOverrides: S.optional(TrackingOverrides),
     ephemeris: S.optional(EphemerisResponseData),
     version: S.optional(ContactVersion),
@@ -1523,14 +1420,7 @@ export interface DescribeEphemerisRequest {
 }
 export const DescribeEphemerisRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ephemerisId: S.String.pipe(T.HttpLabel("ephemerisId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/ephemeris/{ephemerisId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/ephemeris/{ephemerisId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeEphemerisRequest",
@@ -1629,8 +1519,7 @@ export const EphemerisErrorReason = /*@__PURE__*/ S.suspend(() =>
   identifier: "EphemerisErrorReason",
 }) as any as S.Schema<EphemerisErrorReason>;
 export type EphemerisErrorReasonList = EphemerisErrorReason[];
-export const EphemerisErrorReasonList =
-  /*@__PURE__*/ S.Array(EphemerisErrorReason);
+export const EphemerisErrorReasonList = /*@__PURE__*/ S.Array(EphemerisErrorReason);
 export interface DescribeEphemerisResponse {
   ephemerisId?: string;
   satelliteId?: string;
@@ -1767,9 +1656,7 @@ export interface GetDataflowEndpointGroupRequest {
 }
 export const GetDataflowEndpointGroupRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    dataflowEndpointGroupId: S.String.pipe(
-      T.HttpLabel("dataflowEndpointGroupId"),
-    ),
+    dataflowEndpointGroupId: S.String.pipe(T.HttpLabel("dataflowEndpointGroupId")),
   }).pipe(
     T.all(
       T.Http({
@@ -1815,14 +1702,7 @@ export interface GetMinuteUsageRequest {
 }
 export const GetMinuteUsageRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ month: S.Number, year: S.Number }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/minute-usage" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/minute-usage" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMinuteUsageRequest",
@@ -1904,14 +1784,7 @@ export interface GetSatelliteRequest {
 }
 export const GetSatelliteRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ satelliteId: S.String.pipe(T.HttpLabel("satelliteId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/satellite/{satelliteId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/satellite/{satelliteId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetSatelliteRequest",
@@ -1919,10 +1792,7 @@ export const GetSatelliteRequest = /*@__PURE__*/ S.suspend(() =>
 export type NoradSatelliteID = number;
 export type GroundStationIdList = string[];
 export const GroundStationIdList = /*@__PURE__*/ S.Array(S.String);
-export type EphemerisSource =
-  | "CUSTOMER_PROVIDED"
-  | "SPACE_TRACK"
-  | (string & {});
+export type EphemerisSource = "CUSTOMER_PROVIDED" | "SPACE_TRACK" | (string & {});
 export const EphemerisSource = S.String;
 
 export interface EphemerisMetaData {
@@ -2021,16 +1891,7 @@ export const ListConfigsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/config" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/config" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConfigsRequest",
 }) as any as S.Schema<ListConfigsRequest>;
@@ -2073,9 +1934,7 @@ export const AzElEphemerisFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "AzElEphemerisFilter",
 }) as any as S.Schema<AzElEphemerisFilter>;
 export type EphemerisFilter = { azEl: AzElEphemerisFilter };
-export const EphemerisFilter = /*@__PURE__*/ S.Union([
-  S.Struct({ azEl: AzElEphemerisFilter }),
-]);
+export const EphemerisFilter = /*@__PURE__*/ S.Union([S.Struct({ azEl: AzElEphemerisFilter })]);
 export interface ListContactsRequest {
   maxResults?: number;
   nextToken?: string;
@@ -2098,16 +1957,7 @@ export const ListContactsRequest = /*@__PURE__*/ S.suspend(() =>
     satelliteArn: S.optional(S.String),
     missionProfileArn: S.optional(S.String),
     ephemeris: S.optional(EphemerisFilter),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/contacts" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/contacts" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListContactsRequest",
 }) as any as S.Schema<ListContactsRequest>;
@@ -2137,24 +1987,16 @@ export const ContactData = /*@__PURE__*/ S.suspend(() =>
     satelliteArn: S.optional(S.String),
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    prePassStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    postPassEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    prePassStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    postPassEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     groundStation: S.optional(S.String),
     contactStatus: S.optional(ContactStatus),
     errorMessage: S.optional(S.String),
     maximumElevation: S.optional(Elevation),
     region: S.optional(S.String),
     tags: S.optional(TagsMap),
-    visibilityStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    visibilityEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    visibilityStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    visibilityEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ephemeris: S.optional(EphemerisResponseData),
     version: S.optional(ContactVersion),
   }),
@@ -2219,14 +2061,7 @@ export const ListDataflowEndpointGroupsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/dataflowEndpointGroup" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/dataflowEndpointGroup" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDataflowEndpointGroupsRequest",
@@ -2244,9 +2079,7 @@ export const DataflowEndpointListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataflowEndpointListItem",
 }) as any as S.Schema<DataflowEndpointListItem>;
 export type DataflowEndpointGroupList = DataflowEndpointListItem[];
-export const DataflowEndpointGroupList = /*@__PURE__*/ S.Array(
-  DataflowEndpointListItem,
-);
+export const DataflowEndpointGroupList = /*@__PURE__*/ S.Array(DataflowEndpointListItem);
 export interface ListDataflowEndpointGroupsResponse {
   nextToken?: string;
   dataflowEndpointGroupList?: DataflowEndpointListItem[];
@@ -2279,16 +2112,7 @@ export const ListEphemeridesRequest = /*@__PURE__*/ S.suspend(() =>
     statusList: S.optional(EphemerisStatusList),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/ephemerides" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/ephemerides" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEphemeridesRequest",
 }) as any as S.Schema<ListEphemeridesRequest>;
@@ -2341,34 +2165,27 @@ export interface ListGroundStationReservationsRequest {
   maxResults?: number;
   nextToken?: string;
 }
-export const ListGroundStationReservationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      groundStationId: S.String.pipe(T.HttpLabel("groundStationId")),
-      startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-        T.HttpQuery("startTime"),
-      ),
-      endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(
-        T.HttpQuery("endTime"),
-      ),
-      reservationTypes: S.optional(ReservationTypeFilterList).pipe(
-        T.HttpQuery("reservationTypes"),
-      ),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/groundstation/{groundStationId}/reservation",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListGroundStationReservationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groundStationId: S.String.pipe(T.HttpLabel("groundStationId")),
+    startTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("startTime")),
+    endTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")).pipe(T.HttpQuery("endTime")),
+    reservationTypes: S.optional(ReservationTypeFilterList).pipe(T.HttpQuery("reservationTypes")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/groundstation/{groundStationId}/reservation",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListGroundStationReservationsRequest",
 }) as any as S.Schema<ListGroundStationReservationsRequest>;
@@ -2419,19 +2236,16 @@ export const GroundStationReservationListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroundStationReservationListItem",
 }) as any as S.Schema<GroundStationReservationListItem>;
 export type GroundStationReservationList = GroundStationReservationListItem[];
-export const GroundStationReservationList = /*@__PURE__*/ S.Array(
-  GroundStationReservationListItem,
-);
+export const GroundStationReservationList = /*@__PURE__*/ S.Array(GroundStationReservationListItem);
 export interface ListGroundStationReservationsResponse {
   reservationList: GroundStationReservationListItem[];
   nextToken?: string;
 }
-export const ListGroundStationReservationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      reservationList: GroundStationReservationList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListGroundStationReservationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    reservationList: GroundStationReservationList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListGroundStationReservationsResponse",
 }) as any as S.Schema<ListGroundStationReservationsResponse>;
@@ -2445,16 +2259,7 @@ export const ListGroundStationsRequest = /*@__PURE__*/ S.suspend(() =>
     satelliteId: S.optional(S.String).pipe(T.HttpQuery("satelliteId")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/groundstation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/groundstation" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGroundStationsRequest",
 }) as any as S.Schema<ListGroundStationsRequest>;
@@ -2494,16 +2299,7 @@ export const ListMissionProfilesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/missionprofile" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/missionprofile" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMissionProfilesRequest",
 }) as any as S.Schema<ListMissionProfilesRequest>;
@@ -2545,16 +2341,7 @@ export const ListSatellitesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/satellite" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/satellite" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSatellitesRequest",
 }) as any as S.Schema<ListSatellitesRequest>;
@@ -2596,14 +2383,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2680,16 +2460,7 @@ export const RegisterAgentRequest = /*@__PURE__*/ S.suspend(() =>
     discoveryData: DiscoveryData,
     agentDetails: AgentDetails,
     tags: S.optional(TagsMap),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/agent" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/agent" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterAgentRequest",
 }) as any as S.Schema<RegisterAgentRequest>;
@@ -2719,16 +2490,7 @@ export const ReserveContactRequest = /*@__PURE__*/ S.suspend(() =>
     groundStation: S.String,
     tags: S.optional(TagsMap),
     trackingOverrides: S.optional(TrackingOverrides),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/contact" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/contact" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ReserveContactRequest",
 }) as any as S.Schema<ReserveContactRequest>;
@@ -2741,22 +2503,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -2770,29 +2523,17 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type SignatureMap = { [key: string]: boolean | undefined };
-export const SignatureMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Boolean.pipe(S.optional),
-);
+export const SignatureMap = /*@__PURE__*/ S.Record(S.String, S.Boolean.pipe(S.optional));
 export interface AggregateStatus {
   status: AgentStatus;
   signatureMap?: { [key: string]: boolean | undefined };
@@ -2838,16 +2579,7 @@ export const UpdateAgentStatusRequest = /*@__PURE__*/ S.suspend(() =>
     taskId: S.String,
     aggregateStatus: AggregateStatus,
     componentStatuses: ComponentStatusList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/agent/{agentId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/agent/{agentId}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateAgentStatusRequest",
 }) as any as S.Schema<UpdateAgentStatusRequest>;
@@ -2935,14 +2667,7 @@ export const UpdateEphemerisRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     priority: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/ephemeris/{ephemerisId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/ephemeris/{ephemerisId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateEphemerisRequest",
@@ -3006,11 +2731,7 @@ export const cancelContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelContactRequest,
   output: ContactIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelContact",
@@ -3066,11 +2787,7 @@ export const createDataflowEndpointGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDataflowEndpointGroupRequest,
   output: DataflowEndpointGroupIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataflowEndpointGroup",
@@ -3124,11 +2841,7 @@ export const createEphemeris: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateEphemerisRequest,
   output: EphemerisIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEphemeris",
@@ -3152,11 +2865,7 @@ export const createMissionProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateMissionProfileRequest,
   output: MissionProfileIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMissionProfile",
@@ -3178,11 +2887,7 @@ export const deleteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteConfigRequest,
   output: ConfigIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfig",
@@ -3204,11 +2909,7 @@ export const deleteDataflowEndpointGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDataflowEndpointGroupRequest,
   output: DataflowEndpointGroupIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataflowEndpointGroup",
@@ -3258,11 +2959,7 @@ export const deleteMissionProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteMissionProfileRequest,
   output: MissionProfileIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMissionProfile",
@@ -3284,11 +2981,7 @@ export const describeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeContactRequest,
   output: DescribeContactResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContact",
@@ -3310,11 +3003,7 @@ export const describeContactVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeContactVersionRequest,
   output: DescribeContactVersionResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactVersion",
@@ -3336,11 +3025,7 @@ export const describeEphemeris: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeEphemerisRequest,
   output: DescribeEphemerisResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEphemeris",
@@ -3364,11 +3049,7 @@ export const getAgentConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAgentConfigurationRequest,
   output: GetAgentConfigurationResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentConfiguration",
@@ -3392,11 +3073,7 @@ export const getAgentTaskResponseUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAgentTaskResponseUrlRequest,
   output: GetAgentTaskResponseUrlResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentTaskResponseUrl",
@@ -3420,11 +3097,7 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
@@ -3446,11 +3119,7 @@ export const getDataflowEndpointGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDataflowEndpointGroupRequest,
   output: GetDataflowEndpointGroupResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataflowEndpointGroup",
@@ -3472,11 +3141,7 @@ export const getMinuteUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMinuteUsageRequest,
   output: GetMinuteUsageResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMinuteUsage",
@@ -3498,11 +3163,7 @@ export const getMissionProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetMissionProfileRequest,
   output: GetMissionProfileResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMissionProfile",
@@ -3524,20 +3185,13 @@ export const getSatellite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSatelliteRequest,
   output: GetSatelliteResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSatellite",
 }));
 
-export type ListAntennasError =
-  | DependencyException
-  | InvalidParameterException
-  | CommonErrors;
+export type ListAntennasError = DependencyException | InvalidParameterException | CommonErrors;
 /**
  * Returns a list of antennas at a specified ground station.
  */
@@ -3579,11 +3233,7 @@ export const listConfigs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConfigsRequest,
   output: ListConfigsResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigs",
@@ -3614,11 +3264,7 @@ export const listContacts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListContactsRequest,
   output: ListContactsResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContacts",
@@ -3647,11 +3293,7 @@ export const listContactVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListContactVersionsRequest,
   output: ListContactVersionsResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContactVersions",
@@ -3680,11 +3322,7 @@ export const listDataflowEndpointGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDataflowEndpointGroupsRequest,
   output: ListDataflowEndpointGroupsResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataflowEndpointGroups",
@@ -3713,11 +3351,7 @@ export const listEphemerides: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEphemeridesRequest,
   output: ListEphemeridesResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEphemerides",
@@ -3774,11 +3408,7 @@ export const listGroundStations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGroundStationsRequest,
   output: ListGroundStationsResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroundStations",
@@ -3807,11 +3437,7 @@ export const listMissionProfiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMissionProfilesRequest,
   output: ListMissionProfilesResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMissionProfiles",
@@ -3840,11 +3466,7 @@ export const listSatellites: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSatellitesRequest,
   output: ListSatellitesResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSatellites",
@@ -3872,11 +3494,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -3900,11 +3518,7 @@ export const registerAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RegisterAgentRequest,
   output: RegisterAgentResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAgent",
@@ -3954,11 +3568,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -3980,11 +3590,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -4008,11 +3614,7 @@ export const updateAgentStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateAgentStatusRequest,
   output: UpdateAgentStatusResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentStatus",
@@ -4036,11 +3638,7 @@ export const updateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateConfigRequest,
   output: ConfigIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfig",
@@ -4090,11 +3688,7 @@ export const updateEphemeris: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateEphemerisRequest,
   output: EphemerisIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEphemeris",
@@ -4118,11 +3712,7 @@ export const updateMissionProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateMissionProfileRequest,
   output: MissionProfileIdResponse,
-  errors: [
-    DependencyException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [DependencyException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMissionProfile",

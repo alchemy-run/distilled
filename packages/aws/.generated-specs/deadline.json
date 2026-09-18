@@ -455,10 +455,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:AssociatedMembershipLevel",
-          "deadline:MembershipLevel"
-        ],
+        "aws.iam#conditionKeys": ["deadline:AssociatedMembershipLevel", "deadline:MembershipLevel"],
         "aws.iam#iamAction": {
           "name": "AssociateMemberToFarm",
           "documentation": "Grants permission to associate a member to a farm",
@@ -569,10 +566,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:AssociatedMembershipLevel",
-          "deadline:MembershipLevel"
-        ],
+        "aws.iam#conditionKeys": ["deadline:AssociatedMembershipLevel", "deadline:MembershipLevel"],
         "aws.iam#iamAction": {
           "name": "AssociateMemberToFleet",
           "documentation": "Grants permission to associate a member to a fleet",
@@ -696,10 +690,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:AssociatedMembershipLevel",
-          "deadline:MembershipLevel"
-        ],
+        "aws.iam#conditionKeys": ["deadline:AssociatedMembershipLevel", "deadline:MembershipLevel"],
         "aws.iam#iamAction": {
           "name": "AssociateMemberToJob",
           "documentation": "Grants permission to associate a member to a job",
@@ -831,10 +822,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:AssociatedMembershipLevel",
-          "deadline:MembershipLevel"
-        ],
+        "aws.iam#conditionKeys": ["deadline:AssociatedMembershipLevel", "deadline:MembershipLevel"],
         "aws.iam#iamAction": {
           "name": "AssociateMemberToQueue",
           "documentation": "Grants permission to associate a member to a queue",
@@ -4610,10 +4598,7 @@
         "aws.api#arn": {
           "template": "farm/{farmId}/budget/{budgetId}"
         },
-        "aws.iam#conditionKeys": [
-          "deadline:FarmMembershipLevels",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["deadline:FarmMembershipLevels", "aws:ResourceTag/${TagKey}"],
         "aws.iam#disableConditionKeyInference": {},
         "aws.iam#iamResource": {
           "disableConditionKeyInheritance": true,
@@ -4990,10 +4975,7 @@
         "aws.iam#iamAction": {
           "name": "CopyJobTemplate",
           "documentation": "Grants permission to copy a job template to an Amazon S3 bucket",
-          "requiredActions": [
-            "identitystore:ListGroupMembershipsForMember",
-            "s3:PutObject"
-          ],
+          "requiredActions": ["identitystore:ListGroupMembershipsForMember", "s3:PutObject"],
           "resources": {
             "required": {
               "job": {}
@@ -6680,10 +6662,7 @@
         "aws.iam#iamAction": {
           "name": "CreateWorker",
           "documentation": "Grants permission to create a worker",
-          "requiredActions": [
-            "deadline:TagResource",
-            "deadline:ListTagsForResource"
-          ],
+          "requiredActions": ["deadline:TagResource", "deadline:ListTagsForResource"],
           "resources": {
             "required": {
               "worker": {}
@@ -8307,10 +8286,7 @@
         "aws.iam#iamAction": {
           "name": "DeleteLicenseEndpoint",
           "documentation": "Grants permission to delete a license endpoint",
-          "requiredActions": [
-            "ec2:DeleteVpcEndpoints",
-            "ec2:DescribeVpcEndpoints"
-          ]
+          "requiredActions": ["ec2:DeleteVpcEndpoints", "ec2:DescribeVpcEndpoints"]
         },
         "smithy.api#documentation": "<p>Deletes a license endpoint.</p>",
         "smithy.api#endpoint": {
@@ -10063,10 +10039,7 @@
         "aws.api#arn": {
           "template": "farm/{farmId}"
         },
-        "aws.iam#conditionKeys": [
-          "deadline:FarmMembershipLevels",
-          "aws:ResourceTag/${TagKey}"
-        ],
+        "aws.iam#conditionKeys": ["deadline:FarmMembershipLevels", "aws:ResourceTag/${TagKey}"],
         "aws.iam#disableConditionKeyInference": {},
         "aws.iam#iamResource": {
           "name": "farm",
@@ -16223,10 +16196,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:RequesterPrincipalId",
-          "deadline:PrincipalId"
-        ],
+        "aws.iam#conditionKeys": ["deadline:RequesterPrincipalId", "deadline:PrincipalId"],
         "aws.iam#iamAction": {
           "name": "ListFarms",
           "documentation": "Grants permission to list all farms",
@@ -16454,10 +16424,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:RequesterPrincipalId",
-          "deadline:PrincipalId"
-        ],
+        "aws.iam#conditionKeys": ["deadline:RequesterPrincipalId", "deadline:PrincipalId"],
         "aws.iam#iamAction": {
           "name": "ListFleets",
           "documentation": "Grants permission to list all fleets",
@@ -16839,10 +16806,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:RequesterPrincipalId",
-          "deadline:PrincipalId"
-        ],
+        "aws.iam#conditionKeys": ["deadline:RequesterPrincipalId", "deadline:PrincipalId"],
         "aws.iam#iamAction": {
           "name": "ListJobs",
           "documentation": "Grants permission to list all jobs in a queue",
@@ -17849,10 +17813,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "deadline:RequesterPrincipalId",
-          "deadline:PrincipalId"
-        ],
+        "aws.iam#conditionKeys": ["deadline:RequesterPrincipalId", "deadline:PrincipalId"],
         "aws.iam#iamAction": {
           "name": "ListQueues",
           "documentation": "Grants permission to list all queues on a farm",
@@ -25289,11 +25250,7 @@
         "aws.iam#iamAction": {
           "name": "UpdateMonitor",
           "documentation": "Grants permission to update a monitor",
-          "requiredActions": [
-            "sso:UpdateApplication",
-            "sso:PutApplicationGrant",
-            "iam:PassRole"
-          ]
+          "requiredActions": ["sso:UpdateApplication", "sso:PutApplicationGrant", "iam:PassRole"]
         },
         "smithy.api#documentation": "<p>Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call <code>UpdateMonitor</code>.</p>",
         "smithy.api#endpoint": {
@@ -25461,10 +25418,7 @@
         "aws.iam#iamAction": {
           "name": "UpdateQueue",
           "documentation": "Grants permission to update a queue",
-          "requiredActions": [
-            "identitystore:ListGroupMembershipsForMember",
-            "iam:PassRole"
-          ],
+          "requiredActions": ["identitystore:ListGroupMembershipsForMember", "iam:PassRole"],
           "resources": {
             "required": {
               "queue": {}

@@ -1,3 +1,4 @@
+import { mkdirSync, writeFileSync } from "node:fs";
 /**
  * The committed results artifact, `results/latest.json`.
  *
@@ -12,7 +13,6 @@
  * recorded (this file is public), cpu + os identify the box well enough.
  */
 import { cpus, platform, release, arch } from "node:os";
-import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import type { Result } from "./harness.ts";
 

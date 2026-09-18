@@ -116,24 +116,21 @@ export default Alchemy.Stack(
     //                             `Secrets Store Read` is not enough — with
     //                             Read alone the edge-preview call is
     //                             rejected and every CI deploy fails.
-    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken(
-      "state-store-token",
-      {
-        name: "distilled-stacks-ci",
-        accountId,
-        policies: [
-          {
-            effect: "allow",
-            permissionGroups: [
-              "Workers Scripts Write",
-              "Account Settings Write",
-              "Secrets Store Write",
-            ],
-            resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
-          },
-        ],
-      },
-    );
+    const stateToken = yield* Cloudflare.ApiToken.AccountApiToken("state-store-token", {
+      name: "distilled-stacks-ci",
+      accountId,
+      policies: [
+        {
+          effect: "allow",
+          permissionGroups: [
+            "Workers Scripts Write",
+            "Account Settings Write",
+            "Secrets Store Write",
+          ],
+          resources: { [`com.cloudflare.api.account.${accountId}`]: "*" },
+        },
+      ],
+    });
 
     // Deliberately NOT `CLOUDFLARE_API_TOKEN` / `CLOUDFLARE_ACCOUNT_ID`.
     // Those already exist on this repository as long-lived, broadly-scoped

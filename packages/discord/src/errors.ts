@@ -22,10 +22,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * Unknown Discord error — returned when a failed response's HTTP status has

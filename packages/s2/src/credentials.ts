@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * S2 (s2.dev) credentials — hand-written.
  *
@@ -21,7 +22,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 /** S2's account-level API root (the spec's top-level `servers` entry). */
 export const DEFAULT_ACCOUNT_BASE_URL = "https://a.s2.dev/v1";
@@ -43,10 +43,9 @@ export interface Config {
   readonly basinBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("S2Credentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "S2Credentials",
+) {}
 
 const envConfig = EffectConfig.all({
   // `S2_ACCESS_TOKEN` / `S2_BASIN` are what the official `s2` CLI reads.

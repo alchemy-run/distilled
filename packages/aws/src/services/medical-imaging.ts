@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Medical Imaging",
   serviceShapeName: "AHIGatewayService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://medical-imaging-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://medical-imaging.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -193,13 +183,11 @@ export const CopyImageSetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     sourceImageSetId: S.String.pipe(T.HttpLabel("sourceImageSetId")),
-    copyImageSetInformation: CopyImageSetInformation.pipe(
-      T.HttpPayload(),
-    ).annotate({ identifier: "CopyImageSetInformation" }),
+    copyImageSetInformation: CopyImageSetInformation.pipe(T.HttpPayload()).annotate({
+      identifier: "CopyImageSetInformation",
+    }),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    promoteToPrimary: S.optional(S.Boolean).pipe(
-      T.HttpQuery("promoteToPrimary"),
-    ),
+    promoteToPrimary: S.optional(S.Boolean).pipe(T.HttpQuery("promoteToPrimary")),
   }).pipe(
     T.all(
       T.Http({
@@ -301,16 +289,10 @@ export type ClientToken = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type KmsKeyArn = string;
 export type LambdaArn = string;
-export type LosslessStorageFormat =
-  | "HTJ2K"
-  | "JPEG_2000_LOSSLESS"
-  | (string & {});
+export type LosslessStorageFormat = "HTJ2K" | "JPEG_2000_LOSSLESS" | (string & {});
 export const LosslessStorageFormat = S.String;
 
 export interface CreateDatastoreRequest {
@@ -329,16 +311,7 @@ export const CreateDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
     kmsKeyArn: S.optional(S.String),
     lambdaAuthorizerArn: S.optional(S.String),
     losslessStorageFormat: S.optional(LosslessStorageFormat),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/datastore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/datastore" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDatastoreRequest",
 }) as any as S.Schema<CreateDatastoreRequest>;
@@ -431,14 +404,7 @@ export interface GetDatastoreRequest {
 }
 export const GetDatastoreRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ datastoreId: S.String.pipe(T.HttpLabel("datastoreId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/datastore/{datastoreId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDatastoreRequest",
@@ -503,12 +469,7 @@ export const GetDICOMImportJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetDICOMImportJobRequest",
 }) as any as S.Schema<GetDICOMImportJobRequest>;
 export type JobName = string;
-export type JobStatus =
-  | "SUBMITTED"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
+export type JobStatus = "SUBMITTED" | "IN_PROGRESS" | "COMPLETED" | "FAILED" | (string & {});
 export const JobStatus = S.String;
 
 export type RoleArn = string;
@@ -532,13 +493,12 @@ export const DicomMetadataMapping = /*@__PURE__*/ S.suspend(() =>
   identifier: "DicomMetadataMapping",
 }) as any as S.Schema<DicomMetadataMapping>;
 export type DicomMetadataMappings = DicomMetadataMapping[];
-export const DicomMetadataMappings =
-  /*@__PURE__*/ S.Array(DicomMetadataMapping);
+export const DicomMetadataMappings = /*@__PURE__*/ S.Array(DicomMetadataMapping);
 export interface DicomJsonMetadataImportConfiguration {
   dicomMetadataMappings: DicomMetadataMapping[];
 }
-export const DicomJsonMetadataImportConfiguration = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ dicomMetadataMappings: DicomMetadataMappings }),
+export const DicomJsonMetadataImportConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ dicomMetadataMappings: DicomMetadataMappings }),
 ).annotate({
   identifier: "DicomJsonMetadataImportConfiguration",
 }) as any as S.Schema<DicomJsonMetadataImportConfiguration>;
@@ -606,9 +566,9 @@ export const GetImageFrameRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     datastoreId: S.String.pipe(T.HttpLabel("datastoreId")),
     imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
-    imageFrameInformation: ImageFrameInformation.pipe(T.HttpPayload()).annotate(
-      { identifier: "ImageFrameInformation" },
-    ),
+    imageFrameInformation: ImageFrameInformation.pipe(T.HttpPayload()).annotate({
+      identifier: "ImageFrameInformation",
+    }),
   }).pipe(
     T.all(
       T.Http({
@@ -669,10 +629,7 @@ export interface Overrides {
 export const Overrides = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ forced: S.optional(S.Boolean) }),
 ).annotate({ identifier: "Overrides" }) as any as S.Schema<Overrides>;
-export type StorageTier =
-  | "FREQUENT_ACCESS"
-  | "ARCHIVE_INSTANT_ACCESS"
-  | (string & {});
+export type StorageTier = "FREQUENT_ACCESS" | "ARCHIVE_INSTANT_ACCESS" | (string & {});
 export const StorageTier = S.String;
 
 export interface GetImageSetResponse {
@@ -746,9 +703,7 @@ export const GetImageSetMetadataResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     imageSetMetadataBlob: T.StreamingOutput.pipe(T.HttpPayload()),
     contentType: S.optional(S.String).pipe(T.HttpHeader("Content-Type")),
-    contentEncoding: S.optional(S.String).pipe(
-      T.HttpHeader("Content-Encoding"),
-    ),
+    contentEncoding: S.optional(S.String).pipe(T.HttpHeader("Content-Encoding")),
   }),
 ).annotate({
   identifier: "GetImageSetMetadataResponse",
@@ -761,21 +716,10 @@ export interface ListDatastoresRequest {
 }
 export const ListDatastoresRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    datastoreStatus: S.optional(DatastoreStatus).pipe(
-      T.HttpQuery("datastoreStatus"),
-    ),
+    datastoreStatus: S.optional(DatastoreStatus).pipe(T.HttpQuery("datastoreStatus")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/datastore" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/datastore" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDatastoresRequest",
 }) as any as S.Schema<ListDatastoresRequest>;
@@ -866,9 +810,7 @@ export const DICOMImportJobSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DICOMImportJobSummary",
 }) as any as S.Schema<DICOMImportJobSummary>;
 export type DICOMImportJobSummaries = DICOMImportJobSummary[];
-export const DICOMImportJobSummaries = /*@__PURE__*/ S.Array(
-  DICOMImportJobSummary,
-);
+export const DICOMImportJobSummaries = /*@__PURE__*/ S.Array(DICOMImportJobSummary);
 export interface ListDICOMImportJobsResponse {
   jobSummaries: DICOMImportJobSummary[];
   nextToken?: string;
@@ -956,14 +898,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1105,9 +1040,7 @@ export const SearchByAttributeValue = /*@__PURE__*/ S.Union([
   S.Struct({ isPrimary: S.Boolean }),
 ]);
 export type SearchByAttributeValues = SearchByAttributeValue[];
-export const SearchByAttributeValues = /*@__PURE__*/ S.Array(
-  SearchByAttributeValue,
-);
+export const SearchByAttributeValues = /*@__PURE__*/ S.Array(SearchByAttributeValue);
 export type Operator = "EQUAL" | "BETWEEN" | (string & {});
 export const Operator = S.String;
 
@@ -1123,11 +1056,7 @@ export const SearchFilters = /*@__PURE__*/ S.Array(SearchFilter);
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export const SortOrder = S.String;
 
-export type SortField =
-  | "updatedAt"
-  | "createdAt"
-  | "DICOMStudyDateAndTime"
-  | (string & {});
+export type SortField = "updatedAt" | "createdAt" | "DICOMStudyDateAndTime" | (string & {});
 export const SortField = S.String;
 
 export interface Sort {
@@ -1246,9 +1175,7 @@ export const ImageSetsMetadataSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImageSetsMetadataSummary",
 }) as any as S.Schema<ImageSetsMetadataSummary>;
 export type ImageSetsMetadataSummaries = ImageSetsMetadataSummary[];
-export const ImageSetsMetadataSummaries = /*@__PURE__*/ S.Array(
-  ImageSetsMetadataSummary,
-);
+export const ImageSetsMetadataSummaries = /*@__PURE__*/ S.Array(ImageSetsMetadataSummary);
 export interface SearchImageSetsResponse {
   imageSetsMetadataSummaries: ImageSetsMetadataSummary[];
   sort?: Sort;
@@ -1325,22 +1252,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1354,22 +1272,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type DICOMAttribute = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -1404,9 +1313,7 @@ export const UpdateImageSetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     imageSetId: S.String.pipe(T.HttpLabel("imageSetId")),
     latestVersionId: S.String.pipe(T.HttpQuery("latestVersion")),
     force: S.optional(S.Boolean).pipe(T.HttpQuery("force")),
-    includeStudyImageSets: S.optional(S.Boolean).pipe(
-      T.HttpQuery("includeStudyImageSets"),
-    ),
+    includeStudyImageSets: S.optional(S.Boolean).pipe(T.HttpQuery("includeStudyImageSets")),
     updateImageSetMetadataUpdates: MetadataUpdates.pipe(T.HttpPayload()),
   }).pipe(
     T.all(

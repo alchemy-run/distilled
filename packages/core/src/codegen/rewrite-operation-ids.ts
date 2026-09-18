@@ -542,9 +542,7 @@ const pascalToken = (raw: string): string => {
 export const singularize = (raw: string): string => {
   const lower = raw.toLowerCase();
   const keepCase = (s: string): string =>
-    raw[0] === raw[0]?.toUpperCase()
-      ? s.charAt(0).toUpperCase() + s.slice(1)
-      : s;
+    raw[0] === raw[0]?.toUpperCase() ? s.charAt(0).toUpperCase() + s.slice(1) : s;
   const alias = TOKEN_ALIAS[lower];
   if (alias !== undefined) {
     return alias.endsWith("s") ? alias.slice(0, -1) : alias;
@@ -590,15 +588,11 @@ const splitIdent = (s: string): string[] => {
   return parts;
 };
 
-const isStrongVerb = (raw: string): boolean =>
-  STRONG_VERBS.has(raw.toLowerCase());
-const isTrailingVerb = (raw: string): boolean =>
-  TRAILING_VERBS.has(raw.toLowerCase());
-const isWeakLeadingVerb = (raw: string): boolean =>
-  WEAK_LEADING_VERBS.has(raw.toLowerCase());
+const isStrongVerb = (raw: string): boolean => STRONG_VERBS.has(raw.toLowerCase());
+const isTrailingVerb = (raw: string): boolean => TRAILING_VERBS.has(raw.toLowerCase());
+const isWeakLeadingVerb = (raw: string): boolean => WEAK_LEADING_VERBS.has(raw.toLowerCase());
 
-const alias = (raw: string): string =>
-  VERB_ALIAS[raw.toLowerCase()] ?? raw.toLowerCase();
+const alias = (raw: string): string => VERB_ALIAS[raw.toLowerCase()] ?? raw.toLowerCase();
 
 /** `version`-like tokens (`V1`, `v1beta1`, `V2`) are never nouns to singularise. */
 const isVersionToken = (raw: string): boolean => /^[vV]\d/.test(raw);
@@ -611,11 +605,7 @@ const MODIFIERS = new Set(["partial", "bulk", "batch", "all", "many"]);
  * is singularised, and only for non-list verbs (`getApp`, `listApps`,
  * `listMachineEvents`). Parent tokens keep their spelling.
  */
-const assemble = (
-  verb: string,
-  nouns: readonly string[],
-  tail: readonly string[] = [],
-): string => {
+const assemble = (verb: string, nouns: readonly string[], tail: readonly string[] = []): string => {
   // `App_Certificates_acme_create`: the qualifier trails the resource in
   // the id but reads better in front of it (`createAppAcmeCertificate`).
   let ordered = [...nouns];
@@ -673,13 +663,8 @@ export const toVerbNoun = (operationId: string): string => {
     if (verbSeg > 0) {
       const head = segments.slice(0, verbSeg).flatMap(splitIdent);
       const [verb, ...objectHere] = splitIdent(segments[verbSeg]!);
-      const object = [
-        ...objectHere,
-        ...segments.slice(verbSeg + 1).flatMap(splitIdent),
-      ];
-      const compound = object.some(
-        (t) => isStrongVerb(t) || /^(or|and)$/i.test(t),
-      );
+      const object = [...objectHere, ...segments.slice(verbSeg + 1).flatMap(splitIdent)];
+      const compound = object.some((t) => isStrongVerb(t) || /^(or|and)$/i.test(t));
       if (!compound) return assemble(alias(verb!), head, object);
     }
     return lowerFirst(trimmed);
@@ -700,8 +685,7 @@ export const toVerbNoun = (operationId: string): string => {
   // `IndexCreate`, `IndexDocument` all name the index entity.
   const strong = (raw: string) => !isIndexVerb(raw) && isStrongVerb(raw);
   const trailing = (raw: string) => !isIndexVerb(raw) && isTrailingVerb(raw);
-  const weakLeading = (raw: string) =>
-    !isIndexVerb(raw) && isWeakLeadingVerb(raw);
+  const weakLeading = (raw: string) => !isIndexVerb(raw) && isWeakLeadingVerb(raw);
 
   if (strong(first)) {
     return alias(first) + parts.slice(1).map(pascalToken).join("");
@@ -733,29 +717,15 @@ export const toVerbNoun = (operationId: string): string => {
   const nouns = parts.slice(0, -1);
   if (nouns.slice(1).some(strong)) return lowerFirst(trimmed);
   const modifier = nouns.at(-1);
-  if (
-    nouns.length > 1 &&
-    modifier !== undefined &&
-    MODIFIERS.has(modifier.toLowerCase())
-  ) {
+  if (nouns.length > 1 && modifier !== undefined && MODIFIERS.has(modifier.toLowerCase())) {
     return assemble(alias(last), nouns.slice(0, -1), [modifier]);
   }
   return assemble(alias(last), nouns);
 };
 
-const COMPANION_SUFFIXES = [
-  "Request",
-  "Response",
-  "Input",
-  "Output",
-  "Error",
-  "Result",
-] as const;
+const COMPANION_SUFFIXES = ["Request", "Response", "Input", "Output", "Error", "Result"] as const;
 
-const remapTargets = (
-  node: unknown,
-  mapping: ReadonlyMap<string, string>,
-): unknown => {
+const remapTargets = (node: unknown, mapping: ReadonlyMap<string, string>): unknown => {
   if (Array.isArray(node)) {
     return node.map((item) => remapTargets(item, mapping));
   }
@@ -778,8 +748,7 @@ const isNoiseSegment = (seg: string): boolean => {
   return NOISE_SEGMENTS.has(lower) || /^v\d+(\.\d+)*$/.test(lower);
 };
 
-const HTTP_METHOD_ID =
-  /^(get|post|put|patch|delete|head|options)(?=$|[-_./]|[A-Z0-9])/i;
+const HTTP_METHOD_ID = /^(get|post|put|patch|delete|head|options)(?=$|[-_./]|[A-Z0-9])/i;
 
 /**
  * Whether an OpenAPI `operationId` carries no information beyond the
@@ -832,22 +801,16 @@ export const isVerbatimRouteId = (
   // `ByAppIdPromote`: a whole parameter, then route literals.
   return byClauses.every((c) => {
     const lengths = [
-      ...params
-        .filter((p) => p.every((t, i) => t === c[i]))
-        .map((p) => p.length),
+      ...params.filter((p) => p.every((t, i) => t === c[i])).map((p) => p.length),
       ...(c[0] === "id" ? [1] : []),
     ];
-    return lengths.some(
-      (n) => n <= c.length && c.slice(n).every((t) => literal.has(t)),
-    );
+    return lengths.some((n) => n <= c.length && c.slice(n).every((t) => literal.has(t)));
   });
 };
 
 /** `activity/get-feeds` → `get-feeds`: a tag prefix is not part of the name. */
 const stripTag = (operationId: string): string =>
-  operationId.includes("/")
-    ? operationId.slice(operationId.lastIndexOf("/") + 1)
-    : operationId;
+  operationId.includes("/") ? operationId.slice(operationId.lastIndexOf("/") + 1) : operationId;
 
 export const isMechanicalOperationId = (
   operationId: string | undefined,
@@ -928,10 +891,7 @@ export interface PathNamingHints {
   readonly verbatim?: boolean;
 }
 
-export const pathToVerbNoun = (
-  ctx: OperationIdContext,
-  hints: PathNamingHints = {},
-): string => {
+export const pathToVerbNoun = (ctx: OperationIdContext, hints: PathNamingHints = {}): string => {
   const method = ctx.method.toLowerCase();
   const segments = ctx.path.split(/[?#]/)[0]!.split("/").filter(Boolean);
   const literal: string[] = [];
@@ -980,10 +940,7 @@ export const pathToVerbNoun = (
     const matchParam = (at: number): number => {
       let best = 0;
       for (const prm of params) {
-        if (
-          prm.length > best &&
-          prm.every((t, k) => raw[at + k]?.toLowerCase() === t)
-        ) {
+        if (prm.length > best && prm.every((t, k) => raw[at + k]?.toLowerCase() === t)) {
           best = prm.length;
         }
       }
@@ -1015,18 +972,14 @@ export const pathToVerbNoun = (
         // on `/custom-domains/{domain}`) it is the literal.
         n = matchParam(i);
         skip = n;
-        const echoes = raw
-          .slice(i, i + n)
-          .some((x) => literal.has(x.toLowerCase()));
+        const echoes = raw.slice(i, i + n).some((x) => literal.has(x.toLowerCase()));
         const prev = tokens.at(-1)?.toLowerCase();
         const prevIsResource =
           prev !== undefined &&
           raw
             .slice(i, i + n)
             .some(
-              (x) =>
-                singularize(prev) === singularize(x.toLowerCase()) ||
-                prev === x.toLowerCase(),
+              (x) => singularize(prev) === singularize(x.toLowerCase()) || prev === x.toLowerCase(),
             );
         if (echoes && !prevIsResource) n = 0;
       }
@@ -1079,15 +1032,9 @@ export const pathToVerbNoun = (
     const [verb, ...rest] = lastTokens;
     const parents = tokens.slice(0, -1);
     const nouns = parents.map((t, i) =>
-      i === parents.length - 1
-        ? t.map((x, j) => (j === t.length - 1 ? singularize(x) : x))
-        : t,
+      i === parents.length - 1 ? t.map((x, j) => (j === t.length - 1 ? singularize(x) : x)) : t,
     );
-    return (
-      alias(verb!) +
-      nouns.flat().map(pascalToken).join("") +
-      rest.map(pascalToken).join("")
-    );
+    return alias(verb!) + nouns.flat().map(pascalToken).join("") + rest.map(pascalToken).join("");
   }
 
   // GET is `list` only when the body is known to be a collection; an
@@ -1140,9 +1087,7 @@ export const verbNounSmithyModel = (model: {
   const collisions: string[] = [];
   const taken = new Set(Object.keys(shapes));
 
-  const ops = Object.entries(shapes).filter(
-    ([, def]) => def?.type === "operation",
-  );
+  const ops = Object.entries(shapes).filter(([, def]) => def?.type === "operation");
   const opLocals = new Set<string>();
   for (const [id] of ops) {
     const hash = id.indexOf("#");

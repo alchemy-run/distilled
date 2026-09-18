@@ -34,9 +34,7 @@ export type Headers = Record<string, string | undefined> | undefined;
  *
  * Returns `undefined` when the header is missing or unparseable.
  */
-export const parseRetryAfter = (
-  headers: Headers,
-): Duration.Duration | undefined => {
+export const parseRetryAfter = (headers: Headers): Duration.Duration | undefined => {
   const raw = headers?.["retry-after"];
   if (!raw) return undefined;
   const trimmed = raw.trim();
@@ -77,9 +75,7 @@ export const parseRetryAfter = (
  * `r` (remaining quota) is present and equals `0` — i.e., we're actually
  * rate-limited right now. Returns `undefined` otherwise.
  */
-export const parseRatelimit = (
-  headers: Headers,
-): Duration.Duration | undefined => {
+export const parseRatelimit = (headers: Headers): Duration.Duration | undefined => {
   const raw = headers?.["ratelimit"];
   if (!raw) return undefined;
 
@@ -108,9 +104,7 @@ export const parseRatelimit = (
  * Convenience: try `Retry-After` first, then `RateLimit`. Returns the first
  * successful parse, or `undefined` if neither header yields a usable value.
  */
-export const parseServerRetryHint = (
-  headers: Headers,
-): Duration.Duration | undefined =>
+export const parseServerRetryHint = (headers: Headers): Duration.Duration | undefined =>
   parseRetryAfter(headers) ?? parseRatelimit(headers);
 
 /**

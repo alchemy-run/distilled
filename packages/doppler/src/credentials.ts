@@ -1,3 +1,4 @@
+import { ConfigError } from "@distilled.cloud/core/errors";
 /**
  * Doppler credentials — hand-written.
  *
@@ -10,7 +11,6 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.doppler.com";
 
@@ -19,10 +19,9 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<
-  Credentials,
-  Effect.Effect<Config>
->()("DopplerCredentials") {}
+export class Credentials extends Context.Service<Credentials, Effect.Effect<Config>>()(
+  "DopplerCredentials",
+) {}
 
 /** Layer from a plain API token + optional base URL. */
 export const fromApiKey = (config: {
@@ -48,8 +47,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = Layer.succeed(
 
     if (!apiKey) {
       return yield* new ConfigError({
-        message:
-          "DOPPLER_TOKEN (or DOPPLER_API_KEY) environment variable is required",
+        message: "DOPPLER_TOKEN (or DOPPLER_API_KEY) environment variable is required",
       });
     }
 

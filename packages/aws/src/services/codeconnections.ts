@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeConnections",
   serviceShapeName: "CodeConnections_20231201",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codeconnections-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codeconnections.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://codeconnections.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://codeconnections.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -220,9 +210,7 @@ export const CreateConnectionInput = /*@__PURE__*/ S.suspend(() =>
     ConnectionName: S.String,
     Tags: S.optional(TagList),
     HostArn: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConnectionInput",
 }) as any as S.Schema<CreateConnectionInput>;
@@ -276,9 +264,7 @@ export const CreateHostInput = /*@__PURE__*/ S.suspend(() =>
     ProviderEndpoint: S.String,
     VpcConfiguration: S.optional(VpcConfiguration),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateHostInput",
 }) as any as S.Schema<CreateHostInput>;
@@ -308,9 +294,7 @@ export const CreateRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
     RepositoryName: S.String,
     EncryptionKeyArn: S.optional(S.String),
     Tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRepositoryLinkInput",
 }) as any as S.Schema<CreateRepositoryLinkInput>;
@@ -356,10 +340,7 @@ export const SyncConfigurationType = S.String;
 export type PublishDeploymentStatus = "ENABLED" | "DISABLED" | (string & {});
 export const PublishDeploymentStatus = S.String;
 
-export type TriggerResourceUpdateOn =
-  | "ANY_CHANGE"
-  | "FILE_CHANGE"
-  | (string & {});
+export type TriggerResourceUpdateOn = "ANY_CHANGE" | "FILE_CHANGE" | (string & {});
 export const TriggerResourceUpdateOn = S.String;
 
 export type PullRequestComment = "ENABLED" | "DISABLED" | (string & {});
@@ -387,9 +368,7 @@ export const CreateSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
     TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
     PullRequestComment: S.optional(PullRequestComment),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateSyncConfigurationInput",
 }) as any as S.Schema<CreateSyncConfigurationInput>;
@@ -444,9 +423,7 @@ export const DeleteConnectionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConnectionInput",
 }) as any as S.Schema<DeleteConnectionInput>;
 export interface DeleteConnectionOutput {}
-export const DeleteConnectionOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConnectionOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConnectionOutput",
 }) as any as S.Schema<DeleteConnectionOutput>;
 export interface DeleteHostInput {
@@ -460,9 +437,7 @@ export const DeleteHostInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteHostInput",
 }) as any as S.Schema<DeleteHostInput>;
 export interface DeleteHostOutput {}
-export const DeleteHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteHostOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteHostOutput",
 }) as any as S.Schema<DeleteHostOutput>;
 export interface DeleteRepositoryLinkInput {
@@ -476,9 +451,7 @@ export const DeleteRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRepositoryLinkInput",
 }) as any as S.Schema<DeleteRepositoryLinkInput>;
 export interface DeleteRepositoryLinkOutput {}
-export const DeleteRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRepositoryLinkOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRepositoryLinkOutput",
 }) as any as S.Schema<DeleteRepositoryLinkOutput>;
 export interface DeleteSyncConfigurationInput {
@@ -493,9 +466,7 @@ export const DeleteSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSyncConfigurationInput",
 }) as any as S.Schema<DeleteSyncConfigurationInput>;
 export interface DeleteSyncConfigurationOutput {}
-export const DeleteSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteSyncConfigurationOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteSyncConfigurationOutput",
 }) as any as S.Schema<DeleteSyncConfigurationOutput>;
 export interface GetConnectionInput {
@@ -509,11 +480,7 @@ export const GetConnectionInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetConnectionInput",
 }) as any as S.Schema<GetConnectionInput>;
 export type AccountId = string;
-export type ConnectionStatus =
-  | "PENDING"
-  | "AVAILABLE"
-  | "ERROR"
-  | (string & {});
+export type ConnectionStatus = "PENDING" | "AVAILABLE" | "ERROR" | (string & {});
 export const ConnectionStatus = S.String;
 
 export interface Connection {
@@ -595,9 +562,7 @@ export const GetRepositorySyncStatusInput = /*@__PURE__*/ S.suspend(() =>
     Branch: S.String,
     RepositoryLinkId: S.String,
     SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetRepositorySyncStatusInput",
 }) as any as S.Schema<GetRepositorySyncStatusInput>;
@@ -630,8 +595,7 @@ export const RepositorySyncEvent = /*@__PURE__*/ S.suspend(() =>
   identifier: "RepositorySyncEvent",
 }) as any as S.Schema<RepositorySyncEvent>;
 export type RepositorySyncEventList = RepositorySyncEvent[];
-export const RepositorySyncEventList =
-  /*@__PURE__*/ S.Array(RepositorySyncEvent);
+export const RepositorySyncEventList = /*@__PURE__*/ S.Array(RepositorySyncEvent);
 export interface RepositorySyncAttempt {
   StartedAt: Date;
   Status: RepositorySyncStatus;
@@ -858,9 +822,7 @@ export const ListConnectionsInput = /*@__PURE__*/ S.suspend(() =>
     HostArnFilter: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectionsInput",
 }) as any as S.Schema<ListConnectionsInput>;
@@ -886,9 +848,7 @@ export const ListHostsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListHostsInput" }) as any as S.Schema<ListHostsInput>;
 export type HostStatusMessage = string;
 export interface Host {
@@ -931,9 +891,7 @@ export const ListRepositoryLinksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRepositoryLinksInput",
 }) as any as S.Schema<ListRepositoryLinksInput>;
@@ -959,9 +917,7 @@ export const ListRepositorySyncDefinitionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     RepositoryLinkId: S.String,
     SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRepositorySyncDefinitionsInput",
 }) as any as S.Schema<ListRepositorySyncDefinitionsInput>;
@@ -983,9 +939,7 @@ export const RepositorySyncDefinition = /*@__PURE__*/ S.suspend(() =>
   identifier: "RepositorySyncDefinition",
 }) as any as S.Schema<RepositorySyncDefinition>;
 export type RepositorySyncDefinitionList = RepositorySyncDefinition[];
-export const RepositorySyncDefinitionList = /*@__PURE__*/ S.Array(
-  RepositorySyncDefinition,
-);
+export const RepositorySyncDefinitionList = /*@__PURE__*/ S.Array(RepositorySyncDefinition);
 export interface ListRepositorySyncDefinitionsOutput {
   RepositorySyncDefinitions: RepositorySyncDefinition[];
   NextToken?: string;
@@ -1010,9 +964,7 @@ export const ListSyncConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     RepositoryLinkId: S.String,
     SyncType: SyncConfigurationType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSyncConfigurationsInput",
 }) as any as S.Schema<ListSyncConfigurationsInput>;
@@ -1061,9 +1013,7 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -1080,9 +1030,7 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateHostInput {
@@ -1095,16 +1043,12 @@ export const UpdateHostInput = /*@__PURE__*/ S.suspend(() =>
     HostArn: S.String,
     ProviderEndpoint: S.optional(S.String),
     VpcConfiguration: S.optional(VpcConfiguration),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateHostInput",
 }) as any as S.Schema<UpdateHostInput>;
 export interface UpdateHostOutput {}
-export const UpdateHostOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateHostOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateHostOutput",
 }) as any as S.Schema<UpdateHostOutput>;
 export interface UpdateRepositoryLinkInput {
@@ -1117,9 +1061,7 @@ export const UpdateRepositoryLinkInput = /*@__PURE__*/ S.suspend(() =>
     ConnectionArn: S.optional(S.String),
     EncryptionKeyArn: S.optional(S.String),
     RepositoryLinkId: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateRepositoryLinkInput",
 }) as any as S.Schema<UpdateRepositoryLinkInput>;
@@ -1143,9 +1085,7 @@ export const UpdateSyncBlockerInput = /*@__PURE__*/ S.suspend(() =>
     SyncType: SyncConfigurationType,
     ResourceName: S.String,
     ResolvedReason: S.String,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSyncBlockerInput",
 }) as any as S.Schema<UpdateSyncBlockerInput>;
@@ -1185,9 +1125,7 @@ export const UpdateSyncConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     PublishDeploymentStatus: S.optional(PublishDeploymentStatus),
     TriggerResourceUpdateOn: S.optional(TriggerResourceUpdateOn),
     PullRequestComment: S.optional(PullRequestComment),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateSyncConfigurationInput",
 }) as any as S.Schema<UpdateSyncConfigurationInput>;
@@ -1218,11 +1156,7 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateConnectionInput,
   output: CreateConnectionOutput,
-  errors: [
-    LimitExceededException,
-    ResourceNotFoundException,
-    ResourceUnavailableException,
-  ],
+  errors: [LimitExceededException, ResourceNotFoundException, ResourceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
@@ -1452,10 +1386,7 @@ export const getConnection: API.OperationMethod<
   operationName: "GetConnection",
 }));
 
-export type GetHostError =
-  | ResourceNotFoundException
-  | ResourceUnavailableException
-  | CommonErrors;
+export type GetHostError = ResourceNotFoundException | ResourceUnavailableException | CommonErrors;
 /**
  * Returns the host ARN and details such as status, provider type, endpoint, and, if
  * applicable, the VPC configuration.
@@ -1799,10 +1730,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type TagResourceError =
-  | LimitExceededException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type TagResourceError = LimitExceededException | ResourceNotFoundException | CommonErrors;
 /**
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.

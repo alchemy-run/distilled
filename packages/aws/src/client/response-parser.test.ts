@@ -31,9 +31,7 @@ const internalKmsMessage = "Internal KMS service error. Try again.";
 describe("Lambda synthetic error parsing", () => {
   test("classifies the observed internal KMS response as retryable", async () => {
     const error = await Effect.runPromise(
-      parseCreateFunction(invalidParameterResponse(internalKmsMessage)).pipe(
-        Effect.flip,
-      ),
+      parseCreateFunction(invalidParameterResponse(internalKmsMessage)).pipe(Effect.flip),
     );
     expect(error).toBeInstanceOf(LambdaInternalKmsError);
     expect(error).toMatchObject({ message: internalKmsMessage });
@@ -42,9 +40,9 @@ describe("Lambda synthetic error parsing", () => {
 
   test("keeps other invalid parameters non-retryable", async () => {
     const error = await Effect.runPromise(
-      parseCreateFunction(
-        invalidParameterResponse("The provided execution role is invalid."),
-      ).pipe(Effect.flip),
+      parseCreateFunction(invalidParameterResponse("The provided execution role is invalid.")).pipe(
+        Effect.flip,
+      ),
     );
     expect(error).toBeInstanceOf(InvalidParameterValueException);
     expect(isTransientError(error)).toBe(false);
@@ -57,9 +55,7 @@ describe("Lambda synthetic error parsing", () => {
       errors: [InvalidParameterValueException],
     });
     const error = await Effect.runPromise(
-      parseUpdateFunctionCode(
-        invalidParameterResponse(internalKmsMessage),
-      ).pipe(Effect.flip),
+      parseUpdateFunctionCode(invalidParameterResponse(internalKmsMessage)).pipe(Effect.flip),
     );
     expect(error).toBeInstanceOf(InvalidParameterValueException);
     expect(isTransientError(error)).toBe(false);

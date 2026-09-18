@@ -15,11 +15,7 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  ResendProtocol,
-  type ResendOpError,
-  type ResendOpContext,
-} from "./protocol.ts";
+export { ResendProtocol, type ResendOpError, type ResendOpContext } from "./protocol.ts";
 export { paginateResend } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Services from "./services/index.ts";

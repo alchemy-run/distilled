@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
-import * as G from "./graphql.ts";
 import type { GraphQLField, GraphQLModel } from "./codegen/graphql-client.ts";
+import * as G from "./graphql.ts";
 
 export class ProjectNotFound extends Schema.TaggedError<ProjectNotFound>()(
   "ProjectNotFound",
@@ -84,11 +84,7 @@ export type FixtureSchema = {
       ping: G.Field<{}, "Boolean!">;
     };
     Mutation: {
-      editProject: G.Field<
-        { id: string; name: string },
-        "Project!",
-        "ProjectNotFound"
-      >;
+      editProject: G.Field<{ id: string; name: string }, "Project!", "ProjectNotFound">;
       deleteProject: G.Field<{ id: string }, "Boolean!", "ProjectNotFound">;
     };
     Project: {
@@ -195,14 +191,10 @@ export const fixtureModel: GraphQLModel = {
     Mutation: {
       kind: "OBJECT",
       fields: {
-        editProject: field(
-          "Project!",
-          { id: { type: "ID!" }, name: { type: "String!" } },
-          ["ProjectNotFound"],
-        ),
-        deleteProject: field("Boolean!", { id: { type: "ID!" } }, [
+        editProject: field("Project!", { id: { type: "ID!" }, name: { type: "String!" } }, [
           "ProjectNotFound",
         ]),
+        deleteProject: field("Boolean!", { id: { type: "ID!" } }, ["ProjectNotFound"]),
       },
     },
     Project: {
@@ -285,11 +277,7 @@ export const fixtureSDL = /* GraphQL */ `
     name: String!
     description: String
     parent: Project
-    services(
-      first: Int = 20
-      after: String
-      filter: ProjectFilter
-    ): ServiceConnection
+    services(first: Int = 20, after: String, filter: ProjectFilter): ServiceConnection
   }
 
   type Service implements Node {

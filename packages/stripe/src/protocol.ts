@@ -1,3 +1,27 @@
+import * as API from "@distilled.cloud/core/api";
+import {
+  ConfigError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  type DefaultErrors as CoreDefaultErrors,
+  BadRequest,
+  Conflict,
+  Forbidden,
+  Locked,
+  NotFound,
+  UnprocessableEntity,
+} from "@distilled.cloud/core/errors";
+import {
+  buildRequest,
+  getAnn,
+  getProps,
+  hasPropAnn,
+  mapKeys,
+  matchTypedError,
+  nameOf,
+} from "@distilled.cloud/core/protocol-http";
+import { unwrapRedactedDeep, wrapSensitive } from "@distilled.cloud/core/protocol-rest";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 /**
  * StripeProtocol — hand-written.
  *
@@ -35,38 +59,11 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
+import * as HttpBody from "effect/unstable/http/HttpBody";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import * as HttpBody from "effect/unstable/http/HttpBody";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as API from "@distilled.cloud/core/api";
-import {
-  buildRequest,
-  getAnn,
-  getProps,
-  hasPropAnn,
-  mapKeys,
-  matchTypedError,
-  nameOf,
-} from "@distilled.cloud/core/protocol-http";
-import {
-  unwrapRedactedDeep,
-  wrapSensitive,
-} from "@distilled.cloud/core/protocol-rest";
-import {
-  ConfigError,
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type DefaultErrors as CoreDefaultErrors,
-  BadRequest,
-  Conflict,
-  Forbidden,
-  Locked,
-  NotFound,
-  UnprocessableEntity,
-} from "@distilled.cloud/core/errors";
-import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   ApiError,
@@ -112,10 +109,9 @@ export type StripeRequestOptions = {
  * call argument; v1 operations take only their input, so options travel on
  * the calling fiber's context instead — see {@link withRequestOptions}.
  */
-export class RequestOptions extends Context.Service<
-  RequestOptions,
-  StripeRequestOptions
->()("StripeRequestOptions") {}
+export class RequestOptions extends Context.Service<RequestOptions, StripeRequestOptions>()(
+  "StripeRequestOptions",
+) {}
 
 /**
  * Provide {@link StripeRequestOptions} to every Stripe API call below it.
@@ -185,8 +181,7 @@ export type StripeOpContext = Credentials | HttpClient.HttpClient;
 // Stripe failures are real typed errors that an operation re-surfaces via its
 // `errors: [...]` list / StripeOpError annotation. Fail with the instance and
 // erase the error type here; the generated annotations reintroduce it.
-const fail = (e: unknown): Effect.Effect<never> =>
-  Effect.fail(e) as Effect.Effect<never>;
+const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
 // =============================================================================
 // Stripe query / form encoding (ported from distilled v0)
@@ -194,36 +189,23 @@ const fail = (e: unknown): Effect.Effect<never> =>
 
 const BODYLESS = new Set(["GET", "HEAD"]);
 
-const appendQueryValue = (
-  query: URLSearchParams,
-  key: string,
-  value: unknown,
-): void => {
+const appendQueryValue = (query: URLSearchParams, key: string, value: unknown): void => {
   if (value === undefined || value === null) return;
-  query.append(
-    key,
-    typeof value === "boolean" ? (value ? "true" : "false") : String(value),
-  );
+  query.append(key, typeof value === "boolean" ? (value ? "true" : "false") : String(value));
 };
 
 /**
  * Stripe GET-query bracket expansion (v0's `appendStripeQuery`): arrays as
  * repeated `key[]` entries, nested objects as `key[nested]`, recursively.
  */
-const appendStripeQuery = (
-  query: URLSearchParams,
-  key: string,
-  value: unknown,
-): void => {
+const appendStripeQuery = (query: URLSearchParams, key: string, value: unknown): void => {
   if (value === undefined || value === null) return;
   if (Array.isArray(value)) {
     for (const item of value) appendQueryValue(query, `${key}[]`, item);
     return;
   }
   if (typeof value === "object" && !(value instanceof Date)) {
-    for (const [nestedKey, nestedValue] of Object.entries(
-      value as Record<string, unknown>,
-    )) {
+    for (const [nestedKey, nestedValue] of Object.entries(value as Record<string, unknown>)) {
       appendStripeQuery(query, `${key}[${nestedKey}]`, nestedValue);
     }
     return;
@@ -261,20 +243,13 @@ const flattenToFormPairs = (
           typeof item === "object" &&
           !Array.isArray(item)
         ) {
-          pairs.push(
-            ...flattenToFormPairs(
-              item as Record<string, unknown>,
-              `${fullKey}[${i}]`,
-            ),
-          );
+          pairs.push(...flattenToFormPairs(item as Record<string, unknown>, `${fullKey}[${i}]`));
         } else if (item !== undefined && item !== null) {
           pairs.push([`${fullKey}[${i}]`, String(item)]);
         }
       }
     } else if (typeof value === "object") {
-      pairs.push(
-        ...flattenToFormPairs(value as Record<string, unknown>, fullKey),
-      );
+      pairs.push(...flattenToFormPairs(value as Record<string, unknown>, fullKey));
     } else if (typeof value === "boolean") {
       pairs.push([fullKey, value ? "true" : "false"]);
     } else {
@@ -303,19 +278,11 @@ const buildFormUrlEncoded = (body: Record<string, unknown>): string => {
 // per-call RequestOptions) from the calling fiber's context on every
 // request. The requirement is erased at this boundary and reintroduced for
 // callers by the generated `StripeOpContext` annotations.
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-}) =>
+const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.gen(function* () {
     const resolveCredentials = yield* Credentials;
     const creds = yield* resolveCredentials as Effect.Effect<Config>;
-    const options = Option.getOrUndefined(
-      yield* Effect.serviceOption(RequestOptions),
-    );
+    const options = Option.getOrUndefined(yield* Effect.serviceOption(RequestOptions));
 
     const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
     if (!http) {
@@ -340,10 +307,7 @@ const encode = ({
       });
     }
 
-    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<
-      string,
-      unknown
-    >;
+    const inputObj = (unwrapRedactedDeep(input) ?? {}) as Record<string, unknown>;
     const headers: Record<string, string> = { ...baseHeaders };
     const body: Record<string, unknown> = {};
     const query = new URLSearchParams();
@@ -404,10 +368,7 @@ const encode = ({
         http.contentType === "form-urlencoded"
           ? request.pipe(
               HttpClientRequest.setBody(
-                HttpBody.text(
-                  buildFormUrlEncoded(body),
-                  "application/x-www-form-urlencoded",
-                ),
+                HttpBody.text(buildFormUrlEncoded(body), "application/x-www-form-urlencoded"),
               ),
             )
           : // The /v2/* operations are plain JSON.
@@ -420,22 +381,17 @@ const encode = ({
 // Response decoding / error matching (ported from v0's matchError)
 // =============================================================================
 
-const str = (v: unknown): string | undefined =>
-  typeof v === "string" ? v : undefined;
+const str = (v: unknown): string | undefined => (typeof v === "string" ? v : undefined);
 
 // Structural views of the status maps for numeric lookup (the const objects'
 // per-status class types don't unify without widening the constructor).
-const stripeStatusMap: Readonly<
-  Record<number, (new (args: any) => unknown) | undefined>
-> = STRIPE_HTTP_STATUS_MAP;
-const coreStatusMap: Readonly<
-  Record<number, (new (args: any) => unknown) | undefined>
-> = HTTP_STATUS_MAP;
+const stripeStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
+  STRIPE_HTTP_STATUS_MAP;
+const coreStatusMap: Readonly<Record<number, (new (args: any) => unknown) | undefined>> =
+  HTTP_STATUS_MAP;
 
 /** Stripe's `{ error: { type, message, … } }` object, when present. */
-const stripeErrorEnvelope = (
-  errorBody: unknown,
-): Record<string, unknown> | undefined => {
+const stripeErrorEnvelope = (errorBody: unknown): Record<string, unknown> | undefined => {
   const envelope =
     errorBody !== null && typeof errorBody === "object"
       ? (errorBody as Record<string, unknown>).error
@@ -505,15 +461,11 @@ const matchStripeError = (
     return new StripeErrorClass({
       message: common.message,
       code: common.code,
-      ...(str(err.decline_code) !== undefined
-        ? { decline_code: str(err.decline_code) }
-        : {}),
+      ...(str(err.decline_code) !== undefined ? { decline_code: str(err.decline_code) } : {}),
       ...(str(err.charge) !== undefined ? { charge: str(err.charge) } : {}),
       ...(str(err.param) !== undefined ? { param: str(err.param) } : {}),
       ...(common.doc_url !== undefined ? { doc_url: common.doc_url } : {}),
-      ...(common.request_log_url !== undefined
-        ? { request_log_url: common.request_log_url }
-        : {}),
+      ...(common.request_log_url !== undefined ? { request_log_url: common.request_log_url } : {}),
     });
   }
 
@@ -574,8 +526,7 @@ const decode = ({
     if (status >= 400) {
       const errorBody: unknown = nonJson ? text : json;
       const message =
-        stripeErrorMessage(errorBody) ??
-        (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+        stripeErrorMessage(errorBody) ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
       const typed = matchTypedError(errorClasses, status, [{ message }]);
       if (typed !== undefined) return yield* fail(typed);
       return yield* fail(matchStripeError(status, errorBody, headers));
@@ -591,8 +542,7 @@ export const StripeProtocol: Layer.Layer<API.Protocol> = Layer.succeed(
   API.Protocol,
   API.Protocol.of({
     // Erase encode's Credentials requirement (see comment above).
-    encode: (args) =>
-      encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
+    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
     decode,
   }),
 );

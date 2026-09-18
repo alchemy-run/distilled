@@ -111,9 +111,7 @@ describe("SigV4.sign", () => {
     expect(url.searchParams.get("X-Amz-Credential")).toBe(
       "AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request",
     );
-    expect(url.searchParams.get("X-Amz-SignedHeaders")).toBe(
-      "content-type;host",
-    );
+    expect(url.searchParams.get("X-Amz-SignedHeaders")).toBe("content-type;host");
     expect(url.searchParams.get("X-Amz-Security-Token")).toBe("TOK");
     expect(url.searchParams.get("X-Amz-Expires")).toBe("900");
     expect(url.searchParams.get("X-Amz-Signature")).toBe(
@@ -180,15 +178,12 @@ describe("SigV4.sign", () => {
         (scope: SigV4.SigningKeyScope) =>
           Effect.suspend(() =>
             attempts++ === 0
-              ? Effect.fail(
-                  new SigV4.CryptoError({ operation: "hmac", cause: "boom" }),
-                )
+              ? Effect.fail(new SigV4.CryptoError({ operation: "hmac", cause: "boom" }))
               : Cache.get(defaultCache, scope),
           ),
         {
           capacity: 4,
-          timeToLive: (exit) =>
-            Exit.isSuccess(exit) ? Duration.infinity : Duration.zero,
+          timeToLive: (exit) => (Exit.isSuccess(exit) ? Duration.infinity : Duration.zero),
         },
       ),
     );
@@ -203,9 +198,7 @@ describe("SigV4.sign", () => {
     } as const;
     const withCache = Effect.provideService(SigV4.SigningKeyCache, flakyCache);
 
-    const first = await Effect.runPromise(
-      SigV4.sign(request).pipe(Effect.flip, withCache),
-    );
+    const first = await Effect.runPromise(SigV4.sign(request).pipe(Effect.flip, withCache));
     expect(first).toBeInstanceOf(SigV4.CryptoError);
 
     const second = await Effect.runPromise(SigV4.sign(request).pipe(withCache));
@@ -228,9 +221,7 @@ describe("SigV4.sign", () => {
       }),
     );
     const keys = [...new URL(signed.url).searchParams.keys()];
-    expect(keys.indexOf("X-Amz-Security-Token")).toBeGreaterThan(
-      keys.indexOf("X-Amz-Signature"),
-    );
+    expect(keys.indexOf("X-Amz-Security-Token")).toBeGreaterThan(keys.indexOf("X-Amz-Signature"));
   });
 });
 
@@ -245,10 +236,7 @@ describe("Presign", () => {
         region: "us-east-1" as Region.RegionName,
       }),
     ),
-    Layer.succeed(
-      Region.Region,
-      Effect.succeed("us-east-1" as Region.RegionName),
-    ),
+    Layer.succeed(Region.Region, Effect.succeed("us-east-1" as Region.RegionName)),
   );
 
   test("presignS3Url pins content-type into the signed headers", async () => {
@@ -265,12 +253,8 @@ describe("Presign", () => {
     const parsed = new URL(url);
     expect(parsed.host).toBe("examplebucket.s3.us-east-1.amazonaws.com");
     expect(parsed.pathname).toBe("/dir/a%20b.png");
-    expect(parsed.searchParams.get("X-Amz-SignedHeaders")).toBe(
-      "content-type;host",
-    );
+    expect(parsed.searchParams.get("X-Amz-SignedHeaders")).toBe("content-type;host");
     expect(parsed.searchParams.get("X-Amz-Expires")).toBe("60");
-    expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(
-      /^[0-9a-f]{64}$/,
-    );
+    expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(/^[0-9a-f]{64}$/);
   });
 });

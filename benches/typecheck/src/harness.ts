@@ -123,15 +123,12 @@ export const cleanOutputs = (target: Target): void => {
   }
 };
 
-export const measureOnce = async (
-  target: Target,
-  mode: Mode,
-  run: Run,
-): Promise<Measurement> => {
-  const proc = Bun.spawn(
-    [...TSC, ...tscArgs(target, mode), "--extendedDiagnostics"],
-    { cwd: REPO_ROOT, stdout: "pipe", stderr: "pipe" },
-  );
+export const measureOnce = async (target: Target, mode: Mode, run: Run): Promise<Measurement> => {
+  const proc = Bun.spawn([...TSC, ...tscArgs(target, mode), "--extendedDiagnostics"], {
+    cwd: REPO_ROOT,
+    stdout: "pipe",
+    stderr: "pipe",
+  });
   const started = performance.now();
   const [stdout, stderr, exitCode] = await Promise.all([
     new Response(proc.stdout).text(),
@@ -140,9 +137,7 @@ export const measureOnce = async (
   ]);
   const wallSec = (performance.now() - started) / 1000;
   const usage = proc.resourceUsage();
-  const firstError = (stdout + stderr)
-    .split("\n")
-    .find((l) => /error TS\d+/.test(l));
+  const firstError = (stdout + stderr).split("\n").find((l) => /error TS\d+/.test(l));
   return {
     target: target.name,
     mode,
@@ -156,9 +151,7 @@ export const measureOnce = async (
     exitCode,
     srcFiles: target.srcFiles,
     srcBytes: target.srcBytes,
-    ...(exitCode !== 0
-      ? { error: firstError?.trim() ?? `tsc exited ${exitCode}` }
-      : {}),
+    ...(exitCode !== 0 ? { error: firstError?.trim() ?? `tsc exited ${exitCode}` } : {}),
   };
 };
 
@@ -206,13 +199,10 @@ const fmtSec = (s: number): string =>
 const fmtMiB = (m: number): string =>
   m >= 1024 ? `${(m / 1024).toFixed(2)} GiB` : `${m.toFixed(0)} MiB`;
 const fmtBytes = (b: number): string =>
-  b >= 1 << 20
-    ? `${(b / (1 << 20)).toFixed(0)} MB`
-    : `${(b / 1024).toFixed(0)} KB`;
+  b >= 1 << 20 ? `${(b / (1 << 20)).toFixed(0)} MB` : `${(b / 1024).toFixed(0)} KB`;
 const opt = (n: number | undefined, f: (n: number) => string): string =>
   n === undefined ? "-" : f(n);
-const pad = (s: string, w: number, right = false): string =>
-  right ? s.padStart(w) : s.padEnd(w);
+const pad = (s: string, w: number, right = false): string => (right ? s.padStart(w) : s.padEnd(w));
 
 export const printTable = (results: ReadonlyArray<Measurement>): void => {
   const rows = results.map((r) => ({
@@ -241,10 +231,7 @@ export const printTable = (results: ReadonlyArray<Measurement>): void => {
   };
   const keys = Object.keys(header) as ReadonlyArray<keyof typeof header>;
   const w = Object.fromEntries(
-    keys.map((k) => [
-      k,
-      Math.max(header[k].length, ...rows.map((r) => r[k].length)),
-    ]),
+    keys.map((k) => [k, Math.max(header[k].length, ...rows.map((r) => r[k].length))]),
   ) as Record<keyof typeof header, number>;
   const rightAligned = new Set(["wall", "rss", "check", "emit", "built"]);
   const line = (r: typeof header) =>

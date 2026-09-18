@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://codedeploy.amazonaws.com/doc/2014-10-06/");
 const svc = T.AwsApiService({
   sdkId: "CodeDeploy",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,9 +57,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codedeploy-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -71,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codedeploy.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://codedeploy.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://codedeploy.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -110,10 +100,9 @@ export class ApplicationNameRequiredException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ArnNotSupportedException
-  extends /*@__PURE__*/ S.TaggedError<ArnNotSupportedException>()(
-    "ArnNotSupportedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ArnNotSupportedException>()("ArnNotSupportedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class BatchLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<BatchLimitExceededException>()(
     "BatchLimitExceededException",
@@ -235,10 +224,9 @@ export class GitHubAccountTokenNameRequiredException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class IamArnRequiredException
-  extends /*@__PURE__*/ S.TaggedError<IamArnRequiredException>()(
-    "IamArnRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<IamArnRequiredException>()("IamArnRequiredException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class IamSessionArnAlreadyRegisteredException
   extends /*@__PURE__*/ S.TaggedError<IamSessionArnAlreadyRegisteredException>()(
     "IamSessionArnAlreadyRegisteredException",
@@ -295,10 +283,9 @@ export class InvalidApplicationNameException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidArnException>()(
-    "InvalidArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidArnException>()("InvalidArnException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidAutoRollbackConfigException
   extends /*@__PURE__*/ S.TaggedError<InvalidAutoRollbackConfigException>()(
     "InvalidAutoRollbackConfigException",
@@ -375,20 +362,17 @@ export class InvalidEC2TagCombinationException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidEC2TagException
-  extends /*@__PURE__*/ S.TaggedError<InvalidEC2TagException>()(
-    "InvalidEC2TagException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidEC2TagException>()("InvalidEC2TagException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidECSServiceException
-  extends /*@__PURE__*/ S.TaggedError<InvalidECSServiceException>()(
-    "InvalidECSServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidECSServiceException>()("InvalidECSServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidExternalIdException
-  extends /*@__PURE__*/ S.TaggedError<InvalidExternalIdException>()(
-    "InvalidExternalIdException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidExternalIdException>()("InvalidExternalIdException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidFileExistsBehaviorException
   extends /*@__PURE__*/ S.TaggedError<InvalidFileExistsBehaviorException>()(
     "InvalidFileExistsBehaviorException",
@@ -410,20 +394,18 @@ export class InvalidIamSessionArnException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidIamUserArnException
-  extends /*@__PURE__*/ S.TaggedError<InvalidIamUserArnException>()(
-    "InvalidIamUserArnException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidIamUserArnException>()("InvalidIamUserArnException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidIgnoreApplicationStopFailuresValueException
   extends /*@__PURE__*/ S.TaggedError<InvalidIgnoreApplicationStopFailuresValueException>()(
     "InvalidIgnoreApplicationStopFailuresValueException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
-    "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()("InvalidInputException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidInstanceNameException
   extends /*@__PURE__*/ S.TaggedError<InvalidInstanceNameException>()(
     "InvalidInstanceNameException",
@@ -465,60 +447,51 @@ export class InvalidMinimumHealthyHostValueException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidNextTokenException
-  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()(
-    "InvalidNextTokenException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidNextTokenException>()("InvalidNextTokenException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidOnPremisesTagCombinationException
   extends /*@__PURE__*/ S.TaggedError<InvalidOnPremisesTagCombinationException>()(
     "InvalidOnPremisesTagCombinationException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidOperationException
-  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()(
-    "InvalidOperationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidOperationException>()("InvalidOperationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidRegistrationStatusException
   extends /*@__PURE__*/ S.TaggedError<InvalidRegistrationStatusException>()(
     "InvalidRegistrationStatusException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidRevisionException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRevisionException>()(
-    "InvalidRevisionException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRevisionException>()("InvalidRevisionException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidRoleException
-  extends /*@__PURE__*/ S.TaggedError<InvalidRoleException>()(
-    "InvalidRoleException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidRoleException>()("InvalidRoleException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidSortByException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSortByException>()(
-    "InvalidSortByException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidSortByException>()("InvalidSortByException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidSortOrderException
-  extends /*@__PURE__*/ S.TaggedError<InvalidSortOrderException>()(
-    "InvalidSortOrderException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidSortOrderException>()("InvalidSortOrderException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTagException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()(
-    "InvalidTagException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagException>()("InvalidTagException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTagFilterException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagFilterException>()(
-    "InvalidTagFilterException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagFilterException>()("InvalidTagFilterException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTagsToAddException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTagsToAddException>()(
-    "InvalidTagsToAddException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagsToAddException>()("InvalidTagsToAddException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTargetFilterNameException
   extends /*@__PURE__*/ S.TaggedError<InvalidTargetFilterNameException>()(
     "InvalidTargetFilterNameException",
@@ -535,10 +508,9 @@ export class InvalidTargetInstancesException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class InvalidTimeRangeException
-  extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()(
-    "InvalidTimeRangeException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidTimeRangeException>()("InvalidTimeRangeException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidTrafficRoutingConfigurationException
   extends /*@__PURE__*/ S.TaggedError<InvalidTrafficRoutingConfigurationException>()(
     "InvalidTrafficRoutingConfigurationException",
@@ -595,35 +567,30 @@ export class RevisionDoesNotExistException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class RevisionRequiredException
-  extends /*@__PURE__*/ S.TaggedError<RevisionRequiredException>()(
-    "RevisionRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<RevisionRequiredException>()("RevisionRequiredException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class RoleRequiredException
-  extends /*@__PURE__*/ S.TaggedError<RoleRequiredException>()(
-    "RoleRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<RoleRequiredException>()("RoleRequiredException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TagLimitExceededException
-  extends /*@__PURE__*/ S.TaggedError<TagLimitExceededException>()(
-    "TagLimitExceededException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TagLimitExceededException>()("TagLimitExceededException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TagRequiredException
-  extends /*@__PURE__*/ S.TaggedError<TagRequiredException>()(
-    "TagRequiredException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<TagRequiredException>()("TagRequiredException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TagSetListLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TagSetListLimitExceededException>()(
     "TagSetListLimitExceededException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class TriggerTargetsLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<TriggerTargetsLimitExceededException>()(
     "TriggerTargetsLimitExceededException",
@@ -654,43 +621,24 @@ export interface AddTagsToOnPremisesInstancesInput {
 }
 export const AddTagsToOnPremisesInstancesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tags: TagList, instanceNames: InstanceNameList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AddTagsToOnPremisesInstancesInput",
 }) as any as S.Schema<AddTagsToOnPremisesInstancesInput>;
 export interface AddTagsToOnPremisesInstancesResponse {}
-export const AddTagsToOnPremisesInstancesResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const AddTagsToOnPremisesInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "AddTagsToOnPremisesInstancesResponse",
 }) as any as S.Schema<AddTagsToOnPremisesInstancesResponse>;
 export type ApplicationName = string;
-export type RevisionLocationType =
-  | "S3"
-  | "GitHub"
-  | "String"
-  | "AppSpecContent"
-  | (string & {});
+export type RevisionLocationType = "S3" | "GitHub" | "String" | "AppSpecContent" | (string & {});
 export const RevisionLocationType = S.String;
 
 export type S3Bucket = string;
 export type S3Key = string;
-export type BundleType =
-  | "tar"
-  | "tgz"
-  | "zip"
-  | "YAML"
-  | "JSON"
-  | (string & {});
+export type BundleType = "tar" | "tgz" | "zip" | "YAML" | "JSON" | (string & {});
 export const BundleType = S.String;
 
 export type VersionId = string;
@@ -765,15 +713,7 @@ export interface BatchGetApplicationRevisionsInput {
 }
 export const BatchGetApplicationRevisionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, revisions: RevisionLocationList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetApplicationRevisionsInput",
@@ -834,15 +774,7 @@ export interface BatchGetApplicationsInput {
 }
 export const BatchGetApplicationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationNames: ApplicationsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetApplicationsInput",
@@ -890,27 +822,13 @@ export const BatchGetDeploymentGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationName: S.String,
     deploymentGroupNames: DeploymentGroupsList,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchGetDeploymentGroupsInput",
 }) as any as S.Schema<BatchGetDeploymentGroupsInput>;
 export type DeploymentGroupId = string;
 export type DeploymentConfigName = string;
-export type EC2TagFilterType =
-  | "KEY_ONLY"
-  | "VALUE_ONLY"
-  | "KEY_AND_VALUE"
-  | (string & {});
+export type EC2TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE" | (string & {});
 export const EC2TagFilterType = S.String;
 
 export interface EC2TagFilter {
@@ -927,11 +845,7 @@ export const EC2TagFilter = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "EC2TagFilter" }) as any as S.Schema<EC2TagFilter>;
 export type EC2TagFilterList = EC2TagFilter[];
 export const EC2TagFilterList = /*@__PURE__*/ S.Array(EC2TagFilter);
-export type TagFilterType =
-  | "KEY_ONLY"
-  | "VALUE_ONLY"
-  | "KEY_AND_VALUE"
-  | (string & {});
+export type TagFilterType = "KEY_ONLY" | "VALUE_ONLY" | "KEY_AND_VALUE" | (string & {});
 export const TagFilterType = S.String;
 
 export interface TagFilter {
@@ -1046,10 +960,7 @@ export const AutoRollbackConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type DeploymentType = "IN_PLACE" | "BLUE_GREEN" | (string & {});
 export const DeploymentType = S.String;
 
-export type DeploymentOption =
-  | "WITH_TRAFFIC_CONTROL"
-  | "WITHOUT_TRAFFIC_CONTROL"
-  | (string & {});
+export type DeploymentOption = "WITH_TRAFFIC_CONTROL" | "WITHOUT_TRAFFIC_CONTROL" | (string & {});
 export const DeploymentOption = S.String;
 
 export interface DeploymentStyle {
@@ -1083,10 +994,7 @@ export const BlueInstanceTerminationOption = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BlueInstanceTerminationOption",
 }) as any as S.Schema<BlueInstanceTerminationOption>;
-export type DeploymentReadyAction =
-  | "CONTINUE_DEPLOYMENT"
-  | "STOP_DEPLOYMENT"
-  | (string & {});
+export type DeploymentReadyAction = "CONTINUE_DEPLOYMENT" | "STOP_DEPLOYMENT" | (string & {});
 export const DeploymentReadyAction = S.String;
 
 export interface DeploymentReadyOption {
@@ -1122,9 +1030,7 @@ export interface BlueGreenDeploymentConfiguration {
 }
 export const BlueGreenDeploymentConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    terminateBlueInstancesOnDeploymentSuccess: S.optional(
-      BlueInstanceTerminationOption,
-    ),
+    terminateBlueInstancesOnDeploymentSuccess: S.optional(BlueInstanceTerminationOption),
     deploymentReadyOption: S.optional(DeploymentReadyOption),
     greenFleetProvisioningOption: S.optional(GreenFleetProvisioningOption),
   }),
@@ -1175,8 +1081,7 @@ export const TargetGroupPairInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "TargetGroupPairInfo",
 }) as any as S.Schema<TargetGroupPairInfo>;
 export type TargetGroupPairInfoList = TargetGroupPairInfo[];
-export const TargetGroupPairInfoList =
-  /*@__PURE__*/ S.Array(TargetGroupPairInfo);
+export const TargetGroupPairInfoList = /*@__PURE__*/ S.Array(TargetGroupPairInfo);
 export interface LoadBalancerInfo {
   elbInfoList?: ELBInfo[];
   targetGroupInfoList?: TargetGroupInfo[];
@@ -1293,9 +1198,7 @@ export const DeploymentGroupInfo = /*@__PURE__*/ S.suspend(() =>
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     deploymentStyle: S.optional(DeploymentStyle),
     outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
-    blueGreenDeploymentConfiguration: S.optional(
-      BlueGreenDeploymentConfiguration,
-    ),
+    blueGreenDeploymentConfiguration: S.optional(BlueGreenDeploymentConfiguration),
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     lastSuccessfulDeployment: S.optional(LastDeploymentInfo),
     lastAttemptedDeployment: S.optional(LastDeploymentInfo),
@@ -1309,8 +1212,7 @@ export const DeploymentGroupInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeploymentGroupInfo",
 }) as any as S.Schema<DeploymentGroupInfo>;
 export type DeploymentGroupInfoList = DeploymentGroupInfo[];
-export const DeploymentGroupInfoList =
-  /*@__PURE__*/ S.Array(DeploymentGroupInfo);
+export const DeploymentGroupInfoList = /*@__PURE__*/ S.Array(DeploymentGroupInfo);
 export interface BatchGetDeploymentGroupsOutput {
   deploymentGroupsInfo?: DeploymentGroupInfo[];
   errorMessage?: string;
@@ -1332,15 +1234,7 @@ export interface BatchGetDeploymentInstancesInput {
 }
 export const BatchGetDeploymentInstancesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String, instanceIds: InstancesList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetDeploymentInstancesInput",
@@ -1456,15 +1350,7 @@ export interface BatchGetDeploymentsInput {
 }
 export const BatchGetDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentIds: DeploymentsList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetDeploymentsInput",
@@ -1578,11 +1464,7 @@ export const TargetInstances = /*@__PURE__*/ S.suspend(() =>
   identifier: "TargetInstances",
 }) as any as S.Schema<TargetInstances>;
 export type AdditionalDeploymentStatusInfo = string;
-export type FileExistsBehavior =
-  | "DISALLOW"
-  | "OVERWRITE"
-  | "RETAIN"
-  | (string & {});
+export type FileExistsBehavior = "DISALLOW" | "OVERWRITE" | "RETAIN" | (string & {});
 export const FileExistsBehavior = S.String;
 
 export type DeploymentStatusMessageList = string[];
@@ -1655,9 +1537,7 @@ export const DeploymentInfo = /*@__PURE__*/ S.suspend(() =>
     deploymentStyle: S.optional(DeploymentStyle),
     targetInstances: S.optional(TargetInstances),
     instanceTerminationWaitTimeStarted: S.optional(S.Boolean),
-    blueGreenDeploymentConfiguration: S.optional(
-      BlueGreenDeploymentConfiguration,
-    ),
+    blueGreenDeploymentConfiguration: S.optional(BlueGreenDeploymentConfiguration),
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     additionalDeploymentStatusInfo: S.optional(S.String),
     fileExistsBehavior: S.optional(FileExistsBehavior),
@@ -1687,15 +1567,7 @@ export interface BatchGetDeploymentTargetsInput {
 }
 export const BatchGetDeploymentTargetsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String, targetIds: TargetIdList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetDeploymentTargetsInput",
@@ -1888,15 +1760,7 @@ export interface BatchGetOnPremisesInstancesInput {
 }
 export const BatchGetOnPremisesInstancesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceNames: InstanceNameList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetOnPremisesInstancesInput",
@@ -1934,10 +1798,7 @@ export const BatchGetOnPremisesInstancesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BatchGetOnPremisesInstancesOutput",
 }) as any as S.Schema<BatchGetOnPremisesInstancesOutput>;
-export type DeploymentWaitType =
-  | "READY_WAIT"
-  | "TERMINATION_WAIT"
-  | (string & {});
+export type DeploymentWaitType = "READY_WAIT" | "TERMINATION_WAIT" | (string & {});
 export const DeploymentWaitType = S.String;
 
 export interface ContinueDeploymentInput {
@@ -1948,17 +1809,7 @@ export const ContinueDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.optional(S.String),
     deploymentWaitType: S.optional(DeploymentWaitType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ContinueDeploymentInput",
 }) as any as S.Schema<ContinueDeploymentInput>;
@@ -1978,17 +1829,7 @@ export const CreateApplicationInput = /*@__PURE__*/ S.suspend(() =>
     applicationName: S.String,
     computePlatform: S.optional(ComputePlatform),
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationInput",
 }) as any as S.Schema<CreateApplicationInput>;
@@ -2031,17 +1872,7 @@ export const CreateDeploymentInput = /*@__PURE__*/ S.suspend(() =>
     fileExistsBehavior: S.optional(FileExistsBehavior),
     deploymentMode: S.optional(DeploymentMode),
     overrideAlarmConfiguration: S.optional(AlarmConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDeploymentInput",
 }) as any as S.Schema<CreateDeploymentInput>;
@@ -2053,10 +1884,7 @@ export const CreateDeploymentOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateDeploymentOutput",
 }) as any as S.Schema<CreateDeploymentOutput>;
-export type MinimumHealthyHostsType =
-  | "HOST_COUNT"
-  | "FLEET_PERCENT"
-  | (string & {});
+export type MinimumHealthyHostsType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export const MinimumHealthyHostsType = S.String;
 
 export type MinimumHealthyHostsValue = number;
@@ -2120,10 +1948,7 @@ export const TrafficRoutingConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "TrafficRoutingConfig",
 }) as any as S.Schema<TrafficRoutingConfig>;
 export type WaitTimeInSeconds = number;
-export type MinimumHealthyHostsPerZoneType =
-  | "HOST_COUNT"
-  | "FLEET_PERCENT"
-  | (string & {});
+export type MinimumHealthyHostsPerZoneType = "HOST_COUNT" | "FLEET_PERCENT" | (string & {});
 export const MinimumHealthyHostsPerZoneType = S.String;
 
 export type MinimumHealthyHostsPerZoneValue = number;
@@ -2165,17 +1990,7 @@ export const CreateDeploymentConfigInput = /*@__PURE__*/ S.suspend(() =>
     trafficRoutingConfig: S.optional(TrafficRoutingConfig),
     computePlatform: S.optional(ComputePlatform),
     zonalConfig: S.optional(ZonalConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDeploymentConfigInput",
 }) as any as S.Schema<CreateDeploymentConfigInput>;
@@ -2223,26 +2038,14 @@ export const CreateDeploymentGroupInput = /*@__PURE__*/ S.suspend(() =>
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
     deploymentStyle: S.optional(DeploymentStyle),
-    blueGreenDeploymentConfiguration: S.optional(
-      BlueGreenDeploymentConfiguration,
-    ),
+    blueGreenDeploymentConfiguration: S.optional(BlueGreenDeploymentConfiguration),
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     ec2TagSet: S.optional(EC2TagSet),
     ecsServices: S.optional(ECSServiceList),
     onPremisesTagSet: S.optional(OnPremisesTagSet),
     tags: S.optional(TagList),
     terminationHookEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateDeploymentGroupInput",
 }) as any as S.Schema<CreateDeploymentGroupInput>;
@@ -2259,15 +2062,7 @@ export interface DeleteApplicationInput {
 }
 export const DeleteApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteApplicationInput",
@@ -2283,15 +2078,7 @@ export interface DeleteDeploymentConfigInput {
 }
 export const DeleteDeploymentConfigInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentConfigName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDeploymentConfigInput",
@@ -2308,15 +2095,7 @@ export interface DeleteDeploymentGroupInput {
 }
 export const DeleteDeploymentGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, deploymentGroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDeploymentGroupInput",
@@ -2334,15 +2113,7 @@ export interface DeleteGitHubAccountTokenInput {
 }
 export const DeleteGitHubAccountTokenInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ tokenName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteGitHubAccountTokenInput",
@@ -2360,15 +2131,7 @@ export interface DeleteResourcesByExternalIdInput {
 }
 export const DeleteResourcesByExternalIdInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ externalId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteResourcesByExternalIdInput",
@@ -2384,22 +2147,14 @@ export interface DeregisterOnPremisesInstanceInput {
 }
 export const DeregisterOnPremisesInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeregisterOnPremisesInstanceInput",
 }) as any as S.Schema<DeregisterOnPremisesInstanceInput>;
 export interface DeregisterOnPremisesInstanceResponse {}
-export const DeregisterOnPremisesInstanceResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}).pipe(ns),
+export const DeregisterOnPremisesInstanceResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
 ).annotate({
   identifier: "DeregisterOnPremisesInstanceResponse",
 }) as any as S.Schema<DeregisterOnPremisesInstanceResponse>;
@@ -2408,15 +2163,7 @@ export interface GetApplicationInput {
 }
 export const GetApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetApplicationInput",
@@ -2435,15 +2182,7 @@ export interface GetApplicationRevisionInput {
 }
 export const GetApplicationRevisionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, revision: RevisionLocation }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetApplicationRevisionInput",
@@ -2467,15 +2206,7 @@ export interface GetDeploymentInput {
 }
 export const GetDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeploymentInput",
@@ -2493,15 +2224,7 @@ export interface GetDeploymentConfigInput {
 }
 export const GetDeploymentConfigInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentConfigName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeploymentConfigInput",
@@ -2542,15 +2265,7 @@ export interface GetDeploymentGroupInput {
 }
 export const GetDeploymentGroupInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, deploymentGroupName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeploymentGroupInput",
@@ -2569,15 +2284,7 @@ export interface GetDeploymentInstanceInput {
 }
 export const GetDeploymentInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String, instanceId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeploymentInstanceInput",
@@ -2596,15 +2303,7 @@ export interface GetDeploymentTargetInput {
 }
 export const GetDeploymentTargetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ deploymentId: S.String, targetId: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeploymentTargetInput",
@@ -2622,15 +2321,7 @@ export interface GetOnPremisesInstanceInput {
 }
 export const GetOnPremisesInstanceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ instanceName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetOnPremisesInstanceInput",
@@ -2653,11 +2344,7 @@ export const ApplicationRevisionSortBy = S.String;
 export type SortOrder = "ascending" | "descending" | (string & {});
 export const SortOrder = S.String;
 
-export type ListStateFilterAction =
-  | "include"
-  | "exclude"
-  | "ignore"
-  | (string & {});
+export type ListStateFilterAction = "include" | "exclude" | "ignore" | (string & {});
 export const ListStateFilterAction = S.String;
 
 export type NextToken = string;
@@ -2679,17 +2366,7 @@ export const ListApplicationRevisionsInput = /*@__PURE__*/ S.suspend(() =>
     s3KeyPrefix: S.optional(S.String),
     deployed: S.optional(ListStateFilterAction),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationRevisionsInput",
 }) as any as S.Schema<ListApplicationRevisionsInput>;
@@ -2710,15 +2387,7 @@ export interface ListApplicationsInput {
 }
 export const ListApplicationsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListApplicationsInput",
@@ -2740,15 +2409,7 @@ export interface ListDeploymentConfigsInput {
 }
 export const ListDeploymentConfigsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDeploymentConfigsInput",
@@ -2773,15 +2434,7 @@ export interface ListDeploymentGroupsInput {
 }
 export const ListDeploymentGroupsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ applicationName: S.String, nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDeploymentGroupsInput",
@@ -2816,17 +2469,7 @@ export const ListDeploymentInstancesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     instanceStatusFilter: S.optional(InstanceStatusList),
     instanceTypeFilter: S.optional(InstanceTypeList),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDeploymentInstancesInput",
 }) as any as S.Schema<ListDeploymentInstancesInput>;
@@ -2870,17 +2513,7 @@ export const ListDeploymentsInput = /*@__PURE__*/ S.suspend(() =>
     includeOnlyStatuses: S.optional(DeploymentStatusList),
     createTimeRange: S.optional(TimeRange),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDeploymentsInput",
 }) as any as S.Schema<ListDeploymentsInput>;
@@ -2896,10 +2529,7 @@ export const ListDeploymentsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListDeploymentsOutput",
 }) as any as S.Schema<ListDeploymentsOutput>;
-export type TargetFilterName =
-  | "TargetStatus"
-  | "ServerInstanceLabel"
-  | (string & {});
+export type TargetFilterName = "TargetStatus" | "ServerInstanceLabel" | (string & {});
 export const TargetFilterName = S.String;
 
 export type FilterValue = string;
@@ -2920,17 +2550,7 @@ export const ListDeploymentTargetsInput = /*@__PURE__*/ S.suspend(() =>
     deploymentId: S.String,
     nextToken: S.optional(S.String),
     targetFilters: S.optional(TargetFilters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDeploymentTargetsInput",
 }) as any as S.Schema<ListDeploymentTargetsInput>;
@@ -2951,15 +2571,7 @@ export interface ListGitHubAccountTokenNamesInput {
 }
 export const ListGitHubAccountTokenNamesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ nextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListGitHubAccountTokenNamesInput",
@@ -2991,17 +2603,7 @@ export const ListOnPremisesInstancesInput = /*@__PURE__*/ S.suspend(() =>
     registrationStatus: S.optional(RegistrationStatus),
     tagFilters: S.optional(TagFilterList),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListOnPremisesInstancesInput",
 }) as any as S.Schema<ListOnPremisesInstancesInput>;
@@ -3024,15 +2626,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -3042,9 +2636,7 @@ export interface ListTagsForResourceOutput {
   NextToken?: string;
 }
 export const ListTagsForResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ Tags: S.optional(TagList), NextToken: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
@@ -3054,35 +2646,23 @@ export interface PutLifecycleEventHookExecutionStatusInput {
   lifecycleEventHookExecutionId?: string;
   status?: LifecycleEventStatus;
 }
-export const PutLifecycleEventHookExecutionStatusInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      deploymentId: S.optional(S.String),
-      lifecycleEventHookExecutionId: S.optional(S.String),
-      status: S.optional(LifecycleEventStatus),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "PutLifecycleEventHookExecutionStatusInput",
-  }) as any as S.Schema<PutLifecycleEventHookExecutionStatusInput>;
+export const PutLifecycleEventHookExecutionStatusInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    deploymentId: S.optional(S.String),
+    lifecycleEventHookExecutionId: S.optional(S.String),
+    status: S.optional(LifecycleEventStatus),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+).annotate({
+  identifier: "PutLifecycleEventHookExecutionStatusInput",
+}) as any as S.Schema<PutLifecycleEventHookExecutionStatusInput>;
 export interface PutLifecycleEventHookExecutionStatusOutput {
   lifecycleEventHookExecutionId?: string;
 }
-export const PutLifecycleEventHookExecutionStatusOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ lifecycleEventHookExecutionId: S.optional(S.String) }).pipe(ns),
-  ).annotate({
-    identifier: "PutLifecycleEventHookExecutionStatusOutput",
-  }) as any as S.Schema<PutLifecycleEventHookExecutionStatusOutput>;
+export const PutLifecycleEventHookExecutionStatusOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ lifecycleEventHookExecutionId: S.optional(S.String) }).pipe(ns),
+).annotate({
+  identifier: "PutLifecycleEventHookExecutionStatusOutput",
+}) as any as S.Schema<PutLifecycleEventHookExecutionStatusOutput>;
 export interface RegisterApplicationRevisionInput {
   applicationName: string;
   description?: string;
@@ -3093,17 +2673,7 @@ export const RegisterApplicationRevisionInput = /*@__PURE__*/ S.suspend(() =>
     applicationName: S.String,
     description: S.optional(S.String),
     revision: RevisionLocation,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterApplicationRevisionInput",
 }) as any as S.Schema<RegisterApplicationRevisionInput>;
@@ -3123,17 +2693,7 @@ export const RegisterOnPremisesInstanceInput = /*@__PURE__*/ S.suspend(() =>
     instanceName: S.String,
     iamSessionArn: S.optional(S.String),
     iamUserArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterOnPremisesInstanceInput",
 }) as any as S.Schema<RegisterOnPremisesInstanceInput>;
@@ -3147,51 +2707,35 @@ export interface RemoveTagsFromOnPremisesInstancesInput {
   tags: Tag[];
   instanceNames: string[];
 }
-export const RemoveTagsFromOnPremisesInstancesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ tags: TagList, instanceNames: InstanceNameList }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const RemoveTagsFromOnPremisesInstancesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ tags: TagList, instanceNames: InstanceNameList }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "RemoveTagsFromOnPremisesInstancesInput",
 }) as any as S.Schema<RemoveTagsFromOnPremisesInstancesInput>;
 export interface RemoveTagsFromOnPremisesInstancesResponse {}
-export const RemoveTagsFromOnPremisesInstancesResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "RemoveTagsFromOnPremisesInstancesResponse",
-  }) as any as S.Schema<RemoveTagsFromOnPremisesInstancesResponse>;
+export const RemoveTagsFromOnPremisesInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "RemoveTagsFromOnPremisesInstancesResponse",
+}) as any as S.Schema<RemoveTagsFromOnPremisesInstancesResponse>;
 export interface SkipWaitTimeForInstanceTerminationInput {
   deploymentId?: string;
 }
-export const SkipWaitTimeForInstanceTerminationInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ deploymentId: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const SkipWaitTimeForInstanceTerminationInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ deploymentId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "SkipWaitTimeForInstanceTerminationInput",
 }) as any as S.Schema<SkipWaitTimeForInstanceTerminationInput>;
 export interface SkipWaitTimeForInstanceTerminationResponse {}
-export const SkipWaitTimeForInstanceTerminationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
-    identifier: "SkipWaitTimeForInstanceTerminationResponse",
-  }) as any as S.Schema<SkipWaitTimeForInstanceTerminationResponse>;
+export const SkipWaitTimeForInstanceTerminationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "SkipWaitTimeForInstanceTerminationResponse",
+}) as any as S.Schema<SkipWaitTimeForInstanceTerminationResponse>;
 export interface StopDeploymentInput {
   deploymentId: string;
   autoRollbackEnabled?: boolean;
@@ -3200,17 +2744,7 @@ export const StopDeploymentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     deploymentId: S.String,
     autoRollbackEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StopDeploymentInput",
 }) as any as S.Schema<StopDeploymentInput>;
@@ -3236,23 +2770,13 @@ export interface TagResourceInput {
 }
 export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Tags: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export type TagKeyList = string[];
@@ -3263,23 +2787,13 @@ export interface UntagResourceInput {
 }
 export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, TagKeys: TagKeyList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateApplicationInput {
@@ -3290,17 +2804,7 @@ export const UpdateApplicationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     applicationName: S.optional(S.String),
     newApplicationName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateApplicationInput",
 }) as any as S.Schema<UpdateApplicationInput>;
@@ -3346,25 +2850,13 @@ export const UpdateDeploymentGroupInput = /*@__PURE__*/ S.suspend(() =>
     autoRollbackConfiguration: S.optional(AutoRollbackConfiguration),
     outdatedInstancesStrategy: S.optional(OutdatedInstancesStrategy),
     deploymentStyle: S.optional(DeploymentStyle),
-    blueGreenDeploymentConfiguration: S.optional(
-      BlueGreenDeploymentConfiguration,
-    ),
+    blueGreenDeploymentConfiguration: S.optional(BlueGreenDeploymentConfiguration),
     loadBalancerInfo: S.optional(LoadBalancerInfo),
     ec2TagSet: S.optional(EC2TagSet),
     ecsServices: S.optional(ECSServiceList),
     onPremisesTagSet: S.optional(OnPremisesTagSet),
     terminationHookEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDeploymentGroupInput",
 }) as any as S.Schema<UpdateDeploymentGroupInput>;
@@ -3945,11 +3437,7 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteApplicationInput,
   output: DeleteApplicationResponse,
-  errors: [
-    ApplicationNameRequiredException,
-    InvalidApplicationNameException,
-    InvalidRoleException,
-  ],
+  errors: [ApplicationNameRequiredException, InvalidApplicationNameException, InvalidRoleException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -4408,9 +3896,7 @@ export const listApplications: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDeploymentConfigsError =
-  | InvalidNextTokenException
-  | CommonErrors;
+export type ListDeploymentConfigsError = InvalidNextTokenException | CommonErrors;
 /**
  * Lists the deployment configurations with the user or Amazon Web Services account.
  */
@@ -4631,11 +4117,7 @@ export const listGitHubAccountTokenNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListGitHubAccountTokenNamesInput,
   output: ListGitHubAccountTokenNamesOutput,
-  errors: [
-    InvalidNextTokenException,
-    OperationNotSupportedException,
-    ResourceValidationException,
-  ],
+  errors: [InvalidNextTokenException, OperationNotSupportedException, ResourceValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGitHubAccountTokenNames",
@@ -4688,11 +4170,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceInput,
   output: ListTagsForResourceOutput,
-  errors: [
-    ArnNotSupportedException,
-    InvalidArnException,
-    ResourceArnRequiredException,
-  ],
+  errors: [ArnNotSupportedException, InvalidArnException, ResourceArnRequiredException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",

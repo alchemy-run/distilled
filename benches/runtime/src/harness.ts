@@ -15,10 +15,10 @@
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Schema from "effect/Schema";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as Schema from "effect/Schema";
 import { measure, type stats as MitataStats } from "mitata";
 
 //#region Options
@@ -89,38 +89,23 @@ export interface CannedResponse {
  * The transport does no I/O: it constructs a fresh web `Response` per call
  * (a real client would too) and hands it to Effect's response wrapper.
  */
-export const mockHttpClient = (
-  canned: CannedResponse,
-): HttpClient.HttpClient => {
+export const mockHttpClient = (canned: CannedResponse): HttpClient.HttpClient => {
   const status = canned.status ?? 200;
   const headers = canned.headers ?? {};
   const body = canned.body ?? "";
   return HttpClient.make((request: HttpClientRequest.HttpClientRequest) =>
-    Effect.succeed(
-      HttpClientResponse.fromWeb(
-        request,
-        new Response(body, { status, headers }),
-      ),
-    ),
+    Effect.succeed(HttpClientResponse.fromWeb(request, new Response(body, { status, headers }))),
   );
 };
 
-export const mockHttpLayer = (
-  canned: CannedResponse,
-): Layer.Layer<HttpClient.HttpClient> =>
+export const mockHttpLayer = (canned: CannedResponse): Layer.Layer<HttpClient.HttpClient> =>
   Layer.succeed(HttpClient.HttpClient, mockHttpClient(canned));
 
 //#endregion
 
 //#region Cases
 
-export type Stage =
-  | "encode"
-  | "decode"
-  | "wire-decode"
-  | "build"
-  | "call"
-  | "call-error";
+export type Stage = "encode" | "decode" | "wire-decode" | "build" | "call" | "call-error";
 
 export interface Case {
   readonly provider: "aws" | "cloudflare" | "baseline";
@@ -135,8 +120,7 @@ export interface Case {
   readonly fn: () => unknown;
 }
 
-export const caseName = (c: Case) =>
-  `${c.provider}/${c.service}/${c.op}/${c.stage}`;
+export const caseName = (c: Case) => `${c.provider}/${c.service}/${c.op}/${c.stage}`;
 
 export interface Result {
   readonly name: string;
@@ -222,8 +206,7 @@ export const runCases = async (
  * signing is the one exception and is awaited via runPromise), so the sync
  * runner keeps event-loop scheduling out of the measurement.
  */
-export const runSync = <A, E>(effect: Effect.Effect<A, E>): A =>
-  Effect.runSync(effect);
+export const runSync = <A, E>(effect: Effect.Effect<A, E>): A => Effect.runSync(effect);
 
 export const runPromise = <A, E>(effect: Effect.Effect<A, E>): Promise<A> =>
   Effect.runPromise(effect);
@@ -235,9 +218,7 @@ export const withContext =
     Effect.provideContext(effect, ctx);
 
 /** Build a layer once (eagerly, outside the timed region). */
-export const buildLayer = <R, E>(
-  layer: Layer.Layer<R, E, never>,
-): Promise<Context.Context<R>> =>
+export const buildLayer = <R, E>(layer: Layer.Layer<R, E, never>): Promise<Context.Context<R>> =>
   Effect.runPromise(Effect.scoped(Layer.build(layer)));
 
 /** Sync schema codecs, curried once per schema (mirrors what the protocols do). */
@@ -265,8 +246,7 @@ const fmtOps = (ops: number): string => {
   return ops.toFixed(0);
 };
 
-const pad = (s: string, n: number, right = false) =>
-  right ? s.padStart(n) : s.padEnd(n);
+const pad = (s: string, n: number, right = false) => (right ? s.padStart(n) : s.padEnd(n));
 
 export const printTable = (results: ReadonlyArray<Result>): void => {
   const rows = results.map((r) => ({
@@ -308,14 +288,11 @@ export const printTable = (results: ReadonlyArray<Result>): void => {
       n: "n",
     }),
   );
-  console.log(
-    "-".repeat(w.case + w.note + w.ops + w.p50 + w.p99 + w.avg + w.n + 12),
-  );
+  console.log("-".repeat(w.case + w.note + w.ops + w.p50 + w.p99 + w.avg + w.n + 12));
   let lastProvider: string | undefined;
   for (let i = 0; i < rows.length; i++) {
     const r = results[i]!;
-    if (lastProvider !== undefined && r.provider !== lastProvider)
-      console.log("");
+    if (lastProvider !== undefined && r.provider !== lastProvider) console.log("");
     lastProvider = r.provider;
     console.log(line(rows[i]!));
   }

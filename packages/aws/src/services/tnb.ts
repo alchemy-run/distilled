@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "tnb", serviceShapeName: "TNB" });
 const auth = T.AwsAuthSigv4({ name: "tnb" });
 const ver = T.ServiceVersion("2008-10-21");
@@ -23,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -53,27 +49,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://tnb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://tnb-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://tnb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://tnb.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://tnb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://tnb.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -146,10 +132,7 @@ export const CancelSolNetworkOperationResponse = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateSolFunctionPackageInput {
   tags?: { [key: string]: string | undefined };
 }
@@ -262,11 +245,7 @@ export const CreateSolNetworkPackageInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateSolNetworkPackageInput",
 }) as any as S.Schema<CreateSolNetworkPackageInput>;
 export type NsdInfoArn = string;
-export type NsdOnboardingState =
-  | "CREATED"
-  | "ONBOARDED"
-  | "ERROR"
-  | (string & {});
+export type NsdOnboardingState = "CREATED" | "ONBOARDED" | "ERROR" | (string & {});
 export const NsdOnboardingState = S.String;
 
 export type NsdOperationalState = "ENABLED" | "DISABLED" | (string & {});
@@ -368,11 +347,11 @@ export const DeleteSolNetworkPackageInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteSolNetworkPackageInput",
 }) as any as S.Schema<DeleteSolNetworkPackageInput>;
 export interface DeleteSolNetworkPackageResponse {}
-export const DeleteSolNetworkPackageResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
-  identifier: "DeleteSolNetworkPackageResponse",
-}) as any as S.Schema<DeleteSolNetworkPackageResponse>;
+export const DeleteSolNetworkPackageResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate(
+  {
+    identifier: "DeleteSolNetworkPackageResponse",
+  },
+) as any as S.Schema<DeleteSolNetworkPackageResponse>;
 export type VnfInstanceId = string;
 export interface GetSolFunctionInstanceInput {
   vnfInstanceId: string;
@@ -396,10 +375,7 @@ export const GetSolFunctionInstanceInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetSolFunctionInstanceInput>;
 export type VnfInstanceArn = string;
 export type VnfdId = string;
-export type VnfInstantiationState =
-  | "INSTANTIATED"
-  | "NOT_INSTANTIATED"
-  | (string & {});
+export type VnfInstantiationState = "INSTANTIATED" | "NOT_INSTANTIATED" | (string & {});
 export const VnfInstantiationState = S.String;
 
 export type VnfOperationalState = "STARTED" | "STOPPED" | (string & {});
@@ -428,9 +404,7 @@ export const GetSolVnfcResourceInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSolVnfcResourceInfo",
 }) as any as S.Schema<GetSolVnfcResourceInfo>;
 export type GetSolVnfcResourceInfoList = GetSolVnfcResourceInfo[];
-export const GetSolVnfcResourceInfoList = /*@__PURE__*/ S.Array(
-  GetSolVnfcResourceInfo,
-);
+export const GetSolVnfcResourceInfoList = /*@__PURE__*/ S.Array(GetSolVnfcResourceInfo);
 export interface GetSolVnfInfo {
   vnfState?: VnfOperationalState;
   vnfcResourceInfo?: GetSolVnfcResourceInfo[];
@@ -596,9 +570,7 @@ export interface GetSolFunctionPackageContentOutput {
 }
 export const GetSolFunctionPackageContentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentType: S.optional(PackageContentType).pipe(
-      T.HttpHeader("Content-Type"),
-    ),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
     packageContent: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotate({
@@ -611,24 +583,23 @@ export interface GetSolFunctionPackageDescriptorInput {
   vnfPkgId: string;
   accept: DescriptorContentType;
 }
-export const GetSolFunctionPackageDescriptorInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-      accept: DescriptorContentType.pipe(T.HttpHeader("Accept")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetSolFunctionPackageDescriptorInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
+    accept: DescriptorContentType.pipe(T.HttpHeader("Accept")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetSolFunctionPackageDescriptorInput",
 }) as any as S.Schema<GetSolFunctionPackageDescriptorInput>;
@@ -636,14 +607,11 @@ export interface GetSolFunctionPackageDescriptorOutput {
   contentType?: DescriptorContentType;
   vnfd?: Uint8Array;
 }
-export const GetSolFunctionPackageDescriptorOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      contentType: S.optional(DescriptorContentType).pipe(
-        T.HttpHeader("Content-Type"),
-      ),
-      vnfd: S.optional(T.Blob).pipe(T.HttpPayload()),
-    }),
+export const GetSolFunctionPackageDescriptorOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(DescriptorContentType).pipe(T.HttpHeader("Content-Type")),
+    vnfd: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
 ).annotate({
   identifier: "GetSolFunctionPackageDescriptorOutput",
 }) as any as S.Schema<GetSolFunctionPackageDescriptorOutput>;
@@ -761,17 +729,10 @@ export type NsLcmOperationState =
   | (string & {});
 export const NsLcmOperationState = S.String;
 
-export type LcmOperationType =
-  | "INSTANTIATE"
-  | "UPDATE"
-  | "TERMINATE"
-  | (string & {});
+export type LcmOperationType = "INSTANTIATE" | "UPDATE" | "TERMINATE" | (string & {});
 export const LcmOperationType = S.String;
 
-export type UpdateSolNetworkType =
-  | "MODIFY_VNF_INFORMATION"
-  | "UPDATE_NS"
-  | (string & {});
+export type UpdateSolNetworkType = "MODIFY_VNF_INFORMATION" | "UPDATE_NS" | (string & {});
 export const UpdateSolNetworkType = S.String;
 
 export interface ProblemDetails {
@@ -827,10 +788,7 @@ export const GetSolNetworkOperationMetadata = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSolNetworkOperationMetadata",
 }) as any as S.Schema<GetSolNetworkOperationMetadata>;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ErrorCause = string;
 export type ErrorDetails = string;
 export interface ErrorInfo {
@@ -865,18 +823,13 @@ export const GetSolNetworkOperationTaskDetails = /*@__PURE__*/ S.suspend(() =>
     taskContext: S.optional(StringMap),
     taskErrorDetails: S.optional(ErrorInfo),
     taskStatus: S.optional(TaskStatus),
-    taskStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    taskEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    taskStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    taskEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "GetSolNetworkOperationTaskDetails",
 }) as any as S.Schema<GetSolNetworkOperationTaskDetails>;
-export type GetSolNetworkOperationTasksList =
-  GetSolNetworkOperationTaskDetails[];
+export type GetSolNetworkOperationTasksList = GetSolNetworkOperationTaskDetails[];
 export const GetSolNetworkOperationTasksList = /*@__PURE__*/ S.Array(
   GetSolNetworkOperationTaskDetails,
 );
@@ -1009,9 +962,7 @@ export interface GetSolNetworkPackageContentOutput {
 }
 export const GetSolNetworkPackageContentOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    contentType: S.optional(PackageContentType).pipe(
-      T.HttpHeader("Content-Type"),
-    ),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
     nsdContent: S.optional(T.Blob).pipe(T.HttpPayload()),
   }),
 ).annotate({
@@ -1041,14 +992,11 @@ export interface GetSolNetworkPackageDescriptorOutput {
   contentType?: DescriptorContentType;
   nsd?: Uint8Array;
 }
-export const GetSolNetworkPackageDescriptorOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      contentType: S.optional(DescriptorContentType).pipe(
-        T.HttpHeader("Content-Type"),
-      ),
-      nsd: S.optional(T.Blob).pipe(T.HttpPayload()),
-    }),
+export const GetSolNetworkPackageDescriptorOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    contentType: S.optional(DescriptorContentType).pipe(T.HttpHeader("Content-Type")),
+    nsd: S.optional(T.Blob).pipe(T.HttpPayload()),
+  }),
 ).annotate({
   identifier: "GetSolNetworkPackageDescriptorOutput",
 }) as any as S.Schema<GetSolNetworkPackageDescriptorOutput>;
@@ -1156,9 +1104,7 @@ export const ListSolFunctionInstanceInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSolFunctionInstanceInfo",
 }) as any as S.Schema<ListSolFunctionInstanceInfo>;
 export type ListSolFunctionInstanceResources = ListSolFunctionInstanceInfo[];
-export const ListSolFunctionInstanceResources = /*@__PURE__*/ S.Array(
-  ListSolFunctionInstanceInfo,
-);
+export const ListSolFunctionInstanceResources = /*@__PURE__*/ S.Array(ListSolFunctionInstanceInfo);
 export interface ListSolFunctionInstancesOutput {
   nextToken?: string;
   functionInstances?: ListSolFunctionInstanceInfo[];
@@ -1233,9 +1179,7 @@ export const ListSolFunctionPackageInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSolFunctionPackageInfo",
 }) as any as S.Schema<ListSolFunctionPackageInfo>;
 export type ListSolFunctionPackageResources = ListSolFunctionPackageInfo[];
-export const ListSolFunctionPackageResources = /*@__PURE__*/ S.Array(
-  ListSolFunctionPackageInfo,
-);
+export const ListSolFunctionPackageResources = /*@__PURE__*/ S.Array(ListSolFunctionPackageInfo);
 export interface ListSolFunctionPackagesOutput {
   nextToken?: string;
   functionPackages: ListSolFunctionPackageInfo[];
@@ -1306,9 +1250,7 @@ export const ListSolNetworkInstanceInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSolNetworkInstanceInfo",
 }) as any as S.Schema<ListSolNetworkInstanceInfo>;
 export type ListSolNetworkInstanceResources = ListSolNetworkInstanceInfo[];
-export const ListSolNetworkInstanceResources = /*@__PURE__*/ S.Array(
-  ListSolNetworkInstanceInfo,
-);
+export const ListSolNetworkInstanceResources = /*@__PURE__*/ S.Array(ListSolNetworkInstanceInfo);
 export interface ListSolNetworkInstancesOutput {
   nextToken?: string;
   networkInstances?: ListSolNetworkInstanceInfo[];
@@ -1466,9 +1408,7 @@ export const ListSolNetworkPackageInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListSolNetworkPackageInfo",
 }) as any as S.Schema<ListSolNetworkPackageInfo>;
 export type ListSolNetworkPackageResources = ListSolNetworkPackageInfo[];
-export const ListSolNetworkPackageResources = /*@__PURE__*/ S.Array(
-  ListSolNetworkPackageInfo,
-);
+export const ListSolNetworkPackageResources = /*@__PURE__*/ S.Array(ListSolNetworkPackageInfo);
 export interface ListSolNetworkPackagesOutput {
   nextToken?: string;
   networkPackages: ListSolNetworkPackageInfo[];
@@ -1487,14 +1427,7 @@ export interface ListTagsForResourceInput {
 }
 export const ListTagsForResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceInput",
@@ -1515,9 +1448,7 @@ export interface PutSolFunctionPackageContentInput {
 export const PutSolFunctionPackageContentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-    contentType: S.optional(PackageContentType).pipe(
-      T.HttpHeader("Content-Type"),
-    ),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -1538,8 +1469,8 @@ export const PutSolFunctionPackageContentInput = /*@__PURE__*/ S.suspend(() =>
 export interface PutSolFunctionPackageContentMetadata {
   vnfd?: FunctionArtifactMeta;
 }
-export const PutSolFunctionPackageContentMetadata = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
+export const PutSolFunctionPackageContentMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
 ).annotate({
   identifier: "PutSolFunctionPackageContentMetadata",
 }) as any as S.Schema<PutSolFunctionPackageContentMetadata>;
@@ -1571,9 +1502,7 @@ export interface PutSolNetworkPackageContentInput {
 export const PutSolNetworkPackageContentInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-    contentType: S.optional(PackageContentType).pipe(
-      T.HttpHeader("Content-Type"),
-    ),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
     file: T.StreamingInput.pipe(T.HttpPayload()),
   }).pipe(
     T.all(
@@ -1630,22 +1559,13 @@ export const TagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceInput",
 }) as any as S.Schema<TagResourceInput>;
 export interface TagResourceOutput {}
-export const TagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceOutput",
 }) as any as S.Schema<TagResourceOutput>;
 export interface TerminateSolNetworkInstanceInput {
@@ -1692,22 +1612,13 @@ export const UntagResourceInput = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceInput",
 }) as any as S.Schema<UntagResourceInput>;
 export interface UntagResourceOutput {}
-export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceOutput",
 }) as any as S.Schema<UntagResourceOutput>;
 export interface UpdateSolFunctionPackageInput {
@@ -1836,39 +1747,35 @@ export interface ValidateSolFunctionPackageContentInput {
   contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
-export const ValidateSolFunctionPackageContentInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
-      contentType: S.optional(PackageContentType).pipe(
-        T.HttpHeader("Content-Type"),
-      ),
-      file: T.StreamingInput.pipe(T.HttpPayload()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/validate",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ValidateSolFunctionPackageContentInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    vnfPkgId: S.String.pipe(T.HttpLabel("vnfPkgId")),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
+    file: T.StreamingInput.pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/validate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ValidateSolFunctionPackageContentInput",
 }) as any as S.Schema<ValidateSolFunctionPackageContentInput>;
 export interface ValidateSolFunctionPackageContentMetadata {
   vnfd?: FunctionArtifactMeta;
 }
-export const ValidateSolFunctionPackageContentMetadata =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
-  ).annotate({
-    identifier: "ValidateSolFunctionPackageContentMetadata",
-  }) as any as S.Schema<ValidateSolFunctionPackageContentMetadata>;
+export const ValidateSolFunctionPackageContentMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ vnfd: S.optional(FunctionArtifactMeta) }),
+).annotate({
+  identifier: "ValidateSolFunctionPackageContentMetadata",
+}) as any as S.Schema<ValidateSolFunctionPackageContentMetadata>;
 export interface ValidateSolFunctionPackageContentOutput {
   id: string;
   vnfdId: string;
@@ -1877,16 +1784,15 @@ export interface ValidateSolFunctionPackageContentOutput {
   vnfdVersion: string;
   metadata: ValidateSolFunctionPackageContentMetadata;
 }
-export const ValidateSolFunctionPackageContentOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String,
-      vnfdId: S.String,
-      vnfProductName: S.String,
-      vnfProvider: S.String,
-      vnfdVersion: S.String,
-      metadata: ValidateSolFunctionPackageContentMetadata,
-    }),
+export const ValidateSolFunctionPackageContentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    vnfdId: S.String,
+    vnfProductName: S.String,
+    vnfProvider: S.String,
+    vnfdVersion: S.String,
+    metadata: ValidateSolFunctionPackageContentMetadata,
+  }),
 ).annotate({
   identifier: "ValidateSolFunctionPackageContentOutput",
 }) as any as S.Schema<ValidateSolFunctionPackageContentOutput>;
@@ -1895,35 +1801,32 @@ export interface ValidateSolNetworkPackageContentInput {
   contentType?: PackageContentType;
   file: T.StreamingInputBody;
 }
-export const ValidateSolNetworkPackageContentInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
-      contentType: S.optional(PackageContentType).pipe(
-        T.HttpHeader("Content-Type"),
-      ),
-      file: T.StreamingInput.pipe(T.HttpPayload()),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content/validate",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ValidateSolNetworkPackageContentInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nsdInfoId: S.String.pipe(T.HttpLabel("nsdInfoId")),
+    contentType: S.optional(PackageContentType).pipe(T.HttpHeader("Content-Type")),
+    file: T.StreamingInput.pipe(T.HttpPayload()),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/sol/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content/validate",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ValidateSolNetworkPackageContentInput",
 }) as any as S.Schema<ValidateSolNetworkPackageContentInput>;
 export interface ValidateSolNetworkPackageContentMetadata {
   nsd?: NetworkArtifactMeta;
 }
-export const ValidateSolNetworkPackageContentMetadata = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ nsd: S.optional(NetworkArtifactMeta) }),
+export const ValidateSolNetworkPackageContentMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ nsd: S.optional(NetworkArtifactMeta) }),
 ).annotate({
   identifier: "ValidateSolNetworkPackageContentMetadata",
 }) as any as S.Schema<ValidateSolNetworkPackageContentMetadata>;
@@ -1936,17 +1839,16 @@ export interface ValidateSolNetworkPackageContentOutput {
   vnfPkgIds: string[];
   metadata: ValidateSolNetworkPackageContentMetadata;
 }
-export const ValidateSolNetworkPackageContentOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      id: S.String,
-      arn: S.String,
-      nsdId: S.String,
-      nsdName: S.String,
-      nsdVersion: S.String,
-      vnfPkgIds: VnfPkgIdList,
-      metadata: ValidateSolNetworkPackageContentMetadata,
-    }),
+export const ValidateSolNetworkPackageContentOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    arn: S.String,
+    nsdId: S.String,
+    nsdName: S.String,
+    nsdVersion: S.String,
+    vnfPkgIds: VnfPkgIdList,
+    metadata: ValidateSolNetworkPackageContentMetadata,
+  }),
 ).annotate({
   identifier: "ValidateSolNetworkPackageContentOutput",
 }) as any as S.Schema<ValidateSolNetworkPackageContentOutput>;

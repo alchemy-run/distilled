@@ -709,12 +709,7 @@
         "aws.endpoints#standardPartitionalEndpoints": {
           "endpointPatternType": "service_region_dnsSuffix"
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
           "additionalAllowedHeaders": [
@@ -725,11 +720,7 @@
             "x-amzn-platform-id",
             "x-amzn-trace-id"
           ],
-          "additionalExposedHeaders": [
-            "x-amzn-errortype",
-            "x-amzn-requestid",
-            "x-amzn-trace-id"
-          ],
+          "additionalExposedHeaders": ["x-amzn-errortype", "x-amzn-requestid", "x-amzn-trace-id"],
           "maxAge": 86400
         },
         "smithy.api#documentation": "<p>AWS User Notifications Contacts is a service that allows you to create and manage email contacts for AWS User Notifications. The AWS User Notifications Contacts API Reference provides descriptions, API request parameters, and the JSON response for all email contact related API actions.</p>",

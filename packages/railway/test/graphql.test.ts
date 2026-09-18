@@ -1,12 +1,12 @@
 /** Credential-free regressions for verified Railway GraphQL response shapes. */
 import { describe, expect, test } from "bun:test";
+import * as G from "@distilled.cloud/core/graphql";
+import * as Railway from "@distilled.cloud/railway";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Result from "effect/Result";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import * as G from "@distilled.cloud/core/graphql";
-import * as Railway from "@distilled.cloud/railway";
 
 const missingProjectId = "00000000-0000-4000-8000-000000000000";
 const projectNotFound = {
@@ -79,9 +79,7 @@ describe("Railway sandbox contracts", () => {
   });
 
   test("create preserves domains, fractional resources, variables and each source input", async () => {
-    const sources: ReadonlyArray<
-      Partial<Railway.Inputs["SandboxCreateInput"]>
-    > = [
+    const sources: ReadonlyArray<Partial<Railway.Inputs["SandboxCreateInput"]>> = [
       {},
       { sourceSandboxId: "source-fixture" },
       { template: { name: "after-deps" } },
@@ -110,9 +108,7 @@ describe("Railway sandbox contracts", () => {
         networkIsolation: "PRIVATE",
         region: "us-west2",
         idleTimeoutMinutes: 0,
-        domains: [
-          { prefix: "api", port: 3000, domain: "api-fixture.up.railway.app" },
-        ],
+        domains: [{ prefix: "api", port: 3000, domain: "api-fixture.up.railway.app" }],
       };
       const { client, requests } = harness({
         data: { sandboxCreate: sandbox },
@@ -132,9 +128,13 @@ describe("Railway sandbox contracts", () => {
   });
 
   test("resource defaults preserve omitted and null Float values", async () => {
-    const resources: ReadonlyArray<
-      Railway.Inputs["SandboxCreateInput"]["resources"]
-    > = [undefined, null, {}, { cpu: null, memoryGB: null }, { cpu: 0.25 }];
+    const resources: ReadonlyArray<Railway.Inputs["SandboxCreateInput"]["resources"]> = [
+      undefined,
+      null,
+      {},
+      { cpu: null, memoryGB: null },
+      { cpu: 0.25 },
+    ];
     for (const value of resources) {
       const input = {
         environmentId,
@@ -154,18 +154,14 @@ describe("Railway sandbox contracts", () => {
       expect(result.sandboxCreate.domains).toEqual([]);
       expect(Object.values(requests[0]!.variables)).toEqual([input]);
     }
-    expect(
-      Railway.schema.types.SandboxResourcesInput!.inputFields,
-    ).toMatchObject({
+    expect(Railway.schema.types.SandboxResourcesInput!.inputFields).toMatchObject({
       cpu: { type: "Float" },
       memoryGB: { type: "Float" },
     });
-    expect(
-      Railway.schema.types.SandboxCreateInput!.inputFields,
-    ).not.toHaveProperty("checkpointName");
-    expect(
-      Railway.schema.types.SandboxCreateInput!.inputFields,
-    ).not.toHaveProperty("snapshotId");
+    expect(Railway.schema.types.SandboxCreateInput!.inputFields).not.toHaveProperty(
+      "checkpointName",
+    );
+    expect(Railway.schema.types.SandboxCreateInput!.inputFields).not.toHaveProperty("snapshotId");
   });
 
   test("checkpoint list, capture, rename and deletion retain their exact contracts", async () => {
@@ -271,68 +267,48 @@ describe("Railway sandbox contracts", () => {
       "Provide either template.name or template.instructions, not both",
       "RailwaySandboxValidationError",
     ],
-    [
-      "cpu must be greater than 0 and at most 24 vCPU",
-      "RailwaySandboxValidationError",
-    ],
+    ["cpu must be greater than 0 and at most 24 vCPU", "RailwaySandboxValidationError"],
     [
       "memoryGB must be at least 0.000000001 GB (1 byte) and at most 24 GB",
       "RailwaySandboxValidationError",
     ],
-    [
-      "idleTimeoutMinutes must be between 1 and 120 minutes",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "Public domains require PRIVATE network isolation",
-      "RailwaySandboxValidationError",
-    ],
-    [
-      "publicDomains ports must be between 1 and 65535",
-      "RailwaySandboxValidationError",
-    ],
+    ["idleTimeoutMinutes must be between 1 and 120 minutes", "RailwaySandboxValidationError"],
+    ["Public domains require PRIVATE network isolation", "RailwaySandboxValidationError"],
+    ["publicDomains ports must be between 1 and 65535", "RailwaySandboxValidationError"],
     [
       "publicDomains prefixes must be lowercase DNS label fragments of at most 46 characters",
       "RailwaySandboxValidationError",
     ],
     ["publicDomains ports must be unique", "RailwaySandboxValidationError"],
     ["publicDomains prefixes must be unique", "RailwaySandboxValidationError"],
-    [
-      "publicDomains supports at most 10 domains",
-      "RailwaySandboxValidationError",
-    ],
-  ] as const)(
-    "classifies live create error without retry: %s",
-    async (message, tag) => {
-      const { client, requests } = harness(
-        sandboxError("sandboxCreate", message),
-      );
-      const result = await Effect.runPromise(
-        client.report.mutation({
-          sandboxCreate: {
-            where: { input: { environmentId } },
-            select: { id: true },
-          },
-        }),
-      );
-      const inferredTag: G.Errors<
-        Railway.Schema,
-        "Mutation",
-        {
-          sandboxCreate: { select: { id: true } };
-        }
-      >["_tag"] = tag;
-      expect(result.errors[0]).toMatchObject({
-        _tag: inferredTag,
-        message,
-        path: ["sandboxCreate"],
-        code: "INTERNAL_SERVER_ERROR",
-        traceId: "sanitized-sandbox-trace",
-      });
-      expect(requests).toHaveLength(1);
-      expect(Railway.schema.errors[tag]!.retryable).toBe(false);
-    },
-  );
+    ["publicDomains supports at most 10 domains", "RailwaySandboxValidationError"],
+  ] as const)("classifies live create error without retry: %s", async (message, tag) => {
+    const { client, requests } = harness(sandboxError("sandboxCreate", message));
+    const result = await Effect.runPromise(
+      client.report.mutation({
+        sandboxCreate: {
+          where: { input: { environmentId } },
+          select: { id: true },
+        },
+      }),
+    );
+    const inferredTag: G.Errors<
+      Railway.Schema,
+      "Mutation",
+      {
+        sandboxCreate: { select: { id: true } };
+      }
+    >["_tag"] = tag;
+    expect(result.errors[0]).toMatchObject({
+      _tag: inferredTag,
+      message,
+      path: ["sandboxCreate"],
+      code: "INTERNAL_SERVER_ERROR",
+      traceId: "sanitized-sandbox-trace",
+    });
+    expect(requests).toHaveLength(1);
+    expect(Railway.schema.errors[tag]!.retryable).toBe(false);
+  });
 
   test("missing sandbox errors apply to exec and checkpoint capture", async () => {
     const exec = harness(sandboxError("sandboxExec", "Sandbox not found"));
@@ -345,9 +321,7 @@ describe("Railway sandbox contracts", () => {
       }),
     );
     expect(executed.errors[0]).toBeInstanceOf(Railway.RailwaySandboxNotFound);
-    const capture = harness(
-      sandboxError("sandboxCheckpointCreate", "Sandbox not found"),
-    );
+    const capture = harness(sandboxError("sandboxCheckpointCreate", "Sandbox not found"));
     const captured = await Effect.runPromise(
       capture.client.report.mutation({
         sandboxCheckpointCreate: {
@@ -378,17 +352,12 @@ describe("Railway sandbox contracts", () => {
       }),
     );
     expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwaySandboxCheckpointNotFound,
-    );
+    if (!(result instanceof G.GraphQLFailure)) throw new Error("Expected GraphQLFailure");
+    expect(result.errors[0]).toBeInstanceOf(Railway.RailwaySandboxCheckpointNotFound);
   });
 
   test("sandbox error contracts never classify unrelated fields or unknown messages", async () => {
-    const unrelated = harness(
-      sandboxError("sandboxDestroy", "Sandbox not found"),
-    );
+    const unrelated = harness(sandboxError("sandboxDestroy", "Sandbox not found"));
     const destroyed = await Effect.runPromise(
       unrelated.client.report.mutation({
         sandboxDestroy: {
@@ -419,21 +388,12 @@ describe("Railway native GraphQL verified responses", () => {
       const requests: Array<{ query: string; variables: unknown }> = [];
       const http = HttpClient.make((request) =>
         Effect.sync(() => {
-          expect(request.url).toBe(
-            "https://backboard.railway.com/graphql/v2?source=alchemy",
-          );
+          expect(request.url).toBe("https://backboard.railway.com/graphql/v2?source=alchemy");
           expect(
-            request.headers[
-              tokenKind === "project" ? "project-access-token" : "authorization"
-            ],
-          ).toBe(
-            tokenKind === "project" ? "fixture-token" : "Bearer fixture-token",
-          );
-          if (request.body._tag !== "Uint8Array")
-            throw new Error("Expected JSON body");
-          requests.push(
-            JSON.parse(new TextDecoder().decode(request.body.body)),
-          );
+            request.headers[tokenKind === "project" ? "project-access-token" : "authorization"],
+          ).toBe(tokenKind === "project" ? "fixture-token" : "Bearer fixture-token");
+          if (request.body._tag !== "Uint8Array") throw new Error("Expected JSON body");
+          requests.push(JSON.parse(new TextDecoder().decode(request.body.body)));
           return HttpClientResponse.fromWeb(
             request,
             Response.json({ data: { project: { id: "project-fixture" } } }),
@@ -455,9 +415,7 @@ describe("Railway native GraphQL verified responses", () => {
       );
       expect(project).toEqual({ id: "project-fixture" });
       expect(requests).toHaveLength(1);
-      expect(Object.values(requests[0]!.variables as object)).toContain(
-        "project-fixture",
-      );
+      expect(Object.values(requests[0]!.variables as object)).toContain("project-fixture");
       expect(requests[0]!.query).toContain("project(");
       expect(requests[0]!.query).not.toContain("services");
       expect(requests[0]!.query).not.toContain("name");
@@ -488,11 +446,8 @@ describe("Railway native GraphQL verified responses", () => {
       }),
     );
     expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayRequestProcessingError,
-    );
+    if (!(result instanceof G.GraphQLFailure)) throw new Error("Expected GraphQLFailure");
+    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayRequestProcessingError);
     expect(result.errors[0]).toMatchObject({
       message: "Problem processing request",
       traceId: "5527782523421805956",
@@ -500,9 +455,7 @@ describe("Railway native GraphQL verified responses", () => {
     expect(result.errors[0]!.path).toBeUndefined();
     expect(result.errors[0]!.code).toBeUndefined();
     expect(requests).toHaveLength(1);
-    expect(Railway.schema.errors.RailwayRequestProcessingError!.retryable).toBe(
-      false,
-    );
+    expect(Railway.schema.errors.RailwayRequestProcessingError!.retryable).toBe(false);
   });
 
   test("new bucket credentials readiness error is limited to its read-only field", async () => {
@@ -523,14 +476,12 @@ describe("Railway native GraphQL verified responses", () => {
         },
       }),
     );
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayBucketCredentialsNotReady,
-    );
+    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayBucketCredentialsNotReady);
     expect(requests).toHaveLength(1);
     expect(requests[0]!.kind).toBe("query");
-    expect(
-      Railway.schema.types.Query!.fields!.bucketS3Credentials!.errors,
-    ).toContain("RailwayBucketCredentialsNotReady");
+    expect(Railway.schema.types.Query!.fields!.bucketS3Credentials!.errors).toContain(
+      "RailwayBucketCredentialsNotReady",
+    );
     for (const field of Object.values(Railway.schema.types.Mutation!.fields!)) {
       expect(field.errors).not.toContain("RailwayBucketCredentialsNotReady");
     }
@@ -620,9 +571,7 @@ describe("Railway native GraphQL verified responses", () => {
         },
       }),
     );
-    expect(result.errors[0]).toBeInstanceOf(
-      Railway.RailwayCustomDomainCreateFailed,
-    );
+    expect(result.errors[0]).toBeInstanceOf(Railway.RailwayCustomDomainCreateFailed);
     expect(requests).toHaveLength(1);
     expect(requests[0]!.kind).toBe("mutation");
     const unrelated = harness({
@@ -669,9 +618,7 @@ describe("Railway native GraphQL verified responses", () => {
     expect(result.status).toBe(200);
     expect(requests).toHaveLength(1);
     expect(Object.values(requests[0]!.variables)).toEqual([1]);
-    expect(requests[0]!.query).not.toMatch(
-      /workspace|services|members|environments/,
-    );
+    expect(requests[0]!.query).not.toMatch(/workspace|services|members|environments/);
   });
 
   test("HTTP200 Project not found becomes a typed aggregate retaining diagnostics", async () => {
@@ -682,8 +629,7 @@ describe("Railway native GraphQL verified responses", () => {
       }),
     );
     expect(result).toBeInstanceOf(G.GraphQLFailure);
-    if (!(result instanceof G.GraphQLFailure))
-      throw new Error("Expected GraphQLFailure");
+    if (!(result instanceof G.GraphQLFailure)) throw new Error("Expected GraphQLFailure");
     expect(result.data).toBeNull();
     expect(result.errors).toHaveLength(1);
     expect(result.errors[0]).toBeInstanceOf(Railway.RailwayNotFound);
@@ -717,9 +663,7 @@ describe("Railway native GraphQL verified responses", () => {
 
   test("account-token scope rejection on me matches Forbidden before InternalError", async () => {
     const { client } = harness({ data: null, errors: [notAuthorized] });
-    const result = await Effect.runPromise(
-      client.report.query({ me: { select: { id: true } } }),
-    );
+    const result = await Effect.runPromise(client.report.query({ me: { select: { id: true } } }));
     expect(result.data).toBeNull();
     expect(result.errors).toHaveLength(1);
     expect(result.errors[0]).toBeInstanceOf(Railway.RailwayForbidden);

@@ -251,12 +251,7 @@
         },
         "aws.endpoints#dualStackOnlyEndpoints": {},
         "aws.endpoints#standardRegionalEndpoints": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {
           "http": ["h2", "http/1.1"],
           "eventStreamHttp": ["h2"]

@@ -3133,10 +3133,7 @@
         }
       ],
       "traits": {
-        "aws.iam#requiredActions": [
-          "scheduler:TagResource",
-          "scheduler:UntagResource"
-        ],
+        "aws.iam#requiredActions": ["scheduler:TagResource", "scheduler:UntagResource"],
         "smithy.api#documentation": "<p>\n         Updates the specified schedule. When you call <code>UpdateSchedule</code>, EventBridge Scheduler uses all values, including empty values, specified in the request and\n         overrides the existing schedule. This is by design. This means that if you do not set an optional field in your request, that field will be set to\n         its system-default value after the update.\n      </p>\n         <p>\n         Before calling this operation, we recommend that you call the <code>GetSchedule</code> API operation and make a note of all optional parameters\n         for your <code>UpdateSchedule</code> call.\n      </p>",
         "smithy.api#http": {
           "code": 200,

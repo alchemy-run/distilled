@@ -1,18 +1,18 @@
 {
   "name": "@distilled.cloud/core",
   "version": "1.0.0-rc.12",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
     "directory": "packages/core"
   },
-  "license": "Apache-2.0",
-  "type": "module",
-  "sideEffects": false,
   "files": [
     "lib",
     "src"
   ],
+  "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -30,6 +30,9 @@
   "scripts": {
     "build": "tsc -b"
   },
+  "dependencies": {
+    "graphql": "16.11.0"
+  },
   "devDependencies": {
     "@effect/platform-bun": "catalog:",
     "@types/bun": "catalog:",
@@ -38,8 +41,5 @@
   },
   "peerDependencies": {
     "effect": "catalog:"
-  },
-  "dependencies": {
-    "graphql": "16.11.0"
   }
 }

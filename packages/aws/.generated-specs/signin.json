@@ -1755,12 +1755,7 @@
             ]
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#auth": ["aws.auth#sigv4"],
         "smithy.api#documentation": "AWS Sign-In manages authentication for AWS services. This service provides\nsecure authentication flows for accessing AWS resources from the console and developer tools.",

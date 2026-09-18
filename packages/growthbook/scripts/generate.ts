@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the
  * GrowthBook Effect SDK.
@@ -15,7 +16,6 @@
  * not detect that offset/limit shape.
  */
 import type { SdkSpec } from "@distilled.cloud/core/codegen/generator";
-import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -24,14 +24,7 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
 /** Pagination metadata members on GrowthBook list responses. */
-const PAGINATION_FIELDS = new Set([
-  "limit",
-  "offset",
-  "count",
-  "total",
-  "hasMore",
-  "nextOffset",
-]);
+const PAGINATION_FIELDS = new Set(["limit", "offset", "count", "total", "hasMore", "nextOffset"]);
 
 /** GrowthBook's provider spec for the shared smithy→SDK compiler. */
 const growthbookSpec: SdkSpec = {
@@ -98,8 +91,7 @@ const growthbookSpec: SdkSpec = {
 };
 
 const isListShape = (shape: any): boolean =>
-  shape?.type === "list" ||
-  (typeof shape?.target === "string" && shape.target.endsWith("List"));
+  shape?.type === "list" || (typeof shape?.target === "string" && shape.target.endsWith("List"));
 
 runGeneratorCli({
   description: "Generate the GrowthBook Effect SDK from the Smithy model",
@@ -115,13 +107,11 @@ runGeneratorCli({
       const input = shapes[shape.input?.target];
       const output = shapes[shape.output?.target];
       if (!input?.members?.offset || !output?.members?.nextOffset) continue;
-      const items = Object.entries(output.members as Record<string, any>).find(
-        ([name, member]) => {
-          if (PAGINATION_FIELDS.has(name)) return false;
-          const target = shapes[member?.target];
-          return isListShape(target) || isListShape(member);
-        },
-      )?.[0];
+      const items = Object.entries(output.members as Record<string, any>).find(([name, member]) => {
+        if (PAGINATION_FIELDS.has(name)) return false;
+        const target = shapes[member?.target];
+        return isListShape(target) || isListShape(member);
+      })?.[0];
       if (!items) continue;
       shape.traits ??= {};
       // `nextOffset` is fed back as `offset` verbatim — token semantics.

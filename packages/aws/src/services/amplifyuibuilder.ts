@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "AmplifyUIBuilder",
   serviceShapeName: "AmplifyUIBuilder",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplifyuibuilder-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://amplifyuibuilder.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -148,10 +138,7 @@ export const FormBindingElement = /*@__PURE__*/ S.suspend(() =>
   identifier: "FormBindingElement",
 }) as any as S.Schema<FormBindingElement>;
 export type FormBindings = { [key: string]: FormBindingElement | undefined };
-export const FormBindings = /*@__PURE__*/ S.Record(
-  S.String,
-  FormBindingElement.pipe(S.optional),
-);
+export const FormBindings = /*@__PURE__*/ S.Record(S.String, FormBindingElement.pipe(S.optional));
 export type ComponentPropertyList = ComponentProperty[];
 export const ComponentPropertyList = /*@__PURE__*/ S.Array(
   S.suspend((): S.Schema<ComponentProperty> => ComponentProperty).annotate({
@@ -221,9 +208,9 @@ export const ComponentProperty = /*@__PURE__*/ S.suspend(() =>
       }),
     ),
     condition: S.optional(
-      S.suspend(
-        (): S.Schema<ComponentConditionProperty> => ComponentConditionProperty,
-      ).annotate({ identifier: "ComponentConditionProperty" }),
+      S.suspend((): S.Schema<ComponentConditionProperty> => ComponentConditionProperty).annotate({
+        identifier: "ComponentConditionProperty",
+      }),
     ),
     configured: S.optional(S.Boolean),
     type: S.optional(S.String),
@@ -296,10 +283,7 @@ export const ComponentEvent = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "ComponentEvent" }) as any as S.Schema<ComponentEvent>;
 export type ComponentEvents = { [key: string]: ComponentEvent | undefined };
-export const ComponentEvents = /*@__PURE__*/ S.Record(
-  S.String,
-  ComponentEvent.pipe(S.optional),
-);
+export const ComponentEvents = /*@__PURE__*/ S.Record(S.String, ComponentEvent.pipe(S.optional));
 export interface ComponentChild {
   componentType: string;
   name: string;
@@ -329,15 +313,9 @@ export const ComponentChildList = /*@__PURE__*/ S.Array(
   }),
 ) as any as S.Schema<ComponentChildList>;
 export type ComponentVariantValues = { [key: string]: string | undefined };
-export const ComponentVariantValues = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ComponentVariantValues = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ComponentOverridesValue = { [key: string]: string | undefined };
-export const ComponentOverridesValue = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ComponentOverridesValue = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ComponentOverrides = {
   [key: string]: { [key: string]: string | undefined } | undefined;
 };
@@ -372,12 +350,8 @@ export interface Predicate {
 }
 export const Predicate = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    or: S.optional(
-      S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" }),
-    ),
-    and: S.optional(
-      S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" }),
-    ),
+    or: S.optional(S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" })),
+    and: S.optional(S.suspend(() => PredicateList).annotate({ identifier: "PredicateList" })),
     field: S.optional(S.String),
     operator: S.optional(S.String),
     operand: S.optional(S.String),
@@ -400,21 +374,20 @@ export interface ComponentBindingPropertiesValueProperties {
   defaultValue?: string;
   slotName?: string;
 }
-export const ComponentBindingPropertiesValueProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      model: S.optional(S.String),
-      field: S.optional(S.String),
-      predicates: S.optional(PredicateList),
-      userAttribute: S.optional(S.String),
-      bucket: S.optional(S.String),
-      key: S.optional(S.String),
-      defaultValue: S.optional(S.String),
-      slotName: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ComponentBindingPropertiesValueProperties",
-  }) as any as S.Schema<ComponentBindingPropertiesValueProperties>;
+export const ComponentBindingPropertiesValueProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    model: S.optional(S.String),
+    field: S.optional(S.String),
+    predicates: S.optional(PredicateList),
+    userAttribute: S.optional(S.String),
+    bucket: S.optional(S.String),
+    key: S.optional(S.String),
+    defaultValue: S.optional(S.String),
+    slotName: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ComponentBindingPropertiesValueProperties",
+}) as any as S.Schema<ComponentBindingPropertiesValueProperties>;
 export interface ComponentBindingPropertiesValue {
   type?: string;
   bindingProperties?: ComponentBindingPropertiesValueProperties;
@@ -525,10 +498,7 @@ export const CreateComponentRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     componentToCreate: CreateComponentData.pipe(T.HttpPayload()).annotate({
       identifier: "CreateComponentData",
     }),
@@ -589,9 +559,7 @@ export const Component = /*@__PURE__*/ S.suspend(() =>
     bindingProperties: ComponentBindingProperties,
     collectionProperties: S.optional(ComponentCollectionProperties),
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     tags: S.optional(Tags),
     events: S.optional(ComponentEvents),
     schemaVersion: S.optional(S.String),
@@ -602,9 +570,7 @@ export interface CreateComponentResponse {
 }
 export const CreateComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    entity: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
 ).annotate({
   identifier: "CreateComponentResponse",
@@ -639,16 +605,16 @@ export interface FormInputValuePropertyBindingProperties {
   property: string;
   field?: string;
 }
-export const FormInputValuePropertyBindingProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ property: S.String, field: S.optional(S.String) }),
+export const FormInputValuePropertyBindingProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ property: S.String, field: S.optional(S.String) }),
 ).annotate({
   identifier: "FormInputValuePropertyBindingProperties",
 }) as any as S.Schema<FormInputValuePropertyBindingProperties>;
 export type FormInputValuePropertyList = FormInputValueProperty[];
 export const FormInputValuePropertyList = /*@__PURE__*/ S.Array(
-  S.suspend(
-    (): S.Schema<FormInputValueProperty> => FormInputValueProperty,
-  ).annotate({ identifier: "FormInputValueProperty" }),
+  S.suspend((): S.Schema<FormInputValueProperty> => FormInputValueProperty).annotate({
+    identifier: "FormInputValueProperty",
+  }),
 ) as any as S.Schema<FormInputValuePropertyList>;
 export interface FormInputValueProperty {
   value?: string;
@@ -683,12 +649,11 @@ export const ValueMappingList = /*@__PURE__*/ S.Array(ValueMapping);
 export interface FormInputBindingPropertiesValueProperties {
   model?: string;
 }
-export const FormInputBindingPropertiesValueProperties =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ model: S.optional(S.String) }),
-  ).annotate({
-    identifier: "FormInputBindingPropertiesValueProperties",
-  }) as any as S.Schema<FormInputBindingPropertiesValueProperties>;
+export const FormInputBindingPropertiesValueProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ model: S.optional(S.String) }),
+).annotate({
+  identifier: "FormInputBindingPropertiesValueProperties",
+}) as any as S.Schema<FormInputBindingPropertiesValueProperties>;
 export interface FormInputBindingPropertiesValue {
   type?: string;
   bindingProperties?: FormInputBindingPropertiesValueProperties;
@@ -720,11 +685,7 @@ export const ValueMappings = /*@__PURE__*/ S.suspend(() =>
     bindingProperties: S.optional(FormInputBindingProperties),
   }),
 ).annotate({ identifier: "ValueMappings" }) as any as S.Schema<ValueMappings>;
-export type StorageAccessLevel =
-  | "public"
-  | "protected"
-  | "private"
-  | (string & {});
+export type StorageAccessLevel = "public" | "protected" | "private" | (string & {});
 export const StorageAccessLevel = S.String;
 
 export type StrValues = string[];
@@ -808,9 +769,7 @@ export const FieldValidationConfiguration = /*@__PURE__*/ S.suspend(() =>
   identifier: "FieldValidationConfiguration",
 }) as any as S.Schema<FieldValidationConfiguration>;
 export type ValidationsList = FieldValidationConfiguration[];
-export const ValidationsList = /*@__PURE__*/ S.Array(
-  FieldValidationConfiguration,
-);
+export const ValidationsList = /*@__PURE__*/ S.Array(FieldValidationConfiguration);
 export interface FieldConfig {
   label?: string;
   position?: FieldPosition;
@@ -828,10 +787,7 @@ export const FieldConfig = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "FieldConfig" }) as any as S.Schema<FieldConfig>;
 export type FieldsMap = { [key: string]: FieldConfig | undefined };
-export const FieldsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  FieldConfig.pipe(S.optional),
-);
+export const FieldsMap = /*@__PURE__*/ S.Record(S.String, FieldConfig.pipe(S.optional));
 export type FormStyleConfig =
   | { tokenReference: string; value?: never }
   | { tokenReference?: never; value: string };
@@ -878,11 +834,7 @@ export const SectionalElementMap = /*@__PURE__*/ S.Record(
   S.String,
   SectionalElement.pipe(S.optional),
 );
-export type FormButtonsPosition =
-  | "top"
-  | "bottom"
-  | "top_and_bottom"
-  | (string & {});
+export type FormButtonsPosition = "top" | "bottom" | "top_and_bottom" | (string & {});
 export const FormButtonsPosition = S.String;
 
 export interface FormButton {
@@ -948,10 +900,7 @@ export const CreateFormRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     formToCreate: CreateFormData.pipe(T.HttpPayload()).annotate({
       identifier: "CreateFormData",
     }),
@@ -1008,9 +957,7 @@ export interface CreateFormResponse {
 }
 export const CreateFormResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
+    entity: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }),
   }),
 ).annotate({
   identifier: "CreateFormResponse",
@@ -1076,10 +1023,7 @@ export const CreateThemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     themeToCreate: CreateThemeData.pipe(T.HttpPayload()).annotate({
       identifier: "CreateThemeData",
     }),
@@ -1117,9 +1061,7 @@ export const Theme = /*@__PURE__*/ S.suspend(() =>
     id: S.String,
     name: S.String,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     values: ThemeValuesList,
     overrides: S.optional(ThemeValuesList),
     tags: S.optional(Tags),
@@ -1130,9 +1072,7 @@ export interface CreateThemeResponse {
 }
 export const CreateThemeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
+    entity: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }),
   }),
 ).annotate({
   identifier: "CreateThemeResponse",
@@ -1164,9 +1104,7 @@ export const DeleteComponentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteComponentRequest",
 }) as any as S.Schema<DeleteComponentRequest>;
 export interface DeleteComponentResponse {}
-export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteComponentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteComponentResponse",
 }) as any as S.Schema<DeleteComponentResponse>;
 export interface DeleteFormRequest {
@@ -1196,9 +1134,7 @@ export const DeleteFormRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFormRequest",
 }) as any as S.Schema<DeleteFormRequest>;
 export interface DeleteFormResponse {}
-export const DeleteFormResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFormResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFormResponse",
 }) as any as S.Schema<DeleteFormResponse>;
 export interface DeleteThemeRequest {
@@ -1228,9 +1164,7 @@ export const DeleteThemeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteThemeRequest",
 }) as any as S.Schema<DeleteThemeRequest>;
 export interface DeleteThemeResponse {}
-export const DeleteThemeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteThemeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteThemeResponse",
 }) as any as S.Schema<DeleteThemeResponse>;
 export type TokenProviders = string;
@@ -1260,14 +1194,7 @@ export const ExchangeCodeForTokenRequest = /*@__PURE__*/ S.suspend(() =>
       identifier: "ExchangeCodeForTokenRequestBody",
     }),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tokens/{provider}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tokens/{provider}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ExchangeCodeForTokenRequest",
@@ -1452,15 +1379,11 @@ export const GraphQLRenderConfig = /*@__PURE__*/ S.suspend(() =>
   identifier: "GraphQLRenderConfig",
 }) as any as S.Schema<GraphQLRenderConfig>;
 export interface DataStoreRenderConfig {}
-export const DataStoreRenderConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DataStoreRenderConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DataStoreRenderConfig",
 }) as any as S.Schema<DataStoreRenderConfig>;
 export interface NoApiRenderConfig {}
-export const NoApiRenderConfig = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const NoApiRenderConfig = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "NoApiRenderConfig",
 }) as any as S.Schema<NoApiRenderConfig>;
 export type ApiConfiguration =
@@ -1485,10 +1408,7 @@ export const ApiConfiguration = /*@__PURE__*/ S.Union([
   S.Struct({ noApiConfig: NoApiRenderConfig }),
 ]);
 export type ReactCodegenDependencies = { [key: string]: string | undefined };
-export const ReactCodegenDependencies = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ReactCodegenDependencies = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ReactStartCodegenJobData {
   module?: JSModule;
   target?: JSTarget;
@@ -1539,11 +1459,7 @@ export type CodegenGenericDataFieldDataType =
   | (string & {});
 export const CodegenGenericDataFieldDataType = S.String;
 
-export type GenericDataRelationshipType =
-  | "HAS_MANY"
-  | "HAS_ONE"
-  | "BELONGS_TO"
-  | (string & {});
+export type GenericDataRelationshipType = "HAS_MANY" | "HAS_ONE" | "BELONGS_TO" | (string & {});
 export const GenericDataRelationshipType = S.String;
 
 export type RelatedModelFieldsList = string[];
@@ -1693,11 +1609,7 @@ export const CodegenFeatureFlags = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CodegenFeatureFlags",
 }) as any as S.Schema<CodegenFeatureFlags>;
-export type CodegenJobStatus =
-  | "in_progress"
-  | "failed"
-  | "succeeded"
-  | (string & {});
+export type CodegenJobStatus = "in_progress" | "failed" | "succeeded" | (string & {});
 export const CodegenJobStatus = S.String;
 
 export interface CodegenJobAsset {
@@ -1755,12 +1667,8 @@ export const CodegenJob = /*@__PURE__*/ S.suspend(() =>
     statusMessage: S.optional(S.String),
     asset: S.optional(CodegenJobAsset),
     tags: S.optional(Tags),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     dependencies: S.optional(CodegenDependencies),
   }),
 ).annotate({ identifier: "CodegenJob" }) as any as S.Schema<CodegenJob>;
@@ -1769,9 +1677,7 @@ export interface GetCodegenJobResponse {
 }
 export const GetCodegenJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    job: S.optional(CodegenJob)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CodegenJob" }),
+    job: S.optional(CodegenJob).pipe(T.HttpPayload()).annotate({ identifier: "CodegenJob" }),
   }),
 ).annotate({
   identifier: "GetCodegenJobResponse",
@@ -1807,9 +1713,7 @@ export interface GetComponentResponse {
 }
 export const GetComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    component: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    component: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
 ).annotate({
   identifier: "GetComponentResponse",
@@ -1843,9 +1747,7 @@ export interface GetFormResponse {
 }
 export const GetFormResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    form: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
+    form: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }),
   }),
 ).annotate({
   identifier: "GetFormResponse",
@@ -1875,10 +1777,7 @@ export const GetMetadataRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetMetadataRequest",
 }) as any as S.Schema<GetMetadataRequest>;
 export type FeaturesMap = { [key: string]: string | undefined };
-export const FeaturesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const FeaturesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetMetadataResponse {
   features: { [key: string]: string | undefined };
 }
@@ -1918,9 +1817,7 @@ export interface GetThemeResponse {
 }
 export const GetThemeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    theme: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
+    theme: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }),
   }),
 ).annotate({
   identifier: "GetThemeResponse",
@@ -1966,12 +1863,8 @@ export const CodegenJobSummary = /*@__PURE__*/ S.suspend(() =>
     appId: S.String,
     environmentName: S.String,
     id: S.String,
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    modifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    modifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "CodegenJobSummary",
@@ -2110,14 +2003,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -2222,9 +2108,7 @@ export const PutMetadataFlagRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutMetadataFlagRequest",
 }) as any as S.Schema<PutMetadataFlagRequest>;
 export interface PutMetadataFlagResponse {}
-export const PutMetadataFlagResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutMetadataFlagResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutMetadataFlagResponse",
 }) as any as S.Schema<PutMetadataFlagResponse>;
 export interface RefreshTokenRequestBody {
@@ -2296,10 +2180,7 @@ export const StartCodegenJobRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     codegenJobToCreate: StartCodegenJobData.pipe(T.HttpPayload()).annotate({
       identifier: "StartCodegenJobData",
     }),
@@ -2324,9 +2205,7 @@ export interface StartCodegenJobResponse {
 }
 export const StartCodegenJobResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(CodegenJob)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "CodegenJob" }),
+    entity: S.optional(CodegenJob).pipe(T.HttpPayload()).annotate({ identifier: "CodegenJob" }),
   }),
 ).annotate({
   identifier: "StartCodegenJobResponse",
@@ -2340,22 +2219,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2369,22 +2239,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateComponentData {
@@ -2437,10 +2298,7 @@ export const UpdateComponentRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     updatedComponent: UpdateComponentData.pipe(T.HttpPayload()).annotate({
       identifier: "UpdateComponentData",
     }),
@@ -2465,9 +2323,7 @@ export interface UpdateComponentResponse {
 }
 export const UpdateComponentResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Component)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Component" }),
+    entity: S.optional(Component).pipe(T.HttpPayload()).annotate({ identifier: "Component" }),
   }),
 ).annotate({
   identifier: "UpdateComponentResponse",
@@ -2508,10 +2364,7 @@ export const UpdateFormRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     updatedForm: UpdateFormData.pipe(T.HttpPayload()).annotate({
       identifier: "UpdateFormData",
     }),
@@ -2536,9 +2389,7 @@ export interface UpdateFormResponse {
 }
 export const UpdateFormResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Form)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Form" }),
+    entity: S.optional(Form).pipe(T.HttpPayload()).annotate({ identifier: "Form" }),
   }),
 ).annotate({
   identifier: "UpdateFormResponse",
@@ -2571,10 +2422,7 @@ export const UpdateThemeRequest = /*@__PURE__*/ S.suspend(() =>
     appId: S.String.pipe(T.HttpLabel("appId")),
     environmentName: S.String.pipe(T.HttpLabel("environmentName")),
     id: S.String.pipe(T.HttpLabel("id")),
-    clientToken: S.optional(S.String).pipe(
-      T.HttpQuery("clientToken"),
-      T.IdempotencyToken(),
-    ),
+    clientToken: S.optional(S.String).pipe(T.HttpQuery("clientToken"), T.IdempotencyToken()),
     updatedTheme: UpdateThemeData.pipe(T.HttpPayload()).annotate({
       identifier: "UpdateThemeData",
     }),
@@ -2599,9 +2447,7 @@ export interface UpdateThemeResponse {
 }
 export const UpdateThemeResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    entity: S.optional(Theme)
-      .pipe(T.HttpPayload())
-      .annotate({ identifier: "Theme" }),
+    entity: S.optional(Theme).pipe(T.HttpPayload()).annotate({ identifier: "Theme" }),
   }),
 ).annotate({
   identifier: "UpdateThemeResponse",
@@ -2706,11 +2552,7 @@ export const deleteComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteComponentRequest,
   output: DeleteComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
@@ -2732,11 +2574,7 @@ export const deleteForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteFormRequest,
   output: DeleteFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForm",
@@ -2758,19 +2596,13 @@ export const deleteTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteThemeRequest,
   output: DeleteThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
 }));
 
-export type ExchangeCodeForTokenError =
-  | InvalidParameterException
-  | CommonErrors;
+export type ExchangeCodeForTokenError = InvalidParameterException | CommonErrors;
 /**
  * This is for internal use.
  *
@@ -2817,10 +2649,7 @@ export const exportComponents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ExportFormsError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ExportFormsError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
@@ -2844,10 +2673,7 @@ export const exportForms: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ExportThemesError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ExportThemesError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
@@ -2915,11 +2741,7 @@ export const getComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetComponentRequest,
   output: GetComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
@@ -2941,20 +2763,13 @@ export const getForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetFormRequest,
   output: GetFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetForm",
 }));
 
-export type GetMetadataError =
-  | InvalidParameterException
-  | UnauthorizedException
-  | CommonErrors;
+export type GetMetadataError = InvalidParameterException | UnauthorizedException | CommonErrors;
 /**
  * Returns existing metadata for an Amplify app.
  */
@@ -2988,11 +2803,7 @@ export const getTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetThemeRequest,
   output: GetThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceNotFoundException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTheme",
@@ -3015,11 +2826,7 @@ export const listCodegenJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCodegenJobsRequest,
   output: ListCodegenJobsResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodegenJobs",
@@ -3060,10 +2867,7 @@ export const listComponents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListFormsError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ListFormsError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
@@ -3118,10 +2922,7 @@ export const listTagsForResource: API.OperationMethod<
   operationName: "ListTagsForResource",
 }));
 
-export type ListThemesError =
-  | InternalServerException
-  | InvalidParameterException
-  | CommonErrors;
+export type ListThemesError = InternalServerException | InvalidParameterException | CommonErrors;
 /**
  * Retrieves a list of themes for a specified Amplify app and backend
  * environment.
@@ -3147,10 +2948,7 @@ export const listThemes: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PutMetadataFlagError =
-  | InvalidParameterException
-  | UnauthorizedException
-  | CommonErrors;
+export type PutMetadataFlagError = InvalidParameterException | UnauthorizedException | CommonErrors;
 /**
  * Stores the metadata information about a feature on a form.
  */
@@ -3204,11 +3002,7 @@ export const startCodegenJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartCodegenJobRequest,
   output: StartCodegenJobResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ThrottlingException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ThrottlingException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodegenJob",
@@ -3290,11 +3084,7 @@ export const updateComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateComponentRequest,
   output: UpdateComponentResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
@@ -3316,11 +3106,7 @@ export const updateForm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateFormRequest,
   output: UpdateFormResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateForm",
@@ -3342,11 +3128,7 @@ export const updateTheme: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateThemeRequest,
   output: UpdateThemeResponse,
-  errors: [
-    InternalServerException,
-    InvalidParameterException,
-    ResourceConflictException,
-  ],
+  errors: [InternalServerException, InvalidParameterException, ResourceConflictException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",

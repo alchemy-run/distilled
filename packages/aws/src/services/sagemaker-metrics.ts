@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker Metrics",
   serviceShapeName: "SageMakerMetricsService",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,17 +52,13 @@ const rules = T.EndpointResolver((p, _) => {
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
             if (_.getAttr(PartitionResult, "name") === "aws") {
-              return e(
-                `https://metrics-fips.sagemaker.${Region}.amazonaws.com`,
-              );
+              return e(`https://metrics-fips.sagemaker.${Region}.amazonaws.com`);
             }
             return e(
               `https://metrics.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -74,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://metrics.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://metrics.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://metrics.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -89,22 +77,10 @@ const rules = T.EndpointResolver((p, _) => {
 
 export type MetricName = string;
 export type SageMakerResourceArn = string;
-export type MetricStatistic =
-  | "Min"
-  | "Max"
-  | "Avg"
-  | "Count"
-  | "StdDev"
-  | "Last"
-  | (string & {});
+export type MetricStatistic = "Min" | "Max" | "Avg" | "Count" | "StdDev" | "Last" | (string & {});
 export const MetricStatistic = S.String;
 
-export type Period =
-  | "OneMinute"
-  | "FiveMinute"
-  | "OneHour"
-  | "IterationNumber"
-  | (string & {});
+export type Period = "OneMinute" | "FiveMinute" | "OneHour" | "IterationNumber" | (string & {});
 export const Period = S.String;
 
 export type XAxisType = "IterationNumber" | "Timestamp" | (string & {});
@@ -137,14 +113,7 @@ export interface BatchGetMetricsRequest {
 }
 export const BatchGetMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MetricQueries: S.optional(MetricQueryList) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetMetrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/BatchGetMetrics" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchGetMetricsRequest",
@@ -218,16 +187,7 @@ export const BatchPutMetricsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TrialComponentName: S.optional(S.String),
     MetricData: S.optional(RawMetricDataList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/BatchPutMetrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/BatchPutMetrics" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchPutMetricsRequest",
 }) as any as S.Schema<BatchPutMetricsRequest>;
@@ -252,9 +212,7 @@ export const BatchPutMetricsError_ = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchPutMetricsError",
 }) as any as S.Schema<BatchPutMetricsError_>;
 export type BatchPutMetricsErrorList = BatchPutMetricsError_[];
-export const BatchPutMetricsErrorList = /*@__PURE__*/ S.Array(
-  BatchPutMetricsError_,
-);
+export const BatchPutMetricsErrorList = /*@__PURE__*/ S.Array(BatchPutMetricsError_);
 export interface BatchPutMetricsResponse {
   Errors?: BatchPutMetricsError_[];
 }

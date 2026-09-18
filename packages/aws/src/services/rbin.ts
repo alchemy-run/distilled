@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "rbin",
   serviceShapeName: "AmazonRecycleBin",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -56,27 +52,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rbin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://rbin-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://rbin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://rbin.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rbin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rbin.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -169,11 +155,7 @@ export const Tag = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = /*@__PURE__*/ S.Array(Tag);
-export type ResourceType =
-  | "EBS_SNAPSHOT"
-  | "EC2_IMAGE"
-  | "EBS_VOLUME"
-  | (string & {});
+export type ResourceType = "EBS_SNAPSHOT" | "EC2_IMAGE" | "EBS_VOLUME" | (string & {});
 export const ResourceType = S.String;
 
 export type ResourceTagKey = string;
@@ -229,16 +211,7 @@ export const CreateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceTags: S.optional(ResourceTags),
     LockConfiguration: S.optional(LockConfiguration),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/rules" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateRuleRequest",
 }) as any as S.Schema<CreateRuleRequest>;
@@ -246,11 +219,7 @@ export type RuleIdentifier = string;
 export type RuleStatus = "pending" | "available" | (string & {});
 export const RuleStatus = S.String;
 
-export type LockState =
-  | "locked"
-  | "pending_unlock"
-  | "unlocked"
-  | (string & {});
+export type LockState = "locked" | "pending_unlock" | "unlocked" | (string & {});
 export const LockState = S.String;
 
 export type RuleArn = string;
@@ -289,22 +258,13 @@ export interface DeleteRuleRequest {
 }
 export const DeleteRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/rules/{Identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteRuleRequest",
 }) as any as S.Schema<DeleteRuleRequest>;
 export interface DeleteRuleResponse {}
-export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRuleResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRuleResponse",
 }) as any as S.Schema<DeleteRuleResponse>;
 export interface GetRuleRequest {
@@ -312,14 +272,7 @@ export interface GetRuleRequest {
 }
 export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Identifier: S.String.pipe(T.HttpLabel("Identifier")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/rules/{Identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/rules/{Identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
 export interface GetRuleResponse {
@@ -370,16 +323,7 @@ export const ListRulesRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceTags: S.optional(ResourceTags),
     LockState: S.optional(LockState),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-rules" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-rules" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListRulesRequest",
 }) as any as S.Schema<ListRulesRequest>;
@@ -418,14 +362,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -496,22 +433,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagList,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface UnlockRuleRequest {
@@ -572,22 +500,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateRuleRequest {
@@ -607,14 +526,7 @@ export const UpdateRuleRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceTags: S.optional(ResourceTags),
     ExcludeResourceTags: S.optional(ExcludeResourceTags),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/rules/{Identifier}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/rules/{Identifier}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateRuleRequest",
@@ -648,9 +560,7 @@ export const UpdateRuleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateRuleResponse",
 }) as any as S.Schema<UpdateRuleResponse>;
 export type ErrorMessage = string;
-export type ServiceQuotaExceededExceptionReason =
-  | "SERVICE_QUOTA_EXCEEDED"
-  | (string & {});
+export type ServiceQuotaExceededExceptionReason = "SERVICE_QUOTA_EXCEEDED" | (string & {});
 export const ServiceQuotaExceededExceptionReason = S.String;
 
 export type ValidationExceptionReason =
@@ -696,11 +606,7 @@ export const createRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
-  errors: [
-    InternalServerException,
-    ServiceQuotaExceededException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ServiceQuotaExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
@@ -751,20 +657,13 @@ export const getRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRuleRequest,
   output: GetRuleResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRule",
 }));
 
-export type ListRulesError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListRulesError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists the Recycle Bin retention rules in the Region.
  */
@@ -805,11 +704,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -920,11 +815,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

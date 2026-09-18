@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Application Auto Scaling",
   serviceShapeName: "AnyScaleFrontendService",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -57,17 +53,13 @@ const rules = T.EndpointResolver((p, _) => {
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
             if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(
-                `https://application-autoscaling.${Region}.amazonaws.com`,
-              );
+              return e(`https://application-autoscaling.${Region}.amazonaws.com`);
             }
             return e(
               `https://application-autoscaling-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -75,9 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://application-autoscaling.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://application-autoscaling.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -256,16 +246,12 @@ export const DeleteScalingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
     ScalableDimension: ScalableDimension,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteScalingPolicyRequest",
 }) as any as S.Schema<DeleteScalingPolicyRequest>;
 export interface DeleteScalingPolicyResponse {}
-export const DeleteScalingPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteScalingPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScalingPolicyResponse",
 }) as any as S.Schema<DeleteScalingPolicyResponse>;
 export interface DeleteScheduledActionRequest {
@@ -280,16 +266,12 @@ export const DeleteScheduledActionRequest = /*@__PURE__*/ S.suspend(() =>
     ScheduledActionName: S.String,
     ResourceId: S.String,
     ScalableDimension: ScalableDimension,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteScheduledActionRequest",
 }) as any as S.Schema<DeleteScheduledActionRequest>;
 export interface DeleteScheduledActionResponse {}
-export const DeleteScheduledActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteScheduledActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteScheduledActionResponse",
 }) as any as S.Schema<DeleteScheduledActionResponse>;
 export interface DeregisterScalableTargetRequest {
@@ -302,9 +284,7 @@ export const DeregisterScalableTargetRequest = /*@__PURE__*/ S.suspend(() =>
     ServiceNamespace: ServiceNamespace,
     ResourceId: S.String,
     ScalableDimension: ScalableDimension,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeregisterScalableTargetRequest",
 }) as any as S.Schema<DeregisterScalableTargetRequest>;
@@ -332,9 +312,7 @@ export const DescribeScalableTargetsRequest = /*@__PURE__*/ S.suspend(() =>
     ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeScalableTargetsRequest",
 }) as any as S.Schema<DescribeScalableTargetsRequest>;
@@ -409,9 +387,7 @@ export const DescribeScalingActivitiesRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
     IncludeNotScaledActivities: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeScalingActivitiesRequest",
 }) as any as S.Schema<DescribeScalingActivitiesRequest>;
@@ -506,9 +482,7 @@ export const DescribeScalingPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
     ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeScalingPoliciesRequest",
 }) as any as S.Schema<DescribeScalingPoliciesRequest>;
@@ -545,11 +519,7 @@ export type StepAdjustments = StepAdjustment[];
 export const StepAdjustments = /*@__PURE__*/ S.Array(StepAdjustment);
 export type MinAdjustmentMagnitude = number;
 export type Cooldown = number;
-export type MetricAggregationType =
-  | "Average"
-  | "Minimum"
-  | "Maximum"
-  | (string & {});
+export type MetricAggregationType = "Average" | "Minimum" | "Maximum" | (string & {});
 export const MetricAggregationType = S.String;
 
 export interface StepScalingPolicyConfiguration {
@@ -657,9 +627,7 @@ export const TargetTrackingMetricDimension = /*@__PURE__*/ S.suspend(() =>
   identifier: "TargetTrackingMetricDimension",
 }) as any as S.Schema<TargetTrackingMetricDimension>;
 export type TargetTrackingMetricDimensions = TargetTrackingMetricDimension[];
-export const TargetTrackingMetricDimensions = /*@__PURE__*/ S.Array(
-  TargetTrackingMetricDimension,
-);
+export const TargetTrackingMetricDimensions = /*@__PURE__*/ S.Array(TargetTrackingMetricDimension);
 export type TargetTrackingMetricName = string;
 export type TargetTrackingMetricNamespace = string;
 export interface TargetTrackingMetric {
@@ -711,9 +679,7 @@ export const TargetTrackingMetricDataQuery = /*@__PURE__*/ S.suspend(() =>
   identifier: "TargetTrackingMetricDataQuery",
 }) as any as S.Schema<TargetTrackingMetricDataQuery>;
 export type TargetTrackingMetricDataQueries = TargetTrackingMetricDataQuery[];
-export const TargetTrackingMetricDataQueries = /*@__PURE__*/ S.Array(
-  TargetTrackingMetricDataQuery,
-);
+export const TargetTrackingMetricDataQueries = /*@__PURE__*/ S.Array(TargetTrackingMetricDataQuery);
 export interface CustomizedMetricSpecification {
   MetricName?: string;
   Namespace?: string;
@@ -743,16 +709,15 @@ export interface TargetTrackingScalingPolicyConfiguration {
   ScaleInCooldown?: number;
   DisableScaleIn?: boolean;
 }
-export const TargetTrackingScalingPolicyConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TargetValue: S.Number,
-      PredefinedMetricSpecification: S.optional(PredefinedMetricSpecification),
-      CustomizedMetricSpecification: S.optional(CustomizedMetricSpecification),
-      ScaleOutCooldown: S.optional(S.Number),
-      ScaleInCooldown: S.optional(S.Number),
-      DisableScaleIn: S.optional(S.Boolean),
-    }),
+export const TargetTrackingScalingPolicyConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TargetValue: S.Number,
+    PredefinedMetricSpecification: S.optional(PredefinedMetricSpecification),
+    CustomizedMetricSpecification: S.optional(CustomizedMetricSpecification),
+    ScaleOutCooldown: S.optional(S.Number),
+    ScaleInCooldown: S.optional(S.Number),
+    DisableScaleIn: S.optional(S.Boolean),
+  }),
 ).annotate({
   identifier: "TargetTrackingScalingPolicyConfiguration",
 }) as any as S.Schema<TargetTrackingScalingPolicyConfiguration>;
@@ -761,41 +726,38 @@ export interface PredictiveScalingPredefinedMetricPairSpecification {
   PredefinedMetricType: string;
   ResourceLabel?: string;
 }
-export const PredictiveScalingPredefinedMetricPairSpecification =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PredefinedMetricType: S.String,
-      ResourceLabel: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "PredictiveScalingPredefinedMetricPairSpecification",
-  }) as any as S.Schema<PredictiveScalingPredefinedMetricPairSpecification>;
+export const PredictiveScalingPredefinedMetricPairSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PredefinedMetricType: S.String,
+    ResourceLabel: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PredictiveScalingPredefinedMetricPairSpecification",
+}) as any as S.Schema<PredictiveScalingPredefinedMetricPairSpecification>;
 export interface PredictiveScalingPredefinedScalingMetricSpecification {
   PredefinedMetricType: string;
   ResourceLabel?: string;
 }
-export const PredictiveScalingPredefinedScalingMetricSpecification =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PredefinedMetricType: S.String,
-      ResourceLabel: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "PredictiveScalingPredefinedScalingMetricSpecification",
-  }) as any as S.Schema<PredictiveScalingPredefinedScalingMetricSpecification>;
+export const PredictiveScalingPredefinedScalingMetricSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PredefinedMetricType: S.String,
+    ResourceLabel: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PredictiveScalingPredefinedScalingMetricSpecification",
+}) as any as S.Schema<PredictiveScalingPredefinedScalingMetricSpecification>;
 export interface PredictiveScalingPredefinedLoadMetricSpecification {
   PredefinedMetricType: string;
   ResourceLabel?: string;
 }
-export const PredictiveScalingPredefinedLoadMetricSpecification =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      PredefinedMetricType: S.String,
-      ResourceLabel: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "PredictiveScalingPredefinedLoadMetricSpecification",
-  }) as any as S.Schema<PredictiveScalingPredefinedLoadMetricSpecification>;
+export const PredictiveScalingPredefinedLoadMetricSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    PredefinedMetricType: S.String,
+    ResourceLabel: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "PredictiveScalingPredefinedLoadMetricSpecification",
+}) as any as S.Schema<PredictiveScalingPredefinedLoadMetricSpecification>;
 export type PredictiveScalingMetricDimensionName = string;
 export type PredictiveScalingMetricDimensionValue = string;
 export interface PredictiveScalingMetricDimension {
@@ -807,8 +769,7 @@ export const PredictiveScalingMetricDimension = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PredictiveScalingMetricDimension",
 }) as any as S.Schema<PredictiveScalingMetricDimension>;
-export type PredictiveScalingMetricDimensions =
-  PredictiveScalingMetricDimension[];
+export type PredictiveScalingMetricDimensions = PredictiveScalingMetricDimension[];
 export const PredictiveScalingMetricDimensions = /*@__PURE__*/ S.Array(
   PredictiveScalingMetricDimension,
 );
@@ -861,20 +822,18 @@ export const PredictiveScalingMetricDataQuery = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PredictiveScalingMetricDataQuery",
 }) as any as S.Schema<PredictiveScalingMetricDataQuery>;
-export type PredictiveScalingMetricDataQueries =
-  PredictiveScalingMetricDataQuery[];
+export type PredictiveScalingMetricDataQueries = PredictiveScalingMetricDataQuery[];
 export const PredictiveScalingMetricDataQueries = /*@__PURE__*/ S.Array(
   PredictiveScalingMetricDataQuery,
 );
 export interface PredictiveScalingCustomizedMetricSpecification {
   MetricDataQueries: PredictiveScalingMetricDataQuery[];
 }
-export const PredictiveScalingCustomizedMetricSpecification =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ MetricDataQueries: PredictiveScalingMetricDataQueries }),
-  ).annotate({
-    identifier: "PredictiveScalingCustomizedMetricSpecification",
-  }) as any as S.Schema<PredictiveScalingCustomizedMetricSpecification>;
+export const PredictiveScalingCustomizedMetricSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ MetricDataQueries: PredictiveScalingMetricDataQueries }),
+).annotate({
+  identifier: "PredictiveScalingCustomizedMetricSpecification",
+}) as any as S.Schema<PredictiveScalingCustomizedMetricSpecification>;
 export interface PredictiveScalingMetricSpecification {
   TargetValue: number;
   PredefinedMetricPairSpecification?: PredictiveScalingPredefinedMetricPairSpecification;
@@ -884,41 +843,34 @@ export interface PredictiveScalingMetricSpecification {
   CustomizedLoadMetricSpecification?: PredictiveScalingCustomizedMetricSpecification;
   CustomizedCapacityMetricSpecification?: PredictiveScalingCustomizedMetricSpecification;
 }
-export const PredictiveScalingMetricSpecification = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TargetValue: S.Number,
-      PredefinedMetricPairSpecification: S.optional(
-        PredictiveScalingPredefinedMetricPairSpecification,
-      ),
-      PredefinedScalingMetricSpecification: S.optional(
-        PredictiveScalingPredefinedScalingMetricSpecification,
-      ),
-      PredefinedLoadMetricSpecification: S.optional(
-        PredictiveScalingPredefinedLoadMetricSpecification,
-      ),
-      CustomizedScalingMetricSpecification: S.optional(
-        PredictiveScalingCustomizedMetricSpecification,
-      ),
-      CustomizedLoadMetricSpecification: S.optional(
-        PredictiveScalingCustomizedMetricSpecification,
-      ),
-      CustomizedCapacityMetricSpecification: S.optional(
-        PredictiveScalingCustomizedMetricSpecification,
-      ),
-    }),
+export const PredictiveScalingMetricSpecification = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TargetValue: S.Number,
+    PredefinedMetricPairSpecification: S.optional(
+      PredictiveScalingPredefinedMetricPairSpecification,
+    ),
+    PredefinedScalingMetricSpecification: S.optional(
+      PredictiveScalingPredefinedScalingMetricSpecification,
+    ),
+    PredefinedLoadMetricSpecification: S.optional(
+      PredictiveScalingPredefinedLoadMetricSpecification,
+    ),
+    CustomizedScalingMetricSpecification: S.optional(
+      PredictiveScalingCustomizedMetricSpecification,
+    ),
+    CustomizedLoadMetricSpecification: S.optional(PredictiveScalingCustomizedMetricSpecification),
+    CustomizedCapacityMetricSpecification: S.optional(
+      PredictiveScalingCustomizedMetricSpecification,
+    ),
+  }),
 ).annotate({
   identifier: "PredictiveScalingMetricSpecification",
 }) as any as S.Schema<PredictiveScalingMetricSpecification>;
-export type PredictiveScalingMetricSpecifications =
-  PredictiveScalingMetricSpecification[];
+export type PredictiveScalingMetricSpecifications = PredictiveScalingMetricSpecification[];
 export const PredictiveScalingMetricSpecifications = /*@__PURE__*/ S.Array(
   PredictiveScalingMetricSpecification,
 );
-export type PredictiveScalingMode =
-  | "ForecastOnly"
-  | "ForecastAndScale"
-  | (string & {});
+export type PredictiveScalingMode = "ForecastOnly" | "ForecastAndScale" | (string & {});
 export const PredictiveScalingMode = S.String;
 
 export type PredictiveScalingSchedulingBufferTime = number;
@@ -936,17 +888,14 @@ export interface PredictiveScalingPolicyConfiguration {
   MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior;
   MaxCapacityBuffer?: number;
 }
-export const PredictiveScalingPolicyConfiguration = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricSpecifications: PredictiveScalingMetricSpecifications,
-      Mode: S.optional(PredictiveScalingMode),
-      SchedulingBufferTime: S.optional(S.Number),
-      MaxCapacityBreachBehavior: S.optional(
-        PredictiveScalingMaxCapacityBreachBehavior,
-      ),
-      MaxCapacityBuffer: S.optional(S.Number),
-    }),
+export const PredictiveScalingPolicyConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MetricSpecifications: PredictiveScalingMetricSpecifications,
+    Mode: S.optional(PredictiveScalingMode),
+    SchedulingBufferTime: S.optional(S.Number),
+    MaxCapacityBreachBehavior: S.optional(PredictiveScalingMaxCapacityBreachBehavior),
+    MaxCapacityBuffer: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "PredictiveScalingPolicyConfiguration",
 }) as any as S.Schema<PredictiveScalingPolicyConfiguration>;
@@ -981,12 +930,8 @@ export const ScalingPolicy = /*@__PURE__*/ S.suspend(() =>
     ScalableDimension: ScalableDimension,
     PolicyType: PolicyType,
     StepScalingPolicyConfiguration: S.optional(StepScalingPolicyConfiguration),
-    TargetTrackingScalingPolicyConfiguration: S.optional(
-      TargetTrackingScalingPolicyConfiguration,
-    ),
-    PredictiveScalingPolicyConfiguration: S.optional(
-      PredictiveScalingPolicyConfiguration,
-    ),
+    TargetTrackingScalingPolicyConfiguration: S.optional(TargetTrackingScalingPolicyConfiguration),
+    PredictiveScalingPolicyConfiguration: S.optional(PredictiveScalingPolicyConfiguration),
     Alarms: S.optional(Alarms),
     CreationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
   }),
@@ -1021,9 +966,7 @@ export const DescribeScheduledActionsRequest = /*@__PURE__*/ S.suspend(() =>
     ScalableDimension: S.optional(ScalableDimension),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeScheduledActionsRequest",
 }) as any as S.Schema<DescribeScheduledActionsRequest>;
@@ -1100,9 +1043,7 @@ export const GetPredictiveScalingForecastRequest = /*@__PURE__*/ S.suspend(() =>
     PolicyName: S.String,
     StartTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     EndTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetPredictiveScalingForecastRequest",
 }) as any as S.Schema<GetPredictiveScalingForecastRequest>;
@@ -1143,13 +1084,12 @@ export interface GetPredictiveScalingForecastResponse {
   CapacityForecast?: CapacityForecast;
   UpdateTime?: Date;
 }
-export const GetPredictiveScalingForecastResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      LoadForecast: S.optional(LoadForecasts),
-      CapacityForecast: S.optional(CapacityForecast),
-      UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const GetPredictiveScalingForecastResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    LoadForecast: S.optional(LoadForecasts),
+    CapacityForecast: S.optional(CapacityForecast),
+    UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "GetPredictiveScalingForecastResponse",
 }) as any as S.Schema<GetPredictiveScalingForecastResponse>;
@@ -1167,10 +1107,7 @@ export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListTagsForResourceResponse {
   Tags?: { [key: string]: string | undefined };
 }
@@ -1197,15 +1134,9 @@ export const PutScalingPolicyRequest = /*@__PURE__*/ S.suspend(() =>
     ScalableDimension: ScalableDimension,
     PolicyType: S.optional(PolicyType),
     StepScalingPolicyConfiguration: S.optional(StepScalingPolicyConfiguration),
-    TargetTrackingScalingPolicyConfiguration: S.optional(
-      TargetTrackingScalingPolicyConfiguration,
-    ),
-    PredictiveScalingPolicyConfiguration: S.optional(
-      PredictiveScalingPolicyConfiguration,
-    ),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+    TargetTrackingScalingPolicyConfiguration: S.optional(TargetTrackingScalingPolicyConfiguration),
+    PredictiveScalingPolicyConfiguration: S.optional(PredictiveScalingPolicyConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutScalingPolicyRequest",
 }) as any as S.Schema<PutScalingPolicyRequest>;
@@ -1240,16 +1171,12 @@ export const PutScheduledActionRequest = /*@__PURE__*/ S.suspend(() =>
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ScalableTargetAction: S.optional(ScalableTargetAction),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PutScheduledActionRequest",
 }) as any as S.Schema<PutScheduledActionRequest>;
 export interface PutScheduledActionResponse {}
-export const PutScheduledActionResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutScheduledActionResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutScheduledActionResponse",
 }) as any as S.Schema<PutScheduledActionResponse>;
 export interface RegisterScalableTargetRequest {
@@ -1272,9 +1199,7 @@ export const RegisterScalableTargetRequest = /*@__PURE__*/ S.suspend(() =>
     RoleARN: S.optional(S.String),
     SuspendedState: S.optional(SuspendedState),
     Tags: S.optional(TagMap),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterScalableTargetRequest",
 }) as any as S.Schema<RegisterScalableTargetRequest>;
@@ -1298,9 +1223,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1317,9 +1240,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ErrorMessage = string;
@@ -1606,11 +1527,7 @@ export const getPredictiveScalingForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetPredictiveScalingForecastRequest,
   output: GetPredictiveScalingForecastResponse,
-  errors: [
-    InternalServiceException,
-    ValidationException,
-    PredictiveScalingForecastNotSupported,
-  ],
+  errors: [InternalServiceException, ValidationException, PredictiveScalingForecastNotSupported],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
@@ -1840,20 +1757,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    ResourceNotFoundException,
-    TooManyTagsException,
-    ValidationException,
-  ],
+  errors: [ResourceNotFoundException, TooManyTagsException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | ResourceNotFoundException
-  | ValidationException
-  | CommonErrors;
+export type UntagResourceError = ResourceNotFoundException | ValidationException | CommonErrors;
 /**
  * Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the tag key and
  * the Application Auto Scaling scalable target.

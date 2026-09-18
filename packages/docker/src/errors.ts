@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown Docker error — returned when nothing else matches the failure. */
 export class UnknownDockerError extends Schema.TaggedError<UnknownDockerError>()(
@@ -41,10 +41,7 @@ export class UnknownDockerError extends Schema.TaggedError<UnknownDockerError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class DockerParseError extends Schema.TaggedError<DockerParseError>()(
-  "DockerParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class DockerParseError extends Schema.TaggedError<DockerParseError>()("DockerParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}

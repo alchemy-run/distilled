@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CloudFront KeyValueStore",
   serviceShapeName: "CloudFrontKeyValueStore",
@@ -51,10 +51,7 @@ const rules = T.EndpointResolver((p, _) => {
                         if (Region != null) {
                           {
                             const partitionResult = _.partition(Region);
-                            if (
-                              partitionResult != null &&
-                              partitionResult !== false
-                            ) {
+                            if (partitionResult != null && partitionResult !== false) {
                               if (
                                 _.getAttr(partitionResult, "name") ===
                                 `${_.getAttr(parsedArn, "partition")}`
@@ -70,9 +67,7 @@ const rules = T.EndpointResolver((p, _) => {
                                       );
                                     }
                                   }
-                                  return err(
-                                    "Provided endpoint is not a valid URL",
-                                  );
+                                  return err("Provided endpoint is not a valid URL");
                                 }
                                 return e(
                                   `https://${_.getAttr(parsedArn, "accountId")}.cloudfront-kvs.global.api.aws`,
@@ -135,9 +130,7 @@ const rules = T.EndpointResolver((p, _) => {
     }
     return err("KVS ARN must be provided to use this service");
   }
-  return err(
-    "Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.",
-  );
+  return err("Invalid Configuration: FIPS is not supported with CloudFront-KeyValueStore.");
 });
 
 export class AccessDeniedException
@@ -329,9 +322,7 @@ export const ListKeysResponseListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListKeysResponseListItem",
 }) as any as S.Schema<ListKeysResponseListItem>;
 export type ListKeysResponseList = ListKeysResponseListItem[];
-export const ListKeysResponseList = /*@__PURE__*/ S.Array(
-  ListKeysResponseListItem,
-);
+export const ListKeysResponseList = /*@__PURE__*/ S.Array(ListKeysResponseListItem);
 export interface ListKeysResponse {
   NextToken?: string;
   Items?: ListKeysResponseListItem[];
@@ -399,9 +390,7 @@ export const DeleteKeyRequestListItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKeyRequestListItem",
 }) as any as S.Schema<DeleteKeyRequestListItem>;
 export type DeleteKeyRequestsList = DeleteKeyRequestListItem[];
-export const DeleteKeyRequestsList = /*@__PURE__*/ S.Array(
-  DeleteKeyRequestListItem,
-);
+export const DeleteKeyRequestsList = /*@__PURE__*/ S.Array(DeleteKeyRequestListItem);
 export interface UpdateKeysRequest {
   KvsARN: string;
   IfMatch: string;

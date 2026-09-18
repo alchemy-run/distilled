@@ -23,10 +23,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * HTTP 402 — the account cannot be billed for the request: a missing payment
@@ -35,12 +34,9 @@ import * as Category from "@distilled.cloud/core/category";
  * ~95 operations that provision billable resources; the rest reach it through
  * the protocol's status map.
  */
-export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()(
-  "PaymentRequired",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withQuotaError) {}
+export class PaymentRequired extends Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+  message: Schema.String,
+}).pipe(Category.withQuotaError) {}
 
 /**
  * HTTP 410 — Vercel's "Invalid API version": the versioned path segment
@@ -68,23 +64,16 @@ export class UnknownVercelError extends Schema.TaggedError<UnknownVercelError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class VercelParseError extends Schema.TaggedError<VercelParseError>()(
-  "VercelParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class VercelParseError extends Schema.TaggedError<VercelParseError>()("VercelParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any Vercel operation may surface in addition to the per-operation
  * typed status errors.
  */
-export type ClientErrors =
-  | UnknownVercelError
-  | VercelParseError
-  | PaymentRequired
-  | Gone;
+export type ClientErrors = UnknownVercelError | VercelParseError | PaymentRequired | Gone;
 
 /**
  * Default Vercel operation errors: the shared HTTP status errors from core

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Pinpoint SMS Voice",
   serviceShapeName: "PinpointSMSVoice",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://sms-voice.pinpoint-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://sms-voice.pinpoint.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://sms-voice.pinpoint.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://sms-voice.pinpoint.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -138,9 +128,7 @@ export const CreateConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateConfigurationSetRequest",
 }) as any as S.Schema<CreateConfigurationSetRequest>;
 export interface CreateConfigurationSetResponse {}
-export const CreateConfigurationSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const CreateConfigurationSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "CreateConfigurationSetResponse",
 }) as any as S.Schema<CreateConfigurationSetResponse>;
 export interface CloudWatchLogsDestination {
@@ -210,33 +198,33 @@ export interface CreateConfigurationSetEventDestinationRequest {
   EventDestination?: EventDestinationDefinition;
   EventDestinationName?: string;
 }
-export const CreateConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-      EventDestination: S.optional(EventDestinationDefinition),
-      EventDestinationName: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const CreateConfigurationSetEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestination: S.optional(EventDestinationDefinition),
+    EventDestinationName: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "CreateConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<CreateConfigurationSetEventDestinationRequest>;
+  ),
+).annotate({
+  identifier: "CreateConfigurationSetEventDestinationRequest",
+}) as any as S.Schema<CreateConfigurationSetEventDestinationRequest>;
 export interface CreateConfigurationSetEventDestinationResponse {}
-export const CreateConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "CreateConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<CreateConfigurationSetEventDestinationResponse>;
+export const CreateConfigurationSetEventDestinationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "CreateConfigurationSetEventDestinationResponse",
+}) as any as S.Schema<CreateConfigurationSetEventDestinationResponse>;
 export interface DeleteConfigurationSetRequest {
   ConfigurationSetName: string;
 }
@@ -260,64 +248,61 @@ export const DeleteConfigurationSetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteConfigurationSetRequest",
 }) as any as S.Schema<DeleteConfigurationSetRequest>;
 export interface DeleteConfigurationSetResponse {}
-export const DeleteConfigurationSetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteConfigurationSetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteConfigurationSetResponse",
 }) as any as S.Schema<DeleteConfigurationSetResponse>;
 export interface DeleteConfigurationSetEventDestinationRequest {
   ConfigurationSetName: string;
   EventDestinationName: string;
 }
-export const DeleteConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-      EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeleteConfigurationSetEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DeleteConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<DeleteConfigurationSetEventDestinationRequest>;
+  ),
+).annotate({
+  identifier: "DeleteConfigurationSetEventDestinationRequest",
+}) as any as S.Schema<DeleteConfigurationSetEventDestinationRequest>;
 export interface DeleteConfigurationSetEventDestinationResponse {}
-export const DeleteConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "DeleteConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<DeleteConfigurationSetEventDestinationResponse>;
+export const DeleteConfigurationSetEventDestinationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DeleteConfigurationSetEventDestinationResponse",
+}) as any as S.Schema<DeleteConfigurationSetEventDestinationResponse>;
 export interface GetConfigurationSetEventDestinationsRequest {
   ConfigurationSetName: string;
 }
-export const GetConfigurationSetEventDestinationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetConfigurationSetEventDestinationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "GetConfigurationSetEventDestinationsRequest",
-  }) as any as S.Schema<GetConfigurationSetEventDestinationsRequest>;
+  ),
+).annotate({
+  identifier: "GetConfigurationSetEventDestinationsRequest",
+}) as any as S.Schema<GetConfigurationSetEventDestinationsRequest>;
 export interface EventDestination {
   CloudWatchLogsDestination?: CloudWatchLogsDestination;
   Enabled?: boolean;
@@ -343,12 +328,11 @@ export const EventDestinations = /*@__PURE__*/ S.Array(EventDestination);
 export interface GetConfigurationSetEventDestinationsResponse {
   EventDestinations?: EventDestination[];
 }
-export const GetConfigurationSetEventDestinationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ EventDestinations: S.optional(EventDestinations) }),
-  ).annotate({
-    identifier: "GetConfigurationSetEventDestinationsResponse",
-  }) as any as S.Schema<GetConfigurationSetEventDestinationsResponse>;
+export const GetConfigurationSetEventDestinationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ EventDestinations: S.optional(EventDestinations) }),
+).annotate({
+  identifier: "GetConfigurationSetEventDestinationsResponse",
+}) as any as S.Schema<GetConfigurationSetEventDestinationsResponse>;
 export interface ListConfigurationSetsRequest {
   NextToken?: string;
   PageSize?: string;
@@ -475,33 +459,33 @@ export interface UpdateConfigurationSetEventDestinationRequest {
   EventDestination?: EventDestinationDefinition;
   EventDestinationName: string;
 }
-export const UpdateConfigurationSetEventDestinationRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
-      EventDestination: S.optional(EventDestinationDefinition),
-      EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateConfigurationSetEventDestinationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ConfigurationSetName: S.String.pipe(T.HttpLabel("ConfigurationSetName")),
+    EventDestination: S.optional(EventDestinationDefinition),
+    EventDestinationName: S.String.pipe(T.HttpLabel("EventDestinationName")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/v1/sms-voice/configuration-sets/{ConfigurationSetName}/event-destinations/{EventDestinationName}",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "UpdateConfigurationSetEventDestinationRequest",
-  }) as any as S.Schema<UpdateConfigurationSetEventDestinationRequest>;
+  ),
+).annotate({
+  identifier: "UpdateConfigurationSetEventDestinationRequest",
+}) as any as S.Schema<UpdateConfigurationSetEventDestinationRequest>;
 export interface UpdateConfigurationSetEventDestinationResponse {}
-export const UpdateConfigurationSetEventDestinationResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "UpdateConfigurationSetEventDestinationResponse",
-  }) as any as S.Schema<UpdateConfigurationSetEventDestinationResponse>;
+export const UpdateConfigurationSetEventDestinationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "UpdateConfigurationSetEventDestinationResponse",
+}) as any as S.Schema<UpdateConfigurationSetEventDestinationResponse>;
 export type CreateConfigurationSetError =
   | AlreadyExistsException
   | BadRequestException
@@ -664,11 +648,7 @@ export const listConfigurationSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListConfigurationSetsRequest,
   output: ListConfigurationSetsResponse,
-  errors: [
-    BadRequestException,
-    InternalServiceErrorException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, InternalServiceErrorException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
@@ -690,11 +670,7 @@ export const sendVoiceMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: SendVoiceMessageRequest,
   output: SendVoiceMessageResponse,
-  errors: [
-    BadRequestException,
-    InternalServiceErrorException,
-    TooManyRequestsException,
-  ],
+  errors: [BadRequestException, InternalServiceErrorException, TooManyRequestsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendVoiceMessage",

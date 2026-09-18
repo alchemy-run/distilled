@@ -1,13 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Interconnect",
   serviceShapeName: "Interconnect",
@@ -27,9 +27,7 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -65,10 +63,7 @@ export type ConnectionDescription = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface AcceptConnectionProposalRequest {
   attachPoint: AttachPoint;
   activationKey: string | redacted.Redacted<string>;
@@ -83,9 +78,7 @@ export const AcceptConnectionProposalRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AcceptConnectionProposalRequest",
 }) as any as S.Schema<AcceptConnectionProposalRequest>;
@@ -164,9 +157,7 @@ export const AcceptConnectionProposalResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AcceptConnectionProposalResponse>;
 export type RemoteOwnerAccount = string;
 export type RemoteAccountIdentifier = { identifier: string };
-export const RemoteAccountIdentifier = /*@__PURE__*/ S.Union([
-  S.Struct({ identifier: S.String }),
-]);
+export const RemoteAccountIdentifier = /*@__PURE__*/ S.Union([S.Struct({ identifier: S.String })]);
 export interface CreateConnectionRequest {
   description?: string;
   bandwidth: string;
@@ -185,9 +176,7 @@ export const CreateConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     remoteAccount: S.optional(RemoteAccountIdentifier),
     tags: S.optional(TagMap),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateConnectionRequest",
 }) as any as S.Schema<CreateConnectionRequest>;
@@ -207,9 +196,7 @@ export const DeleteConnectionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     identifier: S.String,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteConnectionRequest",
 }) as any as S.Schema<DeleteConnectionRequest>;
@@ -275,11 +262,7 @@ export const GetEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetEnvironmentRequest",
 }) as any as S.Schema<GetEnvironmentRequest>;
-export type EnvironmentState =
-  | "available"
-  | "limited"
-  | "unavailable"
-  | (string & {});
+export type EnvironmentState = "available" | "limited" | "unavailable" | (string & {});
 export const EnvironmentState = S.String;
 
 export type BandwidthList = string[];
@@ -339,9 +322,7 @@ export const ListAttachPointsRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAttachPointsRequest",
 }) as any as S.Schema<ListAttachPointsRequest>;
@@ -359,9 +340,7 @@ export const AttachPointDescriptor = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttachPointDescriptor",
 }) as any as S.Schema<AttachPointDescriptor>;
 export type AttachPointDescriptorList = AttachPointDescriptor[];
-export const AttachPointDescriptorList = /*@__PURE__*/ S.Array(
-  AttachPointDescriptor,
-);
+export const AttachPointDescriptorList = /*@__PURE__*/ S.Array(AttachPointDescriptor);
 export interface ListAttachPointsResponse {
   attachPoints: AttachPointDescriptor[];
   nextToken?: string;
@@ -390,9 +369,7 @@ export const ListConnectionsRequest = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.optional(S.String),
     provider: S.optional(Provider),
     attachPoint: S.optional(AttachPoint),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListConnectionsRequest",
 }) as any as S.Schema<ListConnectionsRequest>;
@@ -454,9 +431,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     provider: S.optional(Provider),
     location: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -501,9 +476,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -520,9 +493,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateConnectionRequest {
@@ -537,9 +508,7 @@ export const UpdateConnectionRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     bandwidth: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateConnectionRequest",
 }) as any as S.Schema<UpdateConnectionRequest>;

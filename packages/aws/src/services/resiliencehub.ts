@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "resiliencehub",
   serviceShapeName: "AwsResilienceHub",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://resiliencehub-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://resiliencehub.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://resiliencehub.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://resiliencehub.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -146,8 +136,7 @@ export const AcceptGroupingRecommendationEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AcceptGroupingRecommendationEntry",
 }) as any as S.Schema<AcceptGroupingRecommendationEntry>;
-export type AcceptGroupingRecommendationEntries =
-  AcceptGroupingRecommendationEntry[];
+export type AcceptGroupingRecommendationEntries = AcceptGroupingRecommendationEntry[];
 export const AcceptGroupingRecommendationEntries = /*@__PURE__*/ S.Array(
   AcceptGroupingRecommendationEntry,
 );
@@ -155,27 +144,26 @@ export interface AcceptResourceGroupingRecommendationsRequest {
   appArn: string;
   entries: AcceptGroupingRecommendationEntry[];
 }
-export const AcceptResourceGroupingRecommendationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      entries: AcceptGroupingRecommendationEntries,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/accept-resource-grouping-recommendations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AcceptResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    entries: AcceptGroupingRecommendationEntries,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/accept-resource-grouping-recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AcceptResourceGroupingRecommendationsRequest",
-  }) as any as S.Schema<AcceptResourceGroupingRecommendationsRequest>;
+  ),
+).annotate({
+  identifier: "AcceptResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<AcceptResourceGroupingRecommendationsRequest>;
 export type ErrorMessage = string;
 export interface FailedGroupingRecommendationEntry {
   groupingRecommendationId: string;
@@ -186,8 +174,7 @@ export const FailedGroupingRecommendationEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "FailedGroupingRecommendationEntry",
 }) as any as S.Schema<FailedGroupingRecommendationEntry>;
-export type FailedGroupingRecommendationEntries =
-  FailedGroupingRecommendationEntry[];
+export type FailedGroupingRecommendationEntries = FailedGroupingRecommendationEntry[];
 export const FailedGroupingRecommendationEntries = /*@__PURE__*/ S.Array(
   FailedGroupingRecommendationEntry,
 );
@@ -195,15 +182,14 @@ export interface AcceptResourceGroupingRecommendationsResponse {
   appArn: string;
   failedEntries: FailedGroupingRecommendationEntry[];
 }
-export const AcceptResourceGroupingRecommendationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      failedEntries: FailedGroupingRecommendationEntries,
-    }),
-  ).annotate({
-    identifier: "AcceptResourceGroupingRecommendationsResponse",
-  }) as any as S.Schema<AcceptResourceGroupingRecommendationsResponse>;
+export const AcceptResourceGroupingRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    failedEntries: FailedGroupingRecommendationEntries,
+  }),
+).annotate({
+  identifier: "AcceptResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<AcceptResourceGroupingRecommendationsResponse>;
 export type EntityName = string;
 export type ResourceMappingType =
   | "CfnStack"
@@ -266,40 +252,38 @@ export interface AddDraftAppVersionResourceMappingsRequest {
   appArn: string;
   resourceMappings: ResourceMapping[];
 }
-export const AddDraftAppVersionResourceMappingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ appArn: S.String, resourceMappings: ResourceMappingList }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/add-draft-app-version-resource-mappings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const AddDraftAppVersionResourceMappingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ appArn: S.String, resourceMappings: ResourceMappingList }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/add-draft-app-version-resource-mappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "AddDraftAppVersionResourceMappingsRequest",
-  }) as any as S.Schema<AddDraftAppVersionResourceMappingsRequest>;
+  ),
+).annotate({
+  identifier: "AddDraftAppVersionResourceMappingsRequest",
+}) as any as S.Schema<AddDraftAppVersionResourceMappingsRequest>;
 export type EntityVersion = string;
 export interface AddDraftAppVersionResourceMappingsResponse {
   appArn: string;
   appVersion: string;
   resourceMappings: ResourceMapping[];
 }
-export const AddDraftAppVersionResourceMappingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      resourceMappings: ResourceMappingList,
-    }),
-  ).annotate({
-    identifier: "AddDraftAppVersionResourceMappingsResponse",
-  }) as any as S.Schema<AddDraftAppVersionResourceMappingsResponse>;
+export const AddDraftAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resourceMappings: ResourceMappingList,
+  }),
+).annotate({
+  identifier: "AddDraftAppVersionResourceMappingsResponse",
+}) as any as S.Schema<AddDraftAppVersionResourceMappingsResponse>;
 export type SpecReferenceId = string;
 export type String500 = string;
 export interface UpdateRecommendationStatusItem {
@@ -332,21 +316,19 @@ export interface UpdateRecommendationStatusRequestEntry {
   appComponentId?: string;
   excludeReason?: ExcludeRecommendationReason;
 }
-export const UpdateRecommendationStatusRequestEntry = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      entryId: S.String,
-      referenceId: S.String,
-      item: S.optional(UpdateRecommendationStatusItem),
-      excluded: S.Boolean,
-      appComponentId: S.optional(S.String),
-      excludeReason: S.optional(ExcludeRecommendationReason),
-    }),
+export const UpdateRecommendationStatusRequestEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entryId: S.String,
+    referenceId: S.String,
+    item: S.optional(UpdateRecommendationStatusItem),
+    excluded: S.Boolean,
+    appComponentId: S.optional(S.String),
+    excludeReason: S.optional(ExcludeRecommendationReason),
+  }),
 ).annotate({
   identifier: "UpdateRecommendationStatusRequestEntry",
 }) as any as S.Schema<UpdateRecommendationStatusRequestEntry>;
-export type UpdateRecommendationStatusRequestEntries =
-  UpdateRecommendationStatusRequestEntry[];
+export type UpdateRecommendationStatusRequestEntries = UpdateRecommendationStatusRequestEntry[];
 export const UpdateRecommendationStatusRequestEntries = /*@__PURE__*/ S.Array(
   UpdateRecommendationStatusRequestEntry,
 );
@@ -354,21 +336,20 @@ export interface BatchUpdateRecommendationStatusRequest {
   appArn: string;
   requestEntries: UpdateRecommendationStatusRequestEntry[];
 }
-export const BatchUpdateRecommendationStatusRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      requestEntries: UpdateRecommendationStatusRequestEntries,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/batch-update-recommendation-status" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchUpdateRecommendationStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    requestEntries: UpdateRecommendationStatusRequestEntries,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/batch-update-recommendation-status" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchUpdateRecommendationStatusRequest",
 }) as any as S.Schema<BatchUpdateRecommendationStatusRequest>;
@@ -380,49 +361,48 @@ export interface BatchUpdateRecommendationStatusSuccessfulEntry {
   appComponentId?: string;
   excludeReason?: ExcludeRecommendationReason;
 }
-export const BatchUpdateRecommendationStatusSuccessfulEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      entryId: S.String,
-      referenceId: S.String,
-      item: S.optional(UpdateRecommendationStatusItem),
-      excluded: S.Boolean,
-      appComponentId: S.optional(S.String),
-      excludeReason: S.optional(ExcludeRecommendationReason),
-    }),
-  ).annotate({
-    identifier: "BatchUpdateRecommendationStatusSuccessfulEntry",
-  }) as any as S.Schema<BatchUpdateRecommendationStatusSuccessfulEntry>;
+export const BatchUpdateRecommendationStatusSuccessfulEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    entryId: S.String,
+    referenceId: S.String,
+    item: S.optional(UpdateRecommendationStatusItem),
+    excluded: S.Boolean,
+    appComponentId: S.optional(S.String),
+    excludeReason: S.optional(ExcludeRecommendationReason),
+  }),
+).annotate({
+  identifier: "BatchUpdateRecommendationStatusSuccessfulEntry",
+}) as any as S.Schema<BatchUpdateRecommendationStatusSuccessfulEntry>;
 export type BatchUpdateRecommendationStatusSuccessfulEntries =
   BatchUpdateRecommendationStatusSuccessfulEntry[];
-export const BatchUpdateRecommendationStatusSuccessfulEntries =
-  /*@__PURE__*/ S.Array(BatchUpdateRecommendationStatusSuccessfulEntry);
+export const BatchUpdateRecommendationStatusSuccessfulEntries = /*@__PURE__*/ S.Array(
+  BatchUpdateRecommendationStatusSuccessfulEntry,
+);
 export interface BatchUpdateRecommendationStatusFailedEntry {
   entryId: string;
   errorMessage: string;
 }
-export const BatchUpdateRecommendationStatusFailedEntry =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ entryId: S.String, errorMessage: S.String }),
-  ).annotate({
-    identifier: "BatchUpdateRecommendationStatusFailedEntry",
-  }) as any as S.Schema<BatchUpdateRecommendationStatusFailedEntry>;
+export const BatchUpdateRecommendationStatusFailedEntry = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ entryId: S.String, errorMessage: S.String }),
+).annotate({
+  identifier: "BatchUpdateRecommendationStatusFailedEntry",
+}) as any as S.Schema<BatchUpdateRecommendationStatusFailedEntry>;
 export type BatchUpdateRecommendationStatusFailedEntries =
   BatchUpdateRecommendationStatusFailedEntry[];
-export const BatchUpdateRecommendationStatusFailedEntries =
-  /*@__PURE__*/ S.Array(BatchUpdateRecommendationStatusFailedEntry);
+export const BatchUpdateRecommendationStatusFailedEntries = /*@__PURE__*/ S.Array(
+  BatchUpdateRecommendationStatusFailedEntry,
+);
 export interface BatchUpdateRecommendationStatusResponse {
   appArn: string;
   successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntry[];
   failedEntries: BatchUpdateRecommendationStatusFailedEntry[];
 }
-export const BatchUpdateRecommendationStatusResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntries,
-      failedEntries: BatchUpdateRecommendationStatusFailedEntries,
-    }),
+export const BatchUpdateRecommendationStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    successfulEntries: BatchUpdateRecommendationStatusSuccessfulEntries,
+    failedEntries: BatchUpdateRecommendationStatusFailedEntries,
+  }),
 ).annotate({
   identifier: "BatchUpdateRecommendationStatusResponse",
 }) as any as S.Schema<BatchUpdateRecommendationStatusResponse>;
@@ -430,10 +410,7 @@ export type EntityDescription = string;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export type AppAssessmentScheduleType = "Disabled" | "Daily" | (string & {});
 export const AppAssessmentScheduleType = S.String;
@@ -459,10 +436,7 @@ export const PermissionModel = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PermissionModel",
 }) as any as S.Schema<PermissionModel>;
-export type EventType =
-  | "ScheduledAssessmentFailure"
-  | "DriftDetected"
-  | (string & {});
+export type EventType = "ScheduledAssessmentFailure" | "DriftDetected" | (string & {});
 export const EventType = S.String;
 
 export interface EventSubscription {
@@ -503,16 +477,7 @@ export const CreateAppRequest = /*@__PURE__*/ S.suspend(() =>
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
     awsApplicationArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/create-app" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/create-app" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAppRequest",
 }) as any as S.Schema<CreateAppRequest>;
@@ -529,11 +494,7 @@ export type AppComplianceStatusType =
   | (string & {});
 export const AppComplianceStatusType = S.String;
 
-export type AppDriftStatusType =
-  | "NotChecked"
-  | "NotDetected"
-  | "Detected"
-  | (string & {});
+export type AppDriftStatusType = "NotChecked" | "NotDetected" | "Detected" | (string & {});
 export const AppDriftStatusType = S.String;
 
 export interface App {
@@ -566,21 +527,15 @@ export const App = /*@__PURE__*/ S.suspend(() =>
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
     status: S.optional(AppStatusType),
     complianceStatus: S.optional(AppComplianceStatusType),
-    lastAppComplianceEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastAppComplianceEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     resiliencyScore: S.optional(S.Number),
-    lastResiliencyScoreEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastResiliencyScoreEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     tags: S.optional(TagMap),
     assessmentSchedule: S.optional(AppAssessmentScheduleType),
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
     driftStatus: S.optional(AppDriftStatusType),
-    lastDriftEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastDriftEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     rtoInSecs: S.optional(S.Number),
     rpoInSecs: S.optional(S.Number),
     awsApplicationArn: S.optional(S.String),
@@ -589,9 +544,7 @@ export const App = /*@__PURE__*/ S.suspend(() =>
 export interface CreateAppResponse {
   app: App;
 }
-export const CreateAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }),
-).annotate({
+export const CreateAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({ app: App })).annotate({
   identifier: "CreateAppResponse",
 }) as any as S.Schema<CreateAppResponse>;
 export type String128WithoutWhitespace = string;
@@ -651,13 +604,12 @@ export interface CreateAppVersionAppComponentResponse {
   appVersion: string;
   appComponent?: AppComponent;
 }
-export const CreateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      appComponent: S.optional(AppComponent),
-    }),
+export const CreateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
 ).annotate({
   identifier: "CreateAppVersionAppComponentResponse",
 }) as any as S.Schema<CreateAppVersionAppComponentResponse>;
@@ -774,9 +726,7 @@ export type RenderRecommendationType = "Alarm" | "Sop" | "Test" | (string & {});
 export const RenderRecommendationType = S.String;
 
 export type RenderRecommendationTypeList = RenderRecommendationType[];
-export const RenderRecommendationTypeList = /*@__PURE__*/ S.Array(
-  RenderRecommendationType,
-);
+export const RenderRecommendationTypeList = /*@__PURE__*/ S.Array(RenderRecommendationType);
 export interface CreateRecommendationTemplateRequest {
   recommendationIds?: string[];
   format?: TemplateFormat;
@@ -864,9 +814,8 @@ export const RecommendationTemplate = /*@__PURE__*/ S.suspend(() =>
 export interface CreateRecommendationTemplateResponse {
   recommendationTemplate?: RecommendationTemplate;
 }
-export const CreateRecommendationTemplateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ recommendationTemplate: S.optional(RecommendationTemplate) }),
+export const CreateRecommendationTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ recommendationTemplate: S.optional(RecommendationTemplate) }),
 ).annotate({
   identifier: "CreateRecommendationTemplateResponse",
 }) as any as S.Schema<CreateRecommendationTemplateResponse>;
@@ -887,12 +836,7 @@ export type ResiliencyPolicyTier =
   | (string & {});
 export const ResiliencyPolicyTier = S.String;
 
-export type DisruptionType =
-  | "Software"
-  | "Hardware"
-  | "AZ"
-  | "Region"
-  | (string & {});
+export type DisruptionType = "Software" | "Hardware" | "AZ" | "Region" | (string & {});
 export const DisruptionType = S.String;
 
 export type Seconds = number;
@@ -986,16 +930,7 @@ export const DeleteAppRequest = /*@__PURE__*/ S.suspend(() =>
     appArn: S.String,
     forceDelete: S.optional(S.Boolean),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-app" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/delete-app" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteAppRequest",
 }) as any as S.Schema<DeleteAppRequest>;
@@ -1016,24 +951,12 @@ export const DeleteAppAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentArn: S.String,
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/delete-app-assessment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/delete-app-assessment" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAppAssessmentRequest",
 }) as any as S.Schema<DeleteAppAssessmentRequest>;
-export type AssessmentStatus =
-  | "Pending"
-  | "InProgress"
-  | "Failed"
-  | "Success"
-  | (string & {});
+export type AssessmentStatus = "Pending" | "InProgress" | "Failed" | "Success" | (string & {});
 export const AssessmentStatus = S.String;
 
 export interface DeleteAppAssessmentResponse {
@@ -1149,13 +1072,12 @@ export interface DeleteAppVersionAppComponentResponse {
   appVersion: string;
   appComponent?: AppComponent;
 }
-export const DeleteAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      appComponent: S.optional(AppComponent),
-    }),
+export const DeleteAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
 ).annotate({
   identifier: "DeleteAppVersionAppComponentResponse",
 }) as any as S.Schema<DeleteAppVersionAppComponentResponse>;
@@ -1229,12 +1151,11 @@ export interface DeleteRecommendationTemplateResponse {
   recommendationTemplateArn: string;
   status: RecommendationTemplateStatus;
 }
-export const DeleteRecommendationTemplateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      recommendationTemplateArn: S.String,
-      status: RecommendationTemplateStatus,
-    }),
+export const DeleteRecommendationTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationTemplateArn: S.String,
+    status: RecommendationTemplateStatus,
+  }),
 ).annotate({
   identifier: "DeleteRecommendationTemplateResponse",
 }) as any as S.Schema<DeleteRecommendationTemplateResponse>;
@@ -1272,14 +1193,7 @@ export interface DescribeAppRequest {
 }
 export const DescribeAppRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/describe-app" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/describe-app" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAppRequest",
@@ -1287,9 +1201,7 @@ export const DescribeAppRequest = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeAppResponse {
   app: App;
 }
-export const DescribeAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }),
-).annotate({
+export const DescribeAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({ app: App })).annotate({
   identifier: "DescribeAppResponse",
 }) as any as S.Schema<DescribeAppResponse>;
 export interface DescribeAppAssessmentRequest {
@@ -1313,12 +1225,7 @@ export type AssessmentInvoker = "User" | "System" | (string & {});
 export const AssessmentInvoker = S.String;
 
 export type CurrencyCode = string;
-export type CostFrequency =
-  | "Hourly"
-  | "Daily"
-  | "Monthly"
-  | "Yearly"
-  | (string & {});
+export type CostFrequency = "Hourly" | "Daily" | "Monthly" | "Yearly" | (string & {});
 export const CostFrequency = S.String;
 
 export interface Cost {
@@ -1334,12 +1241,7 @@ export const DisruptionResiliencyScore = /*@__PURE__*/ S.Record(
   DisruptionType,
   S.Number.pipe(S.optional),
 );
-export type ResiliencyScoreType =
-  | "Compliance"
-  | "Test"
-  | "Alarm"
-  | "Sop"
-  | (string & {});
+export type ResiliencyScoreType = "Compliance" | "Test" | "Alarm" | "Sop" | (string & {});
 export const ResiliencyScoreType = S.String;
 
 export interface ScoringComponentResiliencyScore {
@@ -1450,11 +1352,7 @@ export const ResourceErrorsDetails = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ResourceErrorsDetails",
 }) as any as S.Schema<ResourceErrorsDetails>;
-export type DriftStatus =
-  | "NotChecked"
-  | "NotDetected"
-  | "Detected"
-  | (string & {});
+export type DriftStatus = "NotChecked" | "NotDetected" | "Detected" | (string & {});
 export const DriftStatus = S.String;
 
 export interface AssessmentRiskRecommendation {
@@ -1472,9 +1370,7 @@ export const AssessmentRiskRecommendation = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssessmentRiskRecommendation",
 }) as any as S.Schema<AssessmentRiskRecommendation>;
 export type AssessmentRiskRecommendationList = AssessmentRiskRecommendation[];
-export const AssessmentRiskRecommendationList = /*@__PURE__*/ S.Array(
-  AssessmentRiskRecommendation,
-);
+export const AssessmentRiskRecommendationList = /*@__PURE__*/ S.Array(AssessmentRiskRecommendation);
 export interface AssessmentSummary {
   summary?: string;
   riskRecommendations?: AssessmentRiskRecommendation[];
@@ -1545,14 +1441,7 @@ export interface DescribeAppVersionRequest {
 }
 export const DescribeAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String, appVersion: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/describe-app-version" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/describe-app-version" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAppVersionRequest",
@@ -1576,18 +1465,17 @@ export interface DescribeAppVersionAppComponentRequest {
   appVersion: string;
   id: string;
 }
-export const DescribeAppVersionAppComponentRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ appArn: S.String, appVersion: S.String, id: S.String }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/describe-app-version-app-component" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeAppVersionAppComponentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ appArn: S.String, appVersion: S.String, id: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/describe-app-version-app-component" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeAppVersionAppComponentRequest",
 }) as any as S.Schema<DescribeAppVersionAppComponentRequest>;
@@ -1596,13 +1484,12 @@ export interface DescribeAppVersionAppComponentResponse {
   appVersion: string;
   appComponent?: AppComponent;
 }
-export const DescribeAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      appComponent: S.optional(AppComponent),
-    }),
+export const DescribeAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
 ).annotate({
   identifier: "DescribeAppVersionAppComponentResponse",
 }) as any as S.Schema<DescribeAppVersionAppComponentResponse>;
@@ -1656,28 +1543,27 @@ export interface DescribeAppVersionResourcesResolutionStatusRequest {
   appVersion: string;
   resolutionId?: string;
 }
-export const DescribeAppVersionResourcesResolutionStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      resolutionId: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/describe-app-version-resources-resolution-status",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeAppVersionResourcesResolutionStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resolutionId: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/describe-app-version-resources-resolution-status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DescribeAppVersionResourcesResolutionStatusRequest",
-  }) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusRequest>;
+  ),
+).annotate({
+  identifier: "DescribeAppVersionResourcesResolutionStatusRequest",
+}) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusRequest>;
 export type ResourceResolutionStatusType =
   | "Pending"
   | "InProgress"
@@ -1693,18 +1579,17 @@ export interface DescribeAppVersionResourcesResolutionStatusResponse {
   status: ResourceResolutionStatusType;
   errorMessage?: string;
 }
-export const DescribeAppVersionResourcesResolutionStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      resolutionId: S.String,
-      status: ResourceResolutionStatusType,
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeAppVersionResourcesResolutionStatusResponse",
-  }) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusResponse>;
+export const DescribeAppVersionResourcesResolutionStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resolutionId: S.String,
+    status: ResourceResolutionStatusType,
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeAppVersionResourcesResolutionStatusResponse",
+}) as any as S.Schema<DescribeAppVersionResourcesResolutionStatusResponse>;
 export interface DescribeAppVersionTemplateRequest {
   appArn: string;
   appVersion: string;
@@ -1741,24 +1626,23 @@ export const DescribeAppVersionTemplateResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDraftAppVersionResourcesImportStatusRequest {
   appArn: string;
 }
-export const DescribeDraftAppVersionResourcesImportStatusRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ appArn: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/describe-draft-app-version-resources-import-status",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeDraftAppVersionResourcesImportStatusRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ appArn: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/describe-draft-app-version-resources-import-status",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DescribeDraftAppVersionResourcesImportStatusRequest",
-  }) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusRequest>;
+  ),
+).annotate({
+  identifier: "DescribeDraftAppVersionResourcesImportStatusRequest",
+}) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusRequest>;
 export type ResourceImportStatusType =
   | "Pending"
   | "InProgress"
@@ -1783,19 +1667,18 @@ export interface DescribeDraftAppVersionResourcesImportStatusResponse {
   errorMessage?: string;
   errorDetails?: ErrorDetail[];
 }
-export const DescribeDraftAppVersionResourcesImportStatusResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      status: ResourceImportStatusType,
-      statusChangeTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      errorMessage: S.optional(S.String),
-      errorDetails: S.optional(ErrorDetailList),
-    }),
-  ).annotate({
-    identifier: "DescribeDraftAppVersionResourcesImportStatusResponse",
-  }) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusResponse>;
+export const DescribeDraftAppVersionResourcesImportStatusResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    status: ResourceImportStatusType,
+    statusChangeTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    errorMessage: S.optional(S.String),
+    errorDetails: S.optional(ErrorDetailList),
+  }),
+).annotate({
+  identifier: "DescribeDraftAppVersionResourcesImportStatusResponse",
+}) as any as S.Schema<DescribeDraftAppVersionResourcesImportStatusResponse>;
 export interface DescribeMetricsExportRequest {
   metricsExportId: string;
 }
@@ -1866,24 +1749,23 @@ export interface DescribeResourceGroupingRecommendationTaskRequest {
   appArn: string;
   groupingId?: string;
 }
-export const DescribeResourceGroupingRecommendationTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ appArn: S.String, groupingId: S.optional(S.String) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/describe-resource-grouping-recommendation-task",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeResourceGroupingRecommendationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ appArn: S.String, groupingId: S.optional(S.String) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/describe-resource-grouping-recommendation-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "DescribeResourceGroupingRecommendationTaskRequest",
-  }) as any as S.Schema<DescribeResourceGroupingRecommendationTaskRequest>;
+  ),
+).annotate({
+  identifier: "DescribeResourceGroupingRecommendationTaskRequest",
+}) as any as S.Schema<DescribeResourceGroupingRecommendationTaskRequest>;
 export type ResourcesGroupingRecGenStatusType =
   | "Pending"
   | "InProgress"
@@ -1897,24 +1779,20 @@ export interface DescribeResourceGroupingRecommendationTaskResponse {
   status: ResourcesGroupingRecGenStatusType;
   errorMessage?: string;
 }
-export const DescribeResourceGroupingRecommendationTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      groupingId: S.String,
-      status: ResourcesGroupingRecGenStatusType,
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "DescribeResourceGroupingRecommendationTaskResponse",
-  }) as any as S.Schema<DescribeResourceGroupingRecommendationTaskResponse>;
+export const DescribeResourceGroupingRecommendationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupingId: S.String,
+    status: ResourcesGroupingRecGenStatusType,
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "DescribeResourceGroupingRecommendationTaskResponse",
+}) as any as S.Schema<DescribeResourceGroupingRecommendationTaskResponse>;
 export type ArnList = string[];
 export const ArnList = /*@__PURE__*/ S.Array(S.String);
 export type TerraformSourceList = TerraformSource[];
 export const TerraformSourceList = /*@__PURE__*/ S.Array(TerraformSource);
-export type ResourceImportStrategyType =
-  | "AddOnly"
-  | "ReplaceAll"
-  | (string & {});
+export type ResourceImportStrategyType = "AddOnly" | "ReplaceAll" | (string & {});
 export const ResourceImportStrategyType = S.String;
 
 export type EksNamespaceList = string[];
@@ -1935,27 +1813,26 @@ export interface ImportResourcesToDraftAppVersionRequest {
   importStrategy?: ResourceImportStrategyType;
   eksSources?: EksSource[];
 }
-export const ImportResourcesToDraftAppVersionRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      sourceArns: S.optional(ArnList),
-      terraformSources: S.optional(TerraformSourceList),
-      importStrategy: S.optional(ResourceImportStrategyType),
-      eksSources: S.optional(EksSourceList),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/import-resources-to-draft-app-version",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ImportResourcesToDraftAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    sourceArns: S.optional(ArnList),
+    terraformSources: S.optional(TerraformSourceList),
+    importStrategy: S.optional(ResourceImportStrategyType),
+    eksSources: S.optional(EksSourceList),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/import-resources-to-draft-app-version",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ImportResourcesToDraftAppVersionRequest",
 }) as any as S.Schema<ImportResourcesToDraftAppVersionRequest>;
@@ -1967,16 +1844,15 @@ export interface ImportResourcesToDraftAppVersionResponse {
   terraformSources?: TerraformSource[];
   eksSources?: EksSource[];
 }
-export const ImportResourcesToDraftAppVersionResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      sourceArns: S.optional(ArnList),
-      status: ResourceImportStatusType,
-      terraformSources: S.optional(TerraformSourceList),
-      eksSources: S.optional(EksSourceList),
-    }),
+export const ImportResourcesToDraftAppVersionResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    sourceArns: S.optional(ArnList),
+    status: ResourceImportStatusType,
+    terraformSources: S.optional(TerraformSourceList),
+    eksSources: S.optional(EksSourceList),
+  }),
 ).annotate({
   identifier: "ImportResourcesToDraftAppVersionResponse",
 }) as any as S.Schema<ImportResourcesToDraftAppVersionResponse>;
@@ -2005,13 +1881,7 @@ export const ListAlarmRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListAlarmRecommendationsRequest",
 }) as any as S.Schema<ListAlarmRecommendationsRequest>;
-export type AlarmType =
-  | "Metric"
-  | "Composite"
-  | "Canary"
-  | "Logs"
-  | "Event"
-  | (string & {});
+export type AlarmType = "Metric" | "Composite" | "Canary" | "Logs" | "Event" | (string & {});
 export const AlarmType = S.String;
 
 export type EntityId = string;
@@ -2095,8 +1965,7 @@ export const AlarmRecommendation = /*@__PURE__*/ S.suspend(() =>
   identifier: "AlarmRecommendation",
 }) as any as S.Schema<AlarmRecommendation>;
 export type AlarmRecommendationList = AlarmRecommendation[];
-export const AlarmRecommendationList =
-  /*@__PURE__*/ S.Array(AlarmRecommendation);
+export const AlarmRecommendationList = /*@__PURE__*/ S.Array(AlarmRecommendation);
 export interface ListAlarmRecommendationsResponse {
   alarmRecommendations: AlarmRecommendation[];
   nextToken?: string;
@@ -2114,25 +1983,24 @@ export interface ListAppAssessmentComplianceDriftsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAppAssessmentComplianceDriftsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentArn: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/list-app-assessment-compliance-drifts",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAppAssessmentComplianceDriftsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentArn: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/list-app-assessment-compliance-drifts",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAppAssessmentComplianceDriftsRequest",
 }) as any as S.Schema<ListAppAssessmentComplianceDriftsRequest>;
@@ -2179,36 +2047,34 @@ export interface ListAppAssessmentComplianceDriftsResponse {
   complianceDrifts: ComplianceDrift[];
   nextToken?: string;
 }
-export const ListAppAssessmentComplianceDriftsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      complianceDrifts: ComplianceDriftList,
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListAppAssessmentComplianceDriftsResponse",
-  }) as any as S.Schema<ListAppAssessmentComplianceDriftsResponse>;
+export const ListAppAssessmentComplianceDriftsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    complianceDrifts: ComplianceDriftList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListAppAssessmentComplianceDriftsResponse",
+}) as any as S.Schema<ListAppAssessmentComplianceDriftsResponse>;
 export interface ListAppAssessmentResourceDriftsRequest {
   assessmentArn: string;
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAppAssessmentResourceDriftsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentArn: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-app-assessment-resource-drifts" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAppAssessmentResourceDriftsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentArn: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-assessment-resource-drifts" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAppAssessmentResourceDriftsRequest",
 }) as any as S.Schema<ListAppAssessmentResourceDriftsRequest>;
@@ -2246,12 +2112,11 @@ export interface ListAppAssessmentResourceDriftsResponse {
   resourceDrifts: ResourceDrift[];
   nextToken?: string;
 }
-export const ListAppAssessmentResourceDriftsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      resourceDrifts: ResourceDriftList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListAppAssessmentResourceDriftsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceDrifts: ResourceDriftList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListAppAssessmentResourceDriftsResponse",
 }) as any as S.Schema<ListAppAssessmentResourceDriftsResponse>;
@@ -2271,25 +2136,14 @@ export const ListAppAssessmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
     assessmentName: S.optional(S.String).pipe(T.HttpQuery("assessmentName")),
-    assessmentStatus: S.optional(AssessmentStatusList).pipe(
-      T.HttpQuery("assessmentStatus"),
-    ),
-    complianceStatus: S.optional(ComplianceStatus).pipe(
-      T.HttpQuery("complianceStatus"),
-    ),
+    assessmentStatus: S.optional(AssessmentStatusList).pipe(T.HttpQuery("assessmentStatus")),
+    complianceStatus: S.optional(ComplianceStatus).pipe(T.HttpQuery("complianceStatus")),
     invoker: S.optional(AssessmentInvoker).pipe(T.HttpQuery("invoker")),
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/list-app-assessments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/list-app-assessments" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAppAssessmentsRequest",
@@ -2331,8 +2185,7 @@ export const AppAssessmentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppAssessmentSummary",
 }) as any as S.Schema<AppAssessmentSummary>;
 export type AppAssessmentSummaryList = AppAssessmentSummary[];
-export const AppAssessmentSummaryList =
-  /*@__PURE__*/ S.Array(AppAssessmentSummary);
+export const AppAssessmentSummaryList = /*@__PURE__*/ S.Array(AppAssessmentSummary);
 export interface ListAppAssessmentsResponse {
   nextToken?: string;
   assessmentSummaries: AppAssessmentSummary[];
@@ -2389,9 +2242,7 @@ export const AppComponentCompliance = /*@__PURE__*/ S.suspend(() =>
   identifier: "AppComponentCompliance",
 }) as any as S.Schema<AppComponentCompliance>;
 export type ComponentCompliancesList = AppComponentCompliance[];
-export const ComponentCompliancesList = /*@__PURE__*/ S.Array(
-  AppComponentCompliance,
-);
+export const ComponentCompliancesList = /*@__PURE__*/ S.Array(AppComponentCompliance);
 export interface ListAppComponentCompliancesResponse {
   componentCompliances: AppComponentCompliance[];
   nextToken?: string;
@@ -2409,22 +2260,21 @@ export interface ListAppComponentRecommendationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAppComponentRecommendationsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assessmentArn: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-app-component-recommendations" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAppComponentRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assessmentArn: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-component-recommendations" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAppComponentRecommendationsRequest",
 }) as any as S.Schema<ListAppComponentRecommendationsRequest>;
@@ -2513,8 +2363,7 @@ export const ConfigRecommendation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ConfigRecommendation",
 }) as any as S.Schema<ConfigRecommendation>;
 export type ConfigRecommendationList = ConfigRecommendation[];
-export const ConfigRecommendationList =
-  /*@__PURE__*/ S.Array(ConfigRecommendation);
+export const ConfigRecommendationList = /*@__PURE__*/ S.Array(ConfigRecommendation);
 export interface ComponentRecommendation {
   appComponentName: string;
   recommendationStatus: RecommendationComplianceStatus;
@@ -2530,19 +2379,16 @@ export const ComponentRecommendation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ComponentRecommendation",
 }) as any as S.Schema<ComponentRecommendation>;
 export type ComponentRecommendationList = ComponentRecommendation[];
-export const ComponentRecommendationList = /*@__PURE__*/ S.Array(
-  ComponentRecommendation,
-);
+export const ComponentRecommendationList = /*@__PURE__*/ S.Array(ComponentRecommendation);
 export interface ListAppComponentRecommendationsResponse {
   componentRecommendations: ComponentRecommendation[];
   nextToken?: string;
 }
-export const ListAppComponentRecommendationsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      componentRecommendations: ComponentRecommendationList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListAppComponentRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    componentRecommendations: ComponentRecommendationList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListAppComponentRecommendationsResponse",
 }) as any as S.Schema<ListAppComponentRecommendationsResponse>;
@@ -2559,14 +2405,7 @@ export const ListAppInputSourcesRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-app-input-sources" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-app-input-sources" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAppInputSourcesRequest",
@@ -2601,26 +2440,15 @@ export const ListAppsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
-    fromLastAssessmentTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("fromLastAssessmentTime")),
-    toLastAssessmentTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("toLastAssessmentTime")),
+    fromLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("fromLastAssessmentTime"),
+    ),
+    toLastAssessmentTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("toLastAssessmentTime"),
+    ),
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
-    awsApplicationArn: S.optional(S.String).pipe(
-      T.HttpQuery("awsApplicationArn"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/list-apps" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    awsApplicationArn: S.optional(S.String).pipe(T.HttpQuery("awsApplicationArn")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/list-apps" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAppsRequest",
 }) as any as S.Schema<ListAppsRequest>;
@@ -2650,9 +2478,7 @@ export const AppSummary = /*@__PURE__*/ S.suspend(() =>
     assessmentSchedule: S.optional(AppAssessmentScheduleType),
     status: S.optional(AppStatusType),
     driftStatus: S.optional(AppDriftStatusType),
-    lastAppComplianceEvaluationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastAppComplianceEvaluationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     rtoInSecs: S.optional(S.Number),
     rpoInSecs: S.optional(S.Number),
     awsApplicationArn: S.optional(S.String),
@@ -2716,23 +2542,22 @@ export interface ListAppVersionResourceMappingsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListAppVersionResourceMappingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/list-app-version-resource-mappings" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListAppVersionResourceMappingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/list-app-version-resource-mappings" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListAppVersionResourceMappingsRequest",
 }) as any as S.Schema<ListAppVersionResourceMappingsRequest>;
@@ -2740,12 +2565,11 @@ export interface ListAppVersionResourceMappingsResponse {
   resourceMappings: ResourceMapping[];
   nextToken?: string;
 }
-export const ListAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      resourceMappings: ResourceMappingList,
-      nextToken: S.optional(S.String),
-    }),
+export const ListAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resourceMappings: ResourceMappingList,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListAppVersionResourceMappingsResponse",
 }) as any as S.Schema<ListAppVersionResourceMappingsResponse>;
@@ -2807,14 +2631,7 @@ export const ListAppVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     startTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-app-versions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/list-app-versions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListAppVersionsRequest",
@@ -2846,13 +2663,7 @@ export const ListAppVersionsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListAppVersionsResponse",
 }) as any as S.Schema<ListAppVersionsResponse>;
-export type FieldAggregationType =
-  | "Min"
-  | "Max"
-  | "Sum"
-  | "Avg"
-  | "Count"
-  | (string & {});
+export type FieldAggregationType = "Min" | "Max" | "Sum" | "Avg" | "Count" | (string & {});
 export const FieldAggregationType = S.String;
 
 export interface Field {
@@ -2913,16 +2724,7 @@ export const ListMetricsRequest = /*@__PURE__*/ S.suspend(() =>
     dataSource: S.optional(S.String),
     conditions: S.optional(ConditionList),
     sorts: S.optional(SortList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/list-metrics" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/list-metrics" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListMetricsRequest",
 }) as any as S.Schema<ListMetricsRequest>;
@@ -2940,9 +2742,7 @@ export const ListMetricsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListMetricsResponse",
 }) as any as S.Schema<ListMetricsResponse>;
 export type RecommendationTemplateStatusList = RecommendationTemplateStatus[];
-export const RecommendationTemplateStatusList = /*@__PURE__*/ S.Array(
-  RecommendationTemplateStatus,
-);
+export const RecommendationTemplateStatusList = /*@__PURE__*/ S.Array(RecommendationTemplateStatus);
 export interface ListRecommendationTemplatesRequest {
   assessmentArn?: string;
   reverseOrder?: boolean;
@@ -2956,12 +2756,8 @@ export const ListRecommendationTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     assessmentArn: S.optional(S.String).pipe(T.HttpQuery("assessmentArn")),
     reverseOrder: S.optional(S.Boolean).pipe(T.HttpQuery("reverseOrder")),
-    status: S.optional(RecommendationTemplateStatusList).pipe(
-      T.HttpQuery("status"),
-    ),
-    recommendationTemplateArn: S.optional(S.String).pipe(
-      T.HttpQuery("recommendationTemplateArn"),
-    ),
+    status: S.optional(RecommendationTemplateStatusList).pipe(T.HttpQuery("status")),
+    recommendationTemplateArn: S.optional(S.String).pipe(T.HttpQuery("recommendationTemplateArn")),
     name: S.optional(S.String).pipe(T.HttpQuery("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
@@ -2979,9 +2775,7 @@ export const ListRecommendationTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListRecommendationTemplatesRequest",
 }) as any as S.Schema<ListRecommendationTemplatesRequest>;
 export type RecommendationTemplateList = RecommendationTemplate[];
-export const RecommendationTemplateList = /*@__PURE__*/ S.Array(
-  RecommendationTemplate,
-);
+export const RecommendationTemplateList = /*@__PURE__*/ S.Array(RecommendationTemplate);
 export interface ListRecommendationTemplatesResponse {
   nextToken?: string;
   recommendationTemplates?: RecommendationTemplate[];
@@ -3036,28 +2830,27 @@ export interface ListResourceGroupingRecommendationsRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListResourceGroupingRecommendationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/list-resource-grouping-recommendations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String).pipe(T.HttpQuery("appArn")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/list-resource-grouping-recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListResourceGroupingRecommendationsRequest",
-  }) as any as S.Schema<ListResourceGroupingRecommendationsRequest>;
+  ),
+).annotate({
+  identifier: "ListResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<ListResourceGroupingRecommendationsRequest>;
 export interface GroupingAppComponent {
   appComponentId: string;
   appComponentType: string;
@@ -3101,10 +2894,7 @@ export type GroupingRecommendationStatusType =
   | (string & {});
 export const GroupingRecommendationStatusType = S.String;
 
-export type GroupingRecommendationConfidenceLevel =
-  | "High"
-  | "Medium"
-  | (string & {});
+export type GroupingRecommendationConfidenceLevel = "High" | "Medium" | (string & {});
 export const GroupingRecommendationConfidenceLevel = S.String;
 
 export type GroupingRecommendationRejectionReason =
@@ -3142,22 +2932,19 @@ export const GroupingRecommendation = /*@__PURE__*/ S.suspend(() =>
   identifier: "GroupingRecommendation",
 }) as any as S.Schema<GroupingRecommendation>;
 export type GroupingRecommendationList = GroupingRecommendation[];
-export const GroupingRecommendationList = /*@__PURE__*/ S.Array(
-  GroupingRecommendation,
-);
+export const GroupingRecommendationList = /*@__PURE__*/ S.Array(GroupingRecommendation);
 export interface ListResourceGroupingRecommendationsResponse {
   groupingRecommendations: GroupingRecommendation[];
   nextToken?: string;
 }
-export const ListResourceGroupingRecommendationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      groupingRecommendations: GroupingRecommendationList,
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListResourceGroupingRecommendationsResponse",
-  }) as any as S.Schema<ListResourceGroupingRecommendationsResponse>;
+export const ListResourceGroupingRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    groupingRecommendations: GroupingRecommendationList,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<ListResourceGroupingRecommendationsResponse>;
 export interface ListSopRecommendationsRequest {
   nextToken?: string;
   maxResults?: number;
@@ -3229,21 +3016,20 @@ export interface ListSuggestedResiliencyPoliciesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListSuggestedResiliencyPoliciesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({ method: "GET", uri: "/list-suggested-resiliency-policies" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListSuggestedResiliencyPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/list-suggested-resiliency-policies" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListSuggestedResiliencyPoliciesRequest",
 }) as any as S.Schema<ListSuggestedResiliencyPoliciesRequest>;
@@ -3251,12 +3037,11 @@ export interface ListSuggestedResiliencyPoliciesResponse {
   resiliencyPolicies: ResiliencyPolicy[];
   nextToken?: string;
 }
-export const ListSuggestedResiliencyPoliciesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      resiliencyPolicies: ResiliencyPolicies,
-      nextToken: S.optional(S.String),
-    }),
+export const ListSuggestedResiliencyPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    resiliencyPolicies: ResiliencyPolicies,
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListSuggestedResiliencyPoliciesResponse",
 }) as any as S.Schema<ListSuggestedResiliencyPoliciesResponse>;
@@ -3265,14 +3050,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -3311,12 +3089,7 @@ export const ListTestRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
 export type TestRisk = "Small" | "Medium" | "High" | (string & {});
 export const TestRisk = S.String;
 
-export type TestType =
-  | "Software"
-  | "Hardware"
-  | "AZ"
-  | "Region"
-  | (string & {});
+export type TestType = "Software" | "Hardware" | "AZ" | "Region" | (string & {});
 export const TestType = S.String;
 
 export type AlarmReferenceIdList = string[];
@@ -3376,30 +3149,29 @@ export interface ListUnsupportedAppVersionResourcesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListUnsupportedAppVersionResourcesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      resolutionId: S.optional(S.String),
-      nextToken: S.optional(S.String),
-      maxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/list-unsupported-app-version-resources",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListUnsupportedAppVersionResourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    resolutionId: S.optional(S.String),
+    nextToken: S.optional(S.String),
+    maxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/list-unsupported-app-version-resources",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListUnsupportedAppVersionResourcesRequest",
-  }) as any as S.Schema<ListUnsupportedAppVersionResourcesRequest>;
+  ),
+).annotate({
+  identifier: "ListUnsupportedAppVersionResourcesRequest",
+}) as any as S.Schema<ListUnsupportedAppVersionResourcesRequest>;
 export interface UnsupportedResource {
   logicalResourceId: LogicalResourceId;
   physicalResourceId: PhysicalResourceId;
@@ -3417,37 +3189,28 @@ export const UnsupportedResource = /*@__PURE__*/ S.suspend(() =>
   identifier: "UnsupportedResource",
 }) as any as S.Schema<UnsupportedResource>;
 export type UnsupportedResourceList = UnsupportedResource[];
-export const UnsupportedResourceList =
-  /*@__PURE__*/ S.Array(UnsupportedResource);
+export const UnsupportedResourceList = /*@__PURE__*/ S.Array(UnsupportedResource);
 export interface ListUnsupportedAppVersionResourcesResponse {
   unsupportedResources: UnsupportedResource[];
   resolutionId: string;
   nextToken?: string;
 }
-export const ListUnsupportedAppVersionResourcesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      unsupportedResources: UnsupportedResourceList,
-      resolutionId: S.String,
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListUnsupportedAppVersionResourcesResponse",
-  }) as any as S.Schema<ListUnsupportedAppVersionResourcesResponse>;
+export const ListUnsupportedAppVersionResourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    unsupportedResources: UnsupportedResourceList,
+    resolutionId: S.String,
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListUnsupportedAppVersionResourcesResponse",
+}) as any as S.Schema<ListUnsupportedAppVersionResourcesResponse>;
 export interface PublishAppVersionRequest {
   appArn: string;
   versionName?: string;
 }
 export const PublishAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ appArn: S.String, versionName: S.optional(S.String) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/publish-app-version" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/publish-app-version" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PublishAppVersionRequest",
@@ -3507,8 +3270,7 @@ export const RejectGroupingRecommendationEntry = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RejectGroupingRecommendationEntry",
 }) as any as S.Schema<RejectGroupingRecommendationEntry>;
-export type RejectGroupingRecommendationEntries =
-  RejectGroupingRecommendationEntry[];
+export type RejectGroupingRecommendationEntries = RejectGroupingRecommendationEntry[];
 export const RejectGroupingRecommendationEntries = /*@__PURE__*/ S.Array(
   RejectGroupingRecommendationEntry,
 );
@@ -3516,40 +3278,38 @@ export interface RejectResourceGroupingRecommendationsRequest {
   appArn: string;
   entries: RejectGroupingRecommendationEntry[];
 }
-export const RejectResourceGroupingRecommendationsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      entries: RejectGroupingRecommendationEntries,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/reject-resource-grouping-recommendations",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RejectResourceGroupingRecommendationsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    entries: RejectGroupingRecommendationEntries,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/reject-resource-grouping-recommendations",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "RejectResourceGroupingRecommendationsRequest",
-  }) as any as S.Schema<RejectResourceGroupingRecommendationsRequest>;
+  ),
+).annotate({
+  identifier: "RejectResourceGroupingRecommendationsRequest",
+}) as any as S.Schema<RejectResourceGroupingRecommendationsRequest>;
 export interface RejectResourceGroupingRecommendationsResponse {
   appArn: string;
   failedEntries: FailedGroupingRecommendationEntry[];
 }
-export const RejectResourceGroupingRecommendationsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      failedEntries: FailedGroupingRecommendationEntries,
-    }),
-  ).annotate({
-    identifier: "RejectResourceGroupingRecommendationsResponse",
-  }) as any as S.Schema<RejectResourceGroupingRecommendationsResponse>;
+export const RejectResourceGroupingRecommendationsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    failedEntries: FailedGroupingRecommendationEntries,
+  }),
+).annotate({
+  identifier: "RejectResourceGroupingRecommendationsResponse",
+}) as any as S.Schema<RejectResourceGroupingRecommendationsResponse>;
 export type EntityNameList = string[];
 export const EntityNameList = /*@__PURE__*/ S.Array(S.String);
 export interface RemoveDraftAppVersionResourceMappingsRequest {
@@ -3561,45 +3321,43 @@ export interface RemoveDraftAppVersionResourceMappingsRequest {
   terraformSourceNames?: string[];
   eksSourceNames?: string[];
 }
-export const RemoveDraftAppVersionResourceMappingsRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      resourceNames: S.optional(EntityNameList),
-      logicalStackNames: S.optional(String255List),
-      appRegistryAppNames: S.optional(EntityNameList),
-      resourceGroupNames: S.optional(EntityNameList),
-      terraformSourceNames: S.optional(String255List),
-      eksSourceNames: S.optional(String255List),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/remove-draft-app-version-resource-mappings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RemoveDraftAppVersionResourceMappingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    resourceNames: S.optional(EntityNameList),
+    logicalStackNames: S.optional(String255List),
+    appRegistryAppNames: S.optional(EntityNameList),
+    resourceGroupNames: S.optional(EntityNameList),
+    terraformSourceNames: S.optional(String255List),
+    eksSourceNames: S.optional(String255List),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/remove-draft-app-version-resource-mappings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "RemoveDraftAppVersionResourceMappingsRequest",
-  }) as any as S.Schema<RemoveDraftAppVersionResourceMappingsRequest>;
+  ),
+).annotate({
+  identifier: "RemoveDraftAppVersionResourceMappingsRequest",
+}) as any as S.Schema<RemoveDraftAppVersionResourceMappingsRequest>;
 export interface RemoveDraftAppVersionResourceMappingsResponse {
   appArn?: string;
   appVersion?: string;
 }
-export const RemoveDraftAppVersionResourceMappingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.optional(S.String),
-      appVersion: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "RemoveDraftAppVersionResourceMappingsResponse",
-  }) as any as S.Schema<RemoveDraftAppVersionResourceMappingsResponse>;
+export const RemoveDraftAppVersionResourceMappingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.optional(S.String),
+    appVersion: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "RemoveDraftAppVersionResourceMappingsResponse",
+}) as any as S.Schema<RemoveDraftAppVersionResourceMappingsResponse>;
 export interface ResolveAppVersionResourcesRequest {
   appArn: string;
   appVersion: string;
@@ -3649,14 +3407,7 @@ export const StartAppAssessmentRequest = /*@__PURE__*/ S.suspend(() =>
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     tags: S.optional(TagMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-app-assessment" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/start-app-assessment" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartAppAssessmentRequest",
@@ -3678,14 +3429,7 @@ export const StartMetricsExportRequest = /*@__PURE__*/ S.suspend(() =>
     bucketName: S.optional(S.String),
     clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/start-metrics-export" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/start-metrics-export" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "StartMetricsExportRequest",
@@ -3702,41 +3446,39 @@ export const StartMetricsExportResponse = /*@__PURE__*/ S.suspend(() =>
 export interface StartResourceGroupingRecommendationTaskRequest {
   appArn: string;
 }
-export const StartResourceGroupingRecommendationTaskRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ appArn: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/start-resource-grouping-recommendation-task",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const StartResourceGroupingRecommendationTaskRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ appArn: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/start-resource-grouping-recommendation-task",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "StartResourceGroupingRecommendationTaskRequest",
-  }) as any as S.Schema<StartResourceGroupingRecommendationTaskRequest>;
+  ),
+).annotate({
+  identifier: "StartResourceGroupingRecommendationTaskRequest",
+}) as any as S.Schema<StartResourceGroupingRecommendationTaskRequest>;
 export interface StartResourceGroupingRecommendationTaskResponse {
   appArn: string;
   groupingId: string;
   status: ResourcesGroupingRecGenStatusType;
   errorMessage?: string;
 }
-export const StartResourceGroupingRecommendationTaskResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      appArn: S.String,
-      groupingId: S.String,
-      status: ResourcesGroupingRecGenStatusType,
-      errorMessage: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "StartResourceGroupingRecommendationTaskResponse",
-  }) as any as S.Schema<StartResourceGroupingRecommendationTaskResponse>;
+export const StartResourceGroupingRecommendationTaskResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    groupingId: S.String,
+    status: ResourcesGroupingRecGenStatusType,
+    errorMessage: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "StartResourceGroupingRecommendationTaskResponse",
+}) as any as S.Schema<StartResourceGroupingRecommendationTaskResponse>;
 export interface TagResourceRequest {
   resourceArn: string;
   tags: { [key: string]: string | undefined };
@@ -3746,22 +3488,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -3775,22 +3508,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppRequest {
@@ -3811,25 +3535,14 @@ export const UpdateAppRequest = /*@__PURE__*/ S.suspend(() =>
     assessmentSchedule: S.optional(AppAssessmentScheduleType),
     permissionModel: S.optional(PermissionModel),
     eventSubscriptions: S.optional(EventSubscriptionList),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-app" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/update-app" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateAppRequest",
 }) as any as S.Schema<UpdateAppRequest>;
 export interface UpdateAppResponse {
   app: App;
 }
-export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ app: App }),
-).annotate({
+export const UpdateAppResponse = /*@__PURE__*/ S.suspend(() => S.Struct({ app: App })).annotate({
   identifier: "UpdateAppResponse",
 }) as any as S.Schema<UpdateAppResponse>;
 export interface UpdateAppVersionRequest {
@@ -3841,14 +3554,7 @@ export const UpdateAppVersionRequest = /*@__PURE__*/ S.suspend(() =>
     appArn: S.String,
     additionalInfo: S.optional(AdditionalInfoMap),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/update-app-version" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/update-app-version" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateAppVersionRequest",
@@ -3899,13 +3605,12 @@ export interface UpdateAppVersionAppComponentResponse {
   appVersion: string;
   appComponent?: AppComponent;
 }
-export const UpdateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      appArn: S.String,
-      appVersion: S.String,
-      appComponent: S.optional(AppComponent),
-    }),
+export const UpdateAppVersionAppComponentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appArn: S.String,
+    appVersion: S.String,
+    appComponent: S.optional(AppComponent),
+  }),
 ).annotate({
   identifier: "UpdateAppVersionAppComponentResponse",
 }) as any as S.Schema<UpdateAppVersionAppComponentResponse>;

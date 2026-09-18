@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test";
 import { buildSchema, introspectionFromSchema, parse, validate } from "graphql";
-import { compile } from "../graphql.ts";
 import { fixtureSDL } from "../graphql.fixture.ts";
+import { compile } from "../graphql.ts";
 import { applyOperation } from "../json-patch.ts";
 import {
   convertGraphQLClient,
@@ -127,40 +127,26 @@ describe("GraphQL-native compiler", () => {
         readReport: "report",
       },
     });
-    expect(output).toContain(
-      'export const queryQuery = client.operation("query", "query");',
-    );
-    expect(output).toContain(
-      'export const queryReport = client.operation("query", "report");',
-    );
+    expect(output).toContain('export const queryQuery = client.operation("query", "query");');
+    expect(output).toContain('export const queryReport = client.operation("query", "report");');
     expect(output).toContain(
       'export const queryTransport = client.operation("query", "transport");',
     );
-    expect(output).toContain(
-      'export const queryDelete = client.operation("query", "delete");',
-    );
-    expect(output).toContain(
-      'export const queryScalars = client.operation("query", "Scalars");',
-    );
-    expect(output).toContain(
-      'export const mutationSame2 = client.operation("mutation", "same");',
-    );
+    expect(output).toContain('export const queryDelete = client.operation("query", "delete");');
+    expect(output).toContain('export const queryScalars = client.operation("query", "Scalars");');
+    expect(output).toContain('export const mutationSame2 = client.operation("mutation", "same");');
     expect(output).toContain("export const deleteField = queryDelete;");
     expect(output).toContain("export const readReport = queryReport;");
     expect(output).not.toContain("export const default =");
     expect(
-      [...output.matchAll(/export const ([A-Za-z_$][\w$]*) =/g)].map(
-        (match) => match[1],
-      ),
+      [...output.matchAll(/export const ([A-Za-z_$][\w$]*) =/g)].map((match) => match[1]),
     ).toEqual(expect.arrayContaining(["query", "report", "queryCatchTags"]));
     const declarations = [
       ...output.matchAll(/export (?:const|class|type) ([A-Za-z_$][\w$]*)/g),
     ].map((match) => match[1]);
     expect(new Set(declarations).size).toBe(declarations.length);
     expect(output.match(/client\.operation\(/g)).toHaveLength(12);
-    expect(() =>
-      new Bun.Transpiler({ loader: "ts" }).transformSync(output),
-    ).not.toThrow();
+    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
     expect(
       generateGraphQLClient(model, {
         ...options,
@@ -209,15 +195,11 @@ describe("GraphQL-native compiler", () => {
     expect(output).toContain('"Schema": SchemaError;');
     expect(output).toContain('"Schema": {');
     expect(output).toContain('"Selection": {');
-    expect(() =>
-      new Bun.Transpiler({ loader: "ts" }).transformSync(output),
-    ).not.toThrow();
+    expect(() => new Bun.Transpiler({ loader: "ts" }).transformSync(output)).not.toThrow();
   });
 
   test("real introspection round-trips abstract fragments, recursive selections and defaulted required arguments", () => {
-    const schema = buildSchema(
-      fixtureSDL.replaceAll("first: Int = 20", "first: Int! = 20"),
-    );
+    const schema = buildSchema(fixtureSDL.replaceAll("first: Int = 20", "first: Int! = 20"));
     const model = convertGraphQLClient(introspectionFromSchema(schema));
     const compiled = compile(model, "query", {
       node: {
@@ -272,9 +254,9 @@ describe("GraphQL-native compiler", () => {
     });
     expect(Object.values(compiled.variables)).toEqual([{ owner: "account" }]);
     expect(validate(schema, parse(compiled.query))).toEqual([]);
-    expect(() =>
-      compile(model, "query", { names: { where: { paging: {} } } }),
-    ).toThrow("owner is required");
+    expect(() => compile(model, "query", { names: { where: { paging: {} } } })).toThrow(
+      "owner is required",
+    );
   });
 
   test("provider scalar overrides stay aligned in runtime metadata and generated scalar types", () => {
@@ -290,10 +272,7 @@ describe("GraphQL-native compiler", () => {
     expect(output).toContain('"DateTime": string;');
     expect(output).toContain('"JSON": unknown;');
     expect(
-      validate(
-        schema,
-        parse(compile(model, "query", { date: true, blob: true }).query),
-      ),
+      validate(schema, parse(compile(model, "query", { date: true, blob: true }).query)),
     ).toEqual([]);
   });
 
@@ -312,9 +291,7 @@ describe("GraphQL-native compiler", () => {
     expect(model.types.Search!.possibleTypes).toEqual(["Project", "Service"]);
     expect(model.types.Project!.fields!.legacy!.deprecated).toBe("Use id");
     expect(model.types.Status!.enumValues).toEqual(["ACTIVE", "OLD"]);
-    expect(model.types.Filter!.inputFields!.status!.defaultValue).toBe(
-      "ACTIVE",
-    );
+    expect(model.types.Filter!.inputFields!.status!.defaultValue).toBe("ACTIVE");
     expect(model.types.JSON!.scalar).toBe("unknown");
     validateGraphQLModel(model);
   });
@@ -350,10 +327,7 @@ describe("GraphQL-native compiler", () => {
   });
 
   test("generation has no fixed depth projection or artificial output optionality", () => {
-    const output = generateGraphQLClient(
-      convertGraphQLClient(fixture),
-      options,
-    );
+    const output = generateGraphQLClient(convertGraphQLClient(fixture), options);
     expect(output).toContain('"Project": {');
     expect(output).toContain('"Search": "Project" | "Service";');
     expect(output).toContain('"Node": "Project";');
@@ -372,9 +346,7 @@ describe("GraphQL-native compiler", () => {
     expect(() => validateGraphQLModel(model)).toThrow(
       "Project.children: unknown GraphQL error MissingError",
     );
-    expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow(
-      "Incomplete GraphQL NON_NULL",
-    );
+    expect(() => graphqlTypeString({ kind: "NON_NULL" })).toThrow("Incomplete GraphQL NON_NULL");
     expect(() =>
       applyOperation(model, {
         op: "replace",

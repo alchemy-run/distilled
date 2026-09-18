@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://cloudsearch.amazonaws.com/doc/2013-01-01/");
 const svc = T.AwsApiService({
   sdkId: "CloudSearch",
@@ -27,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -61,9 +57,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudsearch-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -71,13 +65,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudsearch.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudsearch.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudsearch.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -96,10 +86,7 @@ export class DisabledOperationException
       Code: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
-    T.all(
-      T.AwsQueryError({ code: "DisabledAction", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "DisabledAction", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class InternalException
   extends /*@__PURE__*/ S.TaggedError<InternalException>()(
@@ -108,10 +95,7 @@ export class InternalException
       Code: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
-    T.all(
-      T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }),
-      T.HttpError(500),
-    ),
+    T.all(T.AwsQueryError({ code: "InternalException", httpResponseCode: 500 }), T.HttpError(500)),
   ).pipe(C.withServerError) {}
 export class InvalidTypeException
   extends /*@__PURE__*/ S.TaggedError<InvalidTypeException>()(
@@ -120,10 +104,7 @@ export class InvalidTypeException
       Code: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
-    T.all(
-      T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "InvalidType", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class LimitExceededException
   extends /*@__PURE__*/ S.TaggedError<LimitExceededException>()(
@@ -132,10 +113,7 @@ export class LimitExceededException
       Code: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
-    T.all(
-      T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "LimitExceeded", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
@@ -156,10 +134,7 @@ export class ResourceNotFoundException
       Code: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
-    T.all(
-      T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 409 }),
-      T.HttpError(409),
-    ),
+    T.all(T.AwsQueryError({ code: "ResourceNotFound", httpResponseCode: 409 }), T.HttpError(409)),
   ).pipe(C.withConflictError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
@@ -176,15 +151,7 @@ export interface BuildSuggestersRequest {
 }
 export const BuildSuggestersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BuildSuggestersRequest",
@@ -205,15 +172,7 @@ export interface CreateDomainRequest {
 }
 export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateDomainRequest",
@@ -324,12 +283,7 @@ export type AnalysisSchemeLanguage =
   | (string & {});
 export const AnalysisSchemeLanguage = S.String;
 
-export type AlgorithmicStemming =
-  | "none"
-  | "minimal"
-  | "light"
-  | "full"
-  | (string & {});
+export type AlgorithmicStemming = "none" | "minimal" | "light" | "full" | (string & {});
 export const AlgorithmicStemming = S.String;
 
 export interface AnalysisOptions {
@@ -368,15 +322,7 @@ export interface DefineAnalysisSchemeRequest {
 }
 export const DefineAnalysisSchemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, AnalysisScheme: AnalysisScheme }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DefineAnalysisSchemeRequest",
@@ -438,15 +384,7 @@ export interface DefineExpressionRequest {
 }
 export const DefineExpressionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, Expression: Expression }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DefineExpressionRequest",
@@ -723,15 +661,7 @@ export interface DefineIndexFieldRequest {
 }
 export const DefineIndexFieldRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, IndexField: IndexField }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DefineIndexFieldRequest",
@@ -786,15 +716,7 @@ export interface DefineSuggesterRequest {
 }
 export const DefineSuggesterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, Suggester: Suggester }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DefineSuggesterRequest",
@@ -822,15 +744,7 @@ export interface DeleteAnalysisSchemeRequest {
 }
 export const DeleteAnalysisSchemeRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, AnalysisSchemeName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAnalysisSchemeRequest",
@@ -848,15 +762,7 @@ export interface DeleteDomainRequest {
 }
 export const DeleteDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteDomainRequest",
@@ -875,15 +781,7 @@ export interface DeleteExpressionRequest {
 }
 export const DeleteExpressionRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, ExpressionName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteExpressionRequest",
@@ -902,15 +800,7 @@ export interface DeleteIndexFieldRequest {
 }
 export const DeleteIndexFieldRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, IndexFieldName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteIndexFieldRequest",
@@ -929,15 +819,7 @@ export interface DeleteSuggesterRequest {
 }
 export const DeleteSuggesterRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, SuggesterName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteSuggesterRequest",
@@ -962,23 +844,12 @@ export const DescribeAnalysisSchemesRequest = /*@__PURE__*/ S.suspend(() =>
     DomainName: S.String,
     AnalysisSchemeNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeAnalysisSchemesRequest",
 }) as any as S.Schema<DescribeAnalysisSchemesRequest>;
 export type AnalysisSchemeStatusList = AnalysisSchemeStatus[];
-export const AnalysisSchemeStatusList =
-  /*@__PURE__*/ S.Array(AnalysisSchemeStatus);
+export const AnalysisSchemeStatusList = /*@__PURE__*/ S.Array(AnalysisSchemeStatus);
 export interface DescribeAnalysisSchemesResponse {
   AnalysisSchemes: AnalysisSchemeStatus[];
 }
@@ -993,15 +864,7 @@ export interface DescribeAvailabilityOptionsRequest {
 }
 export const DescribeAvailabilityOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAvailabilityOptionsRequest",
@@ -1020,9 +883,7 @@ export interface DescribeAvailabilityOptionsResponse {
   AvailabilityOptions?: AvailabilityOptionsStatus;
 }
 export const DescribeAvailabilityOptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
-    ns,
-  ),
+  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(ns),
 ).annotate({
   identifier: "DescribeAvailabilityOptionsResponse",
 }) as any as S.Schema<DescribeAvailabilityOptionsResponse>;
@@ -1030,19 +891,10 @@ export interface DescribeDomainEndpointOptionsRequest {
   DomainName: string;
   Deployed?: boolean;
 }
-export const DescribeDomainEndpointOptionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeDomainEndpointOptionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeDomainEndpointOptionsRequest",
 }) as any as S.Schema<DescribeDomainEndpointOptionsRequest>;
@@ -1076,11 +928,10 @@ export const DomainEndpointOptionsStatus = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDomainEndpointOptionsResponse {
   DomainEndpointOptions?: DomainEndpointOptionsStatus;
 }
-export const DescribeDomainEndpointOptionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
-    }).pipe(ns),
+export const DescribeDomainEndpointOptionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DomainEndpointOptions: S.optional(DomainEndpointOptionsStatus),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeDomainEndpointOptionsResponse",
 }) as any as S.Schema<DescribeDomainEndpointOptionsResponse>;
@@ -1091,15 +942,7 @@ export interface DescribeDomainsRequest {
 }
 export const DescribeDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainNames: S.optional(DomainNameList) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeDomainsRequest",
@@ -1124,17 +967,7 @@ export const DescribeExpressionsRequest = /*@__PURE__*/ S.suspend(() =>
     DomainName: S.String,
     ExpressionNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeExpressionsRequest",
 }) as any as S.Schema<DescribeExpressionsRequest>;
@@ -1160,17 +993,7 @@ export const DescribeIndexFieldsRequest = /*@__PURE__*/ S.suspend(() =>
     DomainName: S.String,
     FieldNames: S.optional(DynamicFieldNameList),
     Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeIndexFieldsRequest",
 }) as any as S.Schema<DescribeIndexFieldsRequest>;
@@ -1189,15 +1012,7 @@ export interface DescribeScalingParametersRequest {
 }
 export const DescribeScalingParametersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeScalingParametersRequest",
@@ -1258,19 +1073,10 @@ export interface DescribeServiceAccessPoliciesRequest {
   DomainName: string;
   Deployed?: boolean;
 }
-export const DescribeServiceAccessPoliciesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeServiceAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DomainName: S.String, Deployed: S.optional(S.Boolean) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeServiceAccessPoliciesRequest",
 }) as any as S.Schema<DescribeServiceAccessPoliciesRequest>;
@@ -1287,8 +1093,8 @@ export const AccessPoliciesStatus = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeServiceAccessPoliciesResponse {
   AccessPolicies: AccessPoliciesStatus;
 }
-export const DescribeServiceAccessPoliciesResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
+export const DescribeServiceAccessPoliciesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccessPolicies: AccessPoliciesStatus }).pipe(ns),
 ).annotate({
   identifier: "DescribeServiceAccessPoliciesResponse",
 }) as any as S.Schema<DescribeServiceAccessPoliciesResponse>;
@@ -1302,17 +1108,7 @@ export const DescribeSuggestersRequest = /*@__PURE__*/ S.suspend(() =>
     DomainName: S.String,
     SuggesterNames: S.optional(StandardNameList),
     Deployed: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeSuggestersRequest",
 }) as any as S.Schema<DescribeSuggestersRequest>;
@@ -1331,15 +1127,7 @@ export interface IndexDocumentsRequest {
 }
 export const IndexDocumentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "IndexDocumentsRequest",
@@ -1354,26 +1142,13 @@ export const IndexDocumentsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<IndexDocumentsResponse>;
 export interface ListDomainNamesRequest {}
 export const ListDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListDomainNamesRequest",
 }) as any as S.Schema<ListDomainNamesRequest>;
 export type APIVersion = string;
 export type DomainNameMap = { [key: string]: string | undefined };
-export const DomainNameMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const DomainNameMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ListDomainNamesResponse {
   DomainNames?: { [key: string]: string | undefined };
 }
@@ -1388,15 +1163,7 @@ export interface UpdateAvailabilityOptionsRequest {
 }
 export const UpdateAvailabilityOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, MultiAZ: S.Boolean }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateAvailabilityOptionsRequest",
@@ -1405,9 +1172,7 @@ export interface UpdateAvailabilityOptionsResponse {
   AvailabilityOptions?: AvailabilityOptionsStatus;
 }
 export const UpdateAvailabilityOptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(
-    ns,
-  ),
+  S.Struct({ AvailabilityOptions: S.optional(AvailabilityOptionsStatus) }).pipe(ns),
 ).annotate({
   identifier: "UpdateAvailabilityOptionsResponse",
 }) as any as S.Schema<UpdateAvailabilityOptionsResponse>;
@@ -1419,17 +1184,7 @@ export const UpdateDomainEndpointOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String,
     DomainEndpointOptions: DomainEndpointOptions,
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateDomainEndpointOptionsRequest",
 }) as any as S.Schema<UpdateDomainEndpointOptionsRequest>;
@@ -1449,15 +1204,7 @@ export interface UpdateScalingParametersRequest {
 }
 export const UpdateScalingParametersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, ScalingParameters: ScalingParameters }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateScalingParametersRequest",
@@ -1476,15 +1223,7 @@ export interface UpdateServiceAccessPoliciesRequest {
 }
 export const UpdateServiceAccessPoliciesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ DomainName: S.String, AccessPolicies: S.String }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateServiceAccessPoliciesRequest",
@@ -1516,12 +1255,7 @@ export const buildSuggesters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BuildSuggestersRequest,
   output: BuildSuggestersResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildSuggesters",
@@ -1716,10 +1450,7 @@ export const deleteAnalysisScheme: API.OperationMethod<
   operationName: "DeleteAnalysisScheme",
 }));
 
-export type DeleteDomainError =
-  | BaseException
-  | InternalException
-  | CommonErrors;
+export type DeleteDomainError = BaseException | InternalException | CommonErrors;
 /**
  * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
  * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
@@ -1912,10 +1643,7 @@ export const describeDomainEndpointOptions: API.OperationMethod<
   operationName: "DescribeDomainEndpointOptions",
 }));
 
-export type DescribeDomainsError =
-  | BaseException
-  | InternalException
-  | CommonErrors;
+export type DescribeDomainsError = BaseException | InternalException | CommonErrors;
 /**
  * Gets information about the search domains owned by this account. Can be limited to specific domains. Shows
  * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
@@ -2065,12 +1793,7 @@ export const indexDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: IndexDocumentsRequest,
   output: IndexDocumentsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexDocuments",

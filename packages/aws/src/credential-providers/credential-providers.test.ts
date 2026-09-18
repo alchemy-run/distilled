@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import * as ConfigProvider from "effect/ConfigProvider";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
 import * as Credentials from "../credentials.ts";
 import * as Providers from "./node.ts";
 import { chain, CredentialSourceError } from "./shared.ts";
@@ -42,28 +42,18 @@ const inOneHour = () => new Date(Date.now() + 60 * 60 * 1000);
 // `Region.fromEnvironment` reads.
 const run = <A, E>(effect: Effect.Effect<A, E>) =>
   Effect.runPromise(
-    Effect.provideService(
-      effect,
-      ConfigProvider.ConfigProvider,
-      ConfigProvider.fromEnv(),
-    ),
+    Effect.provideService(effect, ConfigProvider.ConfigProvider, ConfigProvider.fromEnv()),
   );
 /** Run an effect that is expected to fail and return its typed error. */
 const runFail = <A, E>(effect: Effect.Effect<A, E>) => run(Effect.flip(effect));
 
 /** The resolved credentials a `Credentials` layer produces. */
 const resolveLayer = (layer: Layer.Layer<Credentials.Credentials>) =>
-  Effect.flatMap(Credentials.Credentials, (creds) => creds).pipe(
-    Effect.provide(layer),
-  );
+  Effect.flatMap(Credentials.Credentials, (creds) => creds).pipe(Effect.provide(layer));
 
 /** A fake HTTP client keyed on `${method} ${url}`. */
 const fakeHttp = (
-  handler: (
-    method: string,
-    url: URL,
-    headers: Record<string, string>,
-  ) => Response | undefined,
+  handler: (method: string, url: URL, headers: Record<string, string>) => Response | undefined,
 ) =>
   Layer.succeed(HttpClient.HttpClient)(
     HttpClient.make((request, url) =>
@@ -110,8 +100,7 @@ afterEach(() => {
   rmSync(home, { recursive: true, force: true });
 });
 
-const writeConfig = (config: string) =>
-  writeFileSync(join(home, ".aws", "config"), config);
+const writeConfig = (config: string) => writeFileSync(join(home, ".aws", "config"), config);
 const writeCredentials = (credentials: string) =>
   writeFileSync(join(home, ".aws", "credentials"), credentials);
 
@@ -237,9 +226,7 @@ duration_seconds = 900
       HttpClient.make((request, url) =>
         Effect.gen(function* () {
           const body =
-            request.body._tag === "Uint8Array"
-              ? new TextDecoder().decode(request.body.body)
-              : "";
+            request.body._tag === "Uint8Array" ? new TextDecoder().decode(request.body.body) : "";
           calls.push({ url, headers: request.headers, body });
           return HttpClientResponse.fromWeb(
             request,
@@ -264,9 +251,7 @@ duration_seconds = 900
         }),
       ),
     );
-    const creds = await run(
-      Providers.fromIni({ profile: "admin" }).pipe(Effect.provide(http)),
-    );
+    const creds = await run(Providers.fromIni({ profile: "admin" }).pipe(Effect.provide(http)));
     expect(creds.accessKeyId).toBe("ASIA-admin");
     expect(creds.secretAccessKey).toBe("secret-admin");
     expect(creds.sessionToken).toBe("session-admin");
@@ -279,9 +264,7 @@ duration_seconds = 900
     expect(call.headers.authorization).toContain("AKIA-base/");
     expect(call.headers.authorization).toContain("/us-west-2/sts/");
     expect(call.body).toContain("Action=AssumeRole");
-    expect(call.body).toContain(
-      "RoleArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Arole%2FAdmin",
-    );
+    expect(call.body).toContain("RoleArn=arn%3Aaws%3Aiam%3A%3A123456789012%3Arole%2FAdmin");
     expect(call.body).toContain("ExternalId=ext");
     expect(call.body).toContain("DurationSeconds=900");
   });
@@ -341,9 +324,9 @@ credential_process = echo '{"Version":1,"AccessKeyId":"AKIA-proc","SecretAccessK
       sessionToken: "session-proc",
       accountId: "111111111111",
     });
-    expect(await run(Providers.fromProcess({ profile: "proc" }))).toMatchObject(
-      { accessKeyId: "AKIA-proc" },
-    );
+    expect(await run(Providers.fromProcess({ profile: "proc" }))).toMatchObject({
+      accessKeyId: "AKIA-proc",
+    });
   });
 
   test("credential_process output is validated", async () => {
@@ -354,15 +337,15 @@ credential_process = echo '{"Version":2,"AccessKeyId":"a","SecretAccessKey":"b"}
 [profile junk]
 credential_process = echo nope
 `);
-    expect(
-      (await runFail(Providers.fromProcess({ profile: "v2" }))).message,
-    ).toContain("did not return Version 1");
-    expect(
-      (await runFail(Providers.fromProcess({ profile: "junk" }))).message,
-    ).toContain("invalid JSON");
-    expect(
-      (await runFail(Providers.fromProcess({ profile: "missing" }))).message,
-    ).toContain("could not be found");
+    expect((await runFail(Providers.fromProcess({ profile: "v2" }))).message).toContain(
+      "did not return Version 1",
+    );
+    expect((await runFail(Providers.fromProcess({ profile: "junk" }))).message).toContain(
+      "invalid JSON",
+    );
+    expect((await runFail(Providers.fromProcess({ profile: "missing" }))).message).toContain(
+      "could not be found",
+    );
   });
 });
 
@@ -383,9 +366,7 @@ describe("fromTokenFile", () => {
       HttpClient.make((request, url) =>
         Effect.sync(() => {
           const body =
-            request.body._tag === "Uint8Array"
-              ? new TextDecoder().decode(request.body.body)
-              : "";
+            request.body._tag === "Uint8Array" ? new TextDecoder().decode(request.body.body) : "";
           calls.push({ url, headers: request.headers, body });
           return HttpClientResponse.fromWeb(
             request,
@@ -406,9 +387,7 @@ describe("fromTokenFile", () => {
         }),
       ),
     );
-    const creds = await run(
-      Providers.fromTokenFile().pipe(Effect.provide(http)),
-    );
+    const creds = await run(Providers.fromTokenFile().pipe(Effect.provide(http)));
     expect(creds.accessKeyId).toBe("ASIA-pod");
     expect(calls[0].url.hostname).toBe("sts.ap-southeast-2.amazonaws.com");
     expect(calls[0].body).toContain("Action=AssumeRoleWithWebIdentity");
@@ -432,9 +411,7 @@ describe("fromHttp / fromContainerMetadata", () => {
       return imdsCreds("AKIA-ecs");
     });
     const viaHttp = await run(Providers.fromHttp().pipe(Effect.provide(http)));
-    const viaContainer = await run(
-      Providers.fromContainerMetadata().pipe(Effect.provide(http)),
-    );
+    const viaContainer = await run(Providers.fromContainerMetadata().pipe(Effect.provide(http)));
     expect(viaHttp.accessKeyId).toBe("AKIA-ecs");
     expect(viaHttp.sessionToken).toBe("token-AKIA-ecs");
     expect(viaContainer.accessKeyId).toBe("AKIA-ecs");
@@ -453,8 +430,7 @@ describe("fromHttp / fromContainerMetadata", () => {
   test("token file is read from disk", async () => {
     const tokenFile = join(home, "auth-token");
     writeFileSync(tokenFile, "from-file");
-    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI =
-      "http://localhost:8080/creds";
+    process.env.AWS_CONTAINER_CREDENTIALS_FULL_URI = "http://localhost:8080/creds";
     process.env.AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE = tokenFile;
     const seen: string[] = [];
     const http = fakeHttp((_, url, headers) => {
@@ -470,12 +446,8 @@ describe("fromHttp / fromContainerMetadata", () => {
     const http = fakeHttp(() =>
       Response.json({ Code: "AccessDenied", Message: "nope" }, { status: 403 }),
     );
-    const error = await runFail(
-      Providers.fromHttp({ maxRetries: 0 }).pipe(Effect.provide(http)),
-    );
-    expect(error.message).toBe(
-      "Server responded with status: 403 AccessDenied nope",
-    );
+    const error = await runFail(Providers.fromHttp({ maxRetries: 0 }).pipe(Effect.provide(http)));
+    expect(error.message).toBe("Server responded with status: 403 AccessDenied nope");
   });
 
   test("nothing configured", async () => {
@@ -502,9 +474,7 @@ describe("fromInstanceMetadata", () => {
       if (url.pathname === "/latest/meta-data/iam/security-credentials/") {
         return new Response("my-role\n");
       }
-      if (
-        url.pathname === "/latest/meta-data/iam/security-credentials/my-role"
-      ) {
+      if (url.pathname === "/latest/meta-data/iam/security-credentials/my-role") {
         return imdsCreds("AKIA-imds");
       }
     });
@@ -512,9 +482,7 @@ describe("fromInstanceMetadata", () => {
   test("IMDSv2: token, role name, then credentials", async () => {
     const calls: string[] = [];
     const creds = await run(
-      Providers.fromInstanceMetadata().pipe(
-        Effect.provide(imds({ recordTo: calls })),
-      ),
+      Providers.fromInstanceMetadata().pipe(Effect.provide(imds({ recordTo: calls }))),
     );
     expect(creds.accessKeyId).toBe("AKIA-imds");
     expect(calls).toEqual([
@@ -538,9 +506,7 @@ describe("fromInstanceMetadata", () => {
   test("IMDSv1 fallback can be blocked", async () => {
     process.env.AWS_EC2_METADATA_V1_DISABLED = "true";
     const error = await runFail(
-      Providers.fromInstanceMetadata().pipe(
-        Effect.provide(imds({ tokenStatus: 404 })),
-      ),
+      Providers.fromInstanceMetadata().pipe(Effect.provide(imds({ tokenStatus: 404 }))),
     );
     expect(error.message).toContain("v1 fallback has been blocked");
     expect(error.tryNextLink).toBe(false);
@@ -552,8 +518,7 @@ describe("fromInstanceMetadata", () => {
     const http = fakeHttp((method, url) => {
       calls.push(`${method} ${url.host}${url.pathname}`);
       if (url.pathname === "/latest/api/token") return new Response("t");
-      if (url.pathname.endsWith("/security-credentials/"))
-        return new Response("r");
+      if (url.pathname.endsWith("/security-credentials/")) return new Response("r");
       return imdsCreds("AKIA-custom");
     });
     await run(Providers.fromInstanceMetadata().pipe(Effect.provide(http)));
@@ -570,9 +535,7 @@ describe("fromNodeProviderChain", () => {
 aws_access_key_id = AKIA-file
 aws_secret_access_key = secret-file
 `);
-    expect((await run(Providers.fromNodeProviderChain())).accessKeyId).toBe(
-      "AKIA-env",
-    );
+    expect((await run(Providers.fromNodeProviderChain())).accessKeyId).toBe("AKIA-env");
   });
 
   test("AWS_PROFILE sends the chain to the profile before the environment", async () => {
@@ -584,9 +547,7 @@ aws_secret_access_key = secret-file
 aws_access_key_id = AKIA-file
 aws_secret_access_key = secret-file
 `);
-    expect((await run(Providers.fromNodeProviderChain())).accessKeyId).toBe(
-      "AKIA-file",
-    );
+    expect((await run(Providers.fromNodeProviderChain())).accessKeyId).toBe("AKIA-file");
   });
 
   test("falls through to the container endpoint", async () => {
@@ -594,8 +555,7 @@ aws_secret_access_key = secret-file
     process.env.AWS_CONTAINER_CREDENTIALS_RELATIVE_URI = "/creds";
     const http = fakeHttp(() => imdsCreds("AKIA-ecs"));
     expect(
-      (await run(Providers.fromNodeProviderChain().pipe(Effect.provide(http))))
-        .accessKeyId,
+      (await run(Providers.fromNodeProviderChain().pipe(Effect.provide(http)))).accessKeyId,
     ).toBe("AKIA-ecs");
   });
 

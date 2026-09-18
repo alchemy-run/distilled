@@ -6,7 +6,4 @@
  * in, `pagination.cursor` out). Generated operations pass the matching
  * core strategy to `API.makePaginated`.
  */
-export {
-  paginateCursor,
-  paginatePageNumber,
-} from "@distilled.cloud/core/pagination";
+export { paginateCursor, paginatePageNumber } from "@distilled.cloud/core/pagination";

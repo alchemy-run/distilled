@@ -11,12 +11,8 @@ import * as T from "./trait.ts";
 const JsonInput = S.Struct({
   flag: S.optional(S.Boolean.pipe(T.Body("flag"), T.StringEncoded())),
   plain: S.optional(S.Boolean.pipe(T.Body("plain"))),
-  nullable: S.optional(
-    S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded()),
-  ),
-  flags: S.optional(
-    S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded()),
-  ),
+  nullable: S.optional(S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded())),
+  flags: S.optional(S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded())),
 }).pipe(T.Http({ method: "POST", uri: "/things" }));
 
 const jsonBodyOf = (input: unknown): unknown => {
@@ -87,9 +83,7 @@ describe("UnionCases decoding", () => {
     const schema = S.Unknown.pipe(
       T.UnionCases(cases, { key: "type", values: ["zone", "account"] }),
     );
-    expect(
-      decode(schema, { ...merged, type: "other", accountName: null }),
-    ).toEqual({
+    expect(decode(schema, { ...merged, type: "other", accountName: null })).toEqual({
       id: "1",
       type: "other",
       zoneName: "zone-a",

@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Migration Hub Refactor Spaces",
   serviceShapeName: "RefactorSpaces",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://refactor-spaces-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://refactor-spaces.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://refactor-spaces.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://refactor-spaces.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -169,10 +159,7 @@ export const ApiGatewayProxyInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "ApiGatewayProxyInput",
 }) as any as S.Schema<ApiGatewayProxyInput>;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type ClientToken = string;
 export interface CreateApplicationRequest {
   Name: string;
@@ -240,9 +227,7 @@ export const CreateApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     ApiGatewayProxy: S.optional(ApiGatewayProxyInput),
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -265,16 +250,7 @@ export const CreateEnvironmentRequest = /*@__PURE__*/ S.suspend(() =>
     NetworkFabricType: S.String,
     Tags: S.optional(TagMap),
     ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateEnvironmentRequest",
 }) as any as S.Schema<CreateEnvironmentRequest>;
@@ -301,9 +277,7 @@ export const CreateEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     OwnerAccountId: S.optional(S.String),
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -406,9 +380,7 @@ export const CreateRouteResponse = /*@__PURE__*/ S.suspend(() =>
     UriPathRoute: S.optional(UriPathRouteInput),
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -510,9 +482,7 @@ export const CreateServiceResponse = /*@__PURE__*/ S.suspend(() =>
     LambdaEndpoint: S.optional(LambdaEndpointInput),
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -557,9 +527,7 @@ export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     ApplicationId: S.optional(S.String),
     EnvironmentId: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteApplicationResponse",
@@ -599,9 +567,7 @@ export const DeleteEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     EnvironmentId: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteEnvironmentResponse",
@@ -625,9 +591,7 @@ export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourcePolicyRequest",
 }) as any as S.Schema<DeleteResourcePolicyRequest>;
 export interface DeleteResourcePolicyResponse {}
-export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourcePolicyResponse",
 }) as any as S.Schema<DeleteResourcePolicyResponse>;
 export interface DeleteRouteRequest {
@@ -671,9 +635,7 @@ export const DeleteRouteResponse = /*@__PURE__*/ S.suspend(() =>
     ServiceId: S.optional(S.String),
     ApplicationId: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteRouteResponse",
@@ -721,9 +683,7 @@ export const DeleteServiceResponse = /*@__PURE__*/ S.suspend(() =>
     EnvironmentId: S.optional(S.String),
     ApplicationId: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "DeleteServiceResponse",
@@ -785,10 +745,7 @@ export type ErrorResourceType = string;
 export type AdditionalDetailsKey = string;
 export type AdditionalDetailsValue = string;
 export type AdditionalDetails = { [key: string]: string | undefined };
-export const AdditionalDetails = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const AdditionalDetails = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface ErrorResponse {
   Code?: string;
   Message?: string;
@@ -837,9 +794,7 @@ export const GetApplicationResponse = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -891,9 +846,7 @@ export const GetEnvironmentResponse = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -954,10 +907,7 @@ export const GetRouteRequest = /*@__PURE__*/ S.suspend(() =>
 export type PathResourceToIdKey = string;
 export type PathResourceToIdValue = string;
 export type PathResourceToId = { [key: string]: string | undefined };
-export const PathResourceToId = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const PathResourceToId = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetRouteResponse {
   RouteId?: string;
   Arn?: string;
@@ -995,9 +945,7 @@ export const GetRouteResponse = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AppendSourcePath: S.optional(S.Boolean),
   }),
@@ -1083,9 +1031,7 @@ export const GetServiceResponse = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -1171,9 +1117,7 @@ export const ApplicationSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -1201,16 +1145,7 @@ export const ListEnvironmentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/environments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/environments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListEnvironmentsRequest",
 }) as any as S.Schema<ListEnvironmentsRequest>;
@@ -1240,9 +1175,7 @@ export const EnvironmentSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
@@ -1308,9 +1241,7 @@ export const EnvironmentVpc = /*@__PURE__*/ S.suspend(() =>
     AccountId: S.optional(S.String),
     CidrBlocks: S.optional(CidrBlocks),
     VpcName: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "EnvironmentVpc" }) as any as S.Schema<EnvironmentVpc>;
@@ -1393,9 +1324,7 @@ export const RouteSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AppendSourcePath: S.optional(S.Boolean),
   }),
@@ -1495,9 +1424,7 @@ export const ServiceSummary = /*@__PURE__*/ S.suspend(() =>
     State: S.optional(S.String),
     Tags: S.optional(TagMap),
     Error: S.optional(ErrorResponse),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     CreatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "ServiceSummary" }) as any as S.Schema<ServiceSummary>;
@@ -1520,14 +1447,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1546,22 +1466,13 @@ export interface PutResourcePolicyRequest {
 }
 export const PutResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String, Policy: S.String }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/resourcepolicy" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/resourcepolicy" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutResourcePolicyRequest",
 }) as any as S.Schema<PutResourcePolicyRequest>;
 export interface PutResourcePolicyResponse {}
-export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutResourcePolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutResourcePolicyResponse",
 }) as any as S.Schema<PutResourcePolicyResponse>;
 export interface TagResourceRequest {
@@ -1573,22 +1484,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1602,22 +1504,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateRouteRequest {
@@ -1663,9 +1556,7 @@ export const UpdateRouteResponse = /*@__PURE__*/ S.suspend(() =>
     ServiceId: S.optional(S.String),
     ApplicationId: S.optional(S.String),
     State: S.optional(S.String),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "UpdateRouteResponse",
@@ -2427,11 +2318,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2493,11 +2380,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2521,11 +2404,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Artifact",
   serviceShapeName: "Artifact",
@@ -36,14 +36,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -74,9 +70,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -86,9 +80,7 @@ const rules = T.EndpointResolver((p, _) => {
               {},
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://artifact.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -201,10 +193,7 @@ export const InquirySupportMode = S.String;
 export type TagKey = string;
 export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
-export const TagsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateComplianceInquiryRequest {
   name: string | redacted.Redacted<string>;
   inquiryContent: InquiryContent;
@@ -233,12 +222,7 @@ export const CreateComplianceInquiryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateComplianceInquiryRequest",
 }) as any as S.Schema<CreateComplianceInquiryRequest>;
 export type InquiryId = string;
-export type InquiryStatus =
-  | "PROCESSING"
-  | "HUMAN_REVIEW"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
+export type InquiryStatus = "PROCESSING" | "HUMAN_REVIEW" | "COMPLETED" | "FAILED" | (string & {});
 export const InquiryStatus = S.String;
 
 export type InquiryStatusMessage =
@@ -328,22 +312,12 @@ export const ExportComplianceInquiryResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetAccountSettingsRequest {}
 export const GetAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/account-settings/get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/account-settings/get" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAccountSettingsRequest",
 }) as any as S.Schema<GetAccountSettingsRequest>;
-export type NotificationSubscriptionStatus =
-  | "SUBSCRIBED"
-  | "NOT_SUBSCRIBED"
-  | (string & {});
+export type NotificationSubscriptionStatus = "SUBSCRIBED" | "NOT_SUBSCRIBED" | (string & {});
 export const NotificationSubscriptionStatus = S.String;
 
 export interface AccountSettings {
@@ -403,9 +377,7 @@ export const InquiryDetail = /*@__PURE__*/ S.suspend(() =>
     statusMessage: InquiryStatusMessage,
     inputSource: InputSource,
     createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    updatedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     supportMode: S.optional(InquirySupportMode),
   }),
 ).annotate({ identifier: "InquiryDetail" }) as any as S.Schema<InquiryDetail>;
@@ -413,12 +385,11 @@ export interface GetComplianceInquiryMetadataResponse {
   complianceInquiryDetail?: InquiryDetail;
   tags?: { [key: string]: string | undefined };
 }
-export const GetComplianceInquiryMetadataResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      complianceInquiryDetail: S.optional(InquiryDetail),
-      tags: S.optional(TagsMap),
-    }),
+export const GetComplianceInquiryMetadataResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    complianceInquiryDetail: S.optional(InquiryDetail),
+    tags: S.optional(TagsMap),
+  }),
 ).annotate({
   identifier: "GetComplianceInquiryMetadataResponse",
 }) as any as S.Schema<GetComplianceInquiryMetadataResponse>;
@@ -434,16 +405,7 @@ export const GetReportRequest = /*@__PURE__*/ S.suspend(() =>
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
     termToken: S.String.pipe(T.HttpQuery("termToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/report/get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/report/get" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetReportRequest",
 }) as any as S.Schema<GetReportRequest>;
@@ -464,14 +426,7 @@ export const GetReportMetadataRequest = /*@__PURE__*/ S.suspend(() =>
     reportId: S.String.pipe(T.HttpQuery("reportId")),
     reportVersion: S.optional(S.Number).pipe(T.HttpQuery("reportVersion")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/report/getMetadata" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/report/getMetadata" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetReportMetadataRequest",
@@ -483,12 +438,7 @@ export type AcceptanceType = "PASSTHROUGH" | "EXPLICIT" | (string & {});
 export const AcceptanceType = S.String;
 
 export type SequenceNumberAttribute = number;
-export type UploadState =
-  | "PROCESSING"
-  | "COMPLETE"
-  | "FAILED"
-  | "FAULT"
-  | (string & {});
+export type UploadState = "PROCESSING" | "COMPLETE" | "FAILED" | "FAULT" | (string & {});
 export const UploadState = S.String;
 
 export type StatusMessage = string;
@@ -519,21 +469,11 @@ export const ReportDetail = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     name: S.optional(S.String),
     description: S.optional(S.String),
-    periodStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    periodEnd: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    createdAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    lastModifiedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    deletedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    periodStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    periodEnd: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    lastModifiedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    deletedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     state: S.optional(PublishedState),
     arn: S.optional(S.String),
     series: S.optional(S.String),
@@ -722,12 +662,11 @@ export interface ListComplianceInquiryQueriesResponse {
   queries?: QuerySummary[];
   nextToken?: string;
 }
-export const ListComplianceInquiryQueriesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      queries: S.optional(QueriesList),
-      nextToken: S.optional(S.String),
-    }),
+export const ListComplianceInquiryQueriesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    queries: S.optional(QueriesList),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListComplianceInquiryQueriesResponse",
 }) as any as S.Schema<ListComplianceInquiryQueriesResponse>;
@@ -788,12 +727,8 @@ export const CustomerAgreementSummary = /*@__PURE__*/ S.suspend(() =>
     agreementArn: S.optional(S.String),
     awsAccountId: S.optional(S.String),
     organizationArn: S.optional(S.String),
-    effectiveStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    effectiveEnd: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    effectiveStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    effectiveEnd: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     state: S.optional(CustomerAgreementState),
     description: S.optional(S.String),
     acceptanceTerms: S.optional(AgreementTerms),
@@ -804,9 +739,7 @@ export const CustomerAgreementSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "CustomerAgreementSummary",
 }) as any as S.Schema<CustomerAgreementSummary>;
 export type CustomerAgreementList = CustomerAgreementSummary[];
-export const CustomerAgreementList = /*@__PURE__*/ S.Array(
-  CustomerAgreementSummary,
-);
+export const CustomerAgreementList = /*@__PURE__*/ S.Array(CustomerAgreementSummary);
 export interface ListCustomerAgreementsResponse {
   customerAgreements: CustomerAgreementSummary[];
   nextToken?: string;
@@ -827,16 +760,7 @@ export const ListReportsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/report/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/v1/report/list" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReportsRequest",
 }) as any as S.Schema<ListReportsRequest>;
@@ -866,12 +790,8 @@ export const ReportSummary = /*@__PURE__*/ S.suspend(() =>
     version: S.optional(S.Number),
     uploadState: S.optional(UploadState),
     description: S.optional(S.String),
-    periodStart: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    periodEnd: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    periodStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    periodEnd: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     series: S.optional(S.String),
     category: S.optional(S.String),
     companyName: S.optional(S.String),
@@ -905,14 +825,7 @@ export const ListReportVersionsRequest = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v1/report/listVersions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v1/report/listVersions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListReportVersionsRequest",
@@ -931,14 +844,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -958,14 +864,7 @@ export const PutAccountSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     notificationSubscriptionStatus: S.optional(NotificationSubscriptionStatus),
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/v1/account-settings/put" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/v1/account-settings/put" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutAccountSettingsRequest",
@@ -1025,11 +924,10 @@ export const PutComplianceInquiryFeedbackRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PutComplianceInquiryFeedbackResponse {
   submittedAt: Date;
 }
-export const PutComplianceInquiryFeedbackResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      submittedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    }),
+export const PutComplianceInquiryFeedbackResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    submittedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+  }),
 ).annotate({
   identifier: "PutComplianceInquiryFeedbackResponse",
 }) as any as S.Schema<PutComplianceInquiryFeedbackResponse>;
@@ -1042,22 +940,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagsMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeys = string[];
@@ -1071,22 +960,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeys.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type ValidationExceptionReason = string;
@@ -1100,9 +980,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type CreateComplianceInquiryError =
   | AccessDeniedException
   | ConflictException

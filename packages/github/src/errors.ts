@@ -22,10 +22,9 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import * as Schema from "effect/Schema";
 
 /**
  * HTTP 410 — the resource existed and no longer serves: issues disabled on a
@@ -53,13 +52,10 @@ export class UnknownGithubError extends Schema.TaggedError<UnknownGithubError>()
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper. */
-export class GithubParseError extends Schema.TaggedError<GithubParseError>()(
-  "GithubParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class GithubParseError extends Schema.TaggedError<GithubParseError>()("GithubParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /**
  * Errors any GitHub operation may surface in addition to the per-operation

@@ -13675,9 +13675,7 @@
             "title": "To cancel a Spot fleet request",
             "documentation": "This example cancels the specified Spot fleet request and terminates its associated Spot Instances.",
             "input": {
-              "SpotFleetRequestIds": [
-                "sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"
-              ],
+              "SpotFleetRequestIds": ["sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"],
               "TerminateInstances": true
             },
             "output": {
@@ -13694,9 +13692,7 @@
             "title": "To cancel a Spot fleet request without terminating its Spot Instances",
             "documentation": "This example cancels the specified Spot fleet request without terminating its associated Spot Instances.",
             "input": {
-              "SpotFleetRequestIds": [
-                "sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"
-              ],
+              "SpotFleetRequestIds": ["sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"],
               "TerminateInstances": false
             },
             "output": {
@@ -54142,10 +54138,7 @@
             "title": "To describe specified secondary networks",
             "documentation": "This example describes the specified secondary networks.",
             "input": {
-              "SecondaryNetworkIds": [
-                "sn-0123456789abcdef0",
-                "sn-0987654321fedcba0"
-              ]
+              "SecondaryNetworkIds": ["sn-0123456789abcdef0", "sn-0987654321fedcba0"]
             },
             "output": {
               "SecondaryNetworks": [
@@ -54390,10 +54383,7 @@
             "title": "To describe specified secondary subnets",
             "documentation": "This example describes the specified secondary subnets.",
             "input": {
-              "SecondarySubnetIds": [
-                "ss-0123456789abcdef0",
-                "ss-0987654321fedcba0"
-              ]
+              "SecondarySubnetIds": ["ss-0123456789abcdef0", "ss-0987654321fedcba0"]
             },
             "output": {
               "SecondarySubnets": [
@@ -55955,9 +55945,7 @@
             "title": "To describe a Spot fleet request",
             "documentation": "This example describes the specified Spot fleet request.",
             "input": {
-              "SpotFleetRequestIds": [
-                "sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"
-              ]
+              "SpotFleetRequestIds": ["sfr-73fbd2ce-aa30-494c-8788-1cee4EXAMPLE"]
             },
             "output": {
               "SpotFleetRequestConfigs": [

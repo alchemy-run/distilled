@@ -87,9 +87,7 @@ async function main() {
       },
     });
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
     }
 
     const spec = (await response.json()) as Record<string, unknown>;
@@ -106,9 +104,7 @@ async function main() {
     const outputPath = `${SPECS_DIR}/${file.output}`;
     console.log(`Writing ${outputPath}...`);
     await Bun.write(outputPath, JSON.stringify(spec, null, 2) + "\n");
-    console.log(
-      `  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-    );
+    console.log(`  OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
   }
 
   for (const doc of DOCS) {
@@ -120,9 +116,7 @@ async function main() {
       },
     });
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch ${doc.url}: ${response.status} ${response.statusText}`,
-      );
+      throw new Error(`Failed to fetch ${doc.url}: ${response.status} ${response.statusText}`);
     }
     const html = await response.text();
     if (html.trim().length === 0) {

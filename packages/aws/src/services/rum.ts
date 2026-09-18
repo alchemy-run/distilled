@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({ sdkId: "RUM", serviceShapeName: "RUM" });
 const auth = T.AwsAuthSigv4({ name: "rum" });
 const ver = T.ServiceVersion("2018-05-10");
@@ -23,14 +23,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -53,27 +49,17 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://rum-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
-            return e(
-              `https://rum.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://rum.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://rum.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://rum.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -171,10 +157,7 @@ export type UnitLabel = string;
 export type DimensionKey = string;
 export type DimensionName = string;
 export type DimensionKeysMap = { [key: string]: string | undefined };
-export const DimensionKeysMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const DimensionKeysMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type EventPattern = string;
 export type Namespace = string;
 export interface MetricDefinitionRequest {
@@ -198,32 +181,29 @@ export const MetricDefinitionRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricDefinitionRequest",
 }) as any as S.Schema<MetricDefinitionRequest>;
 export type MetricDefinitionsRequest = MetricDefinitionRequest[];
-export const MetricDefinitionsRequest = /*@__PURE__*/ S.Array(
-  MetricDefinitionRequest,
-);
+export const MetricDefinitionsRequest = /*@__PURE__*/ S.Array(MetricDefinitionRequest);
 export interface BatchCreateRumMetricDefinitionsRequest {
   AppMonitorName: string;
   Destination: string;
   DestinationArn?: string;
   MetricDefinitions: MetricDefinitionRequest[];
 }
-export const BatchCreateRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-      Destination: S.String,
-      DestinationArn: S.optional(S.String),
-      MetricDefinitions: MetricDefinitionsRequest,
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchCreateRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
+    Destination: S.String,
+    DestinationArn: S.optional(S.String),
+    MetricDefinitions: MetricDefinitionsRequest,
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/rummetrics/{AppMonitorName}/metrics" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchCreateRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchCreateRumMetricDefinitionsRequest>;
@@ -232,18 +212,16 @@ export interface BatchCreateRumMetricDefinitionsError_ {
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchCreateRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinition: MetricDefinitionRequest,
-      ErrorCode: S.String,
-      ErrorMessage: S.String,
-    }),
+export const BatchCreateRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MetricDefinition: MetricDefinitionRequest,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
 ).annotate({
   identifier: "BatchCreateRumMetricDefinitionsError",
 }) as any as S.Schema<BatchCreateRumMetricDefinitionsError_>;
-export type BatchCreateRumMetricDefinitionsErrors =
-  BatchCreateRumMetricDefinitionsError_[];
+export type BatchCreateRumMetricDefinitionsErrors = BatchCreateRumMetricDefinitionsError_[];
 export const BatchCreateRumMetricDefinitionsErrors = /*@__PURE__*/ S.Array(
   BatchCreateRumMetricDefinitionsError_,
 );
@@ -276,12 +254,11 @@ export interface BatchCreateRumMetricDefinitionsResponse {
   Errors: BatchCreateRumMetricDefinitionsError_[];
   MetricDefinitions?: MetricDefinition[];
 }
-export const BatchCreateRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Errors: BatchCreateRumMetricDefinitionsErrors,
-      MetricDefinitions: S.optional(MetricDefinitions),
-    }),
+export const BatchCreateRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Errors: BatchCreateRumMetricDefinitionsErrors,
+    MetricDefinitions: S.optional(MetricDefinitions),
+  }),
 ).annotate({
   identifier: "BatchCreateRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchCreateRumMetricDefinitionsResponse>;
@@ -293,28 +270,25 @@ export interface BatchDeleteRumMetricDefinitionsRequest {
   DestinationArn?: string;
   MetricDefinitionIds: string[];
 }
-export const BatchDeleteRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
-      Destination: S.String.pipe(T.HttpQuery("destination")),
-      DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
-      MetricDefinitionIds: MetricDefinitionIds.pipe(
-        T.HttpQuery("metricDefinitionIds"),
-      ),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/rummetrics/{AppMonitorName}/metrics",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchDeleteRumMetricDefinitionsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    AppMonitorName: S.String.pipe(T.HttpLabel("AppMonitorName")),
+    Destination: S.String.pipe(T.HttpQuery("destination")),
+    DestinationArn: S.optional(S.String).pipe(T.HttpQuery("destinationArn")),
+    MetricDefinitionIds: MetricDefinitionIds.pipe(T.HttpQuery("metricDefinitionIds")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/rummetrics/{AppMonitorName}/metrics",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsRequest",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsRequest>;
@@ -323,18 +297,16 @@ export interface BatchDeleteRumMetricDefinitionsError_ {
   ErrorCode: string;
   ErrorMessage: string;
 }
-export const BatchDeleteRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinitionId: S.String,
-      ErrorCode: S.String,
-      ErrorMessage: S.String,
-    }),
+export const BatchDeleteRumMetricDefinitionsError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MetricDefinitionId: S.String,
+    ErrorCode: S.String,
+    ErrorMessage: S.String,
+  }),
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsError",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsError_>;
-export type BatchDeleteRumMetricDefinitionsErrors =
-  BatchDeleteRumMetricDefinitionsError_[];
+export type BatchDeleteRumMetricDefinitionsErrors = BatchDeleteRumMetricDefinitionsError_[];
 export const BatchDeleteRumMetricDefinitionsErrors = /*@__PURE__*/ S.Array(
   BatchDeleteRumMetricDefinitionsError_,
 );
@@ -342,12 +314,11 @@ export interface BatchDeleteRumMetricDefinitionsResponse {
   Errors: BatchDeleteRumMetricDefinitionsError_[];
   MetricDefinitionIds?: string[];
 }
-export const BatchDeleteRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Errors: BatchDeleteRumMetricDefinitionsErrors,
-      MetricDefinitionIds: S.optional(MetricDefinitionIds),
-    }),
+export const BatchDeleteRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Errors: BatchDeleteRumMetricDefinitionsErrors,
+    MetricDefinitionIds: S.optional(MetricDefinitionIds),
+  }),
 ).annotate({
   identifier: "BatchDeleteRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchDeleteRumMetricDefinitionsResponse>;
@@ -383,12 +354,11 @@ export interface BatchGetRumMetricDefinitionsResponse {
   MetricDefinitions?: MetricDefinition[];
   NextToken?: string;
 }
-export const BatchGetRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MetricDefinitions: S.optional(MetricDefinitions),
-      NextToken: S.optional(S.String),
-    }),
+export const BatchGetRumMetricDefinitionsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MetricDefinitions: S.optional(MetricDefinitions),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "BatchGetRumMetricDefinitionsResponse",
 }) as any as S.Schema<BatchGetRumMetricDefinitionsResponse>;
@@ -398,10 +368,7 @@ export const AppMonitorDomainList = /*@__PURE__*/ S.Array(S.String);
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type IdentityPoolId = string;
 export type Url = string;
 export type Pages = string[];
@@ -488,16 +455,7 @@ export const CreateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     CustomEvents: S.optional(CustomEvents),
     DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
     Platform: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitor" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/appmonitor" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAppMonitorRequest",
 }) as any as S.Schema<CreateAppMonitorRequest>;
@@ -515,22 +473,13 @@ export interface DeleteAppMonitorRequest {
 }
 export const DeleteAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteAppMonitorRequest",
 }) as any as S.Schema<DeleteAppMonitorRequest>;
 export interface DeleteAppMonitorResponse {}
-export const DeleteAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAppMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAppMonitorResponse",
 }) as any as S.Schema<DeleteAppMonitorResponse>;
 export type PolicyRevisionId = string;
@@ -541,9 +490,7 @@ export interface DeleteResourcePolicyRequest {
 export const DeleteResourcePolicyRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String.pipe(T.HttpLabel("Name")),
-    PolicyRevisionId: S.optional(S.String).pipe(
-      T.HttpQuery("policyRevisionId"),
-    ),
+    PolicyRevisionId: S.optional(S.String).pipe(T.HttpQuery("policyRevisionId")),
   }).pipe(
     T.all(
       T.Http({ method: "DELETE", uri: "/appmonitor/{Name}/policy" }),
@@ -602,14 +549,7 @@ export interface GetAppMonitorRequest {
 }
 export const GetAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAppMonitorRequest",
@@ -713,14 +653,7 @@ export const GetAppMonitorDataRequest = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/appmonitor/{Name}/data" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetAppMonitorDataRequest",
@@ -777,16 +710,7 @@ export const ListAppMonitorsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/appmonitors" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAppMonitorsRequest",
 }) as any as S.Schema<ListAppMonitorsRequest>;
@@ -866,9 +790,7 @@ export const MetricDestinationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "MetricDestinationSummary",
 }) as any as S.Schema<MetricDestinationSummary>;
 export type MetricDestinationSummaryList = MetricDestinationSummary[];
-export const MetricDestinationSummaryList = /*@__PURE__*/ S.Array(
-  MetricDestinationSummary,
-);
+export const MetricDestinationSummaryList = /*@__PURE__*/ S.Array(MetricDestinationSummary);
 export interface ListRumMetricsDestinationsResponse {
   Destinations?: MetricDestinationSummary[];
   NextToken?: string;
@@ -886,14 +808,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1000,22 +915,13 @@ export const PutRumEventsRequest = /*@__PURE__*/ S.suspend(() =>
     RumEvents: RumEventList,
     Alias: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/appmonitors/{Id}/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutRumEventsRequest",
 }) as any as S.Schema<PutRumEventsRequest>;
 export interface PutRumEventsResponse {}
-export const PutRumEventsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutRumEventsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutRumEventsResponse",
 }) as any as S.Schema<PutRumEventsResponse>;
 export interface PutRumMetricsDestinationRequest {
@@ -1061,22 +967,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1090,22 +987,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAppMonitorRequest {
@@ -1127,22 +1015,13 @@ export const UpdateAppMonitorRequest = /*@__PURE__*/ S.suspend(() =>
     CustomEvents: S.optional(CustomEvents),
     DeobfuscationConfiguration: S.optional(DeobfuscationConfiguration),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/appmonitor/{Name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateAppMonitorRequest",
 }) as any as S.Schema<UpdateAppMonitorRequest>;
 export interface UpdateAppMonitorResponse {}
-export const UpdateAppMonitorResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UpdateAppMonitorResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UpdateAppMonitorResponse",
 }) as any as S.Schema<UpdateAppMonitorResponse>;
 export interface UpdateRumMetricDefinitionRequest {
@@ -1630,11 +1509,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1771,11 +1646,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1797,11 +1668,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

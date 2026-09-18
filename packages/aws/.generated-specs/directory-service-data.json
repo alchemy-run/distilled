@@ -890,12 +890,7 @@
             "documentation": "The following command returns the mapped attributes for a user along with the department, manager, IP phone, and date the user last set a password.",
             "input": {
               "DirectoryId": "d-12233abcde",
-              "OtherAttributes": [
-                "department",
-                "manager",
-                "ipPhone",
-                "pwdLastSet"
-              ],
+              "OtherAttributes": ["department", "manager", "ipPhone", "pwdLastSet"],
               "Realm": "examplecorp.com",
               "SAMAccountName": "twhitlock"
             },

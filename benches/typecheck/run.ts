@@ -29,9 +29,7 @@ const RESULTS_PATH = new URL("./results/latest.json", import.meta.url).pathname;
 const opts = parseArgs(process.argv.slice(2));
 const started = performance.now();
 
-const targets = allTargets(opts.full).filter(
-  (t) => !opts.filter || opts.filter.test(t.name),
-);
+const targets = allTargets(opts.full).filter((t) => !opts.filter || opts.filter.test(t.name));
 if (targets.length === 0) {
   console.error("no targets match --filter");
   process.exit(2);
@@ -87,9 +85,7 @@ if (opts.json) {
   console.log(
     "emit = tsc -b (noCheck true, `pnpm typecheck`); check = tsc -b --noCheck false (`pnpm typecheck:ci`)",
   );
-  console.log(
-    "clean = lib/ + *.tsbuildinfo deleted first; incr = re-run with no changes\n",
-  );
+  console.log("clean = lib/ + *.tsbuildinfo deleted first; incr = re-run with no changes\n");
   printTable(results);
 }
 
@@ -100,9 +96,7 @@ if (opts.record) {
   }
   const file = toRecordFile(results, profile, opts.runs);
   writeRecordFile(RESULTS_PATH, file);
-  console.error(
-    `wrote ${RESULTS_PATH} (${file.results.length} rows, ${file.commit})`,
-  );
+  console.error(`wrote ${RESULTS_PATH} (${file.results.length} rows, ${file.commit})`);
 }
 
 if (results.some((r) => r.error)) process.exit(1);

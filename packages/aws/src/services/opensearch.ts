@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const ns = T.XmlNamespace("http://es.amazonaws.com/doc/2021-01-01/");
 const svc = T.AwsApiService({
   sdkId: "OpenSearch",
@@ -29,14 +29,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,13 +55,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://es-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://es-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -78,17 +70,11 @@ const rules = T.EndpointResolver((p, _) => {
             if ("aws-us-gov" === _.getAttr(PartitionResult, "name")) {
               return e(`https://aos.${Region}.api.aws`);
             }
-            return e(
-              `https://es.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
-            );
+            return e(`https://es.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://es.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://es.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -169,9 +155,7 @@ export class SlotNotAvailableException
   extends /*@__PURE__*/ S.TaggedError<SlotNotAvailableException>()(
     "SlotNotAvailableException",
     {
-      SlotSuggestions: S.optional(
-        S.suspend(() => SlotList).annotate({ identifier: "SlotList" }),
-      ),
+      SlotSuggestions: S.optional(S.suspend(() => SlotList).annotate({ identifier: "SlotList" })),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
     T.HttpError(409),
@@ -453,21 +437,11 @@ export interface AddTagsRequest {
 }
 export const AddTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ARN: S.String, TagList: TagList }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/2021-01-01/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/2021-01-01/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({ identifier: "AddTagsRequest" }) as any as S.Schema<AddTagsRequest>;
 export interface AddTagsResponse {}
-export const AddTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const AddTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "AddTagsResponse",
 }) as any as S.Schema<AddTagsResponse>;
 export type PackageID = string;
@@ -608,9 +582,7 @@ export const PackageDetailsForAssociation = /*@__PURE__*/ S.suspend(() =>
   identifier: "PackageDetailsForAssociation",
 }) as any as S.Schema<PackageDetailsForAssociation>;
 export type PackageDetailsForAssociationList = PackageDetailsForAssociation[];
-export const PackageDetailsForAssociationList = /*@__PURE__*/ S.Array(
-  PackageDetailsForAssociation,
-);
+export const PackageDetailsForAssociationList = /*@__PURE__*/ S.Array(PackageDetailsForAssociation);
 export interface AssociatePackagesRequest {
   PackageList: PackageDetailsForAssociation[];
   DomainName: string;
@@ -634,8 +606,7 @@ export const AssociatePackagesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociatePackagesRequest",
 }) as any as S.Schema<AssociatePackagesRequest>;
 export type DomainPackageDetailsList = DomainPackageDetails[];
-export const DomainPackageDetailsList =
-  /*@__PURE__*/ S.Array(DomainPackageDetails);
+export const DomainPackageDetailsList = /*@__PURE__*/ S.Array(DomainPackageDetails);
 export interface AssociatePackagesResponse {
   DomainPackageDetailsList?: DomainPackageDetails[];
 }
@@ -688,11 +659,7 @@ export const AttachDataSourceRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "AttachDataSourceRequest",
 }) as any as S.Schema<AttachDataSourceRequest>;
-export type DataSourceAttachmentStatus =
-  | "PENDING"
-  | "ATTACHED"
-  | "FAILED"
-  | (string & {});
+export type DataSourceAttachmentStatus = "PENDING" | "ATTACHED" | "FAILED" | (string & {});
 export const DataSourceAttachmentStatus = S.String;
 
 export interface AttachDataSourceResponse {
@@ -714,9 +681,7 @@ export const AttachDataSourceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "AttachDataSourceResponse",
 }) as any as S.Schema<AttachDataSourceResponse>;
 export type AWSAccount = string;
-export type AWSServicePrincipal =
-  | "application.opensearchservice.amazonaws.com"
-  | (string & {});
+export type AWSServicePrincipal = "application.opensearchservice.amazonaws.com" | (string & {});
 export const AWSServicePrincipal = S.String;
 
 export type RegionsList = string[];
@@ -825,9 +790,7 @@ export const CancelledChangeProperty = /*@__PURE__*/ S.suspend(() =>
   identifier: "CancelledChangeProperty",
 }) as any as S.Schema<CancelledChangeProperty>;
 export type CancelledChangePropertyList = CancelledChangeProperty[];
-export const CancelledChangePropertyList = /*@__PURE__*/ S.Array(
-  CancelledChangeProperty,
-);
+export const CancelledChangePropertyList = /*@__PURE__*/ S.Array(CancelledChangeProperty);
 export interface CancelDomainConfigChangeResponse {
   CancelledChangeIds?: string[];
   CancelledChangeProperties?: CancelledChangeProperty[];
@@ -891,9 +854,7 @@ export const ServiceSoftwareOptions = /*@__PURE__*/ S.suspend(() =>
     Cancellable: S.optional(S.Boolean),
     UpdateStatus: S.optional(DeploymentStatus),
     Description: S.optional(S.String),
-    AutomatedUpdateDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AutomatedUpdateDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     OptionalDeployment: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -903,9 +864,7 @@ export interface CancelServiceSoftwareUpdateResponse {
   ServiceSoftwareOptions?: ServiceSoftwareOptions;
 }
 export const CancelServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(
-    ns,
-  ),
+  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(ns),
 ).annotate({
   identifier: "CancelServiceSoftwareUpdateResponse",
 }) as any as S.Schema<CancelServiceSoftwareUpdateResponse>;
@@ -1299,10 +1258,7 @@ export const NodeToNodeEncryptionOptions = /*@__PURE__*/ S.suspend(() =>
   identifier: "NodeToNodeEncryptionOptions",
 }) as any as S.Schema<NodeToNodeEncryptionOptions>;
 export type AdvancedOptions = { [key: string]: string | undefined };
-export const AdvancedOptions = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const AdvancedOptions = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type LogType =
   | "INDEX_SLOW_LOGS"
   | "SEARCH_SLOW_LOGS"
@@ -1464,11 +1420,7 @@ export const AdvancedSecurityOptionsInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "AdvancedSecurityOptionsInput",
 }) as any as S.Schema<AdvancedSecurityOptionsInput>;
 export type IdentityCenterInstanceARN = string;
-export type SubjectKeyIdCOption =
-  | "UserName"
-  | "UserId"
-  | "Email"
-  | (string & {});
+export type SubjectKeyIdCOption = "UserName" | "UserId" | "Email" | (string & {});
 export const SubjectKeyIdCOption = S.String;
 
 export type RolesKeyIdCOption = "GroupName" | "GroupId" | (string & {});
@@ -1522,9 +1474,7 @@ export const AutoTuneMaintenanceSchedule = /*@__PURE__*/ S.suspend(() =>
   identifier: "AutoTuneMaintenanceSchedule",
 }) as any as S.Schema<AutoTuneMaintenanceSchedule>;
 export type AutoTuneMaintenanceScheduleList = AutoTuneMaintenanceSchedule[];
-export const AutoTuneMaintenanceScheduleList = /*@__PURE__*/ S.Array(
-  AutoTuneMaintenanceSchedule,
-);
+export const AutoTuneMaintenanceScheduleList = /*@__PURE__*/ S.Array(AutoTuneMaintenanceSchedule);
 export interface AutoTuneOptionsInput {
   DesiredState?: AutoTuneDesiredState;
   MaintenanceSchedules?: AutoTuneMaintenanceSchedule[];
@@ -1580,23 +1530,19 @@ export const SoftwareUpdateOptions = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SoftwareUpdateOptions",
 }) as any as S.Schema<SoftwareUpdateOptions>;
-export type NaturalLanguageQueryGenerationDesiredState =
-  | "ENABLED"
-  | "DISABLED"
-  | (string & {});
+export type NaturalLanguageQueryGenerationDesiredState = "ENABLED" | "DISABLED" | (string & {});
 export const NaturalLanguageQueryGenerationDesiredState = S.String;
 
 export interface NaturalLanguageQueryGenerationOptionsInput {
   DesiredState?: NaturalLanguageQueryGenerationDesiredState;
 }
-export const NaturalLanguageQueryGenerationOptionsInput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
-    }),
-  ).annotate({
-    identifier: "NaturalLanguageQueryGenerationOptionsInput",
-  }) as any as S.Schema<NaturalLanguageQueryGenerationOptionsInput>;
+export const NaturalLanguageQueryGenerationOptionsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
+  }),
+).annotate({
+  identifier: "NaturalLanguageQueryGenerationOptionsInput",
+}) as any as S.Schema<NaturalLanguageQueryGenerationOptionsInput>;
 export interface S3VectorsEngine {
   Enabled?: boolean;
 }
@@ -1620,19 +1566,14 @@ export interface AIMLOptionsInput {
 }
 export const AIMLOptionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    NaturalLanguageQueryGenerationOptions: S.optional(
-      NaturalLanguageQueryGenerationOptionsInput,
-    ),
+    NaturalLanguageQueryGenerationOptions: S.optional(NaturalLanguageQueryGenerationOptionsInput),
     S3VectorsEngine: S.optional(S3VectorsEngine),
     ServerlessVectorAcceleration: S.optional(ServerlessVectorAcceleration),
   }),
 ).annotate({
   identifier: "AIMLOptionsInput",
 }) as any as S.Schema<AIMLOptionsInput>;
-export type DeploymentStrategy =
-  | "Default"
-  | "CapacityOptimized"
-  | (string & {});
+export type DeploymentStrategy = "Default" | "CapacityOptimized" | (string & {});
 export const DeploymentStrategy = S.String;
 
 export interface DeploymentStrategyOptions {
@@ -1648,22 +1589,16 @@ export interface AutomatedSnapshotPauseRequestOptions {
   StartTime?: Date;
   EndTime?: Date;
 }
-export const AutomatedSnapshotPauseRequestOptions = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Enabled: S.Boolean,
-      StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    }),
+export const AutomatedSnapshotPauseRequestOptions = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Enabled: S.Boolean,
+    StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }),
 ).annotate({
   identifier: "AutomatedSnapshotPauseRequestOptions",
 }) as any as S.Schema<AutomatedSnapshotPauseRequestOptions>;
-export type DomainUseCase =
-  | "SEARCH"
-  | "VECTOR"
-  | "OBSERVABILITY"
-  | "MIXED"
-  | (string & {});
+export type DomainUseCase = "SEARCH" | "VECTOR" | "OBSERVABILITY" | "MIXED" | (string & {});
 export const DomainUseCase = S.String;
 
 export type EngineMode = "GENERAL" | "OPTIMIZED" | (string & {});
@@ -1720,9 +1655,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
     SoftwareUpdateOptions: S.optional(SoftwareUpdateOptions),
     AIMLOptions: S.optional(AIMLOptionsInput),
     DeploymentStrategyOptions: S.optional(DeploymentStrategyOptions),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseRequestOptions,
-    ),
+    AutomatedSnapshotPauseOptions: S.optional(AutomatedSnapshotPauseRequestOptions),
     UseCase: S.optional(DomainUseCase),
     EngineMode: S.optional(EngineMode),
   }).pipe(
@@ -1742,10 +1675,7 @@ export const CreateDomainRequest = /*@__PURE__*/ S.suspend(() =>
 export type DomainId = string;
 export type ServiceUrl = string;
 export type EndpointsMap = { [key: string]: string | undefined };
-export const EndpointsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EndpointsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type HostedZoneId = string;
 export interface VPCDerivedInfo {
   VPCId?: string;
@@ -1830,9 +1760,7 @@ export const AdvancedSecurityOptions = /*@__PURE__*/ S.suspend(() =>
     SAMLOptions: S.optional(SAMLOptionsOutput),
     JWTOptions: S.optional(JWTOptionsOutput),
     IAMFederationOptions: S.optional(IAMFederationOptionsOutput),
-    AnonymousAuthDisableDate: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    AnonymousAuthDisableDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     AnonymousAuthEnabled: S.optional(S.Boolean),
   }),
 ).annotate({
@@ -1921,9 +1849,7 @@ export const ChangeProgressDetails = /*@__PURE__*/ S.suspend(() =>
     ConfigChangeStatus: S.optional(ConfigChangeStatus),
     InitiatedBy: S.optional(InitiatedBy),
     StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "ChangeProgressDetails",
@@ -1939,10 +1865,7 @@ export type DomainProcessingStatusType =
   | (string & {});
 export const DomainProcessingStatusType = S.String;
 
-export type PropertyValueType =
-  | "PLAIN_TEXT"
-  | "STRINGIFIED_JSON"
-  | (string & {});
+export type PropertyValueType = "PLAIN_TEXT" | "STRINGIFIED_JSON" | (string & {});
 export const PropertyValueType = S.String;
 
 export interface ModifyingProperties {
@@ -1962,8 +1885,7 @@ export const ModifyingProperties = /*@__PURE__*/ S.suspend(() =>
   identifier: "ModifyingProperties",
 }) as any as S.Schema<ModifyingProperties>;
 export type ModifyingPropertiesList = ModifyingProperties[];
-export const ModifyingPropertiesList =
-  /*@__PURE__*/ S.Array(ModifyingProperties);
+export const ModifyingPropertiesList = /*@__PURE__*/ S.Array(ModifyingProperties);
 export type NaturalLanguageQueryGenerationCurrentState =
   | "NOT_ENABLED"
   | "ENABLE_COMPLETE"
@@ -1979,15 +1901,14 @@ export interface NaturalLanguageQueryGenerationOptionsOutput {
   DesiredState?: NaturalLanguageQueryGenerationDesiredState;
   CurrentState?: NaturalLanguageQueryGenerationCurrentState;
 }
-export const NaturalLanguageQueryGenerationOptionsOutput =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
-      CurrentState: S.optional(NaturalLanguageQueryGenerationCurrentState),
-    }),
-  ).annotate({
-    identifier: "NaturalLanguageQueryGenerationOptionsOutput",
-  }) as any as S.Schema<NaturalLanguageQueryGenerationOptionsOutput>;
+export const NaturalLanguageQueryGenerationOptionsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    DesiredState: S.optional(NaturalLanguageQueryGenerationDesiredState),
+    CurrentState: S.optional(NaturalLanguageQueryGenerationCurrentState),
+  }),
+).annotate({
+  identifier: "NaturalLanguageQueryGenerationOptionsOutput",
+}) as any as S.Schema<NaturalLanguageQueryGenerationOptionsOutput>;
 export interface AIMLOptionsOutput {
   NaturalLanguageQueryGenerationOptions?: NaturalLanguageQueryGenerationOptionsOutput;
   S3VectorsEngine?: S3VectorsEngine;
@@ -1995,21 +1916,14 @@ export interface AIMLOptionsOutput {
 }
 export const AIMLOptionsOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    NaturalLanguageQueryGenerationOptions: S.optional(
-      NaturalLanguageQueryGenerationOptionsOutput,
-    ),
+    NaturalLanguageQueryGenerationOptions: S.optional(NaturalLanguageQueryGenerationOptionsOutput),
     S3VectorsEngine: S.optional(S3VectorsEngine),
     ServerlessVectorAcceleration: S.optional(ServerlessVectorAcceleration),
   }),
 ).annotate({
   identifier: "AIMLOptionsOutput",
 }) as any as S.Schema<AIMLOptionsOutput>;
-export type PauseState =
-  | "Active"
-  | "Completed"
-  | "Scheduled"
-  | "Disabled"
-  | (string & {});
+export type PauseState = "Active" | "Completed" | "Scheduled" | "Disabled" | (string & {});
 export const PauseState = S.String;
 
 export interface AutomatedSnapshotPauseOptions {
@@ -2166,8 +2080,8 @@ export const SkipUnavailableStatus = S.String;
 export interface CrossClusterSearchConnectionProperties {
   SkipUnavailable?: SkipUnavailableStatus;
 }
-export const CrossClusterSearchConnectionProperties = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ SkipUnavailable: S.optional(SkipUnavailableStatus) }),
+export const CrossClusterSearchConnectionProperties = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SkipUnavailable: S.optional(SkipUnavailableStatus) }),
 ).annotate({
   identifier: "CrossClusterSearchConnectionProperties",
 }) as any as S.Schema<CrossClusterSearchConnectionProperties>;
@@ -2876,15 +2790,14 @@ export interface DescribeDataSourceAttachmentResponse {
   dataSourceArn?: string;
   status?: DataSourceAttachmentStatus;
 }
-export const DescribeDataSourceAttachmentResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      attachmentId: S.optional(S.String),
-      id: S.optional(S.String),
-      arn: S.optional(S.String),
-      dataSourceArn: S.optional(S.String),
-      status: S.optional(DataSourceAttachmentStatus),
-    }).pipe(ns),
+export const DescribeDataSourceAttachmentResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    attachmentId: S.optional(S.String),
+    id: S.optional(S.String),
+    arn: S.optional(S.String),
+    dataSourceArn: S.optional(S.String),
+    status: S.optional(DataSourceAttachmentStatus),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeDataSourceAttachmentResponse",
 }) as any as S.Schema<DescribeDataSourceAttachmentResponse>;
@@ -2957,11 +2870,7 @@ export type ScheduledAutoTuneActionType =
 export const ScheduledAutoTuneActionType = S.String;
 
 export type ScheduledAutoTuneDescription = string;
-export type ScheduledAutoTuneSeverityType =
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | (string & {});
+export type ScheduledAutoTuneSeverityType = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export const ScheduledAutoTuneSeverityType = S.String;
 
 export interface ScheduledAutoTuneDetails {
@@ -3037,12 +2946,7 @@ export const DescribeDomainChangeProgressRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeDomainChangeProgressRequest",
 }) as any as S.Schema<DescribeDomainChangeProgressRequest>;
-export type OverallChangeStatus =
-  | "PENDING"
-  | "PROCESSING"
-  | "COMPLETED"
-  | "FAILED"
-  | (string & {});
+export type OverallChangeStatus = "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | (string & {});
 export const OverallChangeStatus = S.String;
 
 export type TotalNumberOfStages = number;
@@ -3066,8 +2970,7 @@ export const ChangeProgressStage = /*@__PURE__*/ S.suspend(() =>
   identifier: "ChangeProgressStage",
 }) as any as S.Schema<ChangeProgressStage>;
 export type ChangeProgressStageList = ChangeProgressStage[];
-export const ChangeProgressStageList =
-  /*@__PURE__*/ S.Array(ChangeProgressStage);
+export const ChangeProgressStageList = /*@__PURE__*/ S.Array(ChangeProgressStage);
 export interface ChangeProgressStatusDetails {
   ChangeId?: string;
   StartTime?: Date;
@@ -3089,9 +2992,7 @@ export const ChangeProgressStatusDetails = /*@__PURE__*/ S.suspend(() =>
     CompletedProperties: S.optional(StringList),
     TotalNumberOfStages: S.optional(S.Number),
     ChangeProgressStages: S.optional(ChangeProgressStageList),
-    LastUpdatedTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ConfigChangeStatus: S.optional(ConfigChangeStatus),
     InitiatedBy: S.optional(InitiatedBy),
   }),
@@ -3101,11 +3002,10 @@ export const ChangeProgressStatusDetails = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeDomainChangeProgressResponse {
   ChangeProgressStatus?: ChangeProgressStatusDetails;
 }
-export const DescribeDomainChangeProgressResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ChangeProgressStatus: S.optional(ChangeProgressStatusDetails),
-    }).pipe(ns),
+export const DescribeDomainChangeProgressResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ChangeProgressStatus: S.optional(ChangeProgressStatusDetails),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeDomainChangeProgressResponse",
 }) as any as S.Schema<DescribeDomainChangeProgressResponse>;
@@ -3131,11 +3031,7 @@ export const DescribeDomainConfigRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeDomainConfigRequest",
 }) as any as S.Schema<DescribeDomainConfigRequest>;
 export type UIntValue = number;
-export type OptionState =
-  | "RequiresIndexDocuments"
-  | "Processing"
-  | "Active"
-  | (string & {});
+export type OptionState = "RequiresIndexDocuments" | "Processing" | "Active" | (string & {});
 export const OptionState = S.String;
 
 export interface OptionStatus {
@@ -3290,10 +3186,7 @@ export const IdentityCenterOptionsStatus = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IdentityCenterOptionsStatus",
 }) as any as S.Schema<IdentityCenterOptionsStatus>;
-export type RollbackOnDisable =
-  | "NO_ROLLBACK"
-  | "DEFAULT_ROLLBACK"
-  | (string & {});
+export type RollbackOnDisable = "NO_ROLLBACK" | "DEFAULT_ROLLBACK" | (string & {});
 export const RollbackOnDisable = S.String;
 
 export interface AutoTuneOptions {
@@ -3463,9 +3356,7 @@ export const DomainConfig = /*@__PURE__*/ S.suspend(() =>
     ModifyingProperties: S.optional(ModifyingPropertiesList),
     AIMLOptions: S.optional(AIMLOptionsStatus),
     DeploymentStrategyOptions: S.optional(DeploymentStrategyOptionsStatus),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseOptionsStatus,
-    ),
+    AutomatedSnapshotPauseOptions: S.optional(AutomatedSnapshotPauseOptionsStatus),
     UseCase: S.optional(UseCaseStatus),
     EngineMode: S.optional(EngineModeStatus),
   }),
@@ -3499,11 +3390,7 @@ export const DescribeDomainHealthRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "DescribeDomainHealthRequest",
 }) as any as S.Schema<DescribeDomainHealthRequest>;
-export type DomainState =
-  | "Active"
-  | "Processing"
-  | "NotAvailable"
-  | (string & {});
+export type DomainState = "Active" | "Processing" | "NotAvailable" | (string & {});
 export const DomainState = S.String;
 
 export type NumberOfAZs = string;
@@ -3511,12 +3398,7 @@ export type NumberOfNodes = string;
 export type MasterNodeStatus = "Available" | "UnAvailable" | (string & {});
 export const MasterNodeStatus = S.String;
 
-export type DomainHealth =
-  | "Red"
-  | "Yellow"
-  | "Green"
-  | "NotAvailable"
-  | (string & {});
+export type DomainHealth = "Red" | "Yellow" | "Green" | "NotAvailable" | (string & {});
 export const DomainHealth = S.String;
 
 export type NumberOfShards = string;
@@ -3545,8 +3427,7 @@ export const AvailabilityZoneInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "AvailabilityZoneInfo",
 }) as any as S.Schema<AvailabilityZoneInfo>;
 export type AvailabilityZoneInfoList = AvailabilityZoneInfo[];
-export const AvailabilityZoneInfoList =
-  /*@__PURE__*/ S.Array(AvailabilityZoneInfo);
+export const AvailabilityZoneInfoList = /*@__PURE__*/ S.Array(AvailabilityZoneInfo);
 export interface EnvironmentInfo {
   AvailabilityZoneInformation?: AvailabilityZoneInfo[];
 }
@@ -3653,9 +3534,7 @@ export interface DescribeDomainNodesResponse {
   DomainNodesStatusList?: DomainNodesStatus[];
 }
 export const DescribeDomainNodesResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ DomainNodesStatusList: S.optional(DomainNodesStatusList) }).pipe(
-    ns,
-  ),
+  S.Struct({ DomainNodesStatusList: S.optional(DomainNodesStatusList) }).pipe(ns),
 ).annotate({
   identifier: "DescribeDomainNodesResponse",
 }) as any as S.Schema<DescribeDomainNodesResponse>;
@@ -3698,9 +3577,7 @@ export const DescribeDryRunProgressRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
     DryRunId: S.optional(S.String).pipe(T.HttpQuery("dryRunId")),
-    LoadDryRunConfig: S.optional(S.Boolean).pipe(
-      T.HttpQuery("loadDryRunConfig"),
-    ),
+    LoadDryRunConfig: S.optional(S.Boolean).pipe(T.HttpQuery("loadDryRunConfig")),
   }).pipe(
     T.all(
       ns,
@@ -3889,9 +3766,7 @@ export interface DescribeInstanceTypeLimitsRequest {
 export const DescribeInstanceTypeLimitsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DomainName: S.optional(S.String).pipe(T.HttpQuery("domainName")),
-    InstanceType: OpenSearchPartitionInstanceType.pipe(
-      T.HttpLabel("InstanceType"),
-    ),
+    InstanceType: OpenSearchPartitionInstanceType.pipe(T.HttpLabel("InstanceType")),
     EngineVersion: S.String.pipe(T.HttpLabel("EngineVersion")),
   }).pipe(
     T.all(
@@ -3991,10 +3866,7 @@ export const Limits = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Limits" }) as any as S.Schema<Limits>;
 export type LimitsByRole = { [key: string]: Limits | undefined };
-export const LimitsByRole = /*@__PURE__*/ S.Record(
-  S.String,
-  Limits.pipe(S.optional),
-);
+export const LimitsByRole = /*@__PURE__*/ S.Record(S.String, Limits.pipe(S.optional));
 export interface DescribeInstanceTypeLimitsResponse {
   LimitsByRole?: { [key: string]: Limits | undefined };
 }
@@ -4070,9 +3942,7 @@ export const DescribePackagesFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribePackagesFilter",
 }) as any as S.Schema<DescribePackagesFilter>;
 export type DescribePackagesFilterList = DescribePackagesFilter[];
-export const DescribePackagesFilterList = /*@__PURE__*/ S.Array(
-  DescribePackagesFilter,
-);
+export const DescribePackagesFilterList = /*@__PURE__*/ S.Array(DescribePackagesFilter);
 export interface DescribePackagesRequest {
   Filters?: DescribePackagesFilter[];
   MaxResults?: number;
@@ -4116,28 +3986,25 @@ export interface DescribeReservedInstanceOfferingsRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const DescribeReservedInstanceOfferingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceOfferingId: S.optional(S.String).pipe(
-        T.HttpQuery("offeringId"),
-      ),
-      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-      NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "GET",
-          uri: "/2021-01-01/opensearch/reservedInstanceOfferings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DescribeReservedInstanceOfferingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedInstanceOfferingId: S.optional(S.String).pipe(T.HttpQuery("offeringId")),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "GET",
+        uri: "/2021-01-01/opensearch/reservedInstanceOfferings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DescribeReservedInstanceOfferingsRequest",
 }) as any as S.Schema<DescribeReservedInstanceOfferingsRequest>;
@@ -4192,23 +4059,22 @@ export const ReservedInstanceOffering = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ReservedInstanceOffering>;
 export type ReservedInstanceOfferingList = ReservedInstanceOffering[];
 export const ReservedInstanceOfferingList = /*@__PURE__*/ S.Array(
-  ReservedInstanceOffering.pipe(T.XmlName("ReservedInstanceOffering")).annotate(
-    { identifier: "ReservedInstanceOffering" },
-  ),
+  ReservedInstanceOffering.pipe(T.XmlName("ReservedInstanceOffering")).annotate({
+    identifier: "ReservedInstanceOffering",
+  }),
 );
 export interface DescribeReservedInstanceOfferingsResponse {
   NextToken?: string;
   ReservedInstanceOfferings?: ReservedInstanceOffering[];
 }
-export const DescribeReservedInstanceOfferingsResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      ReservedInstanceOfferings: S.optional(ReservedInstanceOfferingList),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeReservedInstanceOfferingsResponse",
-  }) as any as S.Schema<DescribeReservedInstanceOfferingsResponse>;
+export const DescribeReservedInstanceOfferingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    ReservedInstanceOfferings: S.optional(ReservedInstanceOfferingList),
+  }).pipe(ns),
+).annotate({
+  identifier: "DescribeReservedInstanceOfferingsResponse",
+}) as any as S.Schema<DescribeReservedInstanceOfferingsResponse>;
 export interface DescribeReservedInstancesRequest {
   ReservedInstanceId?: string;
   MaxResults?: number;
@@ -4312,10 +4178,7 @@ export const DescribeVpcEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<DescribeVpcEndpointsRequest>;
 export type VpcEndpoints = VpcEndpoint[];
 export const VpcEndpoints = /*@__PURE__*/ S.Array(VpcEndpoint);
-export type VpcEndpointErrorCode =
-  | "ENDPOINT_NOT_FOUND"
-  | "SERVER_ERROR"
-  | (string & {});
+export type VpcEndpointErrorCode = "ENDPOINT_NOT_FOUND" | "SERVER_ERROR" | (string & {});
 export const VpcEndpointErrorCode = S.String;
 
 export interface VpcEndpointError {
@@ -4540,9 +4403,7 @@ export type CapabilityExtendedResponseConfig = { aiConfig: AIConfig };
 export const CapabilityExtendedResponseConfig = /*@__PURE__*/ S.Union([
   S.Struct({ aiConfig: AIConfig }),
 ]);
-export type CapabilityFailureReason =
-  | "KMS_KEY_INSUFFICIENT_PERMISSION"
-  | (string & {});
+export type CapabilityFailureReason = "KMS_KEY_INSUFFICIENT_PERMISSION" | (string & {});
 export const CapabilityFailureReason = S.String;
 
 export type CapabilityFailureDetails = string;
@@ -4616,9 +4477,7 @@ export const CompatibleVersionsMap = /*@__PURE__*/ S.suspend(() =>
   identifier: "CompatibleVersionsMap",
 }) as any as S.Schema<CompatibleVersionsMap>;
 export type CompatibleVersionsList = CompatibleVersionsMap[];
-export const CompatibleVersionsList = /*@__PURE__*/ S.Array(
-  CompatibleVersionsMap,
-);
+export const CompatibleVersionsList = /*@__PURE__*/ S.Array(CompatibleVersionsMap);
 export interface GetCompatibleVersionsResponse {
   CompatibleVersions?: CompatibleVersionsMap[];
 }
@@ -4693,8 +4552,8 @@ export const GetDefaultApplicationSettingRequest = /*@__PURE__*/ S.suspend(() =>
 export interface GetDefaultApplicationSettingResponse {
   applicationArn?: string;
 }
-export const GetDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
+export const GetDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "GetDefaultApplicationSettingResponse",
 }) as any as S.Schema<GetDefaultApplicationSettingResponse>;
@@ -4946,9 +4805,7 @@ export const PackageVersionHistory = /*@__PURE__*/ S.suspend(() =>
   identifier: "PackageVersionHistory",
 }) as any as S.Schema<PackageVersionHistory>;
 export type PackageVersionHistoryList = PackageVersionHistory[];
-export const PackageVersionHistoryList = /*@__PURE__*/ S.Array(
-  PackageVersionHistory,
-);
+export const PackageVersionHistoryList = /*@__PURE__*/ S.Array(PackageVersionHistory);
 export interface GetPackageVersionHistoryResponse {
   PackageID?: string;
   PackageVersionHistoryList?: PackageVersionHistory[];
@@ -5000,11 +4857,7 @@ export type UpgradeStatus =
   | (string & {});
 export const UpgradeStatus = S.String;
 
-export type UpgradeStep =
-  | "PRE_UPGRADE_CHECK"
-  | "SNAPSHOT"
-  | "UPGRADE"
-  | (string & {});
+export type UpgradeStep = "PRE_UPGRADE_CHECK" | "SNAPSHOT" | "UPGRADE" | (string & {});
 export const UpgradeStep = S.String;
 
 export type Issue = string;
@@ -5254,9 +5107,7 @@ export const DataSourceAttachmentSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DataSourceAttachmentSummary",
 }) as any as S.Schema<DataSourceAttachmentSummary>;
 export type DataSourceAttachmentSummaryList = DataSourceAttachmentSummary[];
-export const DataSourceAttachmentSummaryList = /*@__PURE__*/ S.Array(
-  DataSourceAttachmentSummary,
-);
+export const DataSourceAttachmentSummaryList = /*@__PURE__*/ S.Array(DataSourceAttachmentSummary);
 export interface ListDataSourceAttachmentsResponse {
   attachments?: DataSourceAttachmentSummary[];
   nextToken?: string;
@@ -5360,9 +5211,7 @@ export const DirectQueryDataSource = /*@__PURE__*/ S.suspend(() =>
   identifier: "DirectQueryDataSource",
 }) as any as S.Schema<DirectQueryDataSource>;
 export type DirectQueryDataSourceList = DirectQueryDataSource[];
-export const DirectQueryDataSourceList = /*@__PURE__*/ S.Array(
-  DirectQueryDataSource,
-);
+export const DirectQueryDataSourceList = /*@__PURE__*/ S.Array(DirectQueryDataSource);
 export interface ListDirectQueryDataSourcesResponse {
   NextToken?: string;
   DirectQueryDataSources?: DirectQueryDataSource[];
@@ -5431,9 +5280,7 @@ export const DomainMaintenanceDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "DomainMaintenanceDetails",
 }) as any as S.Schema<DomainMaintenanceDetails>;
 export type DomainMaintenanceList = DomainMaintenanceDetails[];
-export const DomainMaintenanceList = /*@__PURE__*/ S.Array(
-  DomainMaintenanceDetails,
-);
+export const DomainMaintenanceList = /*@__PURE__*/ S.Array(DomainMaintenanceDetails);
 export interface ListDomainMaintenancesResponse {
   DomainMaintenances?: DomainMaintenanceDetails[];
   NextToken?: string;
@@ -5456,15 +5303,7 @@ export const ListDomainNamesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EngineType: S.optional(EngineType).pipe(T.HttpQuery("engineType")),
   }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/domain" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/2021-01-01/domain" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDomainNamesRequest",
@@ -5572,12 +5411,7 @@ export const ListInsightsRequest = /*@__PURE__*/ S.suspend(() =>
 export type InsightType = "EVENT" | "RECOMMENDATION" | (string & {});
 export const InsightType = S.String;
 
-export type InsightPriorityLevel =
-  | "CRITICAL"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW"
-  | (string & {});
+export type InsightPriorityLevel = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export const InsightPriorityLevel = S.String;
 
 export type InsightStatus = "ACTIVE" | "RESOLVED" | "DISMISSED" | (string & {});
@@ -5682,8 +5516,7 @@ export const InstanceTypeDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "InstanceTypeDetails",
 }) as any as S.Schema<InstanceTypeDetails>;
 export type InstanceTypeDetailsList = InstanceTypeDetails[];
-export const InstanceTypeDetailsList =
-  /*@__PURE__*/ S.Array(InstanceTypeDetails);
+export const InstanceTypeDetailsList = /*@__PURE__*/ S.Array(InstanceTypeDetails);
 export interface ListInstanceTypeDetailsResponse {
   InstanceTypeDetails?: InstanceTypeDetails[];
   NextToken?: string;
@@ -5896,15 +5729,7 @@ export interface ListTagsRequest {
 }
 export const ListTagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "GET", uri: "/2021-01-01/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "GET", uri: "/2021-01-01/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsRequest",
@@ -5977,8 +5802,7 @@ export const ListVpcEndpointAccessRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListVpcEndpointAccessRequest",
 }) as any as S.Schema<ListVpcEndpointAccessRequest>;
 export type AuthorizedPrincipalList = AuthorizedPrincipal[];
-export const AuthorizedPrincipalList =
-  /*@__PURE__*/ S.Array(AuthorizedPrincipal);
+export const AuthorizedPrincipalList = /*@__PURE__*/ S.Array(AuthorizedPrincipal);
 export interface ListVpcEndpointAccessResponse {
   AuthorizedPrincipalList: AuthorizedPrincipal[];
   NextToken: string;
@@ -6068,26 +5892,25 @@ export interface PurchaseReservedInstanceOfferingRequest {
   ReservationName: string;
   InstanceCount?: number;
 }
-export const PurchaseReservedInstanceOfferingRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceOfferingId: S.String,
-      ReservationName: S.String,
-      InstanceCount: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const PurchaseReservedInstanceOfferingRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedInstanceOfferingId: S.String,
+    ReservationName: S.String,
+    InstanceCount: S.optional(S.Number),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/2021-01-01/opensearch/purchaseReservedInstanceOffering",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "PurchaseReservedInstanceOfferingRequest",
 }) as any as S.Schema<PurchaseReservedInstanceOfferingRequest>;
@@ -6095,12 +5918,11 @@ export interface PurchaseReservedInstanceOfferingResponse {
   ReservedInstanceId?: string;
   ReservationName?: string;
 }
-export const PurchaseReservedInstanceOfferingResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ReservedInstanceId: S.optional(S.String),
-      ReservationName: S.optional(S.String),
-    }).pipe(ns),
+export const PurchaseReservedInstanceOfferingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ReservedInstanceId: S.optional(S.String),
+    ReservationName: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "PurchaseReservedInstanceOfferingResponse",
 }) as any as S.Schema<PurchaseReservedInstanceOfferingResponse>;
@@ -6129,8 +5951,8 @@ export const PutDefaultApplicationSettingRequest = /*@__PURE__*/ S.suspend(() =>
 export interface PutDefaultApplicationSettingResponse {
   applicationArn?: string;
 }
-export const PutDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
+export const PutDefaultApplicationSettingResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ applicationArn: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "PutDefaultApplicationSettingResponse",
 }) as any as S.Schema<PutDefaultApplicationSettingResponse>;
@@ -6234,9 +6056,7 @@ export const RemoveTagsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveTagsRequest",
 }) as any as S.Schema<RemoveTagsRequest>;
 export interface RemoveTagsResponse {}
-export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const RemoveTagsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "RemoveTagsResponse",
 }) as any as S.Schema<RemoveTagsResponse>;
 export interface RevokeVpcEndpointAccessRequest {
@@ -6277,22 +6097,21 @@ export const RevokeVpcEndpointAccessResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RollbackServiceSoftwareUpdateRequest {
   DomainName: string;
 }
-export const RollbackServiceSoftwareUpdateRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ DomainName: S.String }).pipe(
-      T.all(
-        ns,
-        T.Http({
-          method: "POST",
-          uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RollbackServiceSoftwareUpdateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ DomainName: S.String }).pipe(
+    T.all(
+      ns,
+      T.Http({
+        method: "POST",
+        uri: "/2021-01-01/opensearch/serviceSoftwareUpdate/rollback",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "RollbackServiceSoftwareUpdateRequest",
 }) as any as S.Schema<RollbackServiceSoftwareUpdateRequest>;
@@ -6315,13 +6134,10 @@ export const RollbackServiceSoftwareOptions = /*@__PURE__*/ S.suspend(() =>
 export interface RollbackServiceSoftwareUpdateResponse {
   RollbackServiceSoftwareOptions?: RollbackServiceSoftwareOptions;
 }
-export const RollbackServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RollbackServiceSoftwareOptions: S.optional(
-        RollbackServiceSoftwareOptions,
-      ),
-    }).pipe(ns),
+export const RollbackServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RollbackServiceSoftwareOptions: S.optional(RollbackServiceSoftwareOptions),
+  }).pipe(ns),
 ).annotate({
   identifier: "RollbackServiceSoftwareUpdateResponse",
 }) as any as S.Schema<RollbackServiceSoftwareUpdateResponse>;
@@ -6386,9 +6202,7 @@ export const SavedObjectIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "SavedObjectIdentifier",
 }) as any as S.Schema<SavedObjectIdentifier>;
 export type SavedObjectIdentifierList = SavedObjectIdentifier[];
-export const SavedObjectIdentifierList = /*@__PURE__*/ S.Array(
-  SavedObjectIdentifier,
-);
+export const SavedObjectIdentifierList = /*@__PURE__*/ S.Array(SavedObjectIdentifier);
 export interface ExportOptions {
   types?: string[];
   objects?: SavedObjectIdentifier[];
@@ -6453,11 +6267,7 @@ export const StartMigrationResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StartMigrationResponse",
 }) as any as S.Schema<StartMigrationResponse>;
-export type ScheduleAt =
-  | "NOW"
-  | "TIMESTAMP"
-  | "OFF_PEAK_WINDOW"
-  | (string & {});
+export type ScheduleAt = "NOW" | "TIMESTAMP" | "OFF_PEAK_WINDOW" | (string & {});
 export const ScheduleAt = S.String;
 
 export interface StartServiceSoftwareUpdateRequest {
@@ -6491,9 +6301,7 @@ export interface StartServiceSoftwareUpdateResponse {
   ServiceSoftwareOptions?: ServiceSoftwareOptions;
 }
 export const StartServiceSoftwareUpdateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(
-    ns,
-  ),
+  S.Struct({ ServiceSoftwareOptions: S.optional(ServiceSoftwareOptions) }).pipe(ns),
 ).annotate({
   identifier: "StartServiceSoftwareUpdateResponse",
 }) as any as S.Schema<StartServiceSoftwareUpdateResponse>;
@@ -6679,9 +6487,7 @@ export const UpdateDomainConfigRequest = /*@__PURE__*/ S.suspend(() =>
     SoftwareUpdateOptions: S.optional(SoftwareUpdateOptions),
     AIMLOptions: S.optional(AIMLOptionsInput),
     DeploymentStrategyOptions: S.optional(DeploymentStrategyOptions),
-    AutomatedSnapshotPauseOptions: S.optional(
-      AutomatedSnapshotPauseRequestOptions,
-    ),
+    AutomatedSnapshotPauseOptions: S.optional(AutomatedSnapshotPauseRequestOptions),
     UseCase: S.optional(DomainUseCase),
     EngineMode: S.optional(EngineMode),
   }).pipe(
@@ -6788,11 +6594,7 @@ export const UpdatePackageResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdatePackageResponse",
 }) as any as S.Schema<UpdatePackageResponse>;
-export type PackageScopeOperationEnum =
-  | "ADD"
-  | "OVERRIDE"
-  | "REMOVE"
-  | (string & {});
+export type PackageScopeOperationEnum = "ADD" | "OVERRIDE" | "REMOVE" | (string & {});
 export const PackageScopeOperationEnum = S.String;
 
 export interface UpdatePackageScopeRequest {
@@ -6967,11 +6769,7 @@ export const acceptInboundConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AcceptInboundConnectionRequest,
   output: AcceptInboundConnectionResponse,
-  errors: [
-    DisabledOperationException,
-    LimitExceededException,
-    ResourceNotFoundException,
-  ],
+  errors: [DisabledOperationException, LimitExceededException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundConnection",
@@ -7067,12 +6865,7 @@ export const addTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: AddTagsRequest,
   output: AddTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    LimitExceededException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, LimitExceededException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
@@ -7261,12 +7054,7 @@ export const cancelServiceSoftwareUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelServiceSoftwareUpdateRequest,
   output: CancelServiceSoftwareUpdateResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceSoftwareUpdate",
@@ -7589,12 +7377,7 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
@@ -7728,12 +7511,7 @@ export const deleteVpcEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteVpcEndpointRequest,
   output: DeleteVpcEndpointResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
@@ -7819,12 +7597,7 @@ export const describeDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeDomainRequest,
   output: DescribeDomainResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
@@ -7850,12 +7623,7 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: DescribeDomainAutoTunesRequest,
   output: DescribeDomainAutoTunesResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainAutoTunes",
@@ -7884,12 +7652,7 @@ export const describeDomainChangeProgress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeDomainChangeProgressRequest,
   output: DescribeDomainChangeProgressResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
@@ -7912,12 +7675,7 @@ export const describeDomainConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeDomainConfigRequest,
   output: DescribeDomainConfigResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainConfig",
@@ -8292,12 +8050,7 @@ export const describeVpcEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DescribeVpcEndpointsRequest,
   output: DescribeVpcEndpointsResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ValidationException,
-  ],
+  errors: [BaseException, DisabledOperationException, InternalException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
@@ -8995,10 +8748,7 @@ export const listDomainMaintenances: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListDomainNamesError =
-  | BaseException
-  | ValidationException
-  | CommonErrors;
+export type ListDomainNamesError = BaseException | ValidationException | CommonErrors;
 /**
  * Returns the names of all Amazon OpenSearch Service domains owned by the current user
  * in the active Region.
@@ -9108,12 +8858,7 @@ export const listInstanceTypeDetails: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInstanceTypeDetailsRequest,
   output: ListInstanceTypeDetailsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInstanceTypeDetails",
@@ -9246,12 +8991,7 @@ export const listTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
@@ -9276,12 +9016,7 @@ export const listVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersions",
@@ -9311,12 +9046,7 @@ export const listVpcEndpointAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListVpcEndpointAccessRequest,
   output: ListVpcEndpointAccessResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
@@ -9362,12 +9092,7 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListVpcEndpointsForDomainRequest,
   output: ListVpcEndpointsForDomainResponse,
-  errors: [
-    BaseException,
-    DisabledOperationException,
-    InternalException,
-    ResourceNotFoundException,
-  ],
+  errors: [BaseException, DisabledOperationException, InternalException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
@@ -9663,12 +9388,7 @@ export const startServiceSoftwareUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartServiceSoftwareUpdateRequest,
   output: StartServiceSoftwareUpdateResponse,
-  errors: [
-    BaseException,
-    InternalException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [BaseException, InternalException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartServiceSoftwareUpdate",

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "IoTFleetWise",
   serviceShapeName: "IoTAutobahnControlPlane",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://iotfleetwise-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://iotfleetwise.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://iotfleetwise.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://iotfleetwise.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -132,9 +122,7 @@ export class InvalidNodeException
   extends /*@__PURE__*/ S.TaggedError<InvalidNodeException>()(
     "InvalidNodeException",
     {
-      invalidNodes: S.optional(
-        S.suspend(() => Nodes).annotate({ identifier: "Nodes" }),
-      ),
+      invalidNodes: S.optional(S.suspend(() => Nodes).annotate({ identifier: "Nodes" })),
       reason: S.optional(S.String),
       message: S.optional(S.String).pipe(T.ErrorMessage()),
     },
@@ -226,19 +214,14 @@ export const AssociateVehicleFleetRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssociateVehicleFleetRequest",
 }) as any as S.Schema<AssociateVehicleFleetRequest>;
 export interface AssociateVehicleFleetResponse {}
-export const AssociateVehicleFleetResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AssociateVehicleFleetResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AssociateVehicleFleetResponse",
 }) as any as S.Schema<AssociateVehicleFleetResponse>;
 export type Arn = string;
 export type AttributeName = string;
 export type AttributeValue = string;
 export type AttributesMap = { [key: string]: string | undefined };
-export const AttributesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const AttributesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type VehicleAssociationBehavior =
   | "CreateIotThing"
   | "ValidateIotThingExists"
@@ -257,12 +240,7 @@ export const Tag = /*@__PURE__*/ S.suspend(() =>
 export type TagList = Tag[];
 export const TagList = /*@__PURE__*/ S.Array(Tag);
 export type ResourceIdentifier = string;
-export type TimeUnit =
-  | "MILLISECOND"
-  | "SECOND"
-  | "MINUTE"
-  | "HOUR"
-  | (string & {});
+export type TimeUnit = "MILLISECOND" | "SECOND" | "MINUTE" | "HOUR" | (string & {});
 export const TimeUnit = S.String;
 
 export type PositiveInteger = number;
@@ -307,9 +285,7 @@ export const StateTemplateAssociation = /*@__PURE__*/ S.suspend(() =>
   identifier: "StateTemplateAssociation",
 }) as any as S.Schema<StateTemplateAssociation>;
 export type StateTemplateAssociations = StateTemplateAssociation[];
-export const StateTemplateAssociations = /*@__PURE__*/ S.Array(
-  StateTemplateAssociation,
-);
+export const StateTemplateAssociations = /*@__PURE__*/ S.Array(StateTemplateAssociation);
 export interface CreateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn: string;
@@ -333,22 +309,13 @@ export const CreateVehicleRequestItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateVehicleRequestItem",
 }) as any as S.Schema<CreateVehicleRequestItem>;
 export type CreateVehicleRequestItems = CreateVehicleRequestItem[];
-export const CreateVehicleRequestItems = /*@__PURE__*/ S.Array(
-  CreateVehicleRequestItem,
-);
+export const CreateVehicleRequestItems = /*@__PURE__*/ S.Array(CreateVehicleRequestItem);
 export interface BatchCreateVehicleRequest {
   vehicles: CreateVehicleRequestItem[];
 }
 export const BatchCreateVehicleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ vehicles: CreateVehicleRequestItems }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/vehicles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/vehicles" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchCreateVehicleRequest",
@@ -368,9 +335,7 @@ export const CreateVehicleResponseItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateVehicleResponseItem",
 }) as any as S.Schema<CreateVehicleResponseItem>;
 export type CreateVehicleResponses = CreateVehicleResponseItem[];
-export const CreateVehicleResponses = /*@__PURE__*/ S.Array(
-  CreateVehicleResponseItem,
-);
+export const CreateVehicleResponses = /*@__PURE__*/ S.Array(CreateVehicleResponseItem);
 export interface CreateVehicleError_ {
   vehicleName?: string;
   code?: string;
@@ -403,9 +368,7 @@ export type UpdateMode = "Overwrite" | "Merge" | (string & {});
 export const UpdateMode = S.String;
 
 export type StateTemplateAssociationIdentifiers = string[];
-export const StateTemplateAssociationIdentifiers = /*@__PURE__*/ S.Array(
-  S.String,
-);
+export const StateTemplateAssociationIdentifiers = /*@__PURE__*/ S.Array(S.String);
 export interface UpdateVehicleRequestItem {
   vehicleName: string;
   modelManifestArn?: string;
@@ -431,22 +394,13 @@ export const UpdateVehicleRequestItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateVehicleRequestItem",
 }) as any as S.Schema<UpdateVehicleRequestItem>;
 export type UpdateVehicleRequestItems = UpdateVehicleRequestItem[];
-export const UpdateVehicleRequestItems = /*@__PURE__*/ S.Array(
-  UpdateVehicleRequestItem,
-);
+export const UpdateVehicleRequestItems = /*@__PURE__*/ S.Array(UpdateVehicleRequestItem);
 export interface BatchUpdateVehicleRequest {
   vehicles: UpdateVehicleRequestItem[];
 }
 export const BatchUpdateVehicleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ vehicles: UpdateVehicleRequestItems }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/vehicles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/vehicles" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchUpdateVehicleRequest",
@@ -461,9 +415,7 @@ export const UpdateVehicleResponseItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateVehicleResponseItem",
 }) as any as S.Schema<UpdateVehicleResponseItem>;
 export type UpdateVehicleResponseItems = UpdateVehicleResponseItem[];
-export const UpdateVehicleResponseItems = /*@__PURE__*/ S.Array(
-  UpdateVehicleResponseItem,
-);
+export const UpdateVehicleResponseItems = /*@__PURE__*/ S.Array(UpdateVehicleResponseItem);
 export interface UpdateVehicleError_ {
   vehicleName?: string;
   code?: number;
@@ -633,9 +585,7 @@ export const DataDestinationConfig = /*@__PURE__*/ S.Union([
   S.Struct({ mqttTopicConfig: MqttTopicConfig }),
 ]);
 export type DataDestinationConfigs = DataDestinationConfig[];
-export const DataDestinationConfigs = /*@__PURE__*/ S.Array(
-  DataDestinationConfig,
-);
+export const DataDestinationConfigs = /*@__PURE__*/ S.Array(DataDestinationConfig);
 export type StorageMaximumSizeUnit = "MB" | "GB" | "TB" | (string & {});
 export const StorageMaximumSizeUnit = S.String;
 
@@ -650,11 +600,7 @@ export const StorageMaximumSize = /*@__PURE__*/ S.suspend(() =>
   identifier: "StorageMaximumSize",
 }) as any as S.Schema<StorageMaximumSize>;
 export type StorageLocation = string | redacted.Redacted<string>;
-export type StorageMinimumTimeToLiveUnit =
-  | "HOURS"
-  | "DAYS"
-  | "WEEKS"
-  | (string & {});
+export type StorageMinimumTimeToLiveUnit = "HOURS" | "DAYS" | "WEEKS" | (string & {});
 export const StorageMinimumTimeToLiveUnit = S.String;
 
 export type StorageMinimumTimeToLiveValue = number;
@@ -753,9 +699,7 @@ export const SignalFetchInformation = /*@__PURE__*/ S.suspend(() =>
   identifier: "SignalFetchInformation",
 }) as any as S.Schema<SignalFetchInformation>;
 export type SignalFetchInformationList = SignalFetchInformation[];
-export const SignalFetchInformationList = /*@__PURE__*/ S.Array(
-  SignalFetchInformation,
-);
+export const SignalFetchInformationList = /*@__PURE__*/ S.Array(SignalFetchInformation);
 export interface CreateCampaignRequest {
   name: string;
   description?: string;
@@ -797,14 +741,7 @@ export const CreateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     dataPartitions: S.optional(DataPartitions),
     signalsToFetch: S.optional(SignalFetchInformationList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/campaigns/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/campaigns/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateCampaignRequest",
@@ -962,19 +899,17 @@ export interface StructuredMessageFieldNameAndDataTypePair {
   fieldName: string;
   dataType: StructuredMessage;
 }
-export const StructuredMessageFieldNameAndDataTypePair =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      fieldName: S.String,
-      dataType: S.suspend(() => StructuredMessage).annotate({
-        identifier: "StructuredMessage",
-      }),
+export const StructuredMessageFieldNameAndDataTypePair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    fieldName: S.String,
+    dataType: S.suspend(() => StructuredMessage).annotate({
+      identifier: "StructuredMessage",
     }),
-  ).annotate({
-    identifier: "StructuredMessageFieldNameAndDataTypePair",
-  }) as any as S.Schema<StructuredMessageFieldNameAndDataTypePair>;
-export type StructuredMessageDefinition =
-  StructuredMessageFieldNameAndDataTypePair[];
+  }),
+).annotate({
+  identifier: "StructuredMessageFieldNameAndDataTypePair",
+}) as any as S.Schema<StructuredMessageFieldNameAndDataTypePair>;
+export type StructuredMessageDefinition = StructuredMessageFieldNameAndDataTypePair[];
 export const StructuredMessageDefinition = /*@__PURE__*/ S.Array(
   S.suspend(
     (): S.Schema<StructuredMessageFieldNameAndDataTypePair> =>
@@ -1001,14 +936,13 @@ export const StructuredMessage = /*@__PURE__*/ S.Union([
   S.Struct({ primitiveMessageDefinition: PrimitiveMessageDefinition }),
   S.Struct({
     structuredMessageListDefinition: S.suspend(
-      (): S.Schema<StructuredMessageListDefinition> =>
-        StructuredMessageListDefinition,
+      (): S.Schema<StructuredMessageListDefinition> => StructuredMessageListDefinition,
     ).annotate({ identifier: "StructuredMessageListDefinition" }),
   }),
   S.Struct({
-    structuredMessageDefinition: S.suspend(
-      () => StructuredMessageDefinition,
-    ).annotate({ identifier: "StructuredMessageDefinition" }),
+    structuredMessageDefinition: S.suspend(() => StructuredMessageDefinition).annotate({
+      identifier: "StructuredMessageDefinition",
+    }),
   }),
 ]) as any as S.Schema<StructuredMessage>;
 export interface MessageSignal {
@@ -1194,14 +1128,7 @@ export const CreateFleetRequest = /*@__PURE__*/ S.suspend(() =>
     signalCatalogArn: S.String,
     tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/fleets/{fleetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/fleets/{fleetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateFleetRequest",
@@ -1232,14 +1159,7 @@ export const CreateModelManifestRequest = /*@__PURE__*/ S.suspend(() =>
     signalCatalogArn: S.String,
     tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/model-manifests/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/model-manifests/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateModelManifestRequest",
@@ -1492,14 +1412,7 @@ export const CreateSignalCatalogRequest = /*@__PURE__*/ S.suspend(() =>
     nodes: S.optional(Nodes),
     tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/signal-catalogs/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/signal-catalogs/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateSignalCatalogRequest",
@@ -1516,11 +1429,9 @@ export const CreateSignalCatalogResponse = /*@__PURE__*/ S.suspend(() =>
 export type StateTemplateProperties = string[];
 export const StateTemplateProperties = /*@__PURE__*/ S.Array(S.String);
 export type StateTemplateDataExtraDimensionNodePathList = string[];
-export const StateTemplateDataExtraDimensionNodePathList =
-  /*@__PURE__*/ S.Array(S.String);
+export const StateTemplateDataExtraDimensionNodePathList = /*@__PURE__*/ S.Array(S.String);
 export type StateTemplateMetadataExtraDimensionNodePathList = string[];
-export const StateTemplateMetadataExtraDimensionNodePathList =
-  /*@__PURE__*/ S.Array(S.String);
+export const StateTemplateMetadataExtraDimensionNodePathList = /*@__PURE__*/ S.Array(S.String);
 export interface CreateStateTemplateRequest {
   name: string;
   description?: string;
@@ -1536,22 +1447,11 @@ export const CreateStateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     signalCatalogArn: S.String,
     stateTemplateProperties: StateTemplateProperties,
-    dataExtraDimensions: S.optional(
-      StateTemplateDataExtraDimensionNodePathList,
-    ),
-    metadataExtraDimensions: S.optional(
-      StateTemplateMetadataExtraDimensionNodePathList,
-    ),
+    dataExtraDimensions: S.optional(StateTemplateDataExtraDimensionNodePathList),
+    metadataExtraDimensions: S.optional(StateTemplateMetadataExtraDimensionNodePathList),
     tags: S.optional(TagList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/state-templates/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/state-templates/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateStateTemplateRequest",
@@ -1590,14 +1490,7 @@ export const CreateVehicleRequest = /*@__PURE__*/ S.suspend(() =>
     tags: S.optional(TagList),
     stateTemplates: S.optional(StateTemplateAssociations),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/vehicles/{vehicleName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/vehicles/{vehicleName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateVehicleRequest",
@@ -1621,14 +1514,7 @@ export interface DeleteCampaignRequest {
 }
 export const DeleteCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/campaigns/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/campaigns/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteCampaignRequest",
@@ -1673,14 +1559,7 @@ export interface DeleteFleetRequest {
 }
 export const DeleteFleetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fleetId: S.String.pipe(T.HttpLabel("fleetId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/fleets/{fleetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/fleets/{fleetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteFleetRequest",
@@ -1835,14 +1714,7 @@ export interface GetCampaignRequest {
 }
 export const GetCampaignRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/campaigns/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetCampaignRequest",
@@ -1897,9 +1769,7 @@ export const GetCampaignResponse = /*@__PURE__*/ S.suspend(() =>
     collectionScheme: S.optional(CollectionScheme),
     dataExtraDimensions: S.optional(DataExtraDimensionNodePathList),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     dataDestinationConfigs: S.optional(DataDestinationConfigs),
     dataPartitions: S.optional(DataPartitions),
     signalsToFetch: S.optional(SignalFetchInformationList),
@@ -1924,12 +1794,7 @@ export const GetDecoderManifestRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetDecoderManifestRequest",
 }) as any as S.Schema<GetDecoderManifestRequest>;
-export type ManifestStatus =
-  | "ACTIVE"
-  | "DRAFT"
-  | "INVALID"
-  | "VALIDATING"
-  | (string & {});
+export type ManifestStatus = "ACTIVE" | "DRAFT" | "INVALID" | "VALIDATING" | (string & {});
 export const ManifestStatus = S.String;
 
 export interface GetDecoderManifestResponse {
@@ -1959,23 +1824,12 @@ export const GetDecoderManifestResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetEncryptionConfigurationRequest {}
 export const GetEncryptionConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/encryptionConfiguration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/encryptionConfiguration" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetEncryptionConfigurationRequest",
 }) as any as S.Schema<GetEncryptionConfigurationRequest>;
-export type EncryptionStatus =
-  | "PENDING"
-  | "SUCCESS"
-  | "FAILURE"
-  | (string & {});
+export type EncryptionStatus = "PENDING" | "SUCCESS" | "FAILURE" | (string & {});
 export const EncryptionStatus = S.String;
 
 export type EncryptionType =
@@ -2000,9 +1854,7 @@ export const GetEncryptionConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
     encryptionType: EncryptionType,
     errorMessage: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetEncryptionConfigurationResponse",
@@ -2012,14 +1864,7 @@ export interface GetFleetRequest {
 }
 export const GetFleetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ fleetId: S.String.pipe(T.HttpLabel("fleetId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/fleets/{fleetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/fleets/{fleetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetFleetRequest",
@@ -2047,14 +1892,7 @@ export const GetFleetResponse = /*@__PURE__*/ S.suspend(() =>
 export interface GetLoggingOptionsRequest {}
 export const GetLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/loggingOptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/loggingOptions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetLoggingOptionsRequest",
@@ -2085,14 +1923,7 @@ export interface GetModelManifestRequest {
 }
 export const GetModelManifestRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-manifests/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/model-manifests/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetModelManifestRequest",
@@ -2203,14 +2034,7 @@ export interface GetSignalCatalogRequest {
 }
 export const GetSignalCatalogRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ name: S.String.pipe(T.HttpLabel("name")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signal-catalogs/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/signal-catalogs/{name}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetSignalCatalogRequest",
@@ -2291,16 +2115,10 @@ export const GetStateTemplateResponse = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     signalCatalogArn: S.optional(S.String),
     stateTemplateProperties: S.optional(StateTemplateProperties),
-    dataExtraDimensions: S.optional(
-      StateTemplateDataExtraDimensionNodePathList,
-    ),
-    metadataExtraDimensions: S.optional(
-      StateTemplateMetadataExtraDimensionNodePathList,
-    ),
+    dataExtraDimensions: S.optional(StateTemplateDataExtraDimensionNodePathList),
+    metadataExtraDimensions: S.optional(StateTemplateMetadataExtraDimensionNodePathList),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     id: S.optional(S.String),
   }),
 ).annotate({
@@ -2311,14 +2129,7 @@ export interface GetVehicleRequest {
 }
 export const GetVehicleRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ vehicleName: S.String.pipe(T.HttpLabel("vehicleName")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/vehicles/{vehicleName}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/vehicles/{vehicleName}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetVehicleRequest",
@@ -2342,9 +2153,7 @@ export const GetVehicleResponse = /*@__PURE__*/ S.suspend(() =>
     attributes: S.optional(AttributesMap),
     stateTemplates: S.optional(StateTemplateAssociations),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "GetVehicleResponse",
@@ -2414,10 +2223,7 @@ export type NetworkFileBlob = Uint8Array;
 export type NetworkFilesList = Uint8Array[];
 export const NetworkFilesList = /*@__PURE__*/ S.Array(T.Blob);
 export type ModelSignalsMap = { [key: string]: string | undefined };
-export const ModelSignalsMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ModelSignalsMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CanDbcDefinition {
   networkInterface: string;
   canDbcFiles: Uint8Array[];
@@ -2437,9 +2243,7 @@ export const NetworkFileDefinition = /*@__PURE__*/ S.Union([
   S.Struct({ canDbc: CanDbcDefinition }),
 ]);
 export type NetworkFileDefinitions = NetworkFileDefinition[];
-export const NetworkFileDefinitions = /*@__PURE__*/ S.Array(
-  NetworkFileDefinition,
-);
+export const NetworkFileDefinitions = /*@__PURE__*/ S.Array(NetworkFileDefinition);
 export interface ImportDecoderManifestRequest {
   name: string;
   networkFileDefinitions: NetworkFileDefinition[];
@@ -2471,9 +2275,7 @@ export const ImportDecoderManifestResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ImportDecoderManifestResponse",
 }) as any as S.Schema<ImportDecoderManifestResponse>;
 export type FormattedVss = { vssJson: string };
-export const FormattedVss = /*@__PURE__*/ S.Union([
-  S.Struct({ vssJson: S.String }),
-]);
+export const FormattedVss = /*@__PURE__*/ S.Union([S.Struct({ vssJson: S.String })]);
 export interface ImportSignalCatalogRequest {
   name: string;
   description?: string;
@@ -2523,19 +2325,8 @@ export const ListCampaignsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     status: S.optional(S.String).pipe(T.HttpQuery("status")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/campaigns" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/campaigns" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCampaignsRequest",
 }) as any as S.Schema<ListCampaignsRequest>;
@@ -2582,41 +2373,39 @@ export interface ListDecoderManifestNetworkInterfacesRequest {
   nextToken?: string;
   maxResults?: number;
 }
-export const ListDecoderManifestNetworkInterfacesRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String.pipe(T.HttpLabel("name")),
-      nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
-      maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "GET",
-          uri: "/decoder-manifests/{name}/network-interfaces",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListDecoderManifestNetworkInterfacesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.HttpLabel("name")),
+    nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+    maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "GET",
+        uri: "/decoder-manifests/{name}/network-interfaces",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListDecoderManifestNetworkInterfacesRequest",
-  }) as any as S.Schema<ListDecoderManifestNetworkInterfacesRequest>;
+  ),
+).annotate({
+  identifier: "ListDecoderManifestNetworkInterfacesRequest",
+}) as any as S.Schema<ListDecoderManifestNetworkInterfacesRequest>;
 export interface ListDecoderManifestNetworkInterfacesResponse {
   networkInterfaces?: NetworkInterface[];
   nextToken?: string;
 }
-export const ListDecoderManifestNetworkInterfacesResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      networkInterfaces: S.optional(NetworkInterfaces),
-      nextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListDecoderManifestNetworkInterfacesResponse",
-  }) as any as S.Schema<ListDecoderManifestNetworkInterfacesResponse>;
+export const ListDecoderManifestNetworkInterfacesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    networkInterfaces: S.optional(NetworkInterfaces),
+    nextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListDecoderManifestNetworkInterfacesResponse",
+}) as any as S.Schema<ListDecoderManifestNetworkInterfacesResponse>;
 export interface ListDecoderManifestsRequest {
   modelManifestArn?: string;
   nextToken?: string;
@@ -2625,23 +2414,12 @@ export interface ListDecoderManifestsRequest {
 }
 export const ListDecoderManifestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    modelManifestArn: S.optional(S.String).pipe(
-      T.HttpQuery("modelManifestArn"),
-    ),
+    modelManifestArn: S.optional(S.String).pipe(T.HttpQuery("modelManifestArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/decoder-manifests" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/decoder-manifests" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDecoderManifestsRequest",
@@ -2671,9 +2449,7 @@ export const DecoderManifestSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "DecoderManifestSummary",
 }) as any as S.Schema<DecoderManifestSummary>;
 export type DecoderManifestSummaries = DecoderManifestSummary[];
-export const DecoderManifestSummaries = /*@__PURE__*/ S.Array(
-  DecoderManifestSummary,
-);
+export const DecoderManifestSummaries = /*@__PURE__*/ S.Array(DecoderManifestSummary);
 export interface ListDecoderManifestsResponse {
   summaries?: DecoderManifestSummary[];
   nextToken?: string;
@@ -2730,19 +2506,8 @@ export const ListFleetsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/fleets" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/fleets" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFleetsRequest",
 }) as any as S.Schema<ListFleetsRequest>;
@@ -2761,9 +2526,7 @@ export const FleetSummary = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     signalCatalogArn: S.String,
     creationTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "FleetSummary" }) as any as S.Schema<FleetSummary>;
 export type FleetSummaries = FleetSummary[];
@@ -2854,24 +2617,11 @@ export interface ListModelManifestsRequest {
 }
 export const ListModelManifestsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    signalCatalogArn: S.optional(S.String).pipe(
-      T.HttpQuery("signalCatalogArn"),
-    ),
+    signalCatalogArn: S.optional(S.String).pipe(T.HttpQuery("signalCatalogArn")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/model-manifests" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/model-manifests" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListModelManifestsRequest",
 }) as any as S.Schema<ListModelManifestsRequest>;
@@ -2898,8 +2648,7 @@ export const ModelManifestSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ModelManifestSummary",
 }) as any as S.Schema<ModelManifestSummary>;
 export type ModelManifestSummaries = ModelManifestSummary[];
-export const ModelManifestSummaries =
-  /*@__PURE__*/ S.Array(ModelManifestSummary);
+export const ModelManifestSummaries = /*@__PURE__*/ S.Array(ModelManifestSummary);
 export interface ListModelManifestsResponse {
   summaries?: ModelManifestSummary[];
   nextToken?: string;
@@ -2933,9 +2682,7 @@ export const ListSignalCatalogNodesRequest = /*@__PURE__*/ S.suspend(() =>
     name: S.String.pipe(T.HttpLabel("name")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    signalNodeType: S.optional(SignalNodeType).pipe(
-      T.HttpQuery("signalNodeType"),
-    ),
+    signalNodeType: S.optional(SignalNodeType).pipe(T.HttpQuery("signalNodeType")),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/signal-catalogs/{name}/nodes" }),
@@ -2966,16 +2713,7 @@ export const ListSignalCatalogsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/signal-catalogs" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/signal-catalogs" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSignalCatalogsRequest",
 }) as any as S.Schema<ListSignalCatalogsRequest>;
@@ -2990,16 +2728,13 @@ export const SignalCatalogSummary = /*@__PURE__*/ S.suspend(() =>
     name: S.optional(S.String),
     arn: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({
   identifier: "SignalCatalogSummary",
 }) as any as S.Schema<SignalCatalogSummary>;
 export type SignalCatalogSummaries = SignalCatalogSummary[];
-export const SignalCatalogSummaries =
-  /*@__PURE__*/ S.Array(SignalCatalogSummary);
+export const SignalCatalogSummaries = /*@__PURE__*/ S.Array(SignalCatalogSummary);
 export interface ListSignalCatalogsResponse {
   summaries?: SignalCatalogSummary[];
   nextToken?: string;
@@ -3021,19 +2756,8 @@ export const ListStateTemplatesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/state-templates" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/state-templates" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStateTemplatesRequest",
 }) as any as S.Schema<ListStateTemplatesRequest>;
@@ -3053,17 +2777,14 @@ export const StateTemplateSummary = /*@__PURE__*/ S.suspend(() =>
     signalCatalogArn: S.optional(S.String),
     description: S.optional(S.String),
     creationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    lastModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     id: S.optional(S.String),
   }),
 ).annotate({
   identifier: "StateTemplateSummary",
 }) as any as S.Schema<StateTemplateSummary>;
 export type StateTemplateSummaries = StateTemplateSummary[];
-export const StateTemplateSummaries =
-  /*@__PURE__*/ S.Array(StateTemplateSummary);
+export const StateTemplateSummaries = /*@__PURE__*/ S.Array(StateTemplateSummary);
 export interface ListStateTemplatesResponse {
   summaries?: StateTemplateSummary[];
   nextToken?: string;
@@ -3082,14 +2803,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -3117,30 +2831,13 @@ export interface ListVehiclesRequest {
 }
 export const ListVehiclesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    modelManifestArn: S.optional(S.String).pipe(
-      T.HttpQuery("modelManifestArn"),
-    ),
-    attributeNames: S.optional(AttributeNamesList).pipe(
-      T.HttpQuery("attributeNames"),
-    ),
-    attributeValues: S.optional(AttributeValuesList).pipe(
-      T.HttpQuery("attributeValues"),
-    ),
+    modelManifestArn: S.optional(S.String).pipe(T.HttpQuery("modelManifestArn")),
+    attributeNames: S.optional(AttributeNamesList).pipe(T.HttpQuery("attributeNames")),
+    attributeValues: S.optional(AttributeValuesList).pipe(T.HttpQuery("attributeValues")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    listResponseScope: S.optional(ListResponseScope).pipe(
-      T.HttpQuery("listResponseScope"),
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/vehicles" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    listResponseScope: S.optional(ListResponseScope).pipe(T.HttpQuery("listResponseScope")),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/vehicles" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListVehiclesRequest",
 }) as any as S.Schema<ListVehiclesRequest>;
@@ -3252,22 +2949,13 @@ export interface PutLoggingOptionsRequest {
 }
 export const PutLoggingOptionsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ cloudWatchLogDelivery: CloudWatchLogDeliveryOptions }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/loggingOptions" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/loggingOptions" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "PutLoggingOptionsRequest",
 }) as any as S.Schema<PutLoggingOptionsRequest>;
 export interface PutLoggingOptionsResponse {}
-export const PutLoggingOptionsResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutLoggingOptionsResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutLoggingOptionsResponse",
 }) as any as S.Schema<PutLoggingOptionsResponse>;
 export interface TimestreamResources {
@@ -3282,9 +2970,9 @@ export const TimestreamResources = /*@__PURE__*/ S.suspend(() =>
 export interface IamResources {
   roleArn: string;
 }
-export const IamResources = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ roleArn: S.String }),
-).annotate({ identifier: "IamResources" }) as any as S.Schema<IamResources>;
+export const IamResources = /*@__PURE__*/ S.suspend(() => S.Struct({ roleArn: S.String })).annotate(
+  { identifier: "IamResources" },
+) as any as S.Schema<IamResources>;
 export interface RegisterAccountRequest {
   timestreamResources?: TimestreamResources;
   iamResources?: IamResources;
@@ -3294,14 +2982,7 @@ export const RegisterAccountRequest = /*@__PURE__*/ S.suspend(() =>
     timestreamResources: S.optional(TimestreamResources),
     iamResources: S.optional(IamResources),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/account/registration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/account/registration" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RegisterAccountRequest",
@@ -3332,23 +3013,12 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.String.pipe(T.HttpQuery("resourceArn")),
     Tags: TagList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -3361,31 +3031,15 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ResourceARN: S.String.pipe(T.HttpQuery("resourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "DELETE", uri: "/tags" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
-export type UpdateCampaignAction =
-  | "APPROVE"
-  | "SUSPEND"
-  | "RESUME"
-  | "UPDATE"
-  | (string & {});
+export type UpdateCampaignAction = "APPROVE" | "SUSPEND" | "RESUME" | "UPDATE" | (string & {});
 export const UpdateCampaignAction = S.String;
 
 export interface UpdateCampaignRequest {
@@ -3400,16 +3054,7 @@ export const UpdateCampaignRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     dataExtraDimensions: S.optional(DataExtraDimensionNodePathList),
     action: UpdateCampaignAction,
-  }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/campaigns/{name}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "PUT", uri: "/campaigns/{name}" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateCampaignRequest",
 }) as any as S.Schema<UpdateCampaignRequest>;
@@ -3486,14 +3131,7 @@ export const UpdateFleetRequest = /*@__PURE__*/ S.suspend(() =>
     fleetId: S.String.pipe(T.HttpLabel("fleetId")),
     description: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "PATCH", uri: "/fleets/{fleetId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PATCH", uri: "/fleets/{fleetId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UpdateFleetRequest",
@@ -3595,12 +3233,8 @@ export const UpdateStateTemplateRequest = /*@__PURE__*/ S.suspend(() =>
     description: S.optional(S.String),
     stateTemplatePropertiesToAdd: S.optional(StateTemplateProperties),
     stateTemplatePropertiesToRemove: S.optional(StateTemplateProperties),
-    dataExtraDimensions: S.optional(
-      StateTemplateDataExtraDimensionNodePathList,
-    ),
-    metadataExtraDimensions: S.optional(
-      StateTemplateMetadataExtraDimensionNodePathList,
-    ),
+    dataExtraDimensions: S.optional(StateTemplateDataExtraDimensionNodePathList),
+    metadataExtraDimensions: S.optional(StateTemplateMetadataExtraDimensionNodePathList),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/state-templates/{identifier}" }),
@@ -3689,9 +3323,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type SignalDecoderFailureReason =
   | "DUPLICATE_SIGNAL"
   | "CONFLICTING_SIGNAL"
@@ -3727,8 +3359,7 @@ export const InvalidSignalDecoder = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvalidSignalDecoder",
 }) as any as S.Schema<InvalidSignalDecoder>;
 export type InvalidSignalDecoders = InvalidSignalDecoder[];
-export const InvalidSignalDecoders =
-  /*@__PURE__*/ S.Array(InvalidSignalDecoder);
+export const InvalidSignalDecoders = /*@__PURE__*/ S.Array(InvalidSignalDecoder);
 export type NetworkInterfaceFailureReason =
   | "DUPLICATE_NETWORK_INTERFACE"
   | "CONFLICTING_NETWORK_INTERFACE"
@@ -3754,9 +3385,7 @@ export const InvalidNetworkInterface = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvalidNetworkInterface",
 }) as any as S.Schema<InvalidNetworkInterface>;
 export type InvalidNetworkInterfaces = InvalidNetworkInterface[];
-export const InvalidNetworkInterfaces = /*@__PURE__*/ S.Array(
-  InvalidNetworkInterface,
-);
+export const InvalidNetworkInterfaces = /*@__PURE__*/ S.Array(InvalidNetworkInterface);
 export interface InvalidSignal {
   name?: string;
   reason?: string;
@@ -4500,10 +4129,7 @@ export const getFleet: API.OperationMethod<
   operationName: "GetFleet",
 }));
 
-export type GetLoggingOptionsError =
-  | AccessDeniedException
-  | ThrottlingException
-  | CommonErrors;
+export type GetLoggingOptionsError = AccessDeniedException | ThrottlingException | CommonErrors;
 /**
  * Retrieves the logging options.
  */

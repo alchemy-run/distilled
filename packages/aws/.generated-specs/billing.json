@@ -2342,9 +2342,7 @@
             "title": "Invoke CreateBillingView",
             "input": {
               "name": "Example Custom Billing View",
-              "sourceViews": [
-                "arn:aws:billing::123456789101:billingview/primary"
-              ],
+              "sourceViews": ["arn:aws:billing::123456789101:billingview/primary"],
               "description": "Custom Billing View Example",
               "dataFilterExpression": {
                 "dimensions": {
@@ -4136,9 +4134,7 @@
               "arn": "arn:aws:billing::123456789101:billingview/custom-46f47cb2-a11d-43f3-983d-470b5708a899"
             },
             "output": {
-              "sourceViews": [
-                "arn:aws:billing::123456789101:billingview/primary"
-              ]
+              "sourceViews": ["arn:aws:billing::123456789101:billingview/primary"]
             }
           }
         ],

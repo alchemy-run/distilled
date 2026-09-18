@@ -31,6 +31,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
+import * as Category from "@distilled.cloud/core/category";
 import type {
   BadRequest as CoreBadRequest,
   Conflict as CoreConflict,
@@ -40,21 +41,16 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/core/category";
 
 /**
  * HTTP 405 — `method_not_allowed`: the route exists but not for this method.
  * In practice this means the SDK and the API disagree about a route, so it
  * is a bug report rather than something to branch on.
  */
-export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()(
-  "MethodNotAllowed",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withBadRequestError) {}
+export class MethodNotAllowed extends Schema.TaggedError<MethodNotAllowed>()("MethodNotAllowed", {
+  message: Schema.String,
+}).pipe(Category.withBadRequestError) {}
 
 /**
  * HTTP 410 — `deprecated_api_endpoint`: the endpoint's functionality was

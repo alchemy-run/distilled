@@ -7,11 +7,7 @@
  * `servicePath` (from its discovery document), which `scripts/generate.ts`
  * bakes into each operation's `T.Http({ ... baseUrl })` pipe.
  */
-import {
-  httpSymbol,
-  makeAnnotation,
-  type HttpTrait,
-} from "@distilled.cloud/core/trait";
+import { httpSymbol, makeAnnotation, type HttpTrait } from "@distilled.cloud/core/trait";
 
 export {
   Body,

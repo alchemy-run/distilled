@@ -1,8 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import {
-  booleanStringEnums,
-  STRING_ENCODED_TRAIT,
-} from "./boolean-string-enums.ts";
+import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import { generateService } from "./generator.ts";
 
 const boolEnum = {
@@ -46,9 +43,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
-    expect(m.shapes["com.example.x#Response"].members.active.target).toBe(
-      "com.example.x#Flag",
-    );
+    expect(m.shapes["com.example.x#Response"].members.active.target).toBe("com.example.x#Flag");
   });
 
   test("retargets a request-only list's element type", () => {
@@ -65,9 +60,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 1, lists: 1 });
-    expect(m.shapes["com.example.x#FlagList"].member.target).toBe(
-      "smithy.api#Boolean",
-    );
+    expect(m.shapes["com.example.x#FlagList"].member.target).toBe("smithy.api#Boolean");
   });
 
   test("leaves a list a response also uses", () => {
@@ -88,9 +81,7 @@ describe("booleanStringEnums", () => {
       },
     });
     expect(booleanStringEnums(m)).toEqual({ members: 0, lists: 0 });
-    expect(m.shapes["com.example.x#FlagList"].member.target).toBe(
-      "com.example.x#Flag",
-    );
+    expect(m.shapes["com.example.x#FlagList"].member.target).toBe("com.example.x#Flag");
   });
 
   test("leaves an enum that is not exactly true/false", () => {
@@ -159,9 +150,7 @@ describe("generateService", () => {
         },
       },
     );
-    expect(code).toContain(
-      '"verbose": S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),',
-    );
+    expect(code).toContain('"verbose": S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),');
     expect(code).toContain("verbose?: boolean;");
     expect(code).not.toContain('"true" | "false"');
   });

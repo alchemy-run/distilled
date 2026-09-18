@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "CodeBuild",
   serviceShapeName: "CodeBuild_20161006",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://codebuild-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://codebuild-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://codebuild.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://codebuild.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://codebuild.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -91,30 +79,26 @@ export class AccountLimitExceededException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class AccountSuspendedException
-  extends /*@__PURE__*/ S.TaggedError<AccountSuspendedException>()(
-    "AccountSuspendedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<AccountSuspendedException>()("AccountSuspendedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InvalidInputException
-  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()(
-    "InvalidInputException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InvalidInputException>()("InvalidInputException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class OAuthProviderException
-  extends /*@__PURE__*/ S.TaggedError<OAuthProviderException>()(
-    "OAuthProviderException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<OAuthProviderException>()("OAuthProviderException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceAlreadyExistsException
   extends /*@__PURE__*/ S.TaggedError<ResourceAlreadyExistsException>()(
     "ResourceAlreadyExistsException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ).pipe(C.withAlreadyExistsError) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type NonEmptyString = string;
 export type BuildIds = string[];
 export const BuildIds = /*@__PURE__*/ S.Array(S.String);
@@ -237,11 +221,7 @@ export const GitSubmodulesConfig = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GitSubmodulesConfig",
 }) as any as S.Schema<GitSubmodulesConfig>;
-export type SourceAuthType =
-  | "OAUTH"
-  | "CODECONNECTIONS"
-  | "SECRETS_MANAGER"
-  | (string & {});
+export type SourceAuthType = "OAUTH" | "CODECONNECTIONS" | "SECRETS_MANAGER" | (string & {});
 export const SourceAuthType = S.String;
 
 export interface SourceAuth {
@@ -298,8 +278,7 @@ export const ProjectSourceVersion = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProjectSourceVersion",
 }) as any as S.Schema<ProjectSourceVersion>;
 export type ProjectSecondarySourceVersions = ProjectSourceVersion[];
-export const ProjectSecondarySourceVersions =
-  /*@__PURE__*/ S.Array(ProjectSourceVersion);
+export const ProjectSecondarySourceVersions = /*@__PURE__*/ S.Array(ProjectSourceVersion);
 export type BucketOwnerAccess = "NONE" | "READ_ONLY" | "FULL" | (string & {});
 export const BucketOwnerAccess = S.String;
 
@@ -448,10 +427,7 @@ export const RegistryCredential = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegistryCredential",
 }) as any as S.Schema<RegistryCredential>;
-export type ImagePullCredentialsType =
-  | "CODEBUILD"
-  | "SERVICE_ROLE"
-  | (string & {});
+export type ImagePullCredentialsType = "CODEBUILD" | "SERVICE_ROLE" | (string & {});
 export const ImagePullCredentialsType = S.String;
 
 export type SecurityGroupIds = string[];
@@ -593,9 +569,7 @@ export const ProjectFileSystemLocation = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProjectFileSystemLocation",
 }) as any as S.Schema<ProjectFileSystemLocation>;
 export type ProjectFileSystemLocations = ProjectFileSystemLocation[];
-export const ProjectFileSystemLocations = /*@__PURE__*/ S.Array(
-  ProjectFileSystemLocation,
-);
+export const ProjectFileSystemLocations = /*@__PURE__*/ S.Array(ProjectFileSystemLocation);
 export type ComputeTypesAllowed = string[];
 export const ComputeTypesAllowed = /*@__PURE__*/ S.Array(S.String);
 export type FleetsAllowed = string[];
@@ -640,11 +614,7 @@ export const ProjectBuildBatchConfig = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectBuildBatchConfig>;
 export type Identifiers = string[];
 export const Identifiers = /*@__PURE__*/ S.Array(S.String);
-export type ArtifactsType =
-  | "CODEPIPELINE"
-  | "S3"
-  | "NO_ARTIFACTS"
-  | (string & {});
+export type ArtifactsType = "CODEPIPELINE" | "S3" | "NO_ARTIFACTS" | (string & {});
 export const ArtifactsType = S.String;
 
 export interface ResolvedArtifact {
@@ -662,8 +632,7 @@ export const ResolvedArtifact = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResolvedArtifact",
 }) as any as S.Schema<ResolvedArtifact>;
 export type ResolvedSecondaryArtifacts = ResolvedArtifact[];
-export const ResolvedSecondaryArtifacts =
-  /*@__PURE__*/ S.Array(ResolvedArtifact);
+export const ResolvedSecondaryArtifacts = /*@__PURE__*/ S.Array(ResolvedArtifact);
 export interface BuildSummary {
   arn?: string;
   requestedOn?: Date;
@@ -873,9 +842,7 @@ export const ExportedEnvironmentVariable = /*@__PURE__*/ S.suspend(() =>
   identifier: "ExportedEnvironmentVariable",
 }) as any as S.Schema<ExportedEnvironmentVariable>;
 export type ExportedEnvironmentVariables = ExportedEnvironmentVariable[];
-export const ExportedEnvironmentVariables = /*@__PURE__*/ S.Array(
-  ExportedEnvironmentVariable,
-);
+export const ExportedEnvironmentVariables = /*@__PURE__*/ S.Array(ExportedEnvironmentVariable);
 export interface DebugSession {
   sessionEnabled?: boolean;
   sessionTarget?: string;
@@ -998,9 +965,7 @@ export const BatchGetCommandExecutionsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sandboxId: S.String,
     commandExecutionIds: CommandExecutionIds,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchGetCommandExecutionsInput",
 }) as any as S.Schema<BatchGetCommandExecutionsInput>;
@@ -1121,8 +1086,7 @@ export const TargetTrackingScalingConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "TargetTrackingScalingConfiguration",
 }) as any as S.Schema<TargetTrackingScalingConfiguration>;
-export type TargetTrackingScalingConfigurations =
-  TargetTrackingScalingConfiguration[];
+export type TargetTrackingScalingConfigurations = TargetTrackingScalingConfiguration[];
 export const TargetTrackingScalingConfigurations = /*@__PURE__*/ S.Array(
   TargetTrackingScalingConfiguration,
 );
@@ -1135,9 +1099,7 @@ export interface ScalingConfigurationOutput {
 export const ScalingConfigurationOutput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scalingType: S.optional(FleetScalingType),
-    targetTrackingScalingConfigs: S.optional(
-      TargetTrackingScalingConfigurations,
-    ),
+    targetTrackingScalingConfigs: S.optional(TargetTrackingScalingConfigurations),
     maxCapacity: S.optional(S.Number),
     desiredCapacity: S.optional(S.Number),
   }),
@@ -1332,11 +1294,7 @@ export type FilterGroup = WebhookFilter[];
 export const FilterGroup = /*@__PURE__*/ S.Array(WebhookFilter);
 export type FilterGroups = WebhookFilter[][];
 export const FilterGroups = /*@__PURE__*/ S.Array(FilterGroup);
-export type WebhookBuildType =
-  | "BUILD"
-  | "BUILD_BATCH"
-  | "RUNNER_BUILDKITE_BUILD"
-  | (string & {});
+export type WebhookBuildType = "BUILD" | "BUILD_BATCH" | "RUNNER_BUILDKITE_BUILD" | (string & {});
 export const WebhookBuildType = S.String;
 
 export type WebhookScopeType =
@@ -1360,12 +1318,7 @@ export const ScopeConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ScopeConfiguration",
 }) as any as S.Schema<ScopeConfiguration>;
-export type WebhookStatus =
-  | "CREATING"
-  | "CREATE_FAILED"
-  | "ACTIVE"
-  | "DELETING"
-  | (string & {});
+export type WebhookStatus = "CREATING" | "CREATE_FAILED" | "ACTIVE" | "DELETING" | (string & {});
 export const WebhookStatus = S.String;
 
 export type PullRequestBuildCommentApproval =
@@ -1394,9 +1347,7 @@ export type PullRequestBuildApproverRole =
 export const PullRequestBuildApproverRole = S.String;
 
 export type PullRequestBuildApproverRoles = PullRequestBuildApproverRole[];
-export const PullRequestBuildApproverRoles = /*@__PURE__*/ S.Array(
-  PullRequestBuildApproverRole,
-);
+export const PullRequestBuildApproverRoles = /*@__PURE__*/ S.Array(PullRequestBuildApproverRole);
 export interface PullRequestBuildPolicy {
   requiresCommentApproval: PullRequestBuildCommentApproval;
   approverRoles?: PullRequestBuildApproverRole[];
@@ -1432,9 +1383,7 @@ export const Webhook = /*@__PURE__*/ S.suspend(() =>
     filterGroups: S.optional(FilterGroups),
     buildType: S.optional(WebhookBuildType),
     manualCreation: S.optional(S.Boolean),
-    lastModifiedSecret: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastModifiedSecret: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     scopeConfiguration: S.optional(ScopeConfiguration),
     status: S.optional(WebhookStatus),
     statusMessage: S.optional(S.String),
@@ -1647,10 +1596,7 @@ export type ReportStatusType =
 export const ReportStatusType = S.String;
 
 export type ReportStatusCounts = { [key: string]: number | undefined };
-export const ReportStatusCounts = /*@__PURE__*/ S.Record(
-  S.String,
-  S.Number.pipe(S.optional),
-);
+export const ReportStatusCounts = /*@__PURE__*/ S.Record(S.String, S.Number.pipe(S.optional));
 export interface TestReportSummary {
   total: number;
   statusCounts: { [key: string]: number | undefined };
@@ -1857,9 +1803,7 @@ export interface ScalingConfigurationInput {
 export const ScalingConfigurationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     scalingType: S.optional(FleetScalingType),
-    targetTrackingScalingConfigs: S.optional(
-      TargetTrackingScalingConfigurations,
-    ),
+    targetTrackingScalingConfigs: S.optional(TargetTrackingScalingConfigurations),
     maxCapacity: S.optional(S.Number),
   }),
 ).annotate({
@@ -1893,9 +1837,7 @@ export const CreateFleetInput = /*@__PURE__*/ S.suspend(() =>
     imageId: S.optional(S.String),
     fleetServiceRole: S.optional(S.String),
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateFleetInput",
 }) as any as S.Schema<CreateFleetInput>;
@@ -1955,9 +1897,7 @@ export const CreateProjectInput = /*@__PURE__*/ S.suspend(() =>
     buildBatchConfig: S.optional(ProjectBuildBatchConfig),
     concurrentBuildLimit: S.optional(S.Number),
     autoRetryLimit: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateProjectInput",
 }) as any as S.Schema<CreateProjectInput>;
@@ -1981,9 +1921,7 @@ export const CreateReportGroupInput = /*@__PURE__*/ S.suspend(() =>
     type: ReportType,
     exportConfig: ReportExportConfig,
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateReportGroupInput",
 }) as any as S.Schema<CreateReportGroupInput>;
@@ -2013,9 +1951,7 @@ export const CreateWebhookInput = /*@__PURE__*/ S.suspend(() =>
     manualCreation: S.optional(S.Boolean),
     scopeConfiguration: S.optional(ScopeConfiguration),
     pullRequestBuildPolicy: S.optional(PullRequestBuildPolicy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateWebhookInput",
 }) as any as S.Schema<CreateWebhookInput>;
@@ -2062,9 +1998,7 @@ export const DeleteFleetInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteFleetInput",
 }) as any as S.Schema<DeleteFleetInput>;
 export interface DeleteFleetOutput {}
-export const DeleteFleetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteFleetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteFleetOutput",
 }) as any as S.Schema<DeleteFleetOutput>;
 export interface DeleteProjectInput {
@@ -2078,9 +2012,7 @@ export const DeleteProjectInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteProjectInput",
 }) as any as S.Schema<DeleteProjectInput>;
 export interface DeleteProjectOutput {}
-export const DeleteProjectOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteProjectOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteProjectOutput",
 }) as any as S.Schema<DeleteProjectOutput>;
 export interface DeleteReportInput {
@@ -2094,9 +2026,7 @@ export const DeleteReportInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReportInput",
 }) as any as S.Schema<DeleteReportInput>;
 export interface DeleteReportOutput {}
-export const DeleteReportOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteReportOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteReportOutput",
 }) as any as S.Schema<DeleteReportOutput>;
 export interface DeleteReportGroupInput {
@@ -2111,9 +2041,7 @@ export const DeleteReportGroupInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteReportGroupInput",
 }) as any as S.Schema<DeleteReportGroupInput>;
 export interface DeleteReportGroupOutput {}
-export const DeleteReportGroupOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteReportGroupOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteReportGroupOutput",
 }) as any as S.Schema<DeleteReportGroupOutput>;
 export interface DeleteResourcePolicyInput {
@@ -2127,9 +2055,7 @@ export const DeleteResourcePolicyInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteResourcePolicyInput",
 }) as any as S.Schema<DeleteResourcePolicyInput>;
 export interface DeleteResourcePolicyOutput {}
-export const DeleteResourcePolicyOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteResourcePolicyOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteResourcePolicyOutput",
 }) as any as S.Schema<DeleteResourcePolicyOutput>;
 export interface DeleteSourceCredentialsInput {
@@ -2161,19 +2087,14 @@ export const DeleteWebhookInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteWebhookInput",
 }) as any as S.Schema<DeleteWebhookInput>;
 export interface DeleteWebhookOutput {}
-export const DeleteWebhookOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteWebhookOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteWebhookOutput",
 }) as any as S.Schema<DeleteWebhookOutput>;
 export type PageSize = number;
 export type SortOrderType = "ASCENDING" | "DESCENDING" | (string & {});
 export const SortOrderType = S.String;
 
-export type ReportCodeCoverageSortByType =
-  | "LINE_COVERAGE_PERCENTAGE"
-  | "FILE_PATH"
-  | (string & {});
+export type ReportCodeCoverageSortByType = "LINE_COVERAGE_PERCENTAGE" | "FILE_PATH" | (string & {});
 export const ReportCodeCoverageSortByType = S.String;
 
 export interface DescribeCodeCoveragesInput {
@@ -2194,9 +2115,7 @@ export const DescribeCodeCoveragesInput = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(ReportCodeCoverageSortByType),
     minLineCoveragePercentage: S.optional(S.Number),
     maxLineCoveragePercentage: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeCodeCoveragesInput",
 }) as any as S.Schema<DescribeCodeCoveragesInput>;
@@ -2259,9 +2178,7 @@ export const DescribeTestCasesInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(TestCaseFilter),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeTestCasesInput",
 }) as any as S.Schema<DescribeTestCasesInput>;
@@ -2326,9 +2243,7 @@ export const GetReportGroupTrendInput = /*@__PURE__*/ S.suspend(() =>
     reportGroupArn: S.String,
     numOfReports: S.optional(S.Number),
     trendField: ReportGroupTrendFieldType,
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetReportGroupTrendInput",
 }) as any as S.Schema<GetReportGroupTrendInput>;
@@ -2356,8 +2271,7 @@ export const ReportWithRawData = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReportWithRawData",
 }) as any as S.Schema<ReportWithRawData>;
 export type ReportGroupTrendRawDataList = ReportWithRawData[];
-export const ReportGroupTrendRawDataList =
-  /*@__PURE__*/ S.Array(ReportWithRawData);
+export const ReportGroupTrendRawDataList = /*@__PURE__*/ S.Array(ReportWithRawData);
 export interface GetReportGroupTrendOutput {
   stats?: ReportGroupTrendStats;
   rawData?: ReportWithRawData[];
@@ -2420,9 +2334,7 @@ export const ImportSourceCredentialsInput = /*@__PURE__*/ S.suspend(() =>
     serverType: ServerType,
     authType: AuthType,
     shouldOverwrite: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportSourceCredentialsInput",
 }) as any as S.Schema<ImportSourceCredentialsInput>;
@@ -2445,9 +2357,7 @@ export const InvalidateProjectCacheInput = /*@__PURE__*/ S.suspend(() =>
   identifier: "InvalidateProjectCacheInput",
 }) as any as S.Schema<InvalidateProjectCacheInput>;
 export interface InvalidateProjectCacheOutput {}
-export const InvalidateProjectCacheOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const InvalidateProjectCacheOutput = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "InvalidateProjectCacheOutput",
 }) as any as S.Schema<InvalidateProjectCacheOutput>;
 export interface BuildBatchFilter {
@@ -2470,9 +2380,7 @@ export const ListBuildBatchesInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBuildBatchesInput",
 }) as any as S.Schema<ListBuildBatchesInput>;
@@ -2499,9 +2407,7 @@ export const ListBuildBatchesForProjectInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBuildBatchesForProjectInput",
 }) as any as S.Schema<ListBuildBatchesForProjectInput>;
@@ -2522,9 +2428,7 @@ export const ListBuildsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBuildsInput",
 }) as any as S.Schema<ListBuildsInput>;
@@ -2547,9 +2451,7 @@ export const ListBuildsForProjectInput = /*@__PURE__*/ S.suspend(() =>
     projectName: S.String,
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListBuildsForProjectInput",
 }) as any as S.Schema<ListBuildsForProjectInput>;
@@ -2569,16 +2471,13 @@ export interface ListCommandExecutionsForSandboxInput {
   sortOrder?: SortOrderType;
   nextToken?: string | redacted.Redacted<string>;
 }
-export const ListCommandExecutionsForSandboxInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      sandboxId: S.String,
-      maxResults: S.optional(S.Number),
-      sortOrder: S.optional(SortOrderType),
-      nextToken: S.optional(SensitiveString),
-    }).pipe(
-      T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-    ),
+export const ListCommandExecutionsForSandboxInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    sandboxId: S.String,
+    maxResults: S.optional(S.Number),
+    sortOrder: S.optional(SortOrderType),
+    nextToken: S.optional(SensitiveString),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCommandExecutionsForSandboxInput",
 }) as any as S.Schema<ListCommandExecutionsForSandboxInput>;
@@ -2586,29 +2485,21 @@ export interface ListCommandExecutionsForSandboxOutput {
   commandExecutions?: CommandExecution[];
   nextToken?: string;
 }
-export const ListCommandExecutionsForSandboxOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      commandExecutions: S.optional(CommandExecutions),
-      nextToken: S.optional(S.String),
-    }),
+export const ListCommandExecutionsForSandboxOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    commandExecutions: S.optional(CommandExecutions),
+    nextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListCommandExecutionsForSandboxOutput",
 }) as any as S.Schema<ListCommandExecutionsForSandboxOutput>;
 export interface ListCuratedEnvironmentImagesInput {}
 export const ListCuratedEnvironmentImagesInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListCuratedEnvironmentImagesInput",
 }) as any as S.Schema<ListCuratedEnvironmentImagesInput>;
-export type PlatformType =
-  | "DEBIAN"
-  | "AMAZON_LINUX"
-  | "UBUNTU"
-  | "WINDOWS_SERVER"
-  | (string & {});
+export type PlatformType = "DEBIAN" | "AMAZON_LINUX" | "UBUNTU" | "WINDOWS_SERVER" | (string & {});
 export const PlatformType = S.String;
 
 export type LanguageType =
@@ -2679,11 +2570,7 @@ export const ListCuratedEnvironmentImagesOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListCuratedEnvironmentImagesOutput",
 }) as any as S.Schema<ListCuratedEnvironmentImagesOutput>;
-export type FleetSortByType =
-  | "NAME"
-  | "CREATED_TIME"
-  | "LAST_MODIFIED_TIME"
-  | (string & {});
+export type FleetSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export const FleetSortByType = S.String;
 
 export interface ListFleetsInput {
@@ -2698,9 +2585,7 @@ export const ListFleetsInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(SortOrderType),
     sortBy: S.optional(FleetSortByType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListFleetsInput",
 }) as any as S.Schema<ListFleetsInput>;
@@ -2715,11 +2600,7 @@ export const ListFleetsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListFleetsOutput",
 }) as any as S.Schema<ListFleetsOutput>;
-export type ProjectSortByType =
-  | "NAME"
-  | "CREATED_TIME"
-  | "LAST_MODIFIED_TIME"
-  | (string & {});
+export type ProjectSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export const ProjectSortByType = S.String;
 
 export interface ListProjectsInput {
@@ -2732,9 +2613,7 @@ export const ListProjectsInput = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(ProjectSortByType),
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListProjectsInput",
 }) as any as S.Schema<ListProjectsInput>;
@@ -2750,11 +2629,7 @@ export const ListProjectsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListProjectsOutput",
 }) as any as S.Schema<ListProjectsOutput>;
-export type ReportGroupSortByType =
-  | "NAME"
-  | "CREATED_TIME"
-  | "LAST_MODIFIED_TIME"
-  | (string & {});
+export type ReportGroupSortByType = "NAME" | "CREATED_TIME" | "LAST_MODIFIED_TIME" | (string & {});
 export const ReportGroupSortByType = S.String;
 
 export interface ListReportGroupsInput {
@@ -2769,9 +2644,7 @@ export const ListReportGroupsInput = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(ReportGroupSortByType),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReportGroupsInput",
 }) as any as S.Schema<ListReportGroupsInput>;
@@ -2805,9 +2678,7 @@ export const ListReportsInput = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
     filter: S.optional(ReportFilter),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReportsInput",
 }) as any as S.Schema<ListReportsInput>;
@@ -2837,9 +2708,7 @@ export const ListReportsForReportGroupInput = /*@__PURE__*/ S.suspend(() =>
     sortOrder: S.optional(SortOrderType),
     maxResults: S.optional(S.Number),
     filter: S.optional(ReportFilter),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListReportsForReportGroupInput",
 }) as any as S.Schema<ListReportsForReportGroupInput>;
@@ -2865,9 +2734,7 @@ export const ListSandboxesInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSandboxesInput",
 }) as any as S.Schema<ListSandboxesInput>;
@@ -2892,9 +2759,7 @@ export const ListSandboxesForProjectInput = /*@__PURE__*/ S.suspend(() =>
     maxResults: S.optional(S.Number),
     sortOrder: S.optional(SortOrderType),
     nextToken: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSandboxesForProjectInput",
 }) as any as S.Schema<ListSandboxesForProjectInput>;
@@ -2922,9 +2787,7 @@ export const ListSharedProjectsInput = /*@__PURE__*/ S.suspend(() =>
     sortOrder: S.optional(SortOrderType),
     maxResults: S.optional(S.Number),
     nextToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSharedProjectsInput",
 }) as any as S.Schema<ListSharedProjectsInput>;
@@ -2954,9 +2817,7 @@ export const ListSharedReportGroupsInput = /*@__PURE__*/ S.suspend(() =>
     sortBy: S.optional(SharedResourceSortByType),
     nextToken: S.optional(S.String),
     maxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSharedReportGroupsInput",
 }) as any as S.Schema<ListSharedReportGroupsInput>;
@@ -2974,9 +2835,7 @@ export const ListSharedReportGroupsOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ListSharedReportGroupsOutput>;
 export interface ListSourceCredentialsInput {}
 export const ListSourceCredentialsInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  S.Struct({}).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListSourceCredentialsInput",
 }) as any as S.Schema<ListSourceCredentialsInput>;
@@ -2997,9 +2856,7 @@ export const SourceCredentialsInfo = /*@__PURE__*/ S.suspend(() =>
   identifier: "SourceCredentialsInfo",
 }) as any as S.Schema<SourceCredentialsInfo>;
 export type SourceCredentialsInfos = SourceCredentialsInfo[];
-export const SourceCredentialsInfos = /*@__PURE__*/ S.Array(
-  SourceCredentialsInfo,
-);
+export const SourceCredentialsInfos = /*@__PURE__*/ S.Array(SourceCredentialsInfo);
 export interface ListSourceCredentialsOutput {
   sourceCredentialsInfos?: SourceCredentialsInfo[];
 }
@@ -3035,9 +2892,7 @@ export const RetryBuildInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.optional(S.String),
     idempotencyToken: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RetryBuildInput",
 }) as any as S.Schema<RetryBuildInput>;
@@ -3049,10 +2904,7 @@ export const RetryBuildOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RetryBuildOutput",
 }) as any as S.Schema<RetryBuildOutput>;
-export type RetryBuildBatchType =
-  | "RETRY_ALL_BUILDS"
-  | "RETRY_FAILED_BUILDS"
-  | (string & {});
+export type RetryBuildBatchType = "RETRY_ALL_BUILDS" | "RETRY_FAILED_BUILDS" | (string & {});
 export const RetryBuildBatchType = S.String;
 
 export interface RetryBuildBatchInput {
@@ -3065,9 +2917,7 @@ export const RetryBuildBatchInput = /*@__PURE__*/ S.suspend(() =>
     id: S.optional(S.String),
     idempotencyToken: S.optional(S.String),
     retryType: S.optional(RetryBuildBatchType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RetryBuildBatchInput",
 }) as any as S.Schema<RetryBuildBatchInput>;
@@ -3151,9 +3001,7 @@ export const StartBuildInput = /*@__PURE__*/ S.suspend(() =>
     fleetOverride: S.optional(ProjectFleet),
     autoRetryLimitOverride: S.optional(S.Number),
     hostKernelOverride: S.optional(HostKernel),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartBuildInput",
 }) as any as S.Schema<StartBuildInput>;
@@ -3231,9 +3079,7 @@ export const StartBuildBatchInput = /*@__PURE__*/ S.suspend(() =>
     imagePullCredentialsTypeOverride: S.optional(ImagePullCredentialsType),
     buildBatchConfigOverride: S.optional(ProjectBuildBatchConfig),
     debugSessionEnabled: S.optional(S.Boolean),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartBuildBatchInput",
 }) as any as S.Schema<StartBuildBatchInput>;
@@ -3255,9 +3101,7 @@ export const StartCommandExecutionInput = /*@__PURE__*/ S.suspend(() =>
     sandboxId: S.String,
     command: SensitiveString,
     type: S.optional(CommandType),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartCommandExecutionInput",
 }) as any as S.Schema<StartCommandExecutionInput>;
@@ -3277,9 +3121,7 @@ export const StartSandboxInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     projectName: S.optional(S.String),
     idempotencyToken: S.optional(SensitiveString),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartSandboxInput",
 }) as any as S.Schema<StartSandboxInput>;
@@ -3401,9 +3243,7 @@ export const UpdateFleetInput = /*@__PURE__*/ S.suspend(() =>
     imageId: S.optional(S.String),
     fleetServiceRole: S.optional(S.String),
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateFleetInput",
 }) as any as S.Schema<UpdateFleetInput>;
@@ -3463,9 +3303,7 @@ export const UpdateProjectInput = /*@__PURE__*/ S.suspend(() =>
     buildBatchConfig: S.optional(ProjectBuildBatchConfig),
     concurrentBuildLimit: S.optional(S.Number),
     autoRetryLimit: S.optional(S.Number),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateProjectInput",
 }) as any as S.Schema<UpdateProjectInput>;
@@ -3487,9 +3325,7 @@ export const UpdateProjectVisibilityInput = /*@__PURE__*/ S.suspend(() =>
     projectArn: S.String,
     projectVisibility: ProjectVisibilityType,
     resourceAccessRole: S.optional(S.String),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateProjectVisibilityInput",
 }) as any as S.Schema<UpdateProjectVisibilityInput>;
@@ -3517,9 +3353,7 @@ export const UpdateReportGroupInput = /*@__PURE__*/ S.suspend(() =>
     arn: S.String,
     exportConfig: S.optional(ReportExportConfig),
     tags: S.optional(TagList),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateReportGroupInput",
 }) as any as S.Schema<UpdateReportGroupInput>;
@@ -3547,9 +3381,7 @@ export const UpdateWebhookInput = /*@__PURE__*/ S.suspend(() =>
     filterGroups: S.optional(FilterGroups),
     buildType: S.optional(WebhookBuildType),
     pullRequestBuildPolicy: S.optional(PullRequestBuildPolicy),
-  }).pipe(
-    T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateWebhookInput",
 }) as any as S.Schema<UpdateWebhookInput>;
@@ -3615,9 +3447,7 @@ export const batchGetBuilds: API.OperationMethod<
   operationName: "BatchGetBuilds",
 }));
 
-export type BatchGetCommandExecutionsError =
-  | InvalidInputException
-  | CommonErrors;
+export type BatchGetCommandExecutionsError = InvalidInputException | CommonErrors;
 /**
  * Gets information about the command executions.
  */
@@ -3741,11 +3571,7 @@ export const createFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateFleetInput,
   output: CreateFleetOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
@@ -3767,11 +3593,7 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectInput,
   output: CreateProjectOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
@@ -3793,11 +3615,7 @@ export const createReportGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateReportGroupInput,
   output: CreateReportGroupOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportGroup",
@@ -3987,11 +3805,7 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteWebhookInput,
   output: DeleteWebhookOutput,
-  errors: [
-    InvalidInputException,
-    OAuthProviderException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, OAuthProviderException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
@@ -4109,11 +3923,7 @@ export const importSourceCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ImportSourceCredentialsInput,
   output: ImportSourceCredentialsOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceAlreadyExistsException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSourceCredentials",
@@ -4577,20 +4387,13 @@ export const retryBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RetryBuildInput,
   output: RetryBuildOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuild",
 }));
 
-export type RetryBuildBatchError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type RetryBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
@@ -4628,20 +4431,13 @@ export const startBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartBuildInput,
   output: StartBuildOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuild",
 }));
 
-export type StartBuildBatchError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type StartBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Starts a batch build for a project.
  */
@@ -4696,11 +4492,7 @@ export const startSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartSandboxInput,
   output: StartSandboxOutput,
-  errors: [
-    AccountSuspendedException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  errors: [AccountSuspendedException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandbox",
@@ -4727,10 +4519,7 @@ export const startSandboxConnection: API.OperationMethod<
   operationName: "StartSandboxConnection",
 }));
 
-export type StopBuildError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type StopBuildError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Attempts to stop running a build.
  */
@@ -4748,10 +4537,7 @@ export const stopBuild: API.OperationMethod<
   operationName: "StopBuild",
 }));
 
-export type StopBuildBatchError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type StopBuildBatchError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Stops a running batch build.
  */
@@ -4769,10 +4555,7 @@ export const stopBuildBatch: API.OperationMethod<
   operationName: "StopBuildBatch",
 }));
 
-export type StopSandboxError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type StopSandboxError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Stops a sandbox.
  */
@@ -4806,20 +4589,13 @@ export const updateFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateFleetInput,
   output: UpdateFleetOutput,
-  errors: [
-    AccountLimitExceededException,
-    InvalidInputException,
-    ResourceNotFoundException,
-  ],
+  errors: [AccountLimitExceededException, InvalidInputException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
 }));
 
-export type UpdateProjectError =
-  | InvalidInputException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type UpdateProjectError = InvalidInputException | ResourceNotFoundException | CommonErrors;
 /**
  * Changes the settings of a build project.
  */
@@ -4923,11 +4699,7 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateWebhookInput,
   output: UpdateWebhookOutput,
-  errors: [
-    InvalidInputException,
-    OAuthProviderException,
-    ResourceNotFoundException,
-  ],
+  errors: [InvalidInputException, OAuthProviderException, ResourceNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",

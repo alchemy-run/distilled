@@ -25,19 +25,13 @@ import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
  * final (e.g. a malformed URL, an MFA prompt that cannot be answered) and
  * the chain stops there instead of trying the next source.
  */
-export class CredentialSourceError extends Data.TaggedError(
-  "AWS::CredentialSourceError",
-)<{
+export class CredentialSourceError extends Data.TaggedError("AWS::CredentialSourceError")<{
   message: string;
   tryNextLink?: boolean;
   cause?: unknown;
 }> {}
 
-export type CredentialSource = Effect.Effect<
-  AwsCredentialIdentity,
-  CredentialSourceError,
-  never
->;
+export type CredentialSource = Effect.Effect<AwsCredentialIdentity, CredentialSourceError, never>;
 
 /** `process.env[name]`, or `undefined` where there is no `process`. */
 export const env = (name: string): string | undefined =>
@@ -48,14 +42,9 @@ export const env = (name: string): string | undefined =>
  * the chain; otherwise the next one runs. When every source fails, the last
  * failure is the chain's failure.
  */
-export const chain = (
-  sources: ReadonlyArray<CredentialSource>,
-): CredentialSource =>
+export const chain = (sources: ReadonlyArray<CredentialSource>): CredentialSource =>
   Effect.suspend(() => {
-    const step = (
-      index: number,
-      last: CredentialSourceError | undefined,
-    ): CredentialSource => {
+    const step = (index: number, last: CredentialSourceError | undefined): CredentialSource => {
       if (index >= sources.length) {
         return Effect.fail(
           last ??
@@ -67,9 +56,7 @@ export const chain = (
       }
       return sources[index].pipe(
         Effect.catch((error) =>
-          error.tryNextLink === false
-            ? Effect.fail(error)
-            : step(index + 1, error),
+          error.tryNextLink === false ? Effect.fail(error) : step(index + 1, error),
         ),
       );
     };
@@ -128,8 +115,7 @@ export const requestText = (
 export const retry = <A, E>(
   effect: Effect.Effect<A, E>,
   maxRetries: number,
-): Effect.Effect<A, E> =>
-  maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect;
+): Effect.Effect<A, E> => (maxRetries > 0 ? Effect.retry(effect, { times: maxRetries }) : effect);
 
 /**
  * The JSON document the container, HTTP and instance metadata endpoints all
@@ -151,9 +137,7 @@ const isImdsCredentials = (arg: unknown): arg is ImdsCredentials =>
   typeof (arg as ImdsCredentials).Token === "string" &&
   typeof (arg as ImdsCredentials).Expiration === "string";
 
-const fromImdsCredentials = (
-  creds: ImdsCredentials,
-): AwsCredentialIdentity => ({
+const fromImdsCredentials = (creds: ImdsCredentials): AwsCredentialIdentity => ({
   accessKeyId: creds.AccessKeyId,
   secretAccessKey: creds.SecretAccessKey,
   sessionToken: creds.Token,
@@ -177,8 +161,7 @@ const parseImdsCredentials = (
         ? Effect.succeed(fromImdsCredentials(parsed))
         : Effect.fail(
             new CredentialSourceError({
-              message:
-                "Invalid response received from instance metadata service.",
+              message: "Invalid response received from instance metadata service.",
             }),
           ),
     ),
@@ -240,18 +223,9 @@ const DEFAULT_TIMEOUT_MS = 1000;
 const checkUrl = (url: URL): CredentialSourceError | undefined => {
   if (url.protocol === "https:") return;
   const host = url.hostname;
-  if (
-    host === CMDS_IP ||
-    host === "169.254.170.23" ||
-    host === "[fd00:ec2::23]"
-  )
-    return;
+  if (host === CMDS_IP || host === "169.254.170.23" || host === "[fd00:ec2::23]") return;
   if (host.includes("[")) {
-    if (
-      host === "[::1]" ||
-      host === "[0000:0000:0000:0000:0000:0000:0000:0001]"
-    )
-      return;
+    if (host === "[::1]" || host === "[0000:0000:0000:0000:0000:0000:0000:0001]") return;
   } else {
     if (host === "localhost") return;
     const parts = host.split(".");
@@ -389,10 +363,7 @@ Set ${ENV_CMDS_FULL_URI} or ${ENV_CMDS_RELATIVE_URI}.`,
     if (rejected) return Effect.fail(rejected);
 
     const timeoutMs = options.timeout ?? DEFAULT_TIMEOUT_MS;
-    const authorization: Effect.Effect<
-      string | undefined,
-      CredentialSourceError
-    > = tokenFile
+    const authorization: Effect.Effect<string | undefined, CredentialSourceError> = tokenFile
       ? options.readFile
         ? options.readFile(tokenFile).pipe(
             Effect.mapError(
@@ -512,21 +483,16 @@ export interface FromInstanceMetadataOptions {
    * `ec2_metadata_v1_disabled`). The Node entry point reads them; the
    * environment always wins.
    */
-  readonly profileConfig?: Effect.Effect<
-    Readonly<Record<string, string | undefined>> | undefined
-  >;
+  readonly profileConfig?: Effect.Effect<Readonly<Record<string, string | undefined>> | undefined>;
 }
 
 const instanceMetadataEndpoint = (
   profileConfig: Readonly<Record<string, string | undefined>> | undefined,
 ): Effect.Effect<string, CredentialSourceError> => {
-  const endpoint =
-    env(ENV_IMDS_ENDPOINT) ?? profileConfig?.ec2_metadata_service_endpoint;
+  const endpoint = env(ENV_IMDS_ENDPOINT) ?? profileConfig?.ec2_metadata_service_endpoint;
   if (endpoint) return Effect.succeed(endpoint);
   const mode =
-    env(ENV_IMDS_ENDPOINT_MODE) ??
-    profileConfig?.ec2_metadata_service_endpoint_mode ??
-    "IPv4";
+    env(ENV_IMDS_ENDPOINT_MODE) ?? profileConfig?.ec2_metadata_service_endpoint_mode ?? "IPv4";
   switch (mode) {
     case "IPv4":
       return Effect.succeed("http://169.254.169.254");
@@ -550,9 +516,7 @@ const STATIC_STABILITY_DOC_URL =
  * When IMDS is unreachable, keep using the last credentials it handed out
  * and retry in 5–10 minutes rather than failing the request outright.
  */
-const extendCredentials = (
-  credentials: AwsCredentialIdentity,
-): AwsCredentialIdentity => {
+const extendCredentials = (credentials: AwsCredentialIdentity): AwsCredentialIdentity => {
   const refreshInterval =
     STATIC_STABILITY_REFRESH_INTERVAL_SECONDS +
     Math.floor(Math.random() * STATIC_STABILITY_REFRESH_INTERVAL_SECONDS);
@@ -586,10 +550,7 @@ export const fromInstanceMetadata = (
     method: "GET" | "PUT",
     headers: Record<string, string>,
   ) =>
-    requestText(
-      HttpClientRequest.make(method)(`${endpoint}${path}`, { headers }),
-      timeoutMs,
-    ).pipe(
+    requestText(HttpClientRequest.make(method)(`${endpoint}${path}`, { headers }), timeoutMs).pipe(
       Effect.flatMap(({ status, text }) =>
         status >= 200 && status < 300
           ? Effect.succeed(text)
@@ -613,21 +574,14 @@ export const fromInstanceMetadata = (
     const envValue = env(ENV_IMDS_V1_DISABLED);
     const blockedByEnv = !!envValue && envValue !== "false";
     const profileValue =
-      envValue === undefined
-        ? profileConfig?.ec2_metadata_v1_disabled
-        : undefined;
+      envValue === undefined ? profileConfig?.ec2_metadata_v1_disabled : undefined;
     const blockedByProfile = !!profileValue && profileValue !== "false";
-    if (!options.ec2MetadataV1Disabled && !blockedByEnv && !blockedByProfile)
-      return;
+    if (!options.ec2MetadataV1Disabled && !blockedByEnv && !blockedByProfile) return;
     const causes: string[] = [];
     if (options.ec2MetadataV1Disabled)
-      causes.push(
-        "credential provider initialization (runtime option ec2MetadataV1Disabled)",
-      );
-    if (blockedByProfile)
-      causes.push("config file profile (ec2_metadata_v1_disabled)");
-    if (blockedByEnv)
-      causes.push(`process environment variable (${ENV_IMDS_V1_DISABLED})`);
+      causes.push("credential provider initialization (runtime option ec2MetadataV1Disabled)");
+    if (blockedByProfile) causes.push("config file profile (ec2_metadata_v1_disabled)");
+    if (blockedByEnv) causes.push(`process environment variable (${ENV_IMDS_V1_DISABLED})`);
     return new CredentialSourceError({
       message: `AWS EC2 Metadata v1 fallback has been blocked by AWS SDK configuration in the following: [${causes.join(", ")}].`,
       tryNextLink: false,
@@ -640,8 +594,7 @@ export const fromInstanceMetadata = (
     profileConfig: Readonly<Record<string, string | undefined>> | undefined,
   ): CredentialSource =>
     Effect.suspend(() => {
-      const isV1 =
-        disableFetchToken || headers[X_AWS_EC2_METADATA_TOKEN] === undefined;
+      const isV1 = disableFetchToken || headers[X_AWS_EC2_METADATA_TOKEN] === undefined;
       if (isV1) {
         const blocked = v1FallbackBlocked(profileConfig);
         if (blocked) return Effect.fail(blocked);
@@ -651,19 +604,12 @@ export const fromInstanceMetadata = (
         return Effect.fail(error);
       };
       return retry(
-        imdsRequest(endpoint, IMDS_PATH, "GET", headers).pipe(
-          Effect.catch(onUnauthorized),
-        ),
+        imdsRequest(endpoint, IMDS_PATH, "GET", headers).pipe(Effect.catch(onUnauthorized)),
         maxRetries,
       ).pipe(
         Effect.flatMap((profile) =>
           retry(
-            imdsRequest(
-              endpoint,
-              IMDS_PATH + profile.trim(),
-              "GET",
-              headers,
-            ).pipe(
+            imdsRequest(endpoint, IMDS_PATH + profile.trim(), "GET", headers).pipe(
               Effect.catch(onUnauthorized),
               Effect.flatMap(parseImdsCredentials),
             ),
@@ -674,9 +620,7 @@ export const fromInstanceMetadata = (
     });
 
   const resolve: CredentialSource = Effect.gen(function* () {
-    const profileConfig = options.profileConfig
-      ? yield* options.profileConfig
-      : undefined;
+    const profileConfig = options.profileConfig ? yield* options.profileConfig : undefined;
     const endpoint = yield* instanceMetadataEndpoint(profileConfig);
     if (disableFetchToken) {
       return yield* getCredentials(endpoint, {}, profileConfig);

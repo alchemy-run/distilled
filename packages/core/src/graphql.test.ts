@@ -3,7 +3,6 @@ import * as Effect from "effect/Effect";
 import * as Result from "effect/Result";
 import * as Stream from "effect/Stream";
 import { Kind, parse } from "graphql";
-import * as G from "./graphql.ts";
 import {
   adversarialArgument,
   errorClasses,
@@ -12,10 +11,10 @@ import {
   partialProjectEnvelope,
   type FixtureSchema,
 } from "./graphql.fixture.ts";
+import * as G from "./graphql.ts";
 
 const harness = (body: unknown, status = 200) => {
-  const requests: Array<{ query: string; variables: Record<string, unknown> }> =
-    [];
+  const requests: Array<{ query: string; variables: Record<string, unknown> }> = [];
   const client = G.makeClient<FixtureSchema, never>(
     fixtureModel,
     (request) =>
@@ -57,9 +56,7 @@ describe("GraphQL selection compilation", () => {
     expect(compiled.query).not.toContain("services");
     expect(compiled.query).not.toContain(adversarialArgument);
     expect(Object.values(compiled.variables)).toEqual([adversarialArgument]);
-    expect(JSON.parse(JSON.stringify(compiled.variables))).toEqual(
-      compiled.variables,
-    );
+    expect(JSON.parse(JSON.stringify(compiled.variables))).toEqual(compiled.variables);
   });
 
   test("nested arguments keep null, omit undefined, and let server defaults apply", () => {
@@ -92,9 +89,10 @@ describe("GraphQL selection compilation", () => {
         select: { id: true },
       },
     });
-    expect(
-      JSON.parse(JSON.stringify(Object.values(compiled.variables)[0])),
-    ).toEqual({ name: null, metadata: { text: adversarialArgument } });
+    expect(JSON.parse(JSON.stringify(Object.values(compiled.variables)[0]))).toEqual({
+      name: null,
+      metadata: { text: adversarialArgument },
+    });
     expect(compiled.query).toContain("ProjectFilter");
   });
 
@@ -137,9 +135,7 @@ describe("GraphQL selection compilation", () => {
         project: { where: { id: "p1" }, select: {} },
       }),
     ).toThrow();
-    expect(() =>
-      G.compile(fixtureModel, "query", { "bad alias": true }),
-    ).toThrow();
+    expect(() => G.compile(fixtureModel, "query", { "bad alias": true })).toThrow();
   });
 });
 
@@ -158,22 +154,12 @@ describe("GraphQL query execution", () => {
       },
     } as const;
 
-    expect((await failure(client.query(invalidRoot)))._tag).toBe(
-      "GraphQLRequestError",
-    );
-    expect((await failure(client.query(invalidNested)))._tag).toBe(
-      "GraphQLRequestError",
-    );
+    expect((await failure(client.query(invalidRoot)))._tag).toBe("GraphQLRequestError");
+    expect((await failure(client.query(invalidNested)))._tag).toBe("GraphQLRequestError");
     expect(
-      (
-        await failure(
-          client.operation("query", "project")({ id: "p1" }, invalidProjection),
-        )
-      )._tag,
+      (await failure(client.operation("query", "project")({ id: "p1" }, invalidProjection)))._tag,
     ).toBe("GraphQLRequestError");
-    expect((await failure(client.mutation(invalidMutation)))._tag).toBe(
-      "GraphQLRequestError",
-    );
+    expect((await failure(client.mutation(invalidMutation)))._tag).toBe("GraphQLRequestError");
     expect(requests).toHaveLength(0);
   });
 
@@ -181,9 +167,7 @@ describe("GraphQL query execution", () => {
     const { client, requests } = harness({
       data: { project: { id: "p1" }, ping: true },
     });
-    const value = await Effect.runPromise(
-      client.query({ ...projectIdentity, ping: true }),
-    );
+    const value = await Effect.runPromise(client.query({ ...projectIdentity, ping: true }));
     expect(value).toEqual({ project: { id: "p1" }, ping: true });
     expect(requests).toHaveLength(1);
   });
@@ -318,16 +302,12 @@ describe("GraphQL query execution", () => {
     const { client } = harness({
       data: { project: { id: { invalid: true } } },
     });
-    expect((await failure(client.query(projectIdentity)))._tag).toBe(
-      "GraphQLDecodeError",
-    );
+    expect((await failure(client.query(projectIdentity)))._tag).toBe("GraphQLDecodeError");
   });
 
   test("missing non-null selected fields produce a decode error", async () => {
     const { client } = harness({ data: { project: {} } });
-    expect((await failure(client.query(projectIdentity)))._tag).toBe(
-      "GraphQLDecodeError",
-    );
+    expect((await failure(client.query(projectIdentity)))._tag).toBe("GraphQLDecodeError");
   });
 
   test("malformed errors envelopes never masquerade as success", async () => {
@@ -335,9 +315,7 @@ describe("GraphQL query execution", () => {
       data: { ping: true },
       errors: [{ path: ["ping"] }],
     });
-    expect((await failure(client.query({ ping: true })))._tag).toBe(
-      "GraphQLDecodeError",
-    );
+    expect((await failure(client.query({ ping: true })))._tag).toBe("GraphQLDecodeError");
   });
 });
 
@@ -376,9 +354,7 @@ describe("GraphQL typed failures", () => {
         },
       ],
     });
-    const report = await Effect.runPromise(
-      client.report.query(descriptionSelection),
-    );
+    const report = await Effect.runPromise(client.report.query(descriptionSelection));
     expect(report.errors.map((error) => error._tag)).toEqual([
       "ServiceDescriptionUnavailable",
       "ProjectDescriptionUnavailable",
@@ -396,20 +372,15 @@ describe("GraphQL typed failures", () => {
         },
       ],
     });
-    const report = await Effect.runPromise(
-      client.report.query(descriptionSelection),
-    );
+    const report = await Effect.runPromise(client.report.query(descriptionSelection));
     expect(report.errors[0]!._tag).toBe("UnknownGraphQLError");
     expect(report.errors[0]!.path).toEqual(["search", 0, "label"]);
   });
   test("strict execution aggregates a single field issue and preserves diagnostics", async () => {
     const { client } = harness(partialProjectEnvelope);
-    const error = await failure(
-      client.query({ ...servicesSelection, ping: true }),
-    );
+    const error = await failure(client.query({ ...servicesSelection, ping: true }));
     expect(error._tag).toBe("GraphQLFailure");
-    if (error._tag !== "GraphQLFailure")
-      throw new Error("Expected GraphQLFailure");
+    if (error._tag !== "GraphQLFailure") throw new Error("Expected GraphQLFailure");
     expect(error.errors).toHaveLength(1);
     expect(error.errors[0]!._tag).toBe("ServicesUnavailable");
     expect(error.errors[0]!.path).toEqual(["project", "services"]);
@@ -426,9 +397,7 @@ describe("GraphQL typed failures", () => {
       client.report.query({ ...servicesSelection, ping: true }),
     );
     expect(report.data).toEqual(partialProjectEnvelope.data);
-    expect(report.errors.map((error) => error._tag)).toEqual([
-      "ServicesUnavailable",
-    ]);
+    expect(report.errors.map((error) => error._tag)).toEqual(["ServicesUnavailable"]);
   });
 
   test("multiple errors retain aliases, tags, and all unaffected data", async () => {
@@ -449,8 +418,7 @@ describe("GraphQL typed failures", () => {
       }),
     );
     expect(error._tag).toBe("GraphQLFailure");
-    if (error._tag !== "GraphQLFailure")
-      throw new Error("Expected GraphQLFailure");
+    if (error._tag !== "GraphQLFailure") throw new Error("Expected GraphQLFailure");
     expect(error.errors.map((issue) => issue._tag)).toEqual([
       "ProjectNotFound",
       "ServicesUnavailable",
@@ -531,9 +499,7 @@ describe("GraphQL typed failures", () => {
         },
       ],
     });
-    const report = await Effect.runPromise(
-      client.report.query(projectIdentity),
-    );
+    const report = await Effect.runPromise(client.report.query(projectIdentity));
     expect(report.errors[0]!._tag).toBe("UnknownGraphQLError");
   });
 
@@ -553,9 +519,7 @@ describe("GraphQL typed failures", () => {
         },
       ],
     });
-    const report = await Effect.runPromise(
-      client.report.query(projectIdentity),
-    );
+    const report = await Effect.runPromise(client.report.query(projectIdentity));
     expect(report.errors.map((error) => error._tag)).toEqual([
       "UnknownGraphQLError",
       "UnknownGraphQLError",
@@ -574,9 +538,7 @@ describe("GraphQL typed failures", () => {
       },
       400,
     );
-    const report = await Effect.runPromise(
-      client.report.query(projectIdentity),
-    );
+    const report = await Effect.runPromise(client.report.query(projectIdentity));
     expect(report.errors[0]!._tag).toBe("Unauthorized");
     expect(report.status).toBe(400);
   });
@@ -594,9 +556,7 @@ describe("GraphQL typed failures", () => {
         },
       ],
     });
-    const report = await Effect.runPromise(
-      client.report.query(projectIdentity),
-    );
+    const report = await Effect.runPromise(client.report.query(projectIdentity));
     expect(report.errors.map((error) => error._tag)).toEqual([
       "Unauthorized",
       "UnknownGraphQLError",
@@ -674,12 +634,8 @@ describe("GraphQL typed failures", () => {
     );
     expect(recovered).toBe(false);
     expect(error._tag).toBe("GraphQLFailure");
-    if (error._tag !== "GraphQLFailure")
-      throw new Error("Expected GraphQLFailure");
-    expect(error.errors.map((issue) => issue._tag)).toEqual([
-      "ProjectNotFound",
-      "Unauthorized",
-    ]);
+    if (error._tag !== "GraphQLFailure") throw new Error("Expected GraphQLFailure");
+    expect(error.errors.map((issue) => issue._tag)).toEqual(["ProjectNotFound", "Unauthorized"]);
   });
 });
 
@@ -697,8 +653,7 @@ describe("GraphQL connection pagination", () => {
         Effect.sync(() => {
           const page = responses[requests.length];
           requests.push(request);
-          if (!page)
-            throw new Error("Paginator made an unexpected extra request");
+          if (!page) throw new Error("Paginator made an unexpected extra request");
           // Respect response aliases, including cursor fields added by the client.
           const document = parse(request.query);
           const operation = document.definitions.find(
@@ -707,8 +662,7 @@ describe("GraphQL connection pagination", () => {
           if (operation.kind !== Kind.OPERATION_DEFINITION)
             throw new Error("Expected an operation");
           const root = operation.selectionSet.selections[0]!;
-          if (root.kind !== Kind.FIELD)
-            throw new Error("Expected a connection field");
+          if (root.kind !== Kind.FIELD) throw new Error("Expected a connection field");
           const selected: Record<string, unknown> = {};
           for (const child of root.selectionSet!.selections) {
             if (child.kind !== Kind.FIELD) continue;
@@ -751,9 +705,7 @@ describe("GraphQL connection pagination", () => {
     const { services, requests } = paginated([
       { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
     ]);
-    const values = await Effect.runPromise(
-      Stream.runCollect(services.items({}, { id: true })),
-    );
+    const values = await Effect.runPromise(Stream.runCollect(services.items({}, { id: true })));
     expect(Array.from(values)).toEqual([]);
     expect(requests).toHaveLength(1);
   });
@@ -799,9 +751,7 @@ describe("GraphQL connection pagination", () => {
       { edges: [], pageInfo: { endCursor: null, hasNextPage: false } },
     ]);
     const pages = await Effect.runPromise(
-      Stream.runCollect(
-        services.pages({}, { pageInfo: { select: { hasNextPage: true } } }),
-      ),
+      Stream.runCollect(services.pages({}, { pageInfo: { select: { hasNextPage: true } } })),
     );
     expect(Array.from(pages)).toEqual([
       { pageInfo: { hasNextPage: true } },
@@ -850,19 +800,14 @@ describe("GraphQL connection pagination", () => {
         pageInfo: { endCursor: "c1", hasNextPage: true },
       },
     ]);
-    const error = await failure(
-      Stream.runCollect(services.items({}, { id: true })),
-    );
+    const error = await failure(Stream.runCollect(services.items({}, { id: true })));
     expect(error._tag).toBe("GraphQLDecodeError");
     expect(requests).toHaveLength(2);
   });
 
   test("invalid pagination input fails in the typed channel without making a request", async () => {
     const { services, requests } = paginated([]);
-    const stream = services.items(
-      { first: "bad" as unknown as number },
-      { id: true },
-    );
+    const stream = services.items({ first: "bad" as unknown as number }, { id: true });
     const error = await failure(Stream.runCollect(stream));
     expect(error._tag).toBe("GraphQLRequestError");
     expect(requests).toHaveLength(0);
@@ -966,8 +911,7 @@ describe("GraphQL safe query retries", () => {
       }),
     );
     expect(error._tag).toBe("GraphQLFailure");
-    if (error._tag !== "GraphQLFailure")
-      throw new Error("Expected GraphQLFailure");
+    if (error._tag !== "GraphQLFailure") throw new Error("Expected GraphQLFailure");
     expect(error.errors[0]!._tag).toBe("ServicesUnavailable");
     expect(requests).toHaveLength(1);
   });

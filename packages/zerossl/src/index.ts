@@ -20,9 +20,5 @@ export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
 export * as Retry from "./retry.ts";
-export {
-  ZeroSslProtocol,
-  type ZeroSslOpError,
-  type ZeroSslOpContext,
-} from "./protocol.ts";
+export { ZeroSslProtocol, type ZeroSslOpError, type ZeroSslOpContext } from "./protocol.ts";
 export * from "./services/index.ts";

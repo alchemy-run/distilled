@@ -40,9 +40,7 @@ export interface ProtocolHandler {
    * @param response - The HTTP error response to deserialize
    * @returns Effect yielding the error code and additional data
    */
-  deserializeError(
-    response: Response,
-  ): Effect.Effect<DeserializedError, ParseError>;
+  deserializeError(response: Response): Effect.Effect<DeserializedError, ParseError>;
 }
 
 /**

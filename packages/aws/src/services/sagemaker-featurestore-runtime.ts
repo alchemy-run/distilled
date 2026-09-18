@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "SageMaker FeatureStore Runtime",
   serviceShapeName: "AmazonSageMakerFeatureStoreRuntime",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://featurestore-runtime.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://featurestore-runtime.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -144,9 +136,7 @@ export const BatchGetRecordIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetRecordIdentifier",
 }) as any as S.Schema<BatchGetRecordIdentifier>;
 export type BatchGetRecordIdentifiers = BatchGetRecordIdentifier[];
-export const BatchGetRecordIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetRecordIdentifier,
-);
+export const BatchGetRecordIdentifiers = /*@__PURE__*/ S.Array(BatchGetRecordIdentifier);
 export type ExpirationTimeResponse = "Enabled" | "Disabled" | (string & {});
 export const ExpirationTimeResponse = S.String;
 
@@ -158,16 +148,7 @@ export const BatchGetRecordRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Identifiers: S.optional(BatchGetRecordIdentifiers),
     ExpirationTimeResponse: S.optional(ExpirationTimeResponse),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchGetRecord" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/BatchGetRecord" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchGetRecordRequest",
 }) as any as S.Schema<BatchGetRecordRequest>;
@@ -205,9 +186,7 @@ export const BatchGetRecordResultDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchGetRecordResultDetail",
 }) as any as S.Schema<BatchGetRecordResultDetail>;
 export type BatchGetRecordResultDetails = BatchGetRecordResultDetail[];
-export const BatchGetRecordResultDetails = /*@__PURE__*/ S.Array(
-  BatchGetRecordResultDetail,
-);
+export const BatchGetRecordResultDetails = /*@__PURE__*/ S.Array(BatchGetRecordResultDetail);
 export type Message = string;
 export interface BatchGetRecordError_ {
   FeatureGroupName?: string;
@@ -228,9 +207,7 @@ export const BatchGetRecordError_ = /*@__PURE__*/ S.suspend(() =>
 export type BatchGetRecordErrors = BatchGetRecordError_[];
 export const BatchGetRecordErrors = /*@__PURE__*/ S.Array(BatchGetRecordError_);
 export type UnprocessedIdentifiers = BatchGetRecordIdentifier[];
-export const UnprocessedIdentifiers = /*@__PURE__*/ S.Array(
-  BatchGetRecordIdentifier,
-);
+export const UnprocessedIdentifiers = /*@__PURE__*/ S.Array(BatchGetRecordIdentifier);
 export interface BatchGetRecordResponse {
   Records: (BatchGetRecordResultDetail & {
     FeatureGroupName: ValueAsString;
@@ -262,13 +239,7 @@ export const TargetStore = S.String;
 
 export type TargetStores = TargetStore[];
 export const TargetStores = /*@__PURE__*/ S.Array(TargetStore);
-export type TtlDurationUnit =
-  | "Seconds"
-  | "Minutes"
-  | "Hours"
-  | "Days"
-  | "Weeks"
-  | (string & {});
+export type TtlDurationUnit = "Seconds" | "Minutes" | "Hours" | "Days" | "Weeks" | (string & {});
 export const TtlDurationUnit = S.String;
 
 export type TtlDurationValue = number;
@@ -296,9 +267,7 @@ export const BatchWriteRecordEntry = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchWriteRecordEntry",
 }) as any as S.Schema<BatchWriteRecordEntry>;
 export type BatchWriteRecordEntries = BatchWriteRecordEntry[];
-export const BatchWriteRecordEntries = /*@__PURE__*/ S.Array(
-  BatchWriteRecordEntry,
-);
+export const BatchWriteRecordEntries = /*@__PURE__*/ S.Array(BatchWriteRecordEntry);
 export interface BatchWriteRecordRequest {
   Entries?: BatchWriteRecordEntry[];
   TtlDuration?: TtlDuration;
@@ -308,14 +277,7 @@ export const BatchWriteRecordRequest = /*@__PURE__*/ S.suspend(() =>
     Entries: S.optional(BatchWriteRecordEntries),
     TtlDuration: S.optional(TtlDuration),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/BatchWriteRecord" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/BatchWriteRecord" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "BatchWriteRecordRequest",
@@ -335,13 +297,9 @@ export const BatchWriteRecordError_ = /*@__PURE__*/ S.suspend(() =>
   identifier: "BatchWriteRecordError",
 }) as any as S.Schema<BatchWriteRecordError_>;
 export type BatchWriteRecordErrors = BatchWriteRecordError_[];
-export const BatchWriteRecordErrors = /*@__PURE__*/ S.Array(
-  BatchWriteRecordError_,
-);
+export const BatchWriteRecordErrors = /*@__PURE__*/ S.Array(BatchWriteRecordError_);
 export type UnprocessedBatchWriteRecordEntries = BatchWriteRecordEntry[];
-export const UnprocessedBatchWriteRecordEntries = /*@__PURE__*/ S.Array(
-  BatchWriteRecordEntry,
-);
+export const UnprocessedBatchWriteRecordEntries = /*@__PURE__*/ S.Array(BatchWriteRecordEntry);
 export interface BatchWriteRecordResponse {
   Errors: (BatchWriteRecordError & {
     Entry: BatchWriteRecordEntry & {
@@ -405,9 +363,7 @@ export const DeleteRecordRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteRecordRequest",
 }) as any as S.Schema<DeleteRecordRequest>;
 export interface DeleteRecordResponse {}
-export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteRecordResponse",
 }) as any as S.Schema<DeleteRecordResponse>;
 export interface GetRecordRequest {
@@ -518,9 +474,7 @@ export const PutRecordRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PutRecordRequest",
 }) as any as S.Schema<PutRecordRequest>;
 export interface PutRecordResponse {}
-export const PutRecordResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const PutRecordResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "PutRecordResponse",
 }) as any as S.Schema<PutRecordResponse>;
 export type BatchGetRecordError =
@@ -540,12 +494,7 @@ export const batchGetRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchGetRecordRequest,
   output: BatchGetRecordResponse,
-  errors: [
-    AccessForbidden,
-    InternalFailure,
-    ServiceUnavailable,
-    ValidationError,
-  ],
+  errors: [AccessForbidden, InternalFailure, ServiceUnavailable, ValidationError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRecord",
@@ -576,13 +525,7 @@ export const batchWriteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: BatchWriteRecordRequest,
   output: BatchWriteRecordResponse,
-  errors: [
-    AccessForbidden,
-    InternalFailure,
-    ResourceNotFound,
-    ServiceUnavailable,
-    ValidationError,
-  ],
+  errors: [AccessForbidden, InternalFailure, ResourceNotFound, ServiceUnavailable, ValidationError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteRecord",
@@ -703,13 +646,7 @@ export const listRecords: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRecordsRequest,
   output: ListRecordsResponse,
-  errors: [
-    AccessForbidden,
-    InternalFailure,
-    ResourceNotFound,
-    ServiceUnavailable,
-    ValidationError,
-  ],
+  errors: [AccessForbidden, InternalFailure, ResourceNotFound, ServiceUnavailable, ValidationError],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecords",

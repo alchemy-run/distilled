@@ -1,15 +1,13 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
-const ns = T.XmlNamespace(
-  "http://cloudformation.amazonaws.com/doc/2010-05-15/",
-);
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
+const ns = T.XmlNamespace("http://cloudformation.amazonaws.com/doc/2010-05-15/");
 const svc = T.AwsApiService({
   sdkId: "CloudFormation",
   serviceShapeName: "CloudFormation",
@@ -29,14 +27,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -66,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudformation-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -76,13 +68,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://cloudformation.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://cloudformation.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://cloudformation.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -114,10 +102,7 @@ export class ChangeSetNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ChangeSetNotFoundException>()(
     "ChangeSetNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "ChangeSetNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "ChangeSetNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class ConcurrentResourcesLimitExceededException
   extends /*@__PURE__*/ S.TaggedError<ConcurrentResourcesLimitExceededException>()(
@@ -159,10 +144,7 @@ export class HookResultNotFoundException
   extends /*@__PURE__*/ S.TaggedError<HookResultNotFoundException>()(
     "HookResultNotFoundException",
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-    T.all(
-      T.AwsQueryError({ code: "HookResultNotFound", httpResponseCode: 404 }),
-      T.HttpError(404),
-    ),
+    T.all(T.AwsQueryError({ code: "HookResultNotFound", httpResponseCode: 404 }), T.HttpError(404)),
   ).pipe(C.withBadRequestError) {}
 export class InsufficientCapabilitiesException
   extends /*@__PURE__*/ S.TaggedError<InsufficientCapabilitiesException>()(
@@ -439,17 +421,7 @@ export class TypeNotFoundException
   ).pipe(C.withBadRequestError) {}
 export interface ActivateOrganizationsAccessInput {}
 export const ActivateOrganizationsAccessInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ActivateOrganizationsAccessInput",
 }) as any as S.Schema<ActivateOrganizationsAccessInput>;
@@ -506,17 +478,7 @@ export const ActivateTypeInput = /*@__PURE__*/ S.suspend(() =>
     ExecutionRoleArn: S.optional(S.String),
     VersionBump: S.optional(VersionBump),
     MajorVersion: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ActivateTypeInput",
 }) as any as S.Schema<ActivateTypeInput>;
@@ -551,27 +513,14 @@ export const TypeConfigurationIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "TypeConfigurationIdentifier",
 }) as any as S.Schema<TypeConfigurationIdentifier>;
 export type TypeConfigurationIdentifiers = TypeConfigurationIdentifier[];
-export const TypeConfigurationIdentifiers = /*@__PURE__*/ S.Array(
-  TypeConfigurationIdentifier,
-);
+export const TypeConfigurationIdentifiers = /*@__PURE__*/ S.Array(TypeConfigurationIdentifier);
 export interface BatchDescribeTypeConfigurationsInput {
   TypeConfigurationIdentifiers?: TypeConfigurationIdentifier[];
 }
-export const BatchDescribeTypeConfigurationsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TypeConfigurationIdentifiers: S.optional(TypeConfigurationIdentifiers),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const BatchDescribeTypeConfigurationsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    TypeConfigurationIdentifiers: S.optional(TypeConfigurationIdentifiers),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "BatchDescribeTypeConfigurationsInput",
 }) as any as S.Schema<BatchDescribeTypeConfigurationsInput>;
@@ -582,25 +531,21 @@ export interface BatchDescribeTypeConfigurationsError_ {
   ErrorMessage?: string;
   TypeConfigurationIdentifier?: TypeConfigurationIdentifier;
 }
-export const BatchDescribeTypeConfigurationsError_ = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ErrorCode: S.optional(S.String),
-      ErrorMessage: S.optional(S.String),
-      TypeConfigurationIdentifier: S.optional(TypeConfigurationIdentifier),
-    }),
+export const BatchDescribeTypeConfigurationsError_ = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ErrorCode: S.optional(S.String),
+    ErrorMessage: S.optional(S.String),
+    TypeConfigurationIdentifier: S.optional(TypeConfigurationIdentifier),
+  }),
 ).annotate({
   identifier: "BatchDescribeTypeConfigurationsError",
 }) as any as S.Schema<BatchDescribeTypeConfigurationsError_>;
-export type BatchDescribeTypeConfigurationsErrors =
-  BatchDescribeTypeConfigurationsError_[];
+export type BatchDescribeTypeConfigurationsErrors = BatchDescribeTypeConfigurationsError_[];
 export const BatchDescribeTypeConfigurationsErrors = /*@__PURE__*/ S.Array(
   BatchDescribeTypeConfigurationsError_,
 );
 export type UnprocessedTypeConfigurations = TypeConfigurationIdentifier[];
-export const UnprocessedTypeConfigurations = /*@__PURE__*/ S.Array(
-  TypeConfigurationIdentifier,
-);
+export const UnprocessedTypeConfigurations = /*@__PURE__*/ S.Array(TypeConfigurationIdentifier);
 export type TypeConfiguration = string;
 export type IsDefaultConfiguration = boolean;
 export interface TypeConfigurationDetails {
@@ -617,9 +562,7 @@ export const TypeConfigurationDetails = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     Alias: S.optional(S.String),
     Configuration: S.optional(S.String),
-    LastUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TypeArn: S.optional(S.String),
     TypeName: S.optional(S.String),
     IsDefaultConfiguration: S.optional(S.Boolean),
@@ -628,21 +571,18 @@ export const TypeConfigurationDetails = /*@__PURE__*/ S.suspend(() =>
   identifier: "TypeConfigurationDetails",
 }) as any as S.Schema<TypeConfigurationDetails>;
 export type TypeConfigurationDetailsList = TypeConfigurationDetails[];
-export const TypeConfigurationDetailsList = /*@__PURE__*/ S.Array(
-  TypeConfigurationDetails,
-);
+export const TypeConfigurationDetailsList = /*@__PURE__*/ S.Array(TypeConfigurationDetails);
 export interface BatchDescribeTypeConfigurationsOutput {
   Errors?: BatchDescribeTypeConfigurationsError_[];
   UnprocessedTypeConfigurations?: TypeConfigurationIdentifier[];
   TypeConfigurations?: TypeConfigurationDetails[];
 }
-export const BatchDescribeTypeConfigurationsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Errors: S.optional(BatchDescribeTypeConfigurationsErrors),
-      UnprocessedTypeConfigurations: S.optional(UnprocessedTypeConfigurations),
-      TypeConfigurations: S.optional(TypeConfigurationDetailsList),
-    }).pipe(ns),
+export const BatchDescribeTypeConfigurationsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Errors: S.optional(BatchDescribeTypeConfigurationsErrors),
+    UnprocessedTypeConfigurations: S.optional(UnprocessedTypeConfigurations),
+    TypeConfigurations: S.optional(TypeConfigurationDetailsList),
+  }).pipe(ns),
 ).annotate({
   identifier: "BatchDescribeTypeConfigurationsOutput",
 }) as any as S.Schema<BatchDescribeTypeConfigurationsOutput>;
@@ -656,17 +596,7 @@ export const CancelUpdateStackInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CancelUpdateStackInput",
 }) as any as S.Schema<CancelUpdateStackInput>;
@@ -693,17 +623,7 @@ export const ContinueUpdateRollbackInput = /*@__PURE__*/ S.suspend(() =>
     RoleARN: S.optional(S.String),
     ResourcesToSkip: S.optional(ResourcesToSkip),
     ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ContinueUpdateRollbackInput",
 }) as any as S.Schema<ContinueUpdateRollbackInput>;
@@ -820,11 +740,7 @@ export const ResourceToImport = /*@__PURE__*/ S.suspend(() =>
 export type ResourcesToImport = ResourceToImport[];
 export const ResourcesToImport = /*@__PURE__*/ S.Array(ResourceToImport);
 export type IncludeNestedStacks = boolean;
-export type OnStackFailure =
-  | "DO_NOTHING"
-  | "ROLLBACK"
-  | "DELETE"
-  | (string & {});
+export type OnStackFailure = "DO_NOTHING" | "ROLLBACK" | "DELETE" | (string & {});
 export const OnStackFailure = S.String;
 
 export type ImportExistingResources = boolean;
@@ -896,17 +812,7 @@ export const CreateChangeSetInput = /*@__PURE__*/ S.suspend(() =>
     DeploymentMode: S.optional(DeploymentMode),
     DeploymentConfig: S.optional(DeploymentConfig),
     DisableValidation: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateChangeSetInput",
 }) as any as S.Schema<CreateChangeSetInput>;
@@ -917,9 +823,7 @@ export interface CreateChangeSetOutput {
   StackId?: string;
 }
 export const CreateChangeSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Id: S.optional(S.String), StackId: S.optional(S.String) }).pipe(
-    ns,
-  ),
+  S.Struct({ Id: S.optional(S.String), StackId: S.optional(S.String) }).pipe(ns),
 ).annotate({
   identifier: "CreateChangeSetOutput",
 }) as any as S.Schema<CreateChangeSetOutput>;
@@ -940,16 +844,10 @@ export const ResourceDefinition = /*@__PURE__*/ S.suspend(() =>
 export type ResourceDefinitions = ResourceDefinition[];
 export const ResourceDefinitions = /*@__PURE__*/ S.Array(ResourceDefinition);
 export type GeneratedTemplateName = string;
-export type GeneratedTemplateDeletionPolicy =
-  | "DELETE"
-  | "RETAIN"
-  | (string & {});
+export type GeneratedTemplateDeletionPolicy = "DELETE" | "RETAIN" | (string & {});
 export const GeneratedTemplateDeletionPolicy = S.String;
 
-export type GeneratedTemplateUpdateReplacePolicy =
-  | "DELETE"
-  | "RETAIN"
-  | (string & {});
+export type GeneratedTemplateUpdateReplacePolicy = "DELETE" | "RETAIN" | (string & {});
 export const GeneratedTemplateUpdateReplacePolicy = S.String;
 
 export interface TemplateConfiguration {
@@ -976,17 +874,7 @@ export const CreateGeneratedTemplateInput = /*@__PURE__*/ S.suspend(() =>
     GeneratedTemplateName: S.optional(S.String),
     StackName: S.optional(S.String),
     TemplateConfiguration: S.optional(TemplateConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateGeneratedTemplateInput",
 }) as any as S.Schema<CreateGeneratedTemplateInput>;
@@ -1051,17 +939,7 @@ export const CreateStackInput = /*@__PURE__*/ S.suspend(() =>
     RetainExceptOnCreate: S.optional(S.Boolean),
     DeploymentConfig: S.optional(DeploymentConfig),
     DisableValidation: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStackInput",
 }) as any as S.Schema<CreateStackInput>;
@@ -1086,12 +964,7 @@ export type AccountsUrl = string;
 export type OrganizationalUnitId = string;
 export type OrganizationalUnitIdList = string[];
 export const OrganizationalUnitIdList = /*@__PURE__*/ S.Array(S.String);
-export type AccountFilterType =
-  | "NONE"
-  | "INTERSECTION"
-  | "DIFFERENCE"
-  | "UNION"
-  | (string & {});
+export type AccountFilterType = "NONE" | "INTERSECTION" | "DIFFERENCE" | "UNION" | (string & {});
 export const AccountFilterType = S.String;
 
 export interface DeploymentTargets {
@@ -1120,10 +993,7 @@ export type FailureToleranceCount = number;
 export type FailureTolerancePercentage = number;
 export type MaxConcurrentCount = number;
 export type MaxConcurrentPercentage = number;
-export type ConcurrencyMode =
-  | "STRICT_FAILURE_TOLERANCE"
-  | "SOFT_FAILURE_TOLERANCE"
-  | (string & {});
+export type ConcurrencyMode = "STRICT_FAILURE_TOLERANCE" | "SOFT_FAILURE_TOLERANCE" | (string & {});
 export const ConcurrencyMode = S.String;
 
 export interface StackSetOperationPreferences {
@@ -1171,17 +1041,7 @@ export const CreateStackInstancesInput = /*@__PURE__*/ S.suspend(() =>
     OperationPreferences: S.optional(StackSetOperationPreferences),
     OperationId: S.optional(S.String).pipe(T.IdempotencyToken()),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStackInstancesInput",
 }) as any as S.Schema<CreateStackInstancesInput>;
@@ -1248,17 +1108,7 @@ export const CreateStackRefactorInput = /*@__PURE__*/ S.suspend(() =>
     EnableStackCreation: S.optional(S.Boolean),
     ResourceMappings: S.optional(ResourceMappings),
     StackDefinitions: S.optional(StackDefinitions),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStackRefactorInput",
 }) as any as S.Schema<CreateStackRefactorInput>;
@@ -1272,10 +1122,7 @@ export const CreateStackRefactorOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateStackRefactorOutput",
 }) as any as S.Schema<CreateStackRefactorOutput>;
 export type ExecutionRoleName = string;
-export type PermissionModels =
-  | "SERVICE_MANAGED"
-  | "SELF_MANAGED"
-  | (string & {});
+export type PermissionModels = "SERVICE_MANAGED" | "SELF_MANAGED" | (string & {});
 export const PermissionModels = S.String;
 
 export type AutoDeploymentNullable = boolean;
@@ -1338,17 +1185,7 @@ export const CreateStackSetInput = /*@__PURE__*/ S.suspend(() =>
     CallAs: S.optional(CallAs),
     ClientRequestToken: S.optional(S.String).pipe(T.IdempotencyToken()),
     ManagedExecution: S.optional(ManagedExecution),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateStackSetInput",
 }) as any as S.Schema<CreateStackSetInput>;
@@ -1363,17 +1200,7 @@ export const CreateStackSetOutput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateStackSetOutput>;
 export interface DeactivateOrganizationsAccessInput {}
 export const DeactivateOrganizationsAccessInput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  S.Struct({}).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeactivateOrganizationsAccessInput",
 }) as any as S.Schema<DeactivateOrganizationsAccessInput>;
@@ -1393,24 +1220,12 @@ export const DeactivateTypeInput = /*@__PURE__*/ S.suspend(() =>
     TypeName: S.optional(S.String),
     Type: S.optional(ThirdPartyType),
     Arn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeactivateTypeInput",
 }) as any as S.Schema<DeactivateTypeInput>;
 export interface DeactivateTypeOutput {}
-export const DeactivateTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeactivateTypeOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeactivateTypeOutput",
 }) as any as S.Schema<DeactivateTypeOutput>;
 export type ChangeSetNameOrId = string;
@@ -1422,24 +1237,12 @@ export const DeleteChangeSetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ChangeSetName: S.optional(S.String),
     StackName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteChangeSetInput",
 }) as any as S.Schema<DeleteChangeSetInput>;
 export interface DeleteChangeSetOutput {}
-export const DeleteChangeSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteChangeSetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteChangeSetOutput",
 }) as any as S.Schema<DeleteChangeSetOutput>;
 export interface DeleteGeneratedTemplateInput {
@@ -1447,15 +1250,7 @@ export interface DeleteGeneratedTemplateInput {
 }
 export const DeleteGeneratedTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GeneratedTemplateName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteGeneratedTemplateInput",
@@ -1487,24 +1282,12 @@ export const DeleteStackInput = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     DeletionMode: S.optional(DeletionMode),
     DeploymentConfig: S.optional(DeploymentConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteStackInput",
 }) as any as S.Schema<DeleteStackInput>;
 export interface DeleteStackResponse {}
-export const DeleteStackResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStackResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStackResponse",
 }) as any as S.Schema<DeleteStackResponse>;
 export type RetainStacks = boolean;
@@ -1528,17 +1311,7 @@ export const DeleteStackInstancesInput = /*@__PURE__*/ S.suspend(() =>
     RetainStacks: S.optional(S.Boolean),
     OperationId: S.optional(S.String).pipe(T.IdempotencyToken()),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteStackInstancesInput",
 }) as any as S.Schema<DeleteStackInstancesInput>;
@@ -1558,24 +1331,12 @@ export const DeleteStackSetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackSetName: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeleteStackSetInput",
 }) as any as S.Schema<DeleteStackSetInput>;
 export interface DeleteStackSetOutput {}
-export const DeleteStackSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeleteStackSetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeleteStackSetOutput",
 }) as any as S.Schema<DeleteStackSetOutput>;
 export type RegistryType = "RESOURCE" | "MODULE" | "HOOK" | (string & {});
@@ -1594,24 +1355,12 @@ export const DeregisterTypeInput = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(RegistryType),
     TypeName: S.optional(S.String),
     VersionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DeregisterTypeInput",
 }) as any as S.Schema<DeregisterTypeInput>;
 export interface DeregisterTypeOutput {}
-export const DeregisterTypeOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
+export const DeregisterTypeOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
   identifier: "DeregisterTypeOutput",
 }) as any as S.Schema<DeregisterTypeOutput>;
 export type NextToken = string;
@@ -1620,15 +1369,7 @@ export interface DescribeAccountLimitsInput {
 }
 export const DescribeAccountLimitsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeAccountLimitsInput",
@@ -1669,17 +1410,7 @@ export const DescribeChangeSetInput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
     IncludePropertyValues: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeChangeSetInput",
 }) as any as S.Schema<DescribeChangeSetInput>;
@@ -1707,12 +1438,7 @@ export type ChangeSetStatus =
 export const ChangeSetStatus = S.String;
 
 export type ChangeSetStatusReason = string;
-export type StackDriftStatus =
-  | "DRIFTED"
-  | "IN_SYNC"
-  | "UNKNOWN"
-  | "NOT_CHECKED"
-  | (string & {});
+export type StackDriftStatus = "DRIFTED" | "IN_SYNC" | "UNKNOWN" | "NOT_CHECKED" | (string & {});
 export const StackDriftStatus = S.String;
 
 export type ChangeType = "Resource" | (string & {});
@@ -1787,23 +1513,14 @@ export const ResourceDriftIgnoredAttribute = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourceDriftIgnoredAttribute",
 }) as any as S.Schema<ResourceDriftIgnoredAttribute>;
 export type ResourceDriftIgnoredAttributes = ResourceDriftIgnoredAttribute[];
-export const ResourceDriftIgnoredAttributes = /*@__PURE__*/ S.Array(
-  ResourceDriftIgnoredAttribute,
-);
+export const ResourceDriftIgnoredAttributes = /*@__PURE__*/ S.Array(ResourceDriftIgnoredAttribute);
 export type PropertyName = string;
-export type RequiresRecreation =
-  | "Never"
-  | "Conditionally"
-  | "Always"
-  | (string & {});
+export type RequiresRecreation = "Never" | "Conditionally" | "Always" | (string & {});
 export const RequiresRecreation = S.String;
 
 export type BeforeValue = string;
 export type AfterValue = string;
-export type BeforeValueFrom =
-  | "PREVIOUS_DEPLOYMENT_STATE"
-  | "ACTUAL_STATE"
-  | (string & {});
+export type BeforeValueFrom = "PREVIOUS_DEPLOYMENT_STATE" | "ACTUAL_STATE" | (string & {});
 export const BeforeValueFrom = S.String;
 
 export type AfterValueFrom = "TEMPLATE" | (string & {});
@@ -1820,19 +1537,12 @@ export const LiveResourceDrift = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     PreviousValue: S.optional(S.String),
     ActualValue: S.optional(S.String),
-    DriftDetectionTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DriftDetectionTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "LiveResourceDrift",
 }) as any as S.Schema<LiveResourceDrift>;
-export type AttributeChangeType =
-  | "Add"
-  | "Remove"
-  | "Modify"
-  | "SyncWithActual"
-  | (string & {});
+export type AttributeChangeType = "Add" | "Remove" | "Modify" | "SyncWithActual" | (string & {});
 export const AttributeChangeType = S.String;
 
 export interface ResourceTargetDefinition {
@@ -1894,8 +1604,7 @@ export const ResourceChangeDetail = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourceChangeDetail",
 }) as any as S.Schema<ResourceChangeDetail>;
 export type ResourceChangeDetails = ResourceChangeDetail[];
-export const ResourceChangeDetails =
-  /*@__PURE__*/ S.Array(ResourceChangeDetail);
+export const ResourceChangeDetails = /*@__PURE__*/ S.Array(ResourceChangeDetail);
 export type TypeHierarchy = string;
 export type LogicalIdHierarchy = string;
 export interface ModuleInfo {
@@ -1997,9 +1706,7 @@ export const DescribeChangeSetOutput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     Description: S.optional(S.String),
     Parameters: S.optional(Parameters),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ExecutionStatus: S.optional(ExecutionStatus),
     Status: S.optional(ChangeSetStatus),
     StatusReason: S.optional(S.String),
@@ -2033,17 +1740,7 @@ export const DescribeChangeSetHooksInput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
     LogicalResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeChangeSetHooksInput",
 }) as any as S.Schema<DescribeChangeSetHooksInput>;
@@ -2106,11 +1803,7 @@ export const ChangeSetHook = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "ChangeSetHook" }) as any as S.Schema<ChangeSetHook>;
 export type ChangeSetHooks = ChangeSetHook[];
 export const ChangeSetHooks = /*@__PURE__*/ S.Array(ChangeSetHook);
-export type ChangeSetHooksStatus =
-  | "PLANNING"
-  | "PLANNED"
-  | "UNAVAILABLE"
-  | (string & {});
+export type ChangeSetHooksStatus = "PLANNING" | "PLANNED" | "UNAVAILABLE" | (string & {});
 export const ChangeSetHooksStatus = S.String;
 
 export interface DescribeChangeSetHooksOutput {
@@ -2156,17 +1849,7 @@ export const DescribeEventsInput = /*@__PURE__*/ S.suspend(() =>
     OperationId: S.optional(S.String),
     Filters: S.optional(EventFilter),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeEventsInput",
 }) as any as S.Schema<DescribeEventsInput>;
@@ -2181,11 +1864,7 @@ export type OperationType =
   | (string & {});
 export const OperationType = S.String;
 
-export type BeaconStackOperationStatus =
-  | "IN_PROGRESS"
-  | "SUCCEEDED"
-  | "FAILED"
-  | (string & {});
+export type BeaconStackOperationStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export const BeaconStackOperationStatus = S.String;
 
 export type EventType =
@@ -2241,10 +1920,7 @@ export type HookStatus =
 export const HookStatus = S.String;
 
 export type HookStatusReason = string;
-export type DetailedStatus =
-  | "CONFIGURATION_COMPLETE"
-  | "VALIDATION_FAILED"
-  | (string & {});
+export type DetailedStatus = "CONFIGURATION_COMPLETE" | "VALIDATION_FAILED" | (string & {});
 export const DetailedStatus = S.String;
 
 export type ValidationName = string;
@@ -2293,12 +1969,8 @@ export const OperationEvent = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
@@ -2336,15 +2008,7 @@ export interface DescribeGeneratedTemplateInput {
 }
 export const DescribeGeneratedTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GeneratedTemplateName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeGeneratedTemplateInput",
@@ -2472,12 +2136,8 @@ export const DescribeGeneratedTemplateOutput = /*@__PURE__*/ S.suspend(() =>
     Resources: S.optional(ResourceDetails),
     Status: S.optional(GeneratedTemplateStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Progress: S.optional(TemplateProgress),
     StackId: S.optional(S.String),
     TemplateConfiguration: S.optional(TemplateConfiguration),
@@ -2491,24 +2151,12 @@ export interface DescribeOrganizationsAccessInput {
 }
 export const DescribeOrganizationsAccessInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ CallAs: S.optional(CallAs) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeOrganizationsAccessInput",
 }) as any as S.Schema<DescribeOrganizationsAccessInput>;
-export type OrganizationStatus =
-  | "ENABLED"
-  | "DISABLED"
-  | "DISABLED_PERMANENTLY"
-  | (string & {});
+export type OrganizationStatus = "ENABLED" | "DISABLED" | "DISABLED_PERMANENTLY" | (string & {});
 export const OrganizationStatus = S.String;
 
 export interface DescribeOrganizationsAccessOutput {
@@ -2524,15 +2172,7 @@ export interface DescribePublisherInput {
 }
 export const DescribePublisherInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ PublisherId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribePublisherInput",
@@ -2540,11 +2180,7 @@ export const DescribePublisherInput = /*@__PURE__*/ S.suspend(() =>
 export type PublisherStatus = "VERIFIED" | "UNVERIFIED" | (string & {});
 export const PublisherStatus = S.String;
 
-export type IdentityProvider =
-  | "AWS_Marketplace"
-  | "GitHub"
-  | "Bitbucket"
-  | (string & {});
+export type IdentityProvider = "AWS_Marketplace" | "GitHub" | "Bitbucket" | (string & {});
 export const IdentityProvider = S.String;
 
 export type PublisherProfile = string;
@@ -2570,25 +2206,12 @@ export interface DescribeResourceScanInput {
 }
 export const DescribeResourceScanInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceScanId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeResourceScanInput",
 }) as any as S.Schema<DescribeResourceScanInput>;
-export type ResourceScanStatus =
-  | "IN_PROGRESS"
-  | "FAILED"
-  | "COMPLETE"
-  | "EXPIRED"
-  | (string & {});
+export type ResourceScanStatus = "IN_PROGRESS" | "FAILED" | "COMPLETE" | "EXPIRED" | (string & {});
 export const ResourceScanStatus = S.String;
 
 export type ResourceScanStatusReason = string;
@@ -2623,9 +2246,7 @@ export const DescribeResourceScanOutput = /*@__PURE__*/ S.suspend(() =>
     ResourceScanId: S.optional(S.String),
     Status: S.optional(ResourceScanStatus),
     StatusReason: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentageCompleted: S.optional(S.Number),
     ResourceTypes: S.optional(ResourceTypes),
@@ -2640,19 +2261,10 @@ export type StackDriftDetectionId = string;
 export interface DescribeStackDriftDetectionStatusInput {
   StackDriftDetectionId?: string;
 }
-export const DescribeStackDriftDetectionStatusInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ StackDriftDetectionId: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const DescribeStackDriftDetectionStatusInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ StackDriftDetectionId: S.optional(S.String) }).pipe(
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "DescribeStackDriftDetectionStatusInput",
 }) as any as S.Schema<DescribeStackDriftDetectionStatusInput>;
@@ -2674,19 +2286,16 @@ export interface DescribeStackDriftDetectionStatusOutput {
   DriftedStackResourceCount?: number;
   Timestamp: Date;
 }
-export const DescribeStackDriftDetectionStatusOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StackId: S.optional(S.String),
-      StackDriftDetectionId: S.optional(S.String),
-      StackDriftStatus: S.optional(StackDriftStatus),
-      DetectionStatus: S.optional(StackDriftDetectionStatus),
-      DetectionStatusReason: S.optional(S.String),
-      DriftedStackResourceCount: S.optional(S.Number),
-      Timestamp: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }).pipe(ns),
+export const DescribeStackDriftDetectionStatusOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StackId: S.optional(S.String),
+    StackDriftDetectionId: S.optional(S.String),
+    StackDriftStatus: S.optional(StackDriftStatus),
+    DetectionStatus: S.optional(StackDriftDetectionStatus),
+    DetectionStatusReason: S.optional(S.String),
+    DriftedStackResourceCount: S.optional(S.Number),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }).pipe(ns),
 ).annotate({
   identifier: "DescribeStackDriftDetectionStatusOutput",
 }) as any as S.Schema<DescribeStackDriftDetectionStatusOutput>;
@@ -2698,17 +2307,7 @@ export const DescribeStackEventsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackEventsInput",
 }) as any as S.Schema<DescribeStackEventsInput>;
@@ -2743,9 +2342,7 @@ export const StackEvent = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     ResourceProperties: S.optional(S.String),
@@ -2790,25 +2387,11 @@ export const DescribeStackInstanceInput = /*@__PURE__*/ S.suspend(() =>
     StackInstanceAccount: S.optional(S.String),
     StackInstanceRegion: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackInstanceInput",
 }) as any as S.Schema<DescribeStackInstanceInput>;
-export type StackInstanceStatus =
-  | "CURRENT"
-  | "OUTDATED"
-  | "INOPERABLE"
-  | (string & {});
+export type StackInstanceStatus = "CURRENT" | "OUTDATED" | "INOPERABLE" | (string & {});
 export const StackInstanceStatus = S.String;
 
 export type StackInstanceDetailedStatus =
@@ -2858,9 +2441,7 @@ export const StackInstance = /*@__PURE__*/ S.suspend(() =>
     StatusReason: S.optional(S.String),
     OrganizationalUnitId: S.optional(S.String),
     DriftStatus: S.optional(StackDriftStatus),
-    LastDriftCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastDriftCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastOperationId: S.optional(S.String),
   }),
 ).annotate({ identifier: "StackInstance" }) as any as S.Schema<StackInstance>;
@@ -2877,15 +2458,7 @@ export interface DescribeStackRefactorInput {
 }
 export const DescribeStackRefactorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StackRefactorId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeStackRefactorInput",
@@ -2947,17 +2520,7 @@ export const DescribeStackResourceInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     LogicalResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackResourceInput",
 }) as any as S.Schema<DescribeStackResourceInput>;
@@ -2969,9 +2532,7 @@ export interface StackResourceDriftInformation {
 export const StackResourceDriftInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    LastCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StackResourceDriftInformation",
@@ -2997,9 +2558,7 @@ export const StackResourceDetail = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     Description: S.optional(S.String),
@@ -3027,9 +2586,7 @@ export const DescribeStackResourceOutput = /*@__PURE__*/ S.suspend(() =>
   identifier: "DescribeStackResourceOutput",
 }) as any as S.Schema<DescribeStackResourceOutput>;
 export type StackResourceDriftStatusFilters = StackResourceDriftStatus[];
-export const StackResourceDriftStatusFilters = /*@__PURE__*/ S.Array(
-  StackResourceDriftStatus,
-);
+export const StackResourceDriftStatusFilters = /*@__PURE__*/ S.Array(StackResourceDriftStatus);
 export type BoxedMaxResults = number;
 export interface DescribeStackResourceDriftsInput {
   StackName?: string;
@@ -3040,22 +2597,10 @@ export interface DescribeStackResourceDriftsInput {
 export const DescribeStackResourceDriftsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
-    StackResourceDriftStatusFilters: S.optional(
-      StackResourceDriftStatusFilters,
-    ),
+    StackResourceDriftStatusFilters: S.optional(StackResourceDriftStatusFilters),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackResourceDriftsInput",
 }) as any as S.Schema<DescribeStackResourceDriftsInput>;
@@ -3065,8 +2610,8 @@ export interface PhysicalResourceIdContextKeyValuePair {
   Key?: string;
   Value?: string;
 }
-export const PhysicalResourceIdContextKeyValuePair = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
+export const PhysicalResourceIdContextKeyValuePair = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
 ).annotate({
   identifier: "PhysicalResourceIdContextKeyValuePair",
 }) as any as S.Schema<PhysicalResourceIdContextKeyValuePair>;
@@ -3123,9 +2668,7 @@ export const StackResourceDrift = /*@__PURE__*/ S.suspend(() =>
     ActualProperties: S.optional(S.String),
     PropertyDifferences: S.optional(PropertyDifferences),
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ModuleInfo: S.optional(ModuleInfo),
     DriftStatusReason: S.optional(S.String),
   }),
@@ -3172,17 +2715,7 @@ export const DescribeStackResourcesInput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackResourcesInput",
 }) as any as S.Schema<DescribeStackResourcesInput>;
@@ -3206,9 +2739,7 @@ export const StackResource = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     Description: S.optional(S.String),
@@ -3242,17 +2773,7 @@ export const DescribeStacksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStacksInput",
 }) as any as S.Schema<DescribeStacksInput>;
@@ -3311,9 +2832,7 @@ export interface StackDriftInformation {
 export const StackDriftInformation = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackDriftStatus: S.optional(StackDriftStatus),
-    LastCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StackDriftInformation",
@@ -3366,15 +2885,9 @@ export const Stack = /*@__PURE__*/ S.suspend(() =>
     ChangeSetId: S.optional(S.String),
     Description: S.optional(S.String),
     Parameters: S.optional(Parameters),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeletionTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DeletionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     RollbackConfiguration: S.optional(RollbackConfiguration),
     StackStatus: S.optional(StackStatus),
     StackStatusReason: S.optional(S.String),
@@ -3429,28 +2942,14 @@ export const DescribeStackSetInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackSetName: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackSetInput",
 }) as any as S.Schema<DescribeStackSetInput>;
 export type StackSetStatus = "ACTIVE" | "DELETED" | (string & {});
 export const StackSetStatus = S.String;
 
-export type StackSetDriftStatus =
-  | "DRIFTED"
-  | "IN_SYNC"
-  | "NOT_CHECKED"
-  | (string & {});
+export type StackSetDriftStatus = "DRIFTED" | "IN_SYNC" | "NOT_CHECKED" | (string & {});
 export const StackSetDriftStatus = S.String;
 
 export type StackSetDriftDetectionStatus =
@@ -3481,9 +2980,7 @@ export const StackSetDriftDetectionDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DriftStatus: S.optional(StackSetDriftStatus),
     DriftDetectionStatus: S.optional(StackSetDriftDetectionStatus),
-    LastDriftCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastDriftCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TotalStackInstancesCount: S.optional(S.Number),
     DriftedStackInstancesCount: S.optional(S.Number),
     InSyncStackInstancesCount: S.optional(S.Number),
@@ -3551,17 +3048,7 @@ export const DescribeStackSetOperationInput = /*@__PURE__*/ S.suspend(() =>
     StackSetName: S.optional(S.String),
     OperationId: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeStackSetOperationInput",
 }) as any as S.Schema<DescribeStackSetOperationInput>;
@@ -3619,12 +3106,8 @@ export const StackSetOperation = /*@__PURE__*/ S.suspend(() =>
     RetainStacks: S.optional(S.Boolean),
     AdministrationRoleARN: S.optional(S.String),
     ExecutionRoleName: S.optional(S.String),
-    CreationTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EndTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    EndTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     DeploymentTargets: S.optional(DeploymentTargets),
     StackSetDriftDetectionDetails: S.optional(StackSetDriftDetectionDetails),
     StatusReason: S.optional(S.String),
@@ -3658,36 +3141,17 @@ export const DescribeTypeInput = /*@__PURE__*/ S.suspend(() =>
     VersionId: S.optional(S.String),
     PublisherId: S.optional(S.String),
     PublicVersionNumber: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DescribeTypeInput",
 }) as any as S.Schema<DescribeTypeInput>;
 export type IsDefaultVersion = boolean;
-export type TypeTestsStatus =
-  | "PASSED"
-  | "FAILED"
-  | "IN_PROGRESS"
-  | "NOT_TESTED"
-  | (string & {});
+export type TypeTestsStatus = "PASSED" | "FAILED" | "IN_PROGRESS" | "NOT_TESTED" | (string & {});
 export const TypeTestsStatus = S.String;
 
 export type TypeTestsStatusDescription = string;
 export type TypeSchema = string;
-export type ProvisioningType =
-  | "NON_PROVISIONABLE"
-  | "IMMUTABLE"
-  | "FULLY_MUTABLE"
-  | (string & {});
+export type ProvisioningType = "NON_PROVISIONABLE" | "IMMUTABLE" | "FULLY_MUTABLE" | (string & {});
 export const ProvisioningType = S.String;
 
 export type DeprecatedStatus = "LIVE" | "DEPRECATED" | (string & {});
@@ -3713,9 +3177,7 @@ export const RequiredActivatedType = /*@__PURE__*/ S.suspend(() =>
   identifier: "RequiredActivatedType",
 }) as any as S.Schema<RequiredActivatedType>;
 export type RequiredActivatedTypes = RequiredActivatedType[];
-export const RequiredActivatedTypes = /*@__PURE__*/ S.Array(
-  RequiredActivatedType,
-);
+export const RequiredActivatedTypes = /*@__PURE__*/ S.Array(RequiredActivatedType);
 export type Visibility = "PUBLIC" | "PRIVATE" | (string & {});
 export const Visibility = S.String;
 
@@ -3773,12 +3235,8 @@ export const DescribeTypeOutput = /*@__PURE__*/ S.suspend(() =>
     Visibility: S.optional(Visibility),
     SourceUrl: S.optional(S.String),
     DocumentationUrl: S.optional(S.String),
-    LastUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    TimeCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    TimeCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ConfigurationSchema: S.optional(S.String),
     PublisherId: S.optional(S.String),
     OriginalTypeName: S.optional(S.String),
@@ -3797,24 +3255,12 @@ export interface DescribeTypeRegistrationInput {
 }
 export const DescribeTypeRegistrationInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RegistrationToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DescribeTypeRegistrationInput",
 }) as any as S.Schema<DescribeTypeRegistrationInput>;
-export type RegistrationStatus =
-  | "COMPLETE"
-  | "IN_PROGRESS"
-  | "FAILED"
-  | (string & {});
+export type RegistrationStatus = "COMPLETE" | "IN_PROGRESS" | "FAILED" | (string & {});
 export const RegistrationStatus = S.String;
 
 export interface DescribeTypeRegistrationOutput {
@@ -3843,17 +3289,7 @@ export const DetectStackDriftInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     LogicalResourceIds: S.optional(LogicalResourceIds),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DetectStackDriftInput",
 }) as any as S.Schema<DetectStackDriftInput>;
@@ -3873,17 +3309,7 @@ export const DetectStackResourceDriftInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     LogicalResourceId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DetectStackResourceDriftInput",
 }) as any as S.Schema<DetectStackResourceDriftInput>;
@@ -3924,17 +3350,7 @@ export const DetectStackSetDriftInput = /*@__PURE__*/ S.suspend(() =>
     OperationPreferences: S.optional(StackSetOperationPreferences),
     OperationId: S.optional(S.String).pipe(T.IdempotencyToken()),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "DetectStackSetDriftInput",
 }) as any as S.Schema<DetectStackSetDriftInput>;
@@ -3956,17 +3372,7 @@ export const EstimateTemplateCostInput = /*@__PURE__*/ S.suspend(() =>
     TemplateBody: S.optional(S.String),
     TemplateURL: S.optional(S.String),
     Parameters: S.optional(Parameters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "EstimateTemplateCostInput",
 }) as any as S.Schema<EstimateTemplateCostInput>;
@@ -3993,40 +3399,22 @@ export const ExecuteChangeSetInput = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     DisableRollback: S.optional(S.Boolean),
     RetainExceptOnCreate: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ExecuteChangeSetInput",
 }) as any as S.Schema<ExecuteChangeSetInput>;
 export interface ExecuteChangeSetOutput {}
-export const ExecuteChangeSetOutput = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "ExecuteChangeSetOutput",
-}) as any as S.Schema<ExecuteChangeSetOutput>;
+export const ExecuteChangeSetOutput = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "ExecuteChangeSetOutput",
+  },
+) as any as S.Schema<ExecuteChangeSetOutput>;
 export interface ExecuteStackRefactorInput {
   StackRefactorId?: string;
 }
 export const ExecuteStackRefactorInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StackRefactorId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ExecuteStackRefactorInput",
@@ -4048,17 +3436,7 @@ export const GetGeneratedTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Format: S.optional(TemplateFormat),
     GeneratedTemplateName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetGeneratedTemplateInput",
 }) as any as S.Schema<GetGeneratedTemplateInput>;
@@ -4079,27 +3457,14 @@ export interface GetHookResultInput {
 }
 export const GetHookResultInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ HookResultId: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetHookResultInput",
 }) as any as S.Schema<GetHookResultInput>;
 export type HookTypeArn = string;
 export type HookTargetId = string;
-export type HookTargetAction =
-  | "CREATE"
-  | "UPDATE"
-  | "DELETE"
-  | "IMPORT"
-  | (string & {});
+export type HookTargetAction = "CREATE" | "UPDATE" | "DELETE" | "IMPORT" | (string & {});
 export const HookTargetAction = S.String;
 
 export interface HookTarget {
@@ -4184,9 +3549,7 @@ export const GetHookResultOutput = /*@__PURE__*/ S.suspend(() =>
     TypeArn: S.optional(S.String),
     Status: S.optional(HookStatus),
     HookStatusReason: S.optional(S.String),
-    InvokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InvokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Target: S.optional(HookTarget),
     Annotations: S.optional(AnnotationList),
   }).pipe(ns),
@@ -4198,15 +3561,7 @@ export interface GetStackPolicyInput {
 }
 export const GetStackPolicyInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ StackName: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetStackPolicyInput",
@@ -4232,17 +3587,7 @@ export const GetTemplateInput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     ChangeSetName: S.optional(S.String),
     TemplateStage: S.optional(TemplateStage),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetTemplateInput",
 }) as any as S.Schema<GetTemplateInput>;
@@ -4285,17 +3630,7 @@ export const GetTemplateSummaryInput = /*@__PURE__*/ S.suspend(() =>
     StackSetName: S.optional(S.String),
     CallAs: S.optional(CallAs),
     TemplateSummaryConfig: S.optional(TemplateSummaryConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetTemplateSummaryInput",
 }) as any as S.Schema<GetTemplateSummaryInput>;
@@ -4333,8 +3668,7 @@ export const ParameterDeclaration = /*@__PURE__*/ S.suspend(() =>
   identifier: "ParameterDeclaration",
 }) as any as S.Schema<ParameterDeclaration>;
 export type ParameterDeclarations = ParameterDeclaration[];
-export const ParameterDeclarations =
-  /*@__PURE__*/ S.Array(ParameterDeclaration);
+export const ParameterDeclarations = /*@__PURE__*/ S.Array(ParameterDeclaration);
 export type CapabilitiesReason = string;
 export type Version = string;
 export type TransformName = string;
@@ -4357,9 +3691,7 @@ export const ResourceIdentifierSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "ResourceIdentifierSummary",
 }) as any as S.Schema<ResourceIdentifierSummary>;
 export type ResourceIdentifierSummaries = ResourceIdentifierSummary[];
-export const ResourceIdentifierSummaries = /*@__PURE__*/ S.Array(
-  ResourceIdentifierSummary,
-);
+export const ResourceIdentifierSummaries = /*@__PURE__*/ S.Array(ResourceIdentifierSummary);
 export interface Warnings {
   UnrecognizedResourceTypes?: string[];
 }
@@ -4415,17 +3747,7 @@ export const ImportStacksToStackSetInput = /*@__PURE__*/ S.suspend(() =>
     OperationPreferences: S.optional(StackSetOperationPreferences),
     OperationId: S.optional(S.String).pipe(T.IdempotencyToken()),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ImportStacksToStackSetInput",
 }) as any as S.Schema<ImportStacksToStackSetInput>;
@@ -4445,17 +3767,7 @@ export const ListChangeSetsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListChangeSetsInput",
 }) as any as S.Schema<ListChangeSetsInput>;
@@ -4483,9 +3795,7 @@ export const ChangeSetSummary = /*@__PURE__*/ S.suspend(() =>
     ExecutionStatus: S.optional(ExecutionStatus),
     Status: S.optional(ChangeSetStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     IncludeNestedStacks: S.optional(S.Boolean),
     ParentChangeSetId: S.optional(S.String),
@@ -4514,15 +3824,7 @@ export interface ListExportsInput {
 }
 export const ListExportsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ NextToken: S.optional(S.String) }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListExportsInput",
@@ -4563,17 +3865,7 @@ export const ListGeneratedTemplatesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGeneratedTemplatesInput",
 }) as any as S.Schema<ListGeneratedTemplatesInput>;
@@ -4593,12 +3885,8 @@ export const TemplateSummary = /*@__PURE__*/ S.suspend(() =>
     GeneratedTemplateName: S.optional(S.String),
     Status: S.optional(GeneratedTemplateStatus),
     StatusReason: S.optional(S.String),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     NumberOfResources: S.optional(S.Number),
   }),
 ).annotate({
@@ -4641,17 +3929,7 @@ export const ListHookResultsInput = /*@__PURE__*/ S.suspend(() =>
     TypeArn: S.optional(S.String),
     Status: S.optional(HookStatus),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListHookResultsInput",
 }) as any as S.Schema<ListHookResultsInput>;
@@ -4680,9 +3958,7 @@ export const HookResultSummary = /*@__PURE__*/ S.suspend(() =>
     TypeConfigurationVersionId: S.optional(S.String),
     Status: S.optional(HookStatus),
     HookStatusReason: S.optional(S.String),
-    InvokedAt: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InvokedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     TargetType: S.optional(ListHookResultsTargetType),
     TargetId: S.optional(S.String),
     TypeArn: S.optional(S.String),
@@ -4717,17 +3993,7 @@ export const ListImportsInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ExportName: S.optional(S.String),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListImportsInput",
 }) as any as S.Schema<ListImportsInput>;
@@ -4767,33 +4033,20 @@ export const ScannedResourceIdentifier = /*@__PURE__*/ S.suspend(() =>
   identifier: "ScannedResourceIdentifier",
 }) as any as S.Schema<ScannedResourceIdentifier>;
 export type ScannedResourceIdentifiers = ScannedResourceIdentifier[];
-export const ScannedResourceIdentifiers = /*@__PURE__*/ S.Array(
-  ScannedResourceIdentifier,
-);
+export const ScannedResourceIdentifiers = /*@__PURE__*/ S.Array(ScannedResourceIdentifier);
 export interface ListResourceScanRelatedResourcesInput {
   ResourceScanId?: string;
   Resources?: ScannedResourceIdentifier[];
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListResourceScanRelatedResourcesInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      ResourceScanId: S.optional(S.String),
-      Resources: S.optional(ScannedResourceIdentifiers),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListResourceScanRelatedResourcesInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    ResourceScanId: S.optional(S.String),
+    Resources: S.optional(ScannedResourceIdentifiers),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceScanRelatedResourcesInput",
 }) as any as S.Schema<ListResourceScanRelatedResourcesInput>;
@@ -4818,12 +4071,11 @@ export interface ListResourceScanRelatedResourcesOutput {
   RelatedResources?: ScannedResource[];
   NextToken?: string;
 }
-export const ListResourceScanRelatedResourcesOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      RelatedResources: S.optional(RelatedResources),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListResourceScanRelatedResourcesOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RelatedResources: S.optional(RelatedResources),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListResourceScanRelatedResourcesOutput",
 }) as any as S.Schema<ListResourceScanRelatedResourcesOutput>;
@@ -4848,17 +4100,7 @@ export const ListResourceScanResourcesInput = /*@__PURE__*/ S.suspend(() =>
     TagValue: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceScanResourcesInput",
 }) as any as S.Schema<ListResourceScanResourcesInput>;
@@ -4889,17 +4131,7 @@ export const ListResourceScansInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     ScanTypeFilter: S.optional(ScanType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListResourceScansInput",
 }) as any as S.Schema<ListResourceScansInput>;
@@ -4917,9 +4149,7 @@ export const ResourceScanSummary = /*@__PURE__*/ S.suspend(() =>
     ResourceScanId: S.optional(S.String),
     Status: S.optional(ResourceScanStatus),
     StatusReason: S.optional(S.String),
-    StartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    StartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentageCompleted: S.optional(S.Number),
     ScanType: S.optional(ScanType),
@@ -4951,30 +4181,17 @@ export interface ListStackInstanceResourceDriftsInput {
   OperationId?: string;
   CallAs?: CallAs;
 }
-export const ListStackInstanceResourceDriftsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StackSetName: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      StackInstanceResourceDriftStatuses: S.optional(
-        StackResourceDriftStatusFilters,
-      ),
-      StackInstanceAccount: S.optional(S.String),
-      StackInstanceRegion: S.optional(S.String),
-      OperationId: S.optional(S.String),
-      CallAs: S.optional(CallAs),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListStackInstanceResourceDriftsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StackSetName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    StackInstanceResourceDriftStatuses: S.optional(StackResourceDriftStatusFilters),
+    StackInstanceAccount: S.optional(S.String),
+    StackInstanceRegion: S.optional(S.String),
+    OperationId: S.optional(S.String),
+    CallAs: S.optional(CallAs),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackInstanceResourceDriftsInput",
 }) as any as S.Schema<ListStackInstanceResourceDriftsInput>;
@@ -4997,15 +4214,12 @@ export const StackInstanceResourceDriftsSummary = /*@__PURE__*/ S.suspend(() =>
     ResourceType: S.optional(S.String),
     PropertyDifferences: S.optional(PropertyDifferences),
     StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StackInstanceResourceDriftsSummary",
 }) as any as S.Schema<StackInstanceResourceDriftsSummary>;
-export type StackInstanceResourceDriftsSummaries =
-  StackInstanceResourceDriftsSummary[];
+export type StackInstanceResourceDriftsSummaries = StackInstanceResourceDriftsSummary[];
 export const StackInstanceResourceDriftsSummaries = /*@__PURE__*/ S.Array(
   StackInstanceResourceDriftsSummary,
 );
@@ -5029,12 +4243,11 @@ export interface ListStackInstanceResourceDriftsOutput {
   })[];
   NextToken?: string;
 }
-export const ListStackInstanceResourceDriftsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Summaries: S.optional(StackInstanceResourceDriftsSummaries),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListStackInstanceResourceDriftsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Summaries: S.optional(StackInstanceResourceDriftsSummaries),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListStackInstanceResourceDriftsOutput",
 }) as any as S.Schema<ListStackInstanceResourceDriftsOutput>;
@@ -5078,17 +4291,7 @@ export const ListStackInstancesInput = /*@__PURE__*/ S.suspend(() =>
     StackInstanceAccount: S.optional(S.String),
     StackInstanceRegion: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackInstancesInput",
 }) as any as S.Schema<ListStackInstancesInput>;
@@ -5116,17 +4319,14 @@ export const StackInstanceSummary = /*@__PURE__*/ S.suspend(() =>
     StackInstanceStatus: S.optional(StackInstanceComprehensiveStatus),
     OrganizationalUnitId: S.optional(S.String),
     DriftStatus: S.optional(StackDriftStatus),
-    LastDriftCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastDriftCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     LastOperationId: S.optional(S.String),
   }),
 ).annotate({
   identifier: "StackInstanceSummary",
 }) as any as S.Schema<StackInstanceSummary>;
 export type StackInstanceSummaries = StackInstanceSummary[];
-export const StackInstanceSummaries =
-  /*@__PURE__*/ S.Array(StackInstanceSummary);
+export const StackInstanceSummaries = /*@__PURE__*/ S.Array(StackInstanceSummary);
 export interface ListStackInstancesOutput {
   Summaries?: StackInstanceSummary[];
   NextToken?: string;
@@ -5149,17 +4349,7 @@ export const ListStackRefactorActionsInput = /*@__PURE__*/ S.suspend(() =>
     StackRefactorId: S.optional(S.String),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackRefactorActionsInput",
 }) as any as S.Schema<ListStackRefactorActionsInput>;
@@ -5246,17 +4436,7 @@ export const ListStackRefactorsInput = /*@__PURE__*/ S.suspend(() =>
     ExecutionStatusFilter: S.optional(StackRefactorExecutionStatusFilter),
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackRefactorsInput",
 }) as any as S.Schema<ListStackRefactorsInput>;
@@ -5281,8 +4461,7 @@ export const StackRefactorSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "StackRefactorSummary",
 }) as any as S.Schema<StackRefactorSummary>;
 export type StackRefactorSummaries = StackRefactorSummary[];
-export const StackRefactorSummaries =
-  /*@__PURE__*/ S.Array(StackRefactorSummary);
+export const StackRefactorSummaries = /*@__PURE__*/ S.Array(StackRefactorSummary);
 export interface ListStackRefactorsOutput {
   StackRefactorSummaries: StackRefactorSummary[];
   NextToken?: string;
@@ -5303,17 +4482,7 @@ export const ListStackResourcesInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackName: S.optional(S.String),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackResourcesInput",
 }) as any as S.Schema<ListStackResourcesInput>;
@@ -5321,14 +4490,11 @@ export interface StackResourceDriftInformationSummary {
   StackResourceDriftStatus?: StackResourceDriftStatus;
   LastCheckTimestamp?: Date;
 }
-export const StackResourceDriftInformationSummary = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
-      LastCheckTimestamp: S.optional(
-        T.DateFromString.pipe(T.TimestampFormat("date-time")),
-      ),
-    }),
+export const StackResourceDriftInformationSummary = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StackResourceDriftStatus: S.optional(StackResourceDriftStatus),
+    LastCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+  }),
 ).annotate({
   identifier: "StackResourceDriftInformationSummary",
 }) as any as S.Schema<StackResourceDriftInformationSummary>;
@@ -5347,9 +4513,7 @@ export const StackResourceSummary = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     PhysicalResourceId: S.optional(S.String),
     ResourceType: S.optional(S.String),
-    LastUpdatedTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdatedTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ResourceStatus: S.optional(ResourceStatus),
     ResourceStatusReason: S.optional(S.String),
     DriftInformation: S.optional(StackResourceDriftInformationSummary),
@@ -5359,8 +4523,7 @@ export const StackResourceSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "StackResourceSummary",
 }) as any as S.Schema<StackResourceSummary>;
 export type StackResourceSummaries = StackResourceSummary[];
-export const StackResourceSummaries =
-  /*@__PURE__*/ S.Array(StackResourceSummary);
+export const StackResourceSummaries = /*@__PURE__*/ S.Array(StackResourceSummary);
 export interface ListStackResourcesOutput {
   StackResourceSummaries?: (StackResourceSummary & {
     LogicalResourceId: LogicalResourceId;
@@ -5391,17 +4554,7 @@ export const ListStacksInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     StackStatusFilter: S.optional(StackStatusFilter),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStacksInput",
 }) as any as S.Schema<ListStacksInput>;
@@ -5413,9 +4566,7 @@ export interface StackDriftInformationSummary {
 export const StackDriftInformationSummary = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     StackDriftStatus: S.optional(StackDriftStatus),
-    LastCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "StackDriftInformationSummary",
@@ -5439,15 +4590,9 @@ export const StackSummary = /*@__PURE__*/ S.suspend(() =>
     StackId: S.optional(S.String),
     StackName: S.optional(S.String),
     TemplateDescription: S.optional(S.String),
-    CreationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    LastUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    DeletionTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    LastUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    DeletionTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StackStatus: S.optional(StackStatus),
     StackStatusReason: S.optional(S.String),
     ParentId: S.optional(S.String),
@@ -5483,24 +4628,13 @@ export interface ListStackSetAutoDeploymentTargetsInput {
   MaxResults?: number;
   CallAs?: CallAs;
 }
-export const ListStackSetAutoDeploymentTargetsInput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StackSetName: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-      CallAs: S.optional(CallAs),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListStackSetAutoDeploymentTargetsInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StackSetName: S.optional(S.String),
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+    CallAs: S.optional(CallAs),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackSetAutoDeploymentTargetsInput",
 }) as any as S.Schema<ListStackSetAutoDeploymentTargetsInput>;
@@ -5516,8 +4650,7 @@ export const StackSetAutoDeploymentTargetSummary = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "StackSetAutoDeploymentTargetSummary",
 }) as any as S.Schema<StackSetAutoDeploymentTargetSummary>;
-export type StackSetAutoDeploymentTargetSummaries =
-  StackSetAutoDeploymentTargetSummary[];
+export type StackSetAutoDeploymentTargetSummaries = StackSetAutoDeploymentTargetSummary[];
 export const StackSetAutoDeploymentTargetSummaries = /*@__PURE__*/ S.Array(
   StackSetAutoDeploymentTargetSummary,
 );
@@ -5525,18 +4658,15 @@ export interface ListStackSetAutoDeploymentTargetsOutput {
   Summaries?: StackSetAutoDeploymentTargetSummary[];
   NextToken?: string;
 }
-export const ListStackSetAutoDeploymentTargetsOutput = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Summaries: S.optional(StackSetAutoDeploymentTargetSummaries),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
+export const ListStackSetAutoDeploymentTargetsOutput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Summaries: S.optional(StackSetAutoDeploymentTargetSummaries),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
 ).annotate({
   identifier: "ListStackSetAutoDeploymentTargetsOutput",
 }) as any as S.Schema<ListStackSetAutoDeploymentTargetsOutput>;
-export type OperationResultFilterName =
-  | "OPERATION_RESULT_STATUS"
-  | (string & {});
+export type OperationResultFilterName = "OPERATION_RESULT_STATUS" | (string & {});
 export const OperationResultFilterName = S.String;
 
 export type OperationResultFilterValues = string;
@@ -5553,9 +4683,7 @@ export const OperationResultFilter = /*@__PURE__*/ S.suspend(() =>
   identifier: "OperationResultFilter",
 }) as any as S.Schema<OperationResultFilter>;
 export type OperationResultFilters = OperationResultFilter[];
-export const OperationResultFilters = /*@__PURE__*/ S.Array(
-  OperationResultFilter,
-);
+export const OperationResultFilters = /*@__PURE__*/ S.Array(OperationResultFilter);
 export interface ListStackSetOperationResultsInput {
   StackSetName?: string;
   OperationId?: string;
@@ -5572,17 +4700,7 @@ export const ListStackSetOperationResultsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     CallAs: S.optional(CallAs),
     Filters: S.optional(OperationResultFilters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackSetOperationResultsInput",
 }) as any as S.Schema<ListStackSetOperationResultsInput>;
@@ -5595,11 +4713,7 @@ export type StackSetOperationResultStatus =
   | (string & {});
 export const StackSetOperationResultStatus = S.String;
 
-export type AccountGateStatus =
-  | "SUCCEEDED"
-  | "FAILED"
-  | "SKIPPED"
-  | (string & {});
+export type AccountGateStatus = "SUCCEEDED" | "FAILED" | "SKIPPED" | (string & {});
 export const AccountGateStatus = S.String;
 
 export type AccountGateStatusReason = string;
@@ -5663,17 +4777,7 @@ export const ListStackSetOperationsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackSetOperationsInput",
 }) as any as S.Schema<ListStackSetOperationsInput>;
@@ -5692,12 +4796,8 @@ export const StackSetOperationSummary = /*@__PURE__*/ S.suspend(() =>
     OperationId: S.optional(S.String),
     Action: S.optional(StackSetOperationAction),
     Status: S.optional(StackSetOperationStatus),
-    CreationTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    EndTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreationTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    EndTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     StatusReason: S.optional(S.String),
     StatusDetails: S.optional(StackSetOperationStatusDetails),
     OperationPreferences: S.optional(StackSetOperationPreferences),
@@ -5706,9 +4806,7 @@ export const StackSetOperationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "StackSetOperationSummary",
 }) as any as S.Schema<StackSetOperationSummary>;
 export type StackSetOperationSummaries = StackSetOperationSummary[];
-export const StackSetOperationSummaries = /*@__PURE__*/ S.Array(
-  StackSetOperationSummary,
-);
+export const StackSetOperationSummaries = /*@__PURE__*/ S.Array(StackSetOperationSummary);
 export interface ListStackSetOperationsOutput {
   Summaries?: StackSetOperationSummary[];
   NextToken?: string;
@@ -5733,17 +4831,7 @@ export const ListStackSetsInput = /*@__PURE__*/ S.suspend(() =>
     MaxResults: S.optional(S.Number),
     Status: S.optional(StackSetStatus),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListStackSetsInput",
 }) as any as S.Schema<ListStackSetsInput>;
@@ -5767,9 +4855,7 @@ export const StackSetSummary = /*@__PURE__*/ S.suspend(() =>
     AutoDeployment: S.optional(AutoDeployment),
     PermissionModel: S.optional(PermissionModels),
     DriftStatus: S.optional(StackDriftStatus),
-    LastDriftCheckTimestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastDriftCheckTimestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     ManagedExecution: S.optional(ManagedExecution),
   }),
 ).annotate({
@@ -5805,17 +4891,7 @@ export const ListTypeRegistrationsInput = /*@__PURE__*/ S.suspend(() =>
     RegistrationStatusFilter: S.optional(RegistrationStatus),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTypeRegistrationsInput",
 }) as any as S.Schema<ListTypeRegistrationsInput>;
@@ -5833,12 +4909,7 @@ export const ListTypeRegistrationsOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListTypeRegistrationsOutput",
 }) as any as S.Schema<ListTypeRegistrationsOutput>;
-export type Category =
-  | "REGISTERED"
-  | "ACTIVATED"
-  | "THIRD_PARTY"
-  | "AWS_TYPES"
-  | (string & {});
+export type Category = "REGISTERED" | "ACTIVATED" | "THIRD_PARTY" | "AWS_TYPES" | (string & {});
 export const Category = S.String;
 
 export type TypeNamePrefix = string;
@@ -5872,17 +4943,7 @@ export const ListTypesInput = /*@__PURE__*/ S.suspend(() =>
     Filters: S.optional(TypeFilters),
     MaxResults: S.optional(S.Number),
     NextToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "ListTypesInput" }) as any as S.Schema<ListTypesInput>;
 export type PublisherName = string;
 export interface TypeSummary {
@@ -5906,9 +4967,7 @@ export const TypeSummary = /*@__PURE__*/ S.suspend(() =>
     TypeName: S.optional(S.String),
     DefaultVersionId: S.optional(S.String),
     TypeArn: S.optional(S.String),
-    LastUpdated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    LastUpdated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     PublisherId: S.optional(S.String),
     OriginalTypeName: S.optional(S.String),
@@ -5951,17 +5010,7 @@ export const ListTypeVersionsInput = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     DeprecatedStatus: S.optional(DeprecatedStatus),
     PublisherId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListTypeVersionsInput",
 }) as any as S.Schema<ListTypeVersionsInput>;
@@ -5982,9 +5031,7 @@ export const TypeVersionSummary = /*@__PURE__*/ S.suspend(() =>
     VersionId: S.optional(S.String),
     IsDefaultVersion: S.optional(S.Boolean),
     Arn: S.optional(S.String),
-    TimeCreated: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    TimeCreated: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Description: S.optional(S.String),
     PublicVersionNumber: S.optional(S.String),
   }),
@@ -6017,17 +5064,7 @@ export const PublishTypeInput = /*@__PURE__*/ S.suspend(() =>
     Arn: S.optional(S.String),
     TypeName: S.optional(S.String),
     PublicVersionNumber: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "PublishTypeInput",
 }) as any as S.Schema<PublishTypeInput>;
@@ -6039,12 +5076,7 @@ export const PublishTypeOutput = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PublishTypeOutput",
 }) as any as S.Schema<PublishTypeOutput>;
-export type OperationStatus =
-  | "PENDING"
-  | "IN_PROGRESS"
-  | "SUCCESS"
-  | "FAILED"
-  | (string & {});
+export type OperationStatus = "PENDING" | "IN_PROGRESS" | "SUCCESS" | "FAILED" | (string & {});
 export const OperationStatus = S.String;
 
 export type StatusMessage = string;
@@ -6090,17 +5122,7 @@ export const RecordHandlerProgressInput = /*@__PURE__*/ S.suspend(() =>
     ErrorCode: S.optional(HandlerErrorCode),
     ResourceModel: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RecordHandlerProgressInput",
 }) as any as S.Schema<RecordHandlerProgressInput>;
@@ -6120,17 +5142,7 @@ export const RegisterPublisherInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AcceptTermsAndConditions: S.optional(S.Boolean),
     ConnectionArn: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterPublisherInput",
 }) as any as S.Schema<RegisterPublisherInput>;
@@ -6160,17 +5172,7 @@ export const RegisterTypeInput = /*@__PURE__*/ S.suspend(() =>
     LoggingConfig: S.optional(LoggingConfig),
     ExecutionRoleArn: S.optional(S.String),
     ClientRequestToken: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RegisterTypeInput",
 }) as any as S.Schema<RegisterTypeInput>;
@@ -6196,17 +5198,7 @@ export const RollbackStackInput = /*@__PURE__*/ S.suspend(() =>
     ClientRequestToken: S.optional(S.String),
     RetainExceptOnCreate: S.optional(S.Boolean),
     DeploymentConfig: S.optional(DeploymentConfig),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "RollbackStackInput",
 }) as any as S.Schema<RollbackStackInput>;
@@ -6232,26 +5224,16 @@ export const SetStackPolicyInput = /*@__PURE__*/ S.suspend(() =>
     StackName: S.optional(S.String),
     StackPolicyBody: S.optional(S.String),
     StackPolicyURL: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetStackPolicyInput",
 }) as any as S.Schema<SetStackPolicyInput>;
 export interface SetStackPolicyResponse {}
-export const SetStackPolicyResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SetStackPolicyResponse",
-}) as any as S.Schema<SetStackPolicyResponse>;
+export const SetStackPolicyResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "SetStackPolicyResponse",
+  },
+) as any as S.Schema<SetStackPolicyResponse>;
 export interface SetTypeConfigurationInput {
   TypeArn?: string;
   Configuration?: string;
@@ -6266,17 +5248,7 @@ export const SetTypeConfigurationInput = /*@__PURE__*/ S.suspend(() =>
     ConfigurationAlias: S.optional(S.String),
     TypeName: S.optional(S.String),
     Type: S.optional(ThirdPartyType),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetTypeConfigurationInput",
 }) as any as S.Schema<SetTypeConfigurationInput>;
@@ -6300,17 +5272,7 @@ export const SetTypeDefaultVersionInput = /*@__PURE__*/ S.suspend(() =>
     Type: S.optional(RegistryType),
     TypeName: S.optional(S.String),
     VersionId: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SetTypeDefaultVersionInput",
 }) as any as S.Schema<SetTypeDefaultVersionInput>;
@@ -6336,26 +5298,16 @@ export const SignalResourceInput = /*@__PURE__*/ S.suspend(() =>
     LogicalResourceId: S.optional(S.String),
     UniqueId: S.optional(S.String),
     Status: S.optional(ResourceSignalStatus),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SignalResourceInput",
 }) as any as S.Schema<SignalResourceInput>;
 export interface SignalResourceResponse {}
-export const SignalResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(ns),
-).annotate({
-  identifier: "SignalResourceResponse",
-}) as any as S.Schema<SignalResourceResponse>;
+export const SignalResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate(
+  {
+    identifier: "SignalResourceResponse",
+  },
+) as any as S.Schema<SignalResourceResponse>;
 export interface StartResourceScanInput {
   ClientRequestToken?: string;
   ScanFilters?: ScanFilter[];
@@ -6364,17 +5316,7 @@ export const StartResourceScanInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ClientRequestToken: S.optional(S.String),
     ScanFilters: S.optional(ScanFilters),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StartResourceScanInput",
 }) as any as S.Schema<StartResourceScanInput>;
@@ -6396,17 +5338,7 @@ export const StopStackSetOperationInput = /*@__PURE__*/ S.suspend(() =>
     StackSetName: S.optional(S.String),
     OperationId: S.optional(S.String),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "StopStackSetOperationInput",
 }) as any as S.Schema<StopStackSetOperationInput>;
@@ -6431,17 +5363,7 @@ export const TestTypeInput = /*@__PURE__*/ S.suspend(() =>
     TypeName: S.optional(S.String),
     VersionId: S.optional(S.String),
     LogDeliveryBucket: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "TestTypeInput" }) as any as S.Schema<TestTypeInput>;
 export interface TestTypeOutput {
   TypeVersionArn?: string;
@@ -6468,17 +5390,7 @@ export const UpdateGeneratedTemplateInput = /*@__PURE__*/ S.suspend(() =>
     RemoveResources: S.optional(JazzLogicalResourceIds),
     RefreshAllResources: S.optional(S.Boolean),
     TemplateConfiguration: S.optional(TemplateConfiguration),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateGeneratedTemplateInput",
 }) as any as S.Schema<UpdateGeneratedTemplateInput>;
@@ -6536,17 +5448,7 @@ export const UpdateStackInput = /*@__PURE__*/ S.suspend(() =>
     RetainExceptOnCreate: S.optional(S.Boolean),
     DeploymentConfig: S.optional(DeploymentConfig),
     DisableValidation: S.optional(S.Boolean),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateStackInput",
 }) as any as S.Schema<UpdateStackInput>;
@@ -6582,17 +5484,7 @@ export const UpdateStackInstancesInput = /*@__PURE__*/ S.suspend(() =>
     OperationPreferences: S.optional(StackSetOperationPreferences),
     OperationId: S.optional(S.String).pipe(T.IdempotencyToken()),
     CallAs: S.optional(CallAs),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateStackInstancesInput",
 }) as any as S.Schema<UpdateStackInstancesInput>;
@@ -6646,17 +5538,7 @@ export const UpdateStackSetInput = /*@__PURE__*/ S.suspend(() =>
     Regions: S.optional(RegionList),
     CallAs: S.optional(CallAs),
     ManagedExecution: S.optional(ManagedExecution),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateStackSetInput",
 }) as any as S.Schema<UpdateStackSetInput>;
@@ -6676,17 +5558,7 @@ export const UpdateTerminationProtectionInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EnableTerminationProtection: S.optional(S.Boolean),
     StackName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "UpdateTerminationProtectionInput",
 }) as any as S.Schema<UpdateTerminationProtectionInput>;
@@ -6706,17 +5578,7 @@ export const ValidateTemplateInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     TemplateBody: S.optional(S.String),
     TemplateURL: S.optional(S.String),
-  }).pipe(
-    T.all(
-      ns,
-      T.Http({ method: "POST", uri: "/" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ValidateTemplateInput",
 }) as any as S.Schema<ValidateTemplateInput>;
@@ -6779,10 +5641,7 @@ export const activateOrganizationsAccess: API.OperationMethod<
   operationName: "ActivateOrganizationsAccess",
 }));
 
-export type ActivateTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type ActivateTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Activates a public third-party extension, such as a resource or module, to make it
  * available for use in stack templates in your current account and Region. It can also create
@@ -6860,9 +5719,7 @@ export const cancelUpdateStack: API.OperationMethod<
   operationName: "CancelUpdateStack",
 }));
 
-export type ContinueUpdateRollbackError =
-  | TokenAlreadyExistsException
-  | CommonErrors;
+export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonErrors;
 /**
  * Continues rolling back a stack from `UPDATE_ROLLBACK_FAILED` to
  * `UPDATE_ROLLBACK_COMPLETE` state. Depending on the cause of the failure, you can
@@ -6930,11 +5787,7 @@ export const createChangeSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateChangeSetInput,
   output: CreateChangeSetOutput,
-  errors: [
-    AlreadyExistsException,
-    InsufficientCapabilitiesException,
-    LimitExceededException,
-  ],
+  errors: [AlreadyExistsException, InsufficientCapabilitiesException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChangeSet",
@@ -7083,11 +5936,7 @@ export const createStackSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateStackSetInput,
   output: CreateStackSetOutput,
-  errors: [
-    CreatedButModifiedException,
-    LimitExceededException,
-    NameAlreadyExistsException,
-  ],
+  errors: [CreatedButModifiedException, LimitExceededException, NameAlreadyExistsException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackSet",
@@ -7116,10 +5965,7 @@ export const deactivateOrganizationsAccess: API.OperationMethod<
   operationName: "DeactivateOrganizationsAccess",
 }));
 
-export type DeactivateTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type DeactivateTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Deactivates a public third-party extension, such as a resource or module, or a CloudFormation
  * Hook when you no longer use it.
@@ -7148,9 +5994,7 @@ export const deactivateType: API.OperationMethod<
   operationName: "DeactivateType",
 }));
 
-export type DeleteChangeSetError =
-  | InvalidChangeSetStatusException
-  | CommonErrors;
+export type DeleteChangeSetError = InvalidChangeSetStatusException | CommonErrors;
 /**
  * Deletes the specified change set. Deleting change sets ensures that no one executes the
  * wrong change set.
@@ -7191,10 +6035,7 @@ export const deleteGeneratedTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteGeneratedTemplateInput,
   output: DeleteGeneratedTemplateResponse,
-  errors: [
-    ConcurrentResourcesLimitExceededException,
-    GeneratedTemplateNotFoundException,
-  ],
+  errors: [ConcurrentResourcesLimitExceededException, GeneratedTemplateNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeneratedTemplate",
@@ -7287,10 +6128,7 @@ export const deleteStackSet: API.OperationMethod<
   operationName: "DeleteStackSet",
 }));
 
-export type DeregisterTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type DeregisterTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Marks an extension or extension version as `DEPRECATED` in the CloudFormation
  * registry, removing it from active use. Deprecated extensions or extension versions cannot be
@@ -7377,9 +6215,7 @@ export const describeChangeSet: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeChangeSetHooksError =
-  | ChangeSetNotFoundException
-  | CommonErrors;
+export type DescribeChangeSetHooksError = ChangeSetNotFoundException | CommonErrors;
 /**
  * Returns Hook-related information for the change set and a list of changes that
  * CloudFormation makes when you run the change set.
@@ -7445,9 +6281,7 @@ export const describeEvents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type DescribeGeneratedTemplateError =
-  | GeneratedTemplateNotFoundException
-  | CommonErrors;
+export type DescribeGeneratedTemplateError = GeneratedTemplateNotFoundException | CommonErrors;
 /**
  * Describes a generated template. The output includes details about the progress of the
  * creation of a generated template started by a `CreateGeneratedTemplate` API action
@@ -7522,9 +6356,7 @@ export const describePublisher: API.OperationMethod<
   operationName: "DescribePublisher",
 }));
 
-export type DescribeResourceScanError =
-  | ResourceScanNotFoundException
-  | CommonErrors;
+export type DescribeResourceScanError = ResourceScanNotFoundException | CommonErrors;
 /**
  * Describes details of a resource scan.
  */
@@ -7625,9 +6457,7 @@ export const describeStackInstance: API.OperationMethod<
   operationName: "DescribeStackInstance",
 }));
 
-export type DescribeStackRefactorError =
-  | StackRefactorNotFoundException
-  | CommonErrors;
+export type DescribeStackRefactorError = StackRefactorNotFoundException | CommonErrors;
 /**
  * Describes the stack refactor status.
  */
@@ -7811,10 +6641,7 @@ export const describeStackSetOperation: API.OperationMethod<
   operationName: "DescribeStackSetOperation",
 }));
 
-export type DescribeTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type DescribeTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Returns detailed information about an extension from the CloudFormation registry in your
  * current account and Region.
@@ -7986,11 +6813,7 @@ export const detectStackSetDrift: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DetectStackSetDriftInput,
   output: DetectStackSetDriftOutput,
-  errors: [
-    InvalidOperationException,
-    OperationInProgressException,
-    StackSetNotFoundException,
-  ],
+  errors: [InvalidOperationException, OperationInProgressException, StackSetNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackSetDrift",
@@ -8073,9 +6896,7 @@ export const executeStackRefactor: API.OperationMethod<
   operationName: "ExecuteStackRefactor",
 }));
 
-export type GetGeneratedTemplateError =
-  | GeneratedTemplateNotFoundException
-  | CommonErrors;
+export type GetGeneratedTemplateError = GeneratedTemplateNotFoundException | CommonErrors;
 /**
  * Retrieves a generated template. If the template is in an `InProgress` or
  * `Pending` status then the template returned will be the template when the
@@ -8473,11 +7294,7 @@ export const listStackInstanceResourceDrifts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListStackInstanceResourceDriftsInput,
   output: ListStackInstanceResourceDriftsOutput,
-  errors: [
-    OperationNotFoundException,
-    StackInstanceNotFoundException,
-    StackSetNotFoundException,
-  ],
+  errors: [OperationNotFoundException, StackInstanceNotFoundException, StackSetNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstanceResourceDrifts",
@@ -8615,9 +7432,7 @@ export const listStacks: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListStackSetAutoDeploymentTargetsError =
-  | StackSetNotFoundException
-  | CommonErrors;
+export type ListStackSetAutoDeploymentTargetsError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns summary information about deployment targets for a StackSet.
  */
@@ -8666,9 +7481,7 @@ export const listStackSetOperationResults: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListStackSetOperationsError =
-  | StackSetNotFoundException
-  | CommonErrors;
+export type ListStackSetOperationsError = StackSetNotFoundException | CommonErrors;
 /**
  * Returns summary information about operations performed on a StackSet.
  *
@@ -8812,10 +7625,7 @@ export const listTypeVersions: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type PublishTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type PublishTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Publishes the specified extension to the CloudFormation registry as a public extension in this
  * Region. Public extensions are available for use by all CloudFormation users. For more information
@@ -8858,10 +7668,7 @@ export const recordHandlerProgress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RecordHandlerProgressInput,
   output: RecordHandlerProgressOutput,
-  errors: [
-    InvalidStateTransitionException,
-    OperationStatusCheckFailedException,
-  ],
+  errors: [InvalidStateTransitionException, OperationStatusCheckFailedException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordHandlerProgress",
@@ -8988,10 +7795,7 @@ export const setStackPolicy: API.OperationMethod<
   operationName: "SetStackPolicy",
 }));
 
-export type SetTypeConfigurationError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type SetTypeConfigurationError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Specifies the configuration data for a CloudFormation extension, such as a resource or Hook,
  * in the given account and Region.
@@ -9110,20 +7914,13 @@ export const stopStackSetOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopStackSetOperationInput,
   output: StopStackSetOperationOutput,
-  errors: [
-    InvalidOperationException,
-    OperationNotFoundException,
-    StackSetNotFoundException,
-  ],
+  errors: [InvalidOperationException, OperationNotFoundException, StackSetNotFoundException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStackSetOperation",
 }));
 
-export type TestTypeError =
-  | CFNRegistryException
-  | TypeNotFoundException
-  | CommonErrors;
+export type TestTypeError = CFNRegistryException | TypeNotFoundException | CommonErrors;
 /**
  * Tests a registered extension to make sure it meets all necessary requirements for being
  * published in the CloudFormation registry.
@@ -9185,11 +7982,7 @@ export const updateGeneratedTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateGeneratedTemplateInput,
   output: UpdateGeneratedTemplateOutput,
-  errors: [
-    AlreadyExistsException,
-    GeneratedTemplateNotFoundException,
-    LimitExceededException,
-  ],
+  errors: [AlreadyExistsException, GeneratedTemplateNotFoundException, LimitExceededException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeneratedTemplate",
@@ -9219,11 +8012,7 @@ export const updateStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateStackInput,
   output: UpdateStackOutput,
-  errors: [
-    InsufficientCapabilitiesException,
-    TokenAlreadyExistsException,
-    NoUpdateToPerform,
-  ],
+  errors: [InsufficientCapabilitiesException, TokenAlreadyExistsException, NoUpdateToPerform],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",

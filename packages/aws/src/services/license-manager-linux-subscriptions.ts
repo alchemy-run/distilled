@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "License Manager Linux Subscriptions",
   serviceShapeName: "LicenseManagerLinuxSubscriptions",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager-linux-subscriptions-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,9 +63,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager-linux-subscriptions.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://license-manager-linux-subscriptions.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -83,71 +75,65 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class InternalServerException
-  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
-    "InternalServerException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServerException>()("InternalServerException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ResourceNotFoundException
-  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
-    "ResourceNotFoundException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()("ResourceNotFoundException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type SubscriptionProviderArn = string;
 export interface DeregisterSubscriptionProviderRequest {
   SubscriptionProviderArn: string;
 }
-export const DeregisterSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ SubscriptionProviderArn: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/subscription/DeregisterSubscriptionProvider",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const DeregisterSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SubscriptionProviderArn: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/subscription/DeregisterSubscriptionProvider",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "DeregisterSubscriptionProviderRequest",
 }) as any as S.Schema<DeregisterSubscriptionProviderRequest>;
 export interface DeregisterSubscriptionProviderResponse {}
-export const DeregisterSubscriptionProviderResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const DeregisterSubscriptionProviderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "DeregisterSubscriptionProviderResponse",
 }) as any as S.Schema<DeregisterSubscriptionProviderResponse>;
 export interface GetRegisteredSubscriptionProviderRequest {
   SubscriptionProviderArn: string;
 }
-export const GetRegisteredSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ SubscriptionProviderArn: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/subscription/GetRegisteredSubscriptionProvider",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const GetRegisteredSubscriptionProviderRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ SubscriptionProviderArn: S.String }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/subscription/GetRegisteredSubscriptionProvider",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "GetRegisteredSubscriptionProviderRequest",
 }) as any as S.Schema<GetRegisteredSubscriptionProviderRequest>;
@@ -162,19 +148,18 @@ export interface GetRegisteredSubscriptionProviderResponse {
   SubscriptionProviderStatusMessage?: string;
   LastSuccessfulDataRetrievalTime?: string;
 }
-export const GetRegisteredSubscriptionProviderResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      SubscriptionProviderArn: S.optional(S.String),
-      SubscriptionProviderSource: S.optional(S.String),
-      SecretArn: S.optional(S.String),
-      SubscriptionProviderStatus: S.optional(S.String),
-      SubscriptionProviderStatusMessage: S.optional(S.String),
-      LastSuccessfulDataRetrievalTime: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "GetRegisteredSubscriptionProviderResponse",
-  }) as any as S.Schema<GetRegisteredSubscriptionProviderResponse>;
+export const GetRegisteredSubscriptionProviderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SubscriptionProviderArn: S.optional(S.String),
+    SubscriptionProviderSource: S.optional(S.String),
+    SecretArn: S.optional(S.String),
+    SubscriptionProviderStatus: S.optional(S.String),
+    SubscriptionProviderStatusMessage: S.optional(S.String),
+    LastSuccessfulDataRetrievalTime: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "GetRegisteredSubscriptionProviderResponse",
+}) as any as S.Schema<GetRegisteredSubscriptionProviderResponse>;
 export interface GetServiceSettingsRequest {}
 export const GetServiceSettingsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({}).pipe(
@@ -205,10 +190,7 @@ export const LinuxSubscriptionsDiscoverySettings = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<LinuxSubscriptionsDiscoverySettings>;
 export type Status = string;
 export type StringMap = { [key: string]: string | undefined };
-export const StringMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const StringMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface GetServiceSettingsResponse {
   LinuxSubscriptionsDiscovery?: string;
   LinuxSubscriptionsDiscoverySettings?: LinuxSubscriptionsDiscoverySettings;
@@ -219,9 +201,7 @@ export interface GetServiceSettingsResponse {
 export const GetServiceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LinuxSubscriptionsDiscovery: S.optional(S.String),
-    LinuxSubscriptionsDiscoverySettings: S.optional(
-      LinuxSubscriptionsDiscoverySettings,
-    ),
+    LinuxSubscriptionsDiscoverySettings: S.optional(LinuxSubscriptionsDiscoverySettings),
     Status: S.optional(S.String),
     StatusMessage: S.optional(StringMap),
     HomeRegions: S.optional(StringList),
@@ -250,25 +230,24 @@ export interface ListLinuxSubscriptionInstancesRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListLinuxSubscriptionInstancesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Filters: S.optional(FilterList),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/subscription/ListLinuxSubscriptionInstances",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListLinuxSubscriptionInstancesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Filters: S.optional(FilterList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/subscription/ListLinuxSubscriptionInstances",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "ListLinuxSubscriptionInstancesRequest",
 }) as any as S.Schema<ListLinuxSubscriptionInstancesRequest>;
@@ -316,12 +295,11 @@ export interface ListLinuxSubscriptionInstancesResponse {
   Instances?: Instance[];
   NextToken?: string;
 }
-export const ListLinuxSubscriptionInstancesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Instances: S.optional(InstanceList),
-      NextToken: S.optional(S.String),
-    }),
+export const ListLinuxSubscriptionInstancesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Instances: S.optional(InstanceList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListLinuxSubscriptionInstancesResponse",
 }) as any as S.Schema<ListLinuxSubscriptionInstancesResponse>;
@@ -382,28 +360,27 @@ export interface ListRegisteredSubscriptionProvidersRequest {
   MaxResults?: number;
   NextToken?: string;
 }
-export const ListRegisteredSubscriptionProvidersRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      SubscriptionProviderSources: S.optional(SubscriptionProviderSourceList),
-      MaxResults: S.optional(S.Number),
-      NextToken: S.optional(S.String),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/subscription/ListRegisteredSubscriptionProviders",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const ListRegisteredSubscriptionProvidersRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SubscriptionProviderSources: S.optional(SubscriptionProviderSourceList),
+    MaxResults: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/subscription/ListRegisteredSubscriptionProviders",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "ListRegisteredSubscriptionProvidersRequest",
-  }) as any as S.Schema<ListRegisteredSubscriptionProvidersRequest>;
+  ),
+).annotate({
+  identifier: "ListRegisteredSubscriptionProvidersRequest",
+}) as any as S.Schema<ListRegisteredSubscriptionProvidersRequest>;
 export interface RegisteredSubscriptionProvider {
   SubscriptionProviderArn?: string;
   SubscriptionProviderSource?: string;
@@ -424,8 +401,7 @@ export const RegisteredSubscriptionProvider = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RegisteredSubscriptionProvider",
 }) as any as S.Schema<RegisteredSubscriptionProvider>;
-export type RegisteredSubscriptionProviderList =
-  RegisteredSubscriptionProvider[];
+export type RegisteredSubscriptionProviderList = RegisteredSubscriptionProvider[];
 export const RegisteredSubscriptionProviderList = /*@__PURE__*/ S.Array(
   RegisteredSubscriptionProvider,
 );
@@ -433,30 +409,20 @@ export interface ListRegisteredSubscriptionProvidersResponse {
   RegisteredSubscriptionProviders?: RegisteredSubscriptionProvider[];
   NextToken?: string;
 }
-export const ListRegisteredSubscriptionProvidersResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      RegisteredSubscriptionProviders: S.optional(
-        RegisteredSubscriptionProviderList,
-      ),
-      NextToken: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ListRegisteredSubscriptionProvidersResponse",
-  }) as any as S.Schema<ListRegisteredSubscriptionProvidersResponse>;
+export const ListRegisteredSubscriptionProvidersResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    RegisteredSubscriptionProviders: S.optional(RegisteredSubscriptionProviderList),
+    NextToken: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ListRegisteredSubscriptionProvidersResponse",
+}) as any as S.Schema<ListRegisteredSubscriptionProvidersResponse>;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -502,13 +468,12 @@ export interface RegisterSubscriptionProviderResponse {
   SubscriptionProviderArn?: string;
   SubscriptionProviderStatus?: string;
 }
-export const RegisterSubscriptionProviderResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      SubscriptionProviderSource: S.optional(S.String),
-      SubscriptionProviderArn: S.optional(S.String),
-      SubscriptionProviderStatus: S.optional(S.String),
-    }),
+export const RegisterSubscriptionProviderResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    SubscriptionProviderSource: S.optional(S.String),
+    SubscriptionProviderArn: S.optional(S.String),
+    SubscriptionProviderStatus: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "RegisterSubscriptionProviderResponse",
 }) as any as S.Schema<RegisterSubscriptionProviderResponse>;
@@ -521,22 +486,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -550,22 +506,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateServiceSettingsRequest {
@@ -601,9 +548,7 @@ export interface UpdateServiceSettingsResponse {
 export const UpdateServiceSettingsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     LinuxSubscriptionsDiscovery: S.optional(S.String),
-    LinuxSubscriptionsDiscoverySettings: S.optional(
-      LinuxSubscriptionsDiscoverySettings,
-    ),
+    LinuxSubscriptionsDiscoverySettings: S.optional(LinuxSubscriptionsDiscoverySettings),
     Status: S.optional(S.String),
     StatusMessage: S.optional(StringMap),
     HomeRegions: S.optional(StringList),
@@ -797,11 +742,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -845,20 +786,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
 /**
  * Remove one or more metadata tag from the specified Amazon Web Services resource.
  */

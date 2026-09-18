@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "EMR Serverless",
   serviceShapeName: "AwsToledoWebService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://emr-serverless-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://emr-serverless.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://emr-serverless.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://emr-serverless.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -213,10 +203,7 @@ export const MaximumAllowedResources = /*@__PURE__*/ S.suspend(() =>
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface AutoStartConfig {
   enabled?: boolean;
 }
@@ -286,10 +273,7 @@ export type String1024 = string;
 export type ConfigurationPropertyKey = string;
 export type ConfigurationPropertyValue = string;
 export type SensitivePropertiesMap = { [key: string]: string | undefined };
-export const SensitivePropertiesMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const SensitivePropertiesMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface Configuration {
   classification: string;
   properties?: { [key: string]: string | undefined };
@@ -330,25 +314,21 @@ export interface ManagedPersistenceMonitoringConfiguration {
   enabled?: boolean;
   encryptionKeyArn?: string;
 }
-export const ManagedPersistenceMonitoringConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      enabled: S.optional(S.Boolean),
-      encryptionKeyArn: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "ManagedPersistenceMonitoringConfiguration",
-  }) as any as S.Schema<ManagedPersistenceMonitoringConfiguration>;
+export const ManagedPersistenceMonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    enabled: S.optional(S.Boolean),
+    encryptionKeyArn: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "ManagedPersistenceMonitoringConfiguration",
+}) as any as S.Schema<ManagedPersistenceMonitoringConfiguration>;
 export type LogGroupName = string;
 export type LogStreamNamePrefix = string;
 export type LogTypeString = string;
 export type LogTypeList = string[];
 export const LogTypeList = /*@__PURE__*/ S.Array(S.String);
 export type LogTypeMap = { [key: string]: string[] | undefined };
-export const LogTypeMap = /*@__PURE__*/ S.Record(
-  S.String,
-  LogTypeList.pipe(S.optional),
-);
+export const LogTypeMap = /*@__PURE__*/ S.Record(S.String, LogTypeList.pipe(S.optional));
 export interface CloudWatchLoggingConfiguration {
   enabled: boolean;
   logGroupName?: string;
@@ -389,9 +369,7 @@ export const MonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
       ManagedPersistenceMonitoringConfiguration,
     ),
     cloudWatchLoggingConfiguration: S.optional(CloudWatchLoggingConfiguration),
-    prometheusMonitoringConfiguration: S.optional(
-      PrometheusMonitoringConfiguration,
-    ),
+    prometheusMonitoringConfiguration: S.optional(PrometheusMonitoringConfiguration),
   }),
 ).annotate({
   identifier: "MonitoringConfiguration",
@@ -399,10 +377,7 @@ export const MonitoringConfiguration = /*@__PURE__*/ S.suspend(() =>
 export type EncryptionContextKey = string;
 export type EncryptionContextValue = string;
 export type EncryptionContext = { [key: string]: string | undefined };
-export const EncryptionContext = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const EncryptionContext = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface DiskEncryptionConfiguration {
   encryptionContext?: { [key: string]: string | undefined };
   encryptionKeyArn?: string;
@@ -507,19 +482,8 @@ export const CreateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     interactiveConfiguration: S.optional(InteractiveConfiguration),
     schedulerConfiguration: S.optional(SchedulerConfiguration),
     identityCenterConfiguration: S.optional(IdentityCenterConfigurationInput),
-    jobLevelCostAllocationConfiguration: S.optional(
-      JobLevelCostAllocationConfiguration,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    jobLevelCostAllocationConfiguration: S.optional(JobLevelCostAllocationConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateApplicationRequest",
 }) as any as S.Schema<CreateApplicationRequest>;
@@ -556,9 +520,7 @@ export const DeleteApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteApplicationRequest",
 }) as any as S.Schema<DeleteApplicationRequest>;
 export interface DeleteApplicationResponse {}
-export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteApplicationResponse",
 }) as any as S.Schema<DeleteApplicationResponse>;
 export interface GetApplicationRequest {
@@ -680,9 +642,7 @@ export const Application = /*@__PURE__*/ S.suspend(() =>
     interactiveConfiguration: S.optional(InteractiveConfiguration),
     schedulerConfiguration: S.optional(SchedulerConfiguration),
     identityCenterConfiguration: S.optional(IdentityCenterConfiguration),
-    jobLevelCostAllocationConfiguration: S.optional(
-      JobLevelCostAllocationConfiguration,
-    ),
+    jobLevelCostAllocationConfiguration: S.optional(JobLevelCostAllocationConfiguration),
   }),
 ).annotate({ identifier: "Application" }) as any as S.Schema<Application>;
 export interface GetApplicationResponse {
@@ -705,9 +665,7 @@ export const GetDashboardForJobRunRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     jobRunId: S.String.pipe(T.HttpLabel("jobRunId")),
     attempt: S.optional(S.Number).pipe(T.HttpQuery("attempt")),
-    accessSystemProfileLogs: S.optional(S.Boolean).pipe(
-      T.HttpQuery("accessSystemProfileLogs"),
-    ),
+    accessSystemProfileLogs: S.optional(S.Boolean).pipe(T.HttpQuery("accessSystemProfileLogs")),
   }).pipe(
     T.all(
       T.Http({
@@ -931,12 +889,8 @@ export const JobRun = /*@__PURE__*/ S.suspend(() =>
     mode: S.optional(S.String),
     retryPolicy: S.optional(RetryPolicy),
     attempt: S.optional(S.Number),
-    attemptCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    attemptUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    attemptCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    attemptUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     startedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     endedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     queuedDurationMilliseconds: S.optional(S.Number),
@@ -1133,16 +1087,7 @@ export const ListApplicationsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     states: S.optional(ApplicationStateSet).pipe(T.HttpQuery("states")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/applications" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/applications" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListApplicationsRequest",
 }) as any as S.Schema<ListApplicationsRequest>;
@@ -1279,12 +1224,12 @@ export const ListJobRunsRequest = /*@__PURE__*/ S.suspend(() =>
     applicationId: S.String.pipe(T.HttpLabel("applicationId")),
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-    createdAtAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAtAfter")),
-    createdAtBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAtBefore")),
+    createdAtAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("createdAtAfter"),
+    ),
+    createdAtBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("createdAtBefore"),
+    ),
     states: S.optional(JobRunStateSet).pipe(T.HttpQuery("states")),
     mode: S.optional(S.String).pipe(T.HttpQuery("mode")),
   }).pipe(
@@ -1334,12 +1279,8 @@ export const JobRunSummary = /*@__PURE__*/ S.suspend(() =>
     releaseLabel: S.String,
     type: S.optional(S.String),
     attempt: S.optional(S.Number),
-    attemptCreatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    attemptUpdatedAt: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    attemptCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    attemptUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
   }),
 ).annotate({ identifier: "JobRunSummary" }) as any as S.Schema<JobRunSummary>;
 export type JobRuns = JobRunSummary[];
@@ -1369,12 +1310,12 @@ export const ListSessionsRequest = /*@__PURE__*/ S.suspend(() =>
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
     states: S.optional(SessionStateSet).pipe(T.HttpQuery("states")),
-    createdAtAfter: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAtAfter")),
-    createdAtBefore: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ).pipe(T.HttpQuery("createdAtBefore")),
+    createdAtAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("createdAtAfter"),
+    ),
+    createdAtBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))).pipe(
+      T.HttpQuery("createdAtBefore"),
+    ),
   }).pipe(
     T.all(
       T.Http({ method: "GET", uri: "/applications/{applicationId}/sessions" }),
@@ -1433,14 +1374,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1471,9 +1405,7 @@ export const StartApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartApplicationRequest",
 }) as any as S.Schema<StartApplicationRequest>;
 export interface StartApplicationResponse {}
-export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartApplicationResponse",
 }) as any as S.Schema<StartApplicationResponse>;
 export interface StartJobRunRequest {
@@ -1584,9 +1516,7 @@ export const StopApplicationRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StopApplicationRequest",
 }) as any as S.Schema<StopApplicationRequest>;
 export interface StopApplicationResponse {}
-export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StopApplicationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StopApplicationResponse",
 }) as any as S.Schema<StopApplicationResponse>;
 export interface TagResourceRequest {
@@ -1598,22 +1528,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export interface TerminateSessionRequest {
@@ -1660,22 +1581,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateApplicationRequest {
@@ -1719,9 +1631,7 @@ export const UpdateApplicationRequest = /*@__PURE__*/ S.suspend(() =>
     diskEncryptionConfiguration: S.optional(DiskEncryptionConfiguration),
     schedulerConfiguration: S.optional(SchedulerConfiguration),
     identityCenterConfiguration: S.optional(IdentityCenterConfigurationInput),
-    jobLevelCostAllocationConfiguration: S.optional(
-      JobLevelCostAllocationConfiguration,
-    ),
+    jobLevelCostAllocationConfiguration: S.optional(JobLevelCostAllocationConfiguration),
   }).pipe(
     T.all(
       T.Http({ method: "PATCH", uri: "/applications/{applicationId}" }),
@@ -1759,11 +1669,7 @@ export const cancelJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CancelJobRunRequest,
   output: CancelJobRunResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
@@ -1813,11 +1719,7 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteApplicationRequest,
   output: DeleteApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
@@ -1839,11 +1741,7 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetApplicationRequest,
   output: GetApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
@@ -1869,11 +1767,7 @@ export const getDashboardForJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetDashboardForJobRunRequest,
   output: GetDashboardForJobRunResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardForJobRun",
@@ -1895,11 +1789,7 @@ export const getJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetJobRunRequest,
   output: GetJobRunResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
@@ -1925,11 +1815,7 @@ export const getResourceDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetResourceDashboardRequest,
   output: GetResourceDashboardResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
@@ -1951,11 +1837,7 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -1977,20 +1859,13 @@ export const getSessionEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSessionEndpointRequest,
   output: GetSessionEndpointResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
 }));
 
-export type ListApplicationsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListApplicationsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists applications based on a set of parameters.
  */
@@ -2032,11 +1907,7 @@ export const listJobRunAttempts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobRunAttemptsRequest,
   output: ListJobRunAttemptsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJobRunAttempts",
@@ -2048,10 +1919,7 @@ export const listJobRunAttempts: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListJobRunsError =
-  | InternalServerException
-  | ValidationException
-  | CommonErrors;
+export type ListJobRunsError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists job runs based on a set of parameters.
  */
@@ -2093,11 +1961,7 @@ export const listSessions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSessionsRequest,
   output: ListSessionsResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSessions",
@@ -2125,11 +1989,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -2237,11 +2097,7 @@ export const stopApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StopApplicationRequest,
   output: StopApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
@@ -2263,11 +2119,7 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -2289,11 +2141,7 @@ export const terminateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TerminateSessionRequest,
   output: TerminateSessionResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
@@ -2315,11 +2163,7 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UntagResourceRequest,
   output: UntagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -2341,11 +2185,7 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateApplicationRequest,
   output: UpdateApplicationResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",

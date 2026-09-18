@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Geo Places",
   serviceShapeName: "PlacesService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -48,9 +44,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            `https://places.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://places.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws" &&
@@ -66,9 +60,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === true &&
           UseDualStack === false
         ) {
-          return e(
-            `https://places.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://places.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws" &&
@@ -84,9 +76,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === false &&
           UseDualStack === false
         ) {
-          return e(
-            `https://places.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://places.geo.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -102,9 +92,7 @@ const rules = T.EndpointResolver((p, _) => {
           UseFIPS === true &&
           UseDualStack === false
         ) {
-          return e(
-            `https://places.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-          );
+          return e(`https://places.geo-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
         }
         if (
           _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
@@ -134,9 +122,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://geo-places-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -144,13 +130,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://geo-places.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://geo-places.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://geo-places.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -218,9 +200,7 @@ export type AutocompleteFilterPlaceType =
 export const AutocompleteFilterPlaceType = S.String;
 
 export type AutocompleteFilterPlaceTypeList = AutocompleteFilterPlaceType[];
-export const AutocompleteFilterPlaceTypeList = /*@__PURE__*/ S.Array(
-  AutocompleteFilterPlaceType,
-);
+export const AutocompleteFilterPlaceTypeList = /*@__PURE__*/ S.Array(AutocompleteFilterPlaceType);
 export interface AutocompleteFilter {
   BoundingBox?: number[];
   Circle?: FilterCircle;
@@ -280,16 +260,7 @@ export const AutocompleteRequest = /*@__PURE__*/ S.suspend(() =>
     PoliticalView: S.optional(SensitiveString),
     IntendedUse: S.optional(AutocompleteIntendedUse),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/autocomplete" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/autocomplete" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "AutocompleteRequest",
 }) as any as S.Schema<AutocompleteRequest>;
@@ -393,9 +364,7 @@ export const SecondaryAddressComponent = /*@__PURE__*/ S.suspend(() =>
   identifier: "SecondaryAddressComponent",
 }) as any as S.Schema<SecondaryAddressComponent>;
 export type SecondaryAddressComponentList = SecondaryAddressComponent[];
-export const SecondaryAddressComponentList = /*@__PURE__*/ S.Array(
-  SecondaryAddressComponent,
-);
+export const SecondaryAddressComponentList = /*@__PURE__*/ S.Array(SecondaryAddressComponent);
 export interface Address {
   Label?: string | redacted.Redacted<string>;
   Country?: Country;
@@ -562,9 +531,7 @@ export const AutocompleteResultItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "AutocompleteResultItem",
 }) as any as S.Schema<AutocompleteResultItem>;
 export type AutocompleteResultItemList = AutocompleteResultItem[];
-export const AutocompleteResultItemList = /*@__PURE__*/ S.Array(
-  AutocompleteResultItem,
-);
+export const AutocompleteResultItemList = /*@__PURE__*/ S.Array(AutocompleteResultItem);
 export interface AutocompleteResponse {
   PricingBucket: string;
   ResultItems?: AutocompleteResultItem[];
@@ -616,9 +583,7 @@ export type GeocodeFilterPlaceType =
 export const GeocodeFilterPlaceType = S.String;
 
 export type GeocodeFilterPlaceTypeList = GeocodeFilterPlaceType[];
-export const GeocodeFilterPlaceTypeList = /*@__PURE__*/ S.Array(
-  GeocodeFilterPlaceType,
-);
+export const GeocodeFilterPlaceTypeList = /*@__PURE__*/ S.Array(GeocodeFilterPlaceType);
 export interface GeocodeFilter {
   IncludeCountries?: (string | redacted.Redacted<string>)[];
   IncludePlaceTypes?: GeocodeFilterPlaceType[];
@@ -638,9 +603,7 @@ export type GeocodeAdditionalFeature =
 export const GeocodeAdditionalFeature = S.String;
 
 export type GeocodeAdditionalFeatureList = GeocodeAdditionalFeature[];
-export const GeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  GeocodeAdditionalFeature,
-);
+export const GeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(GeocodeAdditionalFeature);
 export type GeocodeIntendedUse = "SingleUse" | "Storage" | (string & {});
 export const GeocodeIntendedUse = S.String;
 
@@ -653,13 +616,8 @@ export type AddressTranslationComponent =
 export const AddressTranslationComponent = S.String;
 
 export type AddressTranslationComponentList = AddressTranslationComponent[];
-export const AddressTranslationComponentList = /*@__PURE__*/ S.Array(
-  AddressTranslationComponent,
-);
-export type GeocodeAddressNamesMode =
-  | "Matched"
-  | "Administrative"
-  | (string & {});
+export const AddressTranslationComponentList = /*@__PURE__*/ S.Array(AddressTranslationComponent);
+export type GeocodeAddressNamesMode = "Matched" | "Administrative" | (string & {});
 export const GeocodeAddressNamesMode = S.String;
 
 export interface GeocodeRequest {
@@ -692,16 +650,7 @@ export const GeocodeRequest = /*@__PURE__*/ S.suspend(() =>
     PostalCodeMode: S.optional(PostalCodeMode),
     AddressTranslations: S.optional(AddressTranslationComponentList),
     AddressNamesMode: S.optional(GeocodeAddressNamesMode),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/geocode" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/geocode" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "GeocodeRequest" }) as any as S.Schema<GeocodeRequest>;
 export type PostalAuthority = "Usps" | (string & {});
 export const PostalAuthority = S.String;
@@ -709,11 +658,7 @@ export const PostalAuthority = S.String;
 export type PostalCodeType = "UspsZip" | "UspsZipPlus4" | (string & {});
 export const PostalCodeType = S.String;
 
-export type ZipClassificationCode =
-  | "Military"
-  | "PostOfficeBoxes"
-  | "Unique"
-  | (string & {});
+export type ZipClassificationCode = "Military" | "PostOfficeBoxes" | "Unique" | (string & {});
 export const ZipClassificationCode = S.String;
 
 export interface UspsZip {
@@ -839,8 +784,7 @@ export const SecondaryAddressComponentMatchScore = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SecondaryAddressComponentMatchScore",
 }) as any as S.Schema<SecondaryAddressComponentMatchScore>;
-export type SecondaryAddressComponentMatchScoreList =
-  SecondaryAddressComponentMatchScore[];
+export type SecondaryAddressComponentMatchScoreList = SecondaryAddressComponentMatchScore[];
 export const SecondaryAddressComponentMatchScoreList = /*@__PURE__*/ S.Array(
   SecondaryAddressComponentMatchScore,
 );
@@ -873,9 +817,7 @@ export const AddressComponentMatchScores = /*@__PURE__*/ S.suspend(() =>
     Intersection: S.optional(MatchScoreList),
     AddressNumber: S.optional(S.Number),
     Building: S.optional(S.Number),
-    SecondaryAddressComponents: S.optional(
-      SecondaryAddressComponentMatchScoreList,
-    ),
+    SecondaryAddressComponents: S.optional(SecondaryAddressComponentMatchScoreList),
   }),
 ).annotate({
   identifier: "AddressComponentMatchScores",
@@ -921,8 +863,7 @@ export const ParsedQueryComponent = /*@__PURE__*/ S.suspend(() =>
   identifier: "ParsedQueryComponent",
 }) as any as S.Schema<ParsedQueryComponent>;
 export type ParsedQueryComponentList = ParsedQueryComponent[];
-export const ParsedQueryComponentList =
-  /*@__PURE__*/ S.Array(ParsedQueryComponent);
+export const ParsedQueryComponentList = /*@__PURE__*/ S.Array(ParsedQueryComponent);
 export interface ParsedQuerySecondaryAddressComponent {
   StartIndex: number;
   EndIndex: number;
@@ -930,20 +871,18 @@ export interface ParsedQuerySecondaryAddressComponent {
   Number: string | redacted.Redacted<string>;
   Designator: string | redacted.Redacted<string>;
 }
-export const ParsedQuerySecondaryAddressComponent = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      StartIndex: S.Number,
-      EndIndex: S.Number,
-      Value: SensitiveString,
-      Number: SensitiveString,
-      Designator: SensitiveString,
-    }),
+export const ParsedQuerySecondaryAddressComponent = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    StartIndex: S.Number,
+    EndIndex: S.Number,
+    Value: SensitiveString,
+    Number: SensitiveString,
+    Designator: SensitiveString,
+  }),
 ).annotate({
   identifier: "ParsedQuerySecondaryAddressComponent",
 }) as any as S.Schema<ParsedQuerySecondaryAddressComponent>;
-export type ParsedQuerySecondaryAddressComponentList =
-  ParsedQuerySecondaryAddressComponent[];
+export type ParsedQuerySecondaryAddressComponentList = ParsedQuerySecondaryAddressComponent[];
 export const ParsedQuerySecondaryAddressComponentList = /*@__PURE__*/ S.Array(
   ParsedQuerySecondaryAddressComponent,
 );
@@ -977,9 +916,7 @@ export const GeocodeParsedQueryAddressComponents = /*@__PURE__*/ S.suspend(() =>
     Street: S.optional(ParsedQueryComponentList),
     AddressNumber: S.optional(ParsedQueryComponentList),
     Building: S.optional(ParsedQueryComponentList),
-    SecondaryAddressComponents: S.optional(
-      ParsedQuerySecondaryAddressComponentList,
-    ),
+    SecondaryAddressComponents: S.optional(ParsedQuerySecondaryAddressComponentList),
     OtherComponents: S.optional(ParsedQueryComponentList),
   }),
 ).annotate({
@@ -1177,9 +1114,7 @@ export type GetPlaceAdditionalFeature =
 export const GetPlaceAdditionalFeature = S.String;
 
 export type GetPlaceAdditionalFeatureList = GetPlaceAdditionalFeature[];
-export const GetPlaceAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  GetPlaceAdditionalFeature,
-);
+export const GetPlaceAdditionalFeatureList = /*@__PURE__*/ S.Array(GetPlaceAdditionalFeature);
 export type GetPlaceIntendedUse = "SingleUse" | "Storage" | (string & {});
 export const GetPlaceIntendedUse = S.String;
 
@@ -1202,25 +1137,12 @@ export const GetPlaceRequest = /*@__PURE__*/ S.suspend(() =>
       T.HttpQuery("additional-features"),
     ),
     Language: S.optional(S.String).pipe(T.HttpQuery("language")),
-    PoliticalView: S.optional(SensitiveString).pipe(
-      T.HttpQuery("political-view"),
-    ),
-    IntendedUse: S.optional(GetPlaceIntendedUse).pipe(
-      T.HttpQuery("intended-use"),
-    ),
+    PoliticalView: S.optional(SensitiveString).pipe(T.HttpQuery("political-view")),
+    IntendedUse: S.optional(GetPlaceIntendedUse).pipe(T.HttpQuery("intended-use")),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-    AddressNamesMode: S.optional(GetPlaceAddressNamesMode).pipe(
-      T.HttpQuery("address-names-mode"),
-    ),
+    AddressNamesMode: S.optional(GetPlaceAddressNamesMode).pipe(T.HttpQuery("address-names-mode")),
   }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/v2/place/{PlaceId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/v2/place/{PlaceId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetPlaceRequest",
@@ -1283,9 +1205,7 @@ export const OpeningHoursComponents = /*@__PURE__*/ S.suspend(() =>
   identifier: "OpeningHoursComponents",
 }) as any as S.Schema<OpeningHoursComponents>;
 export type OpeningHoursComponentsList = OpeningHoursComponents[];
-export const OpeningHoursComponentsList = /*@__PURE__*/ S.Array(
-  OpeningHoursComponents,
-);
+export const OpeningHoursComponentsList = /*@__PURE__*/ S.Array(OpeningHoursComponents);
 export interface OpeningHours {
   Display?: (string | redacted.Redacted<string>)[];
   OpenNow?: boolean;
@@ -1331,8 +1251,7 @@ export const PhonemeTranscription = /*@__PURE__*/ S.suspend(() =>
   identifier: "PhonemeTranscription",
 }) as any as S.Schema<PhonemeTranscription>;
 export type PhonemeTranscriptionList = PhonemeTranscription[];
-export const PhonemeTranscriptionList =
-  /*@__PURE__*/ S.Array(PhonemeTranscription);
+export const PhonemeTranscriptionList = /*@__PURE__*/ S.Array(PhonemeTranscription);
 export interface AddressComponentPhonemes {
   Country?: PhonemeTranscription[];
   Region?: PhonemeTranscription[];
@@ -1476,8 +1395,7 @@ export type ReverseGeocodeAdditionalFeature =
   | (string & {});
 export const ReverseGeocodeAdditionalFeature = S.String;
 
-export type ReverseGeocodeAdditionalFeatureList =
-  ReverseGeocodeAdditionalFeature[];
+export type ReverseGeocodeAdditionalFeatureList = ReverseGeocodeAdditionalFeature[];
 export const ReverseGeocodeAdditionalFeatureList = /*@__PURE__*/ S.Array(
   ReverseGeocodeAdditionalFeature,
 );
@@ -1515,14 +1433,7 @@ export const ReverseGeocodeRequest = /*@__PURE__*/ S.suspend(() =>
     Heading: S.optional(S.Number),
     AddressNamesMode: S.optional(ReverseGeocodeAddressNamesMode),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/reverse-geocode" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v2/reverse-geocode" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ReverseGeocodeRequest",
@@ -1570,9 +1481,7 @@ export const ReverseGeocodeResultItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "ReverseGeocodeResultItem",
 }) as any as S.Schema<ReverseGeocodeResultItem>;
 export type ReverseGeocodeResultItemList = ReverseGeocodeResultItem[];
-export const ReverseGeocodeResultItemList = /*@__PURE__*/ S.Array(
-  ReverseGeocodeResultItem,
-);
+export const ReverseGeocodeResultItemList = /*@__PURE__*/ S.Array(ReverseGeocodeResultItem);
 export interface ReverseGeocodeResponse {
   PricingBucket: string;
   ResultItems?: ReverseGeocodeResultItem[];
@@ -1657,14 +1566,7 @@ export const SearchNearbyRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/search-nearby" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/v2/search-nearby" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "SearchNearbyRequest",
@@ -1718,9 +1620,7 @@ export const SearchNearbyResultItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchNearbyResultItem",
 }) as any as S.Schema<SearchNearbyResultItem>;
 export type SearchNearbyResultItemList = SearchNearbyResultItem[];
-export const SearchNearbyResultItemList = /*@__PURE__*/ S.Array(
-  SearchNearbyResultItem,
-);
+export const SearchNearbyResultItemList = /*@__PURE__*/ S.Array(SearchNearbyResultItem);
 export interface SearchNearbyResponse {
   PricingBucket: string;
   ResultItems?: SearchNearbyResultItem[];
@@ -1759,9 +1659,7 @@ export type SearchTextAdditionalFeature =
 export const SearchTextAdditionalFeature = S.String;
 
 export type SearchTextAdditionalFeatureList = SearchTextAdditionalFeature[];
-export const SearchTextAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  SearchTextAdditionalFeature,
-);
+export const SearchTextAdditionalFeatureList = /*@__PURE__*/ S.Array(SearchTextAdditionalFeature);
 export type SearchTextIntendedUse = "SingleUse" | "Storage" | (string & {});
 export const SearchTextIntendedUse = S.String;
 
@@ -1796,16 +1694,7 @@ export const SearchTextRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     TravelMode: S.optional(SearchTextTravelMode),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/search-text" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/search-text" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SearchTextRequest",
 }) as any as S.Schema<SearchTextRequest>;
@@ -1858,8 +1747,7 @@ export const SearchTextResultItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "SearchTextResultItem",
 }) as any as S.Schema<SearchTextResultItem>;
 export type SearchTextResultItemList = SearchTextResultItem[];
-export const SearchTextResultItemList =
-  /*@__PURE__*/ S.Array(SearchTextResultItem);
+export const SearchTextResultItemList = /*@__PURE__*/ S.Array(SearchTextResultItem);
 export interface SearchTextResponse {
   PricingBucket: string;
   ResultItems?: SearchTextResultItem[];
@@ -1896,9 +1784,7 @@ export type SuggestAdditionalFeature =
 export const SuggestAdditionalFeature = S.String;
 
 export type SuggestAdditionalFeatureList = SuggestAdditionalFeature[];
-export const SuggestAdditionalFeatureList = /*@__PURE__*/ S.Array(
-  SuggestAdditionalFeature,
-);
+export const SuggestAdditionalFeatureList = /*@__PURE__*/ S.Array(SuggestAdditionalFeature);
 export type SuggestIntendedUse = "SingleUse" | (string & {});
 export const SuggestIntendedUse = S.String;
 
@@ -1931,16 +1817,7 @@ export const SuggestRequest = /*@__PURE__*/ S.suspend(() =>
     IntendedUse: S.optional(SuggestIntendedUse),
     TravelMode: S.optional(SuggestTravelMode),
     Key: S.optional(SensitiveString).pipe(T.HttpQuery("key")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/v2/suggest" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/v2/suggest" }), svc, auth, proto, ver, rules)),
 ).annotate({ identifier: "SuggestRequest" }) as any as S.Schema<SuggestRequest>;
 export type SuggestResultItemType = "Place" | "Query" | (string & {});
 export const SuggestResultItemType = S.String;
@@ -2094,9 +1971,7 @@ export const ValidationExceptionField = /*@__PURE__*/ S.suspend(() =>
   identifier: "ValidationExceptionField",
 }) as any as S.Schema<ValidationExceptionField>;
 export type ValidationExceptionFieldList = ValidationExceptionField[];
-export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(
-  ValidationExceptionField,
-);
+export const ValidationExceptionFieldList = /*@__PURE__*/ S.Array(ValidationExceptionField);
 export type AutocompleteError =
   | AccessDeniedException
   | InternalServerException

@@ -56,11 +56,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:TagKeys",
-          "aws:RequestTag/${TagKey}",
-          "oam:ResourceTypes"
-        ],
+        "aws.iam#conditionKeys": ["aws:TagKeys", "aws:RequestTag/${TagKey}", "oam:ResourceTypes"],
         "smithy.api#documentation": "<p>Creates a link between a source account and a sink that you have created in a monitoring account. After the link is created, data is sent from the source account to the monitoring account. When you create a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.</p> <p>Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts.</p> <p>For more information, see <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html\">CreateSink</a> and <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html\">PutSinkPolicy</a>.</p> <p>Each monitoring account can be linked to as many as 100,000 source accounts.</p> <p>Each source account can be linked to as many as five monitoring accounts.</p>",
         "smithy.api#http": {
           "method": "POST",
@@ -1648,10 +1644,7 @@
         }
       ],
       "traits": {
-        "aws.iam#conditionKeys": [
-          "aws:ResourceTag/${TagKey}",
-          "oam:ResourceTypes"
-        ],
+        "aws.iam#conditionKeys": ["aws:ResourceTag/${TagKey}", "oam:ResourceTypes"],
         "smithy.api#documentation": "<p>Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation.</p> <p>When you update a link, you can optionally specify filters that specify which metric namespaces and which log groups are shared from the source account to the monitoring account.</p> <p>To update the list of tags associated with the sink, use <a href=\"https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html\">TagResource</a>.</p>",
         "smithy.api#http": {
           "method": "POST",
@@ -1843,18 +1836,10 @@
             "externalDocumentation": "${DocHomeURL}oam/latest/apireference/api_createlink.html#api_createlink_requestsyntax"
           }
         },
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
-          "additionalAllowedHeaders": [
-            "Content-Type",
-            "X-Amz-Requested-Operation"
-          ]
+          "additionalAllowedHeaders": ["Content-Type", "X-Amz-Requested-Operation"]
         },
         "smithy.api#documentation": "<p>Use Amazon CloudWatch Observability Access Manager to create and manage links between source accounts and monitoring accounts by using <i>CloudWatch cross-account observability</i>. With CloudWatch cross-account observability, you can monitor and troubleshoot applications that span multiple accounts within a Region. Seamlessly search, visualize, and analyze your metrics, logs, traces, Application Signals services and service level objectives (SLOs), Application Insights applications, and internet monitors in any of the linked accounts without account boundaries.</p> <p>Set up one or more Amazon Web Services accounts as <i>monitoring accounts</i> and link them with multiple <i>source accounts</i>. A monitoring account is a central Amazon Web Services account that can view and interact with observability data generated from source accounts. A source account is an individual Amazon Web Services account that generates observability data for the resources that reside in it. Source accounts share their observability data with the monitoring account. The shared observability data can include metrics in Amazon CloudWatch, logs in Amazon CloudWatch Logs, traces in X-Ray, Application Signals services and service level objectives (SLOs), applications in Amazon CloudWatch Application Insights, and internet monitors in CloudWatch Internet Monitor.</p> <p>When you set up a link, you can choose to share the metrics from all namespaces with the monitoring account, or filter to a subset of namespaces. And for CloudWatch Logs, you can choose to share all log groups with the monitoring account, or filter to a subset of log groups. </p>",
         "smithy.api#title": "CloudWatch Observability Access Manager",

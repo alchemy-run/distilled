@@ -27,9 +27,7 @@ export interface ApplyPatchesResult {
 
 /** Smithy-model JSON pointers — OpenAPI has no `/shapes` tree. */
 export const isSmithyPatchPath = (pointer: string): boolean =>
-  pointer.startsWith("/shapes") ||
-  pointer.startsWith("/metadata") ||
-  pointer.startsWith("/smithy");
+  pointer.startsWith("/shapes") || pointer.startsWith("/metadata") || pointer.startsWith("/smithy");
 
 const exists = async (p: string): Promise<boolean> => {
   try {
@@ -50,8 +48,8 @@ export const listRfc6902PatchFiles = async (dir: string): Promise<string[]> => {
     .filter((f) => f.endsWith(".json"))
     .sort(
       (a, b) =>
-        Number(a.endsWith(".manual.json")) -
-          Number(b.endsWith(".manual.json")) || a.localeCompare(b),
+        Number(a.endsWith(".manual.json")) - Number(b.endsWith(".manual.json")) ||
+        a.localeCompare(b),
     )
     .map((f) => path.join(dir, f));
 };
@@ -107,23 +105,16 @@ export const applyRfc6902Files = async (
  * longer exists and append operation shapes the list is missing, keeping
  * the existing order. Returns the number of services whose list changed.
  */
-export const syncServiceOperations = (model: {
-  shapes?: Record<string, any>;
-}): number => {
+export const syncServiceOperations = (model: { shapes?: Record<string, any> }): number => {
   const shapes = model.shapes ?? {};
-  const opIds = Object.keys(shapes).filter(
-    (id) => shapes[id]?.type === "operation",
-  );
+  const opIds = Object.keys(shapes).filter((id) => shapes[id]?.type === "operation");
   let changed = 0;
   for (const def of Object.values(shapes)) {
     if (def?.type !== "service") continue;
     const current: Array<{ target: string }> = def.operations ?? [];
     const kept = current.filter((o) => shapes[o.target]?.type === "operation");
     const listed = new Set(kept.map((o) => o.target));
-    const after = [
-      ...kept,
-      ...opIds.filter((id) => !listed.has(id)).map((target) => ({ target })),
-    ];
+    const after = [...kept, ...opIds.filter((id) => !listed.has(id)).map((target) => ({ target }))];
     if (JSON.stringify(current) !== JSON.stringify(after)) {
       def.operations = after;
       changed++;
@@ -138,9 +129,7 @@ export const syncServiceOperations = (model: {
  * A convert that produces any is broken — generate would emit references
  * to types that do not exist.
  */
-export const danglingTargets = (model: {
-  shapes?: Record<string, any>;
-}): string[] => {
+export const danglingTargets = (model: { shapes?: Record<string, any> }): string[] => {
   const shapes = model.shapes ?? {};
   const ids = new Set(Object.keys(shapes));
   const out: string[] = [];
@@ -150,9 +139,7 @@ export const danglingTargets = (model: {
       return;
     }
     if (node === null || typeof node !== "object") return;
-    for (const [key, value] of Object.entries(
-      node as Record<string, unknown>,
-    )) {
+    for (const [key, value] of Object.entries(node as Record<string, unknown>)) {
       if (key === "target" && typeof value === "string") {
         if (!value.startsWith("smithy.") && !ids.has(value)) {
           out.push(`${owner} → ${value}`);
@@ -190,9 +177,7 @@ export const finalizeConvert = async (o: {
   const specsDir = path.resolve(o.root, o.outDir ?? ".generated-specs");
   if (!(await exists(specsDir))) return;
   const patchesDir =
-    o.patchesDir === false
-      ? undefined
-      : path.resolve(o.root, o.patchesDir ?? "patches");
+    o.patchesDir === false ? undefined : path.resolve(o.root, o.patchesDir ?? "patches");
   const naming = o.operationNaming ?? "verbNoun";
 
   const walk = async (dir: string): Promise<string[]> => {
@@ -201,10 +186,7 @@ export const finalizeConvert = async (o: {
       const p = path.join(dir, ent.name);
       if (ent.isDirectory()) {
         out.push(...(await walk(p)));
-      } else if (
-        ent.name.endsWith(".json") &&
-        !(o.exclude?.(ent.name) ?? false)
-      ) {
+      } else if (ent.name.endsWith(".json") && !(o.exclude?.(ent.name) ?? false)) {
         out.push(p);
       }
     }
@@ -223,9 +205,7 @@ export const finalizeConvert = async (o: {
       );
     }
     if (patchesDir) {
-      const patchFiles = await listRfc6902PatchFiles(
-        path.join(patchesDir, resource),
-      );
+      const patchFiles = await listRfc6902PatchFiles(path.join(patchesDir, resource));
       const applied = await applyRfc6902Files(model, patchFiles, {
         onStalePatch: o.onStalePatch,
         include: (op) => isSmithyPatchPath(op.path),
@@ -251,9 +231,7 @@ export const finalizeConvert = async (o: {
         console.log(`   verbNoun ${resource}: renamed ${renamed} operation(s)`);
       }
       for (const c of collisions) {
-        console.warn(
-          `   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`,
-        );
+        console.warn(`   ⚠️  verbNoun collision ${resource}: ${c} (kept original)`);
       }
     }
 

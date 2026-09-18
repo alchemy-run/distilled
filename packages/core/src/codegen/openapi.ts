@@ -258,9 +258,7 @@ const headerMemberName = (name: string): string => {
   if (parts.length === 0) return "_";
   const out = parts
     .map((p, i) =>
-      i === 0
-        ? p.charAt(0).toLowerCase() + p.slice(1)
-        : p.charAt(0).toUpperCase() + p.slice(1),
+      i === 0 ? p.charAt(0).toLowerCase() + p.slice(1) : p.charAt(0).toUpperCase() + p.slice(1),
     )
     .join("");
   return /^[0-9]/.test(out) ? `_${out}` : out;
@@ -392,12 +390,7 @@ const flattenObject = (ctx: Ctx, def: any, depth = 0): FlatObject => {
   // once per flag combination instead of exponentially (MongoDB Atlas's
   // polymorphic allOf/oneOf graph never finished under the bare depth cap).
   const seen = new Set<string>();
-  const visit = (
-    d: any,
-    dep: number,
-    inAllOf: boolean,
-    inUnion: boolean,
-  ): void => {
+  const visit = (d: any, dep: number, inAllOf: boolean, inUnion: boolean): void => {
     if (dep > MAX_SCHEMA_DEPTH) return;
     if (d && typeof d === "object" && typeof d.$ref === "string") {
       const key = `${d.$ref}|${inAllOf}|${inUnion}`;
@@ -447,11 +440,7 @@ const isNullBranch = (ctx: Ctx, branch: any): boolean => {
   if (Array.isArray(r.type) && r.type.every((t: unknown) => t === "null")) {
     return true;
   }
-  if (
-    Array.isArray(r.enum) &&
-    r.enum.length > 0 &&
-    r.enum.every((v: unknown) => v === null)
-  ) {
+  if (Array.isArray(r.enum) && r.enum.length > 0 && r.enum.every((v: unknown) => v === null)) {
     return true;
   }
   return false;
@@ -487,9 +476,7 @@ const schemaChildren = (d: any): any[] => [
   ...(Array.isArray(d.allOf) ? d.allOf : []),
   ...(Array.isArray(d.oneOf) ? d.oneOf : []),
   ...(Array.isArray(d.anyOf) ? d.anyOf : []),
-  ...(d.properties && typeof d.properties === "object"
-    ? Object.values(d.properties)
-    : []),
+  ...(d.properties && typeof d.properties === "object" ? Object.values(d.properties) : []),
   ...(d.items ? [d.items] : []),
   ...(d.additionalProperties && typeof d.additionalProperties === "object"
     ? [d.additionalProperties]
@@ -755,14 +742,7 @@ const convertSchema = (
     // Single-entry allOf over a $ref: passthrough (v0 semantics), carrying
     // the parent's nullability/description.
     if (def.allOf.length === 1 && !def.properties) {
-      const r = convertSchema(
-        ctx,
-        def.allOf[0],
-        hint,
-        depth + 1,
-        dir,
-        reservedId,
-      );
+      const r = convertSchema(ctx, def.allOf[0], hint, depth + 1, dir, reservedId);
       return { target: r.target, nullable: nullable || r.nullable };
     }
     const flat = flattenObject(ctx, def, depth);
@@ -782,14 +762,7 @@ const convertSchema = (
       }
       if (!flat.isObject) return inline(PRELUDE.Document, nullable);
     }
-    const members = buildMembers(
-      ctx,
-      flat.properties,
-      flat.required,
-      hint,
-      depth + 1,
-      dir,
-    );
+    const members = buildMembers(ctx, flat.properties, flat.required, hint, depth + 1, dir);
     return {
       target: emit({ type: "structure", members, traits: docTraits }, hint),
       nullable,
@@ -869,17 +842,8 @@ const convertSchema = (
   // --- object ---------------------------------------------------------------
   if (t === "object" || def.properties || def.additionalProperties) {
     if (def.properties && Object.keys(def.properties).length > 0) {
-      const required = new Set<string>(
-        Array.isArray(def.required) ? def.required : [],
-      );
-      const members = buildMembers(
-        ctx,
-        def.properties,
-        required,
-        hint,
-        depth + 1,
-        dir,
-      );
+      const required = new Set<string>(Array.isArray(def.required) ? def.required : []);
+      const members = buildMembers(ctx, def.properties, required, hint, depth + 1, dir);
       return {
         target: emit({ type: "structure", members, traits: docTraits }, hint),
         nullable,
@@ -1036,11 +1000,7 @@ const collectParams = (ctx: Ctx, pathItem: any, op: any): Param[] => {
     byKey.set(`${p.in} ${p.name}`, p);
   }
   return [...byKey.values()].filter(
-    (p) =>
-      p.in === "path" ||
-      p.in === "query" ||
-      p.in === "body" ||
-      p.in === "header",
+    (p) => p.in === "path" || p.in === "query" || p.in === "body" || p.in === "header",
   );
 };
 
@@ -1091,12 +1051,9 @@ const trimDescription = (desc: unknown): string | undefined => {
 };
 
 const opDoc = (op: any): string | undefined => {
-  const summary =
-    typeof op.summary === "string" ? op.summary.trim() : undefined;
+  const summary = typeof op.summary === "string" ? op.summary.trim() : undefined;
   const desc = trimDescription(op.description);
-  const parts = [summary, desc].filter(
-    (s): s is string => s !== undefined && s !== "",
-  );
+  const parts = [summary, desc].filter((s): s is string => s !== undefined && s !== "");
   return parts.length ? parts.join("\n\n") : undefined;
 };
 
@@ -1182,9 +1139,7 @@ const detectPagination = (
 
   let mode: DetectedPagination["mode"] | undefined;
   let outputToken: string | undefined;
-  const pag = bag["pagination"]
-    ? flattenObject(ctx, bag["pagination"]).properties
-    : undefined;
+  const pag = bag["pagination"] ? flattenObject(ctx, bag["pagination"]).properties : undefined;
   if (pag?.["cursor"]) {
     mode = "cursor";
     outputToken = "pagination.cursor";
@@ -1210,9 +1165,7 @@ const detectPagination = (
   if (!mode || !outputToken) return undefined;
 
   const aliases = PAGINATION_INPUT_ALIASES[mode]!;
-  const inputToken = params.find(
-    (p) => p.in === "query" && aliases.includes(p.name),
-  )?.name;
+  const inputToken = params.find((p) => p.in === "query" && aliases.includes(p.name))?.name;
   if (!inputToken) return undefined;
 
   let items: string | undefined;
@@ -1270,18 +1223,13 @@ export const convertOpenApiToSmithy = (
     dirSensitiveRefs: new Map(),
     sensitivePatterns: options.sensitivePatterns ?? SENSITIVE_FIELD_PATTERNS,
   };
-  const statusToErrorClass =
-    options.statusToErrorClass ?? DEFAULT_STATUS_TO_ERROR_CLASS;
-  const defaultErrorStatuses = new Set(
-    options.defaultErrorStatuses ?? DEFAULT_ERROR_STATUSES,
-  );
+  const statusToErrorClass = options.statusToErrorClass ?? DEFAULT_STATUS_TO_ERROR_CLASS;
+  const defaultErrorStatuses = new Set(options.defaultErrorStatuses ?? DEFAULT_ERROR_STATUSES);
   const skipDeprecated = options.skipDeprecated ?? true;
   const successStatuses = options.successStatuses ?? DEFAULT_SUCCESS_STATUSES;
   const httpMethods = [
     ...HTTP_METHODS,
-    ...OPTIONAL_HTTP_METHODS.filter((m) =>
-      options.extraHttpMethods?.includes(m),
-    ),
+    ...OPTIONAL_HTTP_METHODS.filter((m) => options.extraHttpMethods?.includes(m)),
   ];
 
   // Error class names and the service name are reserved up front so schema
@@ -1321,11 +1269,7 @@ export const convertOpenApiToSmithy = (
           // No id: everything comes from the route, including whether a
           // GET on a collection route is `list` or `get`.
           named = pathToVerbNoun(idCtx, {
-            returnsCollection: responseIsCollection(
-              ctx,
-              op.responses,
-              successStatuses,
-            ),
+            returnsCollection: responseIsCollection(ctx, op.responses, successStatuses),
           });
         } else if (isMechanicalOperationId(op.operationId, idCtx)) {
           // Method-prefixed and reading the route (`get-feeds`,
@@ -1361,9 +1305,7 @@ export const convertOpenApiToSmithy = (
 
       // ---- URI + labels (sanitize placeholder names to member idents) ----
       let uri = rawPath.split(/[?#]/)[0]!;
-      const rawLabels = Array.from(uri.matchAll(/\{([^}]+)\}/g)).map(
-        (m) => m[1]!,
-      );
+      const rawLabels = Array.from(uri.matchAll(/\{([^}]+)\}/g)).map((m) => m[1]!);
       const members: Record<string, any> = {};
       const addMember = (name: string, member: any): boolean => {
         if (name in members) return false;
@@ -1380,9 +1322,7 @@ export const convertOpenApiToSmithy = (
           traits: {
             "smithy.api#httpLabel": {},
             "smithy.api#required": {},
-            ...(p?.description
-              ? { "smithy.api#documentation": p.description }
-              : {}),
+            ...(p?.description ? { "smithy.api#documentation": p.description } : {}),
           },
         });
       }
@@ -1394,21 +1334,13 @@ export const convertOpenApiToSmithy = (
           continue;
         }
         const san = memberIdent(p.name);
-        const conv = convertSchema(
-          ctx,
-          p.schema,
-          `${opName}Request${pascal(p.name)}`,
-          0,
-          "in",
-        );
+        const conv = convertSchema(ctx, p.schema, `${opName}Request${pascal(p.name)}`, 0, "in");
         addMember(san, {
           target: conv.target,
           traits: {
             "smithy.api#httpQuery": p.name,
             ...(p.required ? { "smithy.api#required": {} } : {}),
-            ...(p.description
-              ? { "smithy.api#documentation": p.description }
-              : {}),
+            ...(p.description ? { "smithy.api#documentation": p.description } : {}),
           },
         });
       }
@@ -1417,13 +1349,7 @@ export const convertOpenApiToSmithy = (
       if (options.headerParams) {
         for (const p of params) {
           if (p.in !== "header") continue;
-          const conv = convertSchema(
-            ctx,
-            p.schema,
-            `${opName}Request${pascal(p.name)}`,
-            0,
-            "in",
-          );
+          const conv = convertSchema(ctx, p.schema, `${opName}Request${pascal(p.name)}`, 0, "in");
           addMember(headerMemberName(p.name), {
             target: conv.target,
             traits: {
@@ -1431,9 +1357,7 @@ export const convertOpenApiToSmithy = (
               // a normal identifier.
               "smithy.api#httpHeader": p.name,
               ...(p.required ? { "smithy.api#required": {} } : {}),
-              ...(p.description
-                ? { "smithy.api#documentation": p.description }
-                : {}),
+              ...(p.description ? { "smithy.api#documentation": p.description } : {}),
             },
           });
         }
@@ -1448,9 +1372,7 @@ export const convertOpenApiToSmithy = (
         bodySchema = bodyParam?.schema;
         bodyRequired = bodyParam?.required === true;
       } else if (op.requestBody) {
-        const rb = op.requestBody.$ref
-          ? resolvePointer(doc, op.requestBody.$ref)
-          : op.requestBody;
+        const rb = op.requestBody.$ref ? resolvePointer(doc, op.requestBody.$ref) : op.requestBody;
         bodyRequired = rb?.required === true;
         const content = rb?.content ?? {};
         if (content["application/json"]) {
@@ -1485,13 +1407,7 @@ export const convertOpenApiToSmithy = (
           // runtime's unknown-key passthrough is the escape hatch, and an
           // opaque `body: unknown` payload member would swallow the typed
           // surface.
-          const conv = convertSchema(
-            ctx,
-            bodySchema,
-            `${opName}RequestBody`,
-            0,
-            "in",
-          );
+          const conv = convertSchema(ctx, bodySchema, `${opName}RequestBody`, 0, "in");
           if (conv.target !== PRELUDE.Document) {
             addMember("body", {
               target: conv.target,
@@ -1540,13 +1456,7 @@ export const convertOpenApiToSmithy = (
             isNameable(ctx, resolved);
           if (isPlainRef) {
             // Reuse the named component shape as the output directly.
-            outputTarget = convertSchema(
-              ctx,
-              respSchema,
-              opName,
-              0,
-              "out",
-            ).target;
+            outputTarget = convertSchema(ctx, respSchema, opName, 0, "out").target;
           } else {
             outputTarget = addShape(ctx, `${opName}Response`, {
               type: "structure",
@@ -1565,13 +1475,7 @@ export const convertOpenApiToSmithy = (
           // Non-flattenable response (bare array/scalar/map/union, or an
           // opaque object) → wrapper whose sole TYPED member IS the payload;
           // the SdkSpec's rootPipe collapses the wrapper.
-          const conv = convertSchema(
-            ctx,
-            respSchema,
-            `${opName}ResponseBody`,
-            0,
-            "out",
-          );
+          const conv = convertSchema(ctx, respSchema, `${opName}ResponseBody`, 0, "out");
           if (conv.target !== PRELUDE.Document || deref(ctx, respSchema)) {
             outputTarget = addShape(ctx, `${opName}Response`, {
               type: "structure",
@@ -1650,7 +1554,7 @@ export const convertOpenApiToSmithy = (
       ? {
           ...base,
           ...override,
-          traits: { ...base.traits, ...(override.traits ?? {}) },
+          traits: { ...base.traits, ...override.traits },
         }
       : base;
   }
@@ -1659,14 +1563,11 @@ export const convertOpenApiToSmithy = (
   ctx.shapes[`${ctx.ns}#${serviceName}`] = {
     type: "service",
     version:
-      options.serviceVersion ??
-      (typeof doc.info?.version === "string" ? doc.info.version : "1.0"),
+      options.serviceVersion ?? (typeof doc.info?.version === "string" ? doc.info.version : "1.0"),
     operations: serviceOps,
     traits: {
       "smithy.api#title":
-        typeof doc.info?.title === "string"
-          ? doc.info.title
-          : options.serviceName,
+        typeof doc.info?.title === "string" ? doc.info.title : options.serviceName,
       ...(typeof doc.info?.description === "string"
         ? {
             "smithy.api#documentation": trimDescription(doc.info.description),

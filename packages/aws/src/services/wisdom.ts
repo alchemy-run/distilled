@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Wisdom",
   serviceShapeName: "WisdomService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -58,13 +54,9 @@ const rules = T.EndpointResolver((p, _) => {
         }
         if (UseFIPS === true) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            return e(
-              `https://wisdom-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-            );
+            return e(`https://wisdom-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +64,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://wisdom.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://wisdom.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://wisdom.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -171,19 +159,8 @@ export const CreateAssistantRequest = /*@__PURE__*/ S.suspend(() =>
     type: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/assistants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/assistants" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateAssistantRequest",
 }) as any as S.Schema<CreateAssistantRequest>;
@@ -219,9 +196,7 @@ export const AssistantData = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
   }),
 ).annotate({ identifier: "AssistantData" }) as any as S.Schema<AssistantData>;
@@ -317,10 +292,7 @@ export const CreateAssistantAssociationResponse = /*@__PURE__*/ S.suspend(() =>
 export type ContentTitle = string;
 export type Uri = string;
 export type ContentMetadata = { [key: string]: string | undefined };
-export const ContentMetadata = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContentMetadata = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export type UploadId = string;
 export interface CreateContentRequest {
   knowledgeBaseId: string;
@@ -449,21 +421,10 @@ export const CreateKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
     knowledgeBaseType: S.String,
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/knowledgeBases" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/knowledgeBases" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateKnowledgeBaseRequest",
 }) as any as S.Schema<CreateKnowledgeBaseRequest>;
@@ -488,14 +449,10 @@ export const KnowledgeBaseData = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     knowledgeBaseType: S.String,
     status: S.String,
-    lastContentModificationTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    lastContentModificationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
@@ -735,9 +692,7 @@ export const DeleteAssistantRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAssistantRequest",
 }) as any as S.Schema<DeleteAssistantRequest>;
 export interface DeleteAssistantResponse {}
-export const DeleteAssistantResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAssistantResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAssistantResponse",
 }) as any as S.Schema<DeleteAssistantResponse>;
 export interface DeleteAssistantAssociationRequest {
@@ -746,9 +701,7 @@ export interface DeleteAssistantAssociationRequest {
 }
 export const DeleteAssistantAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assistantAssociationId: S.String.pipe(
-      T.HttpLabel("assistantAssociationId"),
-    ),
+    assistantAssociationId: S.String.pipe(T.HttpLabel("assistantAssociationId")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   }).pipe(
     T.all(
@@ -797,9 +750,7 @@ export const DeleteContentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteContentRequest",
 }) as any as S.Schema<DeleteContentRequest>;
 export interface DeleteContentResponse {}
-export const DeleteContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteContentResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteContentResponse",
 }) as any as S.Schema<DeleteContentResponse>;
 export interface DeleteImportJobRequest {
@@ -827,9 +778,7 @@ export const DeleteImportJobRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteImportJobRequest",
 }) as any as S.Schema<DeleteImportJobRequest>;
 export interface DeleteImportJobResponse {}
-export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteImportJobResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteImportJobResponse",
 }) as any as S.Schema<DeleteImportJobResponse>;
 export interface DeleteKnowledgeBaseRequest {
@@ -852,9 +801,7 @@ export const DeleteKnowledgeBaseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteKnowledgeBaseRequest",
 }) as any as S.Schema<DeleteKnowledgeBaseRequest>;
 export interface DeleteKnowledgeBaseResponse {}
-export const DeleteKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteKnowledgeBaseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteKnowledgeBaseResponse",
 }) as any as S.Schema<DeleteKnowledgeBaseResponse>;
 export interface DeleteQuickResponseRequest {
@@ -882,9 +829,7 @@ export const DeleteQuickResponseRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteQuickResponseRequest",
 }) as any as S.Schema<DeleteQuickResponseRequest>;
 export interface DeleteQuickResponseResponse {}
-export const DeleteQuickResponseResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteQuickResponseResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteQuickResponseResponse",
 }) as any as S.Schema<DeleteQuickResponseResponse>;
 export interface GetAssistantRequest {
@@ -918,9 +863,7 @@ export interface GetAssistantAssociationRequest {
 }
 export const GetAssistantAssociationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    assistantAssociationId: S.String.pipe(
-      T.HttpLabel("assistantAssociationId"),
-    ),
+    assistantAssociationId: S.String.pipe(T.HttpLabel("assistantAssociationId")),
     assistantId: S.String.pipe(T.HttpLabel("assistantId")),
   }).pipe(
     T.all(
@@ -1328,9 +1271,7 @@ export const RecommendationTrigger = /*@__PURE__*/ S.suspend(() =>
   identifier: "RecommendationTrigger",
 }) as any as S.Schema<RecommendationTrigger>;
 export type RecommendationTriggerList = RecommendationTrigger[];
-export const RecommendationTriggerList = /*@__PURE__*/ S.Array(
-  RecommendationTrigger,
-);
+export const RecommendationTriggerList = /*@__PURE__*/ S.Array(RecommendationTrigger);
 export interface GetRecommendationsResponse {
   recommendations: RecommendationData[];
   triggers?: RecommendationTrigger[];
@@ -1422,9 +1363,7 @@ export const AssistantAssociationSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "AssistantAssociationSummary",
 }) as any as S.Schema<AssistantAssociationSummary>;
 export type AssistantAssociationSummaryList = AssistantAssociationSummary[];
-export const AssistantAssociationSummaryList = /*@__PURE__*/ S.Array(
-  AssistantAssociationSummary,
-);
+export const AssistantAssociationSummaryList = /*@__PURE__*/ S.Array(AssistantAssociationSummary);
 export interface ListAssistantAssociationsResponse {
   assistantAssociationSummaries: AssistantAssociationSummary[];
   nextToken?: string;
@@ -1445,16 +1384,7 @@ export const ListAssistantsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/assistants" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/assistants" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListAssistantsRequest",
 }) as any as S.Schema<ListAssistantsRequest>;
@@ -1478,9 +1408,7 @@ export const AssistantSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     description: S.optional(S.String),
     tags: S.optional(Tags),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     integrationConfiguration: S.optional(AssistantIntegrationConfiguration),
   }),
 ).annotate({
@@ -1616,16 +1544,7 @@ export const ListKnowledgeBasesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
     maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
-  }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/knowledgeBases" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "GET", uri: "/knowledgeBases" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListKnowledgeBasesRequest",
 }) as any as S.Schema<ListKnowledgeBasesRequest>;
@@ -1650,9 +1569,7 @@ export const KnowledgeBaseSummary = /*@__PURE__*/ S.suspend(() =>
     status: S.String,
     sourceConfiguration: S.optional(SourceConfiguration),
     renderingConfiguration: S.optional(RenderingConfiguration),
-    serverSideEncryptionConfiguration: S.optional(
-      ServerSideEncryptionConfiguration,
-    ),
+    serverSideEncryptionConfiguration: S.optional(ServerSideEncryptionConfiguration),
     description: S.optional(S.String),
     tags: S.optional(Tags),
   }),
@@ -1736,8 +1653,7 @@ export const QuickResponseSummary = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuickResponseSummary",
 }) as any as S.Schema<QuickResponseSummary>;
 export type QuickResponseSummaryList = QuickResponseSummary[];
-export const QuickResponseSummaryList =
-  /*@__PURE__*/ S.Array(QuickResponseSummary);
+export const QuickResponseSummaryList = /*@__PURE__*/ S.Array(QuickResponseSummary);
 export interface ListQuickResponsesResponse {
   quickResponseSummaries: QuickResponseSummary[];
   nextToken?: string;
@@ -1755,14 +1671,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ resourceArn: S.String.pipe(T.HttpLabel("resourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1780,25 +1689,24 @@ export interface NotifyRecommendationsReceivedRequest {
   sessionId: string;
   recommendationIds: string[];
 }
-export const NotifyRecommendationsReceivedRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      assistantId: S.String.pipe(T.HttpLabel("assistantId")),
-      sessionId: S.String.pipe(T.HttpLabel("sessionId")),
-      recommendationIds: RecommendationIdList,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const NotifyRecommendationsReceivedRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    assistantId: S.String.pipe(T.HttpLabel("assistantId")),
+    sessionId: S.String.pipe(T.HttpLabel("sessionId")),
+    recommendationIds: RecommendationIdList,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/assistants/{assistantId}/sessions/{sessionId}/recommendations/notify",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedRequest",
 }) as any as S.Schema<NotifyRecommendationsReceivedRequest>;
@@ -1815,8 +1723,7 @@ export const NotifyRecommendationsReceivedError_ = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "NotifyRecommendationsReceivedError",
 }) as any as S.Schema<NotifyRecommendationsReceivedError_>;
-export type NotifyRecommendationsReceivedErrorList =
-  NotifyRecommendationsReceivedError_[];
+export type NotifyRecommendationsReceivedErrorList = NotifyRecommendationsReceivedError_[];
 export const NotifyRecommendationsReceivedErrorList = /*@__PURE__*/ S.Array(
   NotifyRecommendationsReceivedError_,
 );
@@ -1824,12 +1731,11 @@ export interface NotifyRecommendationsReceivedResponse {
   recommendationIds?: string[];
   errors?: NotifyRecommendationsReceivedError_[];
 }
-export const NotifyRecommendationsReceivedResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      recommendationIds: S.optional(RecommendationIdList),
-      errors: S.optional(NotifyRecommendationsReceivedErrorList),
-    }),
+export const NotifyRecommendationsReceivedResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    recommendationIds: S.optional(RecommendationIdList),
+    errors: S.optional(NotifyRecommendationsReceivedErrorList),
+  }),
 ).annotate({
   identifier: "NotifyRecommendationsReceivedResponse",
 }) as any as S.Schema<NotifyRecommendationsReceivedResponse>;
@@ -1884,29 +1790,28 @@ export const QueryAssistantResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RemoveKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
 }
-export const RemoveKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "DELETE",
-          uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const RemoveKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "DELETE",
+        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "RemoveKnowledgeBaseTemplateUriRequest",
 }) as any as S.Schema<RemoveKnowledgeBaseTemplateUriRequest>;
 export interface RemoveKnowledgeBaseTemplateUriResponse {}
-export const RemoveKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const RemoveKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "RemoveKnowledgeBaseTemplateUriResponse",
 }) as any as S.Schema<RemoveKnowledgeBaseTemplateUriResponse>;
@@ -1994,9 +1899,7 @@ export const QuickResponseQueryField = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuickResponseQueryField",
 }) as any as S.Schema<QuickResponseQueryField>;
 export type QuickResponseQueryFieldList = QuickResponseQueryField[];
-export const QuickResponseQueryFieldList = /*@__PURE__*/ S.Array(
-  QuickResponseQueryField,
-);
+export const QuickResponseQueryFieldList = /*@__PURE__*/ S.Array(QuickResponseQueryField);
 export type QuickResponseFilterValue = string;
 export type QuickResponseFilterValueList = string[];
 export const QuickResponseFilterValueList = /*@__PURE__*/ S.Array(S.String);
@@ -2018,9 +1921,7 @@ export const QuickResponseFilterField = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuickResponseFilterField",
 }) as any as S.Schema<QuickResponseFilterField>;
 export type QuickResponseFilterFieldList = QuickResponseFilterField[];
-export const QuickResponseFilterFieldList = /*@__PURE__*/ S.Array(
-  QuickResponseFilterField,
-);
+export const QuickResponseFilterFieldList = /*@__PURE__*/ S.Array(QuickResponseFilterField);
 export type Order = string;
 export interface QuickResponseOrderField {
   name: string;
@@ -2048,10 +1949,7 @@ export const QuickResponseSearchExpression = /*@__PURE__*/ S.suspend(() =>
 export type ContactAttributeKey = string;
 export type ContactAttributeValue = string;
 export type ContactAttributes = { [key: string]: string | undefined };
-export const ContactAttributes = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const ContactAttributes = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface SearchQuickResponsesRequest {
   knowledgeBaseId: string;
   searchExpression: QuickResponseSearchExpression;
@@ -2133,9 +2031,7 @@ export const QuickResponseSearchResultData = /*@__PURE__*/ S.suspend(() =>
   identifier: "QuickResponseSearchResultData",
 }) as any as S.Schema<QuickResponseSearchResultData>;
 export type QuickResponseSearchResultsList = QuickResponseSearchResultData[];
-export const QuickResponseSearchResultsList = /*@__PURE__*/ S.Array(
-  QuickResponseSearchResultData,
-);
+export const QuickResponseSearchResultsList = /*@__PURE__*/ S.Array(QuickResponseSearchResultData);
 export interface SearchQuickResponsesResponse {
   results: QuickResponseSearchResultData[];
   nextToken?: string;
@@ -2232,10 +2128,7 @@ export const StartContentUploadRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartContentUploadRequest",
 }) as any as S.Schema<StartContentUploadRequest>;
 export type Headers = { [key: string]: string | undefined };
-export const Headers = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const Headers = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface StartContentUploadResponse {
   uploadId: string;
   url: string | redacted.Redacted<string>;
@@ -2301,22 +2194,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -2330,22 +2214,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
     tagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateContentRequest {
@@ -2396,32 +2271,31 @@ export interface UpdateKnowledgeBaseTemplateUriRequest {
   knowledgeBaseId: string;
   templateUri: string;
 }
-export const UpdateKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-      templateUri: S.String,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateKnowledgeBaseTemplateUriRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+    templateUri: S.String,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/knowledgeBases/{knowledgeBaseId}/templateUri",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateKnowledgeBaseTemplateUriRequest",
 }) as any as S.Schema<UpdateKnowledgeBaseTemplateUriRequest>;
 export interface UpdateKnowledgeBaseTemplateUriResponse {
   knowledgeBase?: KnowledgeBaseData;
 }
-export const UpdateKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
+export const UpdateKnowledgeBaseTemplateUriResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ knowledgeBase: S.optional(KnowledgeBaseData) }),
 ).annotate({
   identifier: "UpdateKnowledgeBaseTemplateUriResponse",
 }) as any as S.Schema<UpdateKnowledgeBaseTemplateUriResponse>;
@@ -2687,11 +2561,7 @@ export const deleteAssistant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAssistantRequest,
   output: DeleteAssistantResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
@@ -2713,11 +2583,7 @@ export const deleteAssistantAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAssistantAssociationRequest,
   output: DeleteAssistantAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
@@ -2739,11 +2605,7 @@ export const deleteContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteContentRequest,
   output: DeleteContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
@@ -2828,11 +2690,7 @@ export const deleteQuickResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteQuickResponseRequest,
   output: DeleteQuickResponseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
@@ -2854,11 +2712,7 @@ export const getAssistant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssistantRequest,
   output: GetAssistantResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
@@ -2880,11 +2734,7 @@ export const getAssistantAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAssistantAssociationRequest,
   output: GetAssistantAssociationResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
@@ -2906,11 +2756,7 @@ export const getContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContentRequest,
   output: GetContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
@@ -2932,11 +2778,7 @@ export const getContentSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContentSummaryRequest,
   output: GetContentSummaryResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
@@ -2958,11 +2800,7 @@ export const getImportJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetImportJobRequest,
   output: GetImportJobResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
@@ -2984,11 +2822,7 @@ export const getKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetKnowledgeBaseRequest,
   output: GetKnowledgeBaseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
@@ -3010,11 +2844,7 @@ export const getQuickResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetQuickResponseRequest,
   output: GetQuickResponseResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
@@ -3039,11 +2869,7 @@ export const getRecommendations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRecommendationsRequest,
   output: GetRecommendationsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
@@ -3065,11 +2891,7 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetSessionRequest,
   output: GetSessionResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -3092,11 +2914,7 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssistantAssociationsRequest,
   output: ListAssistantAssociationsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssistantAssociations",
@@ -3108,10 +2926,7 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListAssistantsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListAssistantsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists information about assistants.
  */
@@ -3153,11 +2968,7 @@ export const listContents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListContentsRequest,
   output: ListContentsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListContents",
@@ -3169,10 +2980,7 @@ export const listContents: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListImportJobsError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListImportJobsError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists information about import jobs.
  */
@@ -3197,10 +3005,7 @@ export const listImportJobs: API.PaginatedOperationMethod<
   } as const,
 })) as any;
 
-export type ListKnowledgeBasesError =
-  | AccessDeniedException
-  | ValidationException
-  | CommonErrors;
+export type ListKnowledgeBasesError = AccessDeniedException | ValidationException | CommonErrors;
 /**
  * Lists the knowledge bases.
  */
@@ -3242,11 +3047,7 @@ export const listQuickResponses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListQuickResponsesRequest,
   output: ListQuickResponsesResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListQuickResponses",
@@ -3294,11 +3095,7 @@ export const notifyRecommendationsReceived: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: NotifyRecommendationsReceivedRequest,
   output: NotifyRecommendationsReceivedResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
@@ -3356,11 +3153,7 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RemoveKnowledgeBaseTemplateUriRequest,
   output: RemoveKnowledgeBaseTemplateUriResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
@@ -3384,11 +3177,7 @@ export const searchContent: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchContentRequest,
   output: SearchContentResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchContent",
@@ -3452,11 +3241,7 @@ export const searchSessions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: SearchSessionsRequest,
   output: SearchSessionsResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSessions",
@@ -3487,11 +3272,7 @@ export const startContentUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: StartContentUploadRequest,
   output: StartContentUploadResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
@@ -3530,10 +3311,7 @@ export const startImportJob: API.OperationMethod<
   operationName: "StartImportJob",
 }));
 
-export type TagResourceError =
-  | ResourceNotFoundException
-  | TooManyTagsException
-  | CommonErrors;
+export type TagResourceError = ResourceNotFoundException | TooManyTagsException | CommonErrors;
 /**
  * Adds the specified tags to the specified resource.
  */
@@ -3617,11 +3395,7 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateKnowledgeBaseTemplateUriRequest,
   output: UpdateKnowledgeBaseTemplateUriResponse,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",

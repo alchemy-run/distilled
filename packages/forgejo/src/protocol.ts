@@ -1,3 +1,6 @@
+import type * as API from "@distilled.cloud/core/api";
+import type { ConfigError } from "@distilled.cloud/core/errors";
+import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 /**
  * ForgejoProtocol — the shared bearer-REST protocol instantiated for Forgejo.
  *
@@ -21,12 +24,6 @@ import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError } from "@distilled.cloud/core/errors";
-import {
-  makeRestProtocol,
-  type RestErrorEnvelope,
-} from "@distilled.cloud/core/protocol-rest";
 import { Credentials, type Config } from "./credentials.ts";
 import { UnknownForgejoError, type DefaultErrors } from "./errors.ts";
 
@@ -36,10 +33,7 @@ import { UnknownForgejoError, type DefaultErrors } from "./errors.ts";
  * ForgejoOpError, ForgejoOpContext>` explicitly so the compiler never infers
  * these back out of the schema generics.
  */
-export type ForgejoOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError;
+export type ForgejoOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
 
 /** Context (requirements) shared by every generated Forgejo operation. */
 export type ForgejoOpContext = Credentials | HttpClient.HttpClient;
@@ -57,30 +51,24 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   };
 };
 
-export const ForgejoProtocol: Layer.Layer<API.Protocol> =
-  makeRestProtocol<Config>({
-    // Resolved on the CALLING fiber per request (the layer is memoized per
-    // process); the Credentials service holds an effect, so a token rotated
-    // between calls is picked up without rebuilding the layer.
-    credentials: Effect.gen(function* () {
-      const resolve = yield* Credentials;
-      return yield* resolve;
+export const ForgejoProtocol: Layer.Layer<API.Protocol> = makeRestProtocol<Config>({
+  // Resolved on the CALLING fiber per request (the layer is memoized per
+  // process); the Credentials service holds an effect, so a token rotated
+  // between calls is picked up without rebuilding the layer.
+  credentials: Effect.gen(function* () {
+    const resolve = yield* Credentials;
+    return yield* resolve;
+  }),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `token ${Redacted.value(creds.token)}`,
+    Accept: "application/json",
+  }),
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownForgejoError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      body,
     }),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `token ${Redacted.value(creds.token)}`,
-      Accept: "application/json",
-    }),
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownForgejoError({
-        code:
-          typeof code === "string"
-            ? code
-            : code !== undefined
-              ? String(code)
-              : undefined,
-        message,
-        body,
-      }),
-  });
+});

@@ -338,9 +338,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary. After creation succeeds, the status will be AVAILABLE. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -348,9 +346,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -432,9 +428,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>An array of outputs for this feed. Each output represents a specific Elemental Inference feature. For example, there is one output type for the smart crop feature. You must specify at least one output, but you can later add outputs using AssociateFeed, or add, modify, and delete outputs using UpdateFeed. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -498,9 +492,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the feed. After creation of the feed has succeeded, the status will be AVAILABLE. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -508,9 +500,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The association for this feed. When you create the feed, this property is empty. You must associate a resource with the feed using AssociateFeed or UpdateFeed. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -1136,12 +1126,7 @@
           }
         },
         "aws.iam#disableConditionKeyInference": {},
-        "aws.iam#supportedPrincipalTypes": [
-          "Root",
-          "IAMUser",
-          "IAMRole",
-          "FederatedUser"
-        ],
+        "aws.iam#supportedPrincipalTypes": ["Root", "IAMUser", "IAMRole", "FederatedUser"],
         "aws.protocols#restJson1": {},
         "smithy.api#cors": {
           "maxAge": 86400
@@ -2420,9 +2405,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -2430,9 +2413,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -2593,9 +2574,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The status of the feed.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -2603,9 +2582,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Information about the resource that is associated with the feed. It's possible that there is no associated resource. This is not an error. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -2763,9 +2740,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>True means that the output was originally created in the feed using AssociateFeed. False means it was created using CreateFeed or UpdateFeed. </p> <p>You will need this value if you use UpdateFeed to modify the list of outputs in the feed.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },
@@ -3815,9 +3790,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The current status of the dictionary.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "references": {
@@ -3825,9 +3798,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>A list of feed IDs that reference this dictionary.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -3915,9 +3886,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Required. You can specify the existing array of outputs (to leave outputs unchanged) or you can specify a new array. </p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },
@@ -3975,9 +3944,7 @@
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>The status of the feed.</p>",
             "smithy.api#required": {},
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "association": {
@@ -3985,9 +3952,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Information about the resource that is associated with the feed, if any.</p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         },
         "tags": {
@@ -4036,9 +4001,7 @@
           "traits": {
             "aws.cloudformation#cfnExcludeProperty": {},
             "smithy.api#documentation": "<p>Elemental Inference originally sets this parameter to True if this output was created by AssociateFeed or to False if this output was created by CreateFeed or UpdateFeed. </p> <p>You must not change this value. Therefore, use GetFeed to determine the current value. Then in the UpdateFeed request, if the current value is True, include this parameter with a value of True. If it's False, omit the parameter. </p>",
-            "smithy.api#suppress": [
-              "UnstableTrait.aws.cloudformation#cfnExcludeProperty"
-            ]
+            "smithy.api#suppress": ["UnstableTrait.aws.cloudformation#cfnExcludeProperty"]
           }
         }
       },

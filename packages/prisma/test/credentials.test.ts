@@ -13,10 +13,7 @@ const credentials = (env: Record<string, string>) =>
     Effect.provide(
       Layer.mergeAll(
         Prisma.CredentialsFromEnv,
-        Layer.succeed(
-          ConfigProvider.ConfigProvider,
-          ConfigProvider.fromUnknown(env),
-        ),
+        Layer.succeed(ConfigProvider.ConfigProvider, ConfigProvider.fromUnknown(env)),
       ),
     ),
   );

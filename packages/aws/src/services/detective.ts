@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Detective",
   serviceShapeName: "AmazonDetective",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -98,9 +94,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.detective-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -108,13 +102,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://api.detective.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://api.detective.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://api.detective.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -126,13 +116,9 @@ export class AccessDeniedException
     "AccessDeniedException",
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      ErrorCode: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       ErrorCodeReason: S.optional(S.String),
-      SubErrorCode: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      SubErrorCode: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       SubErrorCodeReason: S.optional(S.String),
     },
     T.HttpError(403),
@@ -160,9 +146,7 @@ export class ServiceQuotaExceededException
     "ServiceQuotaExceededException",
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
-      Resources: S.optional(
-        S.suspend(() => ResourceList).annotate({ identifier: "ResourceList" }),
-      ),
+      Resources: S.optional(S.suspend(() => ResourceList).annotate({ identifier: "ResourceList" })),
     },
     T.HttpError(402),
   ).pipe(C.withQuotaError) {}
@@ -177,9 +161,7 @@ export class ValidationException
     "ValidationException",
     {
       message: S.optional(S.String).pipe(T.ErrorMessage()),
-      ErrorCode: S.optional(
-        S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" }),
-      ),
+      ErrorCode: S.optional(S.suspend(() => ErrorCode).annotate({ identifier: "ErrorCode" })),
       ErrorCodeReason: S.optional(S.String),
     },
     T.HttpError(400),
@@ -190,22 +172,13 @@ export interface AcceptInvitationRequest {
 }
 export const AcceptInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/invitation" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/invitation" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AcceptInvitationRequest",
 }) as any as S.Schema<AcceptInvitationRequest>;
 export interface AcceptInvitationResponse {}
-export const AcceptInvitationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const AcceptInvitationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "AcceptInvitationResponse",
 }) as any as S.Schema<AcceptInvitationResponse>;
 export type AccountId = string;
@@ -215,18 +188,10 @@ export interface BatchGetGraphMemberDatasourcesRequest {
   GraphArn: string;
   AccountIds: string[];
 }
-export const BatchGetGraphMemberDatasourcesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GraphArn: S.String, AccountIds: AccountIdExtendedList }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/graph/datasources/get" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const BatchGetGraphMemberDatasourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GraphArn: S.String, AccountIds: AccountIdExtendedList }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/graph/datasources/get" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "BatchGetGraphMemberDatasourcesRequest",
 }) as any as S.Schema<BatchGetGraphMemberDatasourcesRequest>;
@@ -237,11 +202,7 @@ export type DatasourcePackage =
   | (string & {});
 export const DatasourcePackage = S.String;
 
-export type DatasourcePackageIngestState =
-  | "STARTED"
-  | "STOPPED"
-  | "DISABLED"
-  | (string & {});
+export type DatasourcePackageIngestState = "STARTED" | "STOPPED" | "DISABLED" | (string & {});
 export const DatasourcePackageIngestState = S.String;
 
 export interface TimestampForCollection {
@@ -249,9 +210,7 @@ export interface TimestampForCollection {
 }
 export const TimestampForCollection = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    Timestamp: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    Timestamp: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "TimestampForCollection",
@@ -276,9 +235,7 @@ export interface MembershipDatasources {
   AccountId?: string;
   GraphArn?: string;
   DatasourcePackageIngestHistory?: {
-    [key: string]:
-      | { [key: string]: TimestampForCollection | undefined }
-      | undefined;
+    [key: string]: { [key: string]: TimestampForCollection | undefined } | undefined;
   };
 }
 export const MembershipDatasources = /*@__PURE__*/ S.suspend(() =>
@@ -291,9 +248,7 @@ export const MembershipDatasources = /*@__PURE__*/ S.suspend(() =>
   identifier: "MembershipDatasources",
 }) as any as S.Schema<MembershipDatasources>;
 export type MembershipDatasourcesList = MembershipDatasources[];
-export const MembershipDatasourcesList = /*@__PURE__*/ S.Array(
-  MembershipDatasources,
-);
+export const MembershipDatasourcesList = /*@__PURE__*/ S.Array(MembershipDatasources);
 export type UnprocessedReason = string;
 export interface UnprocessedAccount {
   AccountId?: string;
@@ -310,12 +265,11 @@ export interface BatchGetGraphMemberDatasourcesResponse {
   MemberDatasources?: MembershipDatasources[];
   UnprocessedAccounts?: UnprocessedAccount[];
 }
-export const BatchGetGraphMemberDatasourcesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MemberDatasources: S.optional(MembershipDatasourcesList),
-      UnprocessedAccounts: S.optional(UnprocessedAccountList),
-    }),
+export const BatchGetGraphMemberDatasourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MemberDatasources: S.optional(MembershipDatasourcesList),
+    UnprocessedAccounts: S.optional(UnprocessedAccountList),
+  }),
 ).annotate({
   identifier: "BatchGetGraphMemberDatasourcesResponse",
 }) as any as S.Schema<BatchGetGraphMemberDatasourcesResponse>;
@@ -324,18 +278,17 @@ export const GraphArnList = /*@__PURE__*/ S.Array(S.String);
 export interface BatchGetMembershipDatasourcesRequest {
   GraphArns: string[];
 }
-export const BatchGetMembershipDatasourcesRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GraphArns: GraphArnList }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/membership/datasources/get" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchGetMembershipDatasourcesRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GraphArns: GraphArnList }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/membership/datasources/get" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "BatchGetMembershipDatasourcesRequest",
 }) as any as S.Schema<BatchGetMembershipDatasourcesRequest>;
@@ -354,35 +307,24 @@ export interface BatchGetMembershipDatasourcesResponse {
   MembershipDatasources?: MembershipDatasources[];
   UnprocessedGraphs?: UnprocessedGraph[];
 }
-export const BatchGetMembershipDatasourcesResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      MembershipDatasources: S.optional(MembershipDatasourcesList),
-      UnprocessedGraphs: S.optional(UnprocessedGraphList),
-    }),
+export const BatchGetMembershipDatasourcesResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MembershipDatasources: S.optional(MembershipDatasourcesList),
+    UnprocessedGraphs: S.optional(UnprocessedGraphList),
+  }),
 ).annotate({
   identifier: "BatchGetMembershipDatasourcesResponse",
 }) as any as S.Schema<BatchGetMembershipDatasourcesResponse>;
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
-export const TagMap = /*@__PURE__*/ S.Record(
-  S.String,
-  S.String.pipe(S.optional),
-);
+export const TagMap = /*@__PURE__*/ S.Record(S.String, S.String.pipe(S.optional));
 export interface CreateGraphRequest {
   Tags?: { [key: string]: string | undefined };
 }
 export const CreateGraphRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ Tags: S.optional(TagMap) }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "CreateGraphRequest",
@@ -418,16 +360,7 @@ export const CreateMembersRequest = /*@__PURE__*/ S.suspend(() =>
     Message: S.optional(SensitiveString),
     DisableEmailNotification: S.optional(S.Boolean),
     Accounts: AccountList,
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/members" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/graph/members" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMembersRequest",
 }) as any as S.Schema<CreateMembersRequest>;
@@ -440,10 +373,7 @@ export type MemberStatus =
   | (string & {});
 export const MemberStatus = S.String;
 
-export type MemberDisabledReason =
-  | "VOLUME_TOO_HIGH"
-  | "VOLUME_UNKNOWN"
-  | (string & {});
+export type MemberDisabledReason = "VOLUME_TOO_HIGH" | "VOLUME_UNKNOWN" | (string & {});
 export const MemberDisabledReason = S.String;
 
 export type ByteValue = number;
@@ -458,9 +388,7 @@ export interface DatasourcePackageUsageInfo {
 export const DatasourcePackageUsageInfo = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     VolumeUsageInBytes: S.optional(S.Number),
-    VolumeUsageUpdateTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    VolumeUsageUpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({
   identifier: "DatasourcePackageUsageInfo",
@@ -510,16 +438,10 @@ export const MemberDetail = /*@__PURE__*/ S.suspend(() =>
     AdministratorId: S.optional(S.String),
     Status: S.optional(MemberStatus),
     DisabledReason: S.optional(MemberDisabledReason),
-    InvitedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    UpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    InvitedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    UpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     VolumeUsageInBytes: S.optional(S.Number),
-    VolumeUsageUpdatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    VolumeUsageUpdatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     PercentOfGraphUtilization: S.optional(S.Number),
     PercentOfGraphUtilizationUpdatedTime: S.optional(
       T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -548,22 +470,13 @@ export interface DeleteGraphRequest {
 }
 export const DeleteGraphRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/removal" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph/removal" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteGraphRequest",
 }) as any as S.Schema<DeleteGraphRequest>;
 export interface DeleteGraphResponse {}
-export const DeleteGraphResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteGraphResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteGraphResponse",
 }) as any as S.Schema<DeleteGraphResponse>;
 export type AccountIdList = string[];
@@ -574,14 +487,7 @@ export interface DeleteMembersRequest {
 }
 export const DeleteMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String, AccountIds: AccountIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/members/removal" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph/members/removal" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteMembersRequest",
@@ -601,62 +507,13 @@ export const DeleteMembersResponse = /*@__PURE__*/ S.suspend(() =>
 export interface DescribeOrganizationConfigurationRequest {
   GraphArn: string;
 }
-export const DescribeOrganizationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GraphArn: S.String }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/orgs/describeOrganizationConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DescribeOrganizationConfigurationRequest",
-}) as any as S.Schema<DescribeOrganizationConfigurationRequest>;
-export interface DescribeOrganizationConfigurationResponse {
-  AutoEnable?: boolean;
-}
-export const DescribeOrganizationConfigurationResponse =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({ AutoEnable: S.optional(S.Boolean) }),
-  ).annotate({
-    identifier: "DescribeOrganizationConfigurationResponse",
-  }) as any as S.Schema<DescribeOrganizationConfigurationResponse>;
-export interface DisableOrganizationAdminAccountRequest {}
-export const DisableOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({}).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/orgs/disableAdminAccount" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "DisableOrganizationAdminAccountRequest",
-}) as any as S.Schema<DisableOrganizationAdminAccountRequest>;
-export interface DisableOrganizationAdminAccountResponse {}
-export const DisableOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
-).annotate({
-  identifier: "DisableOrganizationAdminAccountResponse",
-}) as any as S.Schema<DisableOrganizationAdminAccountResponse>;
-export interface DisassociateMembershipRequest {
-  GraphArn: string;
-}
-export const DisassociateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
+export const DescribeOrganizationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String }).pipe(
     T.all(
-      T.Http({ method: "POST", uri: "/membership/removal" }),
+      T.Http({
+        method: "POST",
+        uri: "/orgs/describeOrganizationConfiguration",
+      }),
       svc,
       auth,
       proto,
@@ -665,35 +522,71 @@ export const DisassociateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
     ),
   ),
 ).annotate({
+  identifier: "DescribeOrganizationConfigurationRequest",
+}) as any as S.Schema<DescribeOrganizationConfigurationRequest>;
+export interface DescribeOrganizationConfigurationResponse {
+  AutoEnable?: boolean;
+}
+export const DescribeOrganizationConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AutoEnable: S.optional(S.Boolean) }),
+).annotate({
+  identifier: "DescribeOrganizationConfigurationResponse",
+}) as any as S.Schema<DescribeOrganizationConfigurationResponse>;
+export interface DisableOrganizationAdminAccountRequest {}
+export const DisableOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/orgs/disableAdminAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DisableOrganizationAdminAccountRequest",
+}) as any as S.Schema<DisableOrganizationAdminAccountRequest>;
+export interface DisableOrganizationAdminAccountResponse {}
+export const DisableOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "DisableOrganizationAdminAccountResponse",
+}) as any as S.Schema<DisableOrganizationAdminAccountResponse>;
+export interface DisassociateMembershipRequest {
+  GraphArn: string;
+}
+export const DisassociateMembershipRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GraphArn: S.String }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/membership/removal" }), svc, auth, proto, ver, rules),
+  ),
+).annotate({
   identifier: "DisassociateMembershipRequest",
 }) as any as S.Schema<DisassociateMembershipRequest>;
 export interface DisassociateMembershipResponse {}
-export const DisassociateMembershipResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DisassociateMembershipResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DisassociateMembershipResponse",
 }) as any as S.Schema<DisassociateMembershipResponse>;
 export interface EnableOrganizationAdminAccountRequest {
   AccountId: string;
 }
-export const EnableOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ AccountId: S.String }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/orgs/enableAdminAccount" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const EnableOrganizationAdminAccountRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ AccountId: S.String }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/orgs/enableAdminAccount" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "EnableOrganizationAdminAccountRequest",
 }) as any as S.Schema<EnableOrganizationAdminAccountRequest>;
 export interface EnableOrganizationAdminAccountResponse {}
-export const EnableOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const EnableOrganizationAdminAccountResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "EnableOrganizationAdminAccountResponse",
 }) as any as S.Schema<EnableOrganizationAdminAccountResponse>;
@@ -723,13 +616,7 @@ export const EntityType = S.String;
 export type Status = "RUNNING" | "FAILED" | "SUCCESSFUL" | (string & {});
 export const Status = S.String;
 
-export type Severity =
-  | "INFORMATIONAL"
-  | "LOW"
-  | "MEDIUM"
-  | "HIGH"
-  | "CRITICAL"
-  | (string & {});
+export type Severity = "INFORMATIONAL" | "LOW" | "MEDIUM" | "HIGH" | "CRITICAL" | (string & {});
 export const Severity = S.String;
 
 export type State = "ACTIVE" | "ARCHIVED" | (string & {});
@@ -753,15 +640,9 @@ export const GetInvestigationResponse = /*@__PURE__*/ S.suspend(() =>
     InvestigationId: S.optional(S.String),
     EntityArn: S.optional(S.String),
     EntityType: S.optional(EntityType),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ScopeStartTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
-    ScopeEndTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ScopeStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+    ScopeEndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     Status: S.optional(Status),
     Severity: S.optional(Severity),
     State: S.optional(State),
@@ -775,14 +656,7 @@ export interface GetMembersRequest {
 }
 export const GetMembersRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String, AccountIds: AccountIdList }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/members/get" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph/members/get" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMembersRequest",
@@ -812,14 +686,7 @@ export const ListDatasourcePackagesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/datasources/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph/datasources/list" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListDatasourcePackagesRequest",
@@ -865,16 +732,7 @@ export const ListGraphsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graphs/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/graphs/list" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "ListGraphsRequest",
 }) as any as S.Schema<ListGraphsRequest>;
@@ -885,9 +743,7 @@ export interface Graph {
 export const Graph = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     Arn: S.optional(S.String),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Graph" }) as any as S.Schema<Graph>;
 export type GraphList = Graph[];
@@ -1125,9 +981,9 @@ export type Value = string;
 export interface StringFilter {
   Value: string;
 }
-export const StringFilter = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({ Value: S.String }),
-).annotate({ identifier: "StringFilter" }) as any as S.Schema<StringFilter>;
+export const StringFilter = /*@__PURE__*/ S.suspend(() => S.Struct({ Value: S.String })).annotate({
+  identifier: "StringFilter",
+}) as any as S.Schema<StringFilter>;
 export interface DateFilter {
   StartInclusive: Date;
   EndInclusive: Date;
@@ -1209,9 +1065,7 @@ export const InvestigationDetail = /*@__PURE__*/ S.suspend(() =>
     Severity: S.optional(Severity),
     Status: S.optional(Status),
     State: S.optional(State),
-    CreatedTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
     EntityArn: S.optional(S.String),
     EntityType: S.optional(EntityType),
   }),
@@ -1241,14 +1095,7 @@ export const ListInvitationsRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/invitations/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/invitations/list" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListInvitationsRequest",
@@ -1276,14 +1123,7 @@ export const ListMembersRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     MaxResults: S.optional(S.Number),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/graph/members/list" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/graph/members/list" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListMembersRequest",
@@ -1304,21 +1144,13 @@ export interface ListOrganizationAdminAccountsRequest {
   NextToken?: string;
   MaxResults?: number;
 }
-export const ListOrganizationAdminAccountsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        T.Http({ method: "POST", uri: "/orgs/adminAccountslist" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
+export const ListOrganizationAdminAccountsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number),
+  }).pipe(
+    T.all(T.Http({ method: "POST", uri: "/orgs/adminAccountslist" }), svc, auth, proto, ver, rules),
+  ),
 ).annotate({
   identifier: "ListOrganizationAdminAccountsRequest",
 }) as any as S.Schema<ListOrganizationAdminAccountsRequest>;
@@ -1331,9 +1163,7 @@ export const Administrator = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     AccountId: S.optional(S.String),
     GraphArn: S.optional(S.String),
-    DelegationTime: S.optional(
-      T.DateFromString.pipe(T.TimestampFormat("date-time")),
-    ),
+    DelegationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
   }),
 ).annotate({ identifier: "Administrator" }) as any as S.Schema<Administrator>;
 export type AdministratorList = Administrator[];
@@ -1342,12 +1172,11 @@ export interface ListOrganizationAdminAccountsResponse {
   Administrators?: Administrator[];
   NextToken?: string;
 }
-export const ListOrganizationAdminAccountsResponse = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      Administrators: S.optional(AdministratorList),
-      NextToken: S.optional(S.String),
-    }),
+export const ListOrganizationAdminAccountsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Administrators: S.optional(AdministratorList),
+    NextToken: S.optional(S.String),
+  }),
 ).annotate({
   identifier: "ListOrganizationAdminAccountsResponse",
 }) as any as S.Schema<ListOrganizationAdminAccountsResponse>;
@@ -1356,14 +1185,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -1381,22 +1203,13 @@ export interface RejectInvitationRequest {
 }
 export const RejectInvitationRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ GraphArn: S.String }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/invitation/removal" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/invitation/removal" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "RejectInvitationRequest",
 }) as any as S.Schema<RejectInvitationRequest>;
 export interface RejectInvitationResponse {}
-export const RejectInvitationResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const RejectInvitationResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "RejectInvitationResponse",
 }) as any as S.Schema<RejectInvitationResponse>;
 export interface StartInvestigationRequest {
@@ -1451,9 +1264,7 @@ export const StartMonitoringMemberRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartMonitoringMemberRequest",
 }) as any as S.Schema<StartMonitoringMemberRequest>;
 export interface StartMonitoringMemberResponse {}
-export const StartMonitoringMemberResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const StartMonitoringMemberResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "StartMonitoringMemberResponse",
 }) as any as S.Schema<StartMonitoringMemberResponse>;
 export interface TagResourceRequest {
@@ -1465,22 +1276,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: TagMap,
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1494,22 +1296,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export type DatasourcePackageList = DatasourcePackage[];
@@ -1577,27 +1370,26 @@ export interface UpdateOrganizationConfigurationRequest {
   GraphArn: string;
   AutoEnable?: boolean;
 }
-export const UpdateOrganizationConfigurationRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ GraphArn: S.String, AutoEnable: S.optional(S.Boolean) }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/orgs/updateOrganizationConfiguration",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateOrganizationConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ GraphArn: S.String, AutoEnable: S.optional(S.Boolean) }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/orgs/updateOrganizationConfiguration",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateOrganizationConfigurationRequest",
 }) as any as S.Schema<UpdateOrganizationConfigurationRequest>;
 export interface UpdateOrganizationConfigurationResponse {}
-export const UpdateOrganizationConfigurationResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({}),
+export const UpdateOrganizationConfigurationResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
 ).annotate({
   identifier: "UpdateOrganizationConfigurationResponse",
 }) as any as S.Schema<UpdateOrganizationConfigurationResponse>;

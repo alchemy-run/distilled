@@ -1,11 +1,11 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import type { Credentials } from "../credentials.ts";
+import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
-import type { Credentials } from "../credentials.ts";
-import type { CommonErrors } from "../errors.ts";
 const svc = T.AwsApiService({
   sdkId: "Sagemaker Edge",
   serviceShapeName: "AmazonSageMakerEdge",
@@ -25,14 +25,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -59,9 +55,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://edge.sagemaker-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -69,13 +63,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://edge.sagemaker.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://edge.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://edge.sagemaker.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -83,10 +73,9 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class InternalServiceException
-  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()(
-    "InternalServiceException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<InternalServiceException>()("InternalServiceException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type DeviceName = string;
 export type DeviceFleetName = string;
 export interface GetDeploymentsRequest {
@@ -97,16 +86,7 @@ export const GetDeploymentsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     DeviceName: S.optional(S.String),
     DeviceFleetName: S.optional(S.String),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetDeployments" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/GetDeployments" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "GetDeploymentsRequest",
 }) as any as S.Schema<GetDeploymentsRequest>;
@@ -114,10 +94,7 @@ export type EntityName = string;
 export type DeploymentType = "Model" | (string & {});
 export const DeploymentType = S.String;
 
-export type FailureHandlingPolicy =
-  | "ROLLBACK_ON_FAILURE"
-  | "DO_NOTHING"
-  | (string & {});
+export type FailureHandlingPolicy = "ROLLBACK_ON_FAILURE" | "DO_NOTHING" | (string & {});
 export const FailureHandlingPolicy = S.String;
 
 export type S3Uri = string;
@@ -184,14 +161,7 @@ export const GetDeviceRegistrationRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceName: S.optional(S.String),
     DeviceFleetName: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/GetDeviceRegistration" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/GetDeviceRegistration" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetDeviceRegistrationRequest",
@@ -242,12 +212,8 @@ export const Model = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     ModelName: S.optional(S.String),
     ModelVersion: S.optional(S.String),
-    LatestSampleTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    LatestInference: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    LatestSampleTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    LatestInference: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     ModelMetrics: S.optional(EdgeMetrics),
   }),
 ).annotate({ identifier: "Model" }) as any as S.Schema<Model>;
@@ -295,12 +261,8 @@ export const DeploymentResult = /*@__PURE__*/ S.suspend(() =>
     DeploymentName: S.optional(S.String),
     DeploymentStatus: S.optional(S.String),
     DeploymentStatusMessage: S.optional(S.String),
-    DeploymentStartTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
-    DeploymentEndTime: S.optional(
-      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-    ),
+    DeploymentStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    DeploymentEndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
     DeploymentModels: S.optional(DeploymentModels),
   }),
 ).annotate({
@@ -322,23 +284,12 @@ export const SendHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
     DeviceName: S.optional(S.String),
     DeviceFleetName: S.optional(S.String),
     DeploymentResult: S.optional(DeploymentResult),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/SendHeartbeat" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/SendHeartbeat" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "SendHeartbeatRequest",
 }) as any as S.Schema<SendHeartbeatRequest>;
 export interface SendHeartbeatResponse {}
-export const SendHeartbeatResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const SendHeartbeatResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "SendHeartbeatResponse",
 }) as any as S.Schema<SendHeartbeatResponse>;
 export type ErrorMessage = string;
@@ -360,9 +311,7 @@ export const getDeployments: API.OperationMethod<
   operationName: "GetDeployments",
 }));
 
-export type GetDeviceRegistrationError =
-  | InternalServiceException
-  | CommonErrors;
+export type GetDeviceRegistrationError = InternalServiceException | CommonErrors;
 /**
  * Use to check if a device is registered with SageMaker Edge Manager.
  */

@@ -15,8 +15,7 @@
  *   ../specs/api-docs.html
  */
 
-const OPENAPI_SPEC_URL =
-  "https://api-docs.render.com/openapi/render-public-api-1.json";
+const OPENAPI_SPEC_URL = "https://api-docs.render.com/openapi/render-public-api-1.json";
 const DOCS_URL = "https://render.com/docs/api";
 const SPECS_DIR = "../specs";
 const OUTPUT_PATH = `${SPECS_DIR}/openapi.json`;
@@ -37,9 +36,7 @@ async function fetchJson(url: string): Promise<Record<string, unknown>> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   return (await response.json()) as Record<string, unknown>;
@@ -54,9 +51,7 @@ async function fetchText(url: string): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error(
-      `Failed to fetch ${url}: ${response.status} ${response.statusText}`,
-    );
+    throw new Error(`Failed to fetch ${url}: ${response.status} ${response.statusText}`);
   }
 
   return await response.text();
@@ -87,9 +82,7 @@ async function main() {
   }
   await Bun.write(DOCS_PATH, docs.endsWith("\n") ? docs : docs + "\n");
 
-  console.log(
-    `Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`,
-  );
+  console.log(`Done! OpenAPI ${spec.openapi} — ${Object.keys(spec.paths as object).length} paths`);
 }
 
 main().catch((err) => {

@@ -27,8 +27,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 /** Unknown GrowthBook error — returned when nothing else matches the failure. */
 export class UnknownGrowthBookError extends Schema.TaggedError<UnknownGrowthBookError>()(

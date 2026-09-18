@@ -22,9 +22,7 @@ import * as Category from "./category.ts";
  * whatever the service actually returns (delay-seconds, HTTP-date, epoch, etc.)
  * and consumed at runtime by the retry policy.
  */
-export const DurationSchema = Schema.declare<Duration.Duration>(
-  Duration.isDuration,
-);
+export const DurationSchema = Schema.declare<Duration.Duration>(Duration.isDuration);
 
 // ============================================================================
 // Common HTTP Status Error Classes
@@ -33,10 +31,9 @@ export const DurationSchema = Schema.declare<Duration.Duration>(
 /**
  * Unauthorized - Authentication failure (401).
  */
-export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
-  "Unauthorized",
-  { message: Schema.String },
-).pipe(Category.withAuthError) {}
+export class Unauthorized extends Schema.TaggedError<Unauthorized>()("Unauthorized", {
+  message: Schema.String,
+}).pipe(Category.withAuthError) {}
 
 /**
  * Forbidden - Access denied (403).
@@ -77,16 +74,10 @@ export class UnprocessableEntity extends Schema.TaggedError<UnprocessableEntity>
 /**
  * TooManyRequests - Rate limited (429).
  */
-export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()(
-  "TooManyRequests",
-  {
-    message: Schema.String,
-    retryAfter: Schema.optional(DurationSchema),
-  },
-).pipe(
-  Category.withThrottlingError,
-  Category.withRetryable({ throttling: true }),
-) {}
+export class TooManyRequests extends Schema.TaggedError<TooManyRequests>()("TooManyRequests", {
+  message: Schema.String,
+  retryAfter: Schema.optional(DurationSchema),
+}).pipe(Category.withThrottlingError, Category.withRetryable({ throttling: true })) {}
 
 /**
  * Locked - Resource locked (423).
@@ -135,21 +126,17 @@ export class ServiceUnavailable extends Schema.TaggedError<ServiceUnavailable>()
 /**
  * GatewayTimeout - Gateway timeout (504).
  */
-export class GatewayTimeout extends Schema.TaggedError<GatewayTimeout>()(
-  "GatewayTimeout",
-  {
-    message: Schema.String,
-    retryAfter: Schema.optional(DurationSchema),
-  },
-).pipe(Category.withServerError, Category.withRetryable()) {}
+export class GatewayTimeout extends Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
+  message: Schema.String,
+  retryAfter: Schema.optional(DurationSchema),
+}).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
  * Configuration error - missing or invalid configuration.
  */
-export class ConfigError extends Schema.TaggedError<ConfigError>()(
-  "ConfigError",
-  { message: Schema.String },
-).pipe(Category.withConfigurationError) {}
+export class ConfigError extends Schema.TaggedError<ConfigError>()("ConfigError", {
+  message: Schema.String,
+}).pipe(Category.withConfigurationError) {}
 
 // ============================================================================
 // Error Maps

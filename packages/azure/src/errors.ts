@@ -33,8 +33,8 @@ export {
 } from "@distilled.cloud/core/errors";
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
-import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
+import * as Schema from "effect/Schema";
 
 // ---------------------------------------------------------------------------
 // Azure ARM error field schemas (shared by all Azure-specific errors)
@@ -287,54 +287,53 @@ export class InvalidScope extends Schema.TaggedError<InvalidScope>()(
  * Azure error code to typed error class mapping.
  * Used by the protocol's error matching to dispatch by ARM error code.
  */
-export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> =
-  {
-    // Not-found
-    ResourceNotFound: ResourceNotFound,
-    ResourceGroupNotFound: ResourceGroupNotFound,
-    MissingSubscription: SubscriptionNotFound,
-    SubscriptionNotFound: SubscriptionNotFound,
+export const AZURE_ERROR_CODE_MAP: Record<string, new (props: any) => unknown> = {
+  // Not-found
+  ResourceNotFound: ResourceNotFound,
+  ResourceGroupNotFound: ResourceGroupNotFound,
+  MissingSubscription: SubscriptionNotFound,
+  SubscriptionNotFound: SubscriptionNotFound,
 
-    // Auth
-    AuthorizationFailed: AuthorizationFailed,
-    InvalidAuthenticationToken: InvalidAuthenticationToken,
-    InvalidAuthenticationTokenAudience: InvalidAuthenticationTokenAudience,
-    InvalidAuthenticationTokenTenant: InvalidAuthenticationTokenTenant,
-    LinkedAuthorizationFailed: LinkedAuthorizationFailed,
+  // Auth
+  AuthorizationFailed: AuthorizationFailed,
+  InvalidAuthenticationToken: InvalidAuthenticationToken,
+  InvalidAuthenticationTokenAudience: InvalidAuthenticationTokenAudience,
+  InvalidAuthenticationTokenTenant: InvalidAuthenticationTokenTenant,
+  LinkedAuthorizationFailed: LinkedAuthorizationFailed,
 
-    // Bad request / validation
-    InvalidParameter: InvalidParameter,
-    InvalidParameterValue: InvalidParameter,
-    InvalidResourceType: InvalidResourceType,
-    InvalidResourceName: InvalidResourceName,
-    InvalidResourceNameFormat: InvalidResourceName,
-    InvalidRequestContent: InvalidRequestContent,
-    MissingRequiredProperty: MissingRequiredProperty,
-    PropertyRequired: MissingRequiredProperty,
-    InvalidPropertyValue: InvalidPropertyValue,
-    PropertyValueExceedsMaxLength: InvalidPropertyValue,
+  // Bad request / validation
+  InvalidParameter: InvalidParameter,
+  InvalidParameterValue: InvalidParameter,
+  InvalidResourceType: InvalidResourceType,
+  InvalidResourceName: InvalidResourceName,
+  InvalidResourceNameFormat: InvalidResourceName,
+  InvalidRequestContent: InvalidRequestContent,
+  MissingRequiredProperty: MissingRequiredProperty,
+  PropertyRequired: MissingRequiredProperty,
+  InvalidPropertyValue: InvalidPropertyValue,
+  PropertyValueExceedsMaxLength: InvalidPropertyValue,
 
-    // Conflict
-    Conflict: ResourceConflict,
-    PreconditionFailed: PreconditionFailed,
-    ConditionNotMet: PreconditionFailed,
+  // Conflict
+  Conflict: ResourceConflict,
+  PreconditionFailed: PreconditionFailed,
+  ConditionNotMet: PreconditionFailed,
 
-    // Operation / registration
-    OperationNotAllowed: OperationNotAllowed,
-    MissingRegistrationForType: MissingRegistration,
-    MissingSubscriptionRegistration: MissingRegistration,
+  // Operation / registration
+  OperationNotAllowed: OperationNotAllowed,
+  MissingRegistrationForType: MissingRegistration,
+  MissingSubscriptionRegistration: MissingRegistration,
 
-    // Throttling / quota
-    QuotaExceeded: QuotaExceeded,
-    ExceededMaxAccountCount: QuotaExceeded,
-    RequestRateLimitExceeded: RequestRateLimitExceeded,
-    TooManyRequests: RequestRateLimitExceeded,
+  // Throttling / quota
+  QuotaExceeded: QuotaExceeded,
+  ExceededMaxAccountCount: QuotaExceeded,
+  RequestRateLimitExceeded: RequestRateLimitExceeded,
+  TooManyRequests: RequestRateLimitExceeded,
 
-    // Location / scope
-    LocationNotAvailableForResourceType: LocationNotAvailable,
-    InvalidResourceScope: InvalidScope,
-    ScopeNotValid: InvalidScope,
-  };
+  // Location / scope
+  LocationNotAvailableForResourceType: LocationNotAvailable,
+  InvalidResourceScope: InvalidScope,
+  ScopeNotValid: InvalidScope,
+};
 
 // ---------------------------------------------------------------------------
 // Catch-all error classes
@@ -352,13 +351,10 @@ export class UnknownAzureError extends Schema.TaggedError<UnknownAzureError>()(
 ).pipe(Category.withServerError) {}
 
 /** Schema parse error wrapper for Azure responses. */
-export class AzureParseError extends Schema.TaggedError<AzureParseError>()(
-  "AzureParseError",
-  {
-    body: Schema.Unknown,
-    cause: Schema.Unknown,
-  },
-).pipe(Category.withParseError) {}
+export class AzureParseError extends Schema.TaggedError<AzureParseError>()("AzureParseError", {
+  body: Schema.Unknown,
+  cause: Schema.Unknown,
+}).pipe(Category.withParseError) {}
 
 /** Union of every ARM-code-mapped typed error class. */
 export type AzureApiError =

@@ -1,14 +1,14 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as redacted from "effect/Redacted";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as redacted from "effect/Redacted";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "Chime SDK Meetings",
   serviceShapeName: "ChimeMeetingsSDKService",
@@ -28,14 +28,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -62,9 +58,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://meetings-chime-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -72,13 +66,9 @@ const rules = T.EndpointResolver((p, _) => {
               `https://meetings-chime.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
-        return e(
-          `https://meetings-chime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
-        );
+        return e(`https://meetings-chime.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
       }
     }
   }
@@ -210,12 +200,7 @@ export class UnprocessableEntityException
   ).pipe(C.withBadRequestError) {}
 export type GuidString = string;
 export type ExternalUserId = string | redacted.Redacted<string>;
-export type MediaCapabilities =
-  | "SendReceive"
-  | "Send"
-  | "Receive"
-  | "None"
-  | (string & {});
+export type MediaCapabilities = "SendReceive" | "Send" | "Receive" | "None" | (string & {});
 export const MediaCapabilities = S.String;
 
 export interface AttendeeCapabilities {
@@ -245,9 +230,7 @@ export const CreateAttendeeRequestItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAttendeeRequestItem",
 }) as any as S.Schema<CreateAttendeeRequestItem>;
 export type CreateAttendeeRequestItemList = CreateAttendeeRequestItem[];
-export const CreateAttendeeRequestItemList = /*@__PURE__*/ S.Array(
-  CreateAttendeeRequestItem,
-);
+export const CreateAttendeeRequestItemList = /*@__PURE__*/ S.Array(CreateAttendeeRequestItem);
 export interface BatchCreateAttendeeRequest {
   MeetingId: string;
   Attendees: CreateAttendeeRequestItem[];
@@ -304,8 +287,7 @@ export const CreateAttendeeError_ = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateAttendeeError",
 }) as any as S.Schema<CreateAttendeeError_>;
 export type BatchCreateAttendeeErrorList = CreateAttendeeError_[];
-export const BatchCreateAttendeeErrorList =
-  /*@__PURE__*/ S.Array(CreateAttendeeError_);
+export const BatchCreateAttendeeErrorList = /*@__PURE__*/ S.Array(CreateAttendeeError_);
 export interface BatchCreateAttendeeResponse {
   Attendees?: Attendee[];
   Errors?: CreateAttendeeError_[];
@@ -331,33 +313,33 @@ export interface BatchUpdateAttendeeCapabilitiesExceptRequest {
   ExcludedAttendeeIds: AttendeeIdItem[];
   Capabilities: AttendeeCapabilities;
 }
-export const BatchUpdateAttendeeCapabilitiesExceptRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
-      ExcludedAttendeeIds: AttendeeIdsList,
-      Capabilities: AttendeeCapabilities,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "PUT",
-          uri: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const BatchUpdateAttendeeCapabilitiesExceptRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    MeetingId: S.String.pipe(T.HttpLabel("MeetingId")),
+    ExcludedAttendeeIds: AttendeeIdsList,
+    Capabilities: AttendeeCapabilities,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "PUT",
+        uri: "/meetings/{MeetingId}/attendees/capabilities?operation=batch-update-except",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
-  ).annotate({
-    identifier: "BatchUpdateAttendeeCapabilitiesExceptRequest",
-  }) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptRequest>;
+  ),
+).annotate({
+  identifier: "BatchUpdateAttendeeCapabilitiesExceptRequest",
+}) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptRequest>;
 export interface BatchUpdateAttendeeCapabilitiesExceptResponse {}
-export const BatchUpdateAttendeeCapabilitiesExceptResponse =
-  /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
-    identifier: "BatchUpdateAttendeeCapabilitiesExceptResponse",
-  }) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptResponse>;
+export const BatchUpdateAttendeeCapabilitiesExceptResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}),
+).annotate({
+  identifier: "BatchUpdateAttendeeCapabilitiesExceptResponse",
+}) as any as S.Schema<BatchUpdateAttendeeCapabilitiesExceptResponse>;
 export interface CreateAttendeeRequest {
   MeetingId: string;
   ExternalUserId: string | redacted.Redacted<string>;
@@ -476,10 +458,7 @@ export const Tag = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Tag" }) as any as S.Schema<Tag>;
 export type TagList = Tag[];
 export const TagList = /*@__PURE__*/ S.Array(Tag);
-export type MediaPlacementNetworkType =
-  | "Ipv4Only"
-  | "DualStack"
-  | (string & {});
+export type MediaPlacementNetworkType = "Ipv4Only" | "DualStack" | (string & {});
 export const MediaPlacementNetworkType = S.String;
 
 export interface CreateMeetingRequest {
@@ -506,16 +485,7 @@ export const CreateMeetingRequest = /*@__PURE__*/ S.suspend(() =>
     TenantIds: S.optional(TenantIdList),
     Tags: S.optional(TagList),
     MediaPlacementNetworkType: S.optional(MediaPlacementNetworkType),
-  }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/meetings" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
-  ),
+  }).pipe(T.all(T.Http({ method: "POST", uri: "/meetings" }), svc, auth, proto, ver, rules)),
 ).annotate({
   identifier: "CreateMeetingRequest",
 }) as any as S.Schema<CreateMeetingRequest>;
@@ -574,11 +544,9 @@ export const CreateMeetingResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateMeetingResponse",
 }) as any as S.Schema<CreateMeetingResponse>;
-export type CreateMeetingWithAttendeesRequestItemList =
-  CreateAttendeeRequestItem[];
-export const CreateMeetingWithAttendeesRequestItemList = /*@__PURE__*/ S.Array(
-  CreateAttendeeRequestItem,
-);
+export type CreateMeetingWithAttendeesRequestItemList = CreateAttendeeRequestItem[];
+export const CreateMeetingWithAttendeesRequestItemList =
+  /*@__PURE__*/ S.Array(CreateAttendeeRequestItem);
 export interface CreateMeetingWithAttendeesRequest {
   ClientRequestToken: string | redacted.Redacted<string>;
   MediaRegion: string;
@@ -657,9 +625,7 @@ export const DeleteAttendeeRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAttendeeRequest",
 }) as any as S.Schema<DeleteAttendeeRequest>;
 export interface DeleteAttendeeResponse {}
-export const DeleteAttendeeResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteAttendeeResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteAttendeeResponse",
 }) as any as S.Schema<DeleteAttendeeResponse>;
 export interface DeleteMeetingRequest {
@@ -667,22 +633,13 @@ export interface DeleteMeetingRequest {
 }
 export const DeleteMeetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/meetings/{MeetingId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DeleteMeetingRequest",
 }) as any as S.Schema<DeleteMeetingRequest>;
 export interface DeleteMeetingResponse {}
-export const DeleteMeetingResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const DeleteMeetingResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "DeleteMeetingResponse",
 }) as any as S.Schema<DeleteMeetingResponse>;
 export interface GetAttendeeRequest {
@@ -722,14 +679,7 @@ export interface GetMeetingRequest {
 }
 export const GetMeetingRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ MeetingId: S.String.pipe(T.HttpLabel("MeetingId")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/meetings/{MeetingId}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/meetings/{MeetingId}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "GetMeetingRequest",
@@ -783,14 +733,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceARN: S.String.pipe(T.HttpQuery("arn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -821,11 +764,7 @@ export type TranscribeLanguageCode =
   | (string & {});
 export const TranscribeLanguageCode = S.String;
 
-export type TranscribeVocabularyFilterMethod =
-  | "remove"
-  | "mask"
-  | "tag"
-  | (string & {});
+export type TranscribeVocabularyFilterMethod = "remove" | "mask" | "tag" | (string & {});
 export const TranscribeVocabularyFilterMethod = S.String;
 
 export type TranscribeRegion =
@@ -845,11 +784,7 @@ export type TranscribeRegion =
   | (string & {});
 export const TranscribeRegion = S.String;
 
-export type TranscribePartialResultsStability =
-  | "low"
-  | "medium"
-  | "high"
-  | (string & {});
+export type TranscribePartialResultsStability = "low" | "medium" | "high" | (string & {});
 export const TranscribePartialResultsStability = S.String;
 
 export type TranscribeContentIdentificationType = "PII" | (string & {});
@@ -915,10 +850,7 @@ export type TranscribeMedicalSpecialty =
   | (string & {});
 export const TranscribeMedicalSpecialty = S.String;
 
-export type TranscribeMedicalType =
-  | "CONVERSATION"
-  | "DICTATION"
-  | (string & {});
+export type TranscribeMedicalType = "CONVERSATION" | "DICTATION" | (string & {});
 export const TranscribeMedicalType = S.String;
 
 export type TranscribeMedicalRegion =
@@ -950,9 +882,7 @@ export const EngineTranscribeMedicalSettings = /*@__PURE__*/ S.suspend(() =>
     Type: TranscribeMedicalType,
     VocabularyName: S.optional(S.String),
     Region: S.optional(TranscribeMedicalRegion),
-    ContentIdentificationType: S.optional(
-      TranscribeMedicalContentIdentificationType,
-    ),
+    ContentIdentificationType: S.optional(TranscribeMedicalContentIdentificationType),
   }),
 ).annotate({
   identifier: "EngineTranscribeMedicalSettings",
@@ -964,9 +894,7 @@ export interface TranscriptionConfiguration {
 export const TranscriptionConfiguration = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     EngineTranscribeSettings: S.optional(EngineTranscribeSettings),
-    EngineTranscribeMedicalSettings: S.optional(
-      EngineTranscribeMedicalSettings,
-    ),
+    EngineTranscribeMedicalSettings: S.optional(EngineTranscribeMedicalSettings),
   }),
 ).annotate({
   identifier: "TranscriptionConfiguration",
@@ -1046,9 +974,7 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -1072,9 +998,7 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateAttendeeCapabilitiesRequest {

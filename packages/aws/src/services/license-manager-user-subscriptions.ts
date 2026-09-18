@@ -1,12 +1,12 @@
-import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as S from "@distilled.cloud/core/schema";
 import * as API from "@distilled.cloud/core/api";
-import { AwsProtocol } from "../protocol.ts";
-import { Retry } from "../retry.ts";
-import * as T from "../traits.ts";
+import * as S from "@distilled.cloud/core/schema";
+import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsProtocol } from "../protocol.ts";
+import { Retry } from "../retry.ts";
+import * as T from "../traits.ts";
 const svc = T.AwsApiService({
   sdkId: "License Manager User Subscriptions",
   serviceShapeName: "LicenseManagerUserSubscriptions",
@@ -26,14 +26,10 @@ const rules = T.EndpointResolver((p, _) => {
   });
   if (Endpoint != null) {
     if (UseFIPS === true) {
-      return err(
-        "Invalid Configuration: FIPS and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: FIPS and custom endpoint are not supported");
     }
     if (UseDualStack === true) {
-      return err(
-        "Invalid Configuration: Dualstack and custom endpoint are not supported",
-      );
+      return err("Invalid Configuration: Dualstack and custom endpoint are not supported");
     }
     return e(Endpoint);
   }
@@ -60,9 +56,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager-user-subscriptions-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
           }
-          return err(
-            "FIPS is enabled but this partition does not support FIPS",
-          );
+          return err("FIPS is enabled but this partition does not support FIPS");
         }
         if (UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
@@ -70,9 +64,7 @@ const rules = T.EndpointResolver((p, _) => {
               `https://license-manager-user-subscriptions.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
             );
           }
-          return err(
-            "DualStack is enabled but this partition does not support DualStack",
-          );
+          return err("DualStack is enabled but this partition does not support DualStack");
         }
         return e(
           `https://license-manager-user-subscriptions.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
@@ -84,15 +76,13 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 export class AccessDeniedException
-  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()(
-    "AccessDeniedException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ).pipe(C.withAuthError) {}
+  extends /*@__PURE__*/ S.TaggedError<AccessDeniedException>()("AccessDeniedException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }).pipe(C.withAuthError) {}
 export class ConflictException
-  extends /*@__PURE__*/ S.TaggedError<ConflictException>()(
-    "ConflictException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ConflictException>()("ConflictException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class InternalServerException
   extends /*@__PURE__*/ S.TaggedError<InternalServerException>()(
     "InternalServerException",
@@ -111,15 +101,13 @@ export class ServiceQuotaExceededException
     { message: S.optional(S.String).pipe(T.ErrorMessage()) },
   ) {}
 export class ThrottlingException
-  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
-    "ThrottlingException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export class ValidationException
-  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
-    "ValidationException",
-    { message: S.optional(S.String).pipe(T.ErrorMessage()) },
-  ) {}
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
+    message: S.optional(S.String).pipe(T.ErrorMessage()),
+  }) {}
 export type Directory = string;
 export type IpV4 = string;
 export type IpV4List = string[];
@@ -214,14 +202,7 @@ export const AssociateUserRequest = /*@__PURE__*/ S.suspend(() =>
     Domain: S.optional(S.String),
     Tags: S.optional(Tags),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user/AssociateUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/user/AssociateUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "AssociateUserRequest",
@@ -269,9 +250,7 @@ export const RdsSalSettings = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ RdsSalCredentialsProvider: CredentialsProvider }),
 ).annotate({ identifier: "RdsSalSettings" }) as any as S.Schema<RdsSalSettings>;
 export type ServerSettings = { RdsSalSettings: RdsSalSettings };
-export const ServerSettings = /*@__PURE__*/ S.Union([
-  S.Struct({ RdsSalSettings: RdsSalSettings }),
-]);
+export const ServerSettings = /*@__PURE__*/ S.Union([S.Struct({ RdsSalSettings: RdsSalSettings })]);
 export interface LicenseServerSettings {
   ServerType: string;
   ServerSettings: ServerSettings;
@@ -478,14 +457,7 @@ export const DisassociateUserRequest = /*@__PURE__*/ S.suspend(() =>
     InstanceUserArn: S.optional(S.String),
     Domain: S.optional(S.String),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/user/DisassociateUser" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/user/DisassociateUser" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "DisassociateUserRequest",
@@ -540,9 +512,7 @@ export const ListIdentityProvidersRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIdentityProvidersRequest",
 }) as any as S.Schema<ListIdentityProvidersRequest>;
 export type IdentityProviderSummaryList = IdentityProviderSummary[];
-export const IdentityProviderSummaryList = /*@__PURE__*/ S.Array(
-  IdentityProviderSummary,
-);
+export const IdentityProviderSummaryList = /*@__PURE__*/ S.Array(IdentityProviderSummary);
 export interface ListIdentityProvidersResponse {
   IdentityProviderSummaries: IdentityProviderSummary[];
   NextToken?: string;
@@ -566,14 +536,7 @@ export const ListInstancesRequest = /*@__PURE__*/ S.suspend(() =>
     NextToken: S.optional(S.String),
     Filters: S.optional(FilterList),
   }).pipe(
-    T.all(
-      T.Http({ method: "POST", uri: "/instance/ListInstances" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "POST", uri: "/instance/ListInstances" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListInstancesRequest",
@@ -643,9 +606,7 @@ export const ListLicenseServerEndpointsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListLicenseServerEndpointsRequest",
 }) as any as S.Schema<ListLicenseServerEndpointsRequest>;
 export type LicenseServerEndpointList = LicenseServerEndpoint[];
-export const LicenseServerEndpointList = /*@__PURE__*/ S.Array(
-  LicenseServerEndpoint,
-);
+export const LicenseServerEndpointList = /*@__PURE__*/ S.Array(LicenseServerEndpoint);
 export interface ListLicenseServerEndpointsResponse {
   LicenseServerEndpoints?: LicenseServerEndpoint[];
   NextToken?: string;
@@ -733,14 +694,7 @@ export interface ListTagsForResourceRequest {
 }
 export const ListTagsForResourceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({ ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")) }).pipe(
-    T.all(
-      T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "GET", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "ListTagsForResourceRequest",
@@ -781,8 +735,7 @@ export const ListUserAssociationsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListUserAssociationsRequest",
 }) as any as S.Schema<ListUserAssociationsRequest>;
 export type InstanceUserSummaryList = InstanceUserSummary[];
-export const InstanceUserSummaryList =
-  /*@__PURE__*/ S.Array(InstanceUserSummary);
+export const InstanceUserSummaryList = /*@__PURE__*/ S.Array(InstanceUserSummary);
 export interface ListUserAssociationsResponse {
   InstanceUserSummaries?: InstanceUserSummary[];
   NextToken?: string;
@@ -910,22 +863,13 @@ export const TagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     Tags: Tags,
   }).pipe(
-    T.all(
-      T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "PUT", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "TagResourceRequest",
 }) as any as S.Schema<TagResourceRequest>;
 export interface TagResourceResponse {}
-export const TagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const TagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "TagResourceResponse",
 }) as any as S.Schema<TagResourceResponse>;
 export type TagKeyList = string[];
@@ -939,22 +883,13 @@ export const UntagResourceRequest = /*@__PURE__*/ S.suspend(() =>
     ResourceArn: S.String.pipe(T.HttpLabel("ResourceArn")),
     TagKeys: TagKeyList.pipe(T.HttpQuery("tagKeys")),
   }).pipe(
-    T.all(
-      T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }),
-      svc,
-      auth,
-      proto,
-      ver,
-      rules,
-    ),
+    T.all(T.Http({ method: "DELETE", uri: "/tags/{ResourceArn}" }), svc, auth, proto, ver, rules),
   ),
 ).annotate({
   identifier: "UntagResourceRequest",
 }) as any as S.Schema<UntagResourceRequest>;
 export interface UntagResourceResponse {}
-export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}),
-).annotate({
+export const UntagResourceResponse = /*@__PURE__*/ S.suspend(() => S.Struct({})).annotate({
   identifier: "UntagResourceResponse",
 }) as any as S.Schema<UntagResourceResponse>;
 export interface UpdateSettings {
@@ -975,34 +910,33 @@ export interface UpdateIdentityProviderSettingsRequest {
   IdentityProviderArn?: string;
   UpdateSettings: UpdateSettings;
 }
-export const UpdateIdentityProviderSettingsRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      IdentityProvider: S.optional(IdentityProvider),
-      Product: S.optional(S.String),
-      IdentityProviderArn: S.optional(S.String),
-      UpdateSettings: UpdateSettings,
-    }).pipe(
-      T.all(
-        T.Http({
-          method: "POST",
-          uri: "/identity-provider/UpdateIdentityProviderSettings",
-        }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
+export const UpdateIdentityProviderSettingsRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    IdentityProvider: S.optional(IdentityProvider),
+    Product: S.optional(S.String),
+    IdentityProviderArn: S.optional(S.String),
+    UpdateSettings: UpdateSettings,
+  }).pipe(
+    T.all(
+      T.Http({
+        method: "POST",
+        uri: "/identity-provider/UpdateIdentityProviderSettings",
+      }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
     ),
+  ),
 ).annotate({
   identifier: "UpdateIdentityProviderSettingsRequest",
 }) as any as S.Schema<UpdateIdentityProviderSettingsRequest>;
 export interface UpdateIdentityProviderSettingsResponse {
   IdentityProviderSummary: IdentityProviderSummary;
 }
-export const UpdateIdentityProviderSettingsResponse = /*@__PURE__*/ S.suspend(
-  () => S.Struct({ IdentityProviderSummary: IdentityProviderSummary }),
+export const UpdateIdentityProviderSettingsResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({ IdentityProviderSummary: IdentityProviderSummary }),
 ).annotate({
   identifier: "UpdateIdentityProviderSettingsResponse",
 }) as any as S.Schema<UpdateIdentityProviderSettingsResponse>;
@@ -1356,11 +1290,7 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListTagsForResourceRequest,
   output: ListTagsForResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1527,20 +1457,13 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: TagResourceRequest,
   output: TagResourceResponse,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
 }));
 
-export type UntagResourceError =
-  | InternalServerException
-  | ResourceNotFoundException
-  | CommonErrors;
+export type UntagResourceError = InternalServerException | ResourceNotFoundException | CommonErrors;
 /**
  * Removes tags from a resource.
  */
