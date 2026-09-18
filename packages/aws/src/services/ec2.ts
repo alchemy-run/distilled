@@ -84421,6 +84421,7 @@ export const deleteKeyPair: API.OperationMethod<
 
 export type DeleteLaunchTemplateError =
   | RequestLimitExceeded
+  | InvalidLaunchTemplateIdNotFound
   | InvalidLaunchTemplateNameNotFoundException
   | MissingParameter
   | UnauthorizedOperation
@@ -84439,6 +84440,7 @@ export const deleteLaunchTemplate: API.OperationMethod<
   output: DeleteLaunchTemplateResult,
   errors: [
     RequestLimitExceeded,
+    InvalidLaunchTemplateIdNotFound,
     InvalidLaunchTemplateNameNotFoundException,
     MissingParameter,
     UnauthorizedOperation,

@@ -1247,6 +1247,7 @@
     "deleteLaunchTemplate": {
       "errors": [
         "RequestLimitExceeded",
+        "InvalidLaunchTemplateId.NotFound",
         "InvalidLaunchTemplateName.NotFoundException",
         "MissingParameter",
         "UnauthorizedOperation"
